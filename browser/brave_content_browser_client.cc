@@ -14,6 +14,7 @@
 #include "base/json/json_reader.h"
 #include "base/strings/strcat.h"
 #include "base/system/sys_info.h"
+#include "brave/browser/brave_ads/search_result_ad/search_result_ad_service_factory.h"
 #include "brave/browser/brave_browser_main_extra_parts.h"
 #include "brave/browser/brave_browser_process.h"
 #include "brave/browser/brave_shields/brave_shields_web_contents_observer.h"
@@ -35,6 +36,8 @@
 #include "brave/browser/skus/skus_service_factory.h"
 #include "brave/components/binance/browser/buildflags/buildflags.h"
 #include "brave/components/brave_ads/common/features.h"
+#include "brave/components/brave_ads/content/browser/search_result_ad/search_result_ad_redirect_throttle.h"
+#include "brave/components/brave_ads/content/browser/search_result_ad/search_result_ad_service.h"
 #include "brave/components/brave_federated/features.h"
 #include "brave/components/brave_rewards/browser/rewards_protocol_handler.h"
 #include "brave/components/brave_search/browser/brave_search_default_host.h"
@@ -731,10 +734,10 @@ BraveContentBrowserClient::CreateURLLoaderThrottles(
     const bool isMainFrame =
         request.resource_type ==
         static_cast<int>(blink::mojom::ResourceType::kMainFrame);
+    Profile* profile = Profile::FromBrowserContext(browser_context);
     // Speedreader
 #if BUILDFLAG(ENABLE_SPEEDREADER)
-    auto* settings_map = HostContentSettingsMapFactory::GetForProfile(
-        Profile::FromBrowserContext(browser_context));
+    auto* settings_map = HostContentSettingsMapFactory::GetForProfile(profile);
 
     auto* tab_helper =
         speedreader::SpeedreaderTabHelper::FromWebContents(contents);
@@ -760,6 +763,14 @@ BraveContentBrowserClient::CreateURLLoaderThrottles(
       if (auto de_amp_throttle = de_amp::DeAmpThrottle::MaybeCreateThrottleFor(
               base::ThreadTaskRunnerHandle::Get(), request, wc_getter)) {
         result.push_back(std::move(de_amp_throttle));
+      }
+
+      brave_ads::SearchResultAdService* search_result_ad_service =
+          brave_ads::SearchResultAdServiceFactory::GetForProfile(profile);
+      if (auto search_result_ad_throttle =
+              brave_ads::SearchResultAdRedirectThrottle::MaybeCreateThrottleFor(
+                  search_result_ad_service, request, contents)) {
+        result.push_back(std::move(search_result_ad_throttle));
       }
     }
   }
