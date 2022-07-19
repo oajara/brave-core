@@ -6,6 +6,9 @@
 #ifndef BRAVE_COMPONENTS_BRAVE_ADS_CORE_BROWSER_SEARCH_RESULT_AD_SEARCH_RESULT_AD_INFO_H_
 #define BRAVE_COMPONENTS_BRAVE_ADS_CORE_BROWSER_SEARCH_RESULT_AD_SEARCH_RESULT_AD_INFO_H_
 
+#include <map>
+#include <string>
+
 #include "brave/vendor/bat-native-ads/include/bat/ads/public/interfaces/ads.mojom.h"
 
 namespace brave_ads {
@@ -26,6 +29,8 @@ struct SearchResultAdInfo {
   ads::mojom::SearchResultAdPtr ad;
   SearchResultAdState state = SearchResultAdState::kNotReady;
 };
+
+using SearchResultAdMap = std::map<std::string, SearchResultAdInfo>;
 
 }  // namespace brave_ads
 

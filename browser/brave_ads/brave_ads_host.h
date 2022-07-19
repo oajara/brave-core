@@ -15,6 +15,7 @@
 #include "brave/components/brave_rewards/browser/rewards_service.h"
 #include "brave/components/brave_rewards/browser/rewards_service_observer.h"
 #include "components/sessions/core/session_id.h"
+#include "content/public/browser/web_contents_observer.h"
 
 class Browser;
 class Profile;
@@ -27,7 +28,8 @@ namespace brave_ads {
 
 // The class handles ads requests from renderer side for Desktop platforms.
 class BraveAdsHost : public brave_ads::mojom::BraveAdsHost,
-                     public brave_rewards::RewardsServiceObserver {
+                     public brave_rewards::RewardsServiceObserver,
+                     public content::WebContentsObserver {
  public:
   BraveAdsHost(Profile* profile, content::WebContents* web_contents);
   BraveAdsHost(const BraveAdsHost&) = delete;
@@ -51,7 +53,6 @@ class BraveAdsHost : public brave_ads::mojom::BraveAdsHost,
 
   raw_ptr<Profile> profile_ = nullptr;
   raw_ptr<Browser> browser_ = nullptr;
-  SessionID tab_id_;
   std::vector<RequestAdsEnabledCallback> callbacks_;
   base::ScopedObservation<brave_rewards::RewardsService,
                           brave_rewards::RewardsServiceObserver>

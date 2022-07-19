@@ -765,11 +765,9 @@ BraveContentBrowserClient::CreateURLLoaderThrottles(
         result.push_back(std::move(de_amp_throttle));
       }
 
-      brave_ads::SearchResultAdService* search_result_ad_service =
-          brave_ads::SearchResultAdServiceFactory::GetForProfile(profile);
       if (auto search_result_ad_throttle =
               brave_ads::SearchResultAdRedirectThrottle::MaybeCreateThrottleFor(
-                  search_result_ad_service, request, contents)) {
+                  request, wc_getter)) {
         result.push_back(std::move(search_result_ad_throttle));
       }
     }

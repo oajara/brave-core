@@ -9,11 +9,10 @@
 #include <utility>
 
 #include "brave/browser/brave_ads/ads_service_factory.h"
-#include "brave/browser/brave_ads/search_result_ad/search_result_ad_service_factory.h"
+#include "brave/browser/brave_ads/ads_tab_helper.h"
 #include "brave/browser/brave_rewards/rewards_panel/rewards_panel_coordinator.h"
 #include "brave/browser/brave_rewards/rewards_service_factory.h"
 #include "brave/components/brave_ads/browser/ads_service.h"
-#include "brave/components/brave_ads/content/browser/search_result_ad/search_result_ad_service.h"
 #include "brave/components/brave_rewards/browser/rewards_service.h"
 #include "chrome/browser/profiles/profile.h"
 #include "chrome/browser/ui/browser.h"
@@ -24,8 +23,8 @@
 namespace brave_ads {
 
 BraveAdsHost::BraveAdsHost(Profile* profile, content::WebContents* web_contents)
-    : profile_(profile),
-      tab_id_(sessions::SessionTabHelper::IdForTab(web_contents)) {
+    : content::WebContentsObserver(web_contents),
+      profile_(profile) {
   DCHECK(profile_);
   if (web_contents) {
     browser_ = chrome::FindBrowserWithWebContents(web_contents);
@@ -41,21 +40,20 @@ void BraveAdsHost::MaybeTriggerAdViewedEvent(
   DCHECK(callback);
   DCHECK(!creative_instance_id.empty());
 
-  if (!tab_id_.is_valid()) {
+  if (!web_contents()) {
     std::move(callback).Run(/* event_triggered */ false);
     return;
   }
 
-  SearchResultAdService* search_result_ad_service =
-      SearchResultAdServiceFactory::GetForProfile(profile_);
+  AdsTabHelper* ads_tab_helper = AdsTabHelper::FromWebContents(web_contents());
 
-  if (!search_result_ad_service) {
+  if (!ads_tab_helper) {
     std::move(callback).Run(/* event_triggered */ false);
     return;
   }
 
-  search_result_ad_service->MaybeTriggerSearchResultAdViewedEvent(
-      creative_instance_id, tab_id_, std::move(callback));
+  ads_tab_helper->MaybeTriggerSearchResultAdViewedEvent(
+      creative_instance_id, std::move(callback));
 }
 
 void BraveAdsHost::RequestAdsEnabled(RequestAdsEnabledCallback callback) {

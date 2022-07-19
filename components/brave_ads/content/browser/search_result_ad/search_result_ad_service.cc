@@ -36,6 +36,13 @@ SearchResultAdService::SearchResultAdService(AdsService* ads_service)
 
 SearchResultAdService::~SearchResultAdService() = default;
 
+bool SearchResultAdService::ShouldRetrieveSearchResultAd(const GURL& url) const {
+  return ads_service_->IsEnabled() &&
+      base::FeatureList::IsEnabled(
+          features::kSupportBraveSearchResultAdConfirmationEvents) &&
+      brave_search::IsAllowedHost(url);
+}
+
 void SearchResultAdService::MaybeRetrieveSearchResultAd(
     content::RenderFrameHost* render_frame_host,
     SessionID tab_id,
@@ -251,6 +258,11 @@ bool SearchResultAdService::QueueSearchResultAdViewedEvent(
   return true;
 }
 
+void SearchResultAdService::AddSearchResultAdViewedEventToQueue(
+    ads::mojom::SearchResultAdPtr search_result_ad) {
+  ad_viewed_event_queue_.push_front(std::move(search_result_ad));
+}
+
 void SearchResultAdService::TriggerSearchResultAdViewedEventFromQueue() {
   DCHECK(!ad_viewed_event_queue_.empty() ||
          !trigger_ad_viewed_event_in_progress_);
@@ -288,8 +300,9 @@ void SearchResultAdService::TriggerSearchResultAdClickedEvent(
   ads_service_->TriggerSearchResultAdEvent(
       std::move(search_result_ad),
       ads::mojom::SearchResultAdEventType::kClicked,
-      base::BindOnce(&SearchResultAdService::OnTriggerSearchResultAdViewedEvent,
-                     weak_factory_.GetWeakPtr()));
+      base::BindOnce(
+          &SearchResultAdService::OnTriggerSearchResultAdClickedEvent,
+          weak_factory_.GetWeakPtr()));
 }
 
 void SearchResultAdService::OnTriggerSearchResultAdClickedEvent(

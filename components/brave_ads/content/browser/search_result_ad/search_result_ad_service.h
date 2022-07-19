@@ -38,6 +38,15 @@ class SearchResultAdService : public KeyedService {
   SearchResultAdService(const SearchResultAdService&) = delete;
   SearchResultAdService& operator=(const SearchResultAdService&) = delete;
 
+  bool ShouldRetrieveSearchResultAd(const GURL& url) const;
+
+  void AddSearchResultAdViewedEventToQueue(
+      ads::mojom::SearchResultAdPtr search_result_ad);
+  void TriggerSearchResultAdViewedEventFromQueue();
+
+  void TriggerSearchResultAdClickedEvent(
+    ads::mojom::SearchResultAdPtr search_result_ad);
+
   // Retrieves search result ads from the render frame.
   // If should_trigger_viewed_event value is false, then viewed
   // events shouldn't be sent to the ads library.
@@ -89,15 +98,10 @@ class SearchResultAdService : public KeyedService {
   bool QueueSearchResultAdViewedEvent(const std::string& creative_instance_id,
                                       SessionID tab_id);
 
-  void TriggerSearchResultAdViewedEventFromQueue();
-
   void OnTriggerSearchResultAdViewedEvent(
       bool success,
       const std::string& placement_id,
       ads::mojom::SearchResultAdEventType ad_event_type);
-
-  void TriggerSearchResultAdClickedEvent(
-    ads::mojom::SearchResultAdPtr search_result_ad);
 
   void OnTriggerSearchResultAdClickedEvent(
     const bool success,

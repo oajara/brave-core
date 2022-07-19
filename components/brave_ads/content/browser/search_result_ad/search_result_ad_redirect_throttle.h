@@ -11,28 +11,20 @@
 
 #include "base/memory/weak_ptr.h"
 #include "components/sessions/core/session_id.h"
+#include "content/public/browser/web_contents.h"
 #include "third_party/blink/public/common/loader/url_loader_throttle.h"
 
-namespace content {
-class WebContents;
-}  // namespace content
-
 namespace brave_ads {
-
-class SearchResultAdService;
 
 // Monitors search result ad clicked request and redirects it to the landing
 // page if the ad clicked event should be processed by the ads library.
 class SearchResultAdRedirectThrottle : public blink::URLLoaderThrottle {
  public:
   static std::unique_ptr<SearchResultAdRedirectThrottle> MaybeCreateThrottleFor(
-      SearchResultAdService* search_result_ad_service,
       const network::ResourceRequest& request,
-      content::WebContents* web_contents);
+      const content::WebContents::Getter& wc_getter);
 
-  SearchResultAdRedirectThrottle(
-      SearchResultAdService* search_result_ad_service,
-      SessionID tab_id);
+  SearchResultAdRedirectThrottle(const content::WebContents::Getter& wc_getter);
   ~SearchResultAdRedirectThrottle() override;
 
   SearchResultAdRedirectThrottle(const SearchResultAdRedirectThrottle&) =
@@ -45,8 +37,7 @@ class SearchResultAdRedirectThrottle : public blink::URLLoaderThrottle {
                         bool* defer) override;
 
  private:
-  raw_ptr<SearchResultAdService> search_result_ad_service_ = nullptr;
-  SessionID tab_id_;
+  content::WebContents::Getter wc_getter_;
 
   base::WeakPtrFactory<SearchResultAdRedirectThrottle> weak_factory_{this};
 };

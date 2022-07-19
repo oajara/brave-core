@@ -36,6 +36,7 @@ class DomDistillerResult;
 namespace brave_ads {
 
 class AdsService;
+class SearchResultAdHandler;
 class SearchResultAdService;
 
 class AdsTabHelper : public content::WebContentsObserver,
@@ -49,6 +50,13 @@ class AdsTabHelper : public content::WebContentsObserver,
 
   AdsTabHelper(const AdsTabHelper&) = delete;
   AdsTabHelper& operator=(const AdsTabHelper&) = delete;
+
+  void MaybeTriggerSearchResultAdViewedEvent(
+      const std::string& creative_instance_id,
+      base::OnceCallback<void(bool)> callback);
+
+  absl::optional<GURL> MaybeTriggerSearchResultAdClickedEvent(
+    const std::string& creative_instance_id);
 
  private:
   friend class content::WebContentsUserData<AdsTabHelper>;
@@ -82,6 +90,27 @@ class AdsTabHelper : public content::WebContentsObserver,
   void OnBrowserNoLongerActive(Browser* browser) override;
 #endif
 
+  // void MaybeRetrieveSearchResultAd(
+  //     content::RenderFrameHost* render_frame_host,
+  //     bool should_trigger_viewed_event);
+  // void OnRetrieveSearchResultAdEntities(
+  //     mojo::Remote<blink::mojom::DocumentMetadata> document_metadata,
+  //     bool should_trigger_viewed_event,
+  //     blink::mojom::WebPagePtr web_page);
+  // void RunAdViewedEventPendingCallbacks(bool ads_fetched);
+  // bool QueueSearchResultAdViewedEvent(
+  //   const std::string& creative_instance_id);
+
+  // struct AdViewedEventCallbackInfo {
+  //   AdViewedEventCallbackInfo();
+  //   AdViewedEventCallbackInfo(AdViewedEventCallbackInfo&& info);
+  //   AdViewedEventCallbackInfo& operator=(AdViewedEventCallbackInfo&& info);
+  //   ~AdViewedEventCallbackInfo();
+
+  //   std::string creative_instance_id;
+  //   base::OnceCallback<void(bool)> callback;
+  // };
+
   SessionID tab_id_;
   raw_ptr<AdsService> ads_service_ = nullptr;  // NOT OWNED
   raw_ptr<SearchResultAdService> search_result_ad_service_ =
@@ -90,6 +119,12 @@ class AdsTabHelper : public content::WebContentsObserver,
   bool is_browser_active_ = true;
   std::vector<GURL> redirect_chain_;
   bool should_process_ = false;
+
+  // absl::optional<SearchResultAdMap> search_result_ads_;
+  // std::vector<AdViewedEventCallbackInfo> ad_viewed_event_pending_callbacks_;
+  // base::OnceClosure metadata_request_finished_callback_for_testing_;
+
+  std::unique_ptr<SearchResultAdHandler> search_result_ad_handler_;
 
   base::WeakPtrFactory<AdsTabHelper> weak_factory_;
   WEB_CONTENTS_USER_DATA_KEY_DECL();

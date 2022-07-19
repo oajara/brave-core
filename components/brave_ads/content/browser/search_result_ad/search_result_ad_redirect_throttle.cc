@@ -7,6 +7,7 @@
 
 #include <utility>
 
+#include "brave/browser/brave_ads/ads_tab_helper.h"
 #include "brave/components/brave_ads/common/search_result_ad_util.h"
 #include "brave/components/brave_ads/content/browser/search_result_ad/search_result_ad_service.h"
 #include "brave/components/brave_search/common/brave_search_utils.h"
@@ -18,33 +19,13 @@
 
 namespace brave_ads {
 
-namespace {
-
-SessionID GetTabId(content::WebContents* web_contents) {
-  DCHECK(web_contents);
-
-  SessionID tab_id = sessions::SessionTabHelper::IdForTab(web_contents);
-  content::WebContents* original_web_contents =
-      web_contents->GetFirstWebContentsInLiveOriginalOpenerChain();
-  if (original_web_contents) {
-    tab_id = sessions::SessionTabHelper::IdForTab(original_web_contents);
-  }
-
-  return tab_id;
-}
-
-}  // namespace
-
 // static
 std::unique_ptr<SearchResultAdRedirectThrottle>
 SearchResultAdRedirectThrottle::MaybeCreateThrottleFor(
-    SearchResultAdService* search_result_ad_service,
     const network::ResourceRequest& request,
-    content::WebContents* web_contents) {
-  DCHECK(web_contents);
-
-  if (!search_result_ad_service || !request.request_initiator ||
-      !request.has_user_gesture || !request.is_outermost_main_frame ||
+    const content::WebContents::Getter& wc_getter) {
+  if (!request.request_initiator || !request.has_user_gesture ||
+      !request.is_outermost_main_frame ||
       request.resource_type !=
           static_cast<int>(blink::mojom::ResourceType::kMainFrame)) {
     return nullptr;
@@ -55,21 +36,13 @@ SearchResultAdRedirectThrottle::MaybeCreateThrottleFor(
     return nullptr;
   }
 
-  SessionID tab_id = GetTabId(web_contents);
-  if (!tab_id.is_valid()) {
-    return nullptr;
-  }
-
-  return std::make_unique<SearchResultAdRedirectThrottle>(
-      search_result_ad_service, tab_id);
+  return std::make_unique<SearchResultAdRedirectThrottle>(wc_getter);
 }
 
 SearchResultAdRedirectThrottle::SearchResultAdRedirectThrottle(
-    SearchResultAdService* search_result_ad_service,
-    SessionID tab_id)
-    : search_result_ad_service_(search_result_ad_service), tab_id_(tab_id) {
-  DCHECK(search_result_ad_service_);
-  DCHECK(tab_id_.is_valid());
+    const content::WebContents::Getter& wc_getter)
+    : wc_getter_(wc_getter) {
+  DCHECK(wc_getter_);
 }
 
 SearchResultAdRedirectThrottle::~SearchResultAdRedirectThrottle() = default;
@@ -91,9 +64,25 @@ void SearchResultAdRedirectThrottle::WillStartRequest(
     return;
   }
 
+  content::WebContents* web_contents = wc_getter_.Run();
+  if (!web_contents) {
+    return;
+  }
+
+  content::WebContents* original_web_contents =
+      web_contents->GetFirstWebContentsInLiveOriginalOpenerChain();
+  if (original_web_contents) {
+    web_contents = original_web_contents;
+  }
+
+  AdsTabHelper* ads_tab_helper = AdsTabHelper::FromWebContents(web_contents);
+  if (!ads_tab_helper) {
+    return;
+  }
+
   const absl::optional<GURL> search_result_ad_target_url =
-      search_result_ad_service_->MaybeTriggerSearchResultAdClickedEvent(
-          creative_instance_id, tab_id_);
+      ads_tab_helper->MaybeTriggerSearchResultAdClickedEvent(
+          creative_instance_id);
   if (!search_result_ad_target_url) {
     return;
   }

@@ -5,6 +5,8 @@
 
 source_set("search_result_ad") {
   sources = [
+    "search_result_ad_handler.cc",
+    "search_result_ad_handler.h",
     "search_result_ad_redirect_throttle.cc",
     "search_result_ad_redirect_throttle.h",
     "search_result_ad_service.cc",
