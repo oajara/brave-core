@@ -29,7 +29,8 @@ export const HeaderWrapper = styled.div<StyleProps>`
 
 export const TopRow = styled.div`
   display: flex;
-  height: 54px;
+  height: 18px;
+  padding-top: 22px;
   width: 100%;
   flex-direction: row;
   align-items: center;

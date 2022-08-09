@@ -64,6 +64,7 @@ import { useAssets, useSwap, useSend, useHasAccount, usePrevNetwork } from '../c
 import { getUniqueAssets } from '../utils/asset-utils'
 import { ConfirmSolanaTransactionPanel } from '../components/extension/confirm-transaction-panel/confirm-solana-transaction-panel'
 import { SignTransactionPanel } from '../components/extension/sign-panel/sign-transaction-panel'
+import { ConfirmSwapTransaction } from '../components/extension/confirm-transaction-panel/swap'
 import { useDispatch, useSelector } from 'react-redux'
 
 // Allow BigInts to be stringified
@@ -480,6 +481,19 @@ function Container () {
             onClickInstructions={onClickInstructions}
           />
         </StyledExtensionWrapper>
+      </PanelWrapper>
+    )
+  }
+
+  if (selectedPendingTransaction?.txType === BraveWallet.TransactionType.ETHSwap) {
+    return (
+      <PanelWrapper isLonger={true}>
+        <LongWrapper>
+          <ConfirmSwapTransaction
+            onConfirm={onConfirmTransaction}
+            onReject={onRejectTransaction}
+          />
+        </LongWrapper>
       </PanelWrapper>
     )
   }

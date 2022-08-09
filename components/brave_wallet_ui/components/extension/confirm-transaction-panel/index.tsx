@@ -5,7 +5,6 @@ import { WalletState } from '../../../constants/types'
 
 // Utils
 import { reduceAddress } from '../../../utils/reduce-address'
-import { reduceNetworkDisplayName } from '../../../utils/network-utils'
 import Amount from '../../../utils/amount'
 import { getLocale } from '../../../../common/locale'
 
@@ -18,7 +17,7 @@ import Tooltip from '../../shared/tooltip/index'
 import withPlaceholderIcon from '../../shared/create-placeholder-icon'
 
 // Components
-import { NavButton, PanelTab, TransactionDetailBox } from '../'
+import { PanelTab, TransactionDetailBox } from '../'
 import EditGas, { MaxPriorityPanels } from '../edit-gas'
 import EditAllowance from '../edit-allowance'
 import AdvancedTransactionSettingsButton from '../advanced-transaction-settings/button'
@@ -33,27 +32,19 @@ import {
   FromCircle,
   ToCircle,
   AccountNameText,
-  TopRow,
-  NetworkText,
   TransactionAmountBig,
   TransactionFiatAmountBig,
   MessageBox,
   TransactionTypeText,
-  ButtonRow,
   AccountCircleWrapper,
   ArrowIcon,
   FromToRow,
   EditButton,
   FavIcon,
-  QueueStepText,
-  QueueStepRow,
-  QueueStepButton,
-  ErrorText,
   WarningIcon,
-  ConfirmingButton,
-  LoadIcon,
-  ConfirmingButtonText,
-  AssetIcon
+  AssetIcon,
+  TopRow,
+  NetworkText
 } from './style'
 import { Skeleton } from '../../shared/loading-skeleton/styles'
 
@@ -61,15 +52,15 @@ import {
   TabRow,
   Description,
   PanelTitle,
-  AccountCircle,
-  AddressAndOrb,
-  AddressText,
   URLText,
   WarningBox,
   WarningTitle,
   LearnMoreButton,
-  WarningBoxTitleRow
+  WarningBoxTitleRow, AddressAndOrb, AddressText, AccountCircle
 } from '../shared-panel-styles'
+import { TransactionQueueStep } from './common/queue'
+import { Footer } from './common/footer'
+import { reduceNetworkDisplayName } from '../../../utils/network-utils'
 
 type confirmPanelTabs = 'transaction' | 'details'
 
@@ -101,7 +92,6 @@ function ConfirmTransactionPanel ({
     fromAccountName,
     fromAddress,
     fromOrb,
-    isConfirmButtonDisabled,
     isERC20Approve,
     isERC721SafeTransferFrom,
     isERC721TransferFrom,
@@ -109,14 +99,10 @@ function ConfirmTransactionPanel ({
     isFilecoinTransaction,
     isAssociatedTokenAccountCreation,
     onEditAllowanceSave,
-    queueNextTransaction,
-    rejectAllTransactions,
     suggestedMaxPriorityFeeChoices,
     toOrb,
     transactionDetails,
-    transactionQueueNumber,
     transactionsNetwork,
-    transactionsQueueLength,
     transactionTitle,
     updateUnapprovedTransactionGasFields,
     updateUnapprovedTransactionNonce
@@ -129,29 +115,6 @@ function ConfirmTransactionPanel ({
   const [isEditingAllowance, setIsEditingAllowance] = React.useState<boolean>(false)
   const [showAdvancedTransactionSettings, setShowAdvancedTransactionSettings] = React.useState<boolean>(false)
   const [maxPriorityPanel, setMaxPriorityPanel] = React.useState<MaxPriorityPanels>(MaxPriorityPanels.setSuggested)
-  const [transactionConfirmed, setTranactionConfirmed] = React.useState<boolean>(false)
-  const [queueLength, setQueueLength] = React.useState<number | undefined>(undefined)
-
-  React.useEffect(() => {
-    // This will update the transactionConfirmed state back to false
-    // if there are more than 1 transactions in the queue.
-    if (queueLength !== transactionsQueueLength || queueLength === undefined) {
-      setTranactionConfirmed(false)
-    }
-  }, [queueLength, transactionsQueueLength])
-
-  // methods
-  const onClickConfirmTransaction = React.useCallback(() => {
-    // Checks to see if there are multiple transactions in the queue,
-    // if there is we keep track of the length of the last confirmed transaction.
-    if (transactionsQueueLength > 1) {
-      setQueueLength(transactionsQueueLength)
-    }
-    // Sets transactionConfirmed state to disable the send button to prevent
-    // being clicked again and submitting the same transaction.
-    setTranactionConfirmed(true)
-    onConfirm()
-  }, [transactionsQueueLength, onConfirm])
 
   const onSelectTab = (tab: confirmPanelTabs) => () => setSelectedTab(tab)
 
@@ -224,33 +187,15 @@ function ConfirmTransactionPanel ({
     <StyledWrapper>
       <TopRow>
         <NetworkText>{reduceNetworkDisplayName(transactionsNetwork.chainName)}</NetworkText>
-        {isERC20Approve &&
+        {isERC20Approve && (
           <AddressAndOrb>
-            <Tooltip
-              text={transactionDetails.recipient}
-              isAddress={true}
-              position='right'
-            >
+            <Tooltip text={transactionDetails.recipient} isAddress={true} position='right'>
               <AddressText>{reduceAddress(transactionDetails.recipient)}</AddressText>
             </Tooltip>
             <AccountCircle orb={toOrb} />
           </AddressAndOrb>
-        }
-        {transactionsQueueLength > 1 &&
-          <QueueStepRow>
-            <QueueStepText>
-              {transactionQueueNumber} {getLocale('braveWalletQueueOf')} {transactionsQueueLength}
-            </QueueStepText>
-            <QueueStepButton
-              onClick={queueNextTransaction}
-            >
-              {transactionQueueNumber === transactionsQueueLength
-                ? getLocale('braveWalletQueueFirst')
-                : getLocale('braveWalletQueueNext')
-              }
-            </QueueStepButton>
-          </QueueStepRow>
-        }
+        )}
+        <TransactionQueueStep />
       </TopRow>
 
       {isERC20Approve ? (
@@ -385,47 +330,8 @@ function ConfirmTransactionPanel ({
         ) : <TransactionDetailBox transactionInfo={transactionInfo} />}
       </MessageBox>
 
-      {transactionsQueueLength > 1 &&
-        <QueueStepButton
-          needsMargin={true}
-          onClick={rejectAllTransactions}
-        >
-          {getLocale('braveWalletQueueRejectAll').replace('$1', transactionsQueueLength.toString())}
-        </QueueStepButton>
-      }
+      <Footer onConfirm={onConfirm} onReject={onReject} />
 
-      {
-        [
-          transactionDetails.contractAddressError,
-          transactionDetails.sameAddressError,
-          transactionDetails.missingGasLimitError
-        ].map((error, index) => <ErrorText key={`${index}-${error}`}>{error}</ErrorText>)
-      }
-
-      <ButtonRow>
-        <NavButton
-          buttonType='reject'
-          text={getLocale('braveWalletAllowSpendRejectButton')}
-          onSubmit={onReject}
-          disabled={transactionConfirmed}
-        />
-        {transactionConfirmed ? (
-          <ConfirmingButton>
-            <ConfirmingButtonText>
-              {getLocale('braveWalletAllowSpendConfirmButton')}
-            </ConfirmingButtonText>
-            <LoadIcon />
-          </ConfirmingButton>
-        ) : (
-          <NavButton
-            buttonType='confirm'
-            text={getLocale('braveWalletAllowSpendConfirmButton')}
-            onSubmit={onClickConfirmTransaction}
-            disabled={isConfirmButtonDisabled}
-          />
-        )}
-
-      </ButtonRow>
     </StyledWrapper>
   )
 }

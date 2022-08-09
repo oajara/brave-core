@@ -10,7 +10,6 @@ import { useSelector } from 'react-redux'
 import { WalletState } from '../../../constants/types'
 
 // Utils
-import { reduceNetworkDisplayName } from '../../../utils/network-utils'
 import Amount from '../../../utils/amount'
 import { getLocale } from '../../../../common/locale'
 
@@ -21,7 +20,6 @@ import { usePendingTransactions } from '../../../common/hooks/use-pending-transa
 import Tooltip from '../../shared/tooltip/index'
 import CreateSiteOrigin from '../../shared/create-site-origin/index'
 import PanelTab from '../panel-tab'
-import NavButton from '../buttons/nav-button'
 import { TransactionInfo } from './transaction-info'
 import { SolanaTransactionDetailBox } from '../transaction-box/solana-transaction-detail-box'
 
@@ -40,24 +38,21 @@ import {
   FromCircle,
   ToCircle,
   AccountNameText,
-  TopRow,
-  NetworkText,
   TransactionAmountBig,
   TransactionFiatAmountBig,
   MessageBox,
   TransactionTypeText,
-  ButtonRow,
   AccountCircleWrapper,
   ArrowIcon,
   FromToRow,
-  QueueStepText,
-  QueueStepRow,
-  QueueStepButton,
-  ErrorText
+  TopRow, NetworkText
 } from './style'
+import { TransactionQueueStep } from './common/queue'
+import { Footer } from './common/footer'
+import { reduceNetworkDisplayName } from '../../../utils/network-utils'
 
 type confirmPanelTabs = 'transaction' | 'details'
-export interface Props {
+interface Props {
   onConfirm: () => void
   onReject: () => void
 }
@@ -88,18 +83,13 @@ export const ConfirmSolanaTransactionPanel = ({
   const {
     fromAddress,
     fromOrb,
-    isConfirmButtonDisabled,
     isAssociatedTokenAccountCreation,
-    queueNextTransaction,
-    rejectAllTransactions,
     toOrb,
     transactionDetails,
-    transactionQueueNumber,
-    transactionsNetwork,
-    transactionsQueueLength,
     transactionTitle,
     isSolanaDappTransaction,
-    fromAccountName
+    fromAccountName,
+    transactionsNetwork
   } = pendingTxInfo
 
   // state
@@ -119,26 +109,9 @@ export const ConfirmSolanaTransactionPanel = ({
 
   return (
     <StyledWrapper>
-
       <TopRow>
         <NetworkText>{reduceNetworkDisplayName(transactionsNetwork.chainName)}</NetworkText>
-
-        {transactionsQueueLength > 1 &&
-          <QueueStepRow>
-            <QueueStepText>
-              {transactionQueueNumber} {getLocale('braveWalletQueueOf')} {transactionsQueueLength}
-            </QueueStepText>
-            <QueueStepButton
-              onClick={queueNextTransaction}
-            >
-              {transactionQueueNumber === transactionsQueueLength
-                ? getLocale('braveWalletQueueFirst')
-                : getLocale('braveWalletQueueNext')
-              }
-            </QueueStepButton>
-          </QueueStepRow>
-        }
-
+        <TransactionQueueStep />
       </TopRow>
 
       <AccountCircleWrapper>
@@ -234,37 +207,7 @@ export const ConfirmSolanaTransactionPanel = ({
             />
         }
       </MessageBox>
-
-      {transactionsQueueLength > 1 &&
-        <QueueStepButton
-          needsMargin={true}
-          onClick={rejectAllTransactions}
-        >
-          {getLocale('braveWalletQueueRejectAll').replace('$1', transactionsQueueLength.toString())}
-        </QueueStepButton>
-      }
-
-      {
-        [
-          transactionDetails?.contractAddressError,
-          transactionDetails?.sameAddressError,
-          transactionDetails?.missingGasLimitError
-        ].map((error, index) => !!error && <ErrorText key={`${index}-${error}`}>{error}</ErrorText>)
-      }
-
-      <ButtonRow>
-        <NavButton
-          buttonType='reject'
-          text={getLocale('braveWalletAllowSpendRejectButton')}
-          onSubmit={onReject}
-        />
-        <NavButton
-          buttonType='confirm'
-          text={getLocale('braveWalletAllowSpendConfirmButton')}
-          onSubmit={onConfirm}
-          disabled={isConfirmButtonDisabled}
-        />
-      </ButtonRow>
+      <Footer onConfirm={onConfirm} onReject={onReject} />
     </StyledWrapper>
   )
 }

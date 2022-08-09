@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { ArrowRightIcon, LoaderIcon } from 'brave-ui/components/icons'
+import { ArrowRightIcon } from 'brave-ui/components/icons'
 import { WarningBoxIcon } from '../shared-panel-styles'
 
 import {
@@ -134,15 +134,6 @@ export const TransactionTypeText = styled.span`
   font-weight: 600;
 `
 
-export const ButtonRow = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  width: 100%;
-  margin-bottom: 14px;
-`
-
 export const FromToRow = styled.div`
   display: flex;
   align-items: center;
@@ -221,46 +212,6 @@ export const FavIcon = styled.img`
   margin-bottom: 7px;
 `
 
-export const QueueStepRow = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-`
-
-export const QueueStepText = styled.span`
-  font-family: Poppins;
-  font-size: 13px;
-  color: ${(p) => p.theme.color.text02};
-  font-weight: 600;
-  margin-right: 9px;
-`
-
-export const QueueStepButton = styled(WalletButton) <Partial<StyleProps>>`
-  font-family: Poppins;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 13px;
-  color: ${(p) => p.theme.color.interactive05};
-  background: none;
-  cursor: pointer;
-  outline: none;
-  border: none;
-  margin: 0px;
-  padding: 0px;
-  margin-bottom: ${(p) => p.needsMargin ? '12px' : '0px'};
-`
-
-export const ErrorText = styled.span`
-  font-family: Poppins;
-  font-size: 12px;
-  line-height: 18px;
-  letter-spacing: 0.01em;
-  color: ${(p) => p.theme.color.errorText};
-  margin-bottom: 6px;
-  text-align: center;
-`
-
 export const AssetIcon = AssetIconFactory<AssetIconProps>({
   width: '40px',
   height: 'auto'
@@ -270,37 +221,4 @@ export const WarningIcon = styled(WarningBoxIcon)`
   width: 14px;
   height: 14px;
   margin-right: 6px;
-`
-
-export const ConfirmingButton = styled(WalletButton)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: default;
-  border-radius: 40px;
-  padding: 8px 16px;
-  outline: none;
-  margin: 0px;
-  background-color: ${(p) => p.theme.color.disabled};
-  border: none;
-`
-
-export const ConfirmingButtonText = styled.span`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 13px;
-  line-height: 20px;
-  text-align: center;
-  color: ${(p) => p.theme.color.interactive07};
-  flex: none;
-  order: 1;
-  flex-grow: 0;
-  margin: 0px 8px;
-`
-
-export const LoadIcon = styled(LoaderIcon)`
-  color: ${p => p.theme.color.interactive08};
-  height: 25px;
-  width: 24px;
-  opacity: .4;
 `

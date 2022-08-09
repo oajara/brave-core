@@ -23,11 +23,12 @@ export interface Props {
   onSubmit: () => void
   disabled?: boolean
   needsTopMargin?: boolean
+  hideIcon?: boolean
 }
 
 export default class NavButton extends React.PureComponent<Props, {}> {
   render () {
-    const { onSubmit, text, buttonType, disabled, needsTopMargin } = this.props
+    const { onSubmit, text, buttonType, disabled, needsTopMargin, hideIcon } = this.props
     return (
       <StyledButton
         disabled={disabled}
@@ -35,13 +36,13 @@ export default class NavButton extends React.PureComponent<Props, {}> {
         onClick={onSubmit}
         addTopMargin={needsTopMargin && text ? text.length > 20 : false}
       >
-        {buttonType === 'reject' &&
+        {buttonType === 'reject' && !hideIcon &&
           <RejectIcon />
         }
-        {buttonType === 'sign' &&
+        {buttonType === 'sign' && !hideIcon &&
           <SignIcon />
         }
-        {buttonType === 'confirm' &&
+        {buttonType === 'confirm' && !hideIcon &&
           <ConfirmIcon />
         }
         <ButtonText buttonType={buttonType}>{text}</ButtonText>
