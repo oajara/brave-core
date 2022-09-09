@@ -56,3 +56,5 @@ const char kPlaylistHost[] = "playlist";
 const char kPlaylistURL[] = "chrome-untrusted://playlist/";
 const char kSpeedreaderPanelURL[] = "chrome://brave-speedreader.top-chrome";
 const char kSpeedreaderPanelHost[] = "brave-speedreader.top-chrome";
+const char kTooltipURL[] = "chrome://brave-tooltip.top-chrome";
+const char kTooltipHost[] = "brave-tooltip.top-chrome";

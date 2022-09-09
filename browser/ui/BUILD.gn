@@ -157,6 +157,8 @@ source_set("ui") {
       "webui/speedreader/speedreader_panel_handler_impl.h",
       "webui/speedreader/speedreader_panel_ui.cc",
       "webui/speedreader/speedreader_panel_ui.h",
+      "webui/tooltip_ui/tooltip_ui.cc",
+      "webui/tooltip_ui/tooltip_ui.h",
     ]
 
     if (is_win) {
@@ -552,6 +554,10 @@ source_set("ui") {
       "views/location_bar/brave_star_view.h",
       "views/profiles/brave_avatar_toolbar_button.cc",
       "views/profiles/brave_avatar_toolbar_button.h",
+      "views/pulsing_block/pulsing_block_view.cc",
+      "views/pulsing_block/pulsing_block_view.h",
+      "views/pulsing_block/tooltip_webui_bubble_view.cc",
+      "views/pulsing_block/tooltip_webui_bubble_view.h",
       "views/tabs/brave_new_tab_button.cc",
       "views/tabs/brave_new_tab_button.h",
       "views/tabs/brave_tab_search_button.cc",

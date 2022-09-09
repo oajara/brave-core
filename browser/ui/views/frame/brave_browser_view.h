@@ -15,6 +15,8 @@
 #include "brave/components/brave_vpn/buildflags/buildflags.h"
 #include "build/build_config.h"
 #include "chrome/browser/ui/views/frame/browser_view.h"
+#include "ui/views/animation/animation_builder.h"
+#include "ui/views/animation/widget_fade_animator.h"
 
 #if BUILDFLAG(ENABLE_BRAVE_VPN)
 #include "brave/browser/ui/views/toolbar/brave_vpn_panel_controller.h"
@@ -37,6 +39,10 @@ class WebContents;
 namespace sidebar {
 class SidebarBrowserTest;
 }  // namespace sidebar
+
+namespace views {
+class PulsingBlockView;
+} // namespace views
 
 class BraveBrowser;
 class ContentsLayoutManager;
@@ -78,7 +84,7 @@ class BraveBrowserView : public BrowserView {
 #endif
 
   views::View* sidebar_host_view() { return sidebar_host_view_; }
-
+  void AddedToWidget() override;
  private:
   class TabCyclingEventHandler;
   friend class WindowClosingConfirmBrowserTest;
@@ -108,6 +114,11 @@ class BraveBrowserView : public BrowserView {
 
   sidebar::Sidebar* InitSidebar() override;
   void UpdateSideBarHorizontalAlignment();
+
+  raw_ptr<views::PulsingBlockView> pulsing_block_view_ = nullptr;
+  std::unique_ptr<views::WidgetFadeAnimator> fade_animator_;
+  base::RepeatingTimer start_delay_timer_;
+  void DoAnimate() { fade_animator_->FadeOut(); }
 
   raw_ptr<SidebarContainerView> sidebar_container_view_ = nullptr;
   raw_ptr<views::View> sidebar_host_view_ = nullptr;

@@ -1,0 +1,6 @@
+import("//brave/components/common/typescript.gni")
+
+pack_web_resources("generated_resources") {
+  resource_name = "tooltip_ui"
+  output_dir = "$root_gen_dir/brave/components/tooltip_ui/resources"
+}

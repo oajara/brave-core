@@ -44,6 +44,7 @@
 #include "brave/browser/ui/webui/new_tab_page/brave_new_tab_ui.h"
 #include "brave/browser/ui/webui/private_new_tab_page/brave_private_new_tab_ui.h"
 #include "brave/browser/ui/webui/speedreader/speedreader_panel_ui.h"
+#include "brave/browser/ui/webui/tooltip_ui/tooltip_ui.h"
 #include "brave/components/brave_wallet/browser/brave_wallet_utils.h"
 #include "brave/components/brave_wallet/common/brave_wallet.mojom.h"
 #include "brave/components/brave_wallet/common/common_util.h"
@@ -128,6 +129,8 @@ WebUIController* NewWebUI(WebUI* web_ui, const GURL& url) {
   } else if (host == kBraveRewardsPanelHost &&
              brave_rewards::IsSupportedForProfile(profile)) {
     return new RewardsPanelUI(web_ui);
+  } else if (host == kTooltipHost) {
+    return new TooltipUI(web_ui);
 #endif  // !BUILDFLAG(IS_ANDROID)
 #if !BUILDFLAG(IS_ANDROID)
   } else if (host == kWelcomeHost) {
@@ -188,6 +191,7 @@ WebUIFactoryFunction GetWebUIFactoryFunction(WebUI* web_ui, const GURL& url) {
       url.host_piece() == kTipHost ||
       url.host_piece() == kBraveRewardsPanelHost ||
       url.host_piece() == kSpeedreaderPanelHost ||
+      url.host_piece() == kTooltipHost ||
 #endif
 #if BUILDFLAG(ENABLE_TOR)
       url.host_piece() == kTorInternalsHost ||
