@@ -106,10 +106,13 @@ void DetectChromeProfiles(std::vector<importer::SourceProfile>* profiles) {
 }
 
 }  // namespace
-
+#define AUTOFILL_FORM_DATA AUTOFILL_FORM_DATA; \
+        DCHECK_EQ(firefox.importer_type, importer::TYPE_FIREFOX); \
+        firefox.services_supported |= importer::SEARCH_ENGINES;
 #define IDS_IMPORT_FROM_EDGE_OLD IDS_IMPORT_FROM_EDGE
 #undef IDS_IMPORT_FROM_EDGE
 #define IDS_IMPORT_FROM_EDGE IDS_BRAVE_IMPORT_FROM_EDGE
 #include "src/chrome/browser/importer/importer_list.cc"
 #undef IDS_IMPORT_FROM_EDGE
 #define IDS_IMPORT_FROM_EDGE IDS_IMPORT_FROM_EDGE_OLD
+#undef AUTOFILL_FORM_DATA
