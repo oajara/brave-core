@@ -432,7 +432,7 @@ public class BraveNewTabPageLayout
 
                 int firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
 
-                int newsFeedPosition = firstNewsFeedPosition();
+                final int newsFeedPosition = firstNewsFeedPosition();
 
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     if (BraveActivity.getBraveActivity() != null
@@ -552,12 +552,14 @@ public class BraveNewTabPageLayout
                             }
 
                             final int visiblePercentageFinal = visiblePercentage;
-                            if (viewPosition >= 0) {
+                            final int newsItemFeedCardPosition = viewPosition - newsFeedPosition;
+                            if (newsItemFeedCardPosition >= 0) {
                                 if (visiblePercentageFinal >= MINIMUM_VISIBLE_HEIGHT_THRESHOLD) {
-                                    mVisibleCard = mNewsItemsFeedCard.get(viewPosition);
+                                    mVisibleCard = mNewsItemsFeedCard.get(newsItemFeedCardPosition);
+
                                     // get params for view PROMOTED_ARTICLE
                                     if (mVisibleCard.getCardType() == CardType.PROMOTED_ARTICLE) {
-                                        mItemPosition = viewPosition;
+                                        mItemPosition = newsItemFeedCardPosition;
                                         mCreativeInstanceId =
                                                 BraveNewsUtils.getPromotionIdItem(mVisibleCard);
                                         mUuid = mVisibleCard.getUuid();
@@ -566,9 +568,9 @@ public class BraveNewTabPageLayout
 
                                     // get params for view DISPLAY_AD
                                     if (mVisibleCard.getCardType() == CardType.DISPLAY_AD) {
-                                        mItemPosition = viewPosition;
+                                        mItemPosition = newsItemFeedCardPosition;
                                         DisplayAd currentDisplayAd =
-                                                BraveNewsUtils.getFromDisplayAdsMap(viewPosition);
+                                                BraveNewsUtils.getFromDisplayAdsMap(newsItemFeedCardPosition);
                                         if (currentDisplayAd != null) {
                                             mCreativeInstanceId = currentDisplayAd != null
                                                     ? currentDisplayAd.creativeInstanceId
