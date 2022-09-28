@@ -573,8 +573,13 @@ void PlaylistService::DeletePlaylistLocalData(const std::string& id) {
   NotifyPlaylistChanged(
       {PlaylistChangeParams::Type::kItemLocalDataRemoved, id});
 
-  task_runner()->PostTask(FROM_HERE, base::GetDeletePathRecursivelyCallback(
-                                         GetPlaylistItemDirPath(id)));
+  base::FilePath media_path;
+  if (!GetMediaPath(id, &media_path)) {
+    LOG(ERROR) << __func__ << ": Failed to get media path";
+    return;
+  }
+
+  task_runner()->PostTask(FROM_HERE, base::GetDeleteFileCallback(media_path));
 }
 
 void PlaylistService::DeleteAllPlaylistItems() {
