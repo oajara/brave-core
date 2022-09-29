@@ -6,10 +6,16 @@
 import("//brave/components/common/typescript.gni")
 
 transpile_web_ui("playlist_ui") {
-  entry_points = [ [
-        "playlist",
-        rebase_path("playlist.tsx"),
-      ] ]
+  entry_points = [
+    [
+      "playlist",
+      rebase_path("playlist.tsx"),
+    ],
+    [
+      "playlistPlayer",
+      rebase_path("playlistPlayer.tsx"),
+    ],
+  ]
 
   deps = [
     "../mojom:mojom_js",

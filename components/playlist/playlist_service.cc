@@ -561,10 +561,6 @@ void PlaylistService::DeletePlaylistLocalData(const std::string& id) {
   base::Value::Dict item = item_value_ptr->Clone();
   item.Set(kPlaylistItemMediaFileCachedKey, false);
 
-  const auto* thumbnail_src = item.FindString(kPlaylistItemThumbnailSrcKey);
-  item.Set(kPlaylistItemThumbnailPathKey,
-           thumbnail_src ? *thumbnail_src : base::EmptyString());
-
   const auto* media_src = item.FindString(kPlaylistItemMediaSrcKey);
   DCHECK(media_src) << "media_src shouldn't be empty";
   item.Set(kPlaylistItemMediaFilePathKey, *media_src);

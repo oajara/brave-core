@@ -19,6 +19,7 @@
 #include "base/strings/utf_string_conversions.h"
 #include "base/values.h"
 #include "brave/components/brave_wallet/common/common_util.h"
+#include "brave/components/constants/webui_url_constants.h"
 #include "brave/components/l10n/common/locale_util.h"
 #include "brave/components/playlist/features.h"
 #include "brave/components/sidebar/constants.h"
@@ -603,7 +604,8 @@ SidebarItem SidebarService::GetBuiltInItemForType(
     }
     case SidebarItem::BuiltInItemType::kPlaylist: {
       if (base::FeatureList::IsEnabled(playlist::features::kPlaylist)) {
-        return SidebarItem::Create(brave_l10n::GetLocalizedResourceUTF16String(
+        return SidebarItem::Create(GURL(kPlaylistURL),
+                                   brave_l10n::GetLocalizedResourceUTF16String(
                                        IDS_SIDEBAR_PLAYLIST_ITEM_TITLE),
                                    SidebarItem::Type::kTypeBuiltIn,
                                    SidebarItem::BuiltInItemType::kPlaylist,
