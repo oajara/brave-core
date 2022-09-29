@@ -64,6 +64,10 @@ function adDiagnostics (diagnostics: RewardsInternals.AdDiagnosticsEntry[]) {
   getActions().onAdDiagnostics(diagnostics)
 }
 
+function environment (environment: RewardsInternals.Environment) {
+  getActions().onEnvironment(environment)
+}
+
 function initialize () {
   render(
     <Provider store={store}>
@@ -86,7 +90,8 @@ window.brave_rewards_internals = {
   fullLog,
   externalWallet,
   eventLogs,
-  adDiagnostics
+  adDiagnostics,
+  environment
 }
 
 document.addEventListener('DOMContentLoaded', initialize)

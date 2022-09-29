@@ -74,3 +74,9 @@ export const onAdDiagnostics = (adDiagnostics: RewardsInternals.AdDiagnosticsEnt
   action(types.ON_AD_DIAGNOSTICS, {
     adDiagnostics
   })
+
+export const getEnvironment = () => action(types.GET_ENVIRONMENT)
+
+export const onEnvironment = (environment: RewardsInternals.Environment) => action(types.ON_ENVIRONMENT, {
+  environment
+})

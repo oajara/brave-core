@@ -69,6 +69,8 @@ class RewardsInternalsDOMHandler : public content::WebUIMessageHandler {
   void OnGetEventLogs(std::vector<ledger::mojom::EventLogPtr> logs);
   void GetAdDiagnostics(const base::Value::List& args);
   void OnGetAdDiagnostics(absl::optional<base::Value::List> diagnostics);
+  void GetEnvironment(const base::Value::List& args);
+  void OnGetEnvironment(ledger::mojom::Environment environment);
 
   raw_ptr<brave_rewards::RewardsService> rewards_service_ =
       nullptr;                                            // NOT OWNED
@@ -123,6 +125,10 @@ void RewardsInternalsDOMHandler::RegisterMessages() {
   web_ui()->RegisterMessageCallback(
       "brave_rewards_internals.getAdDiagnostics",
       base::BindRepeating(&RewardsInternalsDOMHandler::GetAdDiagnostics,
+                          base::Unretained(this)));
+  web_ui()->RegisterMessageCallback(
+      "brave_rewards_internals.getEnvironment",
+      base::BindRepeating(&RewardsInternalsDOMHandler::GetEnvironment,
                           base::Unretained(this)));
 }
 
@@ -458,6 +464,28 @@ void RewardsInternalsDOMHandler::OnGetAdDiagnostics(
 
   CallJavascriptFunction("brave_rewards_internals.adDiagnostics",
                          base::Value(std::move(*diagnostics)));
+}
+
+void RewardsInternalsDOMHandler::GetEnvironment(const base::Value::List& args) {
+  if (!rewards_service_) {
+    return;
+  }
+
+  AllowJavascript();
+
+  rewards_service_->GetEnvironment(
+      base::BindOnce(&RewardsInternalsDOMHandler::OnGetEnvironment,
+                     weak_ptr_factory_.GetWeakPtr()));
+}
+
+void RewardsInternalsDOMHandler::OnGetEnvironment(
+    ledger::mojom::Environment environment) {
+  if (!IsJavascriptAllowed()) {
+    return;
+  }
+
+  CallJavascriptFunction("brave_rewards_internals.environment",
+                         base::Value(static_cast<int>(environment)));
 }
 
 }  // namespace

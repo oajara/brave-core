@@ -76,8 +76,6 @@ namespace brave_rewards {
 class RewardsNotificationServiceImpl;
 class RewardsBrowserTest;
 
-using GetEnvironmentCallback =
-    base::OnceCallback<void(ledger::mojom::Environment)>;
 using GetDebugCallback = base::OnceCallback<void(bool)>;
 using GetReconcileIntervalCallback = base::OnceCallback<void(int32_t)>;
 using GetGeminiRetriesCallback = base::OnceCallback<void(int32_t)>;
@@ -201,10 +199,10 @@ class RewardsServiceImpl : public RewardsService,
   RewardsNotificationService* GetNotificationService() const override;
   void GetRewardsInternalsInfo(
       GetRewardsInternalsInfoCallback callback) override;
+  void GetEnvironment(GetEnvironmentCallback callback) override;
 
   void HandleFlags(const RewardsFlags& flags);
   void SetEnvironment(ledger::mojom::Environment environment);
-  void GetEnvironment(GetEnvironmentCallback callback);
   void SetDebug(bool debug);
   void GetDebug(GetDebugCallback callback);
   void SetGeminiRetries(const int32_t retries);

@@ -89,6 +89,13 @@ const rewardsInternalsReducer: Reducer<RewardsInternals.State | undefined> = (st
       state = { ...state }
       state.adDiagnostics = action.payload.adDiagnostics
       break
+    case types.GET_ENVIRONMENT:
+      chrome.send('brave_rewards_internals.getEnvironment')
+      break
+    case types.ON_ENVIRONMENT:
+      state = { ...state }
+      state.environment = action.payload.environment
+      break
     default:
       break
   }

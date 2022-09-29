@@ -20,6 +20,22 @@ const getKeyInfoSeedValidString = (isValid: boolean) => {
   return getLocale('invalid')
 }
 
+const getEnvironmentString = (environment: RewardsInternals.Environment) => {
+  switch (environment) {
+    // ledger::mojom::Environment::STAGING
+    case 0:
+      return '(staging)'
+    // ledger::mojom::Environment::PRODUCTION
+    case 1:
+      return ''
+    // ledger::mojom::Environment::DEVELOPMENT
+    case 2:
+      return '(development)'
+    default:
+      return '(Unknown Environment)'
+  }
+}
+
 const getInfo = (state: RewardsInternals.State) => {
   return (
     <>
@@ -27,7 +43,7 @@ const getInfo = (state: RewardsInternals.State) => {
         {getLocale('keyInfoSeed')} {getKeyInfoSeedValidString(state.info.isKeyInfoSeedValid || false)}
       </div>
       <div>
-        {getLocale('walletPaymentId')} {state.info.walletPaymentId || ''}
+        {getLocale('walletPaymentId')} {state.info.walletPaymentId || ''} {getEnvironmentString(state.environment)}
       </div>
       <div>
         {getLocale('bootStamp')} {formatDate(state.info.bootStamp * 1000)}
