@@ -68,6 +68,8 @@
 #include "brave/components/decentralized_dns/content/decentralized_dns_navigation_throttle.h"
 #include "brave/components/ftx/browser/buildflags/buildflags.h"
 #include "brave/components/gemini/browser/buildflags/buildflags.h"
+#include "brave/components/google_sign_in/browser/google_sign_in_throttle.h"
+#include "brave/components/google_sign_in/common/google_sign_in_util.h"
 #include "brave/components/ipfs/buildflags/buildflags.h"
 #include "brave/components/playlist/buildflags/buildflags.h"
 #include "brave/components/playlist/features.h"
@@ -101,6 +103,7 @@
 #include "content/public/browser/browser_thread.h"
 #include "content/public/browser/browser_url_handler.h"
 #include "content/public/browser/navigation_handle.h"
+#include "content/public/browser/permission_controller_delegate.h"
 #include "content/public/browser/storage_partition.h"
 #include "content/public/browser/weak_document_ptr.h"
 #include "content/public/browser/web_ui_browser_interface_broker_registry.h"
@@ -116,6 +119,7 @@
 #include "services/service_manager/public/cpp/binder_registry.h"
 #include "third_party/blink/public/common/associated_interfaces/associated_interface_registry.h"
 #include "third_party/blink/public/common/loader/url_loader_throttle.h"
+#include "third_party/blink/public/common/permissions/permission_utils.h"
 #include "third_party/blink/public/mojom/webpreferences/web_preferences.mojom.h"
 #include "third_party/widevine/cdm/buildflags.h"
 #include "ui/base/l10n/l10n_util.h"
@@ -544,6 +548,70 @@ BraveContentBrowserClient::AllowWebBluetooth(
   return ContentBrowserClient::AllowWebBluetoothResult::BLOCK_GLOBALLY_DISABLED;
 }
 
+bool BraveContentBrowserClient::CanCreateWindow(
+    content::RenderFrameHost* opener,
+    const GURL& opener_url,
+    const GURL& opener_top_level_frame_url,
+    const url::Origin& source_origin,
+    content::mojom::WindowContainerType container_type,
+    const GURL& target_url,
+    const content::Referrer& referrer,
+    const std::string& frame_name,
+    WindowOpenDisposition disposition,
+    const blink::mojom::WindowFeatures& features,
+    bool user_gesture,
+    bool opener_suppressed,
+    bool* no_javascript_access) {
+  content::WebContents* contents =
+      content::WebContents::FromRenderFrameHost(opener);
+
+  if (google_sign_in::ShouldCheckGoogleSignInPermission(target_url,
+                                                        opener_url)) {
+    PrefService* prefs =
+        static_cast<Profile*>(contents->GetBrowserContext())->GetPrefs();
+    if (!google_sign_in::IsGoogleSignInEnabled(prefs)) {
+      return false;
+    }
+    // check permission
+    content::PermissionControllerDelegate* permission_controller =
+        contents->GetBrowserContext()->GetPermissionControllerDelegate();
+
+    auto status = google_sign_in::GetCurrentGoogleSignInPermissionStatus(
+        permission_controller, contents, opener_url);
+    if (status == blink::mojom::PermissionStatus::GRANTED) {
+      // return ChromeContentBrowserClient impl
+      return ChromeContentBrowserClient::CanCreateWindow(
+          opener, opener_url, opener_top_level_frame_url, source_origin,
+          container_type, target_url, referrer, frame_name, disposition,
+          features, user_gesture, opener_suppressed, no_javascript_access);
+
+    } else if (status == blink::mojom::PermissionStatus::ASK) {
+      // ask user for permission
+      Profile* profile =
+          Profile::FromBrowserContext(contents->GetBrowserContext());
+      DCHECK(profile);
+      HostContentSettingsMap* content_settings =
+          HostContentSettingsMapFactory::GetForProfile(profile);
+
+      permission_controller->RequestPermissionsForOrigin(
+          {blink::PermissionType::BRAVE_GOOGLE_SIGN_IN}, opener, opener_url,
+          true,
+          base::BindOnce(
+              &google_sign_in::HandleBraveGoogleSignInPermissionStatus,
+              opener_url,
+              base::WrapRefCounted<HostContentSettingsMap>(content_settings)));
+      return false;
+    } else {
+      // Permission Denied
+      return false;
+    }
+  }
+  return ChromeContentBrowserClient::CanCreateWindow(
+      opener, opener_url, opener_top_level_frame_url, source_origin,
+      container_type, target_url, referrer, frame_name, disposition, features,
+      user_gesture, opener_suppressed, no_javascript_access);
+}
+
 void BraveContentBrowserClient::ExposeInterfacesToRenderer(
     service_manager::BinderRegistry* registry,
     blink::AssociatedInterfaceRegistry* associated_registry,
@@ -807,6 +875,12 @@ BraveContentBrowserClient::CreateURLLoaderThrottles(
                   ads_service, request)) {
         result.push_back(std::move(ads_status_header_throttle));
       }
+    }
+
+    if (auto google_sign_in_throttle =
+            google_sign_in::GoogleSignInThrottle::MaybeCreateThrottleFor(
+                request, wc_getter, settings_map)) {
+      result.push_back(std::move(google_sign_in_throttle));
     }
   }
 

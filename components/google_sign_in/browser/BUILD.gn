@@ -1,0 +1,21 @@
+source_set("browser") {
+  sources = [
+    "google_sign_in_throttle.cc",
+    "google_sign_in_throttle.h",
+  ]
+
+  deps = [
+    "//base",
+    "//brave/components/google_sign_in/common",
+    "//chrome/browser/profiles:profile",
+    "//components/content_settings/core/browser:browser",
+    "//components/permissions:permissions",
+    "//components/user_prefs:user_prefs",
+    "//extensions/common:common",
+    "//gin",
+    "//mojo/public/cpp/bindings",
+    "//third_party/blink/public:blink",
+    "//third_party/blink/public/common",
+    "//v8",
+  ]
+}

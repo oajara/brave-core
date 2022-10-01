@@ -88,9 +88,19 @@ RegisterPolymerComponentReplacement(
               disabledLabel: 'siteSettingsAutoplayBlock'
             }
             lists_.permissionsAdvanced.splice(indexForAutoplay, 0, autoplayItem)
+            let indexForGoogleSignIn = indexForAutoplay + 1
+              const googleSignInItem = {
+                route: routes.SITE_SETTINGS_GOOGLE_SIGN_IN,
+                id: 'googleSignIn',
+                label: 'siteSettingsGoogleSignIn',
+                icon: 'cr:extension',
+                enabledLabel: 'siteSettingsGoogleSignInAsk',
+                disabledLabel: 'siteSettingsGoogleSignInBlock'
+              }
+            lists_.permissionsAdvanced.splice(indexForGoogleSignIn, 0, googleSignInItem)
             const isNativeBraveWalletEnabled = loadTimeData.getBoolean('isNativeBraveWalletFeatureEnabled')
             if (isNativeBraveWalletEnabled) {
-              let indexForEthereum = indexForAutoplay + 1
+              let indexForEthereum = indexForGoogleSignIn + 1
               const ethereumItem = {
                 route: routes.SITE_SETTINGS_ETHEREUM,
                 id: 'ethereum',

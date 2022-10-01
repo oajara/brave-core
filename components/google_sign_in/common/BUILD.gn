@@ -1,0 +1,16 @@
+static_library("common") {
+  sources = [
+    "google_sign_in_util.cc",
+    "google_sign_in_util.h",
+  ]
+
+  deps = [
+    "//base",
+    "//brave/components/constants:constants",
+    "//components/content_settings/core/browser:browser",
+    "//components/content_settings/core/common:common",
+    "//components/prefs",
+    "//extensions/common:common",
+    "//url:url",
+  ]
+}
