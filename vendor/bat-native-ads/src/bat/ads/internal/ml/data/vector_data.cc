@@ -94,7 +94,7 @@ VectorData::VectorData(int dimension_count,
       dimension_count, std::move(points), std::move(values));
 }
 
-VectorData::VectorData(std::string& string) : Data(DataType::kVector) {
+VectorData::VectorData(const std::string& string) : Data(DataType::kVector) {
   std::vector<std::string> vector_string = base::SplitString(
       string, " ", base::TRIM_WHITESPACE, base::SPLIT_WANT_NONEMPTY);
   std::vector<float> vector;
