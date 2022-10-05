@@ -50,6 +50,8 @@ class TestingBraveBrowserProcess : public BraveBrowserProcess {
   greaselion::GreaselionDownloadService* greaselion_download_service() override;
 #endif
   debounce::DebounceComponentInstaller* debounce_component_installer() override;
+  request_otr::RequestOTRComponentInstaller* request_otr_component_installer()
+      override;
   brave::URLSanitizerComponentInstaller* URLSanitizerComponentInstaller()
       override;
   brave_shields::HTTPSEverywhereService* https_everywhere_service() override;

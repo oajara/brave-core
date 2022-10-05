@@ -37,6 +37,8 @@
 #include "brave/components/p3a/brave_p3a_service.h"
 #include "brave/components/p3a/buildflags.h"
 #include "brave/components/p3a/histograms_braveizer.h"
+#include "brave/components/request_otr/browser/request_otr_component_installer.h"
+#include "brave/components/request_otr/common/features.h"
 #include "brave/services/network/public/cpp/system_request_handler.h"
 #include "build/build_config.h"
 #include "chrome/browser/component_updater/component_updater_utils.h"
@@ -185,6 +187,7 @@ void BraveBrowserProcessImpl::StartBraveServices() {
   greaselion_download_service();
 #endif
   debounce_component_installer();
+  request_otr_component_installer();
 #if BUILDFLAG(ENABLE_SPEEDREADER)
   speedreader_rewriter_service();
 #endif
@@ -258,6 +261,18 @@ BraveBrowserProcessImpl::debounce_component_installer() {
             local_data_files_service());
   }
   return debounce_component_installer_.get();
+}
+
+request_otr::RequestOTRComponentInstaller*
+BraveBrowserProcessImpl::request_otr_component_installer() {
+  if (!base::FeatureList::IsEnabled(request_otr::features::kBraveRequestOTR))
+    return nullptr;
+  if (!request_otr_component_installer_) {
+    request_otr_component_installer_ =
+        std::make_unique<request_otr::RequestOTRComponentInstaller>(
+            local_data_files_service());
+  }
+  return request_otr_component_installer_.get();
 }
 
 brave::URLSanitizerComponentInstaller*

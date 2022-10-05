@@ -30,6 +30,7 @@ import("//brave/browser/notifications/sources.gni")
 import("//brave/browser/ntp_background/sources.gni")
 import("//brave/browser/permissions/sources.gni")
 import("//brave/browser/playlist/sources.gni")
+import("//brave/browser/request_otr/sources.gni")
 import("//brave/browser/search_engines/sources.gni")
 import("//brave/browser/skus/sources.gni")
 import("//brave/browser/speedreader/sources.gni")
@@ -420,6 +421,7 @@ brave_chrome_browser_sources += brave_browser_notifications_sources
 brave_chrome_browser_sources += brave_browser_ntp_background_sources
 brave_chrome_browser_sources += brave_browser_permissions_sources
 brave_chrome_browser_sources += brave_browser_playlist_sources
+brave_chrome_browser_sources += brave_browser_request_otr_sources
 brave_chrome_browser_sources += brave_browser_search_engines_sources
 brave_chrome_browser_sources += brave_browser_speedreader_sources
 brave_chrome_browser_sources += brave_browser_themes_sources
@@ -451,6 +453,7 @@ brave_chrome_browser_deps += brave_browser_notifications_deps
 brave_chrome_browser_deps += brave_browser_ntp_background_deps
 brave_chrome_browser_deps += brave_browser_permissions_deps
 brave_chrome_browser_deps += brave_browser_playlist_deps
+brave_chrome_browser_deps += brave_browser_request_otr_deps
 brave_chrome_browser_deps += brave_browser_search_engines_deps
 brave_chrome_browser_deps += brave_browser_speedreader_deps
 brave_chrome_browser_deps += brave_browser_themes_deps

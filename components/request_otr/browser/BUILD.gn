@@ -1,0 +1,31 @@
+import("//brave/build/config.gni")
+
+source_set("browser") {
+  sources = [
+    "request_otr_component_installer.cc",
+    "request_otr_component_installer.h",
+    "request_otr_controller_client.cc",
+    "request_otr_controller_client.h",
+    "request_otr_navigation_throttle.cc",
+    "request_otr_navigation_throttle.h",
+    "request_otr_page.cc",
+    "request_otr_page.h",
+    "request_otr_rule.cc",
+    "request_otr_rule.h",
+    "request_otr_tab_storage.cc",
+    "request_otr_tab_storage.h",
+    "request_otr_service.cc",
+    "request_otr_service.h",
+  ]
+
+  deps = [
+    "//base",
+    "//brave/components/brave_component_updater/browser",
+    "//brave/components/brave_shields/browser",
+    "//brave/extensions:common",
+    "//components/prefs:prefs",
+    "//content/public/browser",
+    "//ui/base",
+    "//url",
+  ]
+}

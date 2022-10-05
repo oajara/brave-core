@@ -54,6 +54,10 @@ namespace debounce {
 class DebounceComponentInstaller;
 }  // namespace debounce
 
+namespace request_otr {
+class RequestOTRComponentInstaller;
+}  // namespace request_otr
+
 namespace ntp_background_images {
 class NTPBackgroundImagesService;
 }  // namespace ntp_background_images
@@ -61,7 +65,7 @@ class NTPBackgroundImagesService;
 namespace tor {
 class BraveTorClientUpdater;
 class BraveTorPluggableTransportUpdater;
-}
+}  // namespace tor
 
 namespace ipfs {
 class BraveIpfsClientUpdater;
@@ -100,6 +104,8 @@ class BraveBrowserProcessImpl : public BraveBrowserProcess,
   greaselion::GreaselionDownloadService* greaselion_download_service() override;
 #endif
   debounce::DebounceComponentInstaller* debounce_component_installer() override;
+  request_otr::RequestOTRComponentInstaller* request_otr_component_installer()
+      override;
   brave::URLSanitizerComponentInstaller* URLSanitizerComponentInstaller()
       override;
   brave_shields::HTTPSEverywhereService* https_everywhere_service() override;
@@ -158,6 +164,8 @@ class BraveBrowserProcessImpl : public BraveBrowserProcess,
 #endif
   std::unique_ptr<debounce::DebounceComponentInstaller>
       debounce_component_installer_;
+  std::unique_ptr<request_otr::RequestOTRComponentInstaller>
+      request_otr_component_installer_;
   std::unique_ptr<brave::URLSanitizerComponentInstaller>
       url_sanitizer_component_installer_;
   bool created_https_everywhere_service_ = false;

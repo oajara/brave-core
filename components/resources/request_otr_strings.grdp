@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grit-part>
+  <message name="IDS_REQUEST_OTR_TITLE" desc="Title of request OTR interstitial page.">
+    Consider Going Off-The-Record
+  </message>
+  <message name="IDS_REQUEST_OTR_HEADING" desc="Heading of request OTR interstitial page.">
+    TBD
+  </message>
+  <message name="IDS_REQUEST_OTR_PRIMARY_PARAGRAPH" desc="Main paragraph of request OTR interstitial page.">
+    TBD
+  </message>
+  <message name="IDS_REQUEST_OTR_EXPLANATION" desc="Second paragraph of request OTR interstitial page.">
+    TBD
+  </message>
+  <message name="IDS_REQUEST_OTR_REMEMBER_SITE_BUTTON" desc="The text for the request OTR interstitial remember site checkbox.">
+    Remember my choice for this site
+  </message>
+  <message name="IDS_REQUEST_OTR_NEVER_ASK_BUTTON" desc="The text for the request OTR interstitial never ask checkbox.">
+    Never ask me again about going off-the-record
+  </message>
+  <message name="IDS_REQUEST_OTR_PROCEED_OTR_BUTTON" desc="The text for the proceed off-the-record button on the request OTR interstitial page.">
+    Proceed Off-The-Record
+  </message>
+  <message name="IDS_REQUEST_OTR_PROCEED_BUTTON" desc="The text for the proceed normally button on the request OTR interstitial page.">
+    Proceed Normally
+  </message>
+</grit-part>

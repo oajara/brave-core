@@ -71,6 +71,12 @@ TestingBraveBrowserProcess::debounce_component_installer() {
   return nullptr;
 }
 
+request_otr::RequestOTRComponentInstaller*
+TestingBraveBrowserProcess::request_otr_component_installer() {
+  NOTREACHED();
+  return nullptr;
+}
+
 brave::URLSanitizerComponentInstaller*
 TestingBraveBrowserProcess::URLSanitizerComponentInstaller() {
   NOTREACHED();

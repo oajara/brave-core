@@ -21,6 +21,7 @@
 #include "brave/browser/ethereum_remote_client/buildflags/buildflags.h"
 #include "brave/browser/ntp_background/view_counter_service_factory.h"
 #include "brave/browser/permissions/permission_lifetime_manager_factory.h"
+#include "brave/browser/request_otr/request_otr_service_factory.h"
 #include "brave/browser/search_engines/search_engine_tracker.h"
 #include "brave/browser/url_sanitizer/url_sanitizer_service_factory.h"
 #include "brave/components/brave_adaptive_captcha/buildflags/buildflags.h"
@@ -76,6 +77,7 @@ void EnsureBrowserContextKeyedServiceFactoriesBuilt() {
   brave_rewards::RewardsServiceFactory::GetInstance();
   brave_shields::AdBlockPrefServiceFactory::GetInstance();
   debounce::DebounceServiceFactory::GetInstance();
+  request_otr::RequestOTRServiceFactory::GetInstance();
   brave::URLSanitizerServiceFactory::GetInstance();
 #if BUILDFLAG(ENABLE_GREASELION)
   greaselion::GreaselionServiceFactory::GetInstance();

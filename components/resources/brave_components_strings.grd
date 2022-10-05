@@ -996,6 +996,7 @@
         <part file="decentralized_dns_strings.grdp" />
       </if>
       <part file="domain_block_strings.grdp" />
+      <part file="request_otr_strings.grdp" />
       <part file="ipfs_strings.grdp" />
       <part file="permissions_strings.grdp" />
       <part file="rewards_strings.grdp" />
