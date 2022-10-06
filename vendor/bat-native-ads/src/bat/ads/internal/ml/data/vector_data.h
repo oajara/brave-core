@@ -25,7 +25,7 @@ class VectorData final : public Data {
   explicit VectorData(std::vector<float> data);
 
   // Make a DataVector using a string representation.
-  VectorData(const std::string& vector_string);
+  explicit VectorData(std::string vector_string);
 
   // Make a "sparse" DataVector using points from |data|.
   // double is used for backward compatibility with the current code.

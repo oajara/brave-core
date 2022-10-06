@@ -52,8 +52,9 @@ TEST_F(BatAdsEligibleNotificationAdsV3Test, GetAds) {
   creative_ad_2.embedding = "-0.3 0.0 -0.2 0.6 0.8";
   creative_ads.push_back(creative_ad_2);
 
-  TextEmbeddingHtmlEventInfo text_embedding_event = BuildTextEmbedding();;
-  LogTextEmbeddingHtmlEvent(BuildTextEmbeddingHtmlEvent(text_embedding_event),
+  const TextEmbeddingHtmlEventInfo text_embedding_event =
+      BuildTextEmbeddingHtmlEvent(BuildTextEmbedding());
+  LogTextEmbeddingHtmlEvent(text_embedding_event,
                             [=](const bool success) { ASSERT_TRUE(success); });
 
   SaveCreativeAds(creative_ads);
@@ -69,44 +70,47 @@ TEST_F(BatAdsEligibleNotificationAdsV3Test, GetAds) {
       });
 }
 
-// TEST_F(BatAdsEligibleNotificationAdsV2Test, GetAdsForNoSegments) {
-//   // Arrange
-//   CreativeNotificationAdList creative_ads;
+TEST_F(BatAdsEligibleNotificationAdsV3Test, GetAdsForNoEmbeddings) {
+  // Arrange
+  CreativeNotificationAdList creative_ads;
 
-//   CreativeNotificationAdInfo creative_ad_1 = BuildCreativeNotificationAd();
-//   creative_ad_1.segment = "foo";
-//   creative_ads.push_back(creative_ad_1);
+  CreativeNotificationAdInfo creative_ad_1 = BuildCreativeNotificationAd();
+  creative_ad_1.embedding = "0.1 0.2 0.3 0.4 0.5";
+  creative_ads.push_back(creative_ad_1);
 
-//   CreativeNotificationAdInfo creative_ad_2 = BuildCreativeNotificationAd();
-//   creative_ad_2.segment = "foo-bar";
-//   creative_ads.push_back(creative_ad_2);
+  CreativeNotificationAdInfo creative_ad_2 = BuildCreativeNotificationAd();
+  creative_ad_2.embedding = "-0.3 0.0 -0.2 0.6 0.8";
+  creative_ads.push_back(creative_ad_2);
 
-//   SaveCreativeAds(creative_ads);
+  SaveCreativeAds(creative_ads);
 
-//   // Act
-//   eligible_ads_->GetForUserModel(
-//       targeting::BuildUserModel({}, {}, {}),
-//       [](const bool had_opportunity,
-//          const CreativeNotificationAdList& creative_ads) {
-//         // Assert
-//         EXPECT_TRUE(had_opportunity);
-//         EXPECT_TRUE(!creative_ads.empty());
-//       });
-// }
+  // Act
+  eligible_ads_->GetForUserModel(
+      targeting::BuildUserModel({}, {}, {}),
+      [](const bool had_opportunity,
+         const CreativeNotificationAdList& creative_ads) {
+        // Assert
+        EXPECT_FALSE(had_opportunity);
+        EXPECT_TRUE(!creative_ads.empty());
+      });
+}
 
-// TEST_F(BatAdsEligibleNotificationAdsV2Test, DoNotGetAdsIfNoEligibleAds) {
-//   // Arrange
+TEST_F(BatAdsEligibleNotificationAdsV3Test, DoNotGetAdsIfNoEligibleAds) {
+  // Arrange
+  const TextEmbeddingHtmlEventInfo text_embedding_event =
+      BuildTextEmbeddingHtmlEvent(BuildTextEmbedding());
+  LogTextEmbeddingHtmlEvent(text_embedding_event,
+                            [=](const bool success) { ASSERT_TRUE(success); });
 
-//   // Act
-//   eligible_ads_->GetForUserModel(
-//       targeting::BuildUserModel({"interest-foo", "interest-bar"}, {},
-//                                 {"intent-foo", "intent-bar"}),
-//       [](const bool had_opportunity,
-//          const CreativeNotificationAdList& creative_ads) {
-//         // Assert
-//         EXPECT_FALSE(had_opportunity);
-//         EXPECT_TRUE(creative_ads.empty());
-//       });
-// }
+  // Act
+  eligible_ads_->GetForUserModel(
+      targeting::BuildUserModel({}, {}, {}),
+      [](const bool had_opportunity,
+         const CreativeNotificationAdList& creative_ads) {
+        // Assert
+        EXPECT_FALSE(had_opportunity);
+        EXPECT_TRUE(creative_ads.empty());
+      });
+}
 
 }  // namespace ads::notification_ads
