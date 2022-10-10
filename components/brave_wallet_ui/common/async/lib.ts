@@ -231,10 +231,11 @@ export const getAllBuyAssets = async (): Promise<{
   wyreAssetOptions: BraveWallet.BlockchainToken[]
   sardineAssetOptions: BraveWallet.BlockchainToken[]
   transakAssetOptions: BraveWallet.BlockchainToken[]
+  transferoAssetOptions: BraveWallet.BlockchainToken[]
   allAssetOptions: BraveWallet.BlockchainToken[]
 }> => {
   const { blockchainRegistry } = getAPIProxy()
-  const { kRamp, kWyre, kSardine, kTransak } = BraveWallet.OnRampProvider
+  const { kRamp, kWyre, kSardine, kTransak, kTransfero } = BraveWallet.OnRampProvider
 
   const rampAssetsPromises = await Promise.all(
     SupportedOnRampNetworks.map(chainId => blockchainRegistry.getBuyTokens(kRamp, chainId))
@@ -248,6 +249,10 @@ export const getAllBuyAssets = async (): Promise<{
 
   const transakAssetsPromises = await Promise.all(
     SupportedOnRampNetworks.map(chainId => blockchainRegistry.getBuyTokens(kTransak, chainId))
+  )
+
+  const transferoAssetsPromises = await Promise.all(
+    SupportedOnRampNetworks.map(chainId => blockchainRegistry.getBuyTokens(kTransfero, chainId))
   )
 
   // add token logos
@@ -264,6 +269,11 @@ export const getAllBuyAssets = async (): Promise<{
     .map(addLogoToToken)
 
   const transakAssetOptions: BraveWallet.BlockchainToken[] = transakAssetsPromises
+    .flatMap(p => p.tokens)
+    .map(addLogoToToken)
+
+  // separate native assets from tokens
+  const transferoAssetOptions: BraveWallet.BlockchainToken[] = transferoAssetsPromises
     .flatMap(p => p.tokens)
     .map(addLogoToToken)
 
@@ -288,6 +298,11 @@ export const getAllBuyAssets = async (): Promise<{
     nativeAssets: transakNativeAssetOptions
   } = getNativeTokensFromList(transakAssetOptions)
 
+  const {
+    tokens: transferoTokenOptions,
+    nativeAssets: transferoNativeAssetOptions
+  } = getNativeTokensFromList(transferoAssetOptions)
+
   // separate BAT from other tokens
   const {
     bat: rampBatTokens,
@@ -309,23 +324,32 @@ export const getAllBuyAssets = async (): Promise<{
     nonBat: transakNonBatTokens
   } = getBatTokensFromList(transakTokenOptions)
 
+  const {
+    bat: transferoBatTokens,
+    nonBat: transferoNonBatTokens
+  } = getBatTokensFromList(transferoTokenOptions)
+
   // sort lists
   // Move Gas coins and BAT to front of list
   const sortedRampOptions = [...rampNativeAssetOptions, ...rampBatTokens, ...rampNonBatTokens]
   const sortedWyreOptions = [...wyreNativeAssetOptions, ...wyreBatTokens, ...wyreNonBatTokens]
   const sortedSardineOptions = [...sardineNativeAssetOptions, ...sardineBatTokens, ...sardineNonBatTokens]
   const sortedTransakOptions = [...transakNativeAssetOptions, ...transakBatTokens, ...transakNonBatTokens]
+  const sortedTransferoOptions = [...transferoNativeAssetOptions, ...transferoBatTokens, ...transferoNonBatTokens]
 
   const results = {
     rampAssetOptions: sortedRampOptions,
     wyreAssetOptions: sortedWyreOptions,
     sardineAssetOptions: sortedSardineOptions,
     transakAssetOptions: sortedTransakOptions,
+    transferoAssetOptions: sortedTransferoOptions,
     allAssetOptions: getUniqueAssets([
       ...sortedRampOptions,
       ...sortedWyreOptions,
       ...sortedSardineOptions,
-      ...sortedTransakOptions
+      ...sortedTransakOptions,
+      ...sortedSardineOptions,
+      ...sortedTransferoOptions
     ])
   }
 

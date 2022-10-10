@@ -11,6 +11,7 @@ import WyreIcon from '../assets/svg-icons/wyre-icon.svg'
 import SardineIconLight from '../assets/svg-icons/sardine-logo-light.svg'
 import SardineIconDark from '../assets/svg-icons/sardine-logo-dark.svg'
 import TransakIcon from '../assets/svg-icons/transak-logo.svg'
+import TransaferoDark from '../assets/svg-icons/tranfero-dark.svg'
 
 import { isSardineSupported } from '../utils/asset-utils'
 
@@ -35,6 +36,13 @@ function getBuyOptions (): BuyOption[] {
     icon: TransakIcon,
     name: getLocale('braveWalletBuyTransakName'),
     description: getLocale('braveWalletBuyTransakDescription')
+  },
+  {
+    id: BraveWallet.OnRampProvider.kTransfero,
+    actionText: getLocale('braveWalletBuyWithTransfero'),
+    icon: window.matchMedia('(prefers-color-scheme: dark)').matches ? TransaferoDark : TransaferoDark,
+    name: getLocale('braveWalletBuyTransferoName'),
+    description: getLocale('braveWalletBuyTransferoDescription')
   }
   ]
 
