@@ -76,7 +76,7 @@ TextEmbeddingInfo EmbeddingProcessing::EmbedText(
   text_embedding.embedding = embedding_zeroed;
   text_embedding.locale = embedding_pipeline_.locale;
 
-  VectorData embedding_accumulator;
+  VectorData embedding_accumulator(embedding_zeroed);
 
   const std::vector<std::string> tokens = base::SplitString(
       text, " ", base::TRIM_WHITESPACE, base::SPLIT_WANT_NONEMPTY);
