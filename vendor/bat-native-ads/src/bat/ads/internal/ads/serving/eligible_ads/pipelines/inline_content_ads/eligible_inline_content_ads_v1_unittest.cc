@@ -57,7 +57,8 @@ TEST_F(BatAdsEligibleInlineContentAdsV1Test, GetAdsForChildSegment) {
   const CreativeInlineContentAdList expected_creative_ads = {creative_ad_2};
 
   eligible_ads_->GetForUserModel(
-      targeting::BuildUserModel({"technology & computing-software"}, {}, {}),
+      targeting::BuildUserModel({"technology & computing-software"}, {}, {},
+                                {}),
       "200x100",
       [&expected_creative_ads](
           const bool had_opportunity,
@@ -80,7 +81,8 @@ TEST_F(BatAdsEligibleInlineContentAdsV1Test, GetAdsForParentSegment) {
   const CreativeInlineContentAdList expected_creative_ads = {creative_ad};
 
   eligible_ads_->GetForUserModel(
-      targeting::BuildUserModel({"technology & computing-software"}, {}, {}),
+      targeting::BuildUserModel({"technology & computing-software"}, {}, {},
+                                {}),
       "200x100",
       [&expected_creative_ads](
           const bool had_opportunity,
@@ -103,7 +105,7 @@ TEST_F(BatAdsEligibleInlineContentAdsV1Test, GetAdsForUntargetedSegment) {
   const CreativeInlineContentAdList expected_creative_ads = {creative_ad};
 
   eligible_ads_->GetForUserModel(
-      targeting::BuildUserModel({"finance-banking"}, {}, {}), "200x100",
+      targeting::BuildUserModel({"finance-banking"}, {}, {}, {}), "200x100",
       [&expected_creative_ads](
           const bool had_opportunity,
           const CreativeInlineContentAdList& creative_ads) {
@@ -137,7 +139,7 @@ TEST_F(BatAdsEligibleInlineContentAdsV1Test, GetAdsForMultipleSegments) {
 
   eligible_ads_->GetForUserModel(
       targeting::BuildUserModel({"technology & computing", "food & drink"}, {},
-                                {}),
+                                {}, {}),
       "200x100",
       [&expected_creative_ads](
           const bool had_opportunity,
@@ -180,7 +182,7 @@ TEST_F(BatAdsEligibleInlineContentAdsV1Test, DoNotGetAdsForUnmatchedSegments) {
 
   // Act
   eligible_ads_->GetForUserModel(
-      targeting::BuildUserModel({"UNMATCHED"}, {}, {}), "200x100",
+      targeting::BuildUserModel({"UNMATCHED"}, {}, {}, {}), "200x100",
       [](const bool had_opportunity,
          const CreativeInlineContentAdList& creative_ads) {
         // Assert
@@ -200,7 +202,7 @@ TEST_F(BatAdsEligibleInlineContentAdsV1Test,
 
   // Act
   eligible_ads_->GetForUserModel(
-      targeting::BuildUserModel({"technology & computing"}, {}, {}), "?x?",
+      targeting::BuildUserModel({"technology & computing"}, {}, {}, {}), "?x?",
       [](const bool had_opportunity,
          const CreativeInlineContentAdList& creative_ads) {
         // Assert
@@ -231,7 +233,7 @@ TEST_F(BatAdsEligibleInlineContentAdsV1Test, DoNotGetAdsIfAlreadySeen) {
 
   eligible_ads_->GetForUserModel(
       targeting::BuildUserModel({"technology & computing", "food & drink"}, {},
-                                {}),
+                                {}, {}),
       "200x100",
       [&expected_creative_ads](
           const bool had_opportunity,
@@ -265,7 +267,7 @@ TEST_F(BatAdsEligibleInlineContentAdsV1Test, DoNotGetPacedAds) {
 
   eligible_ads_->GetForUserModel(
       targeting::BuildUserModel({"technology & computing", "food & drink"}, {},
-                                {}),
+                                {}, {}),
       "200x100",
       [&expected_creative_ads](
           const bool had_opportunity,
@@ -302,7 +304,7 @@ TEST_F(BatAdsEligibleInlineContentAdsV1Test, GetPrioritizedAds) {
 
   eligible_ads_->GetForUserModel(
       targeting::BuildUserModel({"technology & computing", "food & drink"}, {},
-                                {}),
+                                {}, {}),
       "200x100",
       [&expected_creative_ads](
           const bool had_opportunity,

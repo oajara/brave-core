@@ -39,7 +39,8 @@ TEST_F(BatAdsEligibleNotificationAdsV1Issue17199Test, GetEligibleAds) {
   EligibleAdsV1 eligible_ads(&subdivision_targeting, &anti_targeting_resource);
 
   eligible_ads.GetForUserModel(
-      targeting::BuildUserModel({"technology & computing-computing"}, {}, {}),
+      targeting::BuildUserModel({"technology & computing-computing"}, {}, {},
+                                {}),
       [](const bool had_opportunity,
          const CreativeNotificationAdList& creative_ads) {
         EXPECT_TRUE(had_opportunity);

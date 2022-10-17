@@ -57,7 +57,8 @@ TEST_F(BatAdsEligibleNotificationAdsV1Test, GetAdsForChildSegment) {
   const CreativeNotificationAdList expected_creative_ads = {creative_ad_2};
 
   eligible_ads_->GetForUserModel(
-      targeting::BuildUserModel({"technology & computing-software"}, {}, {}),
+      targeting::BuildUserModel({"technology & computing-software"}, {}, {},
+                                {}),
       [&expected_creative_ads](const bool had_opportunity,
                                const CreativeNotificationAdList& creative_ads) {
         // Assert
@@ -78,7 +79,8 @@ TEST_F(BatAdsEligibleNotificationAdsV1Test, GetAdsForParentSegment) {
   const CreativeNotificationAdList expected_creative_ads = {creative_ad};
 
   eligible_ads_->GetForUserModel(
-      targeting::BuildUserModel({"technology & computing-software"}, {}, {}),
+      targeting::BuildUserModel({"technology & computing-software"}, {}, {},
+                                {}),
       [&expected_creative_ads](const bool had_opportunity,
                                const CreativeNotificationAdList& creative_ads) {
         // Assert
@@ -99,7 +101,7 @@ TEST_F(BatAdsEligibleNotificationAdsV1Test, GetAdsForUntargetedSegment) {
   const CreativeNotificationAdList expected_creative_ads = {creative_ad};
 
   eligible_ads_->GetForUserModel(
-      targeting::BuildUserModel({"finance-banking"}, {}, {}),
+      targeting::BuildUserModel({"finance-banking"}, {}, {}, {}),
       [&expected_creative_ads](const bool had_opportunity,
                                const CreativeNotificationAdList& creative_ads) {
         // Assert
@@ -132,7 +134,7 @@ TEST_F(BatAdsEligibleNotificationAdsV1Test, GetAdsForMultipleSegments) {
 
   eligible_ads_->GetForUserModel(
       targeting::BuildUserModel({"technology & computing", "food & drink"}, {},
-                                {}),
+                                {}, {}),
       [&expected_creative_ads](const bool had_opportunity,
                                const CreativeNotificationAdList& creative_ads) {
         // Assert
@@ -172,7 +174,7 @@ TEST_F(BatAdsEligibleNotificationAdsV1Test, DoNotGetAdsForUnmatchedSegments) {
 
   // Act
   eligible_ads_->GetForUserModel(
-      targeting::BuildUserModel({"UNMATCHED"}, {}, {}),
+      targeting::BuildUserModel({"UNMATCHED"}, {}, {}, {}),
       [](const bool had_opportunity,
          const CreativeNotificationAdList& creative_ads) {
         // Assert
@@ -187,7 +189,7 @@ TEST_F(BatAdsEligibleNotificationAdsV1Test, DoNotGetAdsIfNoEligibleAds) {
   // Act
   eligible_ads_->GetForUserModel(
       targeting::BuildUserModel({"technology & computing", "food & drink"}, {},
-                                {}),
+                                {}, {}),
       [](const bool had_opportunity,
          const CreativeNotificationAdList& creative_ads) {
         // Assert
@@ -218,7 +220,7 @@ TEST_F(BatAdsEligibleNotificationAdsV1Test, DoNotGetAdsIfAlreadySeen) {
 
   eligible_ads_->GetForUserModel(
       targeting::BuildUserModel({"technology & computing", "food & drink"}, {},
-                                {}),
+                                {}, {}),
       [&expected_creative_ads](const bool had_opportunity,
                                const CreativeNotificationAdList& creative_ads) {
         // Assert
@@ -250,7 +252,7 @@ TEST_F(BatAdsEligibleNotificationAdsV1Test, DoNotGetPacedAds) {
 
   eligible_ads_->GetForUserModel(
       targeting::BuildUserModel({"technology & computing", "food & drink"}, {},
-                                {}),
+                                {}, {}),
       [&expected_creative_ads](const bool had_opportunity,
                                const CreativeNotificationAdList& creative_ads) {
         // Assert
@@ -285,7 +287,7 @@ TEST_F(BatAdsEligibleNotificationAdsV1Test, GetPrioritizedAds) {
 
   eligible_ads_->GetForUserModel(
       targeting::BuildUserModel({"technology & computing", "food & drink"}, {},
-                                {}),
+                                {}, {}),
       [&expected_creative_ads](const bool had_opportunity,
                                const CreativeNotificationAdList& creative_ads) {
         // Assert
