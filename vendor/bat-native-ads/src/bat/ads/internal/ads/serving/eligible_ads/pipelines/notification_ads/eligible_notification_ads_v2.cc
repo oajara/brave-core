@@ -15,6 +15,7 @@
 #include "bat/ads/internal/ads/serving/targeting/user_model_info.h"
 #include "bat/ads/internal/ads_client_helper.h"
 #include "bat/ads/internal/base/logging_util.h"
+#include "bat/ads/internal/base/time_profiler/time_profiler.h"
 #include "bat/ads/internal/creatives/notification_ads/creative_notification_ads_database_table.h"
 #include "bat/ads/internal/geographic/subdivision/subdivision_targeting.h"
 #include "bat/ads/internal/resources/behavioral/anti_targeting/anti_targeting_resource.h"
@@ -32,12 +33,18 @@ void EligibleAdsV2::GetForUserModel(
     GetEligibleAdsCallback<CreativeNotificationAdList> callback) {
   BLOG(1, "Get eligible notification ads");
 
+  TIME_PROFILER_BEGIN("eligible_ads_v2");
+
   const database::table::AdEvents database_table;
   database_table.GetForType(
       mojom::AdType::kNotificationAd,
       [=](const bool success, const AdEventList& ad_events) {
+        TIME_PROFILER_MEASURE_WITH_MESSAGE("eligible_ads_v2",
+                                           "GetAdEventsForType");
+
         if (!success) {
           BLOG(1, "Failed to get ad events");
+          TIME_PROFILER_END("eligible_ads_v2");
           callback(/*had_opportunity*/ false, {});
           return;
         }
@@ -65,17 +72,24 @@ void EligibleAdsV2::GetEligibleAds(
     const AdEventList& ad_events,
     const GetEligibleAdsCallback<CreativeNotificationAdList>& callback,
     const BrowsingHistoryList& browsing_history) {
+  TIME_PROFILER_MEASURE_WITH_MESSAGE("eligible_ads_v2", "GetBrowsingHistory");
+
   const database::table::CreativeNotificationAds database_table;
   database_table.GetAll([=](const bool success, const SegmentList& /*segments*/,
                             const CreativeNotificationAdList& creative_ads) {
+    TIME_PROFILER_MEASURE_WITH_MESSAGE("eligible_ads_v2",
+                                       "GetAllCreativeNotificationAds");
+
     if (!success) {
       BLOG(1, "Failed to get ads");
+      TIME_PROFILER_END("eligible_ads_v2");
       callback(/*had_opportunity*/ false, {});
       return;
     }
 
     if (creative_ads.empty()) {
       BLOG(1, "No eligible ads");
+      TIME_PROFILER_END("eligible_ads_v2");
       callback(/*had_opportunity*/ false, {});
       return;
     }
@@ -84,20 +98,26 @@ void EligibleAdsV2::GetEligibleAds(
         FilterCreativeAds(creative_ads, ad_events, browsing_history);
     if (eligible_creative_ads.empty()) {
       BLOG(1, "No eligible ads out of " << creative_ads.size() << " ads");
+      TIME_PROFILER_END("eligible_ads_v2");
       callback(/*had_opportunity*/ true, {});
       return;
     }
+    TIME_PROFILER_MEASURE_WITH_MESSAGE("eligible_ads_v2", "FilterCreativeAds");
 
     const absl::optional<CreativeNotificationAdInfo> creative_ad =
         PredictAd(user_model, ad_events, eligible_creative_ads);
     if (!creative_ad) {
       BLOG(1, "No eligible ads out of " << creative_ads.size() << " ads");
+      TIME_PROFILER_END("eligible_ads_v2");
       callback(/*had_opportunity*/ true, {});
       return;
     }
+    TIME_PROFILER_MEASURE_WITH_MESSAGE("eligible_ads_v2", "PredictAd");
 
     BLOG(1, eligible_creative_ads.size()
                 << " eligible ads out of " << creative_ads.size() << " ads");
+
+    TIME_PROFILER_END("eligible_ads_v2");
 
     callback(/*had_opportunity*/ true, {*creative_ad});
   });
@@ -113,7 +133,11 @@ CreativeNotificationAdList EligibleAdsV2::FilterCreativeAds(
 
   ExclusionRules exclusion_rules(ad_events, subdivision_targeting_,
                                  anti_targeting_resource_, browsing_history);
-  return ApplyExclusionRules(creative_ads, last_served_ad_, &exclusion_rules);
+  CreativeNotificationAdList eligible_creative_ads =
+      ApplyExclusionRules(creative_ads, last_served_ad_, &exclusion_rules);
+  TIME_PROFILER_MEASURE_WITH_MESSAGE("eligible_ads_v2", "ApplyExclusionRules");
+
+  return eligible_creative_ads;
 }
 
 }  // namespace ads::notification_ads

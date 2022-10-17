@@ -19,6 +19,7 @@
 #include "bat/ads/internal/ads/serving/targeting/user_model_info.h"
 #include "bat/ads/internal/base/logging_util.h"
 #include "bat/ads/internal/base/time/time_formatting_util.h"
+#include "bat/ads/internal/base/time_profiler/time_profiler.h"
 #include "bat/ads/internal/creatives/notification_ads/creative_notification_ad_info.h"
 #include "bat/ads/internal/creatives/notification_ads/notification_ad_builder.h"
 #include "bat/ads/internal/geographic/subdivision/subdivision_targeting.h"
@@ -97,27 +98,41 @@ void Serving::MaybeServeAd() {
     return;
   }
 
+  TIME_PROFILER_BEGIN("notification_ad_serving");
+
   if (!PermissionRules::HasPermission()) {
     BLOG(1, "Notification ad not served: Not allowed due to permission rules");
     FailedToServeAd();
     return;
   }
 
+  TIME_PROFILER_MEASURE_WITH_MESSAGE("notification_ad_serving",
+                                     "PermissionRules");
+
   const targeting::UserModelInfo user_model = targeting::BuildUserModel();
+
+  TIME_PROFILER_MEASURE_WITH_MESSAGE("notification_ad_serving",
+                                     "BuildUserModel");
 
   DCHECK(eligible_ads_);
   eligible_ads_->GetForUserModel(
       user_model, [=](const bool had_opportunity,
                       const CreativeNotificationAdList& creative_ads) {
+        TIME_PROFILER_MEASURE_WITH_MESSAGE("notification_ad_serving",
+                                           "GetForUserModel");
+
         if (had_opportunity) {
           const SegmentList segments =
               targeting::GetTopChildSegments(user_model);
           NotifyOpportunityAroseToServeNotificationAd(segments);
+          TIME_PROFILER_MEASURE_WITH_MESSAGE("notification_ad_serving",
+                                             "HasOpportunity");
         }
 
         if (creative_ads.empty()) {
           BLOG(1, "Notification ad not served: No eligible ads found");
           FailedToServeAd();
+          TIME_PROFILER_END("notification_ad_serving");
           return;
         }
 
@@ -128,6 +143,9 @@ void Serving::MaybeServeAd() {
 
         const NotificationAdInfo ad = BuildNotificationAd(creative_ad);
         ServeAd(ad);
+
+        TIME_PROFILER_MEASURE_WITH_MESSAGE("notification_ad_serving",
+                                           "ServeAd");
       });
 }
 
