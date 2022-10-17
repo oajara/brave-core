@@ -65,32 +65,32 @@ void Serving::MaybeServeAd(const MaybeServeNewTabPageAdCallback& callback) {
     return;
   }
 
-  const targeting::UserModelInfo user_model = targeting::BuildUserModel();
+  targeting::BuildUserModel([=](const targeting::UserModelInfo user_model) {
+    DCHECK(eligible_ads_);
+    eligible_ads_->GetForUserModel(
+        user_model, [=](const bool had_opportunity,
+                        const CreativeNewTabPageAdList& creative_ads) {
+          if (had_opportunity) {
+            const SegmentList segments =
+                targeting::GetTopChildSegments(user_model);
+            NotifyOpportunityAroseToServeNewTabPageAd(segments);
+          }
 
-  DCHECK(eligible_ads_);
-  eligible_ads_->GetForUserModel(
-      user_model, [=](const bool had_opportunity,
-                      const CreativeNewTabPageAdList& creative_ads) {
-        if (had_opportunity) {
-          const SegmentList segments =
-              targeting::GetTopChildSegments(user_model);
-          NotifyOpportunityAroseToServeNewTabPageAd(segments);
-        }
+          if (creative_ads.empty()) {
+            BLOG(1, "New tab page ad not served: No eligible ads found");
+            FailedToServeAd(callback);
+            return;
+          }
 
-        if (creative_ads.empty()) {
-          BLOG(1, "New tab page ad not served: No eligible ads found");
-          FailedToServeAd(callback);
-          return;
-        }
+          BLOG(1, "Found " << creative_ads.size() << " eligible ads");
 
-        BLOG(1, "Found " << creative_ads.size() << " eligible ads");
+          const int rand = base::RandInt(0, creative_ads.size() - 1);
+          const CreativeNewTabPageAdInfo& creative_ad = creative_ads.at(rand);
 
-        const int rand = base::RandInt(0, creative_ads.size() - 1);
-        const CreativeNewTabPageAdInfo& creative_ad = creative_ads.at(rand);
-
-        const NewTabPageAdInfo ad = BuildNewTabPageAd(creative_ad);
-        ServeAd(ad, callback);
-      });
+          const NewTabPageAdInfo ad = BuildNewTabPageAd(creative_ad);
+          ServeAd(ad, callback);
+        });
+  });
 }
 
 ///////////////////////////////////////////////////////////////////////////////
