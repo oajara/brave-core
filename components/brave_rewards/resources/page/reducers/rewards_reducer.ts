@@ -128,6 +128,7 @@ const rewardsReducer: Reducer<Rewards.State | undefined> = (state: Rewards.State
       state.adsData.adsSubdivisionTargeting = action.payload.adsData.adsSubdivisionTargeting
       state.adsData.automaticallyDetectedAdsSubdivisionTargeting = action.payload.adsData.automaticallyDetectedAdsSubdivisionTargeting
       state.adsData.shouldAllowAdsSubdivisionTargeting = action.payload.adsData.shouldAllowAdsSubdivisionTargeting
+      state.adsData.subdivisions = action.payload.adsData.subdivisions
       state.adsData.adsUIEnabled = action.payload.adsData.adsUIEnabled
       state.adsData.adsIsSupported = action.payload.adsData.adsIsSupported
       state.adsData.needsBrowserUpgradeToServeAds = action.payload.adsData.needsBrowserUpgradeToServeAds
@@ -350,8 +351,8 @@ const rewardsReducer: Reducer<Rewards.State | undefined> = (state: Rewards.State
         break
       }
 
-      if (data.result === 46) { // type::Result::MISMATCHED_PROVIDER_ACCOUNT_REGIONS
-        ui.modalRedirect = 'mismatchedProviderAccountRegionsModal'
+      if (data.result === 46) { // type::Result::MISMATCHED_COUNTRIES
+        ui.modalRedirect = 'mismatchedCountriesModal'
         break
       }
 

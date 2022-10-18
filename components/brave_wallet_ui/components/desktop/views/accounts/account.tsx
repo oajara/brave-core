@@ -4,7 +4,7 @@
 // you can obtain one at http://mozilla.org/MPL/2.0/.
 
 import * as React from 'react'
-import { Redirect, useParams } from 'react-router'
+import { Redirect, useParams, useLocation } from 'react-router'
 import {
   useDispatch,
   useSelector
@@ -52,6 +52,7 @@ import { AccountButtonOptions } from '../../../../options/account-list-button-op
 
 // Hooks
 import { useBalance } from '../../../../common/hooks/balance'
+import { useScrollIntoView } from '../../../../common/hooks/use-scroll-into-view'
 
 // Actions
 import { getFilecoinKeyringIdFromNetwork } from '../../../../utils/network-utils'
@@ -66,6 +67,7 @@ export const Account = ({
 }: Props) => {
   // routing
   const { id: accountId } = useParams<{ id: string }>()
+  const { hash: transactionID } = useLocation()
 
   // redux
   const dispatch = useDispatch()
@@ -76,6 +78,7 @@ export const Account = ({
 
   // custom hooks
   const getBalance = useBalance(networkList)
+  const scrollIntoView = useScrollIntoView()
 
   // memos
   const selectedAccount = React.useMemo(() => {
@@ -165,6 +168,19 @@ export const Account = ({
     dispatch(AccountsTabActions.setSelectedAccount(selectedAccount))
   }, [onRemoveAccount, dispatch])
 
+  const checkIsTransactionFocused = React.useCallback((id: string): boolean => {
+    if (transactionID !== '') {
+      return transactionID.replace('#', '') === id
+    }
+    return false
+  }, [transactionID])
+
+  const handleScrollIntoView = React.useCallback((id: string, ref: HTMLDivElement | null) => {
+    if (checkIsTransactionFocused(id)) {
+      scrollIntoView(ref)
+    }
+  }, [checkIsTransactionFocused, scrollIntoView])
+
   // redirect (asset not found)
   if (!selectedAccount) {
     return <Redirect to={WalletRoutes.Accounts} />
@@ -199,6 +215,7 @@ export const Account = ({
       <SubviewSectionTitle>{getLocale('braveWalletAccountsAssets')}</SubviewSectionTitle>
 
       <SubDivider />
+      <Spacer />
 
       {funigbleTokens.map((item) =>
         <PortfolioAssetItem
@@ -241,6 +258,8 @@ export const Account = ({
               account={selectedAccount}
               accounts={accounts}
               displayAccountName={false}
+              ref={(ref) => handleScrollIntoView(transaction.id, ref)}
+              isFocused={checkIsTransactionFocused(transaction.id)}
             />
           )}
         </>

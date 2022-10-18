@@ -484,6 +484,7 @@ export type AccountTransactions = {
 }
 
 export type GetEthAddrReturnInfo = BraveWallet.JsonRpcService_EnsGetEthAddr_ResponseParams
+export type GetUnstoppableDomainsWalletAddrReturnInfo = BraveWallet.JsonRpcService_UnstoppableDomainsGetWalletAddr_ResponseParams
 
 export interface GetBlockchainTokenInfoReturnInfo {
   token: BraveWallet.BlockchainToken | null
@@ -633,8 +634,8 @@ export enum WalletRoutes {
   OnboardingComplete = '/crypto/onboarding/complete',
 
   // fund wallet page
-  FundWalletPage = '/crypto/fund-wallet',
-  DepositFundsPage = '/crypto/deposit-funds',
+  FundWalletPage = '/crypto/fund-wallet/:tokenId?',
+  DepositFundsPage = '/crypto/deposit-funds/:tokenId?',
 
   // NFTs
   Nfts = '/crypto/nfts',
@@ -672,6 +673,9 @@ export enum WalletRoutes {
 
   // portfolio asset modals
   AddAssetModal = '/crypto/portfolio/add-asset',
+
+  // swap
+  Swap = '/swap',
 }
 
 export const WalletOrigin = 'chrome://wallet'
@@ -798,6 +802,7 @@ export type MarketDataTableColumnTypes =
   | 'marketCap'
   | 'priceChange24h'
   | 'priceChangePercentage24h'
+  | 'actions'
 
 export type AbbreviationOptions =
   | 'thousand'
@@ -811,6 +816,7 @@ export type AccountModalTypes =
   | 'edit'
   | 'details'
   | 'remove'
+  | 'buy'
 
 export interface AccountButtonOptionsObjectType {
   name: string

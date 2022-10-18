@@ -93,6 +93,7 @@ import org.chromium.chrome.browser.LaunchIntentDispatcher;
 import org.chromium.chrome.browser.app.domain.WalletModel;
 import org.chromium.chrome.browser.bookmarks.TabBookmarker;
 import org.chromium.chrome.browser.brave_news.models.FeedItemsCard;
+import org.chromium.chrome.browser.brave_stats.BraveStatsBottomSheetDialogFragment;
 import org.chromium.chrome.browser.brave_stats.BraveStatsUtil;
 import org.chromium.chrome.browser.browsing_data.BrowsingDataBridge;
 import org.chromium.chrome.browser.browsing_data.BrowsingDataType;
@@ -398,7 +399,7 @@ public abstract class BraveActivity<C extends ChromeActivityComponent> extends C
                 return;
             }
             maybeShowPendingTransactions();
-            maybeShowSignMessageRequestLayout();
+            maybeShowSignTxRequestLayout();
         });
     }
 
@@ -413,6 +414,30 @@ public abstract class BraveActivity<C extends ChromeActivityComponent> extends C
         assert mWalletModel != null;
         // trigger to observer to refresh data to process the pending request
         mWalletModel.getCryptoModel().refreshTransactions();
+    }
+
+    private void maybeShowSignTxRequestLayout() {
+        assert mBraveWalletService != null;
+        mBraveWalletService.getPendingSignTransactionRequests(requests -> {
+            if (requests != null && requests.length != 0) {
+                openBraveWalletDAppsActivity(
+                        BraveWalletDAppsActivity.ActivityType.SIGN_TRANSACTION);
+                return;
+            }
+            maybeShowSignAllTxRequestLayout();
+        });
+    }
+
+    private void maybeShowSignAllTxRequestLayout() {
+        assert mBraveWalletService != null;
+        mBraveWalletService.getPendingSignAllTransactionsRequests(requests -> {
+            if (requests != null && requests.length != 0) {
+                openBraveWalletDAppsActivity(
+                        BraveWalletDAppsActivity.ActivityType.SIGN_ALL_TRANSACTIONS);
+                return;
+            }
+            maybeShowSignMessageRequestLayout();
+        });
     }
 
     private void maybeShowSignMessageRequestLayout() {
@@ -1531,6 +1556,14 @@ public abstract class BraveActivity<C extends ChromeActivityComponent> extends C
     @Override
     public void onRequestPermissionsResult(
             int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        FragmentManager fm = getSupportFragmentManager();
+        BraveStatsBottomSheetDialogFragment fragment =
+                (BraveStatsBottomSheetDialogFragment) fm.findFragmentByTag(
+                        BraveStatsUtil.STATS_FRAGMENT_TAG);
+        if (fragment != null) {
+            fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
         if (requestCode == BraveStatsUtil.SHARE_STATS_WRITE_EXTERNAL_STORAGE_PERM
                 && grantResults.length != 0
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

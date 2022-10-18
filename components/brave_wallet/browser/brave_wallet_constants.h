@@ -903,6 +903,8 @@ constexpr webui::LocalizedString kLocalizedStrings[] = {
      IDS_BRAVE_WALLET_MARKET_DATA_MARKETCAP_COLUMN},
     {"braveWalletMarketDataVolumeColumn",
      IDS_BRAVE_WALLET_MARKET_DATA_VOLUME_COLUMN},
+    {"braveWalletMarketDataBuyDepositColumn",
+     IDS_BRAVE_WALLET_MARKET_DATA_BUY_DEPOSIT_COLUMN},
     {"braveWalletMarketDataNoAssetsFound",
      IDS_BRAVE_WALLET_MARKET_DATA_NO_ASSETS_FOUND},
     {"braveWalletMarketDataCoinNotSupported",
@@ -974,6 +976,10 @@ constexpr char kPolygonMainnetEndpoint[] = "https://mainnet-polygon.brave.com/";
 
 // Unstoppable domains record key for ethereum address.
 constexpr char kCryptoEthAddressKey[] = "crypto.ETH.address";
+// Unstoppable domains record key for solana address.
+constexpr char kCryptoSolAddressKey[] = "crypto.SOL.address";
+// Unstoppable domains record key for filecoin address.
+constexpr char kCryptoFilAddressKey[] = "crypto.FIL.address";
 
 // ERC-165 identifier for ERC721 interface.
 constexpr char kERC1155InterfaceId[] = "0xd9b67a26";

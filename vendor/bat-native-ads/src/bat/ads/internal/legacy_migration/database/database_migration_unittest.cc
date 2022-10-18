@@ -21,15 +21,13 @@ namespace ads {
 class BatAdsDatabaseMigrationTest : public UnitTestBase,
                                     public ::testing::WithParamInterface<int> {
  protected:
-  BatAdsDatabaseMigrationTest() = default;
-
   void SetUpMocks() override {
     const std::string database_filename =
         base::StringPrintf("database_schema_%d.sqlite", GetSchemaVersion());
     CopyFileFromTestPathToTempPath(database_filename, kDatabaseFilename);
   }
 
-  int GetSchemaVersion() { return GetParam() + 1; }
+  static int GetSchemaVersion() { return GetParam() + 1; }
 };
 
 TEST_P(BatAdsDatabaseMigrationTest, MigrateFromSchema) {

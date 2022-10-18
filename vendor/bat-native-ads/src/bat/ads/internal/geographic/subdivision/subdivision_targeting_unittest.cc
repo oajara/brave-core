@@ -10,6 +10,7 @@
 #include "bat/ads/internal/base/unittest/unittest_base.h"
 #include "bat/ads/internal/base/unittest/unittest_mock_util.h"
 #include "bat/ads/pref_names.h"
+#include "brave/components/l10n/common/test/scoped_default_locale.h"
 #include "net/http/http_status_code.h"
 
 // npm run test -- brave_unit_tests --filter=BatAds*
@@ -18,16 +19,12 @@ namespace ads {
 
 class BatAdsSubdivisionTargetingTest : public UnitTestBase {
  protected:
-  BatAdsSubdivisionTargetingTest() = default;
-
   void SetUp() override {
     UnitTestBase::SetUp();
 
     subdivision_targeting_ =
         std::make_unique<geographic::SubdivisionTargeting>();
   }
-
-  void SetUpMocks() override { MockLocaleHelper(locale_helper_mock_, "en-US"); }
 
   std::unique_ptr<geographic::SubdivisionTargeting> subdivision_targeting_;
 };
@@ -44,7 +41,7 @@ TEST_F(BatAdsSubdivisionTargetingTest,
   subdivision_targeting_->MaybeFetch();
 
   // Assert
-  EXPECT_TRUE(subdivision_targeting_->ShouldAllow());
+  EXPECT_TRUE(geographic::SubdivisionTargeting::ShouldAllow());
   EXPECT_FALSE(subdivision_targeting_->IsDisabled());
   EXPECT_TRUE(subdivision_targeting_->ShouldAutoDetect());
 
@@ -63,7 +60,7 @@ TEST_F(BatAdsSubdivisionTargetingTest, AutoDetectSubdivisionTargetingNoRegion) {
   subdivision_targeting_->MaybeFetch();
 
   // Assert
-  EXPECT_TRUE(subdivision_targeting_->ShouldAllow());
+  EXPECT_TRUE(geographic::SubdivisionTargeting::ShouldAllow());
   EXPECT_TRUE(subdivision_targeting_->IsDisabled());
   EXPECT_FALSE(subdivision_targeting_->ShouldAutoDetect());
 }
@@ -80,7 +77,7 @@ TEST_F(BatAdsSubdivisionTargetingTest,
   subdivision_targeting_->MaybeFetch();
 
   // Assert
-  EXPECT_FALSE(subdivision_targeting_->ShouldAllow());
+  EXPECT_FALSE(geographic::SubdivisionTargeting::ShouldAllow());
   EXPECT_FALSE(subdivision_targeting_->IsDisabled());
   EXPECT_TRUE(subdivision_targeting_->ShouldAutoDetect());
 }
@@ -88,13 +85,13 @@ TEST_F(BatAdsSubdivisionTargetingTest,
 TEST_F(BatAdsSubdivisionTargetingTest,
        MaybeFetchSubdivisionTargetingNotSupportedLocale) {
   // Arrange
-  MockLocaleHelper(locale_helper_mock_, "en-KY");
+  const brave_l10n::test::ScopedDefaultLocale scoped_default_locale{"en_KY"};
 
   // Act
   subdivision_targeting_->MaybeFetch();
 
   // Assert
-  EXPECT_FALSE(subdivision_targeting_->ShouldAllow());
+  EXPECT_FALSE(geographic::SubdivisionTargeting::ShouldAllow());
   EXPECT_FALSE(subdivision_targeting_->IsDisabled());
   EXPECT_TRUE(subdivision_targeting_->ShouldAutoDetect());
 }
@@ -102,13 +99,13 @@ TEST_F(BatAdsSubdivisionTargetingTest,
 TEST_F(BatAdsSubdivisionTargetingTest,
        MaybeAllowSubdivisionTargetingNotSupportedLocale) {
   // Arrange
-  MockLocaleHelper(locale_helper_mock_, "en-KY");
+  const brave_l10n::test::ScopedDefaultLocale scoped_default_locale{"en_KY"};
 
   // Act
   subdivision_targeting_->MaybeAllow();
 
   // Assert
-  EXPECT_FALSE(subdivision_targeting_->ShouldAllow());
+  EXPECT_FALSE(geographic::SubdivisionTargeting::ShouldAllow());
   EXPECT_FALSE(subdivision_targeting_->IsDisabled());
   EXPECT_TRUE(subdivision_targeting_->ShouldAutoDetect());
 }
@@ -123,7 +120,7 @@ TEST_F(BatAdsSubdivisionTargetingTest,
   subdivision_targeting_->MaybeAllow();
 
   // Assert
-  EXPECT_FALSE(subdivision_targeting_->ShouldAllow());
+  EXPECT_FALSE(geographic::SubdivisionTargeting::ShouldAllow());
   EXPECT_FALSE(subdivision_targeting_->IsDisabled());
   EXPECT_TRUE(subdivision_targeting_->ShouldAutoDetect());
 }
@@ -146,7 +143,7 @@ TEST_P(BatAdsSubdivisionTargetingRetryOnInvalidResponseTest,
   FastForwardClockToNextPendingTask();
 
   // Assert
-  EXPECT_TRUE(subdivision_targeting_->ShouldAllow());
+  EXPECT_TRUE(geographic::SubdivisionTargeting::ShouldAllow());
   EXPECT_FALSE(subdivision_targeting_->IsDisabled());
 
   EXPECT_EQ("US-AL", AdsClientHelper::GetInstance()->GetStringPref(
