@@ -54,9 +54,29 @@ const getApplicableFilters = (suite) => {
 }
 
 const test = (passthroughArgs, suite, buildConfig = config.defaultBuildConfig, options) => {
+  buildTests(suite, buildConfig, options)
+  runTests(passthroughArgs, suite, options)
+}
+
+const buildTests = (suite, buildConfig = config.defaultBuildConfig, options) => {
   config.buildConfig = buildConfig
   config.update(options)
 
+  let testSuites = [
+    'brave_unit_tests',
+    'brave_browser_tests',
+    'brave_network_audit_tests',
+  ]
+  if (testSuites.includes(suite)) {
+    config.buildTarget = 'brave/test:' + suite
+  } else {
+    config.buildTarget = suite
+  }
+  util.touchOverriddenFilesAndUpdateBranding()
+  util.buildTarget()
+}
+
+const runTests = (passthroughArgs, suite, options) => {
   let braveArgs = [
     '--enable-logging=stderr'
   ]
@@ -95,20 +115,6 @@ const test = (passthroughArgs, suite, buildConfig = config.defaultBuildConfig, o
   }
 
   braveArgs = braveArgs.concat(passthroughArgs)
-
-  // Build the tests
-  let testSuites = [
-    'brave_unit_tests',
-    'brave_browser_tests',
-    'brave_network_audit_tests',
-  ]
-  if (testSuites.includes(suite)) {
-    config.buildTarget = 'brave/test:' + suite
-  } else {
-    config.buildTarget = suite
-  }
-  util.touchOverriddenFilesAndUpdateBranding()
-  util.buildTarget()
 
   // Filter out upstream tests that are known to fail for Brave
   let upstreamTestSuites = [
