@@ -272,7 +272,35 @@ program
   .option('--use_goma [arg]', 'whether to use Goma for building', JSON.parse)
   .option('--goma_offline', 'use offline mode for goma')
   .arguments('[build_config]')
-  .action(test.bind(null, parsedArgs.unknown))
+  .action(test.test.bind(null, parsedArgs.unknown))
+
+program
+  .command('build_tests <suite>')
+  .option('-C <build_dir>', 'build config (out/Debug, out/Release')
+  .option('--target_os <target_os>', 'target OS')
+  .option('--target_arch <target_arch>', 'target architecture')
+  .option('--use_goma [arg]', 'whether to use Goma for building', JSON.parse)
+  .option('--goma_offline', 'use offline mode for goma')
+  .arguments('[build_config]')
+  .action(test.buildTests.bind(null, parsedArgs.unknown))
+
+program
+  .command('run_tests <suite>')
+  .allowUnknownOption(true)
+  .option('-C <build_dir>', 'build config (out/Debug, out/Release')
+  .option('--v [log_level]', 'set log level to [log_level]', parseInteger, '0')
+  .option('--vmodule [modules]', 'verbose log from specific modules')
+  .option('--filter <filter>', 'set test filter')
+  .option('--output <output>', 'set test output (results) file path')
+  .option('--disable_brave_extension', 'disable loading the Brave extension')
+  .option('--single_process', 'uses a single process to run tests to help with debugging')
+  .option('--test_launcher_jobs <test_launcher_jobs>', 'Number of jobs to launch', parseInteger, '4')
+  .option('--target_os <target_os>', 'target OS')
+  .option('--target_arch <target_arch>', 'target architecture')
+  .option('--run_disabled_tests', 'run disabled tests')
+  .option('--manual_android_test_device', 'indicates that Android test device is run manually')
+  .arguments('[build_config]')
+  .action(test.runTests.bind(null, parsedArgs.unknown))
 
 program
   .command('lint')

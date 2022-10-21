@@ -76,7 +76,10 @@ const buildTests = (suite, buildConfig = config.defaultBuildConfig, options) => 
   util.buildTarget()
 }
 
-const runTests = (passthroughArgs, suite, options) => {
+const runTests = (passthroughArgs, suite, buildConfig, options) => {
+  config.buildConfig = buildConfig
+  config.update(options)
+
   let braveArgs = [
     '--enable-logging=stderr'
   ]
@@ -153,4 +156,8 @@ const runTests = (passthroughArgs, suite, options) => {
   }
 }
 
-module.exports = test
+module.exports = {
+  test,
+  buildTests,
+  runTests
+}
