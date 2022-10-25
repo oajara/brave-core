@@ -55,7 +55,7 @@ const getApplicableFilters = (suite) => {
 
 const test = (passthroughArgs, suite, buildConfig = config.defaultBuildConfig, options) => {
   buildTests(suite, buildConfig, options)
-  runTests(passthroughArgs, suite, options)
+  runTests(passthroughArgs, suite, buildConfig, options)
 }
 
 const buildTests = (suite, buildConfig = config.defaultBuildConfig, options) => {
