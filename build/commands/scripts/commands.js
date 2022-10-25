@@ -287,7 +287,7 @@ program
   .option('--use_goma [arg]', 'whether to use Goma for building', JSON.parse)
   .option('--goma_offline', 'use offline mode for goma')
   .arguments('[build_config]')
-  .action(test.buildTests.bind(null, parsedArgs.unknown))
+  .action(test.buildTests)
 
 program
   .command('run_tests <suite>')
