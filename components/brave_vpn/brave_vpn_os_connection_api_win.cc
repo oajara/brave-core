@@ -81,11 +81,36 @@ void BraveVPNOSConnectionAPIWin::ConnectImpl(const std::string& name) {
       base::BindOnce(&ConnectEntry, base::UTF8ToWide(name)));
 }
 
+void BraveVPNOSConnectionAPIWin::OnFiltersRemoved(const std::wstring& name,
+                                                  bool success) {
+  if (!success) {
+    LOG(ERROR) << "Unable to remove vpn filters";
+  }
+  base::ThreadPool::PostTask(FROM_HERE, {base::MayBlock()},
+                             base::BindOnce(&DisconnectEntry, name));
+}
+
+void BraveVPNOSConnectionAPIWin::OnFiltersInstalled(const std::wstring& name,
+                                                    bool success) {
+  if (success) {
+    OnConnected();
+    return;
+  }
+
+  DisconnectImpl(base::WideToUTF8(name));
+}
+
 void BraveVPNOSConnectionAPIWin::DisconnectImpl(const std::string& name) {
   // Connection state update from this call will be done by monitoring.
-  base::ThreadPool::PostTask(
-      FROM_HERE, {base::MayBlock()},
-      base::BindOnce(&DisconnectEntry, base::UTF8ToWide(name)));
+  base::ThreadPool::CreateCOMSTATaskRunner(
+      {base::MayBlock(), base::WithBaseSyncPrimitives(),
+       base::TaskShutdownBehavior::CONTINUE_ON_SHUTDOWN},
+      base::SingleThreadTaskRunnerThreadMode::DEDICATED)
+      ->PostTaskAndReplyWithResult(
+          FROM_HERE,
+          base::BindOnce(&internal::RemoveDNSFilter, base::UTF8ToWide(name)),
+          base::BindOnce(&BraveVPNOSConnectionAPIWin::OnFiltersRemoved,
+                         weak_factory_.GetWeakPtr(), base::UTF8ToWide(name)));
 }
 
 void BraveVPNOSConnectionAPIWin::RemoveVPNConnectionImpl(
@@ -126,12 +151,23 @@ void BraveVPNOSConnectionAPIWin::OnObjectSignaled(HANDLE object) {
   OnCheckConnection(target_vpn_entry_name(), result);
 }
 
+void BraveVPNOSConnectionAPIWin::SetupDNSFilter(const std::wstring& name) {
+  base::ThreadPool::CreateCOMSTATaskRunner(
+      {base::MayBlock(), base::WithBaseSyncPrimitives(),
+       base::TaskShutdownBehavior::CONTINUE_ON_SHUTDOWN},
+      base::SingleThreadTaskRunnerThreadMode::DEDICATED)
+      ->PostTaskAndReplyWithResult(
+          FROM_HERE, base::BindOnce(&internal::SetupDNSFilter, name),
+          base::BindOnce(&BraveVPNOSConnectionAPIWin::OnFiltersInstalled,
+                         weak_factory_.GetWeakPtr(), name));
+}
+
 void BraveVPNOSConnectionAPIWin::OnCheckConnection(
     const std::string& name,
     CheckConnectionResult result) {
   switch (result) {
     case CheckConnectionResult::CONNECTED:
-      OnConnected();
+      SetupDNSFilter(base::UTF8ToWide(name));
       break;
     case CheckConnectionResult::CONNECTING:
       OnIsConnecting();

@@ -47,7 +47,9 @@ class BraveVPNOSConnectionAPIWin : public BraveVPNOSConnectionAPI,
   void OnRemoved(const std::string& name, bool success);
   void OnCheckConnection(const std::string& name,
                          internal::CheckConnectionResult result);
-
+  void OnFiltersInstalled(const std::wstring& name, bool success);
+  void OnFiltersRemoved(const std::wstring& name, bool success);
+  void SetupDNSFilter(const std::wstring& name);
   void StartVPNConnectionChangeMonitoring();
 
   HANDLE event_handle_for_connected_ = NULL;

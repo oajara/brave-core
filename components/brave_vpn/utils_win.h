@@ -24,7 +24,8 @@ enum class CheckConnectionResult {
 
 void PrintRasError(DWORD error);
 std::wstring GetPhonebookPath();
-
+bool SetupDNSFilter(const std::wstring& entry_name);
+bool RemoveDNSFilter(const std::wstring& entry_name);
 bool CreateEntry(const std::wstring& entry_name,
                  const std::wstring& hostname,
                  const std::wstring& username,

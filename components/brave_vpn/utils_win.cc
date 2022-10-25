@@ -6,23 +6,50 @@
 #include "brave/components/brave_vpn/utils_win.h"
 
 #include <windows.h>
+#include <wrl/client.h>
 
 #include <ras.h>
 #include <raserror.h>
 #include <stdio.h>
 
 #include "base/logging.h"
+#include "base/process/kill.h"
 #include "base/strings/stringprintf.h"
+#include "base/task/thread_pool.h"
+#include "base/win/scoped_bstr.h"
+#include "brave/vpn/constants.h"
+#include "brave/vpn/vpn_service_idl.h"
 
 #define DEFAULT_PHONE_BOOK NULL
 
 namespace brave_vpn {
 
 namespace {
-
 HANDLE g_connecting_event_handle = NULL;
 HANDLE g_connect_failed_event_handle = NULL;
 HANDLE g_disconnecting_event_handle = NULL;
+
+Microsoft::WRL::ComPtr<IVpnService> CreateVpnServiceInstance() {
+  Microsoft::WRL::ComPtr<IVpnService> service;
+
+  HRESULT hr = ::CoCreateInstance(
+      install_static::GetVpnServiceClsid(), nullptr, CLSCTX_LOCAL_SERVER,
+      install_static::GetVpnServiceIid(), IID_PPV_ARGS_Helper(&service));
+  if (FAILED(hr)) {
+    LOG(ERROR) << "Error:" << std::hex << hr;
+    return nullptr;
+  }
+
+  hr = CoSetProxyBlanket(
+      service.Get(), RPC_C_AUTHN_DEFAULT, RPC_C_AUTHZ_DEFAULT,
+      COLE_DEFAULT_PRINCIPAL, RPC_C_AUTHN_LEVEL_PKT_PRIVACY,
+      RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_DYNAMIC_CLOAKING);
+  if (FAILED(hr)) {
+    LOG(ERROR) << "Error:" << std::hex << hr;
+    return nullptr;
+  }
+  return service;
+}
 
 void WINAPI RasDialFunc(UINT, RASCONNSTATE rasconnstate, DWORD error) {
   if (error) {
@@ -229,6 +256,44 @@ bool DisconnectEntry(const std::wstring& entry_name) {
 
   VLOG(2) << "There are no active RAS connections.";
   return true;
+}
+
+bool RemoveDNSFilter(const std::wstring& entry_name) {
+  LOG(ERROR) << __func__ << ":" << entry_name;
+  Microsoft::WRL::ComPtr<IVpnService> service = CreateVpnServiceInstance();
+  if (!service.Get()) {
+    LOG(ERROR) << "Failed to create IVpnService instance";
+    return false;
+  }
+  DWORD error = 0;
+  HRESULT hr = service->DisableDNSFilters(
+      base::win::ScopedBstr(entry_name).Get(), &error);
+  if (FAILED(hr)) {
+    LOG(ERROR) << "Unable to remove dns filters:" << error
+               << " com:" << std::hex << hr;
+    return false;
+  }
+
+  return true;
+}
+
+bool SetupDNSFilter(const std::wstring& entry_name) {
+  LOG(ERROR) << __func__;
+  Microsoft::WRL::ComPtr<IVpnService> service = CreateVpnServiceInstance();
+  if (!service.Get())
+    return false;
+  DWORD error = 0;
+  HRESULT hr = service->EnableDNSFilters(
+      base::win::ScopedBstr(entry_name).Get(), &error);
+  if (FAILED(hr)) {
+    LOG(ERROR) << "Error:" << std::hex << hr;
+    return false;
+  }
+  if (error) {
+    LOG(ERROR) << "Dns filters error code:" << error;
+  }
+  return (error == brave_vpn::ErrorCodes::OPERATION_SUCCESS ||
+          error == brave_vpn::ErrorCodes::FILTERS_ALREADY_ACTIVATED);
 }
 
 // https://docs.microsoft.com/en-us/windows/win32/api/ras/nf-ras-rasdiala

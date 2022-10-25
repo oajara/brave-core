@@ -1,0 +1,32 @@
+// Copyright 2018 The Chromium Authors
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+  object,
+  oleautomation,
+  uuid(A949CB4E-C4F9-44C4-B213-6BF8AA9AC69A),
+  helpstring("IVpnService Interface"),
+  pointer_default(unique)
+]
+interface IVpnService : IUnknown
+{
+  HRESULT EnableDNSFilters([in] const BSTR connection_name,
+                           [out] DWORD* error_code);
+  HRESULT DisableDNSFilters([in] const BSTR connection_name,
+                            [out] DWORD* error_code);
+};
+
+[
+  uuid(0014D784-7012-4A79-8AB6-ADDB8193A06A),
+  version(1.0),
+  helpstring("Vpn 1.0 Type Library")
+]
+library VpnServiceLib {
+  importlib("stdole2.tlb");
+
+  interface IVpnService;
+};

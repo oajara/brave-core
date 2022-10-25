@@ -1,0 +1,100 @@
+# Copyright (c) 2022 The Brave Authors. All rights reserved.
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this file,
+# You can obtain one at http://mozilla.org/MPL/2.0/.
+
+import("//brave/vpn/branding.gni")
+import("//build/toolchain/win/midl.gni")
+import("//build/util/process_version.gni")
+import("//chrome/process_version_rc_template.gni")
+
+midl("vpn_service_idl") {
+  sources = [ "vpn_service_idl.idl" ]
+
+  writes_tlb = true
+}
+
+# Must be in a config because of how GN orders flags (otherwise /W4 will appear
+# after this, and turn it back on).
+config("no-missing-braces") {
+  # Macros invoked by WRL CoCreatableClass omit optional braces.
+  cflags = [ "-Wno-missing-braces" ]
+}
+
+# This service needs to work with Windows 7, so explicitly setting the defines
+# to reflect this. Otherwise, WRL uses APIs that are only available in later
+# Windows versions.
+config("winver") {
+  defines = [
+    "NTDDI_VERSION=NTDDI_WIN7",
+    "_WIN32_WINNT=_WIN32_WINNT_WIN7",
+    "WINVER=_WIN32_WINNT_WIN7",
+  ]
+}
+
+source_set("public_headers") {
+  sources = [
+    "constants.cc",
+    "constants.h",
+  ]
+
+  deps = [ "//base" ]
+
+  public_deps = [ ":vpn_service_idl" ]
+}
+
+source_set("lib") {
+  sources = [
+    "service_main.cc",
+    "service_main.h",
+    "vpn_dns_handler.cc",
+    "vpn_dns_handler.h",
+    "vpn_service.cc",
+    "vpn_service.h",
+    "vpn_utils.cc",
+    "vpn_utils.h",
+  ]
+
+  deps = [
+    "//base",
+    "//chrome/installer/util:work_item",
+  ]
+  configs -= [ "//build/config/compiler:cet_shadow_stack" ]
+  configs -= [ "//build/config/win:winver" ]
+  configs += [ ":winver" ]
+  public_deps = [
+    ":public_headers",
+    ":vpn_service_idl",
+  ]
+
+  libs = [
+    "Fwpuclnt.lib",
+    "Iphlpapi.lib",
+  ]
+}
+
+executable("vpn") {
+  sources = [
+    "main.cc",
+    "vpn.rc",
+  ]
+  deps = [
+    ":lib",
+    ":version_resources",
+    "//base",
+    "//build/win:default_exe_manifest",
+  ]
+}
+
+process_version_rc_template("version_resources") {
+  _product_fullname = "$vpn_product_full_name " + "($current_cpu)"
+  if (is_debug) {
+    _product_fullname += " (debug)"
+  }
+  sources = [ "vpn.ver" ]
+  output = "$target_gen_dir/vpn_exe.rc"
+  extra_args = [
+    "-e",
+    "PRODUCT_FULLNAME=\"$_product_fullname\"",
+  ]
+}
