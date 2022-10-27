@@ -9,6 +9,7 @@ import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-d
 
 // utils
 import { getLocale } from '$web-common/locale'
+import { getWalletLocationTitle } from '../utils/string-utils'
 
 // actions
 import * as WalletPageActions from './actions/wallet_page_actions'
@@ -173,6 +174,28 @@ export const Container = () => {
     }
   }, [walletLocation, isWalletCreated])
 
+  React.useEffect(() => {
+    const toobarElement = document.getElementById('toolbar')
+    const rootElement = document.getElementById('root')
+    if (toobarElement && rootElement) {
+      if (
+        walletLocation === WalletRoutes.Swap ||
+        walletLocation.includes(WalletRoutes.DepositFundsPage) ||
+        walletLocation.includes(WalletRoutes.FundWalletPage)
+      ) {
+        toobarElement.hidden = true
+        rootElement.style.setProperty('min-height', '100vh')
+        return
+      }
+      toobarElement.hidden = false
+      rootElement.style.setProperty('min-height', 'calc(100vh - 56px)')
+    }
+  }, [walletLocation])
+
+  React.useEffect(() => {
+    document.title = getWalletLocationTitle(walletLocation)
+  }, [walletLocation])
+
   // render
   if (!hasInitialized) {
     return <Skeleton />
@@ -208,10 +231,6 @@ export const Container = () => {
                 </SimplePageWrapper>
               </Route>
 
-              <Route path={WalletRoutes.Swap} exact={true}>
-                <Swap />
-              </Route>
-
               {isWalletLocked &&
                 <Route path={WalletRoutes.Unlock} exact={true}>
                   <SimplePageWrapper>
@@ -224,6 +243,12 @@ export const Container = () => {
                       onShowRestore={onToggleShowRestore}
                     />
                   </SimplePageWrapper>
+                </Route>
+              }
+
+              {!isWalletLocked &&
+                <Route path={WalletRoutes.Swap} exact={true}>
+                  <Swap />
                 </Route>
               }
 

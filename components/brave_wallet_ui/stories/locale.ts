@@ -200,7 +200,7 @@ provideStrings({
   // Onboarding Success
   braveWalletOnboardingSuccessTitle: 'Congratulations! Your Brave Wallet is ready to go!',
   braveWalletOnboardingSuccessDescription: 'To access your wallet, just click the wallet icon at the top right of any Brave browser window.',
-  braveWalletBuyCryptoButton: 'Buy Crypto',
+  braveWalletBuyCryptoButton: 'Buy crypto',
   braveWalletDepositCryptoButton: 'Deposit',
   braveWalletLearnAboutMyWallet: 'Learn more about my new wallet',
 
@@ -488,6 +488,7 @@ provideStrings({
   braveWalletAssetsPanelTitle: 'Account assets',
   braveWalletPanelDisconnected: 'Disconnected',
   braveWalletPanelBlocked: 'Blocked',
+  braveWalletTitle: 'Wallet',
 
   // Wallet Welcome Panel
   braveWalletWelcomePanelDescription: 'Use this panel to securely access Web3 and all your crypto assets.',
@@ -525,6 +526,10 @@ provideStrings({
   braveWalletConnectHardwarePanelConnect: 'Connect your $1',
   braveWalletConnectHardwarePanelConfirmation: 'Hardware wallet requires transaction confirmation on device.',
   braveWalletConnectHardwarePanelOpenApp: 'Hardware wallet requires $1 App opened on $2',
+
+  // Transaction History Panel (Empty)
+  braveWalletNoTransactionsYet: 'No transactions yet',
+  braveWalletNoTransactionsYetDescription: 'After your first transaction you will be able to view it here.',
 
   // Transaction List Item
   braveWalletTransactionSent: 'sent',
@@ -761,5 +766,6 @@ provideStrings({
 
   // Add asset tabs
   braveWalletAddAssetTokenTabTitle: 'Token',
-  braveWalletAddAssetNftTabTitle: 'NFT'
+  braveWalletAddAssetNftTabTitle: 'NFT',
+  braveWalletNftFetchingError: 'Something went wrong when fetching NFT details. Please try again later.'
 })

@@ -15,6 +15,7 @@ import ChannelCard from './ChannelCard'
 import DiscoverSection from './DiscoverSection'
 import FeedCard, { DirectFeedCard } from './FeedCard'
 import useSearch from './useSearch'
+import Suggestions from './Suggestions'
 
 const Header = styled.span`
   font-size: 24px;
@@ -55,7 +56,7 @@ export default function Discover () {
 function Home () {
   const [showingAllCategories, setShowingAllCategories] = React.useState(false)
   const channels = useChannels()
-  const { filteredPublisherIds } = useBraveNews()
+  const { filteredPublisherIds, updateSuggestedPublisherIds } = useBraveNews()
 
   const visibleChannelIds = React.useMemo(() => channels
     // If we're showing all channels, there's no end to the slice.
@@ -66,15 +67,19 @@ function Home () {
     .map(c => c.channelName),
     [channels, showingAllCategories])
 
+  // When we mount this component, update the suggested publisher ids.
+  React.useEffect(() => { updateSuggestedPublisherIds() }, [])
+
   return (
     <>
+      <Suggestions/>
       <DiscoverSection name={getLocale('braveNewsChannelsHeader')}>
-      {visibleChannelIds.map(channelId =>
-        <ChannelCard key={channelId} channelId={channelId} />
+      {visibleChannelIds.map(channelName =>
+        <ChannelCard key={channelName} channelName={channelName} />
       )}
       {!showingAllCategories && <LoadMoreButtonContainer>
         <Button onClick={() => setShowingAllCategories(true)}>
-            {getLocale('braveNewsLoadMoreCategoriesButton')}
+            {getLocale('braveNewsShowMoreButton')}
         </Button>
       </LoadMoreButtonContainer>}
       </DiscoverSection>
@@ -103,7 +108,7 @@ function SearchResults (props: SearchResultsProps) {
       {hasAnyChannels &&
       <DiscoverSection name={getLocale('braveNewsChannelsHeader')}>
         {search.filteredChannels.map(c =>
-          <ChannelCard key={c.channelName} channelId={c.channelName} />
+          <ChannelCard key={c.channelName} channelName={c.channelName} />
         )}
       </DiscoverSection>
       }

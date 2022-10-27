@@ -43,6 +43,7 @@ declare namespace Rewards {
       reddit: boolean
       github: boolean
     }
+    isUnsupportedRegion: boolean
     excludedList: ExcludedPublisher[]
     externalWalletProviderList: string[]
     monthlyReport: MonthlyReport
@@ -67,6 +68,7 @@ declare namespace Rewards {
         | 'kycRequiredModal'
         | 'mismatchedCountriesModal'
         | 'mismatchedProviderAccountsModal'
+        | 'providerUnavailableModal'
         | 'regionNotSupportedModal'
         | 'show'
         | 'upholdBATNotAllowedModal'

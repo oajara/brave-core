@@ -78,8 +78,15 @@ class BraveNewsApi {
     this.updatePublishers(publishers)
   }
 
-  setPublisherSubscribed (publisherId: string, enabled: boolean) {
-    this.setPublisherPref(publisherId, enabled ? UserEnabled.ENABLED : UserEnabled.DISABLED)
+  setPublisherFollowed (publisherId: string, enabled: boolean) {
+    // For now, Direct Sources work differently to Combined Sources - in their
+    // not modified state they are considered enabled.
+    if (isDirectFeed(this.lastPublishers[publisherId]) && !enabled) {
+      this.setPublisherPref(publisherId, UserEnabled.DISABLED)
+      return
+    }
+
+    this.setPublisherPref(publisherId, enabled ? UserEnabled.ENABLED : UserEnabled.NOT_MODIFIED)
   }
 
   async setChannelSubscribed (channelId: string, subscribed: boolean) {

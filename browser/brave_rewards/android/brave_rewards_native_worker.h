@@ -40,7 +40,14 @@ class BraveRewardsNativeWorker
 
   void Destroy(JNIEnv* env);
 
-  void CreateRewardsWallet(JNIEnv* env);
+  bool IsSupported(JNIEnv* env);
+  bool IsSupportedSkipRegionCheck(JNIEnv* env);
+
+  std::string StringifyResult(ledger::mojom::CreateRewardsWalletResult result);
+
+  void CreateRewardsWallet(
+      JNIEnv* env,
+      const base::android::JavaParamRef<jstring>& country_code);
 
   void GetRewardsParameters(JNIEnv* env);
 
@@ -139,6 +146,10 @@ class BraveRewardsNativeWorker
 
   void GetExternalWallet(JNIEnv* env);
 
+  base::android::ScopedJavaLocalRef<jstring> GetCountryCode(JNIEnv* env);
+
+  void GetAvailableCountries(JNIEnv* env);
+
   void GetPublisherBanner(
       JNIEnv* env,
       const base::android::JavaParamRef<jstring>& publisher_key);
@@ -151,6 +162,8 @@ class BraveRewardsNativeWorker
   void RefreshPublisher(
       JNIEnv* env,
       const base::android::JavaParamRef<jstring>& publisher_key);
+
+  void OnCreateRewardsWallet(ledger::mojom::CreateRewardsWalletResult result);
 
   void OnResetTheWholeState(const bool success);
 
@@ -216,6 +229,8 @@ class BraveRewardsNativeWorker
 
   void OnGetExternalWallet(const ledger::mojom::Result result,
                            ledger::mojom::ExternalWalletPtr wallet);
+
+  void OnGetAvailableCountries(std::vector<std::string> countries);
 
   void onPublisherBanner(ledger::mojom::PublisherBannerPtr wallet);
 

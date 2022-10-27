@@ -356,6 +356,11 @@ const rewardsReducer: Reducer<Rewards.State | undefined> = (state: Rewards.State
         break
       }
 
+      if (data.result === 47) { // type::Result::PROVIDER_UNAVAILABLE
+        ui.modalRedirect = 'providerUnavailableModal'
+        break
+      }
+
       if (data.result !== 0) {
         ui.modalRedirect = 'error'
         break
@@ -477,6 +482,18 @@ const rewardsReducer: Reducer<Rewards.State | undefined> = (state: Rewards.State
       chrome.send('brave_rewards.getContributionAmount')
       chrome.send('brave_rewards.getAutoContributeProperties')
       chrome.send('brave_rewards.getAdsData')
+      break
+    }
+    case types.GET_IS_UNSUPPORTED_REGION: {
+      chrome.send('brave_rewards.getIsUnsupportedRegion')
+      break
+    }
+    case types.ON_IS_UNSUPPORTED_REGION: {
+      const { isUnsupportedRegion } = action.payload
+      state = {
+        ...state,
+        isUnsupportedRegion
+      }
       break
     }
   }

@@ -208,6 +208,10 @@ export interface SolFeeEstimates {
   fee: bigint
 }
 
+export interface TokenRegistry {
+  [chainID: string]: BraveWallet.BlockchainToken[]
+}
+
 export interface WalletState {
   hasInitialized: boolean
   isFilecoinEnabled: boolean
@@ -282,6 +286,7 @@ export interface PageState {
   selectedAsset: BraveWallet.BlockchainToken | undefined
   isFetchingNFTMetadata: boolean
   nftMetadata: NFTMetadataReturnType | undefined
+  nftMetadataError: string | undefined
   selectedAssetFiatPrice: BraveWallet.AssetPrice | undefined
   selectedAssetCryptoPrice: BraveWallet.AssetPrice | undefined
   selectedAssetPriceHistory: GetPriceHistoryReturnInfo[]
@@ -634,7 +639,9 @@ export enum WalletRoutes {
   OnboardingComplete = '/crypto/onboarding/complete',
 
   // fund wallet page
+  FundWalletPageStart = '/crypto/fund-wallet',
   FundWalletPage = '/crypto/fund-wallet/:tokenId?',
+  DepositFundsPageStart = '/crypto/deposit-funds',
   DepositFundsPage = '/crypto/deposit-funds/:tokenId?',
 
   // NFTs
@@ -698,7 +705,10 @@ export interface NFTMetadataReturnType {
   chainName: string
   tokenType: string
   tokenID: string
-  imageURL: string
+  imageURL?: string
+  imageMimeType?: string
+  animationURL?: string
+  animationMimeType?: string
   floorFiatPrice: string
   floorCryptoPrice: string
   contractInformation: {
@@ -823,3 +833,5 @@ export interface AccountButtonOptionsObjectType {
   id: AccountModalTypes
   icon: string
 }
+
+export type StringWithAutocomplete<T> = T | (string & Record<never, never>)

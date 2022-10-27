@@ -4,18 +4,16 @@
 // you can obtain one at http://mozilla.org/MPL/2.0/.
 
 import * as React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Redirect, useHistory, useParams } from 'react-router'
 
 // types
 import {
   AddAccountNavTypes,
   BraveWallet,
-  PageState,
   SupportedTestNetworks,
   UserAssetInfoType,
-  WalletRoutes,
-  WalletState
+  WalletRoutes
 } from '../../../../constants/types'
 
 // Utils
@@ -30,6 +28,7 @@ import {
   sendMessageToNftUiFrame,
   ToggleNftModal,
   UpdateLoadingMessage,
+  UpdateNFtMetadataErrorMessage,
   UpdateNFtMetadataMessage,
   UpdateSelectedAssetMessage,
   UpdateTokenNetworkMessage,
@@ -40,6 +39,10 @@ import { getLocale } from '../../../../../common/locale'
 // actions
 import { WalletPageActions } from '../../../../page/actions'
 
+// selectors
+import { WalletSelectors } from '../../../../common/selectors'
+import { PageSelectors } from '../../../../page/selectors'
+
 // Options
 import { ChartTimelineOptions } from '../../../../options/chart-timeline-options'
 import { AllNetworksOption } from '../../../../options/network-filter-options'
@@ -47,12 +50,18 @@ import { AllNetworksOption } from '../../../../options/network-filter-options'
 // Components
 import { BackButton } from '../../../shared'
 import withPlaceholderIcon from '../../../shared/create-placeholder-icon'
-import { ChartControlBar, LineChart } from '../../'
+import { LineChart } from '../../'
 import AccountsAndTransactionsList from './components/accounts-and-transctions-list'
 import { BridgeToAuroraModal } from '../../popup-modals/bridge-to-aurora-modal/bridge-to-aurora-modal'
 
 // Hooks
-import { useBalance, usePricing, useTransactionParser } from '../../../../common/hooks'
+import { useBalance, usePricing, useTransactionParser, useMultiChainBuyAssets } from '../../../../common/hooks'
+import {
+  useSafePageSelector,
+  useSafeWalletSelector,
+  useUnsafePageSelector,
+  useUnsafeWalletSelector
+} from '../../../../common/hooks/use-safe-selector'
 
 // Styled Components
 import {
@@ -71,12 +80,12 @@ import {
   PercentText,
   PriceRow,
   PriceText,
-  ShowBalanceButton,
   StyledWrapper,
   TopRow,
   SubDivider,
   NotSupportedText,
-  MoreButton
+  MoreButton,
+  ButtonRow
 } from './style'
 import { Skeleton } from '../../../shared/loading-skeleton/styles'
 import { CoinStats } from './components/coin-stats/coin-stats'
@@ -85,6 +94,7 @@ import { TokenDetailsModal } from './components/token-details-modal/token-detail
 import { WalletActions } from '../../../../common/actions'
 import { HideTokenModal } from './components/hide-token-modal/hide-token-modal'
 import { NftModal } from './components/nft-modal/nft-modal'
+import { ChartControlBar } from '../../chart-control-bar/chart-control-bar'
 
 const AssetIconWithPlaceholder = withPlaceholderIcon(AssetIcon, { size: 'big', marginLeft: 0, marginRight: 12 })
 const rainbowbridgeLink = 'https://rainbowbridge.app'
@@ -112,35 +122,35 @@ export const PortfolioAsset = (props: Props) => {
   const [nftIframeLoaded, setNftIframeLoaded] = React.useState(false)
   // redux
   const dispatch = useDispatch()
-  const {
-    defaultCurrencies,
-    userVisibleTokensInfo,
-    selectedNetwork,
-    portfolioPriceHistory,
-    selectedPortfolioTimeline,
-    accounts,
-    networkList,
-    transactions,
-    isFetchingPortfolioPriceHistory,
-    transactionSpotPrices,
-    selectedNetworkFilter,
-    coinMarketData,
-    fullTokenList
-  } = useSelector(({ wallet }: { wallet: WalletState }) => wallet)
 
-  const {
-    isFetchingPriceHistory: isLoading,
-    selectedAsset,
-    selectedAssetCryptoPrice,
-    selectedAssetFiatPrice,
-    selectedAssetPriceHistory,
-    selectedTimeline,
-    isFetchingNFTMetadata,
-    nftMetadata,
-    selectedCoinMarket
-  } = useSelector(({ page }: { page: PageState }) => page)
+  const defaultCurrencies = useUnsafeWalletSelector(WalletSelectors.defaultCurrencies)
+  const userVisibleTokensInfo = useUnsafeWalletSelector(WalletSelectors.userVisibleTokensInfo)
+  const selectedNetwork = useUnsafeWalletSelector(WalletSelectors.selectedNetwork)
+  const portfolioPriceHistory = useUnsafeWalletSelector(WalletSelectors.portfolioPriceHistory)
+  const selectedPortfolioTimeline = useSafeWalletSelector(WalletSelectors.selectedPortfolioTimeline)
+  const accounts = useUnsafeWalletSelector(WalletSelectors.accounts)
+  const networkList = useUnsafeWalletSelector(WalletSelectors.networkList)
+  const transactions = useUnsafeWalletSelector(WalletSelectors.transactions)
+  const isFetchingPortfolioPriceHistory = useSafeWalletSelector(WalletSelectors.isFetchingPortfolioPriceHistory)
+  const transactionSpotPrices = useUnsafeWalletSelector(WalletSelectors.transactionSpotPrices)
+  const selectedNetworkFilter = useUnsafeWalletSelector(WalletSelectors.selectedNetworkFilter)
+  const coinMarketData = useUnsafeWalletSelector(WalletSelectors.coinMarketData)
+  const fullTokenList = useUnsafeWalletSelector(WalletSelectors.fullTokenList)
+
+  const isLoading = useSafePageSelector(PageSelectors.isFetchingPriceHistory)
+  const selectedAsset = useUnsafePageSelector(PageSelectors.selectedAsset)
+  const selectedAssetCryptoPrice = useUnsafePageSelector(PageSelectors.selectedAssetCryptoPrice)
+  const selectedAssetFiatPrice = useUnsafePageSelector(PageSelectors.selectedAssetFiatPrice)
+  const selectedAssetPriceHistory = useUnsafePageSelector(PageSelectors.selectedAssetPriceHistory)
+  const selectedTimeline = useSafePageSelector(PageSelectors.selectedTimeline)
+  const isFetchingNFTMetadata = useSafePageSelector(PageSelectors.isFetchingNFTMetadata)
+  const nftMetadata = useUnsafePageSelector(PageSelectors.nftMetadata)
+  const selectedCoinMarket = useUnsafePageSelector(PageSelectors.selectedCoinMarket)
+  const nftMetadataError = useSafePageSelector(PageSelectors.nftMetadataError)
+
   // custom hooks
   const getAccountBalance = useBalance(networkList)
+  const { allAssetOptions, isReduxSelectedAssetBuySupported, getAllBuyOptionsAllChains } = useMultiChainBuyAssets()
 
   // memos
   // This will scrape all the user's accounts and combine the asset balances for a single asset
@@ -191,7 +201,7 @@ export const PortfolioAsset = (props: Props) => {
   // state
   const [filteredAssetList, setfilteredAssetList] = React.useState<UserAssetInfoType[]>(userAssetList)
   const [hoverPrice, setHoverPrice] = React.useState<string>()
-  const [hideBalances, setHideBalances] = React.useState<boolean>(false)
+
   const selectedAssetsNetwork = React.useMemo(() => {
     if (!selectedAsset) {
       return selectedNetwork
@@ -335,10 +345,14 @@ export const PortfolioAsset = (props: Props) => {
 
     return new Amount(fullAssetBalances.assetBalance)
       .divideByDecimals(selectedAsset?.decimals ?? 18)
-      .formatAsAsset()
+      .formatAsAsset(8)
   }, [fullAssetBalances, selectedAsset])
 
   const isNftAsset = selectedAssetFromParams?.isErc721
+
+  const isSelectedAssetDepositSupported = React.useMemo(() => {
+    return fullTokenList.some((asset) => asset.symbol.toLowerCase() === selectedAsset?.symbol.toLowerCase())
+  }, [fullTokenList, selectedAsset?.symbol])
 
   // methods
   const onClickAddAccount = React.useCallback((tabId: AddAccountNavTypes) => () => {
@@ -364,13 +378,11 @@ export const PortfolioAsset = (props: Props) => {
 
   const onUpdateBalance = React.useCallback((value: number | undefined) => {
     setHoverPrice(value ? new Amount(value).formatAsFiat(defaultCurrencies.fiat) : undefined)
-  }, [defaultCurrencies])
+  }, [defaultCurrencies.fiat])
 
-  const onToggleHideBalances = React.useCallback(() => {
-    setHideBalances(prevHideBalances => !prevHideBalances)
+  const onNftDetailsLoad = React.useCallback(() => {
+    setNftIframeLoaded(true)
   }, [])
-
-  const onNftDetailsLoad = React.useCallback(() => setNftIframeLoaded(true), [])
 
   const onOpenRainbowAppClick = React.useCallback(() => {
     chrome.tabs.create({ url: rainbowbridgeLink }, () => {
@@ -450,6 +462,14 @@ export const PortfolioAsset = (props: Props) => {
     }
   }, [])
 
+  const onSelectBuy = React.useCallback(() => {
+    history.push(`${WalletRoutes.FundWalletPageStart}/${selectedAsset?.symbol}`)
+  }, [selectedAsset?.symbol])
+
+  const onSelectDeposit = React.useCallback(() => {
+    history.push(`${WalletRoutes.DepositFundsPageStart}/${selectedAsset?.symbol}`)
+  }, [selectedAsset?.symbol])
+
   // effects
   React.useEffect(() => {
     setfilteredAssetList(userAssetList)
@@ -497,11 +517,25 @@ export const PortfolioAsset = (props: Props) => {
     if (nftMetadata && nftDetailsRef?.current) {
       const command: UpdateNFtMetadataMessage = {
         command: NftUiCommand.UpdateNFTMetadata,
-        payload: nftMetadata
+        payload: {
+          displayMode: 'details',
+          nftMetadata
+        }
       }
       sendMessageToNftUiFrame(nftDetailsRef.current.contentWindow, command)
     }
-  }, [nftIframeLoaded, nftDetailsRef, selectedAsset, nftMetadata, networkList])
+
+    if (nftMetadataError && nftDetailsRef?.current) {
+      const command: UpdateNFtMetadataErrorMessage = {
+        command: NftUiCommand.UpdateNFTMetadataError,
+        payload: {
+          displayMode: 'details',
+          error: nftMetadataError
+        }
+      }
+      sendMessageToNftUiFrame(nftDetailsRef.current.contentWindow, command)
+    }
+  }, [nftIframeLoaded, nftDetailsRef, selectedAsset, nftMetadata, networkList, nftMetadataError])
 
   React.useEffect(() => {
     setDontShowAuroraWarning(JSON.parse(localStorage.getItem(bridgeToAuroraDontShowAgainKey) || 'false'))
@@ -512,6 +546,12 @@ export const PortfolioAsset = (props: Props) => {
     window.addEventListener('message', onMessageEventListener)
     return () => window.removeEventListener('message', onMessageEventListener)
   }, [onMessageEventListener])
+
+  React.useEffect(() => {
+    if (allAssetOptions.length === 0) {
+      getAllBuyOptionsAllChains()
+    }
+  }, [allAssetOptions.length])
 
   // token list needs to load before we can find an asset to select from the url params
   if (userVisibleTokensInfo.length === 0) {
@@ -533,15 +573,11 @@ export const PortfolioAsset = (props: Props) => {
         <BalanceRow>
           {!isNftAsset &&
             <ChartControlBar
-              onSubmit={onChangeTimeline}
+              onSelectTimeframe={onChangeTimeline}
               selectedTimeline={selectedAsset ? selectedTimeline : selectedPortfolioTimeline}
               timelineOptions={ChartTimelineOptions}
             />
           }
-          <ShowBalanceButton
-            hideBalances={hideBalances}
-            onClick={onToggleHideBalances}
-          />
           {selectedAsset?.contractAddress && !selectedAsset?.isErc721 &&
             <MoreButton onClick={onShowMore} />
           }
@@ -601,13 +637,30 @@ export const PortfolioAsset = (props: Props) => {
           isDisabled={selectedAsset ? false : parseFloat(fullPortfolioFiatBalance) === 0}
         />
       }
-
-      {!isNftAsset && isSelectedAssetBridgeSupported &&
-        <BridgeToAuroraButton
-          onClick={onBridgeToAuroraButton}
-        >
-          {getLocale('braveWalletBridgeToAuroraButton')}
-        </BridgeToAuroraButton>
+      {!isNftAsset &&
+        <ButtonRow noMargin={true}>
+          {isReduxSelectedAssetBuySupported &&
+            <BridgeToAuroraButton
+              onClick={onSelectBuy}
+            >
+              {getLocale('braveWalletBuy')}
+            </BridgeToAuroraButton>
+          }
+          {isSelectedAssetDepositSupported &&
+            <BridgeToAuroraButton
+              onClick={onSelectDeposit}
+            >
+              {getLocale('braveWalletAccountsDeposit')}
+            </BridgeToAuroraButton>
+          }
+          {isSelectedAssetBridgeSupported &&
+            <BridgeToAuroraButton
+              onClick={onBridgeToAuroraButton}
+            >
+              {getLocale('braveWalletBridgeToAuroraButton')}
+            </BridgeToAuroraButton>
+          }
+        </ButtonRow>
       }
 
       {showBridgeToAuroraModal &&
@@ -645,26 +698,26 @@ export const PortfolioAsset = (props: Props) => {
         ref={nftDetailsRef}
         sandbox="allow-scripts allow-popups allow-same-origin"
         src='chrome-untrusted://nft-display'
+        allowFullScreen
       />
 
-      {showNftModal && nftMetadata &&
+      {showNftModal && nftMetadata?.imageURL &&
         <NftModal nftImageUrl={nftMetadata.imageURL} onClose={onCloseNftModal} />
       }
 
       {isTokenSupported
         ? <AccountsAndTransactionsList
-          formattedFullAssetBalance={formattedFullAssetBalance}
-          fullAssetFiatBalance={fullAssetFiatBalance}
-          selectedAsset={selectedAsset}
-          selectedAssetTransactions={selectedAssetTransactions}
-          onClickAddAccount={onClickAddAccount}
-          hideBalances={hideBalances}
-          networkList={networkList}
-        />
+            formattedFullAssetBalance={formattedFullAssetBalance}
+            fullAssetFiatBalance={fullAssetFiatBalance}
+            selectedAsset={selectedAsset}
+            selectedAssetTransactions={selectedAssetTransactions}
+            onClickAddAccount={onClickAddAccount}
+            networkList={networkList}
+          />
         : <>
-          <SubDivider />
-          <NotSupportedText>{getLocale('braveWalletMarketDataCoinNotSupported')}</NotSupportedText>
-        </>
+            <SubDivider />
+            <NotSupportedText>{getLocale('braveWalletMarketDataCoinNotSupported')}</NotSupportedText>
+          </>
       }
 
       {isShowingMarketData && selectedCoinMarket &&

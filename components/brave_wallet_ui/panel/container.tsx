@@ -59,7 +59,7 @@ import { AppsList } from '../options/apps-list-options'
 import LockPanel from '../components/extension/lock-panel'
 import { getNetworkInfo } from '../utils/network-utils'
 import { isHardwareAccount } from '../utils/address-utils'
-import { useAssets, useSwap, useSend, useHasAccount, usePrevNetwork } from '../common/hooks'
+import { useAssets, useSwap, useSend, useHasAccount, usePrevNetwork, useBalanceUpdater } from '../common/hooks'
 import { getUniqueAssets } from '../utils/asset-utils'
 import { isSolanaTransaction } from '../utils/tx-utils'
 import { ConfirmSolanaTransactionPanel } from '../components/extension/confirm-transaction-panel/confirm-solana-transaction-panel'
@@ -96,7 +96,6 @@ function Container () {
   const selectedAccount = useUnsafeWalletSelector(WalletSelectors.selectedAccount)
   const selectedNetwork = useUnsafeWalletSelector(WalletSelectors.selectedNetwork)
   const selectedPendingTransaction = useUnsafeWalletSelector(WalletSelectors.selectedPendingTransaction)
-  const transactions = useUnsafeWalletSelector(WalletSelectors.transactions)
   const transactionSpotPrices = useUnsafeWalletSelector(WalletSelectors.transactionSpotPrices)
   const userVisibleTokensInfo = useUnsafeWalletSelector(WalletSelectors.userVisibleTokensInfo)
 
@@ -131,6 +130,8 @@ function Container () {
 
   const [selectedBuyAsset, setSelectedBuyAsset] = React.useState<BraveWallet.BlockchainToken>(buyAssetOptions[0])
 
+  // hooks
+  useBalanceUpdater()
   const swap = useSwap()
   const {
     filteredAssetList,
@@ -792,18 +793,11 @@ function Container () {
             title={panelTitle}
             useSearch={false}
           >
-            <ScrollContainer>
-              <TransactionsPanel
-                accounts={accounts}
-                defaultCurrencies={defaultCurrencies}
-                onSelectTransaction={viewTransactionDetail}
-                selectedNetwork={selectedNetwork}
-                selectedAccount={selectedAccount}
-                visibleTokens={userVisibleTokensInfo}
-                transactionSpotPrices={transactionSpotPrices}
-                transactions={transactions}
-              />
-            </ScrollContainer>
+            <TransactionsPanel
+              onSelectTransaction={viewTransactionDetail}
+              selectedNetwork={selectedNetwork}
+              selectedAccountAddress={selectedAccount.address}
+            />
           </Panel>
         </StyledExtensionWrapper>
       </PanelWrapper>

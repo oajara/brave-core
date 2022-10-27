@@ -5,21 +5,37 @@
 
 import * as React from 'react'
 import styled from 'styled-components'
-import { useChannelSubscribed, usePublisher, usePublisherSubscribed } from './Context'
-import { useGetUnpaddedImage } from '../cards/CardImage'
+import { getLocale } from '$web-common/locale'
 import Flex from '../../../Flex'
-import { Heart, HeartOutline } from './Icons'
+import { useChannelSubscribed, usePublisher, usePublisherFollowed } from './Context'
+import { useLazyUnpaddedImageUrl } from '../useUnpaddedImageUrl'
+import { getTranslatedChannelName } from './ChannelCard'
 
 interface Props {
   publisherId: string
 }
 
+const ToggleButton = styled.button`
+  all: unset;
+  cursor: pointer;
+  color: var(--brave-color-text02);
+  &:hover {
+    text-decoration: underline;
+  }
+  &:active {
+    color: var(--brave-color-interactive08);
+  }
+  &:focus-visible {
+    outline: 1px solid var(--brave-color-focusBorder);
+    outline-offset: 4px;
+  }
+`
+
 const Container = styled(Flex)`
   padding: 10px 0;
-  cursor: pointer;
 
-  :hover {
-    opacity: 0.5;
+  &:not(:hover, :has(:focus-visible)) ${ToggleButton} {
+    opacity: 0;
   }
 `
 
@@ -33,11 +49,6 @@ const FavIconContainer = styled.div`
     height: 100%;
   }
 `
-const ToggleButton = styled.button`
-  all: unset;
-  cursor: pointer;
-  color: var(--interactive5);
-`
 
 const Text = styled.span`
   font-size: 14px;
@@ -50,35 +61,39 @@ const ChannelNameText = styled.span`
 `
 
 function FavIcon (props: { src?: string }) {
-  const url = useGetUnpaddedImage(props.src, undefined, /* useCache= */true)
+  const { url, setElementRef } = useLazyUnpaddedImageUrl(props.src, {
+    rootElement: document.getElementById('brave-news-configure'),
+    rootMargin: '0px 0px 100px 0px',
+    useCache: true
+  })
   const [error, setError] = React.useState(false)
-  return <FavIconContainer>
+  return <FavIconContainer ref={setElementRef}>
     {url && !error && <img src={url} onError={() => setError(true)} />}
   </FavIconContainer>
 }
 
 export function FeedListEntry (props: Props) {
   const publisher = usePublisher(props.publisherId)
-  const { subscribed, setSubscribed } = usePublisherSubscribed(props.publisherId)
+  const { setFollowed } = usePublisherFollowed(props.publisherId)
 
-  return <Container direction="row" justify="space-between" align='center' onClick={() => setSubscribed(!subscribed)}>
+  return <Container direction="row" justify="space-between" align='center'>
     <Flex align='center' gap={8}>
       <FavIcon src={publisher.faviconUrl?.url} />
       <Text>{publisher.publisherName}</Text>
     </Flex>
-    <ToggleButton>
-      {subscribed ? Heart : HeartOutline}
+    <ToggleButton onClick={() => setFollowed(false)}>
+      {getLocale('braveNewsFollowButtonFollowing')}
     </ToggleButton>
   </Container>
 }
 
-export function ChannelListEntry (props: { channelId: string }) {
-  const { subscribed, setSubscribed } = useChannelSubscribed(props.channelId)
+export function ChannelListEntry (props: { channelName: string }) {
+  const { setSubscribed } = useChannelSubscribed(props.channelName)
 
-  return <Container direction="row" justify='space-between' align='center' onClick={() => setSubscribed(!subscribed)}>
-    <ChannelNameText>{props.channelId}</ChannelNameText>
-    <ToggleButton>
-      {subscribed ? Heart : HeartOutline}
+  return <Container direction="row" justify='space-between' align='center'>
+    <ChannelNameText>{getTranslatedChannelName(props.channelName)}</ChannelNameText>
+    <ToggleButton onClick={() => setSubscribed(false)}>
+      {getLocale('braveNewsFollowButtonFollowing')}
     </ToggleButton>
   </Container>
 }
