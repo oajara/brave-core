@@ -565,8 +565,13 @@ bool BraveContentBrowserClient::CanCreateWindow(
   content::WebContents* contents =
       content::WebContents::FromRenderFrameHost(opener);
 
+  std::cout << "BraveContentBrowserClient::CanCreateWindow" << std::endl;
+
   if (google_sign_in::ShouldCheckGoogleSignInPermission(target_url,
                                                         opener_url)) {
+    std::cout << "BraveContentBrowserClient::CanCreateWindow "
+                 "google_sign_in::ShouldCheckGoogleSignInPermission"
+              << std::endl;
     PrefService* prefs =
         static_cast<Profile*>(contents->GetBrowserContext())->GetPrefs();
     if (!google_sign_in::IsGoogleSignInEnabled(prefs)) {
@@ -578,6 +583,8 @@ bool BraveContentBrowserClient::CanCreateWindow(
 
     auto status = google_sign_in::GetCurrentGoogleSignInPermissionStatus(
         permission_controller, contents, opener_url);
+
+    std::cout << "status is " << status << std::endl;
     if (status == blink::mojom::PermissionStatus::GRANTED) {
       // return ChromeContentBrowserClient impl
       return ChromeContentBrowserClient::CanCreateWindow(
@@ -606,6 +613,9 @@ bool BraveContentBrowserClient::CanCreateWindow(
       return false;
     }
   }
+  std::cout << "BraveContentBrowserClient::CanCreateWindow "
+               "ShouldCheckGoogleSignInPermission returned false"
+            << std::endl;
   return ChromeContentBrowserClient::CanCreateWindow(
       opener, opener_url, opener_top_level_frame_url, source_origin,
       container_type, target_url, referrer, frame_name, disposition, features,

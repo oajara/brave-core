@@ -8,6 +8,7 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "base/memory/scoped_refptr.h"
 #include "base/memory/weak_ptr.h"
@@ -26,6 +27,7 @@ class GoogleSignInThrottle : public blink::URLLoaderThrottle {
  public:
   explicit GoogleSignInThrottle(
       const content::WebContents::Getter& wc_getter,
+      GURL initial_url,
       scoped_refptr<HostContentSettingsMap> settings_map);
   ~GoogleSignInThrottle() override;
 
@@ -41,9 +43,17 @@ class GoogleSignInThrottle : public blink::URLLoaderThrottle {
   void DetachFromCurrentSequence() override;
   void WillStartRequest(network::ResourceRequest* request,
                         bool* defer) override;
+  void BeforeWillRedirectRequest(
+      net::RedirectInfo* redirect_info,
+      const network::mojom::URLResponseHead& response_head,
+      bool* defer,
+      std::vector<std::string>* to_be_removed_request_headers,
+      net::HttpRequestHeaders* modified_request_headers,
+      net::HttpRequestHeaders* modified_cors_exempt_request_headers) override;
 
  private:
   const content::WebContents::Getter& wc_getter_;
+  const GURL initial_url_;  // used in WillRedirectRequest
   scoped_refptr<HostContentSettingsMap> settings_map_;
   base::WeakPtrFactory<GoogleSignInThrottle> weak_factory_{this};
 };

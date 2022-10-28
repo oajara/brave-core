@@ -5,6 +5,7 @@
 
 #include "brave/components/google_sign_in/common/google_sign_in_util.h"
 
+#include <iostream>
 #include <vector>
 
 #include "brave/components/constants/pref_names.h"
@@ -14,8 +15,7 @@
 namespace google_sign_in {
 
 namespace {
-constexpr char kGoogleAuthPattern[] =
-    "https://accounts.google.com/o/oauth2/auth*";
+constexpr char kGoogleAuthPattern[] = "https://accounts.google.com/o/oauth2*";
 constexpr char kFirebaseContentSettingsPattern[] =
     "https://[*.]firebaseapp.com/__/auth*";
 constexpr char kFirebaseUrlPattern[] = "https://*.firebaseapp.com/__/auth*";
@@ -86,6 +86,7 @@ void HandleBraveGoogleSignInPermissionStatus(
     // Remove 3p exception for request_initiator_url for auth patterns
     Set3pCookieException(content_settings.get(), embedding_pattern,
                          CONTENT_SETTING_BLOCK);
+    // Delete existing 3p cookies
   }
   return;
 }
