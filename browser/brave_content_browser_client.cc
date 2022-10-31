@@ -567,14 +567,14 @@ bool BraveContentBrowserClient::CanCreateWindow(
 
   std::cout << "BraveContentBrowserClient::CanCreateWindow" << std::endl;
 
-  if (google_sign_in::ShouldCheckGoogleSignInPermission(target_url,
-                                                        opener_url)) {
+  if (google_sign_in::IsGoogleSignInFeatureEnabled() &&
+      google_sign_in::IsGoogleAuthRelatedRequest(target_url, opener_url)) {
     std::cout << "BraveContentBrowserClient::CanCreateWindow "
-                 "google_sign_in::ShouldCheckGoogleSignInPermission"
+                 "google_sign_in::IsGoogleAuthRelatedRequest"
               << std::endl;
     PrefService* prefs =
         static_cast<Profile*>(contents->GetBrowserContext())->GetPrefs();
-    if (!google_sign_in::IsGoogleSignInEnabled(prefs)) {
+    if (!google_sign_in::IsGoogleSignInPrefEnabled(prefs)) {
       return false;
     }
     // check permission
@@ -614,7 +614,7 @@ bool BraveContentBrowserClient::CanCreateWindow(
     }
   }
   std::cout << "BraveContentBrowserClient::CanCreateWindow "
-               "ShouldCheckGoogleSignInPermission returned false"
+               "IsGoogleAuthRelatedRequest returned false or feature disabled"
             << std::endl;
   return ChromeContentBrowserClient::CanCreateWindow(
       opener, opener_url, opener_top_level_frame_url, source_origin,

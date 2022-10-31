@@ -1,5 +1,7 @@
 static_library("common") {
   sources = [
+    "features.cc",
+    "features.h",
     "google_sign_in_util.cc",
     "google_sign_in_util.h",
   ]

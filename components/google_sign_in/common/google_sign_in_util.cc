@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "brave/components/constants/pref_names.h"
+#include "brave/components/google_sign_in/common/features.h"
 #include "extensions/common/url_pattern.h"
 #include "third_party/blink/public/mojom/permissions/permission_status.mojom-shared.h"
 
@@ -35,13 +36,18 @@ bool IsGoogleAuthUrl(const GURL& gurl, const bool check_origin_only) {
 }
 }  // namespace
 
-bool ShouldCheckGoogleSignInPermission(const GURL& request_url,
-                                       const GURL& request_initiator_url) {
+bool IsGoogleAuthRelatedRequest(const GURL& request_url,
+                                const GURL& request_initiator_url) {
   return IsGoogleAuthUrl(request_url, false) &&
          !IsGoogleAuthUrl(request_initiator_url, true);
 }
 
-bool IsGoogleSignInEnabled(PrefService* prefs) {
+bool IsGoogleSignInFeatureEnabled() {
+  return base::FeatureList::IsEnabled(
+      google_sign_in::features::kBraveGoogleSignIn);
+}
+
+bool IsGoogleSignInPrefEnabled(PrefService* prefs) {
   return prefs->FindPreference(kGoogleLoginControlType) &&
          prefs->GetBoolean(kGoogleLoginControlType);
 }

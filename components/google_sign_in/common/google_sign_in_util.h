@@ -22,13 +22,18 @@
 
 namespace google_sign_in {
 
-bool ShouldCheckGoogleSignInPermission(const GURL& request_url,
-                                       const GURL& request_initiator_url);
+bool IsGoogleAuthRelatedRequest(const GURL& request_url,
+                                const GURL& request_initiator_url);
 blink::mojom::PermissionStatus GetCurrentGoogleSignInPermissionStatus(
     content::PermissionControllerDelegate* permission_controller,
     content::WebContents* contents,
     const GURL& request_initiator_url);
-bool IsGoogleSignInEnabled(PrefService* prefs);
+
+// Check if feature flag is enabled.
+bool IsGoogleSignInFeatureEnabled();
+// Check if user preference is enabled (default ON). Caller should make sure
+// feature flag is enabled.
+bool IsGoogleSignInPrefEnabled(PrefService* prefs);
 void Set3pCookieException(HostContentSettingsMap* content_settings,
                           const ContentSettingsPattern& embedding_pattern,
                           const ContentSetting& content_setting);

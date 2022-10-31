@@ -53,7 +53,7 @@ void OnPermissionRequestStatus(
             << std::endl;
   // Check if current pending navigation is the one we started out with.
   // This is done to prevent us from accessing deleted Delegate, in case
-  // the user navigated away while the prompt was still up, or closed the 
+  // the user navigated away while the prompt was still up, or closed the
   // window
   if (pending_entry != contents->GetController().GetPendingEntry()) {
     std::cout << "Current pending navigation is not the one we started out with"
@@ -92,7 +92,7 @@ void GetPermissionAndMaybeCreatePrompt(
   // kGoogleAuthPattern and kFirebaseUrlPattern will be disallowed
   PrefService* prefs =
       user_prefs::UserPrefs::Get(contents->GetBrowserContext());
-  if (!IsGoogleSignInEnabled(prefs)) {
+  if (!IsGoogleSignInPrefEnabled(prefs)) {
     delegate->CancelWithError(net::ERR_BLOCKED_BY_CLIENT);
     return;
   }
@@ -128,6 +128,10 @@ GoogleSignInThrottle::MaybeCreateThrottleFor(
     const network::ResourceRequest& request,
     const content::WebContents::Getter& wc_getter,
     HostContentSettingsMap* content_settings) {
+  if (!IsGoogleSignInFeatureEnabled()) {
+    return nullptr;
+  }
+
   if (request.resource_type !=
       static_cast<int>(blink::mojom::ResourceType::kMainFrame)) {
     return nullptr;
@@ -171,9 +175,7 @@ void GoogleSignInThrottle::WillStartRequest(network::ResourceRequest* request,
   std::cout << "WillStartRequest request_url: " << request_url
             << " request_initiator_url: " << request_initiator_url << std::endl;
 
-  if (!ShouldCheckGoogleSignInPermission(request_url, request_initiator_url)) {
-    // We don't want to prompt the user to add a permission for
-    // accounts.google.com to access accounts.google.com!
+  if (!IsGoogleAuthRelatedRequest(request_url, request_initiator_url)) {
     return;
   }
 
@@ -213,9 +215,7 @@ void GoogleSignInThrottle::BeforeWillRedirectRequest(
             << std::endl;
   std::cout << "visible URL: " << contents->GetVisibleURL() << std::endl;
 
-  if (!ShouldCheckGoogleSignInPermission(request_url, initial_url_)) {
-    // We don't want to prompt the user to add a permission for
-    // accounts.google.com to access accounts.google.com!
+  if (!IsGoogleAuthRelatedRequest(request_url, initial_url_)) {
     return;
   }
 

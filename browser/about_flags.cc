@@ -21,6 +21,7 @@
 #include "brave/components/brave_wallet/common/features.h"
 #include "brave/components/de_amp/common/features.h"
 #include "brave/components/debounce/common/features.h"
+#include "brave/components/google_sign_in/common/features.h"
 #include "brave/components/ipfs/buildflags/buildflags.h"
 #include "brave/components/ntp_background_images/browser/features.h"
 #include "brave/components/playlist/buildflags/buildflags.h"
@@ -77,6 +78,7 @@ using brave_shields::features::kCosmeticFilteringSyncLoad;
 
 using de_amp::features::kBraveDeAMP;
 using debounce::features::kBraveDebounce;
+using google_sign_in::features::kBraveGoogleSignIn;
 
 using ntp_background_images::features::kBraveNTPBrandedWallpaperDemo;
 using ntp_background_images::features::kBraveNTPSuperReferralWallpaper;
@@ -168,6 +170,11 @@ constexpr char kBraveDebounceDescription[] =
 
 constexpr char kBraveDeAMPName[] = "Enable De-AMP";
 constexpr char kBraveDeAMPDescription[] = "Enable De-AMPing feature";
+
+constexpr char kBraveGoogleSignInName[] =
+    "Enable Google Sign-In Permission Prompt";
+constexpr char kBraveGoogleSignInDescription[] =
+    "Enable permissioning access to Google Sign-In";
 
 constexpr char kBraveExtensionNetworkBlockingName[] =
     "Enable extension network blocking";
