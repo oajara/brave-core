@@ -53,12 +53,12 @@ const getApplicableFilters = (suite) => {
   return filterFilePaths
 }
 
-const test = (passthroughArgs, suite, buildConfig = config.defaultBuildConfig, options) => {
+const test = (passthroughArgs, suite, buildConfig = config.defaultBuildConfig, options = {}) => {
   buildTests(suite, buildConfig, options)
   runTests(passthroughArgs, suite, buildConfig, options)
 }
 
-const buildTests = (suite, buildConfig = config.defaultBuildConfig, options) => {
+const buildTests = (suite, buildConfig = config.defaultBuildConfig, options = {}) => {
   config.buildConfig = buildConfig
   config.update(options)
 
