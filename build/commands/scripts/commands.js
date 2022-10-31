@@ -275,7 +275,7 @@ program
   .action(test.test.bind(null, parsedArgs.unknown))
 
 // If we only had a single `test` command that builds and runs the tests, then
-// failures of this command are ambiguous with respect to which of the two steps
+// failures of this command were ambiguous with respect to which of the two steps
 // failed. This especially turns up in CI, where we want to only generate test
 // reports if building succeeded, but independently of the success/failure of
 // running the tests.
