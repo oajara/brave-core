@@ -9,8 +9,6 @@
 #include <vector>
 
 #include "base/check.h"
-#include "base/strings/string_split.h"
-#include "base/strings/string_util.h"
 #include "base/strings/stringprintf.h"
 #include "base/time/time.h"
 #include "bat/ads/internal/ads_client_helper.h"
@@ -18,6 +16,7 @@
 #include "bat/ads/internal/base/database/database_column_util.h"
 #include "bat/ads/internal/base/database/database_transaction_util.h"
 #include "bat/ads/internal/base/logging_util.h"
+#include "bat/ads/internal/base/strings/string_conversions_util.h"
 #include "bat/ads/internal/features/text_embedding_features.h"
 #include "bat/ads/public/interfaces/ads.mojom.h"
 
@@ -26,29 +25,6 @@ namespace ads::database::table {
 namespace {
 
 constexpr char kTableName[] = "text_embedding_html_events";
-
-std::vector<float> ConvertStringToVector(std::string string) {
-  const std::vector<std::string> vector_string = base::SplitString(
-      string, " ", base::TRIM_WHITESPACE, base::SPLIT_WANT_NONEMPTY);
-  std::vector<float> vector;
-  for (const std::string& element_string : vector_string) {
-    double element;
-    base::StringToDouble(element_string, &element);
-    vector.push_back(element);
-  }
-
-  return vector;
-}
-
-std::string ConvertVectorToString(std::vector<float> vector) {
-  size_t v_index = 0;
-  std::vector<std::string> vector_as_string;
-  while (v_index < vector.size()) {
-    vector_as_string.push_back(base::NumberToString(vector.at(v_index)));
-    ++v_index;
-  }
-  return base::JoinString(vector_as_string, " ");
-}
 
 int BindParameters(
     mojom::DBCommandInfo* command,

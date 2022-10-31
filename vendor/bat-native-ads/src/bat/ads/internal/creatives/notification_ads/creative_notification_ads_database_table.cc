@@ -10,8 +10,6 @@
 
 #include "base/bind.h"
 #include "base/containers/contains.h"
-#include "base/strings/string_split.h"
-#include "base/strings/string_util.h"
 #include "base/strings/stringprintf.h"
 #include "base/time/time.h"
 #include "bat/ads/internal/account/deposits/deposits_database_table.h"
@@ -22,6 +20,7 @@
 #include "bat/ads/internal/base/database/database_table_util.h"
 #include "bat/ads/internal/base/database/database_transaction_util.h"
 #include "bat/ads/internal/base/logging_util.h"
+#include "bat/ads/internal/base/strings/string_conversions_util.h"
 #include "bat/ads/internal/base/time/time_formatting_util.h"
 #include "bat/ads/internal/creatives/campaigns_database_table.h"
 #include "bat/ads/internal/creatives/creative_ad_info.h"
@@ -43,19 +42,6 @@ namespace {
 constexpr char kTableName[] = "creative_ad_notifications";
 
 constexpr int kDefaultBatchSize = 50;
-
-std::vector<float> ConvertStringToVector(std::string string) {
-  const std::vector<std::string> vector_string = base::SplitString(
-      string, " ", base::TRIM_WHITESPACE, base::SPLIT_WANT_NONEMPTY);
-  std::vector<float> vector;
-  for (const std::string& element_string : vector_string) {
-    double element;
-    base::StringToDouble(element_string, &element);
-    vector.push_back(element);
-  }
-
-  return vector;
-}
 
 int BindParameters(mojom::DBCommandInfo* command,
                    const CreativeNotificationAdList& creative_ads) {
