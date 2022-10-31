@@ -52,7 +52,6 @@ absl::optional<T> MaybePredictAdUsingEmbeddings(
     }
   }
 
-  NOTREACHED();
   return {};
 }
 
