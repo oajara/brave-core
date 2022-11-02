@@ -295,7 +295,7 @@ const runTestsCommand = program.command('run_tests <suite>');
 testCommand
   .action(test.test.bind(null, parsedArgs.unknown))
 buildTestsCommand
-  .action(test.buildTests.bind(null, parsedArgs.unknown))
+  .action(test.buildTests)
 runTestsCommand
   .action(test.runTests.bind(null, parsedArgs.unknown))
 
