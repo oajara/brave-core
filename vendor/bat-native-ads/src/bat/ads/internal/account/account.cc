@@ -29,8 +29,8 @@
 #include "bat/ads/internal/base/logging_util.h"
 #include "bat/ads/internal/prefs/pref_manager.h"
 #include "bat/ads/internal/privacy/tokens/token_generator_interface.h"
-#include "bat/ads/pref_names.h"
 #include "bat/ads/public/interfaces/ads.mojom.h"  // IWYU pragma: keep
+#include "brave/components/brave_ads/common/pref_names.h"
 
 namespace ads {
 
@@ -73,10 +73,12 @@ void Account::SetWallet(const std::string& id, const std::string& seed) {
     return;
   }
 
-  BLOG(1, "Successfully set wallet");
-
   const WalletInfo& wallet = GetWallet();
-  NotifyWalletDidUpdate(wallet);
+
+  if (wallet.WasUpdated(last_wallet_copy)) {
+    BLOG(1, "Successfully set wallet");
+    NotifyWalletDidUpdate(wallet);
+  }
 
   if (wallet.HasChanged(last_wallet_copy)) {
     WalletDidChange(wallet);

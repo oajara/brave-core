@@ -223,7 +223,7 @@ export interface WalletState {
   isWalletBackedUp: boolean
   hasIncorrectPassword: boolean
   selectedAccount: WalletAccountType
-  selectedNetwork: BraveWallet.NetworkInfo
+  selectedNetwork: BraveWallet.NetworkInfo | undefined
   accounts: WalletAccountType[]
   transactions: AccountTransactions
   userVisibleTokensInfo: BraveWallet.BlockchainToken[]
@@ -405,7 +405,7 @@ export interface GetNativeAssetBalancesPayload {
 }
 
 export interface GetBlockchainTokenBalanceReturnInfo {
-  balances: BraveWallet.JsonRpcService_GetERC20TokenBalance_ResponseParams[][]
+  balances: BalancePayload[][]
 }
 
 export interface GetFlattenedAccountBalancesReturnInfo {
@@ -765,6 +765,12 @@ export enum CoinTypesMap {
   SOL = BraveWallet.CoinType.SOL
 }
 
+export enum OnboardingAction {
+  SHOWN = 0,
+  CREATED_WALLET = 1,
+  RESTORED_WALLET = 2
+}
+
 export type BuyOption = {
   id: BraveWallet.OnRampProvider
   icon: string
@@ -835,3 +841,11 @@ export interface AccountButtonOptionsObjectType {
 }
 
 export type StringWithAutocomplete<T> = T | (string & Record<never, never>)
+
+export const P3ASendTransactionTypes = [
+  BraveWallet.TransactionType.ETHSend,
+  BraveWallet.TransactionType.ERC20Transfer,
+  BraveWallet.TransactionType.SolanaSystemTransfer,
+  BraveWallet.TransactionType.SolanaSPLTokenTransfer,
+  BraveWallet.TransactionType.SolanaSPLTokenTransferWithAssociatedTokenAccountCreation
+]

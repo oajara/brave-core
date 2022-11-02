@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { createAction } from 'redux-act'
+import { createAction } from '@reduxjs/toolkit'
 import {
   CreateWalletPayloadType,
   WalletCreatedPayloadType,
@@ -61,6 +61,5 @@ export const getNFTMetadata = createAction<BraveWallet.BlockchainToken>('getNFTM
 export const setIsFetchingNFTMetadata = createAction<boolean>('setIsFetchingNFTMetadata')
 export const updateNFTMetadata = createAction<NFTMetadataReturnType | undefined>('updateNFTMetadata')
 export const updateNftMetadataError = createAction<string | undefined>('updateNftMetadataError')
-export const onOnboardingShown = createAction('onOnboardingShown')
 export const agreeToWalletTerms = createAction('agreeToWalletTerms')
 export const selectCoinMarket = createAction<BraveWallet.CoinMarket | undefined>('selectCoinMarket')
