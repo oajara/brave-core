@@ -78,7 +78,8 @@ pipeline {
                                                 credentials('brave-builds-github-token-for-pr-builder')
                                                 github('brave/devops', 'https')
                                             }
-                                            branch('${params.DEVOPS_BRANCH}')
+                                            // branch('${params.DEVOPS_BRANCH}')
+                                            branch('wknapik-custom-tmpdir-for-chromium-tests-on-windows')
                                         }
                                     }
                                     scriptPath("jenkins/jobs/browser/pr-brave-browser-${PLATFORM}.Jenkinsfile")
