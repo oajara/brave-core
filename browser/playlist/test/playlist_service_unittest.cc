@@ -558,8 +558,7 @@ TEST_F(PlaylistServiceUnitTest, RemoveAndRestoreLocalData) {
     ASSERT_NE(item.thumbnail_src, item.thumbnail_path);
     {
       base::ScopedAllowBlockingForTesting allow_blocking;
-      ASSERT_TRUE(
-          base::DirectoryExists(service->GetPlaylistItemDirPath(item.id)));
+      ASSERT_TRUE(base::DirectoryExists(service->GetPlaylistItemDirPath(item.id)));
     }
 
     service->RemoveObserver(&observer);
@@ -568,27 +567,41 @@ TEST_F(PlaylistServiceUnitTest, RemoveAndRestoreLocalData) {
   // Remove local media file. Thumbnail shouldn't be removed
   auto items = service->GetAllPlaylistItems();
   auto item = items.front();
-  {
-    // Store the item's local file path first
-    base::FilePath media_path;
-    base::FilePath thumbnail_path;
-    ASSERT_TRUE(service->GetMediaPath(item.id, &media_path));
-    ASSERT_TRUE(service->GetThumbnailPath(item.id, &thumbnail_path));
 
+  // Store the item's local file path first
+  auto dir_path = service->GetPlaylistItemDirPath(item.id);
+  base::FilePath media_path;
+  base::FilePath thumbnail_path;
+  ASSERT_TRUE(service->GetMediaPath(item.id, &media_path));
+  ASSERT_TRUE(service->GetThumbnailPath(item.id, &thumbnail_path));
+
+  auto file_exists = [](const base::FilePath& path) {
+    return base::PathExists(path) && !base::DirectoryExists(path);
+  };
+
+  {
     // Remove local data for the item. When we remove local data, we remove only
     // media file.
     service->DeletePlaylistLocalData(items.front().id);
     items = service->GetAllPlaylistItems();
     EXPECT_EQ(1UL, items.size());
 
+    // Values are updated first and then the data from disk will be removed.
     item = items.front();
     EXPECT_FALSE(item.media_file_cached);
     EXPECT_EQ(item.media_src, item.media_file_path);
-    EXPECT_EQ(item.thumbnail_src, item.thumbnail_path);
+    EXPECT_NE(item.thumbnail_src, item.thumbnail_path);
     WaitUntil(base::BindLambdaForTesting([&]() {
       base::ScopedAllowBlockingForTesting allow_blocking;
-      return !base::DirectoryExists(service->GetPlaylistItemDirPath(item.id));
+      return !file_exists(media_path);
     }));
+
+    {
+      base::ScopedAllowBlockingForTesting allow_blocking;
+      EXPECT_TRUE(base::DirectoryExists(dir_path));
+      EXPECT_TRUE(file_exists(thumbnail_path));
+      EXPECT_FALSE(file_exists(media_path));
+    }
   }
 
   // Restore local media for the item.
@@ -598,10 +611,10 @@ TEST_F(PlaylistServiceUnitTest, RemoveAndRestoreLocalData) {
     EXPECT_EQ(1UL, items.size());
 
     item = items.front();
-    WaitUntil(base::BindLambdaForTesting([&]() {
+    {
       base::ScopedAllowBlockingForTesting allow_blocking;
-      return base::DirectoryExists(service->GetPlaylistItemDirPath(item.id));
-    }));
+      EXPECT_TRUE(base::DirectoryExists(dir_path));
+    }
 
     WaitUntil(base::BindLambdaForTesting([&]() {
       auto items = service->GetAllPlaylistItems();
@@ -610,11 +623,12 @@ TEST_F(PlaylistServiceUnitTest, RemoveAndRestoreLocalData) {
     item = service->GetAllPlaylistItems().front();
     EXPECT_NE(item.media_src, item.media_file_path);
 
-    WaitUntil(base::BindLambdaForTesting([&]() {
-      auto items = service->GetAllPlaylistItems();
-      return items.size() &&
-             items.front().thumbnail_path != items.front().thumbnail_src;
-    }));
+    {
+      base::ScopedAllowBlockingForTesting allow_blocking;
+      EXPECT_TRUE(base::DirectoryExists(dir_path));
+      EXPECT_TRUE(file_exists(thumbnail_path));
+      EXPECT_TRUE(file_exists(media_path));
+    }
   }
 }
 
