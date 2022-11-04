@@ -558,7 +558,8 @@ TEST_F(PlaylistServiceUnitTest, RemoveAndRestoreLocalData) {
     ASSERT_NE(item.thumbnail_src, item.thumbnail_path);
     {
       base::ScopedAllowBlockingForTesting allow_blocking;
-      ASSERT_TRUE(base::DirectoryExists(service->GetPlaylistItemDirPath(item.id)));
+      ASSERT_TRUE(
+          base::DirectoryExists(service->GetPlaylistItemDirPath(item.id)));
     }
 
     service->RemoveObserver(&observer);

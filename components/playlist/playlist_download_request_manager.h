@@ -81,6 +81,9 @@ class PlaylistDownloadRequestManager
       const {
     return media_detector_component_manager_;
   }
+  MediaDetectorComponentManager* media_detector_component_manager() {
+    return media_detector_component_manager_;
+  }
 
  private:
   // Calling this will trigger loading |url| on a web contents,

@@ -230,7 +230,12 @@ void MediaDetectorComponentManager::SetUseLocalScriptForTesting() {
   }
 
   function getOGTagImage() {
-    return document.querySelector('meta[property="og:image"]')?.content
+    const url = document.querySelector('meta[property="og:image"]')?.content;
+    if (url && !url.startsWith('http')) {
+      return new URL(location.href).origin + "/" + url;
+    }
+
+    return url;
   }
 
   let videoElements = getAllVideoElements() ?? [];
