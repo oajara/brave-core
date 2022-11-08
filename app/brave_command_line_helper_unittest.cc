@@ -59,7 +59,7 @@ void CheckDisabledFeatures(const base::CommandLine& command_line,
 }  // namespace
 
 TEST(BraveCommandLineHelperUnitTest, TestAppendSwitch) {
-  base::CommandLine& command_line = *base::CommandLine::ForCurrentProcess()
+  base::CommandLine& command_line = *base::CommandLine::ForCurrentProcess();
   BraveCommandLineHelper helper(&command_line);
   // Test that append switch works.
   helper.AppendSwitch("a");
