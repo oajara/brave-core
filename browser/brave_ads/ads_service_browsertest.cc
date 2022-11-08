@@ -430,7 +430,7 @@ IN_PROC_BROWSER_TEST_F(BraveAdsBrowserTest,
 
 IN_PROC_BROWSER_TEST_F(BraveAdsBrowserTest,
                        BraveAdsMigrateDefaultAdsPerHourFromVersion10) {
-  EXPECT_TRUE(
+  EXPECT_FALSE(
       GetPrefs()->HasPrefPath(ads::prefs::kMaximumNotificationAdsPerHour));
   EXPECT_EQ(-1,
             GetPrefs()->GetInt64(ads::prefs::kMaximumNotificationAdsPerHour));
