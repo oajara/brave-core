@@ -34,7 +34,7 @@ BraveSyncServiceImpl::BraveSyncServiceImpl(
   bool failed_to_decrypt = false;
   GetBraveSyncAuthManager()->DeriveSigningKeys(
       brave_sync_prefs_.GetSeed(&failed_to_decrypt));
-  DCHECK(!failed_to_decrypt);
+//  DCHECK(!failed_to_decrypt);
 
   sync_service_impl_delegate_->set_profile_sync_service(this);
 }
@@ -62,8 +62,25 @@ bool BraveSyncServiceImpl::IsSetupInProgress() const {
 }
 
 void BraveSyncServiceImpl::StopAndClear() {
+  // Clear prefs before StopAndClear() to make NotifyObservers() be invoked
+LOG(ERROR) << "[BraveSync] " << __func__ << " 000";
+LOG(ERROR) << "[BraveSync] " << __func__ << " 000-1 before SuspendDeviceObserverForOwnReset()";
+  SuspendDeviceObserverForOwnReset();//doesn't help, but actually it does the code shorter, no double call of StopAndClear
+LOG(ERROR) << "[BraveSync] " << __func__ << " 000-2 after SuspendDeviceObserverForOwnReset()";
+LOG(ERROR) << "[BraveSync] " << __func__ << " 000 - before SyncServiceImpl::StopAndClear";
   SyncServiceImpl::StopAndClear();
-  brave_sync_prefs_.Clear();
+
+  LOG(ERROR) << "[BraveSync] " << __func__ << " 001 - before brave_sync_prefs_.Clear()";
+    brave_sync_prefs_.Clear();
+  LOG(ERROR) << "[BraveSync] " << __func__ << " 002 - after brave_sync_prefs_.Clear()";
+
+   SyncServiceImpl::NotifyObservers();
+
+LOG(ERROR) << "[BraveSync] " << __func__ << " 003 before ResumeDeviceObserver()";
+   ResumeDeviceObserver();//doesn't help, but actually it does the code flow shorter, no double call of StopAndClear
+LOG(ERROR) << "[BraveSync] " << __func__ << " 004 after ResumeDeviceObserver()";
+
+LOG(ERROR) << "[BraveSync] " << __func__ << " EXIT";
 }
 
 std::string BraveSyncServiceImpl::GetOrCreateSyncCode() {

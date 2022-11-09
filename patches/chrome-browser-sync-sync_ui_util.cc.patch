@@ -1,0 +1,30 @@
+diff --git a/chrome/browser/sync/sync_ui_util.cc b/chrome/browser/sync/sync_ui_util.cc
+index a6d0d6e6553f2a91e474276be073e7f3b79f77d2..4379e681571eea92738bd7a61b38eef067ee1888 100644
+--- a/chrome/browser/sync/sync_ui_util.cc
++++ b/chrome/browser/sync/sync_ui_util.cc
+@@ -85,6 +85,7 @@ SyncStatusLabels GetSyncStatusLabelsImpl(
+     const syncer::SyncService* service,
+     bool is_user_signout_allowed,
+     const GoogleServiceAuthError& auth_error) {
++LOG(ERROR) << "[BraveSync] " << __func__ << " 000";
+   DCHECK(service);
+ 
+   if (!service->HasSyncConsent()) {
+@@ -126,6 +127,7 @@ SyncStatusLabels GetSyncStatusLabelsImpl(
+   // Check to see if sync has been disabled via the dashboard and needs to be
+   // set up once again.
+   if (!service->GetUserSettings()->IsSyncRequested()) {
++LOG(ERROR) << "[BraveSync] " << __func__ << " 001 IDS_SIGNED_IN_WITH_SYNC_STOPPED_VIA_DASHBOARD";
+     return {SyncStatusMessageType::kSyncError,
+             IDS_SIGNED_IN_WITH_SYNC_STOPPED_VIA_DASHBOARD,
+             IDS_SETTINGS_EMPTY_STRING, SyncStatusActionType::kNoAction};
+@@ -225,7 +227,9 @@ absl::optional<AvatarSyncErrorType> GetTrustedVaultError(
+ SyncStatusLabels GetSyncStatusLabels(syncer::SyncService* sync_service,
+                                      signin::IdentityManager* identity_manager,
+                                      bool is_user_signout_allowed) {
++LOG(ERROR) << "[BraveSync] " << __func__ << " 000";                                       
+   if (!sync_service) {
++LOG(ERROR) << "[BraveSync] " << __func__ << " 001 EXIT This can happen if Sync is disabled via the command line.";
+     // This can happen if Sync is disabled via the command line.
+     return {SyncStatusMessageType::kPreSynced, IDS_SETTINGS_EMPTY_STRING,
+             IDS_SETTINGS_EMPTY_STRING, SyncStatusActionType::kNoAction};

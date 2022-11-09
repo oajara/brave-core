@@ -260,6 +260,10 @@ void BraveAddCommonStrings(content::WebUIDataSource* html_source,
      IDS_BRAVE_SYNC_DELETE_DEVICE_CONFIRMATION},
     {"braveSyncFinalSecurityWarning",
      IDS_BRAVE_SYNC_FINAL_SECURITY_WARNING_TEXT},
+    {"braveSyncPassphraseDecryptionErrorUnlockedSsMessage", 
+     IDS_BRAVE_SYNC_PASSPHRASE_DECRYPTION_SS_UNLOCKED_ERROR_MESSAGE},
+    {"braveSyncLeaveAndRejoinTheChainButton", 
+     IDS_BRAVE_SYNC_LEAVE_AND_REJOIN_THE_CHAIN_BUTTON},
     {"braveIPFS", IDS_BRAVE_IPFS_SETTINGS_SECTION},
     {"braveTor", IDS_BRAVE_TOR_SETTINGS_SECTION},
     {"braveWallet", IDS_BRAVE_WALLET_SETTINGS_SECTION},
@@ -655,6 +659,12 @@ void BraveAddSyncStrings(content::WebUIDataSource* html_source) {
       IDS_BRAVE_SYNC_PASSPHRASE_DECRYPTION_ERROR_MESSAGE, kBraveSyncGuideUrl);
   html_source->AddString("braveSyncPassphraseDecryptionErrorMessage",
                          passphraseDecryptionErrorMessage);
+  // html_source->AddString("braveSyncPassphraseDecryptionErrorUnlockedSsMessage",
+  //                       passphraseDecryptionErrorMessage);
+
+// html_source->AddLocalizedStrings({{"braveSyncPassphraseDecryptionErrorUnlockedSsMessage", 
+// IDS_BRAVE_SYNC_PASSPHRASE_DECRYPTION_SS_UNLOCKED_ERROR_MESSAGE
+// }});
 }
 
 }  // namespace

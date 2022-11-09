@@ -1,5 +1,5 @@
 diff --git a/components/sync_device_info/device_info_sync_bridge.cc b/components/sync_device_info/device_info_sync_bridge.cc
-index 0703858aa43dccc7268e90b3f6b1a79c60bf3e5b..a1e8ab0d04c6576b0dbd28e964191f6a89be3e5d 100644
+index 0703858aa43dccc7268e90b3f6b1a79c60bf3e5b..5fb151060f3d91fbb9f0ab13f20752cf46a8c160 100644
 --- a/components/sync_device_info/device_info_sync_bridge.cc
 +++ b/components/sync_device_info/device_info_sync_bridge.cc
 @@ -261,6 +261,7 @@ std::unique_ptr<DeviceInfoSpecifics> MakeLocalDeviceSpecifics(
@@ -10,7 +10,31 @@ index 0703858aa43dccc7268e90b3f6b1a79c60bf3e5b..a1e8ab0d04c6576b0dbd28e964191f6a
    return specifics;
  }
  
-@@ -430,6 +431,7 @@ absl::optional<ModelError> DeviceInfoSyncBridge::ApplySyncChanges(
+@@ -323,6 +324,7 @@ DeviceInfoSyncBridge::DeviceInfoSyncBridge(
+     : ModelTypeSyncBridge(std::move(change_processor)),
+       local_device_info_provider_(std::move(local_device_info_provider)),
+       device_info_prefs_(std::move(device_info_prefs)) {
++LOG(ERROR) << "[BraveSync] " << __func__ << " 000 CTOR this=" << this;
+   DCHECK(local_device_info_provider_);
+   DCHECK(device_info_prefs_);
+ 
+@@ -341,12 +343,14 @@ LocalDeviceInfoProvider* DeviceInfoSyncBridge::GetLocalDeviceInfoProvider() {
+ }
+ 
+ void DeviceInfoSyncBridge::RefreshLocalDeviceInfoIfNeeded() {
++LOG(ERROR) << "[BraveSync] " << __func__ << " 000";
+   // Device info cannot be synced if the provider is not initialized. When it
+   // gets initialized, local device info will be sent.
+   if (!local_device_info_provider_->GetLocalDeviceInfo()) {
++LOG(ERROR) << "[BraveSync] " << __func__ << " 001 could not get local info";
+     return;
+   }
+-
++LOG(ERROR) << "[BraveSync] " << __func__ << " 002";
+   ReconcileLocalAndStored();
+ }
+ 
+@@ -430,6 +434,7 @@ absl::optional<ModelError> DeviceInfoSyncBridge::ApplySyncChanges(
    for (const std::unique_ptr<EntityChange>& change : entity_changes) {
      const std::string guid = change->storage_key();
  
@@ -18,7 +42,7 @@ index 0703858aa43dccc7268e90b3f6b1a79c60bf3e5b..a1e8ab0d04c6576b0dbd28e964191f6a
      // Reupload local device if it was deleted from the server.
      if (local_cache_guid_ == guid &&
          change->type() == EntityChange::ACTION_DELETE) {
-@@ -440,7 +442,7 @@ absl::optional<ModelError> DeviceInfoSyncBridge::ApplySyncChanges(
+@@ -440,7 +445,7 @@ absl::optional<ModelError> DeviceInfoSyncBridge::ApplySyncChanges(
      // Ignore any remote changes that have a cache guid that is or was this
      // local device.
      if (device_info_prefs_->IsRecentLocalCacheGuid(guid)) {
@@ -27,7 +51,7 @@ index 0703858aa43dccc7268e90b3f6b1a79c60bf3e5b..a1e8ab0d04c6576b0dbd28e964191f6a
      }
  
      if (change->type() == EntityChange::ACTION_DELETE) {
-@@ -707,6 +709,7 @@ void DeviceInfoSyncBridge::OnReadAllMetadata(
+@@ -707,6 +712,7 @@ void DeviceInfoSyncBridge::OnReadAllMetadata(
      return;
    }
  
@@ -35,7 +59,49 @@ index 0703858aa43dccc7268e90b3f6b1a79c60bf3e5b..a1e8ab0d04c6576b0dbd28e964191f6a
    // In the regular case for sync being disabled, wait for MergeSyncData()
    // before initializing the LocalDeviceInfoProvider.
    if (!metadata_batch->GetModelTypeState().initial_sync_done() &&
-@@ -915,6 +918,7 @@ DeviceInfoSyncBridge::CountActiveDevicesByType() const {
+@@ -783,8 +789,10 @@ void DeviceInfoSyncBridge::OnCommit(
+ }
+ 
+ bool DeviceInfoSyncBridge::ReconcileLocalAndStored() {
++LOG(ERROR) << "[BraveSync] " << __func__ << " 000";
+   const DeviceInfo* current_info =
+       local_device_info_provider_->GetLocalDeviceInfo();
++LOG(ERROR) << "[BraveSync] " << __func__ << " 001";
+   DCHECK(current_info);
+ 
+   auto iter = all_data_.find(current_info->guid());
+@@ -797,6 +805,7 @@ bool DeviceInfoSyncBridge::ReconcileLocalAndStored() {
+       !force_reupload_for_test_) {
+     if (pulse_timer_.IsRunning()) {
+       // No need to update the |pulse_timer| since nothing has changed.
++LOG(ERROR) << "[BraveSync] " << __func__ << " 002 // No need to update the |pulse_timer| since nothing has changed.";
+       return false;
+     }
+ 
+@@ -806,6 +815,7 @@ bool DeviceInfoSyncBridge::ReconcileLocalAndStored() {
+       pulse_timer_.Start(FROM_HERE, pulse_delay,
+                          base::BindOnce(&DeviceInfoSyncBridge::SendLocalData,
+                                         base::Unretained(this)));
++LOG(ERROR) << "[BraveSync] " << __func__ << " 003 return false";
+       return false;
+     }
+   }
+@@ -819,12 +829,13 @@ bool DeviceInfoSyncBridge::ReconcileLocalAndStored() {
+     device_info_synced_callback_list_.push_back(
+         base::BindOnce(new_interested_data_types_callback_, new_data_types));
+   }
+-
++LOG(ERROR) << "[BraveSync] " << __func__ << " 004";
+   // If there was a force-upload request, it has been satisfied now.
+   force_reupload_for_test_ = false;
+ 
+   // Either the local data was updated, or it's time for a pulse update.
+   SendLocalData();
++LOG(ERROR) << "[BraveSync] " << __func__ << " EXIT return true";
+   return true;
+ }
+ 
+@@ -915,6 +926,7 @@ DeviceInfoSyncBridge::CountActiveDevicesByType() const {
  }
  
  void DeviceInfoSyncBridge::ExpireOldEntries() {

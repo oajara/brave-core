@@ -1,0 +1,70 @@
+diff --git a/components/sync_device_info/local_device_info_provider_impl.cc b/components/sync_device_info/local_device_info_provider_impl.cc
+index 5f7b62da9041d61b32ac92b25254e27d64927b57..c64ee8ff6ee095c65890c5af7fffe099290bd13b 100644
+--- a/components/sync_device_info/local_device_info_provider_impl.cc
++++ b/components/sync_device_info/local_device_info_provider_impl.cc
+@@ -3,6 +3,9 @@
+ // found in the LICENSE file.
+ 
+ #include "components/sync_device_info/local_device_info_provider_impl.h"
++    #include "base/logging.h"
++    #include "base/debug/stack_trace.h"
++    #include "base/debug/task_trace.h"
+ 
+ #include "base/bind.h"
+ #include "components/sync/base/sync_prefs.h"
+@@ -31,9 +34,11 @@ version_info::Channel LocalDeviceInfoProviderImpl::GetChannel() const {
+ }
+ 
+ const DeviceInfo* LocalDeviceInfoProviderImpl::GetLocalDeviceInfo() const {
++LOG(ERROR) << "[BraveSync] " << __func__ << " 000 this=" << this;
+   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
+ 
+   if (!local_device_info_) {
++LOG(ERROR) << "[BraveSync] " << __func__ << " 001 return nullptr";
+     return nullptr;
+   }
+ 
+@@ -70,7 +75,7 @@ const DeviceInfo* LocalDeviceInfoProviderImpl::GetLocalDeviceInfo() const {
+   } else {
+     local_device_info_->set_full_hardware_class(full_hardware_class_);
+   }
+-
++LOG(ERROR) << "[BraveSync] " << __func__ << " EXIT return local_device_info_.get()="<<local_device_info_.get();
+   return local_device_info_.get();
+ }
+ 
+@@ -96,6 +101,13 @@ void LocalDeviceInfoProviderImpl::Initialize(
+     const std::string& model_name,
+     const std::string& full_hardware_class,
+     std::unique_ptr<DeviceInfo> device_info_restored_from_store) {
++LOG(ERROR) << "[BraveSync] " << __func__ << " 000 cache_guid="<<cache_guid;
++LOG(ERROR) << "[BraveSync] " << __func__ << " 001 client_name="<<client_name;
++LOG(ERROR) << "[BraveSync] " << __func__ << " stack=" << base::debug::StackTrace().ToString();
++LOG(ERROR) << "[BraveSync] " << __func__ << " task=";
++base::debug::TaskTrace().Print();
++
++
+   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
+   DCHECK(!cache_guid.empty());
+ 
+@@ -125,7 +137,7 @@ void LocalDeviceInfoProviderImpl::Initialize(
+       sync_client_->GetSendTabToSelfReceivingEnabled(),
+       sync_client_->GetLocalSharingInfo(), paask_info,
+       last_fcm_registration_token, last_interested_data_types);
+-
++LOG(ERROR) << "[BraveSync] " << __func__ << " 003 CREATED local_device_info_.get()="<<local_device_info_.get();
+   full_hardware_class_ = full_hardware_class;
+ 
+   // Notify observers.
+@@ -133,6 +145,11 @@ void LocalDeviceInfoProviderImpl::Initialize(
+ }
+ 
+ void LocalDeviceInfoProviderImpl::Clear() {
++LOG(ERROR) << "[BraveSync] " << __func__ << " 000";
++LOG(ERROR) << "[BraveSync] " << __func__ << " stack=" << base::debug::StackTrace().ToString();
++LOG(ERROR) << "[BraveSync] " << __func__ << " task=";
++base::debug::TaskTrace().Print();
++
+   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
+   local_device_info_.reset();
+ }

@@ -7,6 +7,8 @@
 
 #include <algorithm>
 #include <utility>
+  #include "base/debug/stack_trace.h"
+  #include "base/debug/task_trace.h"
 
 #include "base/callback_helpers.h"
 #include "base/metrics/histogram_functions.h"
@@ -36,6 +38,12 @@ BraveSyncServiceImplDelegate::BraveSyncServiceImplDelegate(
 BraveSyncServiceImplDelegate::~BraveSyncServiceImplDelegate() = default;
 
 void BraveSyncServiceImplDelegate::OnDeviceInfoChange() {
+LOG(ERROR) << "[BraveSync] " << __func__ << " 000";
+LOG(ERROR) << "[BraveSync] " << __func__ << " stack=" << base::debug::StackTrace().ToString();
+LOG(ERROR) << "[BraveSync] " << __func__ << " task=";
+base::debug::TaskTrace().Print();
+
+
   DCHECK(sync_service_impl_);
 
   RecordP3ASyncStatus();
@@ -45,13 +53,14 @@ void BraveSyncServiceImplDelegate::OnDeviceInfoChange() {
 
   bool found_local_device = false;
   const auto all_devices = device_info_tracker_->GetAllDeviceInfo();
+LOG(ERROR) << "[BraveSync] " << __func__ << " 001 all_devices.size()=" << all_devices.size();
   for (const auto& device : all_devices) {
     if (local_device_info->guid() == device->guid()) {
       found_local_device = true;
       break;
     }
   }
-
+LOG(ERROR) << "[BraveSync] " << __func__ << " 002 found_local_device=" << found_local_device;
   // When our device was removed from the sync chain by some other device,
   // we don't seee it in devices list, we must reset sync in a proper way
   if (!found_local_device) {

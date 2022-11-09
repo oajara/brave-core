@@ -21,6 +21,7 @@ export class BraveSyncBrowserProxy {
     return sendWithPromise('SyncGetDeviceList');
   }
   setSyncCode(syncCode) {
+console.log("brave_sync_browser_proxy.ts:setSyncCode 000 syncCode=",syncCode)
     return sendWithPromise('SyncSetupSetSyncCode', syncCode);
   }
   resetSyncChain() {
@@ -28,6 +29,9 @@ export class BraveSyncBrowserProxy {
   }
   deleteDevice(deviceId) {
     return sendWithPromise('SyncDeleteDevice', deviceId);
+  }
+  stopSyncClearData() {
+    return sendWithPromise('SyncStopClearData');
   }
   static getInstance() {
     return instance || (instance = new BraveSyncBrowserProxy())

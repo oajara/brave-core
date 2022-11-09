@@ -70,9 +70,11 @@ Polymer({
   handleJoinSyncChain_: function () {
     this.syncCode = undefined
     this.syncCodeDialogType_ = 'input'
+console.log("brave_sync_setup.ts:handleJoinSyncChain_ 000")
   },
 
   handleSyncCodeDialogDone_: function (e) {
+console.log("brave_sync_setup.ts:handleSyncCodeDialogDone_ 000")
     if (this.syncCodeDialogType_ === 'input') {
       const messageText = this.i18n('braveSyncFinalSecurityWarning')
       const shouldProceed = confirm(messageText)
@@ -83,17 +85,24 @@ Polymer({
 
     this.submitSyncCode_()
   },
+  
+  handleShowGetCode_: function (e) {
+    console.log("handleShowGetCode_ 000 AT!!!");
+  },
 
   submitSyncCode_: async function () {
+console.log("brave_sync_setup.ts:submitSyncCode_ 000")
     this.isSubmittingSyncCode_ = true
     const syncCodeToSubmit = this.syncCode || ''
     let success = false
     try {
       success = await this.syncBrowserProxy_.setSyncCode(syncCodeToSubmit)
     } catch (e) {
+console.log("brave_sync_setup.ts:submitSyncCode_ 001 catch e=",e)
       this.syncCodeValidationError_ = e
       success = false
     }
+console.log("brave_sync_setup.ts:submitSyncCode_ 002 success=",success)
     this.isSubmittingSyncCode_ = false
     if (success) {
       this.syncCodeDialogType_ = undefined

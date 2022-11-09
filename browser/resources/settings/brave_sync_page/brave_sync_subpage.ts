@@ -24,7 +24,8 @@ import { I18nMixin } from 'chrome://resources/js/i18n_mixin.js';
 
 import { Route, RouteObserverMixin, Router } from '../router.js';
 import { SyncBrowserProxyImpl, StatusAction } from '../people_page/sync_browser_proxy.js';
-import {getTemplate} from './brave_sync_subpage.html.js'
+import { BraveSyncBrowserProxy } from './brave_sync_browser_proxy.js';
+import { getTemplate } from './brave_sync_subpage.html.js'
 
 const SettingBraveSyncSubpageBase = I18nMixin(RouteObserverMixin(PolymerElement))
 
@@ -70,10 +71,17 @@ class SettingBraveSyncSubpage extends SettingBraveSyncSubpageBase {
       },
 
       /** @private */
-      hasSyncWordsDecryptionError_:{
+      hasSyncWordsDecryptionError_ : {
         type: Boolean,
         value: false,
         computed: 'computeHasSyncWordsDecryptionError_(syncStatus.hasSyncWordsDecryptionError)',
+      },
+
+      /** @private */
+      hasSyncWordsDecryptionErrorUnlockedSs_ : {
+        type: Boolean,
+        value: false,
+        computed: 'computeHasSyncWordsDecryptionErrorUnlockedSs_(syncStatus.hasSyncWordsDecryptionError)',
       },
 
       /** @private */
@@ -96,6 +104,8 @@ class SettingBraveSyncSubpage extends SettingBraveSyncSubpageBase {
 
   /** @private {?SyncBrowserProxy} */
   browserProxy_ = SyncBrowserProxyImpl.getInstance()
+
+  braveSyncBrowserProxy_ = BraveSyncBrowserProxy.getInstance();
 
   /**
   * The beforeunload callback is used to show the 'Leave site' dialog. This
@@ -154,6 +164,7 @@ class SettingBraveSyncSubpage extends SettingBraveSyncSubpageBase {
   }
 
   updatePageStatus_(newValue, oldValue) {
+console.log("brave_sync_subpage.ts:updatePageStatus_ 000")
     const isFirstSetup = this.syncStatus && this.syncStatus.firstSetupInProgress
     this.pageStatus_ = isFirstSetup ? 'setup' : 'configure'
   }
@@ -186,7 +197,32 @@ class SettingBraveSyncSubpage extends SettingBraveSyncSubpageBase {
   * @private
   */
   computeHasSyncWordsDecryptionError_() {
-    return this.syncStatus != undefined && !!this.syncStatus.hasSyncWordsDecryptionError
+console.log("brave_sync_subpage.ts:computeHasSyncWordsDecryptionError_ 000")
+    // return this.syncStatus != undefined && !!this.syncStatus.hasSyncWordsDecryptionError
+    //   && !this.syncStatus.isOsEncryptionAvailable
+    const bret = this.syncStatus != undefined && !!this.syncStatus.hasSyncWordsDecryptionError
+      && !this.syncStatus.isOsEncryptionAvailable
+    console.log("computeHasSyncWordsDecryptionError_ EXIT bret="+bret)
+  }
+
+  /**
+  * @return {boolean}
+  * @private
+  */  
+  computeHasSyncWordsDecryptionErrorUnlockedSs_() {
+    console.log("brave_sync_subpage.ts:computeHasSyncWordsDecryptionErrorUnlockedSs_ 000")
+    console.log("this.syncStatus=",this.syncStatus)
+    if (this.syncStatus) {
+      console.log("this.syncStatus.hasSyncWordsDecryptionError=",this.syncStatus.hasSyncWordsDecryptionError)
+      console.log("this.syncStatus.isOsEncryptionAvailable=",this.syncStatus.isOsEncryptionAvailable)
+    }
+    // return this.syncStatus != undefined && !!this.syncStatus.hasSyncWordsDecryptionError
+    //   && !!this.syncStatus.isOsEncryptionAvailable
+    const bret = this.syncStatus != undefined && !!this.syncStatus.hasSyncWordsDecryptionError
+      && !!this.syncStatus.isOsEncryptionAvailable
+    
+    console.log("computeHasSyncWordsDecryptionErrorUnlockedSs_ EXIT bret="+bret)
+    return bret
   }
 
   /** @protected */
@@ -274,6 +310,113 @@ class SettingBraveSyncSubpage extends SettingBraveSyncSubpageBase {
     if (router.getCurrentRoute() == router.getRoutes().BRAVE_SYNC_SETUP) {
       router.navigateTo(router.getRoutes().BRAVE_SYNC)
     }
+  }
+
+  /**
+  * Called when we see that OS safe storage is not locked, but we can't decrypt 
+  * the passphrase. So we proposing user to clear data and re-joid the chain.
+  */
+  onRejoin_ = async function (e) {
+console.log("brave_sync_subpage.ts:onRejoin_ 000")
+    const messageText = this.i18n('braveSyncResetConfirmation')
+    const shouldReset = confirm(messageText)
+    if (!shouldReset) {
+      return
+    }
+console.log("brave_sync_subpage.ts:onRejoin_ 001")
+    this.pageStatus_ = 'spinner'
+    await this.braveSyncBrowserProxy_.stopSyncClearData();
+console.log("brave_sync_subpage.ts:onRejoin_ 002")
+     window.setTimeout(() => {
+ console.log("brave_sync_subpage.ts:onRejoin_ 003")
+// 
+//       const router = Router.getInstance()
+//       router.navigateTo(router.getRoutes().BRAVE_SYNC) // better, but not perfect
+//       //router.navigateTo(router.getRoutes().BRAVE_SYNC_SETUP) // not good at all
+// 
+//       this.pageStatus_ = 'setup' // this has no effect
+//console.log("this.shadowRoot=", this.shadowRoot)
+
+//this.fire('show-get-code') crash
+
+       //elem = document.querySelector("body > settings-ui").shadowRoot.querySelector("#main").shadowRoot.querySelector("settings-basic-page").shadowRoot.querySelector("#basicPage > settings-section.expanded > settings-brave-sync-page").shadowRoot.querySelector("#pages > settings-subpage > settings-brave-sync-subpage").shadowRoot.querySelector("#sync-section > settings-brave-sync-setup").shadowRoot.querySelector("div > div.content > div > cr-button:nth-child(2)")
+//console.log("elem=",elem)
+console.log("1=",document.querySelector("body > settings-ui"))
+console.log("2=",document.querySelector("body > settings-ui").shadowRoot)
+console.log("3=",document.querySelector("body > settings-ui").shadowRoot.querySelector("#main"))
+console.log("4=",document.querySelector("body > settings-ui").shadowRoot.querySelector("#main").shadowRoot)
+console.log("5=",document.querySelector("body > settings-ui").shadowRoot.querySelector("#main").shadowRoot.querySelector("settings-basic-page"))
+console.log("6=",document.querySelector("body > settings-ui").shadowRoot.querySelector("#main").shadowRoot.querySelector("settings-basic-page").shadowRoot)
+console.log("7=",document.querySelector("body > settings-ui").shadowRoot.querySelector("#main").shadowRoot.querySelector("settings-basic-page").shadowRoot.querySelector("#basicPage > settings-section.expanded > settings-brave-sync-page"))
+console.log("8=",document.querySelector("body > settings-ui").shadowRoot.querySelector("#main").shadowRoot.querySelector("settings-basic-page").shadowRoot.querySelector("#basicPage > settings-section.expanded > settings-brave-sync-page").shadowRoot)
+console.log("9=",document.querySelector("body > settings-ui").shadowRoot.querySelector("#main").shadowRoot.querySelector("settings-basic-page").shadowRoot.querySelector("#basicPage > settings-section.expanded > settings-brave-sync-page").shadowRoot.querySelector("#pages > settings-subpage > settings-brave-sync-subpage"))
+console.log("A=",document.querySelector("body > settings-ui").shadowRoot.querySelector("#main").shadowRoot.querySelector("settings-basic-page").shadowRoot.querySelector("#basicPage > settings-section.expanded > settings-brave-sync-page").shadowRoot.querySelector("#pages > settings-subpage > settings-brave-sync-subpage").shadowRoot)
+console.log("B=",document.querySelector("body > settings-ui").shadowRoot.querySelector("#main").shadowRoot.querySelector("settings-basic-page").shadowRoot.querySelector("#basicPage > settings-section.expanded > settings-brave-sync-page").shadowRoot.querySelector("#pages > settings-subpage > settings-brave-sync-subpage").shadowRoot.querySelector("#sync-section > settings-brave-sync-setup"))
+console.log("C=",document.querySelector("body > settings-ui").shadowRoot.querySelector("#main").shadowRoot.querySelector("settings-basic-page").shadowRoot.querySelector("#basicPage > settings-section.expanded > settings-brave-sync-page").shadowRoot.querySelector("#pages > settings-subpage > settings-brave-sync-subpage").shadowRoot.querySelector("#sync-section > settings-brave-sync-setup").shadowRoot)
+console.log("D=",document.querySelector("body > settings-ui").shadowRoot.querySelector("#main").shadowRoot.querySelector("settings-basic-page").shadowRoot.querySelector("#basicPage > settings-section.expanded > settings-brave-sync-page").shadowRoot.querySelector("#pages > settings-subpage > settings-brave-sync-subpage").shadowRoot.querySelector("#sync-section > settings-brave-sync-setup").shadowRoot.querySelector("div > div.content > div > cr-button:nth-child(2)"))
+
+console.log("brave_sync_subpage.ts:onRejoin_ 003-5")
+console.log("10=",this);
+console.log("11=",this.shadowRoot);
+console.log("12=",this.shadowRoot.querySelector("#sync-section > settings-brave-sync-setup"))
+console.log("13=",this.shadowRoot.querySelector("#sync-section > settings-brave-sync-setup").shadowRoot)
+console.log("14=",this.shadowRoot.querySelector("#sync-section > settings-brave-sync-setup").shadowRoot.querySelector("div > div.content > div > cr-button:nth-child(2)"))
+console.log("brave_sync_subpage.ts:onRejoin_ 003-6")
+
+let elem1 = this.shadowRoot.querySelector("#sync-section > settings-brave-sync-setup").shadowRoot.querySelector("div > div.content > div > cr-button:nth-child(2)")
+console.log("elem1=",elem1);
+let elem2 = document.querySelector("body > settings-ui").shadowRoot.querySelector("#main").shadowRoot.querySelector("settings-basic-page").shadowRoot.querySelector("#basicPage > settings-section.expanded > settings-brave-sync-page").shadowRoot.querySelector("#pages > settings-subpage > settings-brave-sync-subpage").shadowRoot.querySelector("#sync-section > settings-brave-sync-setup").shadowRoot.querySelector("div > div.content > div > cr-button:nth-child(2)")
+console.log("elem2=",elem2);
+
+let elem3 = document.querySelector("body > settings-ui").shadowRoot.querySelector("#main").shadowRoot.querySelector("settings-basic-page").shadowRoot.querySelector("#basicPage > settings-section.expanded > settings-brave-sync-page").shadowRoot.querySelector("#pages > settings-subpage > settings-brave-sync-subpage").shadowRoot.querySelector("#sync-section > settings-brave-sync-setup").shadowRoot.querySelector("#enterSyncCodeButton")
+console.log("elem3=",elem3);
+
+let elem4 = document.getElementById('enterSyncCodeButton') // null
+console.log("elem4=",elem4);
+
+let elem5 = this.shadowRoot.querySelector("#sync-section > settings-brave-sync-setup").shadowRoot.querySelector("#enterSyncCodeButton")
+console.log("elem4=",elem5);
+
+console.log("brave_sync_subpage.ts:onRejoin_ 003-7")
+
+// const event = new MouseEvent('click', {
+//     view: window,
+//     bubbles: true,
+//     cancelable: true
+//   }); //ok
+const event = new MouseEvent('click'); //ok
+
+console.log("brave_sync_subpage.ts:onRejoin_ 003-8")
+elem5.dispatchEvent(event);
+console.log("brave_sync_subpage.ts:onRejoin_ 003-9")
+
+/*
+example of is assigning search shadowRoot
+saveButton.id = 'saveOnExitSettingsConfirm';
+
+
+this.shadowRoot.querySelector('#saveOnExitSettingsConfirm')
+
+
+
+dispatchEvent https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent
+
+const event = document.createEvent('MouseEvent');
+event.initMouseEvent(
+    'click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+a.dispatchEvent(event);
+
+https://developer.mozilla.org/en-US/docs/Web/Events/Creating_and_triggering_events#triggering_built-in_events
+
+*/
+
+//       //window.location.reload(); - causes additional reload
+//       window.setTimeout(() => {
+//         const router = Router.getInstance()
+//         router.navigateTo(router.getRoutes().BRAVE_SYNC_SETUP)
+//     },0)
+}, 1000)
+console.log("brave_sync_subpage.ts:onRejoin_ 004")
   }
 }
 
