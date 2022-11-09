@@ -16,7 +16,6 @@ import("//brave/browser/brave_wallet/android/sources.gni")
 import("//brave/browser/brave_wallet/notifications/sources.gni")
 import("//brave/browser/browsing_data/sources.gni")
 import("//brave/browser/component_updater/sources.gni")
-import("//brave/browser/core_metrics/sources.gni")
 import("//brave/browser/crypto_dot_com/sources.gni")
 import("//brave/browser/debounce/sources.gni")
 import("//brave/browser/download/sources.gni")
@@ -26,6 +25,7 @@ import("//brave/browser/gemini/sources.gni")
 import("//brave/browser/greaselion/sources.gni")
 import("//brave/browser/importer/sources.gni")
 import("//brave/browser/ipfs/sources.gni")
+import("//brave/browser/misc_metrics/sources.gni")
 import("//brave/browser/new_tab/sources.gni")
 import("//brave/browser/notifications/sources.gni")
 import("//brave/browser/ntp_background/sources.gni")
@@ -391,7 +391,6 @@ brave_chrome_browser_sources += brave_browser_brave_shields_sources
 brave_chrome_browser_sources += brave_browser_brave_stats_updater_sources
 brave_chrome_browser_sources += brave_browser_browsing_data_sources
 brave_chrome_browser_sources += brave_browser_component_updater_sources
-brave_chrome_browser_sources += brave_browser_core_metrics_sources
 brave_chrome_browser_sources += brave_browser_crypto_dot_com_sources
 brave_chrome_browser_sources += brave_browser_debounce_sources
 brave_chrome_browser_sources += brave_browser_download_sources
@@ -400,6 +399,7 @@ brave_chrome_browser_sources += brave_browser_gemini_sources
 brave_chrome_browser_sources += brave_browser_greaselion_sources
 brave_chrome_browser_sources += brave_browser_importer_sources
 brave_chrome_browser_sources += brave_browser_ipfs_sources
+brave_chrome_browser_sources += brave_browser_misc_metrics_sources
 brave_chrome_browser_sources += brave_browser_new_tab_sources
 brave_chrome_browser_sources += brave_browser_notifications_sources
 brave_chrome_browser_sources += brave_browser_ntp_background_sources
@@ -424,7 +424,6 @@ brave_chrome_browser_deps += brave_browser_brave_shields_deps
 brave_chrome_browser_deps += brave_browser_brave_stats_updater_deps
 brave_chrome_browser_deps += brave_browser_browsing_data_deps
 brave_chrome_browser_deps += brave_browser_component_updater_deps
-brave_chrome_browser_deps += brave_browser_core_metrics_deps
 brave_chrome_browser_deps += brave_browser_crypto_dot_com_deps
 brave_chrome_browser_deps += brave_browser_debounce_deps
 brave_chrome_browser_deps += brave_browser_download_deps
@@ -433,6 +432,7 @@ brave_chrome_browser_deps += brave_browser_gemini_deps
 brave_chrome_browser_deps += brave_browser_greaselion_deps
 brave_chrome_browser_deps += brave_browser_importer_deps
 brave_chrome_browser_deps += brave_browser_ipfs_deps
+brave_chrome_browser_deps += brave_browser_misc_metrics_deps
 brave_chrome_browser_deps += brave_browser_new_tab_deps
 brave_chrome_browser_deps += brave_browser_notifications_deps
 brave_chrome_browser_deps += brave_browser_ntp_background_deps
