@@ -14,10 +14,6 @@
 #include "brave/vpn/service_main.h"
 #include "brave/vpn/vpn_utils.h"
 
-namespace {
-constexpr char kInstallSwitchName[] = "install";
-}  // namespace
-
 int main(int argc, char* argv[]) {
   // Initialize the CommandLine singleton from the environment.
   base::CommandLine::Init(0, nullptr);
@@ -43,11 +39,6 @@ int main(int argc, char* argv[]) {
   if (!com_initializer.Succeeded()) {
     PLOG(ERROR) << "Failed to initialize COM";
     return -1;
-  }
-
-  if (command_line->HasSwitch(kInstallSwitchName)) {
-    LOG(ERROR) << "service installed:" << brave_vpn::InstallService();
-    return !brave_vpn::InstallService();
   }
 
   // Run the COM service.

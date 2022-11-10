@@ -103,6 +103,10 @@ source_set("brave_vpn_internal") {
       "utils_win.cc",
       "utils_win.h",
     ]
+    deps += [
+      "//brave/vpn:public_headers",
+      "//chrome/install_static:install_static_util",
+    ]
   }
 }
 

@@ -11,10 +11,6 @@
 
 namespace brave_vpn {
 
-constexpr wchar_t kBraveVPNServiceName[] = L"BraveVPNService";
-const wchar_t kVpnServiceRegistryStoragePath[] =
-    L"Software\\BraveSoftware\\Brave\\Vpn";
-
 enum ErrorCodes {
   OPERATION_SUCCESS = 0,
   FILTERS_ALREADY_ACTIVATED,
@@ -27,9 +23,6 @@ enum ErrorCodes {
   DNS_HANLDER_IS_NULL,
 };
 
-const IID& GetVpnServiceIid();
-const CLSID& GetVpnServiceClsid();
-const std::wstring GetVpnServiceDisplayName();
 const GUID GetVpnDnsSublayerGUID();
 
 }  // namespace brave_vpn

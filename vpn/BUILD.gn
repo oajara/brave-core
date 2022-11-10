@@ -57,7 +57,7 @@ source_set("lib") {
 
   deps = [
     "//base",
-    "//chrome/installer/util:work_item",
+    "//chrome/install_static:install_static_util",
   ]
   configs -= [ "//build/config/compiler:cet_shadow_stack" ]
   configs -= [ "//build/config/win:winver" ]

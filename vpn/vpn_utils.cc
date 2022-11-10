@@ -13,19 +13,18 @@
 #include "base/logging.h"
 #include "base/path_service.h"
 #include "brave/vpn/constants.h"
-#include "chrome/installer/util/install_service_work_item.h"
 
 namespace brave_vpn {
 
 namespace {
-
+constexpr wchar_t kBraveVPNServiceFilter[] = L"Brave VPN Service DNS Filter";
 DWORD AddSublayer(GUID uuid) {
   FWPM_SESSION0 session = {};
   HANDLE engine = nullptr;
   auto result =
       FwpmEngineOpen0(nullptr, RPC_C_AUTHN_WINNT, nullptr, &session, &engine);
   if (result == ERROR_SUCCESS) {
-    std::wstring name(kBraveVPNServiceName);
+    std::wstring name(kBraveVPNServiceFilter);
     FWPM_SUBLAYER0 sublayer = {};
     sublayer.subLayerKey = uuid;
     sublayer.displayData.name = name.data();
@@ -99,7 +98,7 @@ DWORD BlockIPv4Queries(HANDLE engine_handle) {
 
   FWPM_FILTER0 filter = {};
   filter.subLayerKey = GetVpnDnsSublayerGUID();
-  std::wstring name(kBraveVPNServiceName);
+  std::wstring name(kBraveVPNServiceFilter);
   filter.displayData.name = name.data();
   filter.weight.type = FWP_UINT8;
   filter.weight.uint8 = 0xF;
@@ -119,7 +118,7 @@ DWORD BlockIPv4Queries(HANDLE engine_handle) {
 DWORD BlockIPv6Queries(HANDLE engine_handle) {
   FWPM_FILTER0 Filter = {};
   Filter.subLayerKey = GetVpnDnsSublayerGUID();
-  std::wstring name(kBraveVPNServiceName);
+  std::wstring name(kBraveVPNServiceFilter);
   Filter.displayData.name = name.data();
   Filter.weight.type = FWP_EMPTY;
   Filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V6;
@@ -157,7 +156,7 @@ DWORD PermitQueriesFromTAP(HANDLE engine_handle,
 
   FWPM_FILTER0 Filter = {};
   Filter.subLayerKey = GetVpnDnsSublayerGUID();
-  std::wstring name(kBraveVPNServiceName);
+  std::wstring name(kBraveVPNServiceFilter);
   Filter.displayData.name = name.data();
   Filter.weight.type = FWP_UINT8;
   Filter.weight.uint8 = 0xE;
@@ -241,21 +240,6 @@ HANDLE OpenEngineSession() {
 
 DWORD CloseEngineSession(HANDLE engine) {
   return FwpmEngineClose0(engine);
-}
-
-bool InstallService() {
-  base::FilePath exe_dir;
-  base::PathService::Get(base::DIR_EXE, &exe_dir);
-  base::CommandLine service_cmd(exe_dir.Append(L"vpn.exe"));
-  installer::InstallServiceWorkItem install_service_work_item(
-      kBraveVPNServiceName, brave_vpn::GetVpnServiceDisplayName(),
-      SERVICE_DEMAND_START, service_cmd,
-      base::CommandLine(base::CommandLine::NO_PROGRAM),
-      kVpnServiceRegistryStoragePath, {brave_vpn::GetVpnServiceClsid()},
-      {brave_vpn::GetVpnServiceIid()});
-  install_service_work_item.set_best_effort(true);
-  install_service_work_item.set_rollback_enabled(false);
-  return install_service_work_item.Do();
 }
 
 }  // namespace brave_vpn

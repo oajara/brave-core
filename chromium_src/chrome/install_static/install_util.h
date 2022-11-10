@@ -6,8 +6,11 @@
 #ifndef BRAVE_CHROMIUM_SRC_CHROME_INSTALL_STATIC_INSTALL_UTIL_H_
 #define BRAVE_CHROMIUM_SRC_CHROME_INSTALL_STATIC_INSTALL_UTIL_H_
 
-#define GetChromeChannel           \
-  GetChromeChannel_ChromiumImpl(); \
+#define GetChromeChannel                         \
+  GetChromeChannel_ChromiumImpl();               \
+  const IID& GetVpnServiceIid();                 \
+  const CLSID& GetVpnServiceClsid();             \
+  const std::wstring GetVpnServiceDisplayName(); \
   version_info::Channel GetChromeChannel
 
 #include "src/chrome/install_static/install_util.h"

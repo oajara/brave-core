@@ -31,6 +31,7 @@
 #include "brave/vpn/constants.h"
 #include "brave/vpn/vpn_dns_handler.h"
 #include "brave/vpn/vpn_service.h"
+#include "chrome/install_static/install_util.h"
 
 namespace brave_vpn {
 
@@ -39,6 +40,7 @@ namespace {
 // Command line switch "--console" runs the service interactively for
 // debugging purposes.
 constexpr char kConsoleSwitchName[] = "console";
+constexpr wchar_t kVpnServiceDisplayName[] = L"BraveVPNService";
 }  // namespace
 
 ServiceMain* ServiceMain::GetInstance() {
@@ -100,7 +102,7 @@ HRESULT ServiceMain::RegisterClassObject() {
   static_assert(std::extent<decltype(cookies_)>() == std::size(class_factories),
                 "Arrays cookies_ and class_factories must be the same size.");
 
-  IID class_ids[] = {brave_vpn::GetVpnServiceClsid()};
+  IID class_ids[] = {install_static::GetVpnServiceClsid()};
   // IID class_ids[] = {brave_vpn::GetVpnServiceIid()};
 
   DCHECK_EQ(std::size(cookies_), std::size(class_ids));
@@ -147,7 +149,7 @@ ServiceMain::~ServiceMain() = default;
 
 int ServiceMain::RunAsService() {
   static constexpr SERVICE_TABLE_ENTRY dispatch_table[] = {
-      {const_cast<LPTSTR>(kBraveVPNServiceName),
+      {const_cast<LPTSTR>(kVpnServiceDisplayName),
        &ServiceMain::ServiceMainEntry},
       {nullptr, nullptr}};
 
@@ -163,7 +165,7 @@ int ServiceMain::RunAsService() {
 void ServiceMain::ServiceMainImpl() {
   LOG(ERROR) << __func__ << " BraveVPN Service started";
   service_status_handle_ = ::RegisterServiceCtrlHandler(
-      kBraveVPNServiceName, &ServiceMain::ServiceControlHandler);
+      kVpnServiceDisplayName, &ServiceMain::ServiceControlHandler);
   if (service_status_handle_ == nullptr) {
     LOG(ERROR) << "RegisterServiceCtrlHandler failed";
     return;

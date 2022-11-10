@@ -19,6 +19,7 @@
 #include "base/win/scoped_bstr.h"
 #include "brave/vpn/constants.h"
 #include "brave/vpn/vpn_service_idl.h"
+#include "chrome/install_static/install_util.h"
 
 #define DEFAULT_PHONE_BOOK NULL
 

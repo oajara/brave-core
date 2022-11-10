@@ -6,4 +6,5 @@ include_rules = [
   "+net",
   "+url",
   "+brave/components/api_request_helper",
+  "+chrome/install_static",
 ]
