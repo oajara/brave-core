@@ -44,7 +44,8 @@ void OnPermissionRequestStatus(
   std::cout << "In OnPermissionRequestStatus" << std::endl;
   std::cout << "1" << std::endl;
   HandleBraveGoogleSignInPermissionStatus(
-      request_initiator_url, content_settings, permission_statuses);
+      contents->GetBrowserContext(), request_initiator_url, content_settings,
+      permission_statuses);
   std::cout << "2" << std::endl;
   DCHECK_EQ(1u, permission_statuses.size());
   const auto status = permission_statuses[0];
@@ -197,10 +198,6 @@ void GoogleSignInThrottle::BeforeWillRedirectRequest(
     net::HttpRequestHeaders* modified_cors_exempt_request_headers) {
   std::cout << "In GoogleSignInThrottle::BeforeWillRedirectRequest"
             << std::endl;
-
-  // We should detect if we're in a new window and being redirected
-  // In this case, we get and set the Google Sign In permission
-  // on the opening window (last committed URL)
 
   auto* contents = wc_getter_.Run();
 

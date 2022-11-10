@@ -586,6 +586,24 @@ bool BraveContentBrowserClient::CanCreateWindow(
 
     std::cout << "status is " << status << std::endl;
     if (status == blink::mojom::PermissionStatus::GRANTED) {
+            Profile* profile =
+          Profile::FromBrowserContext(contents->GetBrowserContext());
+      DCHECK(profile);
+      HostContentSettingsMap* content_settings =
+          HostContentSettingsMapFactory::GetForProfile(profile);
+          
+      GURL primary_url("https://accounts.google.com");
+    GURL secondary_url("https://www.joinhoney.com");
+
+    std::cout << "primary_url: " << primary_url << std::endl;
+    std::cout << "secondary_url: " << secondary_url << std::endl;
+
+    std::cout << "Current content setting for these URLs is: "
+              << content_settings->GetContentSetting(
+                     primary_url, secondary_url,
+                     ContentSettingsType::BRAVE_COOKIES)
+              << "\n\n";
+
       // return ChromeContentBrowserClient impl
       return ChromeContentBrowserClient::CanCreateWindow(
           opener, opener_url, opener_top_level_frame_url, source_origin,
@@ -605,7 +623,7 @@ bool BraveContentBrowserClient::CanCreateWindow(
           true,
           base::BindOnce(
               &google_sign_in::HandleBraveGoogleSignInPermissionStatus,
-              opener_url,
+              contents->GetBrowserContext(), opener_url,
               base::WrapRefCounted<HostContentSettingsMap>(content_settings)));
       return false;
     } else {

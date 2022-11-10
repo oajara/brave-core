@@ -10,7 +10,9 @@
 
 namespace google_sign_in::features {
 
-// When enabled, Brave will prompt for permission on sites which want to use Google Sign In
-const base::Feature kBraveGoogleSignIn{"BraveGoogleSignIn", base::FEATURE_ENABLED_BY_DEFAULT};
+// When enabled, Brave will prompt for permission on sites which want to use
+// Google Sign In
+const base::Feature kBraveGoogleSignIn{"BraveGoogleSignIn",
+                                       base::FEATURE_ENABLED_BY_DEFAULT};
 
-}  // namespace google_sign_in
+}  // namespace google_sign_in::features

@@ -38,6 +38,7 @@ void Set3pCookieException(HostContentSettingsMap* content_settings,
                           const ContentSettingsPattern& embedding_pattern,
                           const ContentSetting& content_setting);
 void HandleBraveGoogleSignInPermissionStatus(
+    content::BrowserContext* context,
     const GURL& request_initiator_url,
     scoped_refptr<HostContentSettingsMap> content_settings,
     const std::vector<blink::mojom::PermissionStatus>& permission_statuses);

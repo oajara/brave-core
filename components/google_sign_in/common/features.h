@@ -12,6 +12,6 @@ namespace google_sign_in::features {
 
 extern const base::Feature kBraveGoogleSignIn;
 
-}  // namespace google_sign_in
+}  // namespace google_sign_in::features
 
 #endif  // BRAVE_COMPONENTS_GOOGLE_SIGN_IN_COMMON_FEATURES_H_
