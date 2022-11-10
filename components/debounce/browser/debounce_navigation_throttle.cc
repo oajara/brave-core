@@ -15,6 +15,9 @@
 #include "base/memory/weak_ptr.h"
 #include "base/threading/sequenced_task_runner_handle.h"
 #include "brave/components/debounce/browser/debounce_service.h"
+#include "brave/components/debounce/common/pref_names.h"
+#include "components/user_prefs/user_prefs.h"
+#include "content/public/browser/browser_context.h"
 #include "content/public/browser/navigation_entry.h"
 #include "content/public/browser/navigation_handle.h"
 #include "content/public/browser/navigation_throttle.h"
@@ -89,6 +92,17 @@ DebounceNavigationThrottle::MaybeCreateThrottleFor(
   // either. Caller must nullcheck this.
   if (!debounce_service)
     return nullptr;
+
+  WebContents* web_contents = navigation_handle->GetWebContents();
+  if (!web_contents)
+    return nullptr;
+
+  PrefService* prefs =
+      user_prefs::UserPrefs::Get(web_contents->GetBrowserContext());
+
+  if (!prefs->GetBoolean(kDebouncePrefEnabled)) {
+    return nullptr;
+  }
 
   return std::make_unique<DebounceNavigationThrottle>(navigation_handle,
                                                       debounce_service);
