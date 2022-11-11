@@ -492,6 +492,18 @@ const util = {
     fs.copySync(srcDir, dstDir)
   },
 
+  // Chromium compares pre-installed midl files and generated midl files from IDL during the build to check integrity.
+  // Generated files during the build time and upstream pre-installed files are different because we use different IDL file.
+  // So, we should copy our pre-installed files to overwrite upstream pre-installed files.
+  // After checking, pre-installed files are copied to gen dir and they are used to compile.
+  // So, this copying in every build doesn't affect compile performance.
+  updateVpnMidlFiles: () => {
+    console.log('update vpn midl files...')
+    const srcDir = path.join(config.braveCoreDir, 'win_build_output', 'midl', 'brave', 'vpn')
+    const dstDir = path.join(config.srcDir, 'third_party', 'win_build_output', 'midl', 'brave', 'vpn')
+    fs.copySync(srcDir, dstDir)
+  },
+
   // TODO(bridiver) - this should move to gn and windows should call signApp like other platforms
   signWinBinaries: () => {
     // Copy & sign only binaries for widevine sig file generation.
@@ -604,6 +616,7 @@ const util = {
 
     if (process.platform === 'win32') {
       util.updateOmahaMidlFiles()
+      util.updateVpnMidlFiles()
     }
     util.runGnGen(options)
   },

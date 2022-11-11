@@ -53,4 +53,6 @@ VERSION   text eol=lf
 # These files should have CRLF
 win_build_output/midl/google_update/*/*.c   text eol=crlf
 win_build_output/midl/google_update/*/*.h   text eol=crlf
+win_build_output/midl/brave/vpn/*/*.c   text eol=crlf
+win_build_output/midl/brave/vpn/*/*.h   text eol=crlf
 test/data/tor/tor_control/*_win/controlport   text eol=crlf
