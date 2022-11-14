@@ -2737,6 +2737,8 @@ void JsonRpcService::OnGetSPLTokenAccountBalance(
 
 void JsonRpcService::GetMetaplexMetadata(const std::string& nft_account_address,
                                          GetMetaplexMetadataCallback callback) {
+
+  VLOG(0) << "JsonRpcService::GetMetaplexMetadata 0";
   // Derive metadata PDA for the NFT accounts
   absl::optional<std::string> associated_metadata_account =
       SolanaKeyring::GetAssociatedMetadataAccount(nft_account_address);
@@ -2747,6 +2749,7 @@ void JsonRpcService::GetMetaplexMetadata(const std::string& nft_account_address,
     return;
   }
 
+  VLOG(0) << "JsonRpcService::GetMetaplexMetadata 1";
   auto account_info_metadata_callback =
       base::BindOnce(&JsonRpcService::OnGetSolanaAccountInfoMetaplex,
                      weak_ptr_factory_.GetWeakPtr(), std::move(callback));
@@ -2757,7 +2760,7 @@ void JsonRpcService::GetMetaplexMetadata(const std::string& nft_account_address,
       std::move(account_info_metadata_callback));
   RequestInternal(solana::getAccountInfo(*associated_metadata_account), true,
                   network_urls_[mojom::CoinType::SOL],
-                  std::move(account_info_response_callback));
+                  std::move(account_info_response_callback), solana::ConverterForGetAccountInfo());
 }
 
 void JsonRpcService::OnGetSolanaAccountInfoMetaplex(
@@ -2765,12 +2768,13 @@ void JsonRpcService::OnGetSolanaAccountInfoMetaplex(
     absl::optional<SolanaAccountInfo> account_info,
     mojom::SolanaProviderError error,
     const std::string& error_message) {
+  VLOG(0) << "JsonRpcService::OnGetSolanaAccountInfoMetaplex 0";
   if (error != mojom::SolanaProviderError::kSuccess || !account_info) {
-    std::move(callback).Run(
-        "", mojom::SolanaProviderError::kInternalError,
-        l10n_util::GetStringUTF8(IDS_WALLET_INTERNAL_ERROR));
+    VLOG(0) << "JsonRpcService::OnGetSolanaAccountInfoMetaplex 0.5 << error_message" << error_message ;
+    std::move(callback).Run("", std::move(error), error_message);
     return;
   }
+  VLOG(0) << "JsonRpcService::OnGetSolanaAccountInfoMetaplex 1";
 
   absl::optional<std::vector<uint8_t>> metadata =
       base::Base64Decode((*account_info).data);
@@ -2779,6 +2783,7 @@ void JsonRpcService::OnGetSolanaAccountInfoMetaplex(
         "", mojom::SolanaProviderError::kInternalError,
         l10n_util::GetStringUTF8(IDS_WALLET_INTERNAL_ERROR));
   }
+  VLOG(0) << "JsonRpcService::OnGetSolanaAccountInfoMetaplex 2";
 
   absl::optional<GURL> url = DecodeMetadataUri(*metadata);
   if (!url) {
@@ -2786,6 +2791,7 @@ void JsonRpcService::OnGetSolanaAccountInfoMetaplex(
         "", mojom::SolanaProviderError::kInternalError,
         l10n_util::GetStringUTF8(IDS_WALLET_INTERNAL_ERROR));
   }
+  VLOG(0) << "JsonRpcService::OnGetSolanaAccountInfoMetaplex 3 url is " << (*url).spec();
 
   FetchTokenMetadata(
       *url, mojom::CoinType::SOL,
@@ -3053,15 +3059,18 @@ void JsonRpcService::GetSolanaAccountInfo(
 void JsonRpcService::OnGetSolanaAccountInfo(
     GetSolanaAccountInfoCallback callback,
     APIRequestResult api_request_result) {
+  VLOG(0) << "JsonRpcService::OnGetSolanaAccountInfo 0, response body " << api_request_result.body();
   if (!api_request_result.Is2XXResponseCode()) {
     std::move(callback).Run(
         absl::nullopt, mojom::SolanaProviderError::kInternalError,
         l10n_util::GetStringUTF8(IDS_WALLET_INTERNAL_ERROR));
     return;
   }
+  VLOG(0) << "JsonRpcService::OnGetSolanaAccountInfo 1";
 
   absl::optional<SolanaAccountInfo> account_info;
   if (!solana::ParseGetAccountInfo(api_request_result.body(), &account_info)) {
+    VLOG(0) << "JsonRpcService::OnGetSolanaAccountInfo 1.5, account info parse FAILED";
     mojom::SolanaProviderError error;
     std::string error_message;
     ParseErrorResult<mojom::SolanaProviderError>(api_request_result.body(),
@@ -3069,6 +3078,7 @@ void JsonRpcService::OnGetSolanaAccountInfo(
     std::move(callback).Run(absl::nullopt, error, error_message);
     return;
   }
+  VLOG(0) << "JsonRpcService::OnGetSolanaAccountInfo 2";
 
   std::move(callback).Run(account_info, mojom::SolanaProviderError::kSuccess,
                           "");
