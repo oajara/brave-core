@@ -40,7 +40,7 @@ namespace {
 // Command line switch "--console" runs the service interactively for
 // debugging purposes.
 constexpr char kConsoleSwitchName[] = "console";
-constexpr wchar_t kVpnServiceDisplayName[] = L"BraveVPNService";
+
 }  // namespace
 
 ServiceMain* ServiceMain::GetInstance() {
@@ -148,8 +148,9 @@ ServiceMain::ServiceMain()
 ServiceMain::~ServiceMain() = default;
 
 int ServiceMain::RunAsService() {
-  static constexpr SERVICE_TABLE_ENTRY dispatch_table[] = {
-      {const_cast<LPTSTR>(kVpnServiceDisplayName),
+  const std::wstring& service_name(install_static::GetVpnServiceName());
+  const SERVICE_TABLE_ENTRY dispatch_table[] = {
+      {const_cast<LPTSTR>(service_name.c_str()),
        &ServiceMain::ServiceMainEntry},
       {nullptr, nullptr}};
 
@@ -164,8 +165,9 @@ int ServiceMain::RunAsService() {
 
 void ServiceMain::ServiceMainImpl() {
   LOG(ERROR) << __func__ << " BraveVPN Service started";
-  service_status_handle_ = ::RegisterServiceCtrlHandler(
-      kVpnServiceDisplayName, &ServiceMain::ServiceControlHandler);
+  service_status_handle_ =
+      ::RegisterServiceCtrlHandler(install_static::GetVpnServiceName().c_str(),
+                                   &ServiceMain::ServiceControlHandler);
   if (service_status_handle_ == nullptr) {
     LOG(ERROR) << "RegisterServiceCtrlHandler failed";
     return;

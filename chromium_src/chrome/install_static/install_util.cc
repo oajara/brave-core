@@ -34,6 +34,9 @@ constexpr CLSID kVpnServiceCLSID = {
     0x7012,
     0x4A79,
     {0x8A, 0xB6, 0xAD, 0xDB, 0x81, 0x93, 0xA0, 0x6A}};
+
+const wchar_t kVpnServiceName[] = L"BraveVPNService";
+
 }  // namespace
 
 #define GetChromeChannel GetChromeChannel_ChromiumImpl
@@ -56,8 +59,13 @@ const CLSID& GetVpnServiceClsid() {
   return kVpnServiceCLSID;
 }
 
-const std::wstring GetVpnServiceDisplayName() {
-  return L"Brave VPN Service";
+std::wstring GetVpnServiceName() {
+  return kVpnServiceName;
+}
+
+std::wstring GetVpnServiceDisplayName() {
+  static constexpr wchar_t kBraveVpnServiceDisplayName[] = L" Vpn Service";
+  return GetBaseAppName() + kBraveVpnServiceDisplayName;
 }
 
 version_info::Channel GetChromeChannel() {
