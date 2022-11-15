@@ -141,7 +141,7 @@ def list_ntp_backgrounds(metadata_file):
     json_metadata = ''
     with open(metadata_file, mode='rt', encoding='utf-8') as file_handle:
         # Extract only the background images.
-        metadata = file_handle.readlines()[3:12]
+        metadata = file_handle.readlines()[3:14]
         # Hack to turn this TypeScript file into valid JSON
         json_metadata = "".join(metadata) \
             .replace("export const images: NewTab.BraveBackground[] = [",
