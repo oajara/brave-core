@@ -57,7 +57,10 @@ describe('welcomeReducer', () => {
       }
 
       expect(importBrowserProfileRequestStub).toBeCalledTimes(1)
-      expect(importBrowserProfileRequestStub).toBeCalledWith('importData', [0, importTypes])
+      expect(importBrowserProfileRequestStub).toBeCalledWith('importData', [
+        0,
+        importTypes
+      ])
     })
   })
 
@@ -108,7 +111,10 @@ describe('welcomeReducer', () => {
         payload: '12345'
       })
       expect(changeSearchProviderStub).toBeCalledTimes(1)
-      expect(changeSearchProviderStub).toBeCalledWith('setDefaultSearchEngine', [12345])
+      expect(changeSearchProviderStub).toBeCalledWith(
+        'setDefaultSearchEngine',
+        [12345]
+      )
     })
   })
 
@@ -140,13 +146,15 @@ describe('welcomeReducer', () => {
       loadTimeData = {
         getString: (fieldName: string) => {
           switch (fieldName) {
-            case 'countryString': return countryString
+            case 'countryString':
+              return countryString
           }
           return undefined
         },
         getBoolean: (fieldName: string) => {
           switch (fieldName) {
-            case 'showRewardsCard': return showRewardsCard
+            case 'showRewardsCard':
+              return showRewardsCard
           }
           return undefined
         }

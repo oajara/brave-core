@@ -12,13 +12,13 @@ export const Container = styled.div`
 `
 
 export const LoadIcon = styled(LoaderIcon)`
-  color: ${p => p.theme.color.brandBat};
+  color: ${(p) => p.theme.color.brandBat};
   height: 40px;
   width: 40px;
-  opacity: .8;
+  opacity: 0.8;
 `
 
 export const Text = styled.div`
   margin-top: 20px;
-  color: ${p => p.theme.palette.grey600};
+  color: ${(p) => p.theme.palette.grey600};
 `

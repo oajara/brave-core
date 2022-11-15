@@ -64,13 +64,27 @@ import { createPanelReducer } from '../panel/reducers/panel_reducer'
 
 // mocks
 import * as MockedLib from '../common/async/__mocks__/lib'
-import { mockedErc20ApprovalTransaction, mockTransactionInfo } from './mock-data/mock-transaction-info'
+import {
+  mockedErc20ApprovalTransaction,
+  mockTransactionInfo
+} from './mock-data/mock-transaction-info'
 import { mockDefaultCurrencies } from './mock-data/mock-default-currencies'
 import { mockTransactionSpotPrices } from './mock-data/current-price-data'
-import { mockAccounts, mockedTransactionAccounts } from './mock-data/mock-wallet-accounts'
-import { mockEncryptionKeyRequest, mockDecryptRequest } from './mock-data/mock-encryption-key-payload'
+import {
+  mockAccounts,
+  mockedTransactionAccounts
+} from './mock-data/mock-wallet-accounts'
+import {
+  mockEncryptionKeyRequest,
+  mockDecryptRequest
+} from './mock-data/mock-encryption-key-payload'
 import { mockOriginInfo } from './mock-data/mock-origin-info'
-import { mockAccountAssetOptions, mockBasicAttentionToken, mockEthToken, mockNewAssetOptions } from './mock-data/mock-asset-options'
+import {
+  mockAccountAssetOptions,
+  mockBasicAttentionToken,
+  mockEthToken,
+  mockNewAssetOptions
+} from './mock-data/mock-asset-options'
 import { mockPanelState } from './mock-data/mock-panel-state'
 import { mockPageState } from './mock-data/mock-page-state'
 import { mockWalletState } from './mock-data/mock-wallet-state'
@@ -111,14 +125,21 @@ const transactionDummyData: AccountTransactions = {
         solanaTxData: undefined,
         filTxData: undefined
       },
-      txHash: '0x55732e30af74a450cd438be2a02c765ea62cb4ec8dda5cb12ed8dc5d21ac15d3',
+      txHash:
+        '0x55732e30af74a450cd438be2a02c765ea62cb4ec8dda5cb12ed8dc5d21ac15d3',
       txStatus: 3,
       txArgs: [],
       txParams: [],
       txType: 0,
-      createdTime: { microseconds: BigInt((Date.now() * 1000) - 1000 * 60 * 5 * 1000) },
-      submittedTime: { microseconds: BigInt((Date.now() * 1000) - 1000 * 60 * 5) },
-      confirmedTime: { microseconds: BigInt((Date.now() * 1000) - 1000 * 60 * 5) },
+      createdTime: {
+        microseconds: BigInt(Date.now() * 1000 - 1000 * 60 * 5 * 1000)
+      },
+      submittedTime: {
+        microseconds: BigInt(Date.now() * 1000 - 1000 * 60 * 5)
+      },
+      confirmedTime: {
+        microseconds: BigInt(Date.now() * 1000 - 1000 * 60 * 5)
+      },
       originInfo: mockOriginInfo,
       groupId: undefined
     },
@@ -144,7 +165,8 @@ const transactionDummyData: AccountTransactions = {
         solanaTxData: undefined,
         filTxData: undefined
       },
-      txHash: '0x55732e30af74a450cd438be2a02c765ea62cb4ec8dda5cb12ed8dc5d21ac15d3',
+      txHash:
+        '0x55732e30af74a450cd438be2a02c765ea62cb4ec8dda5cb12ed8dc5d21ac15d3',
       txStatus: 3,
       txArgs: [],
       txParams: [],
@@ -177,7 +199,8 @@ const transactionDummyData: AccountTransactions = {
         solanaTxData: undefined,
         filTxData: undefined
       },
-      txHash: '0x55732e30af74a450cd438be2a02c765ea62cb4ec8dda5cb12ed8dc5d21ac15d3',
+      txHash:
+        '0x55732e30af74a450cd438be2a02c765ea62cb4ec8dda5cb12ed8dc5d21ac15d3',
       txStatus: 4,
       txArgs: [],
       txParams: [],
@@ -210,7 +233,8 @@ const transactionDummyData: AccountTransactions = {
         solanaTxData: undefined,
         filTxData: undefined
       },
-      txHash: '0x55732e30af74a450cd438be2a02c765ea62cb4ec8dda5cb12ed8dc5d21ac15d3',
+      txHash:
+        '0x55732e30af74a450cd438be2a02c765ea62cb4ec8dda5cb12ed8dc5d21ac15d3',
       txStatus: 2,
       txArgs: [],
       txParams: [],
@@ -243,7 +267,8 @@ const transactionDummyData: AccountTransactions = {
         solanaTxData: undefined,
         filTxData: undefined
       },
-      txHash: '0x55732e30af74a450cd438be2a02c765ea62cb4ec8dda5cb12ed8dc5d21ac15d3',
+      txHash:
+        '0x55732e30af74a450cd438be2a02c765ea62cb4ec8dda5cb12ed8dc5d21ac15d3',
       txStatus: 1,
       txArgs: [],
       txParams: [],
@@ -278,7 +303,8 @@ const transactionDummyData: AccountTransactions = {
         solanaTxData: undefined,
         filTxData: undefined
       },
-      txHash: '0x55732e30af74a450cd438be2a02c765ea62cb4ec8dda5cb12ed8dc5d21ac15d3',
+      txHash:
+        '0x55732e30af74a450cd438be2a02c765ea62cb4ec8dda5cb12ed8dc5d21ac15d3',
       txStatus: 0,
       txArgs: [],
       txParams: [],
@@ -311,7 +337,8 @@ const transactionDummyData: AccountTransactions = {
         solanaTxData: undefined,
         filTxData: undefined
       },
-      txHash: '0x55732e30af74a450cd438be2a02c765ea62cb4ec8dda5cb12ed8dc5d21ac15d3',
+      txHash:
+        '0x55732e30af74a450cd438be2a02c765ea62cb4ec8dda5cb12ed8dc5d21ac15d3',
       txStatus: 5,
       txArgs: [],
       txParams: [],
@@ -327,12 +354,14 @@ const transactionDummyData: AccountTransactions = {
 
 const originInfo = mockOriginInfo
 
-const store = createStore(combineReducers({
-  wallet: createWalletReducer(mockWalletState),
-  page: createPageReducer(mockPageState),
-  panel: createPanelReducer(mockPanelState),
-  sendCrypto: createSendCryptoReducer(mockSendCryptoState)
-}))
+const store = createStore(
+  combineReducers({
+    wallet: createWalletReducer(mockWalletState),
+    page: createPageReducer(mockPageState),
+    panel: createPanelReducer(mockPanelState),
+    sendCrypto: createSendCryptoReducer(mockSendCryptoState)
+  })
+)
 
 const transactionList = {
   [mockedTransactionAccounts[0].address]: [
@@ -351,14 +380,18 @@ const mockCustomStoreState: Partial<WalletState> = {
   transactions: transactionList
 }
 
-function createStoreWithCustomState (customWalletState: Partial<WalletState> = {}) {
-  return createStore(combineReducers({
-    wallet: createWalletReducer({
-      ...mockWalletState,
-      ...customWalletState
-    }),
-    page: createPageReducer(mockPageState)
-  }))
+function createStoreWithCustomState(
+  customWalletState: Partial<WalletState> = {}
+) {
+  return createStore(
+    combineReducers({
+      wallet: createWalletReducer({
+        ...mockWalletState,
+        ...customWalletState
+      }),
+      page: createPageReducer(mockPageState)
+    })
+  )
 }
 
 export const _ConfirmTransaction = () => {
@@ -369,10 +402,12 @@ export const _ConfirmTransaction = () => {
   return (
     <Provider store={createStoreWithCustomState(mockCustomStoreState)}>
       <StyledExtensionWrapperLonger>
-        <LibContext.Provider value={{
-          ...MockedLib as any,
-          getERC20Allowance
-        }}>
+        <LibContext.Provider
+          value={{
+            ...(MockedLib as any),
+            getERC20Allowance
+          }}
+        >
           <ConfirmTransactionPanel
             onConfirm={onConfirmTransaction}
             onReject={onRejectTransaction}
@@ -394,17 +429,21 @@ export const _ConfirmErcApproveTransaction = () => {
 
   return (
     <StyledExtensionWrapperLonger>
-      <Provider store={createStoreWithCustomState({
-        accounts: mockAccounts,
-        selectedPendingTransaction: mockedErc20ApprovalTransaction,
-        transactionSpotPrices: mockTransactionSpotPrices,
-        defaultCurrencies: { fiat: 'USD', crypto: 'ETH' },
-        fullTokenList: mockNewAssetOptions
-      })}>
-        <LibContext.Provider value={{
-          ...MockedLib as any,
-          getERC20Allowance
-        }}>
+      <Provider
+        store={createStoreWithCustomState({
+          accounts: mockAccounts,
+          selectedPendingTransaction: mockedErc20ApprovalTransaction,
+          transactionSpotPrices: mockTransactionSpotPrices,
+          defaultCurrencies: { fiat: 'USD', crypto: 'ETH' },
+          fullTokenList: mockNewAssetOptions
+        })}
+      >
+        <LibContext.Provider
+          value={{
+            ...(MockedLib as any),
+            getERC20Allowance
+          }}
+        >
           <ConfirmTransactionPanel
             onConfirm={onConfirmTransaction}
             onReject={onRejectTransaction}
@@ -432,7 +471,7 @@ export const _AllowAddChangeNetwork = () => {
     <StyledExtensionWrapperLonger>
       <AllowAddChangeNetworkPanel
         originInfo={originInfo}
-        panelType='change'
+        panelType="change"
         onApproveAddNetwork={onApprove}
         onApproveChangeNetwork={onApprove}
         onCancel={onCancel}
@@ -455,17 +494,20 @@ export const _SignData = () => {
     alert('Canceled Signing Data')
   }
 
-  const signMessageDataPayload = [{
-    id: 0,
-    address: '0x3f29A1da97149722eB09c526E4eAd698895b426',
-    message: 'To avoid digital cat burglars, sign below to authenticate with CryptoKitties.',
-    originInfo: mockOriginInfo,
-    coin: BraveWallet.CoinType.ETH,
-    isEip712: true,
-    domainHash: '',
-    primaryHash: '',
-    messageBytes: undefined
-  }]
+  const signMessageDataPayload = [
+    {
+      id: 0,
+      address: '0x3f29A1da97149722eB09c526E4eAd698895b426',
+      message:
+        'To avoid digital cat burglars, sign below to authenticate with CryptoKitties.',
+      originInfo: mockOriginInfo,
+      coin: BraveWallet.CoinType.ETH,
+      isEip712: true,
+      domainHash: '',
+      primaryHash: '',
+      messageBytes: undefined
+    }
+  ]
 
   return (
     <StyledExtensionWrapperLonger>
@@ -498,7 +540,7 @@ export const _ProvideEncryptionKey = () => {
   return (
     <StyledExtensionWrapperLonger>
       <EncryptionKeyPanel
-        panelType='request'
+        panelType="request"
         decryptPayload={mockDecryptRequest}
         encryptionKeyPayload={mockEncryptionKeyRequest}
         accounts={mockAccounts}
@@ -527,7 +569,7 @@ export const _ReadEncryptedMessage = () => {
   return (
     <StyledExtensionWrapperLonger>
       <EncryptionKeyPanel
-        panelType='read'
+        panelType="read"
         encryptionKeyPayload={mockEncryptionKeyRequest}
         decryptPayload={mockDecryptRequest}
         accounts={mockAccounts}
@@ -566,17 +608,23 @@ export const _ConnectedPanel = (args: { locked: boolean }) => {
   const [walletLocked, setWalletLocked] = React.useState<boolean>(locked)
   const [selectedPanel, setSelectedPanel] = React.useState<PanelTypes>('main')
   const [panelTitle, setPanelTitle] = React.useState<string>('main')
-  const [selectedAccount, setSelectedAccount] = React.useState<WalletAccountType>(
-    mockAccounts[0]
+  const [selectedAccount, setSelectedAccount] =
+    React.useState<WalletAccountType>(mockAccounts[0])
+  const [favoriteApps, setFavoriteApps] = React.useState<BraveWallet.AppItem[]>(
+    [AppsList()[0].appList[0]]
   )
-  const [favoriteApps, setFavoriteApps] = React.useState<BraveWallet.AppItem[]>([
-    AppsList()[0].appList[0]
-  ])
-  const [filteredAppsList, setFilteredAppsList] = React.useState<AppsListType[]>(AppsList())
-  const [selectedWyreAsset, setSelectedWyreAsset] = React.useState<BraveWallet.BlockchainToken>(mockEthToken)
-  const [, setSelectedAsset] = React.useState<BraveWallet.BlockchainToken>(mockBasicAttentionToken)
+  const [filteredAppsList, setFilteredAppsList] = React.useState<
+    AppsListType[]
+  >(AppsList())
+  const [selectedWyreAsset, setSelectedWyreAsset] =
+    React.useState<BraveWallet.BlockchainToken>(mockEthToken)
+  const [, setSelectedAsset] = React.useState<BraveWallet.BlockchainToken>(
+    mockBasicAttentionToken
+  )
   const [showSelectAsset, setShowSelectAsset] = React.useState<boolean>(false)
-  const [selectedTransaction, setSelectedTransaction] = React.useState<BraveWallet.TransactionInfo | undefined>(transactionList[1][0])
+  const [selectedTransaction, setSelectedTransaction] = React.useState<
+    BraveWallet.TransactionInfo | undefined
+  >(transactionList[1][0])
 
   const onChangeSendView = (view: BuySendSwapViewTypes) => {
     if (view === 'assets') {
@@ -633,9 +681,7 @@ export const _ConnectedPanel = (args: { locked: boolean }) => {
     setFavoriteApps(newList)
   }
   const removeFromFavorites = (app: BraveWallet.AppItem) => {
-    const newList = favoriteApps.filter(
-      (fav) => fav.name !== app.name
-    )
+    const newList = favoriteApps.filter((fav) => fav.name !== app.name)
     setFavoriteApps(newList)
   }
 
@@ -692,20 +738,14 @@ export const _ConnectedPanel = (args: { locked: boolean }) => {
     <Provider store={store}>
       <StyledExtensionWrapper>
         {walletLocked ? (
-          <LockPanel
-            onSubmit={unlockWallet}
-            onClickRestore={onRestore}
-          />
+          <LockPanel onSubmit={unlockWallet} onClickRestore={onRestore} />
         ) : (
           <>
             {selectedPanel === 'main' ? (
-              <ConnectedPanel
-                navAction={navigateTo}
-                isSwapSupported={true}
-              />
+              <ConnectedPanel navAction={navigateTo} isSwapSupported={true} />
             ) : (
               <>
-                {showSelectAsset &&
+                {showSelectAsset && (
                   <SelectContainer>
                     <SelectAsset
                       assets={mockAccountAssetOptions}
@@ -713,8 +753,8 @@ export const _ConnectedPanel = (args: { locked: boolean }) => {
                       onBack={onHideSelectAsset}
                     />
                   </SelectContainer>
-                }
-                {selectedPanel === 'accounts' &&
+                )}
+                {selectedPanel === 'accounts' && (
                   <SelectContainer>
                     <SelectAccount
                       accounts={mockAccounts}
@@ -725,8 +765,8 @@ export const _ConnectedPanel = (args: { locked: boolean }) => {
                       selectedAccount={selectedAccount}
                     />
                   </SelectContainer>
-                }
-                {selectedPanel === 'networks' &&
+                )}
+                {selectedPanel === 'networks' && (
                   <SelectContainer>
                     <SelectNetworkWithHeader
                       onBack={onBack}
@@ -734,8 +774,8 @@ export const _ConnectedPanel = (args: { locked: boolean }) => {
                       onAddNetwork={onAddNetwork}
                     />
                   </SelectContainer>
-                }
-                {selectedPanel === 'transactionDetails' && selectedTransaction &&
+                )}
+                {selectedPanel === 'transactionDetails' && selectedTransaction && (
                   <SelectContainer>
                     <TransactionDetailPanel
                       transaction={selectedTransaction}
@@ -750,61 +790,65 @@ export const _ConnectedPanel = (args: { locked: boolean }) => {
                       transactionSpotPrices={[]}
                     />
                   </SelectContainer>
-                }
-                {!showSelectAsset && selectedPanel !== 'networks' && selectedPanel !== 'accounts' && selectedPanel !== 'transactionDetails' &&
-                  < Panel
-                    navAction={navigateTo}
-                    title={panelTitle}
-                    useSearch={selectedPanel === 'apps'}
-                    searchAction={selectedPanel === 'apps' ? filterList : undefined}
-                  >
-                    <ScrollContainer>
-                      {selectedPanel === 'apps' &&
-                        <AppList
-                          list={filteredAppsList}
-                          favApps={favoriteApps}
-                          addToFav={addToFavorites}
-                          removeFromFav={removeFromFavorites}
-                          action={browseMore}
-                        />
+                )}
+                {!showSelectAsset &&
+                  selectedPanel !== 'networks' &&
+                  selectedPanel !== 'accounts' &&
+                  selectedPanel !== 'transactionDetails' && (
+                    <Panel
+                      navAction={navigateTo}
+                      title={panelTitle}
+                      useSearch={selectedPanel === 'apps'}
+                      searchAction={
+                        selectedPanel === 'apps' ? filterList : undefined
                       }
-                      {selectedPanel === 'send' &&
-                        <Send
-                          onChangeSendView={onChangeSendView}
-                        />
-                      }
-                      {selectedPanel === 'buy' &&
-                        <Buy
-                          onChangeBuyView={onChangeSendView}
-                          selectedAsset={selectedWyreAsset}
-                          onShowCurrencySelection={onShowCurrencySelection}
-                        />
-                      }
-                      {selectedPanel === 'sitePermissions' &&
-                        <SitePermissions />
-                      }
-                      {selectedPanel === 'transactions' &&
-                        <TransactionsPanel
-                          onSelectTransaction={onSelectTransaction}
-                          selectedNetwork={mockNetworks[0]}
-                          selectedAccountAddress={mockedTransactionAccounts[0].address}
-                        />
-                      }
-                      {selectedPanel === 'assets' &&
-                        <AssetsPanel
-                          selectedAccount={selectedAccount}
-                          userAssetList={mockAccountAssetOptions}
-                          onAddAsset={onAddAsset}
-                        />
-                      }
-                    </ScrollContainer>
-                  </Panel>
-                }
+                    >
+                      <ScrollContainer>
+                        {selectedPanel === 'apps' && (
+                          <AppList
+                            list={filteredAppsList}
+                            favApps={favoriteApps}
+                            addToFav={addToFavorites}
+                            removeFromFav={removeFromFavorites}
+                            action={browseMore}
+                          />
+                        )}
+                        {selectedPanel === 'send' && (
+                          <Send onChangeSendView={onChangeSendView} />
+                        )}
+                        {selectedPanel === 'buy' && (
+                          <Buy
+                            onChangeBuyView={onChangeSendView}
+                            selectedAsset={selectedWyreAsset}
+                            onShowCurrencySelection={onShowCurrencySelection}
+                          />
+                        )}
+                        {selectedPanel === 'sitePermissions' && (
+                          <SitePermissions />
+                        )}
+                        {selectedPanel === 'transactions' && (
+                          <TransactionsPanel
+                            onSelectTransaction={onSelectTransaction}
+                            selectedNetwork={mockNetworks[0]}
+                            selectedAccountAddress={
+                              mockedTransactionAccounts[0].address
+                            }
+                          />
+                        )}
+                        {selectedPanel === 'assets' && (
+                          <AssetsPanel
+                            selectedAccount={selectedAccount}
+                            userAssetList={mockAccountAssetOptions}
+                            onAddAsset={onAddAsset}
+                          />
+                        )}
+                      </ScrollContainer>
+                    </Panel>
+                  )}
               </>
             )}
           </>
-        )
-        }
+        )}
       </StyledExtensionWrapper>
     </Provider>
   )
@@ -845,14 +889,17 @@ export const _ConnectHardwareWallet = () => {
 
   const onClickInstructions = () => {
     // Open support link in new tab
-    window.open('https://support.brave.com/hc/en-us/articles/4409309138701', '_blank')
+    window.open(
+      'https://support.brave.com/hc/en-us/articles/4409309138701',
+      '_blank'
+    )
   }
 
   return (
     <StyledExtensionWrapper>
       <ConnectHardwareWalletPanel
-        walletName='Ledger 1'
-        accountAddress='0x7d66c9ddAED3115d93Bd1790332f3Cd06Cf52B14'
+        walletName="Ledger 1"
+        accountAddress="0x7d66c9ddAED3115d93Bd1790332f3Cd06Cf52B14"
         coinType={BraveWallet.CoinType.ETH}
         onCancel={onCancel}
         retryCallable={onConfirmTransaction}
@@ -971,9 +1018,7 @@ export const _CreateAccount = () => {
   return (
     <Provider store={createStoreWithCustomState(mockCustomStoreState)}>
       <StyledCreateAccountPanel>
-        <CreateAccountTab
-          prevNetwork={mockNetworks[0]}
-        />
+        <CreateAccountTab prevNetwork={mockNetworks[0]} />
       </StyledCreateAccountPanel>
     </Provider>
   )

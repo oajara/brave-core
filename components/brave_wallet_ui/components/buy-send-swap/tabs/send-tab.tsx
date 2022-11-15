@@ -9,11 +9,7 @@ import {
   BraveWallet,
   WalletAccountType
 } from '../../../constants/types'
-import {
-  AccountsAssetsNetworks,
-  Header,
-  Send
-} from '..'
+import { AccountsAssetsNetworks, Header, Send } from '..'
 import { useAssets, useSend } from '../../../common/hooks'
 import { WalletActions } from '../../../common/actions'
 
@@ -21,9 +17,7 @@ export interface Props {
   showHeader?: boolean
 }
 
-function SendTab ({
-  showHeader
-}: Props) {
+function SendTab({ showHeader }: Props) {
   // custom hooks
   const { selectSendAsset } = useSend()
   const { sendAssetOptions } = useAssets()
@@ -52,13 +46,13 @@ function SendTab ({
   // render
   return (
     <>
-      {sendView === 'send' &&
+      {sendView === 'send' && (
         <>
           {showHeader && <Header onChangeSwapView={setSendView} />}
           <Send onChangeSendView={setSendView} />
         </>
-      }
-      {sendView !== 'send' &&
+      )}
+      {sendView !== 'send' && (
         <AccountsAssetsNetworks
           goBack={goBack}
           assetOptions={sendAssetOptions}
@@ -66,7 +60,7 @@ function SendTab ({
           onSelectedAsset={onSelectedAsset}
           selectedView={sendView}
         />
-      }
+      )}
     </>
   )
 }

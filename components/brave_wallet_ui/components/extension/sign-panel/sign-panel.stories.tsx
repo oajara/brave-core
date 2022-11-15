@@ -15,7 +15,8 @@ import { mockOriginInfo } from '../../../stories/mock-data/mock-origin-info'
 const signMessageData = {
   id: 0,
   address: '0x3f29A1da97149722eB09c526E4eAd698895b426',
-  message: 'To avoid digital cat burglars, sign below to authenticate with CryptoKitties.',
+  message:
+    'To avoid digital cat burglars, sign below to authenticate with CryptoKitties.',
   originInfo: mockOriginInfo,
   coin: BraveWallet.CoinType.ETH,
   isEip712: true,
@@ -32,17 +33,19 @@ const evilUnicodeSignMessageData = {
 }
 
 export const _SignPanel = () => {
-  return <WalletPageStory>
-    <SignPanel
-      accounts={mockAccounts}
-      defaultNetworks={mockNetworks}
-      onCancel={() => alert('')}
-      onSign={() => alert('')}
-      selectedNetwork={mockNetworks[0]}
-      showWarning={true}
-      signMessageData={[evilUnicodeSignMessageData, signMessageData]}
-    />
-  </WalletPageStory>
+  return (
+    <WalletPageStory>
+      <SignPanel
+        accounts={mockAccounts}
+        defaultNetworks={mockNetworks}
+        onCancel={() => alert('')}
+        onSign={() => alert('')}
+        selectedNetwork={mockNetworks[0]}
+        showWarning={true}
+        signMessageData={[evilUnicodeSignMessageData, signMessageData]}
+      />
+    </WalletPageStory>
+  )
 }
 
 _SignPanel.story = {

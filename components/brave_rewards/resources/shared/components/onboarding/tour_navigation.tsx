@@ -20,20 +20,20 @@ interface Props {
   onDone: () => void
 }
 
-export function TourNavigation (props: Props) {
+export function TourNavigation(props: Props) {
   const { getString } = React.useContext(LocaleContext)
 
-  if (props.currentStep < 0 ||
-      props.currentStep >= props.stepCount ||
-      props.stepCount <= 0) {
+  if (
+    props.currentStep < 0 ||
+    props.currentStep >= props.stepCount ||
+    props.stepCount <= 0
+  ) {
     return null
   }
 
-  function stepCallback (step: number) {
+  function stepCallback(step: number) {
     return () => {
-      if (step !== props.currentStep &&
-          step >= 0 &&
-          step < props.stepCount) {
+      if (step !== props.currentStep && step >= 0 && step < props.stepCount) {
         props.onSelectStep(step)
       }
     }
@@ -45,27 +45,33 @@ export function TourNavigation (props: Props) {
   if (isFirst) {
     const skipClick = () => props.onSkip()
     const skipButton = (
-      <button className='nav-skip' onClick={skipClick}>
-        {
-          getString(props.firstTimeSetup && props.layout !== 'wide'
+      <button className="nav-skip" onClick={skipClick}>
+        {getString(
+          props.firstTimeSetup && props.layout !== 'wide'
             ? 'onboardingTourSkipForNow'
-            : 'onboardingTourSkip')
-        }
+            : 'onboardingTourSkip'
+        )}
       </button>
     )
     const startButton = (
-      <button className='nav-forward nav-start' onClick={stepCallback(1)}>
-        {getString('onboardingTourBegin')} <CaretIcon direction='right' />
+      <button className="nav-forward nav-start" onClick={stepCallback(1)}>
+        {getString('onboardingTourBegin')} <CaretIcon direction="right" />
       </button>
     )
     if (props.layout === 'wide') {
       return (
-        <style.root>{skipButton}{startButton}</style.root>
+        <style.root>
+          {skipButton}
+          {startButton}
+        </style.root>
       )
     }
     return (
       <style.root>
-        <style.narrowStart>{startButton}{skipButton}</style.narrowStart>
+        <style.narrowStart>
+          {startButton}
+          {skipButton}
+        </style.narrowStart>
       </style.root>
     )
   }
@@ -76,18 +82,24 @@ export function TourNavigation (props: Props) {
     ? () => props.onDone()
     : stepCallback(props.currentStep + 1)
 
-  const forwardContent = isLast
-    ? getString(props.postTourContent
-        ? 'onboardingTourContinue'
-        : 'onboardingTourDone')
-    : <>{getString('onboardingTourContinue')}<CaretIcon direction='right' /></>
+  const forwardContent = isLast ? (
+    getString(
+      props.postTourContent ? 'onboardingTourContinue' : 'onboardingTourDone'
+    )
+  ) : (
+    <>
+      {getString('onboardingTourContinue')}
+      <CaretIcon direction="right" />
+    </>
+  )
 
   return (
     <style.root>
-      <button className='nav-back' onClick={onBack}>
-        <CaretIcon direction='left' />{getString('onboardingTourBack')}
+      <button className="nav-back" onClick={onBack}>
+        <CaretIcon direction="left" />
+        {getString('onboardingTourBack')}
       </button>
-      <button className='nav-forward' onClick={onForward}>
+      <button className="nav-forward" onClick={onForward}>
         {forwardContent}
       </button>
     </style.root>

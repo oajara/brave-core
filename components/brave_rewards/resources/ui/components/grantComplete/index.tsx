@@ -25,8 +25,9 @@ export interface Props {
 }
 
 export default class GrantComplete extends React.PureComponent<Props, {}> {
-  render () {
-    const { id, testId, onClose, amount, date, isMobile, tokenTitle } = this.props
+  render() {
+    const { id, testId, onClose, amount, date, isMobile, tokenTitle } =
+      this.props
     const batFormatString = getLocale('bat')
     const tokensString = getLocale('tokens')
 
@@ -34,23 +35,21 @@ export default class GrantComplete extends React.PureComponent<Props, {}> {
       <StyledWrapper id={id} data-test-id={testId}>
         <StyledBox>
           <StyledTitle>{tokenTitle}</StyledTitle>
-          <StyledValue>{amount} {batFormatString}</StyledValue>
-          {
-            date && date.length > 0
-            ? <>
+          <StyledValue>
+            {amount} {batFormatString}
+          </StyledValue>
+          {date && date.length > 0 ? (
+            <>
               <StyledTitle>{getLocale('grantExpire')}</StyledTitle>
               <StyledValue>{date}</StyledValue>
             </>
-            : null
-          }
+          ) : null}
         </StyledBox>
-        {
-          !isMobile && date && date.length > 0
-          ? <StyledText>
-              {getLocale('grantDisclaimer', { currency: tokensString })}
-            </StyledText>
-          : null
-        }
+        {!isMobile && date && date.length > 0 ? (
+          <StyledText>
+            {getLocale('grantDisclaimer', { currency: tokensString })}
+          </StyledText>
+        ) : null}
         <StyledButtonWrapper isMobile={isMobile}>
           <Button
             text={getLocale('ok')}

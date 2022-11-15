@@ -10,7 +10,7 @@ import * as style from './setup_form.style'
 
 const adsPerHourOptions = [1, 2, 3, 4, 5]
 
-function getAutoContributeOptions (options: number[], initialAmount: number) {
+function getAutoContributeOptions(options: number[], initialAmount: number) {
   // Create a sorted list of options containing |initialAmount|
   const set = new Set(options)
   set.add(initialAmount)
@@ -26,39 +26,36 @@ function getAutoContributeOptions (options: number[], initialAmount: number) {
   return list.slice(start, start + 4)
 }
 
-export function SetupForm (props: RewardsTourProps) {
+export function SetupForm(props: RewardsTourProps) {
   const { getString } = React.useContext(LocaleContext)
   const [initialAmount] = React.useState(props.autoContributeAmount)
   const acOptions = getAutoContributeOptions(
     props.autoContributeAmountOptions,
-    initialAmount)
+    initialAmount
+  )
 
   return (
     <style.root>
       <style.section>
-        <style.label>
-          {getString('onboardingSetupAdsHeader')}
-        </style.label>
+        <style.label>{getString('onboardingSetupAdsHeader')}</style.label>
         <style.sublabel>
           {getString('onboardingSetupAdsSubheader')}
         </style.sublabel>
         <style.optionBar>
-          {
-            adsPerHourOptions.map((value) => {
-              const className = 'large-text ' +
-                (value === props.adsPerHour ? 'selected' : '')
-              const onClick = () => {
-                if (value !== props.adsPerHour) {
-                  props.onAdsPerHourChanged(value)
-                }
+          {adsPerHourOptions.map((value) => {
+            const className =
+              'large-text ' + (value === props.adsPerHour ? 'selected' : '')
+            const onClick = () => {
+              if (value !== props.adsPerHour) {
+                props.onAdsPerHourChanged(value)
               }
-              return (
-                <button key={value} onClick={onClick} className={className}>
-                  {value}
-                </button>
-              )
-            })
-          }
+            }
+            return (
+              <button key={value} onClick={onClick} className={className}>
+                {value}
+              </button>
+            )
+          })}
         </style.optionBar>
       </style.section>
       <style.section>
@@ -69,24 +66,21 @@ export function SetupForm (props: RewardsTourProps) {
           {getString('onboardingSetupContributeSubheader')}
         </style.sublabel>
         <style.optionBar>
-          {
-            acOptions.map((amount) => {
-              const className = amount === props.autoContributeAmount
-                ? 'selected'
-                : ''
-              const onClick = () => {
-                if (amount !== props.autoContributeAmount) {
-                  props.onAutoContributeAmountChanged(amount)
-                }
+          {acOptions.map((amount) => {
+            const className =
+              amount === props.autoContributeAmount ? 'selected' : ''
+            const onClick = () => {
+              if (amount !== props.autoContributeAmount) {
+                props.onAutoContributeAmountChanged(amount)
               }
-              return (
-                <button key={amount} onClick={onClick} className={className}>
-                  <style.acAmount>{amount.toFixed(0)}</style.acAmount>&nbsp;
-                  <style.acCurrency>BAT</style.acCurrency>
-                </button>
-              )
-            })
-          }
+            }
+            return (
+              <button key={amount} onClick={onClick} className={className}>
+                <style.acAmount>{amount.toFixed(0)}</style.acAmount>&nbsp;
+                <style.acCurrency>BAT</style.acCurrency>
+              </button>
+            )
+          })}
         </style.optionBar>
       </style.section>
     </style.root>

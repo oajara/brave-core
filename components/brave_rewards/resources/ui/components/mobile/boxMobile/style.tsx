@@ -37,8 +37,9 @@ const getFixedStyling = (detailView?: boolean) => {
   `
 }
 
-const CustomCard: React.FC<CardProps> = (props) =>
+const CustomCard: React.FC<CardProps> = (props) => (
   <Card useDefaultContentPadding={false} {...props} />
+)
 
 export const BoxCard = styled(CustomCard)`
   margin-bottom: 12px;
@@ -50,7 +51,7 @@ export const Flip = styled('div')<{}>`
 
 export const ContentWrapper = styled('div')<StyleProps>`
   flex-direction: column;
-  display: ${p => p.open ? 'flex' : 'none'};
+  display: ${(p) => (p.open ? 'flex' : 'none')};
 `
 
 export const Left = styled('div')<{}>`
@@ -65,12 +66,12 @@ export const Right = styled('div')<{}>`
 `
 
 export const Title = styled('div')<StyleProps>`
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
   font-size: 18px;
   font-weight: 600;
-  color: ${p => {
+  color: ${(p) => {
     if (p.enabled === false) return '#838391'
-    return p.type && colors[p.type] || '#4b4c5c'
+    return (p.type && colors[p.type]) || '#4b4c5c'
   }};
 `
 
@@ -84,19 +85,19 @@ export const Description = styled('div')<StyleProps>`
   font-size: 14px;
   line-height: 1.7;
   padding: 16px 0;
-  color: ${p => p.theme.color.text};
+  color: ${(p) => p.theme.color.text};
 `
 
 export const Content = styled('div')<StyleProps>`
   flex-basis: 100%;
   flex-grow: 1;
-  text-align: ${p => p.contentShown ? 'default' : 'center'};
+  text-align: ${(p) => (p.contentShown ? 'default' : 'center')};
 `
 
 export const SettingsWrapper = styled('div')<StyleProps>`
   background: #fff;
   overflow: hidden;
-  display: ${p => p.open ? 'block' : 'none'};
+  display: ${(p) => (p.open ? 'block' : 'none')};
 `
 
 export const SettingsClose = styled('button')<{}>`
@@ -110,11 +111,11 @@ export const SettingsClose = styled('button')<{}>`
   background: none;
   padding: 0;
   cursor: pointer;
-  color: ${p => p.theme.palette.grey600};
+  color: ${(p) => p.theme.palette.grey600};
 `
 
 export const SettingsTitle = styled('span')<{}>`
-  color: #4B4C5C;
+  color: #4b4c5c;
   font-size: 16px;
   font-weight: 600;
   width: 100%;
@@ -122,7 +123,7 @@ export const SettingsTitle = styled('span')<{}>`
 `
 
 export const SettingsText = styled('div')<{}>`
-  color: #4B4C5C;
+  color: #4b4c5c;
   font-size: 16px;
   font-weight: 500;
   display: flex;
@@ -130,7 +131,7 @@ export const SettingsText = styled('div')<{}>`
 `
 
 export const DetailsLink = styled('a')<{}>`
-  color: #4C54D2;
+  color: #4c54d2;
   font-size: 14px;
   display: flex;
   align-items: center;
@@ -154,7 +155,7 @@ export const ChildContent = styled('div')<{}>`
   width: 100%;
   display: flex;
   flex-direction: column;
-  border-top: 1px solid #E5E5EA;
+  border-top: 1px solid #e5e5ea;
 `
 
 export const SettingsContent = styled('div')<{}>`
@@ -178,23 +179,23 @@ export const SettingsListTitle = styled('span')<{}>`
 `
 
 export const Arrow = styled('span')<{}>`
-  color: #4C54D2;
+  color: #4c54d2;
   height: 16px;
   width: 16px;
   margin: 4px;
 `
 
 export const ToggleRow = styled('div')<StyleProps>`
-  border-bottom: 1px solid #E5E5EA;
-  padding: ${p => !p.detailView ? '16px' : '0'} 0;
+  border-bottom: 1px solid #e5e5ea;
+  padding: ${(p) => (!p.detailView ? '16px' : '0')} 0;
 `
 
 export const ToggleHeader = styled('div')<StyleProps>`
-  padding: ${p => p.detailView ? '16px' : '0'} 0;
+  padding: ${(p) => (p.detailView ? '16px' : '0')} 0;
   width: 100%;
   display: flex;
   align-items: center;
-  ${p => getFixedStyling(p.detailView)}
+  ${(p) => getFixedStyling(p.detailView)}
   z-index: 1;
   justify-content: space-between;
 `
@@ -225,7 +226,7 @@ export const SettingsIcon = styled('button')<{}>`
   background: none;
   padding: 0;
   cursor: pointer;
-  color: #A1A8F2;
+  color: #a1a8f2;
   position: absolute;
   right: 24px;
   top: 16px;
@@ -240,7 +241,7 @@ export const MobileListWrapper = styled('div')<{}>`
 `
 
 export const Alert = styled('div')<{}>`
-  background: ${p => {
+  background: ${(p) => {
     // but the error was found during a typescript / styled-components refactor.
     return p.theme.color.infoBackground
   }};
@@ -262,7 +263,7 @@ export const AlertIcon = styled(AlertCircleIcon)`
   height: 24px;
   width: 24px;
   margin-right: 8px;
-  color: ${p => p.theme.color.infoForeground};
+  color: ${(p) => p.theme.color.infoForeground};
 `
 
 export const AlertContent = styled('div')<{}>`
@@ -274,7 +275,7 @@ export const AlertContent = styled('div')<{}>`
 `
 
 export const TOS = styled(TOSAndPP as React.ComponentType<TOSProps>)`
-  color: ${p => p.theme.palette.grey800};
+  color: ${(p) => p.theme.palette.grey800};
   padding: 10px 24px 0;
   flex: 1;
 `

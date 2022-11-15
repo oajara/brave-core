@@ -19,7 +19,7 @@ interface Props {
   onChangeAmount: () => void
 }
 
-function getDateString (date?: Date) {
+function getDateString(date?: Date) {
   if (!date) {
     return ''
   }
@@ -30,19 +30,18 @@ function getDateString (date?: Date) {
   })
 }
 
-export function CurrentMonthlyForm (props: Props) {
+export function CurrentMonthlyForm(props: Props) {
   const host = React.useContext(HostContext)
   const { getString } = React.useContext(LocaleContext)
 
   const [confirmCancel, setConfirmCancel] = React.useState(
-    host.getDialogArgs().entryPoint === 'clear-monthly')
+    host.getDialogArgs().entryPoint === 'clear-monthly'
+  )
 
   if (confirmCancel) {
     return (
       <style.root>
-        <style.header>
-          {getString('cancelMonthlyTip')}
-        </style.header>
+        <style.header>{getString('cancelMonthlyTip')}</style.header>
         <style.cancelText>
           {getString('cancelConfirmationText')}
         </style.cancelText>
@@ -53,7 +52,7 @@ export function CurrentMonthlyForm (props: Props) {
     )
   }
 
-  function onCancelClick () {
+  function onCancelClick() {
     setConfirmCancel(true)
   }
 
@@ -65,7 +64,9 @@ export function CurrentMonthlyForm (props: Props) {
           <tbody>
             <tr>
               <td>{getString('tipAmount')}</td>
-              <td><TokenAmount amount={props.currentMonthlyTip} /></td>
+              <td>
+                <TokenAmount amount={props.currentMonthlyTip} />
+              </td>
             </tr>
             <tr>
               <td>{getString('nextTipDate')}</td>

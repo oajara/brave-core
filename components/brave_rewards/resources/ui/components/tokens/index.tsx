@@ -4,7 +4,13 @@
 
 import * as React from 'react'
 import { getLocale } from 'brave-ui/helpers'
-import { StyledWrapper, StyledTokens, StyledContent, StyledTokenValue, StyledTokenCurrency } from './style'
+import {
+  StyledWrapper,
+  StyledTokens,
+  StyledContent,
+  StyledTokenValue,
+  StyledTokenCurrency
+} from './style'
 
 export type Size = 'mini' | 'small' | 'normal'
 export type Type = 'contribute' | 'earning' | 'default'
@@ -29,8 +35,18 @@ export default class Tokens extends React.PureComponent<Props, {}> {
     showApproxSign: false
   }
 
-  render () {
-    const { id, converted, value, hideText, isNegative, size, color, currency, showApproxSign } = this.props
+  render() {
+    const {
+      id,
+      converted,
+      value,
+      hideText,
+      isNegative,
+      size,
+      color,
+      currency,
+      showApproxSign
+    } = this.props
     const batFormatString = getLocale('bat')
     const approxSign = showApproxSign ? '≈' : ''
 
@@ -38,23 +54,18 @@ export default class Tokens extends React.PureComponent<Props, {}> {
       <StyledWrapper id={id} size={size} color={color}>
         <StyledTokens>
           <StyledTokenValue>
-            {isNegative ? '-' : ''}{value}
+            {isNegative ? '-' : ''}
+            {value}
           </StyledTokenValue>
-          {
-            !hideText
-            ? <StyledTokenCurrency>
-                {batFormatString}
-              </StyledTokenCurrency>
-            : null
-          }
+          {!hideText ? (
+            <StyledTokenCurrency>{batFormatString}</StyledTokenCurrency>
+          ) : null}
         </StyledTokens>
-        {
-          converted !== undefined
-          ? <StyledContent showApproxSign={showApproxSign}>
+        {converted !== undefined ? (
+          <StyledContent showApproxSign={showApproxSign}>
             {approxSign} {converted} {currency}
           </StyledContent>
-          : null
-        }
+        ) : null}
       </StyledWrapper>
     )
   }

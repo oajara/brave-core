@@ -10,11 +10,11 @@ export const StyledWrapper = styled('div')<{}>`
   display: flex;
   border-radius: 6px;
   margin-bottom: 15px;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
   background: url(${panelBgUrl}) no-repeat top left,
-  linear-gradient(to bottom right, #392dd1 0%, #5813a6 100%) 100% no-repeat;
+    linear-gradient(to bottom right, #392dd1 0%, #5813a6 100%) 100% no-repeat;
   flex-direction: column;
-  box-shadow: 0 2px 4px rgba(0,0,0,.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 `
 
 export const StyledAlertWrapper = styled('div')<{}>`
@@ -36,7 +36,7 @@ export const StyledAlertClose = styled('button')<{}>`
   cursor: pointer;
   width: 20px;
   height: 20px;
-  color: #9E9FAB;
+  color: #9e9fab;
 `
 
 export const StyledHeader = styled('div')<{}>`

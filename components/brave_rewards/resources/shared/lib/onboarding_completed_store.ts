@@ -6,15 +6,15 @@
 // rewards onboarding UX to store whether the user has interacted
 // with the onboarding experience.
 export class OnboardingCompletedStore {
-  load () {
+  load() {
     return Boolean(localStorage.rewardsOnboardingComplete)
   }
 
-  save () {
+  save() {
     localStorage.rewardsOnboardingComplete = String(Date.now())
   }
 
-  clear () {
+  clear() {
     delete localStorage.rewardsOnboardingComplete
   }
 }

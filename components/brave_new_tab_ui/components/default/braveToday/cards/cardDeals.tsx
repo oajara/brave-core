@@ -25,7 +25,7 @@ type ListItemProps = {
   shouldScrollIntoView: boolean
 }
 
-function ListItem (props: ListItemProps) {
+function ListItem(props: ListItemProps) {
   const [cardRef] = useScrollIntoView(props.shouldScrollIntoView)
   const onClick = useReadArticleClickHandler(props.onReadFeedItem, {
     item: props.item
@@ -43,7 +43,7 @@ function ListItem (props: ListItemProps) {
   )
 }
 
-export default function CardDeals (props: Props) {
+export default function CardDeals(props: Props) {
   if (!props.content || props.content.length === 0 || !props.content[0].deal) {
     return null
   }
@@ -54,20 +54,19 @@ export default function CardDeals (props: Props) {
     <Card.DealsCard>
       <Card.DealsCategory>{categoryName}</Card.DealsCategory>
       <Card.DealsList>
-        {
-          props.content.map((item, index) => {
-            const shouldScrollIntoView = (
-              !!props.articleToScrollTo &&
-              props.articleToScrollTo.url.url === item.deal?.data.url.url
-            )
-            return <ListItem
+        {props.content.map((item, index) => {
+          const shouldScrollIntoView =
+            !!props.articleToScrollTo &&
+            props.articleToScrollTo.url.url === item.deal?.data.url.url
+          return (
+            <ListItem
               key={index}
               item={item}
               shouldScrollIntoView={shouldScrollIntoView}
               onReadFeedItem={props.onReadFeedItem}
             />
-          })
-        }
+          )
+        })}
       </Card.DealsList>
     </Card.DealsCard>
   )

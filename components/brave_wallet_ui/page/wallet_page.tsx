@@ -33,8 +33,9 @@ import walletDarkTheme from '../theme/wallet-dark'
 import walletLightTheme from '../theme/wallet-light'
 import 'emptykit.css'
 
-function App () {
-  const [initialThemeType, setInitialThemeType] = React.useState<chrome.braveTheme.ThemeType>()
+function App() {
+  const [initialThemeType, setInitialThemeType] =
+    React.useState<chrome.braveTheme.ThemeType>()
   React.useEffect(() => {
     chrome.braveTheme.getBraveThemeType(setInitialThemeType)
   }, [])
@@ -53,7 +54,7 @@ function App () {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        {initialThemeType &&
+        {initialThemeType && (
           <BraveCoreThemeProvider
             initialThemeType={initialThemeType}
             dark={walletDarkTheme}
@@ -65,13 +66,13 @@ function App () {
               </LibContext.Provider>
             </ApiProxyContext.Provider>
           </BraveCoreThemeProvider>
-        }
+        )}
       </BrowserRouter>
     </Provider>
   )
 }
 
-function initialize () {
+function initialize() {
   initLocale(loadTimeData.data_)
   store.dispatch(WalletActions.initialize())
   render(<App />, document.getElementById('root'))

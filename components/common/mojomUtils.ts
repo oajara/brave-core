@@ -8,7 +8,7 @@ import * as mojo from 'gen/mojo/public/mojom/base/time.mojom.m.js'
 /**
  * Converts a mojo time to a JS time.
  */
-export function mojoTimeToJSDate (mojoTime: mojo.Time): Date {
+export function mojoTimeToJSDate(mojoTime: mojo.Time): Date {
   // The JS Date() is based off of the number of milliseconds since the
   // UNIX epoch (1970-01-01 00::00:00 UTC), while |internalValue| of the
   // base::Time (represented in mojom.Time) represents the number of
@@ -29,6 +29,6 @@ export function mojoTimeToJSDate (mojoTime: mojo.Time): Date {
  * @param {!mojoBase.mojom.TimeDelta} mojoTime
  * @return {!Date}
  */
-export function mojoTimeDeltaToJSDate (mojoTime: mojo.TimeDelta) {
+export function mojoTimeDeltaToJSDate(mojoTime: mojo.TimeDelta) {
   return new Date(Number(mojoTime.microseconds) / 1000)
 }

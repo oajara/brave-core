@@ -12,9 +12,7 @@ import { BraveWallet } from '../../../../constants/types'
 import AssetWatchlistItem from '../../asset-watchlist-item'
 
 // styles
-import {
-  tokenListHeight
-} from './style'
+import { tokenListHeight } from './style'
 import { assetWatchListItemHeight } from '../../asset-watchlist-item/style'
 
 interface VirtualizedTokensListProps {
@@ -23,16 +21,24 @@ interface VirtualizedTokensListProps {
   isCustomToken: (token: BraveWallet.BlockchainToken) => boolean
   onRemoveAsset: (token: BraveWallet.BlockchainToken) => void
   isAssetSelected: (token: BraveWallet.BlockchainToken) => boolean
-  onCheckWatchlistItem: (key: string, selected: boolean, token: BraveWallet.BlockchainToken, isCustom: boolean) => void
+  onCheckWatchlistItem: (
+    key: string,
+    selected: boolean,
+    token: BraveWallet.BlockchainToken,
+    isCustom: boolean
+  ) => void
 }
 
-interface ListItemProps extends Omit<VirtualizedTokensListProps, 'tokenList'>{
+interface ListItemProps extends Omit<VirtualizedTokensListProps, 'tokenList'> {
   index: number
   data: BraveWallet.BlockchainToken[]
   style: React.CSSProperties
 }
 
-const getListItemKey = (index: number, tokenList: BraveWallet.BlockchainToken) => {
+const getListItemKey = (
+  index: number,
+  tokenList: BraveWallet.BlockchainToken
+) => {
   const token = tokenList[index]
   return `${token.contractAddress}-${token.symbol}-${token.chainId}-${token.tokenId}`
 }
@@ -64,7 +70,9 @@ const ListItem = (props: ListItemProps) => {
   )
 }
 
-export const VirtualizedVisibleAssetsList = (props: VirtualizedTokensListProps) => {
+export const VirtualizedVisibleAssetsList = (
+  props: VirtualizedTokensListProps
+) => {
   const {
     tokenList,
     networkList,

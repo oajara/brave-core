@@ -23,7 +23,7 @@ const StyledFollowButton = styled(FollowButton)`
   top: 8px;
 `
 
-const Card = styled('div').attrs<CardProps>(props => ({
+const Card = styled('div').attrs<CardProps>((props) => ({
   style: {
     backgroundColor: props.backgroundColor
   }
@@ -32,9 +32,9 @@ const Card = styled('div').attrs<CardProps>(props => ({
   height: 80px;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0px 0px 16px 0px #63696E2E;
+  box-shadow: 0px 0px 16px 0px #63696e2e;
 
-  &[data-feed-card-is-followed=true] {
+  &[data-feed-card-is-followed='true'] {
     &:not(:hover, :has(:focus-visible)) ${StyledFollowButton} {
       opacity: 0;
     }
@@ -45,13 +45,16 @@ interface CoverImageProps {
   backgroundImage: string
 }
 
-const CoverImage = styled('div').attrs<CoverImageProps>(props => ({
+const CoverImage = styled('div').attrs<CoverImageProps>((props) => ({
   style: {
     backgroundImage: `url('${props.backgroundImage}')`
   }
 }))<CoverImageProps>`
   position: absolute;
-  top: 15%; bottom: 15%; left: 15%; right: 15%;
+  top: 15%;
+  bottom: 15%;
+  left: 15%;
+  right: 15%;
   border-radius: 8px;
   background-position: center;
   background-size: contain;
@@ -63,45 +66,58 @@ const Name = styled.span`
   font-weight: 600;
 `
 
-export default function FeedCard (props: {
-  publisherId: string
-}) {
+export default function FeedCard(props: { publisherId: string }) {
   const publisher = usePublisher(props.publisherId)
   const { followed, setFollowed } = usePublisherFollowed(props.publisherId)
 
-  const backgroundColor = publisher.backgroundColor || getCardColor(publisher.feedSource?.url || publisher.publisherId)
-  const { url: coverUrl, setElementRef } = useLazyUnpaddedImageUrl(publisher.coverUrl?.url, {
-    rootElement: document.getElementById('brave-news-configure'),
-    rootMargin: '0px 0px 200px 0px',
-    useCache: true
-  })
+  const backgroundColor =
+    publisher.backgroundColor ||
+    getCardColor(publisher.feedSource?.url || publisher.publisherId)
+  const { url: coverUrl, setElementRef } = useLazyUnpaddedImageUrl(
+    publisher.coverUrl?.url,
+    {
+      rootElement: document.getElementById('brave-news-configure'),
+      rootMargin: '0px 0px 200px 0px',
+      useCache: true
+    }
+  )
 
-  return <Flex direction="column" gap={8} ref={setElementRef}>
-    <Card backgroundColor={backgroundColor} data-feed-card-is-followed={followed}>
-      {coverUrl && <CoverImage backgroundImage={coverUrl} />}
-      <StyledFollowButton following={followed} onClick={() => setFollowed(!followed)} />
-    </Card>
-    <Name>
-      {publisher.publisherName}
-    </Name>
-  </Flex>
+  return (
+    <Flex direction="column" gap={8} ref={setElementRef}>
+      <Card
+        backgroundColor={backgroundColor}
+        data-feed-card-is-followed={followed}
+      >
+        {coverUrl && <CoverImage backgroundImage={coverUrl} />}
+        <StyledFollowButton
+          following={followed}
+          onClick={() => setFollowed(!followed)}
+        />
+      </Card>
+      <Name>{publisher.publisherName}</Name>
+    </Flex>
+  )
 }
 
-export function DirectFeedCard (props: {
-  feedUrl: string
-  title: string
-}) {
+export function DirectFeedCard(props: { feedUrl: string; title: string }) {
   const [loading, setLoading] = useState(false)
-  return <Flex direction="column" gap={8}>
-    <Card backgroundColor={getCardColor(props.feedUrl)} data-feed-card-is-followed={true}>
-      <StyledFollowButton isDisabled={loading} following={false} onClick={async () => {
-        setLoading(true)
-        await api.subscribeToDirectFeed(props.feedUrl)
-        setLoading(false)
-      }} />
-    </Card>
-    <Name>
-      {props.title}
-    </Name>
-  </Flex>
+  return (
+    <Flex direction="column" gap={8}>
+      <Card
+        backgroundColor={getCardColor(props.feedUrl)}
+        data-feed-card-is-followed={true}
+      >
+        <StyledFollowButton
+          isDisabled={loading}
+          following={false}
+          onClick={async () => {
+            setLoading(true)
+            await api.subscribeToDirectFeed(props.feedUrl)
+            setLoading(false)
+          }}
+        />
+      </Card>
+      <Name>{props.title}</Name>
+    </Flex>
+  )
 }

@@ -41,7 +41,7 @@ export const FeedInputLabel = styled('label')`
   line-height: 16px;
   color: #495057;
   @media (prefers-color-scheme: dark) {
-    color: #C2C4CF;
+    color: #c2c4cf;
   }
 `
 
@@ -60,21 +60,22 @@ export const FeedInput = styled('input')`
   text-align: left;
 
   background: white;
-  border: 1px solid #AEB1C2;
+  border: 1px solid #aeb1c2;
   color: #495057;
   @media (prefers-color-scheme: dark) {
-    background: #1E2029;
-    border: 1px solid #5E6175;
-    color: #C2C4CF;
+    background: #1e2029;
+    border: 1px solid #5e6175;
+    color: #c2c4cf;
   }
 
-  &:focus, :hover {
-    border: 4px solid #A0A5EB;
+  &:focus,
+  :hover {
+    border: 4px solid #a0a5eb;
     padding: 7px 15px;
   }
 
   &::placeholder {
-    color: #84889C;
+    color: #84889c;
   }
 `
 
@@ -114,13 +115,13 @@ export const ResultItem = styled('li')`
 
 export const YourSources = styled('div')`
   margin-bottom: 16px;
-  border-bottom: solid 1px #E6E8F5;
+  border-bottom: solid 1px #e6e8f5;
   padding-bottom: 16px;
   display: flex;
   flex-direction: column;
   gap: 8px;
   align-items: stretch;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
 `
 
 export const AddSourceForm = styled('form')`

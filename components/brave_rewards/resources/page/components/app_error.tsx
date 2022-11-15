@@ -8,7 +8,7 @@ import { LocaleContext } from '../../shared/lib/locale_context'
 
 import * as style from './app_error.style'
 
-function getStack (error: Error) {
+function getStack(error: Error) {
   const stack = error.stack || String(error)
   return stack.replace(/chrome:/g, '')
 }
@@ -17,7 +17,7 @@ interface Props {
   error: Error
 }
 
-export function AppError (props: Props) {
+export function AppError(props: Props) {
   const { getString } = React.useContext(LocaleContext)
 
   return (

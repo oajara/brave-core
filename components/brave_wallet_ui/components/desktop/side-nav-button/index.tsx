@@ -15,7 +15,7 @@ export interface Props {
 }
 
 export default class SideNavButton extends React.PureComponent<Props, {}> {
-  render () {
+  render() {
     const { onSubmit, text, isSelected, icon } = this.props
     return (
       <StyledButton isSelected={isSelected} onClick={onSubmit}>

@@ -42,6 +42,6 @@ export const ImageWrapper = styled.div<{ isLoading: boolean }>`
   align-items: center;
   width: 100%;
   height: 100%;
-  visibility: ${p => p.isLoading ? 'hidden' : 'visible'};
+  visibility: ${(p) => (p.isLoading ? 'hidden' : 'visible')};
   border-radius: 12px;
 `

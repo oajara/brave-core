@@ -22,9 +22,11 @@ type Choices = {
   quantity: number
 }
 
-const doNothing = () => { console.debug('Action doNothing was fired') }
+const doNothing = () => {
+  console.debug('Action doNothing was fired')
+}
 
-function ConversionInProgress (props: Props) {
+function ConversionInProgress(props: Props) {
   const data = props.ftx.conversionInProgress
   // Validate
   if (!data) {
@@ -55,48 +57,67 @@ function ConversionInProgress (props: Props) {
   }, [timeLeft])
 
   return (
-    <S.BasicBox $mt={15} $mb={10} isFlex={true} column={true} alignItems={'stretch'}>
-      <S.Text>
-        {getLocale('ftxConversionPreviewTitle')}
-      </S.Text>
+    <S.BasicBox
+      $mt={15}
+      $mb={10}
+      isFlex={true}
+      column={true}
+      alignItems={'stretch'}
+    >
+      <S.Text>{getLocale('ftxConversionPreviewTitle')}</S.Text>
       <S.BasicBox $mb={20}>
         <S.BasicBox isFlex={true}>
-          <S.LightText small={true}>{getLocale('ftxConversionQuantityLabel')}</S.LightText>
-          <S.Text small={true}>{data.quote ? data.quote.cost : data.quantity} {data.from}</S.Text>
+          <S.LightText small={true}>
+            {getLocale('ftxConversionQuantityLabel')}
+          </S.LightText>
+          <S.Text small={true}>
+            {data.quote ? data.quote.cost : data.quantity} {data.from}
+          </S.Text>
         </S.BasicBox>
-        {data.quote &&
-        <>
-        <S.BasicBox isFlex={true}>
-          <S.LightText small={true}>{getLocale('ftxConversionPriceLabel')}</S.LightText>
-          <S.Text small={true}>{data.quote.price} {data.to}</S.Text>
-        </S.BasicBox>
-        <S.BasicBox isFlex={true}>
-          <S.LightText small={true}>{getLocale('ftxConversionProceedsLabel')}</S.LightText>
-          <S.Text small={true}>{data.quote.proceeds} {data.to}</S.Text>
-        </S.BasicBox>
-        </>
-        }
-        {isFetchingQuote &&
-          <Loading />
-        }
+        {data.quote && (
+          <>
+            <S.BasicBox isFlex={true}>
+              <S.LightText small={true}>
+                {getLocale('ftxConversionPriceLabel')}
+              </S.LightText>
+              <S.Text small={true}>
+                {data.quote.price} {data.to}
+              </S.Text>
+            </S.BasicBox>
+            <S.BasicBox isFlex={true}>
+              <S.LightText small={true}>
+                {getLocale('ftxConversionProceedsLabel')}
+              </S.LightText>
+              <S.Text small={true}>
+                {data.quote.proceeds} {data.to}
+              </S.Text>
+            </S.BasicBox>
+          </>
+        )}
+        {isFetchingQuote && <Loading />}
       </S.BasicBox>
-      {!isFetchingQuote &&
-      <S.ActionButton disabled={data.isSubmitting} onClick={!data.isSubmitting ? props.actions.submitConversion : doNothing}>
-        {data.isSubmitting
-          ? <>{getLocale('ftxConversionSubmittingLabel')}</>
-          : <>{countdownLabel}</>
-        }
-      </S.ActionButton>
-      }
+      {!isFetchingQuote && (
+        <S.ActionButton
+          disabled={data.isSubmitting}
+          onClick={
+            !data.isSubmitting ? props.actions.submitConversion : doNothing
+          }
+        >
+          {data.isSubmitting ? (
+            <>{getLocale('ftxConversionSubmittingLabel')}</>
+          ) : (
+            <>{countdownLabel}</>
+          )}
+        </S.ActionButton>
+      )}
       <S.PlainButton onClick={props.actions.cancelConversion} $mt={8}>
         {getLocale('ftxConversionCancelLabel')}
       </S.PlainButton>
-
     </S.BasicBox>
   )
 }
 
-function ConversionSuccessful (props: Props) {
+function ConversionSuccessful(props: Props) {
   return (
     <S.BasicBox isFlex={true} column={true} $mt={14} $mb={25} $gap={10}>
       <S.Text $fontSize={24}>🎉</S.Text>
@@ -108,12 +129,19 @@ function ConversionSuccessful (props: Props) {
   )
 }
 
-export default function Convert (props: Props) {
-  const [choices, setChoices] = React.useState<Choices>({ from: '', to: '', quantity: 0 })
+export default function Convert(props: Props) {
+  const [choices, setChoices] = React.useState<Choices>({
+    from: '',
+    to: '',
+    quantity: 0
+  })
 
-  const onChange = React.useCallback((from: string, to: string, quantity: number) => {
-    setChoices({ from, to, quantity })
-  }, [setChoices])
+  const onChange = React.useCallback(
+    (from: string, to: string, quantity: number) => {
+      setChoices({ from, to, quantity })
+    },
+    [setChoices]
+  )
 
   const availableAmount = React.useMemo(() => {
     const amount = props.ftx.balances[choices.from] || 0
@@ -153,15 +181,11 @@ export default function Convert (props: Props) {
   return (
     <>
       <S.BasicBox isFlex={true} $mt={15}>
-        <S.Text>
-          {getLocale('ftxConvert')}
-        </S.Text>
+        <S.Text>{getLocale('ftxConvert')}</S.Text>
         <S.Text small={true}>
-          {
-            getLocale('ftxConversionAmountAvailable')
-              .replace('$1', `${availableAmount}`)
-              .replace('$2', choices.from)
-          }
+          {getLocale('ftxConversionAmountAvailable')
+            .replace('$1', `${availableAmount}`)
+            .replace('$2', choices.from)}
         </S.Text>
       </S.BasicBox>
       <TradingDropdown

@@ -57,21 +57,35 @@ const defaultState: PageState = {
 }
 
 export const WalletPageAsyncActions = {
-  addHardwareAccounts: createAction<BraveWallet.HardwareWalletAccount[]>('addHardwareAccounts'),
+  addHardwareAccounts: createAction<BraveWallet.HardwareWalletAccount[]>(
+    'addHardwareAccounts'
+  ),
   checkWalletsToImport: createAction('checkWalletsToImport'),
   createWallet: createAction<CreateWalletPayloadType>('createWallet'),
   getNFTMetadata: createAction<BraveWallet.BlockchainToken>('getNFTMetadata'),
   importAccount: createAction<ImportAccountPayloadType>('importAccount'),
-  importAccountFromJson: createAction<ImportAccountFromJsonPayloadType>('importAccountFromJson'),
-  importFilecoinAccount: createAction<ImportFilecoinAccountPayloadType>('importFilecoinAccount'),
-  importFromCryptoWallets: createAction<ImportFromExternalWalletPayloadType>('importFromCryptoWallets'),
-  importFromMetaMask: createAction<ImportFromExternalWalletPayloadType>('importFromMetaMask'),
+  importAccountFromJson: createAction<ImportAccountFromJsonPayloadType>(
+    'importAccountFromJson'
+  ),
+  importFilecoinAccount: createAction<ImportFilecoinAccountPayloadType>(
+    'importFilecoinAccount'
+  ),
+  importFromCryptoWallets: createAction<ImportFromExternalWalletPayloadType>(
+    'importFromCryptoWallets'
+  ),
+  importFromMetaMask:
+    createAction<ImportFromExternalWalletPayloadType>('importFromMetaMask'),
   openWalletSettings: createAction('openWalletSettings'),
-  removeHardwareAccount: createAction<RemoveHardwareAccountPayloadType>('removeHardwareAccount'),
-  removeImportedAccount: createAction<RemoveImportedAccountPayloadType>('removeImportedAccount'),
+  removeHardwareAccount: createAction<RemoveHardwareAccountPayloadType>(
+    'removeHardwareAccount'
+  ),
+  removeImportedAccount: createAction<RemoveImportedAccountPayloadType>(
+    'removeImportedAccount'
+  ),
   restoreWallet: createAction<RestoreWalletPayloadType>('restoreWallet'),
   selectAsset: createAction<UpdateSelectedAssetType>('selectAsset'),
-  updateAccountName: createAction<UpdateAccountNamePayloadType>('updateAccountName')
+  updateAccountName:
+    createAction<UpdateAccountNamePayloadType>('updateAccountName')
 }
 
 export const createPageSlice = (initialState: PageState = defaultState) => {
@@ -79,33 +93,45 @@ export const createPageSlice = (initialState: PageState = defaultState) => {
     name: 'page',
     initialState: initialState,
     reducers: {
-      agreeToWalletTerms (state) {
+      agreeToWalletTerms(state) {
         state.walletTermsAcknowledged = true
       },
 
-      hasMnemonicError (state, { payload }: PayloadAction<boolean>) {
+      hasMnemonicError(state, { payload }: PayloadAction<boolean>) {
         state.invalidMnemonic = payload
       },
 
-      recoveryWordsAvailable (state, { payload }: PayloadAction<RecoveryWordsAvailablePayloadType>) {
+      recoveryWordsAvailable(
+        state,
+        { payload }: PayloadAction<RecoveryWordsAvailablePayloadType>
+      ) {
         if (state.mnemonic !== payload.mnemonic) {
           state.mnemonic = payload.mnemonic
         }
       },
 
-      selectCoinMarket (state, { payload }: PayloadAction<BraveWallet.CoinMarket | undefined>) {
+      selectCoinMarket(
+        state,
+        { payload }: PayloadAction<BraveWallet.CoinMarket | undefined>
+      ) {
         state.selectedCoinMarket = payload
       },
 
-      setCryptoWalletsInitialized (state, { payload }: PayloadAction<boolean>) {
+      setCryptoWalletsInitialized(state, { payload }: PayloadAction<boolean>) {
         state.isCryptoWalletsInitialized = payload
       },
 
-      setImportAccountError (state, { payload }: PayloadAction<ImportAccountErrorType>) {
+      setImportAccountError(
+        state,
+        { payload }: PayloadAction<ImportAccountErrorType>
+      ) {
         state.importAccountError = payload
       },
 
-      setImportWalletError (state, { payload }: PayloadAction<ImportWalletErrorPayloadType>) {
+      setImportWalletError(
+        state,
+        { payload }: PayloadAction<ImportWalletErrorPayloadType>
+      ) {
         const { hasError, errorMessage, incrementAttempts } = payload
 
         state.importWalletError = { hasError, errorMessage }
@@ -115,43 +141,58 @@ export const createPageSlice = (initialState: PageState = defaultState) => {
         }
       },
 
-      setImportWalletsCheckComplete (state, { payload }: PayloadAction<boolean>) {
+      setImportWalletsCheckComplete(
+        state,
+        { payload }: PayloadAction<boolean>
+      ) {
         state.isImportWalletsCheckComplete = payload
       },
 
-      setIsFetchingNFTMetadata (state, { payload }: PayloadAction<boolean>) {
+      setIsFetchingNFTMetadata(state, { payload }: PayloadAction<boolean>) {
         state.isFetchingNFTMetadata = payload
       },
 
-      setIsFetchingPriceHistory (state, { payload }: PayloadAction<boolean>) {
+      setIsFetchingPriceHistory(state, { payload }: PayloadAction<boolean>) {
         state.isFetchingPriceHistory = payload
       },
 
-      setMetaMaskInitialized (state, { payload }: PayloadAction<boolean>) {
+      setMetaMaskInitialized(state, { payload }: PayloadAction<boolean>) {
         state.isMetaMaskInitialized = payload
       },
 
-      setShowAddModal (state, { payload }: PayloadAction<boolean>) {
+      setShowAddModal(state, { payload }: PayloadAction<boolean>) {
         state.showAddModal = payload
       },
 
-      setShowIsRestoring (state, action: PayloadAction<boolean>) {
+      setShowIsRestoring(state, action: PayloadAction<boolean>) {
         state.showIsRestoring = action.payload
       },
 
-      showRecoveryPhrase (state, { payload }: PayloadAction<ShowRecoveryPhrasePayload>) {
+      showRecoveryPhrase(
+        state,
+        { payload }: PayloadAction<ShowRecoveryPhrasePayload>
+      ) {
         state.showRecoveryPhrase = payload.show
       },
 
-      updateNFTMetadata (state, { payload }: PayloadAction<NFTMetadataReturnType | undefined>) {
+      updateNFTMetadata(
+        state,
+        { payload }: PayloadAction<NFTMetadataReturnType | undefined>
+      ) {
         state.nftMetadata = payload
       },
 
-      updateNftMetadataError (state, { payload }: PayloadAction<string | undefined>) {
+      updateNftMetadataError(
+        state,
+        { payload }: PayloadAction<string | undefined>
+      ) {
         state.nftMetadataError = payload
       },
 
-      updatePriceInfo (state, { payload }: PayloadAction<SelectAssetPayloadType>) {
+      updatePriceInfo(
+        state,
+        { payload }: PayloadAction<SelectAssetPayloadType>
+      ) {
         state.selectedAssetFiatPrice = payload.defaultFiatPrice
         state.selectedAssetCryptoPrice = payload.defaultCryptoPrice
         state.selectedAssetPriceHistory = payload.priceHistory?.values || []
@@ -159,21 +200,27 @@ export const createPageSlice = (initialState: PageState = defaultState) => {
         state.isFetchingPriceHistory = false
       },
 
-      updateSelectedAsset (state, { payload }: PayloadAction<BraveWallet.BlockchainToken | undefined>) {
+      updateSelectedAsset(
+        state,
+        { payload }: PayloadAction<BraveWallet.BlockchainToken | undefined>
+      ) {
         state.selectedAsset = payload
       },
 
-      walletBackupComplete (state: PageState) {
+      walletBackupComplete(state: PageState) {
         state.showRecoveryPhrase = false
         state.mnemonic = undefined
       },
 
-      walletCreated (state, { payload }: PayloadAction<WalletCreatedPayloadType>) {
+      walletCreated(
+        state,
+        { payload }: PayloadAction<WalletCreatedPayloadType>
+      ) {
         state.mnemonic = payload.mnemonic
         state.setupStillInProgress = true
       },
 
-      walletSetupComplete (state, action?: PayloadAction<boolean>) {
+      walletSetupComplete(state, action?: PayloadAction<boolean>) {
         // complete setup unless explicitly halted
         state.setupStillInProgress = !action?.payload
         state.mnemonic = undefined

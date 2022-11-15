@@ -7,7 +7,11 @@ import * as React from 'react'
 import { LocaleContext, getLocaleWithTag } from '../localeContext'
 import { DialogTitle } from '../dialogTitle'
 import { FormSection } from '../formSection'
-import { CreditCardForm, CreditCardFormHandle, CreditCardDetails } from '../creditCardForm'
+import {
+  CreditCardForm,
+  CreditCardFormHandle,
+  CreditCardDetails
+} from '../creditCardForm'
 import { GoBackLink } from '../goBackLink'
 
 import {
@@ -44,7 +48,7 @@ interface AmountOpionPanelProps {
   setSelectedAmount: (amount: number) => void
 }
 
-function AmountOptionPanel (props: AmountOpionPanelProps) {
+function AmountOptionPanel(props: AmountOpionPanelProps) {
   if (props.amountOptions.length === 0) {
     return null
   }
@@ -61,31 +65,35 @@ function AmountOptionPanel (props: AmountOpionPanelProps) {
 
   return (
     <>
-        <AmountOptionList>
-        {
-          props.amountOptions.map(option => {
-            const selectAmount = () => { props.setSelectedAmount(option.amount) }
-            return (
-              <AmountOptionContainer key={option.amount}>
-                <AmountOptionButton
-                  text={`${option.amount} ${locale.get('bat')}`}
-                  size={'medium'}
-                  onClick={selectAmount}
-                  selected={option === selectedOption}
-                />
-                <AmountOptionExchange>
-                  {option.amountConverted}
-                </AmountOptionExchange>
-              </AmountOptionContainer>
-            )
-          })
-        }
+      <AmountOptionList>
+        {props.amountOptions.map((option) => {
+          const selectAmount = () => {
+            props.setSelectedAmount(option.amount)
+          }
+          return (
+            <AmountOptionContainer key={option.amount}>
+              <AmountOptionButton
+                text={`${option.amount} ${locale.get('bat')}`}
+                size={'medium'}
+                onClick={selectAmount}
+                selected={option === selectedOption}
+              />
+              <AmountOptionExchange>
+                {option.amountConverted}
+              </AmountOptionExchange>
+            </AmountOptionContainer>
+          )
+        })}
       </AmountOptionList>
       <ChargeSummary>
-        <div>{locale.get('transactionFee')} ({selectedOption.transactionFeeRate})</div>
+        <div>
+          {locale.get('transactionFee')} ({selectedOption.transactionFeeRate})
+        </div>
         <div>{selectedOption.transactionFee}</div>
         <ChargeSummaryTotal>{locale.get('orderTotal')}</ChargeSummaryTotal>
-        <ChargeSummaryTotalAmount>{selectedOption.totalCharge}</ChargeSummaryTotalAmount>
+        <ChargeSummaryTotalAmount>
+          {selectedOption.totalCharge}
+        </ChargeSummaryTotalAmount>
       </ChargeSummary>
     </>
   )
@@ -101,7 +109,7 @@ interface AddFundsPanelProps {
   onPayWithCreditCard: (cardDetails: CreditCardDetails) => void
 }
 
-export function AddFundsPanel (props: AddFundsPanelProps) {
+export function AddFundsPanel(props: AddFundsPanelProps) {
   const locale = React.useContext(LocaleContext)
 
   const [selectedAmount, setSelectedAmount] = React.useState<number>(0)
@@ -124,14 +132,16 @@ export function AddFundsPanel (props: AddFundsPanelProps) {
   return (
     <>
       <DialogTitle>{locale.get('addFundsTitle')}</DialogTitle>
-      <Subtitle>
-        {locale.get('addFundsSubtitle')}
-      </Subtitle>
+      <Subtitle>{locale.get('addFundsSubtitle')}</Subtitle>
       <CurrentBalance>
         <div>
           {locale.get('currentBalance')}
-          <CurrentBalanceBat>{props.walletBalance} {locale.get('bat')}</CurrentBalanceBat>
-          <CurrentBalanceConverted>{props.walletBalanceConverted}</CurrentBalanceConverted>
+          <CurrentBalanceBat>
+            {props.walletBalance} {locale.get('bat')}
+          </CurrentBalanceBat>
+          <CurrentBalanceConverted>
+            {props.walletBalanceConverted}
+          </CurrentBalanceConverted>
         </div>
         <CurrentBalanceNeeded>
           {props.amountNeeded} {locale.get('batNeeded')}
@@ -160,16 +170,16 @@ export function AddFundsPanel (props: AddFundsPanelProps) {
         <GoBackLink onClick={props.onCancel} />
         <AddFundsButton
           text={locale.get('addFundsButtonText')}
-          size='medium'
+          size="medium"
           onClick={onPurchaseClick}
-          type='accent'
-          brand='rewards'
+          type="accent"
+          brand="rewards"
         />
       </PurchaseButtonRow>
       <TermsOfSale>
         <span>
           {tags.beforeTag}
-          <a href='javascript:void 0'>{tags.duringTag}</a>
+          <a href="javascript:void 0">{tags.duringTag}</a>
           {tags.afterTag}
         </span>
       </TermsOfSale>

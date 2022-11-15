@@ -20,11 +20,11 @@ export const root = styled.div`
   grid-template-columns: 1fr;
   grid-template-rows: auto auto 1fr auto 96px;
   grid-template-areas:
-    "header"
-    "text"
-    "graphic"
-    "step-links"
-    "nav";
+    'header'
+    'text'
+    'graphic'
+    'step-links'
+    'nav';
 
   &.tour-wide {
     min-height: 300px;
@@ -34,9 +34,9 @@ export const root = styled.div`
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto 1fr 50px;
     grid-template-areas:
-      "header graphic"
-      "text graphic"
-      "nav step-links";
+      'header graphic'
+      'text graphic'
+      'nav step-links';
   }
 `
 
@@ -99,7 +99,8 @@ export const stepGraphic = styled.div`
     max-width: 200px;
   }
 
-  &.tour-graphic-setup {}
+  &.tour-graphic-setup {
+  }
 
   &.tour-graphic-complete {
     background-image: url('${completedImage}');
@@ -116,7 +117,9 @@ export const stepGraphic = styled.div`
     /* The narrow view does not have space to accomodate the promo image. */
     .tour-narrow & {
       padding-top: 0;
-      > * { display: none; }
+      > * {
+        display: none;
+      }
     }
   }
 `

@@ -7,10 +7,7 @@ import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
 // types
-import {
-  BraveWallet,
-  WalletRoutes
-} from '../../../../../constants/types'
+import { BraveWallet, WalletRoutes } from '../../../../../constants/types'
 
 // utils
 import { getLocale } from '$web-common/locale'
@@ -20,11 +17,7 @@ import SearchBar from '../../../../shared/search-bar'
 import NetworkFilterSelector from '../../../network-filter-selector'
 
 // styles
-import {
-  EmptyStateText,
-  FilterTokenRow,
-  NftGrid
-} from './nfts.styles'
+import { EmptyStateText, FilterTokenRow, NftGrid } from './nfts.styles'
 import { NFTGridViewItem } from '../../portfolio/components/nft-grid-view/nft-grid-view-item'
 import { WalletPageActions } from '../../../../../page/actions'
 import Amount from '../../../../../utils/amount'
@@ -35,10 +28,7 @@ interface Props {
 }
 
 export const Nfts = (props: Props) => {
-  const {
-    networks,
-    nftList
-  } = props
+  const { networks, nftList } = props
 
   // state
   const [searchValue, setSearchValue] = React.useState<string>('')
@@ -48,15 +38,23 @@ export const Nfts = (props: Props) => {
   const dispatch = useDispatch()
 
   // methods
-  const onSearchValueChange = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value)
-  }, [])
+  const onSearchValueChange = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchValue(event.target.value)
+    },
+    []
+  )
 
-  const onSelectAsset = React.useCallback((asset: BraveWallet.BlockchainToken) => {
-    history.push(`${WalletRoutes.Portfolio}/${asset.contractAddress}/${asset.tokenId}`)
-    // reset nft metadata
-    dispatch(WalletPageActions.updateNFTMetadata(undefined))
-  }, [dispatch])
+  const onSelectAsset = React.useCallback(
+    (asset: BraveWallet.BlockchainToken) => {
+      history.push(
+        `${WalletRoutes.Portfolio}/${asset.contractAddress}/${asset.tokenId}`
+      )
+      // reset nft metadata
+      dispatch(WalletPageActions.updateNFTMetadata(undefined))
+    },
+    [dispatch]
+  )
 
   // memos
   const filteredNfts = React.useMemo(() => {
@@ -79,7 +77,11 @@ export const Nfts = (props: Props) => {
   }, [searchValue, nftList])
 
   const emptyStateMessage = React.useMemo(() => {
-    return getLocale(searchValue === '' ? 'braveWalletNftsEmptyState' : 'braveWalletNftsEmptyStateSearch')
+    return getLocale(
+      searchValue === ''
+        ? 'braveWalletNftsEmptyState'
+        : 'braveWalletNftsEmptyStateSearch'
+    )
   }, [searchValue])
 
   return (
@@ -92,10 +94,11 @@ export const Nfts = (props: Props) => {
         />
         <NetworkFilterSelector networkListSubset={networks} />
       </FilterTokenRow>
-      {filteredNfts.length === 0
-        ? <EmptyStateText>{emptyStateMessage}</EmptyStateText>
-        : <NftGrid>
-          {filteredNfts.map(nft => (
+      {filteredNfts.length === 0 ? (
+        <EmptyStateText>{emptyStateMessage}</EmptyStateText>
+      ) : (
+        <NftGrid>
+          {filteredNfts.map((nft) => (
             <NFTGridViewItem
               key={`${nft.tokenId}-${nft.contractAddress}`}
               token={{ asset: nft, assetBalance: '' }}
@@ -103,7 +106,7 @@ export const Nfts = (props: Props) => {
             />
           ))}
         </NftGrid>
-      }
+      )}
     </>
   )
 }

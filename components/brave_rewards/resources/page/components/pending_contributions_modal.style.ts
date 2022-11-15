@@ -128,7 +128,7 @@ export const amount = styled.div`
 `
 
 export const exchangeAmount = styled.span`
-  color: #9E9FAB;
+  color: #9e9fab;
 `
 
 export const contributionType = styled.div`

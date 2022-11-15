@@ -12,18 +12,18 @@ interface Props {
   onSelectStep: (step: number) => void
 }
 
-export function TourStepLinks (props: Props) {
-  if (props.currentStep < 0 ||
-      props.currentStep >= props.stepCount ||
-      props.stepCount <= 0) {
+export function TourStepLinks(props: Props) {
+  if (
+    props.currentStep < 0 ||
+    props.currentStep >= props.stepCount ||
+    props.stepCount <= 0
+  ) {
     return null
   }
 
-  function stepCallback (step: number) {
+  function stepCallback(step: number) {
     return () => {
-      if (step !== props.currentStep &&
-          step >= 0 &&
-          step < props.stepCount) {
+      if (step !== props.currentStep && step >= 0 && step < props.stepCount) {
         props.onSelectStep(step)
       }
     }
@@ -31,15 +31,15 @@ export function TourStepLinks (props: Props) {
 
   return (
     <style.root>
-      {
-        Array(props.stepCount).fill(null).map((_, i) =>
+      {Array(props.stepCount)
+        .fill(null)
+        .map((_, i) => (
           <button
             key={i}
             className={i === props.currentStep ? 'selected' : ''}
             onClick={stepCallback(i)}
           />
-        )
-      }
+        ))}
     </style.root>
   )
 }

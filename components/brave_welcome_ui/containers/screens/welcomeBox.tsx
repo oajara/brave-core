@@ -23,7 +23,7 @@ interface Props {
 }
 
 export default class ThemingBox extends React.PureComponent<Props, {}> {
-  render () {
+  render() {
     const { index, currentScreen, onClick } = this.props
     return (
       <Content
@@ -36,9 +36,9 @@ export default class ThemingBox extends React.PureComponent<Props, {}> {
         <Title>{getLocale('welcome')}</Title>
         <Paragraph>{getLocale('whatIsBrave')}</Paragraph>
         <PrimaryButton
-          level='primary'
-          type='accent'
-          size='large'
+          level="primary"
+          type="accent"
+          size="large"
           text={getLocale('letsGo')}
           onClick={onClick}
           icon={{ position: 'after', image: <ArrowRightIcon /> }}

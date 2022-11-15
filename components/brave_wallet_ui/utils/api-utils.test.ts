@@ -4,35 +4,41 @@
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 import { getTokenParam, getFlattenedAccountBalances } from './api-utils'
 import { mockAccount } from '../common/constants/mocks'
-import { mockEthToken, mockBasicAttentionToken } from '../stories/mock-data/mock-asset-options'
+import {
+  mockEthToken,
+  mockBasicAttentionToken
+} from '../stories/mock-data/mock-asset-options'
 
 const ethToken = mockEthToken
 const batToken = mockBasicAttentionToken
 
 describe('Check token param', () => {
   test('Value should return contract address', () => {
-    expect(getTokenParam(batToken)).toEqual('0x0D8775F648430679A709E98d2b0Cb6250d2887EF')
+    expect(getTokenParam(batToken)).toEqual(
+      '0x0D8775F648430679A709E98d2b0Cb6250d2887EF'
+    )
   })
 
   test('Value should return symbol', () => {
-    expect(getTokenParam({
-      ...batToken,
-      contractAddress: ''
-    })).toEqual('bat')
+    expect(
+      getTokenParam({
+        ...batToken,
+        contractAddress: ''
+      })
+    ).toEqual('bat')
   })
 
   test('Value should return coingeckoId', () => {
-    expect(getTokenParam({
-      ...batToken,
-      coingeckoId: 'mockCoingeckoId'
-    })).toEqual('mockCoingeckoId')
+    expect(
+      getTokenParam({
+        ...batToken,
+        coingeckoId: 'mockCoingeckoId'
+      })
+    ).toEqual('mockCoingeckoId')
   })
 })
 
-const mockUserVisibleTokenOptions = [
-  ethToken,
-  batToken
-]
+const mockUserVisibleTokenOptions = [ethToken, batToken]
 const mockAccounts = [
   {
     ...mockAccount,
@@ -67,10 +73,14 @@ const expectedResult = [
 
 describe('Check Flattened Account Balances', () => {
   test('Value should return an Empty Array', () => {
-    expect(getFlattenedAccountBalances([], mockUserVisibleTokenOptions)).toEqual([])
+    expect(
+      getFlattenedAccountBalances([], mockUserVisibleTokenOptions)
+    ).toEqual([])
   })
 
   test('Value should return a Flattened Account Balance List', () => {
-    expect(getFlattenedAccountBalances(mockAccounts, mockUserVisibleTokenOptions)).toEqual(expectedResult)
+    expect(
+      getFlattenedAccountBalances(mockAccounts, mockUserVisibleTokenOptions)
+    ).toEqual(expectedResult)
   })
 })

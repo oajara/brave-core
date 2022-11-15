@@ -7,7 +7,7 @@ import * as React from 'react'
 import * as Card from '../cardIntro'
 import Loading from '../../../loading'
 
-export default function CardLoading () {
+export default function CardLoading() {
   return (
     <Card.Intro>
       <Loading />

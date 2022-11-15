@@ -46,12 +46,16 @@ export const loading = styled.div`
 
     animation-name: fade-in;
     animation-delay: 1s;
-    animation-duration: .5s;
+    animation-duration: 0.5s;
     animation-fill-mode: both;
 
     @keyframes fade-in {
-      from { opacity: 0; }
-      to { opacity: .8; }
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 0.8;
+      }
     }
   }
 `

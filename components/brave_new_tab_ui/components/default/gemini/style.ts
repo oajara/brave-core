@@ -28,10 +28,10 @@ export const WidgetWrapper = styled('div')<StyleProps>`
   padding: 6px 20px 12px 20px;
   border-radius: 6px;
   position: relative;
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   overflow: hidden;
   min-width: 284px;
-  min-height: ${p => p.userAuthed ? '360px' : 'initial'};
+  min-height: ${(p) => (p.userAuthed ? '360px' : 'initial')};
   background: #000;
 `
 
@@ -47,7 +47,7 @@ export const StyledTitle = styled('div')<{}>`
   font-size: 18px;
   font-weight: 600;
   color: #fff;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
 `
 
 export const GeminiIcon = styled('div')<{}>`
@@ -64,7 +64,7 @@ export const StyledTitleText = styled('div')<{}>`
 export const DismissAction = styled('span')<{}>`
   display: block;
   cursor: pointer;
-  color: #A6A6A6;
+  color: #a6a6a6;
   font-size: 14px;
   margin-top: 20px;
   font-weight: bold;
@@ -82,11 +82,11 @@ export const Copy = styled('p')<{}>`
   max-width: 240px;
   margin-top: 10px;
   margin-bottom: 20px;
-  color: #A6A6A6;
+  color: #a6a6a6;
 `
 
 export const ActionsWrapper = styled('div')<StyleProps>`
-  margin-bottom: ${p => p.isAuth ? 20 : 5}px;
+  margin-bottom: ${(p) => (p.isAuth ? 20 : 5)}px;
   text-align: center;
 `
 
@@ -95,7 +95,7 @@ export const ConnectButton = styled('button')<StyleProps>`
   font-weight: bold;
   border-radius: 20px;
   width: 100%;
-  background: #3D3D3D;
+  background: #3d3d3d;
   border: 0;
   padding: 10px;
   cursor: pointer;
@@ -129,7 +129,7 @@ export const NavigationItem = styled('button')<StyleProps>`
   cursor: pointer;
   background: inherit;
   border: none;
-  color: ${p => p.isActive ? '#EEEEEE' : '#8F8F8F'};
+  color: ${(p) => (p.isActive ? '#EEEEEE' : '#8F8F8F')};
   padding: 0px;
   margin-left: 0px;
   &:focus {
@@ -139,7 +139,7 @@ export const NavigationItem = styled('button')<StyleProps>`
 
 export const SelectedView = styled('div')<StyleProps>`
   border: 1px solid rgb(70, 70, 70);
-  overflow-y: ${p => p.hideOverflow ? 'hidden' : 'scroll'};
+  overflow-y: ${(p) => (p.hideOverflow ? 'hidden' : 'scroll')};
   height: 260px;
   width: 240px;
   margin-left: 4px;
@@ -167,7 +167,7 @@ export const ListImg = styled('img')<{}>`
 
 export const ListLabel = styled('div')<StyleProps>`
   color: #fff;
-  cursor: ${p => p.clickable ? 'pointer' : 'initial'};
+  cursor: ${(p) => (p.clickable ? 'pointer' : 'initial')};
   margin-top: 10px;
   font-weight: 600;
 `
@@ -242,7 +242,7 @@ export const GenButton = styled('button')<{}>`
   border: 0;
   padding: 5px 10px;
   cursor: pointer;
-  background: #2C2C2B;
+  background: #2c2c2b;
   color: rgba(255, 255, 255, 0.7);
 `
 
@@ -303,11 +303,11 @@ export const AccountSummary = styled(ListItem)`
 `
 
 export const ListInfo = styled('div')<StyleProps>`
-  float: ${p => `${p.position}`};
-  min-width: ${p => p.isSummary ? 60 : 83}px;
-  font-size: ${p => p.isAsset ? '16px' : 'inherit'};
-  margin-top: ${p => p.isAsset ? '9' : '0'}px;
-  ${p => {
+  float: ${(p) => `${p.position}`};
+  min-width: ${(p) => (p.isSummary ? 60 : 83)}px;
+  font-size: ${(p) => (p.isAsset ? '16px' : 'inherit')};
+  margin-top: ${(p) => (p.isAsset ? '9' : '0')}px;
+  ${(p) => {
     if (p.position === 'right') {
       const width = p.isSummary ? 25 : 40
       return `
@@ -332,12 +332,12 @@ export const TradeLabel = styled('span')<{}>`
 
 export const Balance = styled('span')<StyleProps>`
   display: block;
-  font-size: ${p => p.isSummary ? '25' : '14'}px;
-  margin: ${p => p.isSummary ? '5px' : '20px'} 0;
+  font-size: ${(p) => (p.isSummary ? '25' : '14')}px;
+  margin: ${(p) => (p.isSummary ? '5px' : '20px')} 0;
   color: #fff;
-  text-align: ${p => p.isSummary ? 'unset' : 'right'};
-  margin-right: ${p => p.isSummary ? '0' : '7px'};
-  -webkit-filter: blur(${p => p.hideBalance ? 10 : 0}px);
+  text-align: ${(p) => (p.isSummary ? 'unset' : 'right')};
+  margin-right: ${(p) => (p.isSummary ? '0' : '7px')};
+  -webkit-filter: blur(${(p) => (p.hideBalance ? 10 : 0)}px);
 `
 
 export const BlurIcon = styled('div')<{}>`
@@ -387,7 +387,7 @@ export const Dropdown = styled('div')<StyleProps>`
   width: 30%;
   padding: 7px 5px 0px 7px;
   border-left: none;
-  cursor: ${p => p.disabled ? 'auto' : 'pointer'};
+  cursor: ${(p) => (p.disabled ? 'auto' : 'pointer')};
 `
 
 export const CaratDropdown = styled('div')<StyleProps>`
@@ -395,7 +395,7 @@ export const CaratDropdown = styled('div')<StyleProps>`
   height: 14px;
   float: right;
   color: #fff;
-  visibility: ${p => p.hide ? 'hidden' : 'visible'};
+  visibility: ${(p) => (p.hide ? 'hidden' : 'visible')};
 `
 
 export const AssetDropdown = styled('div')<StyleProps>`
@@ -405,7 +405,7 @@ export const AssetDropdown = styled('div')<StyleProps>`
   border: 1px solid white;
   padding: 7px 3px 0px 8px;
   cursor: pointer;
-  border-bottom: ${p => p.itemsShowing ? 'none' : '1px solid white'};
+  border-bottom: ${(p) => (p.itemsShowing ? 'none' : '1px solid white')};
 `
 export const AssetDropdownLabel = styled('span')<{}>`
   font-weight: bold;
@@ -430,7 +430,7 @@ export const AssetItem = styled('div')<StyleProps>`
   padding: 5px 0px;
   font-weight: bold;
   cursor: pointer;
-  border-bottom: ${p => !p.isLast ? '1px solid rgb(70, 70, 70)' : ''};
+  border-bottom: ${(p) => (!p.isLast ? '1px solid rgb(70, 70, 70)' : '')};
 `
 
 export const DropdownIcon = styled('span')<StyleProps>`
@@ -445,7 +445,7 @@ export const ActionButton = styled('button')<{}>`
   font-weight: bold;
   border-radius: 20px;
   width: 100%;
-  background: #7CDDF9;
+  background: #7cddf9;
   border: 0;
   padding: 10px 60px;
   cursor: pointer;
@@ -464,7 +464,7 @@ export const TradeSwitch = styled('div')<StyleProps>`
   display: inline-block;
   margin-left: 10px;
   cursor: pointer;
-  color: ${p => p.isActive ? '#EEEEEE' : '#8F8F8F'};
+  color: ${(p) => (p.isActive ? '#EEEEEE' : '#8F8F8F')};
 `
 
 export const DisconnectWrapper = styled('div')<{}>`
@@ -495,7 +495,7 @@ export const DisconnectCopy = styled(Copy)`
 `
 
 export const DisconnectButton = styled(GenButton)`
-  background: #AA1212;
+  background: #aa1212;
   color: #fff;
   padding: 5px 20px;
 `
@@ -536,7 +536,7 @@ export const TradeInfoWrapper = styled('div')<StyleProps>`
 export const TradeInfoItem = styled('div')<StyleProps>`
   margin: 5px 0;
   overflow-y: hidden;
-  margin-top: ${p => p.isLast ? '15' : '5'}px;
+  margin-top: ${(p) => (p.isLast ? '15' : '5')}px;
 `
 
 export const StyledParty = styled('div')<{}>`

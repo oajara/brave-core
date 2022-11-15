@@ -23,7 +23,10 @@ export type ApplicationState = NewTab.ApplicationState & {
   ftx: FTXState
 }
 
-export const newTabReducers = (state: NewTab.State | undefined, action: any) => {
+export const newTabReducers = (
+  state: NewTab.State | undefined,
+  action: any
+) => {
   if (state === undefined) {
     state = storage.load()
   }

@@ -11,7 +11,7 @@ import { useSafeWalletSelector } from './use-safe-selector'
 // hooks
 import { useLib } from './useLib'
 
-export function useBalanceUpdater () {
+export function useBalanceUpdater() {
   const { refreshBalances } = useLib()
 
   // Redux

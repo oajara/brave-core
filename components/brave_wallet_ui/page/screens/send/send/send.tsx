@@ -18,7 +18,10 @@ import { allSupportedExtensions } from '../../../../common/constants/domain-exte
 // Utils
 import { getLocale } from '../../../../../common/locale'
 import Amount from '../../../../utils/amount'
-import { getBalance, formatTokenBalanceWithSymbol } from '../../../../utils/balance-utils'
+import {
+  getBalance,
+  formatTokenBalanceWithSymbol
+} from '../../../../utils/balance-utils'
 import { computeFiatAmount } from '../../../../utils/pricing-utils'
 import { getTokensNetwork } from '../../../../utils/network-utils'
 import { reduceAddress } from '../../../../utils/reduce-address'
@@ -55,12 +58,19 @@ interface Props {
 const INPUT_WIDTH_ID = 'input-width'
 
 export const Send = (props: Props) => {
-  const { onShowSelectTokenModal, setSelectedSendOption, selectedSendOption } = props
+  const { onShowSelectTokenModal, setSelectedSendOption, selectedSendOption } =
+    props
 
   // Wallet Selectors
-  const selectedAccount = useUnsafeWalletSelector(WalletSelectors.selectedAccount)
-  const spotPrices = useUnsafeWalletSelector(WalletSelectors.transactionSpotPrices)
-  const defaultCurrencies = useUnsafeWalletSelector(WalletSelectors.defaultCurrencies)
+  const selectedAccount = useUnsafeWalletSelector(
+    WalletSelectors.selectedAccount
+  )
+  const spotPrices = useUnsafeWalletSelector(
+    WalletSelectors.transactionSpotPrices
+  )
+  const defaultCurrencies = useUnsafeWalletSelector(
+    WalletSelectors.defaultCurrencies
+  )
   const networks = useUnsafeWalletSelector(WalletSelectors.networkList)
 
   const {
@@ -82,12 +92,10 @@ export const Send = (props: Props) => {
   } = useSend(true)
 
   // Hooks
-  const onSelectPresetAmount = usePreset(
-    {
-      onSetAmount: setSendAmount,
-      asset: selectedSendAsset
-    }
-  )
+  const onSelectPresetAmount = usePreset({
+    onSetAmount: setSendAmount,
+    asset: selectedSendAsset
+  })
 
   // Refs
   const ref = React.createRef<HTMLDivElement>()
@@ -95,7 +103,8 @@ export const Send = (props: Props) => {
   // State
   const [backgroundHeight, setBackgroundHeight] = React.useState<number>(0)
   const [backgroundOpacity, setBackgroundOpacity] = React.useState<number>(0.3)
-  const [foundAddressPosition, setFoundAddressPosition] = React.useState<number>(0)
+  const [foundAddressPosition, setFoundAddressPosition] =
+    React.useState<number>(0)
 
   // Methods
   const handleInputAmountChange = React.useCallback(
@@ -112,14 +121,20 @@ export const Send = (props: Props) => {
     []
   )
 
-  const setPresetAmountValue = React.useCallback((percent: number) => {
-    onSelectPresetAmount(percent)
-  }, [onSelectPresetAmount])
+  const setPresetAmountValue = React.useCallback(
+    (percent: number) => {
+      onSelectPresetAmount(percent)
+    },
+    [onSelectPresetAmount]
+  )
 
-  const onSelectSendOption = React.useCallback((option: SendOptionTypes) => {
-    selectSendAsset(undefined)
-    setSelectedSendOption(option)
-  }, [selectedSendAsset])
+  const onSelectSendOption = React.useCallback(
+    (option: SendOptionTypes) => {
+      selectSendAsset(undefined)
+      setSelectedSendOption(option)
+    },
+    [selectedSendAsset]
+  )
 
   // Memos
   const sendAssetBalance = React.useMemo(() => {
@@ -139,11 +154,7 @@ export const Send = (props: Props) => {
       selectedSendAsset.symbol,
       4
     )}`
-  }, [
-    selectedAccount?.name,
-    selectedSendAsset,
-    sendAssetBalance
-  ])
+  }, [selectedAccount?.name, selectedSendAsset, sendAssetBalance])
 
   const insufficientFundsError = React.useMemo((): boolean => {
     if (!selectedSendAsset) {
@@ -162,7 +173,11 @@ export const Send = (props: Props) => {
   }, [sendAssetBalance, sendAmount, selectedSendAsset])
 
   const sendAmountFiatValue = React.useMemo(() => {
-    if (!selectedSendAsset || sendAssetBalance === '' || selectedSendOption === 'nft') {
+    if (
+      !selectedSendAsset ||
+      sendAssetBalance === '' ||
+      selectedSendOption === 'nft'
+    ) {
       return ''
     }
     return computeFiatAmount(spotPrices, {
@@ -172,28 +187,48 @@ export const Send = (props: Props) => {
         .multiplyByDecimals(selectedSendAsset.decimals) // ETH → Wei conversion
         .toHex()
     }).formatAsFiat(defaultCurrencies.fiat)
-  }, [spotPrices, selectedSendAsset, sendAmount, defaultCurrencies.fiat, sendAssetBalance, selectedSendOption])
+  }, [
+    spotPrices,
+    selectedSendAsset,
+    sendAmount,
+    defaultCurrencies.fiat,
+    sendAssetBalance,
+    selectedSendOption
+  ])
 
   const reviewButtonText = React.useMemo(() => {
     return sendAmountValidationError
       ? getLocale('braveWalletDecimalPlacesError')
       : insufficientFundsError
-        ? getLocale('braveWalletNotEnoughFunds')
-        : (addressError !== undefined && addressError !== '')
-          ? addressError
-          : (addressWarning !== undefined && addressWarning !== '')
-            ? addressWarning
-            : getLocale('braveWalletReviewOrder')
-  }, [insufficientFundsError, addressError, addressWarning, sendAmountValidationError])
+      ? getLocale('braveWalletNotEnoughFunds')
+      : addressError !== undefined && addressError !== ''
+      ? addressError
+      : addressWarning !== undefined && addressWarning !== ''
+      ? addressWarning
+      : getLocale('braveWalletReviewOrder')
+  }, [
+    insufficientFundsError,
+    addressError,
+    addressWarning,
+    sendAmountValidationError
+  ])
 
   const isReviewButtonDisabled = React.useMemo(() => {
-    return toAddressOrUrl === '' ||
+    return (
+      toAddressOrUrl === '' ||
       parseFloat(sendAmount) === 0 ||
       sendAmount === '' ||
       insufficientFundsError ||
       (addressError !== undefined && addressError !== '') ||
       sendAmountValidationError !== undefined
-  }, [toAddressOrUrl, sendAmount, insufficientFundsError, addressError, sendAmountValidationError])
+    )
+  }, [
+    toAddressOrUrl,
+    sendAmount,
+    insufficientFundsError,
+    addressError,
+    sendAmountValidationError
+  ])
 
   const selectedTokensNetwork = React.useMemo(() => {
     if (selectedSendAsset) {
@@ -208,7 +243,9 @@ export const Send = (props: Props) => {
       toAddress &&
       endsWithAny(allSupportedExtensions, toAddressOrUrl.toLowerCase())
     ) {
-      setFoundAddressPosition(document.getElementById(INPUT_WIDTH_ID)?.clientWidth ?? 0)
+      setFoundAddressPosition(
+        document.getElementById(INPUT_WIDTH_ID)?.clientWidth ?? 0
+      )
       return true
     }
     return false
@@ -242,7 +279,7 @@ export const Send = (props: Props) => {
   return (
     <>
       <SendContainer ref={ref}>
-        <Row rowWidth='full' marginBottom={16}>
+        <Row rowWidth="full" marginBottom={16}>
           <SelectSendOptionButton
             selectedSendOption={selectedSendOption}
             onClick={onSelectSendOption}
@@ -253,62 +290,77 @@ export const Send = (props: Props) => {
           lessLeftPadding={true}
           hasError={insufficientFundsError}
         >
-          <Row
-            rowWidth='full'
-            rowHeight='full'
-          >
-            <Column
-              columnHeight='full'
-              verticalAlign='center'
-            >
+          <Row rowWidth="full" rowHeight="full">
+            <Column columnHeight="full" verticalAlign="center">
               <Row>
                 <SelectTokenButton
                   onClick={onShowSelectTokenModal}
                   token={selectedSendAsset}
-                  selectedSendOption={selectedSendOption} />
-                {selectedSendOption === 'token' && selectedSendAsset &&
+                  selectedSendOption={selectedSendOption}
+                />
+                {selectedSendOption === 'token' && selectedSendAsset && (
                   <>
                     <HorizontalDivider
                       height={28}
                       marginLeft={8}
                       marginRight={8}
-                      dividerTheme='lighter'
+                      dividerTheme="lighter"
                     />
-                    <PresetButton buttonText={getLocale('braveWalletSendHalf')} onClick={() => setPresetAmountValue(0.5)} />
-                    <PresetButton buttonText={getLocale('braveWalletSendMax')} onClick={() => setPresetAmountValue(1)} />
+                    <PresetButton
+                      buttonText={getLocale('braveWalletSendHalf')}
+                      onClick={() => setPresetAmountValue(0.5)}
+                    />
+                    <PresetButton
+                      buttonText={getLocale('braveWalletSendMax')}
+                      onClick={() => setPresetAmountValue(1)}
+                    />
                   </>
-                }
+                )}
               </Row>
             </Column>
-            <Column columnHeight='full' verticalAlign='space-between' horizontalAlign='flex-end'>
-              <Text textSize='14px' textColor='text03' maintainHeight={true} isBold={true}>
+            <Column
+              columnHeight="full"
+              verticalAlign="space-between"
+              horizontalAlign="flex-end"
+            >
+              <Text
+                textSize="14px"
+                textColor="text03"
+                maintainHeight={true}
+                isBold={true}
+              >
                 {accountNameAndBalance}
               </Text>
-              {selectedSendOption === 'token' &&
+              {selectedSendOption === 'token' && (
                 <AmountInput
-                  placeholder='0.0'
+                  placeholder="0.0"
                   hasError={insufficientFundsError}
                   value={sendAmount}
                   onChange={handleInputAmountChange}
                 />
-              }
-              <Text textSize='14px' textColor='text03' maintainHeight={true} isBold={false}>
+              )}
+              <Text
+                textSize="14px"
+                textColor="text03"
+                maintainHeight={true}
+                isBold={false}
+              >
                 {sendAmountFiatValue}
               </Text>
             </Column>
           </Row>
         </SectionBox>
         <SectionBox hasError={false}>
-          {showResolvedDomainAddress &&
+          {showResolvedDomainAddress && (
             <FoundAddress
-              textSize='16px'
-              textColor='text03'
+              textSize="16px"
+              textColor="text03"
               isBold={false}
               position={foundAddressPosition + 22}
             >
               {reduceAddress(toAddress)}
             </FoundAddress>
-          }
+          )}
           <DIVForWidth id={INPUT_WIDTH_ID}>{toAddressOrUrl}</DIVForWidth>
           <AddressInput
             placeholder={getLocale('braveWalletEnterRecipientAddress')}
@@ -324,8 +376,8 @@ export const Send = (props: Props) => {
         <StandardButton
           buttonText={reviewButtonText}
           onClick={submitSend}
-          buttonType='primary'
-          buttonWidth='full'
+          buttonType="primary"
+          buttonWidth="full"
           disabled={isReviewButtonDisabled}
           hasError={
             insufficientFundsError ||

@@ -8,7 +8,7 @@ import { getLocale } from '../../../../../common/locale'
 import * as S from './style'
 import { LoaderIcon } from 'brave-ui/components/icons'
 
-function LoadingPanel () {
+function LoadingPanel() {
   return (
     <S.Box>
       <S.PanelContent>

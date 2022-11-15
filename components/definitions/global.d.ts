@@ -10,19 +10,19 @@ type RequestIdleCallbackOptions = {
   timeout: number
 }
 type RequestIdleCallbackDeadline = {
-  readonly didTimeout: boolean;
-  timeRemaining: (() => number)
+  readonly didTimeout: boolean
+  timeRemaining: () => number
 }
 
 declare global {
   interface Window {
     // Typescript doesn't include requestIdleCallback as it's non-standard.
     // Since it's supported in Chromium, we can include it here.
-    requestIdleCallback: ((
-      callback: ((deadline: RequestIdleCallbackDeadline) => void),
+    requestIdleCallback: (
+      callback: (deadline: RequestIdleCallbackDeadline) => void,
       opts?: RequestIdleCallbackOptions
-    ) => RequestIdleCallbackHandle)
-    cancelIdleCallback: ((handle: RequestIdleCallbackHandle) => void)
+    ) => RequestIdleCallbackHandle
+    cancelIdleCallback: (handle: RequestIdleCallbackHandle) => void
     alreadyInserted: boolean
     web3: any
     content_cosmetic: {
@@ -41,9 +41,9 @@ declare global {
       _hasDelayOcurred: boolean
       _startCheckingId: number | undefined
       firstSelectorsPollingDelayMs: number | undefined
-      switchToSelectorsPollingThreshold : number | undefined
-      fetchNewClassIdRulesThrottlingMs : number | undefined
-      tryScheduleQueuePump: (() => void)
+      switchToSelectorsPollingThreshold: number | undefined
+      fetchNewClassIdRulesThrottlingMs: number | undefined
+      tryScheduleQueuePump: () => void
     }
   }
 }

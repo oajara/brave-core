@@ -16,14 +16,16 @@ interface Props {
 }
 
 export class UninstalledView extends React.Component<Props, {}> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
   }
 
-  progress () {
-    if (!this.props.daemonStatus.installing ||
-        this.props.installationProgress.downloaded_bytes === -1 ||
-        this.props.installationProgress.total_bytes === -1) {
+  progress() {
+    if (
+      !this.props.daemonStatus.installing ||
+      this.props.installationProgress.downloaded_bytes === -1 ||
+      this.props.installationProgress.total_bytes === -1
+    ) {
       return ''
     }
     const bytes = this.props.installationProgress.downloaded_bytes
@@ -31,31 +33,30 @@ export class UninstalledView extends React.Component<Props, {}> {
     if (!total) {
       return ''
     }
-    const percentages = 100 * bytes / total
+    const percentages = (100 * bytes) / total
     return <span>{percentages.toFixed(2)}% </span>
   }
 
-  disableInstallButton () {
-    return this.props.daemonStatus.installing &&
-           !this.props.daemonStatus.error.length
+  disableInstallButton() {
+    return (
+      this.props.daemonStatus.installing &&
+      !this.props.daemonStatus.error.length
+    )
   }
 
-  render () {
+  render() {
     return (
       <Section>
-        <Title>
-          {getLocale('daemonStatusTitle')}
-        </Title>
+        <Title>{getLocale('daemonStatusTitle')}</Title>
         <div>
-          {this.props.daemonStatus.installing ? getLocale('installing') : getLocale('notInstalled')}
+          {this.props.daemonStatus.installing
+            ? getLocale('installing')
+            : getLocale('notInstalled')}
           {this.progress()}
         </div>
         {this.props.daemonStatus.error.length > 0 && (
-        <div
-          style={Error}
-        >
-          {this.props.daemonStatus.error}
-        </div>)}
+          <div style={Error}>{this.props.daemonStatus.error}</div>
+        )}
         {!this.props.daemonStatus.installed && (
           <PaddedButton
             text={getLocale('installAndLaunch')}

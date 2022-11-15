@@ -45,7 +45,7 @@ export const Image = styled(StandardImage)`
   width: 100px;
   height: 100px;
   border-radius: 8px;
-  background-color: rgba(188,188,188,0.2);
+  background-color: rgba(188, 188, 188, 0.2);
 `
 
 export const Title = styled(StandardHeading)`

@@ -31,17 +31,20 @@ export const NetworkIconWrapper = styled.div`
   padding: 2px;
 `
 
-export const Button = styled(StyledButton) <{ morePadding?: boolean, isNFT: boolean }>`
+export const Button = styled(StyledButton)<{
+  morePadding?: boolean
+  isNFT: boolean
+}>`
   --button-background-hover: #f5f6fc;
   @media (prefers-color-scheme: dark) {
     --button-background-hover: ${(p) => p.theme.color.background01};
-    }
+  }
   background-color: transparent;
-  border-radius: ${(p) => p.isNFT ? 8 : 100}px;
+  border-radius: ${(p) => (p.isNFT ? 8 : 100)}px;
   justify-content: center;
   padding: ${(p) => (p.morePadding ? 10 : 8)}px 12px;
   white-space: nowrap;
-  height: ${(p) => p.isNFT ? '110px' : 'unset'};
+  height: ${(p) => (p.isNFT ? '110px' : 'unset')};
   &:hover {
     background-color: var(--button-background-hover);
   }

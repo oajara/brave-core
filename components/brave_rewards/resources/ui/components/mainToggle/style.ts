@@ -7,7 +7,7 @@ import styled from 'styled-components'
 export const MainToggleWrapper = styled('div')<{}>`
   display: flex;
   border-radius: 4px;
-  background-color: #FFF;
+  background-color: #fff;
   justify-content: space-between;
   padding: 20px 32px;
   margin-bottom: 24px;
@@ -25,7 +25,7 @@ export const ToggleHeading = styled('div')<{}>`
 export const StyledTitle = styled('div')<{}>`
   font-size: 28px;
   font-weight: 600;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
 `
 
 export const StyledLogotypeWrapper = styled('div')`
@@ -34,7 +34,7 @@ export const StyledLogotypeWrapper = styled('div')`
 `
 
 export const StyledLogoWrapper = styled('div')<{}>`
-width: 48px;
-height: 48px;
-margin: 8px;
+  width: 48px;
+  height: 48px;
+  margin: 8px;
 `

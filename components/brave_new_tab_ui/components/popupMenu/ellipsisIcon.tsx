@@ -16,10 +16,19 @@ const IconSVG = styled('svg')`
   height: 100%;
 `
 
-export default function EllipsisIcon (props: Props) {
+export default function EllipsisIcon(props: Props) {
   return (
-    <IconSVG className={props.className} xmlns={'http://www.w3.org/2000/svg'} viewBox="0 0 24 24">
-      <path d={'M18 14.25a2.25 2.25 0 110-4.5 2.25 2.25 0 010 4.5zm-6 0a2.25 2.25 0 110-4.5 2.25 2.25 0 010 4.5zm-6 0a2.25 2.25 0 110-4.5 2.25 2.25 0 010 4.5z'} fillRule={'evenodd'}/>
+    <IconSVG
+      className={props.className}
+      xmlns={'http://www.w3.org/2000/svg'}
+      viewBox="0 0 24 24"
+    >
+      <path
+        d={
+          'M18 14.25a2.25 2.25 0 110-4.5 2.25 2.25 0 010 4.5zm-6 0a2.25 2.25 0 110-4.5 2.25 2.25 0 010 4.5zm-6 0a2.25 2.25 0 110-4.5 2.25 2.25 0 010 4.5z'
+        }
+        fillRule={'evenodd'}
+      />
     </IconSVG>
   )
 }

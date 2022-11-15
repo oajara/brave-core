@@ -4,7 +4,7 @@
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 export interface Unsuccessful {
   success: false
-  payload: { error: string, code?: string }
+  payload: { error: string; code?: string }
 }
 
 export interface Success<T> {

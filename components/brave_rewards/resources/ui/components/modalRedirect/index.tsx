@@ -44,7 +44,7 @@ export default class ModalRedirect extends React.PureComponent<Props, {}> {
     )
   }
 
-  render () {
+  render() {
     const {
       id,
       errorText,
@@ -64,50 +64,55 @@ export default class ModalRedirect extends React.PureComponent<Props, {}> {
         onClose={onClose}
       >
         <StyledWrapper>
-          <StyledTitle>
-            {titleText}
-          </StyledTitle>
-          {
-            errorText
-              ? <StyledError>
-                {
-                  errorText.map((line, index) => {
-                    let lineLinkTags = null
-                    if (line && line.includes('$2')) {
-                      lineLinkTags = splitStringForTag(line, 2)
-                    }
+          <StyledTitle>{titleText}</StyledTitle>
+          {errorText ? (
+            <StyledError>
+              {errorText.map((line, index) => {
+                let lineLinkTags = null
+                if (line && line.includes('$2')) {
+                  lineLinkTags = splitStringForTag(line, 2)
+                }
 
-                    return <p key={index}>
-                      {
-                        lineLinkTags
-                          ? <>
-                            {lineLinkTags.beforeTag}
-                            {
-                              errorTextLink
-                                ? <a href={errorTextLink} target='_blank' rel='noopener noreferrer'>
-                                  {lineLinkTags.duringTag}
-                                </a>
-                                : lineLinkTags.duringTag
-                            }
-                            {lineLinkTags.afterTag}
-                          </>
-                          : line
-                      }
-                    </p>
-                  })
-                }
-                {
-                  learnMore &&
-                  <StyledLink href={learnMore} target='_blank' rel='noopener noreferrer'>
-                    {getLocale('learnMore')}
-                  </StyledLink>
-                }
-                {this.getButton()}
-              </StyledError>
-              : <StyledLoader>
-                <LoaderIcon />
-              </StyledLoader>
-          }
+                return (
+                  <p key={index}>
+                    {lineLinkTags ? (
+                      <>
+                        {lineLinkTags.beforeTag}
+                        {errorTextLink ? (
+                          <a
+                            href={errorTextLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {lineLinkTags.duringTag}
+                          </a>
+                        ) : (
+                          lineLinkTags.duringTag
+                        )}
+                        {lineLinkTags.afterTag}
+                      </>
+                    ) : (
+                      line
+                    )}
+                  </p>
+                )
+              })}
+              {learnMore && (
+                <StyledLink
+                  href={learnMore}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {getLocale('learnMore')}
+                </StyledLink>
+              )}
+              {this.getButton()}
+            </StyledError>
+          ) : (
+            <StyledLoader>
+              <LoaderIcon />
+            </StyledLoader>
+          )}
         </StyledWrapper>
       </Modal>
     )

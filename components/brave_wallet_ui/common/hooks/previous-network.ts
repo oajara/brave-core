@@ -10,27 +10,27 @@ import { useSelector } from 'react-redux'
 import { useHasAccount } from './'
 
 // Constants
-import {
-  BraveWallet,
-  WalletState
-} from '../../constants/types'
+import { BraveWallet, WalletState } from '../../constants/types'
 
-export function usePrevNetwork () {
+export function usePrevNetwork() {
   // redux
-  const {
-    selectedNetwork
-  } = useSelector((state: { wallet: WalletState }) => state.wallet)
+  const { selectedNetwork } = useSelector(
+    (state: { wallet: WalletState }) => state.wallet
+  )
 
   // hooks
   const { hasFilAccount, hasSolAccount } = useHasAccount()
 
   // state
-  const [prevNetwork, setPrevNetwork] = React.useState<BraveWallet.NetworkInfo>()
+  const [prevNetwork, setPrevNetwork] =
+    React.useState<BraveWallet.NetworkInfo>()
 
   React.useEffect(() => {
-    if ((selectedNetwork?.coin === BraveWallet.CoinType.SOL && hasSolAccount) ||
+    if (
+      (selectedNetwork?.coin === BraveWallet.CoinType.SOL && hasSolAccount) ||
       (selectedNetwork?.coin === BraveWallet.CoinType.FIL && hasFilAccount) ||
-      selectedNetwork?.coin === BraveWallet.CoinType.ETH) {
+      selectedNetwork?.coin === BraveWallet.CoinType.ETH
+    ) {
       setPrevNetwork(selectedNetwork)
     }
   }, [selectedNetwork, hasSolAccount, hasFilAccount])

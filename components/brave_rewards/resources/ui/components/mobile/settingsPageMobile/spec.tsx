@@ -9,7 +9,11 @@ import SettingsPageMobile from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('SettingsPageMobile tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><SettingsPageMobile id='page' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <SettingsPageMobile id="page" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

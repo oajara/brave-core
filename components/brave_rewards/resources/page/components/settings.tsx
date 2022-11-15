@@ -14,7 +14,10 @@ import AdsBox from './adsBox'
 import ContributeBox from './contributeBox'
 import TipBox from './tipsBox'
 import MonthlyTipsBox from './monthlyTipsBox'
-import { SettingsOptInForm, RewardsTourModal } from '../../shared/components/onboarding'
+import {
+  SettingsOptInForm,
+  RewardsTourModal
+} from '../../shared/components/onboarding'
 import { ProviderRedirectModal } from './provider_redirect_modal'
 import { GrantList } from './grant_list'
 import { SidebarPromotionPanel } from './sidebar_promotion_panel'
@@ -23,7 +26,7 @@ import { UnsupportedRegionNotice } from './unsupported_region_notice'
 
 import * as style from './settings.style'
 
-export function Settings () {
+export function Settings() {
   const { isAndroid } = React.useContext(PlatformContext)
   const layoutKind = React.useContext(LayoutContext)
   const { getString } = React.useContext(LocaleContext)
@@ -80,8 +83,12 @@ export function Settings () {
   }, [rewardsData.initializing])
 
   React.useEffect(() => {
-    const id = setInterval(() => { actions.getBalance() }, 60000)
-    return () => { clearInterval(id) }
+    const id = setInterval(() => {
+      actions.getBalance()
+    }, 60000)
+    return () => {
+      clearInterval(id)
+    }
   }, [rewardsData.initializing])
 
   React.useEffect(() => {
@@ -89,19 +96,17 @@ export function Settings () {
     actions.getReconcileStamp()
   }, [rewardsData.enabledContribute])
 
-  const onTakeTour = () => { setShowRewardsTour(true) }
+  const onTakeTour = () => {
+    setShowRewardsTour(true)
+  }
 
   const renderRewardsTour = () => {
     if (!showRewardsTour) {
       return null
     }
 
-    const {
-      adsData,
-      contributionMonthly,
-      externalWallet,
-      parameters
-    } = rewardsData
+    const { adsData, contributionMonthly, externalWallet, parameters } =
+      rewardsData
 
     const onDone = () => {
       setShowRewardsTour(false)
@@ -199,7 +204,7 @@ export function Settings () {
           <style.settingGroup>
             <AdsBox layout={layoutKind} />
           </style.settingGroup>
-          <style.settingGroup data-test-id='auto-contribute-settings'>
+          <style.settingGroup data-test-id="auto-contribute-settings">
             <ContributeBox />
           </style.settingGroup>
           <style.settingGroup>

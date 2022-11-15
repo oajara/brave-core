@@ -9,7 +9,11 @@ import ModalShowAdsHistory from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('ModalShowAdsHistory tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><ModalShowAdsHistory id='modal' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <ModalShowAdsHistory id="modal" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

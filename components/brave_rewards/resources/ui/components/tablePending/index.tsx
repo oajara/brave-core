@@ -3,11 +3,7 @@
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import * as React from 'react'
-import {
-  StyledRemove,
-  StyledRemoveIcon,
-  StyledLink
-} from './style'
+import { StyledRemove, StyledRemoveIcon, StyledLink } from './style'
 import Table, { Cell, Row } from 'brave-ui/components/dataTables/table/index'
 import Profile, { Provider } from '../profile/index'
 import Tokens from '../tokens/index'
@@ -23,7 +19,7 @@ interface ProfileCell {
 
 export type PendingType = 'tip' | 'ac' | 'recurring'
 
-export function getTypeMessage (type: PendingType) {
+export function getTypeMessage(type: PendingType) {
   switch (type) {
     case 'ac':
       return 'pendingTypeac'
@@ -53,7 +49,7 @@ export interface Props {
 }
 
 export default class TableDonation extends React.PureComponent<Props, {}> {
-  getRows (rows?: DetailRow[]): Row[] | undefined {
+  getRows(rows?: DetailRow[]): Row[] | undefined {
     if (!rows) {
       return
     }
@@ -74,14 +70,10 @@ export default class TableDonation extends React.PureComponent<Props, {}> {
             )
           },
           {
-            content: (
-              <>{getLocale(getTypeMessage(row.type))}</>
-            )
+            content: <>{getLocale(getTypeMessage(row.type))}</>
           },
           {
-            content: (
-              <>{row.date}</>
-            )
+            content: <>{row.date}</>
           },
           {
             content: (
@@ -100,7 +92,9 @@ export default class TableDonation extends React.PureComponent<Props, {}> {
           {
             content: (
               <StyledRemove onClick={row.onRemove}>
-                <StyledRemoveIcon><TrashOIcon /></StyledRemoveIcon>
+                <StyledRemoveIcon>
+                  <TrashOIcon />
+                </StyledRemoveIcon>
               </StyledRemove>
             )
           }
@@ -109,7 +103,7 @@ export default class TableDonation extends React.PureComponent<Props, {}> {
     })
   }
 
-  get headers (): Cell[] {
+  get headers(): Cell[] {
     const customStyle = {
       'border': 'none',
       'border-bottom': '1px solid #696FDC',
@@ -148,7 +142,7 @@ export default class TableDonation extends React.PureComponent<Props, {}> {
     ]
   }
 
-  render () {
+  render() {
     const { id, children, rows } = this.props
     return (
       <div id={id}>

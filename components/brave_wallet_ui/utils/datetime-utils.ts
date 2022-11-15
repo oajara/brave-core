@@ -3,9 +3,22 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 
-const monthMap = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+const monthMap = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec'
+]
 
-export function formatDateAsRelative (date: Date, now: Date = new Date()) {
+export function formatDateAsRelative(date: Date, now: Date = new Date()) {
   // the difference in milliseconds
   const diff = now.getTime() - date.getTime()
 

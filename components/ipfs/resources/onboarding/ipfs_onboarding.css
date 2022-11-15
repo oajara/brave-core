@@ -1,7 +1,7 @@
 body {
   margin: 0px;
   height: 100%;
-  background: #FAF9FE;
+  background: #faf9fe;
 }
 
 .interstitial-wrapper {
@@ -11,9 +11,11 @@ body {
   z-index: 1;
 }
 
-.interstitial-wrapper span, p, button {
+.interstitial-wrapper span,
+p,
+button {
   color: #212529;
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
   font-family: Poppins, sans-serif;
 }
 
@@ -80,13 +82,13 @@ body {
 #local-node-button {
   color: #fff;
   border: none;
-  background-color: #FB542B;
+  background-color: #fb542b;
   padding: 10px 30px;
 }
 
 #public-gateway-button {
   background: inherit;
-  border: 1px solid #AEB1C2;
+  border: 1px solid #aeb1c2;
   padding: 10px 24px;
 }
 
@@ -110,7 +112,7 @@ body {
   width: 100%;
   height: 136px;
   bottom: 0px;
-  position:fixed;
+  position: fixed;
 }
 
 .background {
@@ -124,26 +126,26 @@ body {
 
 /* Dark theme styles */
 body.dark {
-  background: #17171F;
+  background: #17171f;
 }
 
 .dark *,
 .dark > .interstitial-wrapper span {
-  color: #F0F2FF;
-  letter-spacing: .5px;
+  color: #f0f2ff;
+  letter-spacing: 0.5px;
   font-family: Poppins, sans-serif;
 }
 
 .dark .control-box {
-  background: #1E2029;
+  background: #1e2029;
 }
 
 .dark #local-node-button {
-  background: #FB542B;
+  background: #fb542b;
 }
 
 .error-container-hidden {
-  display: none
+  display: none;
 }
 
 .error-container-visible {
@@ -158,4 +160,3 @@ body.dark {
   padding-left: 45px;
   text-align: left;
 }
-

@@ -12,15 +12,13 @@ export interface Props {
 }
 
 export default class List extends React.PureComponent<Props, {}> {
-  render () {
+  render() {
     const { id, title, children } = this.props
 
     return (
       <StyledWrapper id={id}>
         <StyledTitle>{title}</StyledTitle>
-        <StyledContentWrapper>
-          {children}
-        </StyledContentWrapper>
+        <StyledContentWrapper>{children}</StyledContentWrapper>
       </StyledWrapper>
     )
   }

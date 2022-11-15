@@ -6,8 +6,8 @@ import styled from 'styled-components'
 
 export const Box = styled.div`
   border-radius: 8px;
-  background: ${p => p.theme.color.panelBackgroundSecondary};
-  box-shadow: 0px 0px 6px 0 rgba(12, 23, 33, 0.20);
+  background: ${(p) => p.theme.color.panelBackgroundSecondary};
+  box-shadow: 0px 0px 6px 0 rgba(12, 23, 33, 0.2);
   padding: 16px;
   margin: 29px 0 14px;
   position: relative;
@@ -17,9 +17,9 @@ export const Box = styled.div`
 
 export const Header = styled.h2`
   font-weight: 500;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
   font-size: 14px;
-  color: ${p => p.theme.palette.blurple600};
+  color: ${(p) => p.theme.palette.blurple600};
   margin: 0 0 5px 0;
   display: flex;
   justify-content: space-between;

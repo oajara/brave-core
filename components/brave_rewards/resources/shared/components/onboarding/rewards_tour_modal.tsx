@@ -13,7 +13,7 @@ interface Props extends RewardsTourProps {
   onClose: () => void
 }
 
-export function RewardsTourModal (props: Props) {
+export function RewardsTourModal(props: Props) {
   return (
     <Modal>
       <style.root className={`tour-modal-${props.layout || 'narrow'}`}>

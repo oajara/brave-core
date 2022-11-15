@@ -4,10 +4,7 @@
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 
 import styled from 'styled-components'
-import {
-  Block as StandardBlock,
-  Image as StandardImage
-} from './default'
+import { Block as StandardBlock, Image as StandardImage } from './default'
 
 export const Intro = styled(StandardBlock)`
   font-family: Poppins;

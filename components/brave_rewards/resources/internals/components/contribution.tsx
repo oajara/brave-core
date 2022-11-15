@@ -80,27 +80,36 @@ export const Contribution = (props: Props) => (
   <div>
     <h3>{props.contribution.id}</h3>
     <div>
-      {getLocale('contributionCreatedAt')} {formatDate(props.contribution.createdAt * 1000)}
+      {getLocale('contributionCreatedAt')}{' '}
+      {formatDate(props.contribution.createdAt * 1000)}
     </div>
     <div>
-      {getLocale('contributionType')} {getContributionTypeString(props.contribution.type)}
+      {getLocale('contributionType')}{' '}
+      {getContributionTypeString(props.contribution.type)}
     </div>
     <div>
       {getLocale('amount')} {props.contribution.amount} {getLocale('bat')}
     </div>
     <div>
-      {getLocale('contributionStep')} {getContributionStepString(props.contribution.step)}
+      {getLocale('contributionStep')}{' '}
+      {getContributionStepString(props.contribution.step)}
     </div>
     <div>
       {getLocale('retryCount')} {props.contribution.retryCount}
     </div>
     <div>
-      {getLocale('contributionProcessor')} {getProcessorString(props.contribution.processor)}
+      {getLocale('contributionProcessor')}{' '}
+      {getProcessorString(props.contribution.processor)}
     </div>
     <ContributionPublishersWrapper data-test-id={'publisher-wrapper'}>
-      {props.contribution.publishers.map((item: RewardsInternals.ContributionPublisher) => (
-        <ContributionPublisher publisher={item} key={`publisher-${item.publisherKey}`} />
-      ))}
+      {props.contribution.publishers.map(
+        (item: RewardsInternals.ContributionPublisher) => (
+          <ContributionPublisher
+            publisher={item}
+            key={`publisher-${item.publisherKey}`}
+          />
+        )
+      )}
     </ContributionPublishersWrapper>
   </div>
 )

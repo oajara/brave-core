@@ -19,10 +19,10 @@ export const SendHeader = () => {
   // render
   return (
     <HeaderWrapper>
-      <Row rowHeight='full' verticalAlign='center'>
+      <Row rowHeight="full" verticalAlign="center">
         <BraveLogo />
         <HorizontalDivider height={22} marginRight={12} />
-        <Text textSize='18px' textColor='text02' isBold={true}>
+        <Text textSize="18px" textColor="text02" isBold={true}>
           {getLocale('braveWalletSend')}
         </Text>
       </Row>

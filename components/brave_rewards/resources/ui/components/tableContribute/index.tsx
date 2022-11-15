@@ -30,7 +30,7 @@ export interface DetailRow {
   attention: number
   url: string
   onRemove?: () => void
-  token?: { value: string, converted: string }
+  token?: { value: string; converted: string }
 }
 
 export interface Props {
@@ -73,11 +73,14 @@ export default class TableContribute extends React.PureComponent<Props, {}> {
 
     return header.map((item: string, i: number) => {
       return {
-        content: i === 0
-          ? <div>{item}</div>
-          : i === header.length - 1
-            ? <StyledTHLast>{item}</StyledTHLast>
-            : <StyledTHOther>{item}</StyledTHOther>,
+        content:
+          i === 0 ? (
+            <div>{item}</div>
+          ) : i === header.length - 1 ? (
+            <StyledTHLast>{item}</StyledTHLast>
+          ) : (
+            <StyledTHOther>{item}</StyledTHOther>
+          ),
         customStyle
       }
     })
@@ -95,7 +98,11 @@ export default class TableContribute extends React.PureComponent<Props, {}> {
         content: [
           {
             content: (
-              <StyledLink href={row.url} target={'_blank'} data-test-id={'ac_link_' + row.profile.name}>
+              <StyledLink
+                href={row.url}
+                target={'_blank'}
+                data-test-id={'ac_link_' + row.profile.name}
+              >
                 <Profile
                   title={row.profile.name}
                   provider={row.profile.provider}
@@ -111,11 +118,7 @@ export default class TableContribute extends React.PureComponent<Props, {}> {
 
       if (!isExcluded) {
         cell.content.push({
-          content: (
-            <StyledText>
-              {row.attention}%
-            </StyledText>
-          )
+          content: <StyledText>{row.attention}%</StyledText>
         })
       }
 
@@ -144,11 +147,7 @@ export default class TableContribute extends React.PureComponent<Props, {}> {
           content: (
             <Tooltip rightEdge={true} content={actionTooltip}>
               <StyledRemove onClick={row.onRemove}>
-                {
-                  isExcluded
-                  ? <CloseStrokeIcon />
-                  : <TrashOIcon />
-                }
+                {isExcluded ? <CloseStrokeIcon /> : <TrashOIcon />}
               </StyledRemove>
             </Tooltip>
           ),
@@ -184,8 +183,9 @@ export default class TableContribute extends React.PureComponent<Props, {}> {
     })
   }
 
-  render () {
-    const { id, testId, header, children, rows, allSites, onShowAll } = this.props
+  render() {
+    const { id, testId, header, children, rows, allSites, onShowAll } =
+      this.props
     const numSites = this.props.numSites || 0
     const numExcludedSites = this.props.numExcludedSites || 0
 
@@ -196,13 +196,13 @@ export default class TableContribute extends React.PureComponent<Props, {}> {
           children={children}
           rows={this.getRows(rows)}
         />
-        {
-          !allSites && (numSites > 0 || numExcludedSites > 0)
-            ? <StyledToggleWrap>
-              <StyledToggle onClick={onShowAll}>{getLocale('showAll')}</StyledToggle>
-            </StyledToggleWrap>
-            : null
-        }
+        {!allSites && (numSites > 0 || numExcludedSites > 0) ? (
+          <StyledToggleWrap>
+            <StyledToggle onClick={onShowAll}>
+              {getLocale('showAll')}
+            </StyledToggle>
+          </StyledToggleWrap>
+        ) : null}
       </div>
     )
   }

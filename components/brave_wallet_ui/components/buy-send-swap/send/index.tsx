@@ -21,9 +21,7 @@ import Amount from '../../../utils/amount'
 import { getBalance } from '../../../utils/balance-utils'
 
 // Styled Components
-import {
-  StyledWrapper
-} from './style'
+import { StyledWrapper } from './style'
 import useSend from '../../../common/hooks/send'
 import { useSelector } from 'react-redux'
 import { usePreset } from '../../../common/hooks'
@@ -32,14 +30,13 @@ export interface Props {
   onChangeSendView: (view: BuySendSwapViewTypes, option?: ToOrFromType) => void
 }
 
-function Send (props: Props) {
+function Send(props: Props) {
   const { onChangeSendView } = props
 
   // redux
-  const {
-    selectedAccount,
-    selectedNetwork
-  } = useSelector((state: { wallet: WalletState }) => state.wallet)
+  const { selectedAccount, selectedNetwork } = useSelector(
+    (state: { wallet: WalletState }) => state.wallet
+  )
 
   const {
     toAddressOrUrl,
@@ -59,15 +56,15 @@ function Send (props: Props) {
 
   // state
   const sendAssetBalance = getBalance(selectedAccount, selectedSendAsset)
-  const [selectedPreset, setSelectedPreset] = React.useState<AmountPresetTypes | undefined>()
+  const [selectedPreset, setSelectedPreset] = React.useState<
+    AmountPresetTypes | undefined
+  >()
 
   // methods
-  const onSelectPresetAmount = usePreset(
-    {
-      onSetAmount: setSendAmount,
-      asset: selectedSendAsset
-    }
-  )
+  const onSelectPresetAmount = usePreset({
+    onSetAmount: setSendAmount,
+    asset: selectedSendAsset
+  })
 
   const onInputChange = (value: string, name: string) => {
     if (name === 'address') {
@@ -109,8 +106,9 @@ function Send (props: Props) {
       return false
     }
 
-    const amountWei = new Amount(sendAmount)
-      .multiplyByDecimals(selectedSendAsset.decimals)
+    const amountWei = new Amount(sendAmount).multiplyByDecimals(
+      selectedSendAsset.decimals
+    )
 
     if (amountWei.isZero()) {
       return false
@@ -134,11 +132,11 @@ function Send (props: Props) {
   return (
     <StyledWrapper>
       <SwapInputComponent
-        componentType='fromAmount'
+        componentType="fromAmount"
         onSelectPresetAmount={setPresetAmountValue}
         onInputChange={handleOnInputChange}
         selectedAssetInputAmount={sendAmount}
-        inputName='from'
+        inputName="from"
         selectedAssetBalance={sendAssetBalance}
         selectedAsset={selectedSendAsset}
         selectedNetwork={selectedNetwork}
@@ -148,7 +146,7 @@ function Send (props: Props) {
         validationError={sendAmountValidationError as SwapValidationErrorType}
       />
       <SwapInputComponent
-        componentType='toAddress'
+        componentType="toAddress"
         onInputChange={onInputChange}
         toAddressOrUrl={toAddressOrUrl}
         addressError={addressError}
@@ -157,13 +155,13 @@ function Send (props: Props) {
         showEnsOffchainLookupOptions={showEnsOffchainLookupOptions}
         ensOffchainLookupOptions={ensOffchainLookupOptions}
         setEnsOffchainLookupOptions={setEnsOffchainLookupOptions}
-        inputName='address'
+        inputName="address"
         onPaste={onPasteFromClipboard}
         selectedNetwork={selectedNetwork}
       />
-      {insufficientFundsError &&
+      {insufficientFundsError && (
         <ErrorText>{getLocale('braveWalletSwapInsufficientBalance')}</ErrorText>
-      }
+      )}
       <Tooltip
         text={tooltipMessage}
         isVisible={
@@ -173,21 +171,20 @@ function Send (props: Props) {
         }
       >
         <NavButton
-          disabled={addressError !== '' ||
+          disabled={
+            addressError !== '' ||
             toAddressOrUrl === '' ||
             parseFloat(sendAmount) === 0 ||
             sendAmount === '' ||
             insufficientFundsError ||
             sendAmountValidationError !== undefined
           }
-          buttonType='primary'
+          buttonType="primary"
           text={getLocale('braveWalletSend')}
           onSubmit={submitSend}
         />
       </Tooltip>
-      <ResetButton
-        onClick={onReset}
-      >
+      <ResetButton onClick={onReset}>
         {getLocale('braveWalletReset')}
       </ResetButton>
     </StyledWrapper>

@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
- import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 
 // async handlers
 import walletPageAsyncHandler from './async/wallet_page_async_handler'
@@ -27,11 +27,12 @@ export const store = configureStore({
     accountsTab: accountsTabReducer,
     [walletApi.reducerPath]: walletApi.reducer
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
-    walletAsyncHandler,
-    walletPageAsyncHandler,
-    walletApi.middleware
-  )
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(
+      walletAsyncHandler,
+      walletPageAsyncHandler,
+      walletApi.middleware
+    )
 })
 
 const proxy = getWalletPageApiProxy()

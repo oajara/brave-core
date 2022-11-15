@@ -6,7 +6,11 @@ import * as React from 'react'
 
 import { LocaleContext, getLocaleWithTag } from '../localeContext'
 import { FormSection } from '../formSection'
-import { CreditCardForm, CreditCardDetails, CreditCardFormHandle } from '../creditCardForm'
+import {
+  CreditCardForm,
+  CreditCardDetails,
+  CreditCardFormHandle
+} from '../creditCardForm'
 import { GoBackLink } from '../goBackLink'
 
 import {
@@ -28,7 +32,7 @@ interface UseCreditCardPanelProps {
   onPayWithCreditCard: (cardDetails: CreditCardDetails) => void
 }
 
-export function UseCreditCardPanel (props: UseCreditCardPanelProps) {
+export function UseCreditCardPanel(props: UseCreditCardPanelProps) {
   const locale = React.useContext(LocaleContext)
   const creditCardFormRef = React.useRef<CreditCardFormHandle>(null)
   const tags = getLocaleWithTag(locale.get('confirmTermsOfSale'))
@@ -49,9 +53,10 @@ export function UseCreditCardPanel (props: UseCreditCardPanelProps) {
     props.setContinueWithCard(false)
   }
 
-  const title = props.rewardsEnabled && !props.continueWithCard
-    ? locale.get('useCreditCard')
-    : locale.get('enterCreditCardInfo')
+  const title =
+    props.rewardsEnabled && !props.continueWithCard
+      ? locale.get('useCreditCard')
+      : locale.get('enterCreditCardInfo')
 
   const showForm =
     props.continueWithCard ||
@@ -76,17 +81,17 @@ export function UseCreditCardPanel (props: UseCreditCardPanelProps) {
             <ConfirmButton
               showBackLink={props.continueWithCard}
               text={locale.get('confirmButtonText')}
-              size='medium'
+              size="medium"
               onClick={onConfirmClick}
-              type='accent'
-              brand='rewards'
+              type="accent"
+              brand="rewards"
             />
           </div>
         </ConfirmButtonRow>
         <TermsOfSale>
           <span>
             {tags.beforeTag}
-            <a href='javascript:void 0'>{tags.duringTag}</a>
+            <a href="javascript:void 0">{tags.duringTag}</a>
             {tags.afterTag}
           </span>
         </TermsOfSale>
@@ -106,7 +111,7 @@ export function UseCreditCardPanel (props: UseCreditCardPanelProps) {
           {locale.get('continueWithCreditCardMessage')}
         </ContinueBoxText>
         <ContinueBoxLink>
-          <a href='#' onClick={onContinueClick}>
+          <a href="#" onClick={onContinueClick}>
             {locale.get('continueWithCreditCard')}
             <RightIcon />
           </a>

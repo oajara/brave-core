@@ -41,7 +41,7 @@ interface State {
 }
 
 export default class BoxAlert extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       modalShown: false
@@ -76,22 +76,12 @@ export default class BoxAlert extends React.PureComponent<Props, State> {
             <StyledMonthlyTips modal={true}>
               {getLocale('monthlyTipsBang')}
             </StyledMonthlyTips>
-            <StyledListMessage>
-              {getLocale('pinnedSitesMsg')}
-            </StyledListMessage>
+            <StyledListMessage>{getLocale('pinnedSitesMsg')}</StyledListMessage>
             <StyledList>
-              <StyledListItem>
-                {getLocale('pinnedSitesOne')}
-              </StyledListItem>
-              <StyledListItem>
-                {getLocale('pinnedSitesTwo')}
-              </StyledListItem>
-              <StyledListItem>
-                {getLocale('pinnedSitesThree')}
-              </StyledListItem>
-              <StyledListItem>
-                {getLocale('pinnedSitesFour')}
-              </StyledListItem>
+              <StyledListItem>{getLocale('pinnedSitesOne')}</StyledListItem>
+              <StyledListItem>{getLocale('pinnedSitesTwo')}</StyledListItem>
+              <StyledListItem>{getLocale('pinnedSitesThree')}</StyledListItem>
+              <StyledListItem>{getLocale('pinnedSitesFour')}</StyledListItem>
             </StyledList>
           </StyledModalInfo>
           <StyledButtonContainer>
@@ -109,7 +99,7 @@ export default class BoxAlert extends React.PureComponent<Props, State> {
     )
   }
 
-  render () {
+  render() {
     const { testId, type } = this.props
 
     return (
@@ -118,35 +108,27 @@ export default class BoxAlert extends React.PureComponent<Props, State> {
           <AlertCircleIcon />
         </StyledAlertIcon>
         <StyledInfo type={type}>
-          {
-            type === 'tips'
-            ? <>
-                <StyledMessage>
-                  {getLocale('reviewSitesMsg')}
-                </StyledMessage>
-                <StyledMonthlyTips>
-                  {getLocale('monthlyTipsBang')}
-                </StyledMonthlyTips>
-              </>
-            : <StyledMessage>
-                {getLocale('adsNotSupportedRegion')}
-              </StyledMessage>
-          }
+          {type === 'tips' ? (
+            <>
+              <StyledMessage>{getLocale('reviewSitesMsg')}</StyledMessage>
+              <StyledMonthlyTips>
+                {getLocale('monthlyTipsBang')}
+              </StyledMonthlyTips>
+            </>
+          ) : (
+            <StyledMessage>{getLocale('adsNotSupportedRegion')}</StyledMessage>
+          )}
         </StyledInfo>
-        {
-          type === 'tips'
-          ? <StyledReviewWrapper>
-              <StyledReviewList onClick={this.toggleModalDisplay}>
-                {getLocale('learnMore')}
-              </StyledReviewList>
-            </StyledReviewWrapper>
-          : null
-        }
-        {
-          this.state.modalShown && type === 'tips'
+        {type === 'tips' ? (
+          <StyledReviewWrapper>
+            <StyledReviewList onClick={this.toggleModalDisplay}>
+              {getLocale('learnMore')}
+            </StyledReviewList>
+          </StyledReviewWrapper>
+        ) : null}
+        {this.state.modalShown && type === 'tips'
           ? this.pinnedSitesModal()
-          : null
-        }
+          : null}
       </StyledWrapper>
     )
   }

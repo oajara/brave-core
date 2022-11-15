@@ -14,12 +14,12 @@ import * as Actions from '../../state/actions'
 import { getLocale } from '../../../../../common/locale'
 import Flag from '../flag'
 
-function SelectRegion () {
+function SelectRegion() {
   // TODO(nullhook): Scroll to the selected radio input when this component loads
   // TODO(nullhook): Add search region functionality
   const dispatch = useDispatch()
-  const currentRegion = useSelector(state => state.currentRegion)
-  const regions = useSelector(state => state.regions)
+  const currentRegion = useSelector((state) => state.currentRegion)
+  const regions = useSelector((state) => state.regions)
   const [selectedRegion, setSelectedRegion] = React.useState(currentRegion)
   const ref = React.useRef() as React.MutableRefObject<HTMLButtonElement>
 
@@ -51,10 +51,7 @@ function SelectRegion () {
     <S.Box>
       <S.PanelContent>
         <S.PanelHeader>
-          <S.BackButton
-            type='button'
-            onClick={handleGoBackClick}
-          >
+          <S.BackButton type="button" onClick={handleGoBackClick}>
             <CaratStrongLeftIcon />
           </S.BackButton>
         </S.PanelHeader>
@@ -65,10 +62,7 @@ function SelectRegion () {
             disabled={false}
           >
             {regions?.map((entry: Region, i: number) => (
-              <div
-                key={i}
-                data-value={entry.name}
-              >
+              <div key={i} data-value={entry.name}>
                 <S.RegionLabelButton
                   type="button"
                   aria-describedby="country-name"

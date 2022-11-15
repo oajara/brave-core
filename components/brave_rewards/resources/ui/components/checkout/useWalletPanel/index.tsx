@@ -27,29 +27,29 @@ interface ActionButtonProps {
   onClick: () => void
 }
 
-function PayWithWalletButton (props: ActionButtonProps) {
+function PayWithWalletButton(props: ActionButtonProps) {
   const handleClick = () => props.onClick()
   return (
     <ActionPanelButton
       text={props.locale.get('payWithBat')}
-      size='medium'
+      size="medium"
       onClick={handleClick}
-      type='accent'
-      brand='rewards'
+      type="accent"
+      brand="rewards"
     />
   )
 }
 
-function AddFundsButton (props: ActionButtonProps) {
+function AddFundsButton(props: ActionButtonProps) {
   const handleClick = () => props.onClick()
   return (
     <ActionPanelButton
       text={props.locale.get('addFundsLinkText')}
-      size='medium'
+      size="medium"
       onClick={handleClick}
       icon={{ image: <PlusIcon />, position: 'before' }}
-      type='accent'
-      brand='rewards'
+      type="accent"
+      brand="rewards"
     />
   )
 }
@@ -66,7 +66,7 @@ interface UseWalletPanelProps {
   onPayWithWallet: () => void
 }
 
-export function UseWalletPanel (props: UseWalletPanelProps) {
+export function UseWalletPanel(props: UseWalletPanelProps) {
   if (!props.rewardsEnabled) {
     return null
   }
@@ -85,29 +85,33 @@ export function UseWalletPanel (props: UseWalletPanelProps) {
               <BatSymbol>{locale.get('bat')}</BatSymbol>
             </BatAmount>
             <ExchangeAmount>{props.balanceConverted}</ExchangeAmount>
-            <LastUpdated>{locale.get('updated')} {props.lastUpdated}</LastUpdated>
+            <LastUpdated>
+              {locale.get('updated')} {props.lastUpdated}
+            </LastUpdated>
           </WalletInfoPanel>
           <ActionPanel>
-            {
-              props.hasSufficientFunds
-                ? <PayWithWalletButton locale={locale} onClick={props.onPayWithWallet} />
-                : props.walletVerified && props.canAddFunds
-                  ? <AddFundsButton locale={locale} onClick={props.onShowAddFunds} />
-                  : <NotEnoughFunds>{locale.get('notEnoughFunds')}</NotEnoughFunds>
-            }
+            {props.hasSufficientFunds ? (
+              <PayWithWalletButton
+                locale={locale}
+                onClick={props.onPayWithWallet}
+              />
+            ) : props.walletVerified && props.canAddFunds ? (
+              <AddFundsButton locale={locale} onClick={props.onShowAddFunds} />
+            ) : (
+              <NotEnoughFunds>{locale.get('notEnoughFunds')}</NotEnoughFunds>
+            )}
           </ActionPanel>
         </Content>
       </FormSection>
-      {
-        props.hasSufficientFunds &&
-          <TermsOfSale>
-            <span>
-              {tags.beforeTag}
-              <a href='javascript:void 0'>{tags.duringTag}</a>
-              {tags.afterTag}
-            </span>
-          </TermsOfSale>
-      }
+      {props.hasSufficientFunds && (
+        <TermsOfSale>
+          <span>
+            {tags.beforeTag}
+            <a href="javascript:void 0">{tags.duringTag}</a>
+            {tags.afterTag}
+          </span>
+        </TermsOfSale>
+      )}
     </>
   )
 }

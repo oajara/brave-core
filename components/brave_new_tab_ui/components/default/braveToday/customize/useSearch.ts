@@ -10,12 +10,15 @@ import { useBraveNews, useChannels } from './Context'
 
 export const QUERY_MIN_LENGTH_FILTER_SOURCES = 2
 
-export default function useSearch (query: string) {
+export default function useSearch(query: string) {
   const lowerQuery = query.toLowerCase()
   const channels = useChannels()
   const context = useBraveNews()
-  const canQueryFilterSources = lowerQuery.length >= QUERY_MIN_LENGTH_FILTER_SOURCES
-  const [directResults, setDirectResults] = React.useState<FeedSearchResultItem[]>([])
+  const canQueryFilterSources =
+    lowerQuery.length >= QUERY_MIN_LENGTH_FILTER_SOURCES
+  const [directResults, setDirectResults] = React.useState<
+    FeedSearchResultItem[]
+  >([])
   const [loading, setLoading] = React.useState(false)
   // Whether user has asked us to perform a search at the query url
   const [canFetchUrl, setCanFetchUrl] = React.useState(false)
@@ -26,17 +29,21 @@ export default function useSearch (query: string) {
     direct: FeedSearchResultItem[]
   }
 
-  const filteredChannels = React.useMemo(() =>
-    channels.filter(c => c.channelName.toLowerCase().includes(lowerQuery)),
-    [lowerQuery, channels])
+  const filteredChannels = React.useMemo(
+    () =>
+      channels.filter((c) => c.channelName.toLowerCase().includes(lowerQuery)),
+    [lowerQuery, channels]
+  )
 
   const filteredSources = React.useMemo<FilteredResults>(() => {
-    const publishers = context.sortedPublishers
-      .filter(p => canQueryFilterSources && (
-        p.publisherName.toLowerCase().includes(lowerQuery) ||
-        p.categoryName.toLocaleLowerCase().includes(lowerQuery) ||
-        p.siteUrl?.url?.toLocaleLowerCase().includes(lowerQuery) ||
-        p.feedSource?.url?.toLocaleLowerCase().includes(lowerQuery)))
+    const publishers = context.sortedPublishers.filter(
+      (p) =>
+        canQueryFilterSources &&
+        (p.publisherName.toLowerCase().includes(lowerQuery) ||
+          p.categoryName.toLocaleLowerCase().includes(lowerQuery) ||
+          p.siteUrl?.url?.toLocaleLowerCase().includes(lowerQuery) ||
+          p.feedSource?.url?.toLocaleLowerCase().includes(lowerQuery))
+    )
     const results = { publishers, direct: [] as FeedSearchResultItem[] }
     for (const result of directResults) {
       // If we have any publisher with this feed url, we should prefer showing
@@ -44,15 +51,21 @@ export default function useSearch (query: string) {
       // Note: We should only add the publisher to the list of publisher matches
       // if it isn't already matching. The canonical case here is
       // news.com (redirects to cnet.com), so we should show the cnet.com feed.
-      const publisherMatch = context.sortedPublishers.find(p => p.feedSource.url === result.feedUrl.url)
+      const publisherMatch = context.sortedPublishers.find(
+        (p) => p.feedSource.url === result.feedUrl.url
+      )
       if (!publisherMatch) {
         results.direct.push(result)
-      } else if (!results.publishers.some(p => p.publisherId === publisherMatch.publisherId)) {
+      } else if (
+        !results.publishers.some(
+          (p) => p.publisherId === publisherMatch.publisherId
+        )
+      ) {
         results.publishers.push(publisherMatch)
       }
     }
     return {
-      publisherIds: results.publishers.map(p => p.publisherId),
+      publisherIds: results.publishers.map((p) => p.publisherId),
       direct: results.direct
     }
   }, [directResults, context.sortedPublishers, lowerQuery])
@@ -84,9 +97,10 @@ export default function useSearch (query: string) {
     let isValidFeedUrl = false
     try {
       const url = new URL(feedUrlRaw)
-      isValidFeedUrl = ['http:', 'https:'].includes(url.protocol) &&
+      isValidFeedUrl =
+        ['http:', 'https:'].includes(url.protocol) &&
         (url.hostname.includes('.') || queryContainsExplicitProtocol)
-    } catch { }
+    } catch {}
     if (!isValidFeedUrl) {
       // Not a url-able query
       return null
@@ -98,20 +112,25 @@ export default function useSearch (query: string) {
     // Do nothing if user hasn't asked to search, or input isn't
     // a valid Url
     if (!canFetchUrl || !feedUrlQuery) {
-      console.debug('News: query changed but not searching', { canFetchUrl, feedUrlQuery })
+      console.debug('News: query changed but not searching', {
+        canFetchUrl,
+        feedUrlQuery
+      })
       return
     }
 
     setLoading(true)
     let cancelled = false
 
-    api.controller.findFeeds({ url: feedUrlQuery.toString() }).then(({ results }) => {
-      console.debug('News: received feed results', { results, cancelled })
-      if (cancelled) return
+    api.controller
+      .findFeeds({ url: feedUrlQuery.toString() })
+      .then(({ results }) => {
+        console.debug('News: received feed results', { results, cancelled })
+        if (cancelled) return
 
-      setLoading(false)
-      setDirectResults(results)
-    })
+        setLoading(false)
+        setDirectResults(results)
+      })
     return () => {
       cancelled = true
     }

@@ -35,7 +35,7 @@ export const ArrowButton = styled(WalletButton)`
   margin-bottom: 12px;
   border-radius: 4px;
   &:hover {
-    background-color: ${(p) => p.theme.color.divider01}
+    background-color: ${(p) => p.theme.color.divider01};
   }
 `
 

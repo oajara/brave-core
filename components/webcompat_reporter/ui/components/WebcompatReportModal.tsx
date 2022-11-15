@@ -17,22 +17,20 @@ interface Props {
   onClose: () => void
 }
 
-export default class WebcompatReportModal extends React.PureComponent<Props, {}> {
-  constructor (props: Props) {
+export default class WebcompatReportModal extends React.PureComponent<
+  Props,
+  {}
+> {
+  constructor(props: Props) {
     super(props)
   }
 
-  render () {
-    const {
-      siteUrl,
-      submitted,
-      onSubmitReport,
-      onClose
-    } = this.props
+  render() {
+    const { siteUrl, submitted, onSubmitReport, onClose } = this.props
     return (
       <RectangularCard>
         {submitted ? (
-          <ConfirmationView/>
+          <ConfirmationView />
         ) : (
           <ReportView
             siteUrl={siteUrl}

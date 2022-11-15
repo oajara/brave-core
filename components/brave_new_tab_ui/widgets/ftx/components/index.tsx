@@ -45,20 +45,20 @@ interface Props {
 }
 
 class FTX extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       hideBalance: true
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     if (this.props.showContent && !this.props.ftx.hasInitialized) {
       this.props.actions.initialize()
     }
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     const isNewlyShown = this.props.showContent && !prevProps.showContent
     if (isNewlyShown && !this.props.ftx.hasInitialized) {
       this.props.actions.initialize()
@@ -71,7 +71,7 @@ class FTX extends React.PureComponent<Props, State> {
     })
   }
 
-  renderView () {
+  renderView() {
     const selectedAsset = this.props.ftx.assetDetail?.currencyName
     const { currentView } = this.props.ftx
     if (selectedAsset) {
@@ -96,32 +96,52 @@ class FTX extends React.PureComponent<Props, State> {
     this.props.actions.openView(view)
   }
 
-  renderContent () {
+  renderContent() {
     const { currentView, isConnected, hasInitialized } = this.props.ftx
     if (!hasInitialized) {
-      return <BasicBox $height={250}><Loading /></BasicBox>
+      return (
+        <BasicBox $height={250}>
+          <Loading />
+        </BasicBox>
+      )
     }
     if (!isConnected && this.props.ftx.currentView === ViewType.OptIn) {
       return <PreOptIn ftx={this.props.ftx} actions={this.props.actions} />
     }
     return (
       <>
-        {isConnected &&
-        <BasicBox isFlex={true} $mb={10} $gap={10} justify='start'>
-          <OptionButton isSelected={currentView === ViewType.Markets} onClick={this.setView.bind(null, ViewType.Markets)}>{getLocale('ftxMarkets')}</OptionButton>
-          <OptionButton isSelected={currentView === ViewType.Convert} onClick={this.setView.bind(null, ViewType.Convert)}>{getLocale('ftxConvert')}</OptionButton>
-          <OptionButton isSelected={currentView === ViewType.Summary} onClick={this.setView.bind(null, ViewType.Summary)}>{getLocale('ftxSummary')}</OptionButton>
-        </BasicBox>
-        }
+        {isConnected && (
+          <BasicBox isFlex={true} $mb={10} $gap={10} justify="start">
+            <OptionButton
+              isSelected={currentView === ViewType.Markets}
+              onClick={this.setView.bind(null, ViewType.Markets)}
+            >
+              {getLocale('ftxMarkets')}
+            </OptionButton>
+            <OptionButton
+              isSelected={currentView === ViewType.Convert}
+              onClick={this.setView.bind(null, ViewType.Convert)}
+            >
+              {getLocale('ftxConvert')}
+            </OptionButton>
+            <OptionButton
+              isSelected={currentView === ViewType.Summary}
+              onClick={this.setView.bind(null, ViewType.Summary)}
+            >
+              {getLocale('ftxSummary')}
+            </OptionButton>
+          </BasicBox>
+        )}
         {this.renderView()}
       </>
     )
   }
 
-  renderTitle () {
+  renderTitle() {
     const { showContent, widgetTitle } = this.props
     // Only show back arrow to go back to opt-in view
-    const shouldShowBackArrow = showContent &&
+    const shouldShowBackArrow =
+      showContent &&
       this.props.ftx.currentView === ViewType.Markets &&
       !this.props.ftx.isConnected
 
@@ -129,24 +149,25 @@ class FTX extends React.PureComponent<Props, State> {
       <Header showContent={showContent}>
         <StyledTitle>
           <WidgetIcon>
-            <img src={ftxLogo} alt='FTX logo'/>
+            <img src={ftxLogo} alt="FTX logo" />
           </WidgetIcon>
-          <StyledTitleText>
-            {widgetTitle}
-          </StyledTitleText>
-          {shouldShowBackArrow &&
+          <StyledTitleText>{widgetTitle}</StyledTitleText>
+          {shouldShowBackArrow && (
             <BackArrow marketView={true}>
               <CaratLeftIcon
-                onClick={this.props.actions.preOptInViewMarkets.bind(undefined, { hide: true })}
+                onClick={this.props.actions.preOptInViewMarkets.bind(
+                  undefined,
+                  { hide: true }
+                )}
               />
             </BackArrow>
-          }
+          )}
         </StyledTitle>
       </Header>
     )
   }
 
-  renderTitleTab () {
+  renderTitleTab() {
     const { onShowContent, stackPosition } = this.props
 
     return (
@@ -156,7 +177,7 @@ class FTX extends React.PureComponent<Props, State> {
     )
   }
 
-  render () {
+  render() {
     const { showContent } = this.props
 
     if (!showContent) {
@@ -165,14 +186,14 @@ class FTX extends React.PureComponent<Props, State> {
 
     return (
       <ThemeConsumer>
-      {theme =>
-        <ThemeProvider theme={customizeTheme(theme)}>
-          <WidgetWrapper tabIndex={0}>
-            {this.renderTitle()}
-            {this.renderContent()}
-          </WidgetWrapper>
-        </ThemeProvider>
-      }
+        {(theme) => (
+          <ThemeProvider theme={customizeTheme(theme)}>
+            <WidgetWrapper tabIndex={0}>
+              {this.renderTitle()}
+              {this.renderContent()}
+            </WidgetWrapper>
+          </ThemeProvider>
+        )}
       </ThemeConsumer>
     )
   }

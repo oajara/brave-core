@@ -9,7 +9,11 @@ import Profile from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('Profile tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><Profile id='profile' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <Profile id="profile" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

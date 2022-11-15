@@ -6,8 +6,10 @@
 const locale: { [key: string]: string } = {
   // Report modal
   reportModalTitle: 'Report a broken site',
-  reportExplanation: 'Let Brave\'s developers know that this site doesn\'t work properly with Shields:',
-  reportDisclaimer: 'Note: This site address will be submitted with your Brave version number and your IP address (which will not be stored).',
+  reportExplanation:
+    "Let Brave's developers know that this site doesn't work properly with Shields:",
+  reportDisclaimer:
+    'Note: This site address will be submitted with your Brave version number and your IP address (which will not be stored).',
   reportDetails: 'Additional details (optional)',
   reportContactPlaceholder: 'Email, Twitter, etc.',
   reportContactLabel: 'Contact me at: (optional)',
@@ -15,7 +17,8 @@ const locale: { [key: string]: string } = {
   submit: 'Submit',
   // Confirmation modal
   thankYou: 'Thank you!',
-  confirmationNotice: 'Thanks for letting Brave\'s developers know that there\'s something wrong with this site. We\'ll do our best to fix it!'
+  confirmationNotice:
+    "Thanks for letting Brave's developers know that there's something wrong with this site. We'll do our best to fix it!"
 }
 
 export default locale

@@ -5,10 +5,7 @@
 
 import * as React from 'react'
 import { Redirect, useParams, useLocation } from 'react-router'
-import {
-  useDispatch,
-  useSelector
-} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { create } from 'ethereum-blockies'
 
 import {
@@ -62,39 +59,52 @@ export interface Props {
   goBack: () => void
 }
 
-export const Account = ({
-  goBack
-}: Props) => {
+export const Account = ({ goBack }: Props) => {
   // routing
   const { id: accountId } = useParams<{ id: string }>()
   const { hash: transactionID } = useLocation()
 
   // redux
   const dispatch = useDispatch()
-  const accounts = useSelector(({ wallet }: { wallet: WalletState }) => wallet.accounts)
-  const transactions = useSelector(({ wallet }: { wallet: WalletState }) => wallet.transactions)
-  const userVisibleTokensInfo = useSelector(({ wallet }: { wallet: WalletState }) => wallet.userVisibleTokensInfo)
-  const networkList = useSelector(({ wallet }: { wallet: WalletState }) => wallet.networkList)
+  const accounts = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.accounts
+  )
+  const transactions = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.transactions
+  )
+  const userVisibleTokensInfo = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.userVisibleTokensInfo
+  )
+  const networkList = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.networkList
+  )
 
   // custom hooks
   const scrollIntoView = useScrollIntoView()
 
   // memos
   const selectedAccount = React.useMemo(() => {
-    return accounts.find(({ address }) =>
-      address.toLowerCase() === accountId?.toLowerCase()
+    return accounts.find(
+      ({ address }) => address.toLowerCase() === accountId?.toLowerCase()
     )
   }, [accounts, accountId])
 
   const orb = React.useMemo(() => {
     if (selectedAccount) {
-      return create({ seed: selectedAccount.address.toLowerCase(), size: 8, scale: 16 }).toDataURL()
+      return create({
+        seed: selectedAccount.address.toLowerCase(),
+        size: 8,
+        scale: 16
+      }).toDataURL()
     }
   }, [selectedAccount])
 
   const transactionList = React.useMemo(() => {
     if (selectedAccount?.address && transactions[selectedAccount.address]) {
-      return sortTransactionByDate(transactions[selectedAccount.address], 'descending')
+      return sortTransactionByDate(
+        transactions[selectedAccount.address],
+        'descending'
+      )
     } else {
       return []
     }
@@ -108,14 +118,32 @@ export const Account = ({
     // this check will make sure we are returning the correct
     // LOCALHOST asset for each account.
     const coinName = CoinTypesMap[selectedAccount?.coin ?? 0]
-    const localHostCoins = userVisibleTokensInfo.filter((token) => token.chainId === BraveWallet.LOCALHOST_CHAIN_ID)
-    const accountsLocalHost = localHostCoins.find((token) => token.symbol.toUpperCase() === coinName)
-    const chainList = networkList.filter((network) => network.coin === selectedAccount?.coin &&
-      (network.coin !== BraveWallet.CoinType.FIL || getFilecoinKeyringIdFromNetwork(network) === selectedAccount?.keyringId)).map((network) => network.chainId) ?? []
+    const localHostCoins = userVisibleTokensInfo.filter(
+      (token) => token.chainId === BraveWallet.LOCALHOST_CHAIN_ID
+    )
+    const accountsLocalHost = localHostCoins.find(
+      (token) => token.symbol.toUpperCase() === coinName
+    )
+    const chainList =
+      networkList
+        .filter(
+          (network) =>
+            network.coin === selectedAccount?.coin &&
+            (network.coin !== BraveWallet.CoinType.FIL ||
+              getFilecoinKeyringIdFromNetwork(network) ===
+                selectedAccount?.keyringId)
+        )
+        .map((network) => network.chainId) ?? []
     const list =
-      userVisibleTokensInfo.filter((token) => chainList.includes(token?.chainId ?? '') &&
-        token.chainId !== BraveWallet.LOCALHOST_CHAIN_ID) ?? []
-    if (accountsLocalHost && (selectedAccount.keyringId !== BraveWallet.FILECOIN_KEYRING_ID)) {
+      userVisibleTokensInfo.filter(
+        (token) =>
+          chainList.includes(token?.chainId ?? '') &&
+          token.chainId !== BraveWallet.LOCALHOST_CHAIN_ID
+      ) ?? []
+    if (
+      accountsLocalHost &&
+      selectedAccount.keyringId !== BraveWallet.FILECOIN_KEYRING_ID
+    ) {
       return [...list, accountsLocalHost]
     }
     return list
@@ -123,29 +151,40 @@ export const Account = ({
 
   const nonFungibleTokens = React.useMemo(
     () =>
-      accountsTokensList.filter(({ isErc721, isNft }) => isErc721 || isNft)
+      accountsTokensList
+        .filter(({ isErc721, isNft }) => isErc721 || isNft)
         .filter((token) => getBalance(selectedAccount, token) !== '0'),
     [accountsTokensList, selectedAccount]
   )
 
   const fungibleTokens = React.useMemo(
-    () => accountsTokensList.filter(({ isErc721, isNft }) => !(isErc721 || isNft)),
+    () =>
+      accountsTokensList.filter(({ isErc721, isNft }) => !(isErc721 || isNft)),
     [accountsTokensList]
   )
 
   const isHardwareWallet: boolean = React.useMemo(() => {
-    return selectedAccount?.accountType === 'Trezor' || selectedAccount?.accountType === 'Ledger'
+    return (
+      selectedAccount?.accountType === 'Trezor' ||
+      selectedAccount?.accountType === 'Ledger'
+    )
   }, [selectedAccount])
 
   const buttonOptions = React.useMemo((): AccountButtonOptionsObjectType[] => {
-    const filteredButtonOptions = AccountButtonOptions.filter((option: AccountButtonOptionsObjectType) => option.id !== 'details')
+    const filteredButtonOptions = AccountButtonOptions.filter(
+      (option: AccountButtonOptionsObjectType) => option.id !== 'details'
+    )
     // We are not able to remove a Primary account so we filter out this option.
     if (selectedAccount?.accountType === 'Primary') {
-      return filteredButtonOptions.filter((option: AccountButtonOptionsObjectType) => option.id !== 'remove')
+      return filteredButtonOptions.filter(
+        (option: AccountButtonOptionsObjectType) => option.id !== 'remove'
+      )
     }
     // We are not able to fetch Private Keys for a Hardware account so we filter out this option.
     if (isHardwareWallet) {
-      return filteredButtonOptions.filter((option: AccountButtonOptionsObjectType) => option.id !== 'privateKey')
+      return filteredButtonOptions.filter(
+        (option: AccountButtonOptionsObjectType) => option.id !== 'privateKey'
+      )
     }
     return filteredButtonOptions
   }, [selectedAccount, isHardwareWallet])
@@ -153,32 +192,48 @@ export const Account = ({
   // methods
   const onRemoveAccount = React.useCallback(() => {
     if (selectedAccount) {
-      dispatch(AccountsTabActions.setAccountToRemove({ address: selectedAccount.address, hardware: isHardwareWallet, coin: selectedAccount.coin, name: selectedAccount.name }))
+      dispatch(
+        AccountsTabActions.setAccountToRemove({
+          address: selectedAccount.address,
+          hardware: isHardwareWallet,
+          coin: selectedAccount.coin,
+          name: selectedAccount.name
+        })
+      )
     }
   }, [selectedAccount, isHardwareWallet, dispatch])
 
-  const onClickButtonOption = React.useCallback((option: AccountButtonOptionsObjectType) => () => {
-    if (option.id === 'remove') {
-      onRemoveAccount()
-      return
-    }
-    dispatch(AccountsTabActions.setShowAccountModal(true))
-    dispatch(AccountsTabActions.setAccountModalType(option.id))
-    dispatch(AccountsTabActions.setSelectedAccount(selectedAccount))
-  }, [onRemoveAccount, dispatch])
+  const onClickButtonOption = React.useCallback(
+    (option: AccountButtonOptionsObjectType) => () => {
+      if (option.id === 'remove') {
+        onRemoveAccount()
+        return
+      }
+      dispatch(AccountsTabActions.setShowAccountModal(true))
+      dispatch(AccountsTabActions.setAccountModalType(option.id))
+      dispatch(AccountsTabActions.setSelectedAccount(selectedAccount))
+    },
+    [onRemoveAccount, dispatch]
+  )
 
-  const checkIsTransactionFocused = React.useCallback((id: string): boolean => {
-    if (transactionID !== '') {
-      return transactionID.replace('#', '') === id
-    }
-    return false
-  }, [transactionID])
+  const checkIsTransactionFocused = React.useCallback(
+    (id: string): boolean => {
+      if (transactionID !== '') {
+        return transactionID.replace('#', '') === id
+      }
+      return false
+    },
+    [transactionID]
+  )
 
-  const handleScrollIntoView = React.useCallback((id: string, ref: HTMLDivElement | null) => {
-    if (checkIsTransactionFocused(id)) {
-      scrollIntoView(ref)
-    }
-  }, [checkIsTransactionFocused, scrollIntoView])
+  const handleScrollIntoView = React.useCallback(
+    (id: string, ref: HTMLDivElement | null) => {
+      if (checkIsTransactionFocused(id)) {
+        scrollIntoView(ref)
+      }
+    },
+    [checkIsTransactionFocused, scrollIntoView]
+  )
 
   // redirect (asset not found)
   if (!selectedAccount) {
@@ -197,60 +252,68 @@ export const Account = ({
           <AccountCircle orb={orb} />
           <WalletName>{selectedAccount.name}</WalletName>
           <CopyTooltip text={selectedAccount.address}>
-            <WalletAddress>{reduceAddress(selectedAccount.address)}</WalletAddress>
+            <WalletAddress>
+              {reduceAddress(selectedAccount.address)}
+            </WalletAddress>
           </CopyTooltip>
         </WalletInfoLeftSide>
         <AccountButtonsRow>
-          {buttonOptions.map((option) =>
+          {buttonOptions.map((option) => (
             <AccountListItemOptionButton
               key={option.id}
               option={option}
               onClick={onClickButtonOption(option)}
             />
-          )}
+          ))}
         </AccountButtonsRow>
       </WalletInfoRow>
 
-      <SubviewSectionTitle>{getLocale('braveWalletAccountsAssets')}</SubviewSectionTitle>
+      <SubviewSectionTitle>
+        {getLocale('braveWalletAccountsAssets')}
+      </SubviewSectionTitle>
 
       <SubDivider />
       <Spacer />
 
-      {fungibleTokens.map((item) =>
+      {fungibleTokens.map((item) => (
         <PortfolioAssetItem
           key={`${item.contractAddress}-${item.symbol}-${item.chainId}`}
           assetBalance={getBalance(selectedAccount, item)}
           token={item}
         />
-      )}
+      ))}
 
       <Spacer />
 
-      {nonFungibleTokens?.length !== 0 &&
+      {nonFungibleTokens?.length !== 0 && (
         <>
           <Spacer />
-          <SubviewSectionTitle>{getLocale('braveWalletTopNavNFTS')}</SubviewSectionTitle>
+          <SubviewSectionTitle>
+            {getLocale('braveWalletTopNavNFTS')}
+          </SubviewSectionTitle>
           <SubDivider />
-          {nonFungibleTokens?.map((item) =>
+          {nonFungibleTokens?.map((item) => (
             <PortfolioAssetItem
               key={`${item.contractAddress}-${item.symbol}-${item.chainId}-${item.tokenId}`}
               assetBalance={getBalance(selectedAccount, item)}
               token={item}
             />
-          )}
+          ))}
           <Spacer />
         </>
-      }
+      )}
 
       <Spacer />
 
-      <SubviewSectionTitle>{getLocale('braveWalletTransactions')}</SubviewSectionTitle>
+      <SubviewSectionTitle>
+        {getLocale('braveWalletTransactions')}
+      </SubviewSectionTitle>
 
       <SubDivider />
 
       {transactionList.length !== 0 ? (
         <>
-          {transactionList.map((transaction) =>
+          {transactionList.map((transaction) => (
             <PortfolioTransactionItem
               key={transaction?.id}
               transaction={transaction}
@@ -260,11 +323,13 @@ export const Account = ({
               ref={(ref) => handleScrollIntoView(transaction.id, ref)}
               isFocused={checkIsTransactionFocused(transaction.id)}
             />
-          )}
+          ))}
         </>
       ) : (
         <TransactionPlaceholderContainer>
-          <TransactionPlaceholderText>{getLocale('braveWalletTransactionPlaceholder')}</TransactionPlaceholderText>
+          <TransactionPlaceholderText>
+            {getLocale('braveWalletTransactionPlaceholder')}
+          </TransactionPlaceholderText>
         </TransactionPlaceholderContainer>
       )}
     </StyledWrapper>

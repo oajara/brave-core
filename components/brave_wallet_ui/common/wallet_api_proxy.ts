@@ -24,99 +24,117 @@ export class WalletApiProxy {
   braveWalletService = new BraveWallet.BraveWalletServiceRemote()
   braveWalletP3A = new BraveWallet.BraveWalletP3ARemote()
 
-  addJsonRpcServiceObserver (store: Store) {
-    const jsonRpcServiceObserverReceiver = new BraveWallet.JsonRpcServiceObserverReceiver({
-      chainChangedEvent: function (chainId, coin) {
-        store.dispatch(WalletActions.chainChangedEvent({ chainId, coin }))
-      },
-      onAddEthereumChainRequestCompleted: function (chainId, error) {
-        // TODO: Handle this event.
-      },
-      onIsEip1559Changed: function (chainId, isEip1559) {
-        store.dispatch(WalletActions.isEip1559Changed({ chainId, isEip1559 }))
-      }
-    })
-    this.jsonRpcService.addObserver(jsonRpcServiceObserverReceiver.$.bindNewPipeAndPassRemote())
-  }
-
-  addKeyringServiceObserver (store: Store) {
-    const keyringServiceObserverReceiver = new BraveWallet.KeyringServiceObserverReceiver({
-      keyringCreated: function () {
-        store.dispatch(WalletActions.keyringCreated())
-      },
-      keyringRestored: function () {
-        store.dispatch(WalletActions.keyringRestored())
-      },
-      keyringReset: function () {
-        store.dispatch(WalletActions.keyringReset())
-      },
-      locked: function () {
-        store.dispatch(WalletActions.locked())
-      },
-      unlocked: function () {
-        store.dispatch(WalletActions.unlocked())
-      },
-      backedUp: function () {
-        store.dispatch(WalletActions.backedUp())
-      },
-      accountsChanged: function () {
-        store.dispatch(WalletActions.accountsChanged())
-      },
-      autoLockMinutesChanged: function () {
-        store.dispatch(WalletActions.autoLockMinutesChanged())
-      },
-      selectedAccountChanged: function (coin: BraveWallet.CoinType) {
-        store.dispatch(WalletActions.selectedAccountChanged({ coin }))
-      }
-    })
-    this.keyringService.addObserver(keyringServiceObserverReceiver.$.bindNewPipeAndPassRemote())
-  }
-
-  addTxServiceObserver (store: Store) {
-    const txServiceManagerObserverReceiver = new BraveWallet.TxServiceObserverReceiver({
-      onNewUnapprovedTx: function (txInfo) {
-        store.dispatch(WalletActions.newUnapprovedTxAdded({ txInfo }))
-      },
-      onUnapprovedTxUpdated: function (txInfo) {
-        store.dispatch(WalletActions.unapprovedTxUpdated({ txInfo }))
-      },
-      onTransactionStatusChanged: function (txInfo) {
-        store.dispatch(WalletActions.transactionStatusChanged({ txInfo }))
-      }
-    })
-    this.txService.addObserver(txServiceManagerObserverReceiver.$.bindNewPipeAndPassRemote())
-  }
-
-  addBraveWalletServiceObserver (store: Store) {
-    const braveWalletServiceObserverReceiver = new BraveWallet.BraveWalletServiceObserverReceiver({
-      onActiveOriginChanged: function (originInfo) {
-        const state = store.getState().wallet
-
-        // check that the origin has changed from the stored values
-        // in any way before dispatching the update action
-        if (objectEquals(state.activeOrigin, originInfo)) {
-          return
+  addJsonRpcServiceObserver(store: Store) {
+    const jsonRpcServiceObserverReceiver =
+      new BraveWallet.JsonRpcServiceObserverReceiver({
+        chainChangedEvent: function (chainId, coin) {
+          store.dispatch(WalletActions.chainChangedEvent({ chainId, coin }))
+        },
+        onAddEthereumChainRequestCompleted: function (chainId, error) {
+          // TODO: Handle this event.
+        },
+        onIsEip1559Changed: function (chainId, isEip1559) {
+          store.dispatch(WalletActions.isEip1559Changed({ chainId, isEip1559 }))
         }
+      })
+    this.jsonRpcService.addObserver(
+      jsonRpcServiceObserverReceiver.$.bindNewPipeAndPassRemote()
+    )
+  }
 
-        store.dispatch(WalletActions.activeOriginChanged(originInfo))
-      },
-      onDefaultEthereumWalletChanged: function (defaultWallet) {
-        store.dispatch(WalletActions.defaultEthereumWalletChanged({ defaultWallet }))
-      },
-      onDefaultSolanaWalletChanged: function (defaultWallet) {
-        store.dispatch(WalletActions.defaultSolanaWalletChanged({ defaultWallet }))
-      },
-      onDefaultBaseCurrencyChanged: function (currency) {
-        store.dispatch(WalletActions.defaultBaseCurrencyChanged({ currency }))
-      },
-      onDefaultBaseCryptocurrencyChanged: function (cryptocurrency) {
-        store.dispatch(WalletActions.defaultBaseCryptocurrencyChanged({ cryptocurrency }))
-      },
-      onNetworkListChanged: function () {
-        store.dispatch(WalletActions.getAllNetworks())
-      }
-    })
-    this.braveWalletService.addObserver(braveWalletServiceObserverReceiver.$.bindNewPipeAndPassRemote())
+  addKeyringServiceObserver(store: Store) {
+    const keyringServiceObserverReceiver =
+      new BraveWallet.KeyringServiceObserverReceiver({
+        keyringCreated: function () {
+          store.dispatch(WalletActions.keyringCreated())
+        },
+        keyringRestored: function () {
+          store.dispatch(WalletActions.keyringRestored())
+        },
+        keyringReset: function () {
+          store.dispatch(WalletActions.keyringReset())
+        },
+        locked: function () {
+          store.dispatch(WalletActions.locked())
+        },
+        unlocked: function () {
+          store.dispatch(WalletActions.unlocked())
+        },
+        backedUp: function () {
+          store.dispatch(WalletActions.backedUp())
+        },
+        accountsChanged: function () {
+          store.dispatch(WalletActions.accountsChanged())
+        },
+        autoLockMinutesChanged: function () {
+          store.dispatch(WalletActions.autoLockMinutesChanged())
+        },
+        selectedAccountChanged: function (coin: BraveWallet.CoinType) {
+          store.dispatch(WalletActions.selectedAccountChanged({ coin }))
+        }
+      })
+    this.keyringService.addObserver(
+      keyringServiceObserverReceiver.$.bindNewPipeAndPassRemote()
+    )
+  }
+
+  addTxServiceObserver(store: Store) {
+    const txServiceManagerObserverReceiver =
+      new BraveWallet.TxServiceObserverReceiver({
+        onNewUnapprovedTx: function (txInfo) {
+          store.dispatch(WalletActions.newUnapprovedTxAdded({ txInfo }))
+        },
+        onUnapprovedTxUpdated: function (txInfo) {
+          store.dispatch(WalletActions.unapprovedTxUpdated({ txInfo }))
+        },
+        onTransactionStatusChanged: function (txInfo) {
+          store.dispatch(WalletActions.transactionStatusChanged({ txInfo }))
+        }
+      })
+    this.txService.addObserver(
+      txServiceManagerObserverReceiver.$.bindNewPipeAndPassRemote()
+    )
+  }
+
+  addBraveWalletServiceObserver(store: Store) {
+    const braveWalletServiceObserverReceiver =
+      new BraveWallet.BraveWalletServiceObserverReceiver({
+        onActiveOriginChanged: function (originInfo) {
+          const state = store.getState().wallet
+
+          // check that the origin has changed from the stored values
+          // in any way before dispatching the update action
+          if (objectEquals(state.activeOrigin, originInfo)) {
+            return
+          }
+
+          store.dispatch(WalletActions.activeOriginChanged(originInfo))
+        },
+        onDefaultEthereumWalletChanged: function (defaultWallet) {
+          store.dispatch(
+            WalletActions.defaultEthereumWalletChanged({ defaultWallet })
+          )
+        },
+        onDefaultSolanaWalletChanged: function (defaultWallet) {
+          store.dispatch(
+            WalletActions.defaultSolanaWalletChanged({ defaultWallet })
+          )
+        },
+        onDefaultBaseCurrencyChanged: function (currency) {
+          store.dispatch(WalletActions.defaultBaseCurrencyChanged({ currency }))
+        },
+        onDefaultBaseCryptocurrencyChanged: function (cryptocurrency) {
+          store.dispatch(
+            WalletActions.defaultBaseCryptocurrencyChanged({ cryptocurrency })
+          )
+        },
+        onNetworkListChanged: function () {
+          store.dispatch(WalletActions.getAllNetworks())
+        }
+      })
+    this.braveWalletService.addObserver(
+      braveWalletServiceObserverReceiver.$.bindNewPipeAndPassRemote()
+    )
   }
 }
 

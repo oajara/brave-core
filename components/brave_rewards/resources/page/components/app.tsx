@@ -12,7 +12,7 @@ import { AppErrorBoundary } from './app_error_boundary'
 
 import * as style from './app.style'
 
-export function App () {
+export function App() {
   const { isAndroid } = React.useContext(PlatformContext)
 
   const actions = useActions()
@@ -45,7 +45,7 @@ export function App () {
 
   return (
     <LayoutManager>
-      <style.root id='rewardsPage'>
+      <style.root id="rewardsPage">
         <div ref={renderToolbar}></div>
         <AppErrorBoundary>
           <Settings />

@@ -57,10 +57,13 @@ describe('publishers reducer', () => {
         }
       ]
 
-      const assertion = reducers({ rewardsData: initialState }, {
-        type: types.ON_EXCLUDED_LIST,
-        payload: {}
-      })
+      const assertion = reducers(
+        { rewardsData: initialState },
+        {
+          type: types.ON_EXCLUDED_LIST,
+          payload: {}
+        }
+      )
 
       const expectedState: Rewards.State = defaultState()
       expectedState.excludedList = [

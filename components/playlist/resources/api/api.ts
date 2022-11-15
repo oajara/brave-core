@@ -13,59 +13,58 @@ class API {
   #pageCallbackRouter = new PlaylistMojo.PageCallbackRouter()
   #pageHandler = new PlaylistMojo.PageHandlerRemote()
 
-  constructor () {
+  constructor() {
     const factory = PlaylistMojo.PageHandlerFactory.getRemote()
     factory.createPageHandler(
-        this.#pageCallbackRouter.$.bindNewPipeAndPassRemote(),
-        this.#pageHandler.$.bindNewPipeAndPassReceiver())
+      this.#pageCallbackRouter.$.bindNewPipeAndPassRemote(),
+      this.#pageHandler.$.bindNewPipeAndPassReceiver()
+    )
   }
 
-  async getAllPlaylists () {
+  async getAllPlaylists() {
     return this.#pageHandler.getAllPlaylists()
   }
 
-  async getPlaylist (id: string) {
+  async getPlaylist(id: string) {
     return this.#pageHandler.getPlaylist(id)
   }
 
-  createPlaylist (playlist: PlaylistMojo.Playlist) {
+  createPlaylist(playlist: PlaylistMojo.Playlist) {
     this.#pageHandler.createPlaylist(playlist)
   }
 
-  removePlaylist (playlistId: string) {
+  removePlaylist(playlistId: string) {
     this.#pageHandler.removePlaylist(playlistId)
   }
 
-  addEventListener (listener: PlaylistEventListener) {
+  addEventListener(listener: PlaylistEventListener) {
     this.#pageCallbackRouter.onEvent.addListener(listener)
   }
 
-  addMediaFilesFromPageToPlaylist (playlistId: string, url: string) {
+  addMediaFilesFromPageToPlaylist(playlistId: string, url: string) {
     let mojoUrl = new Url()
     mojoUrl.url = url
-    this.#pageHandler.addMediaFilesFromPageToPlaylist(
-        playlistId, mojoUrl)
+    this.#pageHandler.addMediaFilesFromPageToPlaylist(playlistId, mojoUrl)
   }
 
-  addMediaFilesFromOpenTabsToPlaylist (playlistId: string) {
-    this.#pageHandler.addMediaFilesFromOpenTabsToPlaylist(
-        playlistId)
+  addMediaFilesFromOpenTabsToPlaylist(playlistId: string) {
+    this.#pageHandler.addMediaFilesFromOpenTabsToPlaylist(playlistId)
   }
 
-  removeItemFromPlaylist (playlistId: string, itemId: string) {
+  removeItemFromPlaylist(playlistId: string, itemId: string) {
     this.#pageHandler.removeItemFromPlaylist(playlistId, itemId)
   }
 
-  recoverLocalData (playlistItemId: string) {
+  recoverLocalData(playlistItemId: string) {
     this.#pageHandler.recoverLocalDataForItem(playlistItemId)
   }
 
-  removeLocalData (playlistItemId: string) {
+  removeLocalData(playlistItemId: string) {
     this.#pageHandler.removeLocalDataForItem(playlistItemId)
   }
 }
 
-export function getPlaylistAPI (): API {
+export function getPlaylistAPI(): API {
   if (!apiInstance) {
     apiInstance = new API()
   }

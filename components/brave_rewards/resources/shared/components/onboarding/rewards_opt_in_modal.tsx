@@ -19,10 +19,10 @@ import { privacyPolicyURL } from '../../lib/rewards_urls'
 import * as style from './rewards_opt_in_modal.style'
 
 export type OnboardingResult =
-  'success' |
-  'wallet-generation-disabled' |
-  'country-already-declared' |
-  'unexpected-error'
+  | 'success'
+  | 'wallet-generation-disabled'
+  | 'country-already-declared'
+  | 'unexpected-error'
 
 type InitialView = 'default' | 'declare-country'
 
@@ -35,13 +35,14 @@ interface Props {
   onHideResult: () => void
 }
 
-export function RewardsOptInModal (props: Props) {
+export function RewardsOptInModal(props: Props) {
   const { getString } = React.useContext(LocaleContext)
   const [countryCode, setCountryCode] = React.useState('')
   const [processing, setProcessing] = React.useState(false)
   const [initialView] = React.useState(props.initialView)
-  const [showCountrySelect, setShowCountrySelect] =
-    React.useState(props.initialView === 'declare-country')
+  const [showCountrySelect, setShowCountrySelect] = React.useState(
+    props.initialView === 'declare-country'
+  )
 
   React.useEffect(() => {
     setProcessing(false)
@@ -52,13 +53,13 @@ export function RewardsOptInModal (props: Props) {
     }
   }, [initialView, props.result])
 
-  function getResultMessages (result: OnboardingResult) {
+  function getResultMessages(result: OnboardingResult) {
     if (result === 'success') {
       if (initialView === 'declare-country') {
         return {
           header: getString('onboardingGeoSuccessHeader'),
           text: formatMessage(getString('onboardingGeoSuccessText'), [
-            <strong key='country'>{getCountryName(countryCode)}</strong>
+            <strong key="country">{getCountryName(countryCode)}</strong>
           ])
         }
       }
@@ -70,13 +71,14 @@ export function RewardsOptInModal (props: Props) {
         header: getString('onboardingErrorHeaderDisabled'),
         text: formatMessage(getString('onboardingErrorTextDisabled'), {
           tags: {
-            $1: (content) =>
+            $1: (content) => (
               <NewTabLink
-                key='link'
-                href='https://support.brave.com/hc/en-us/articles/9312922941069'
+                key="link"
+                href="https://support.brave.com/hc/en-us/articles/9312922941069"
               >
                 {content}
               </NewTabLink>
+            )
           }
         })
       }
@@ -104,13 +106,11 @@ export function RewardsOptInModal (props: Props) {
     return (
       <Modal>
         <style.root>
-          <style.header className='onboarding-result'>
+          <style.header className="onboarding-result">
             {props.result === 'success' ? <SuccessIcon /> : <ErrorIcon />}
             {messages.header}
           </style.header>
-          <style.text>
-            {messages.text}
-          </style.text>
+          <style.text>{messages.text}</style.text>
           <style.mainAction>
             <button onClick={props.onHideResult}>
               {getString('onboardingClose')}
@@ -130,27 +130,28 @@ export function RewardsOptInModal (props: Props) {
       props.onEnable(countryCode)
     }
 
-    const text = props.initialView === 'declare-country'
-      ? getString('onboardingGeoTextDeclareCountry')
-      : getString('onboardingGeoText')
+    const text =
+      props.initialView === 'declare-country'
+        ? getString('onboardingGeoTextDeclareCountry')
+        : getString('onboardingGeoText')
 
     return (
       <Modal>
         <style.root>
-          <style.header className='country-select'>
-            <GeoPinIcon />{getString('onboardingGeoHeader')}
+          <style.header className="country-select">
+            <GeoPinIcon />
+            {getString('onboardingGeoHeader')}
           </style.header>
           <style.text>
-            {
-              formatMessage(text, {
-                tags: {
-                  $1: (content) =>
-                    <NewTabLink key='link' href={privacyPolicyURL}>
-                      {content}
-                    </NewTabLink>
-                }
-              })
-            }
+            {formatMessage(text, {
+              tags: {
+                $1: (content) => (
+                  <NewTabLink key="link" href={privacyPolicyURL}>
+                    {content}
+                  </NewTabLink>
+                )
+              }
+            })}
           </style.text>
           <style.selectCountry>
             <CountrySelect
@@ -165,7 +166,7 @@ export function RewardsOptInModal (props: Props) {
             <button
               onClick={onContinueClick}
               disabled={!countryCode || processing}
-              data-test-id='select-country-button'
+              data-test-id="select-country-button"
             >
               {processing ? <LoadingIcon /> : getString('onboardingContinue')}
             </button>
@@ -186,15 +187,14 @@ export function RewardsOptInModal (props: Props) {
     <Modal>
       <style.root>
         <style.header>
-          <BatIcon />{getString('onboardingEarnHeader')}
+          <BatIcon />
+          {getString('onboardingEarnHeader')}
         </style.header>
-        <style.text>
-          {getString('onboardingEarnText')}
-        </style.text>
+        <style.text>{getString('onboardingEarnText')}</style.text>
         <style.mainAction>
           <button
             onClick={onEnableClick}
-            data-test-id='opt-in-button'
+            data-test-id="opt-in-button"
             autoFocus
           >
             {getString('onboardingStartUsingRewards')}

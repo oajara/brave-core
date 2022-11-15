@@ -24,8 +24,15 @@ export interface Props {
   disabled: boolean
 }
 
-function LockScreen (props: Props) {
-  const { value, onSubmit, onPasswordChanged, onShowRestore, disabled, hasPasswordError } = props
+function LockScreen(props: Props) {
+  const {
+    value,
+    onSubmit,
+    onPasswordChanged,
+    onShowRestore,
+    disabled,
+    hasPasswordError
+  } = props
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && !disabled) {
@@ -49,12 +56,14 @@ function LockScreen (props: Props) {
         />
       </InputColumn>
       <NavButton
-        buttonType='primary'
+        buttonType="primary"
         text={getLocale('braveWalletLockScreenButton')}
         onSubmit={onSubmit}
         disabled={disabled}
       />
-      <RestoreButton onClick={onShowRestore}>{getLocale('braveWalletWelcomeRestoreButton')}</RestoreButton>
+      <RestoreButton onClick={onShowRestore}>
+        {getLocale('braveWalletWelcomeRestoreButton')}
+      </RestoreButton>
     </StyledWrapper>
   )
 }

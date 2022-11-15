@@ -10,22 +10,20 @@ import { AutoContributeCompletedNotification } from './notification'
 
 import { NotificationViewProps } from './notification_view'
 
-export function AutoContributeCompleted (props: NotificationViewProps) {
+export function AutoContributeCompleted(props: NotificationViewProps) {
   const { getString } = React.useContext(LocaleContext)
   const { Title, Body, Action } = props
   const { amount } = props.notification as AutoContributeCompletedNotification
 
   return (
     <div>
-      <Title style='funding'>
+      <Title style="funding">
         {getString('notificationAutoContributeCompletedTitle')}
       </Title>
       <Body>
-        {
-          formatMessage(getString('notificationAutoContributeCompletedText'), [
-            <TokenAmount key='amount' amount={amount} />
-          ])
-        }
+        {formatMessage(getString('notificationAutoContributeCompletedText'), [
+          <TokenAmount key="amount" amount={amount} />
+        ])}
       </Body>
       <Action notification={props.notification} />
     </div>

@@ -4,7 +4,7 @@
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 import IBraveTheme from 'brave-ui/theme/theme-interface'
 
-export default function customizeTheme (theme: IBraveTheme): IBraveTheme {
+export default function customizeTheme(theme: IBraveTheme): IBraveTheme {
   return {
     ...theme,
     color: {

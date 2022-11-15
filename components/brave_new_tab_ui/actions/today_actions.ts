@@ -26,7 +26,8 @@ export const anotherPageNeeded = createAction('anotherPageNeeded')
 type BackgroundErrorPayload = {
   error: Error
 }
-export const errorGettingDataFromBackground = createAction<BackgroundErrorPayload>('errorGettingDataFromBackground')
+export const errorGettingDataFromBackground =
+  createAction<BackgroundErrorPayload>('errorGettingDataFromBackground')
 
 /**
  * User has requested to read an article
@@ -39,42 +40,52 @@ export type ReadFeedItemPayload = {
 }
 export const readFeedItem = createAction<ReadFeedItemPayload>('readFeedItem')
 
-export const feedItemViewedCountChanged = createAction<number>('feedItemViewedCountChanged')
+export const feedItemViewedCountChanged = createAction<number>(
+  'feedItemViewedCountChanged'
+)
 
 export type PromotedItemViewedPayload = {
   item: BraveNews.FeedItem
   uuid: string
 }
-export const promotedItemViewed = createAction<PromotedItemViewedPayload>('promotedItemViewed')
+export const promotedItemViewed =
+  createAction<PromotedItemViewedPayload>('promotedItemViewed')
 
 export type VisitDisplayAdPayload = {
   ad: BraveNews.DisplayAd
   openInNewTab?: boolean
 }
-export const visitDisplayAd = createAction<VisitDisplayAdPayload>('visitDisplayAd')
+export const visitDisplayAd =
+  createAction<VisitDisplayAdPayload>('visitDisplayAd')
 
 export type DisplayAdViewedPayload = {
   ad: BraveNews.DisplayAd
 }
-export const displayAdViewed = createAction<DisplayAdViewedPayload>('displayAdViewed')
+export const displayAdViewed =
+  createAction<DisplayAdViewedPayload>('displayAdViewed')
 
 export type SetPublisherPrefPayload = {
   publisherId: string
   enabled: boolean | null
 }
-export const setPublisherPref = createAction<SetPublisherPrefPayload>('setPublisherPref', (publisherId: string, enabled: boolean | null) => ({ publisherId, enabled }))
+export const setPublisherPref = createAction<SetPublisherPrefPayload>(
+  'setPublisherPref',
+  (publisherId: string, enabled: boolean | null) => ({ publisherId, enabled })
+)
 
 export type RemoveDirectFeedPayload = {
   directFeed: BraveNews.Publisher
 }
-export const removeDirectFeed = createAction<RemoveDirectFeedPayload>('removeDirectFeed')
+export const removeDirectFeed =
+  createAction<RemoveDirectFeedPayload>('removeDirectFeed')
 
 export const checkForUpdate = createAction('checkForUpdate')
 
 export type IsUpdateAvailablePayload = {
   isUpdateAvailable: boolean
 }
-export const isUpdateAvailable = createAction<IsUpdateAvailablePayload>('isUpdateAvailable')
+export const isUpdateAvailable =
+  createAction<IsUpdateAvailablePayload>('isUpdateAvailable')
 
 export const resetTodayPrefsToDefault = createAction('resetTodayPrefsToDefault')
 

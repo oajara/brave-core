@@ -7,7 +7,8 @@ export const localeStrings = {
   rewardsPaymentCheckStatus: 'Check status',
   rewardsPaymentCompleted: 'Congrats! Your $1 rewards have arrived!',
   rewardsPaymentPending: 'Your $1 $2 rewards will arrive in $3',
-  rewardsPaymentProcessing: 'Your $1 $2 rewards are on the way. Keep an eye out!',
+  rewardsPaymentProcessing:
+    'Your $1 $2 rewards are on the way. Keep an eye out!',
   walletAccountLink: 'Go to your $1 account',
   walletAddFunds: 'Add Funds',
   walletAutoContribute: 'Auto-Contribute',

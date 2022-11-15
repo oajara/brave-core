@@ -6,10 +6,7 @@
 import * as React from 'react'
 import { Button } from 'brave-ui'
 import { getLocale } from '../../../../../common/locale'
-import {
-  SettingsRow,
-  SettingsText
-} from '../../../../components/default'
+import { SettingsRow, SettingsText } from '../../../../components/default'
 import { Toggle } from '../../../../components/toggle'
 import { Publishers } from '../../../../api/brave_news'
 import * as Styled from './style'
@@ -27,7 +24,7 @@ export interface Props {
   toggleShowBraveNewsButton: () => any
 }
 
-export default function BraveTodayPrefs (props: Props) {
+export default function BraveTodayPrefs(props: Props) {
   // Ensure publishers data is fetched, which won't happen
   // if user has not interacted with Brave Today on this page
   // view.
@@ -45,9 +42,11 @@ export default function BraveTodayPrefs (props: Props) {
     }
   }, [props.onClearPrefs])
 
-  const shouldShowSources = !!(props.showToday &&
+  const shouldShowSources = !!(
+    props.showToday &&
     props.publishers &&
-    Object.keys(props.publishers).length !== 0)
+    Object.keys(props.publishers).length !== 0
+  )
 
   return (
     <Styled.Section>
@@ -57,27 +56,36 @@ export default function BraveTodayPrefs (props: Props) {
           <Toggle
             checked={props.showToday}
             onChange={props.toggleShowToday}
-            size='large'
+            size="large"
           />
         </SettingsRow>
       )}
       {!category &&
         props.showToday &&
-        props.featureFlagBraveNewsSubscribeButtonEnabled &&
-        <SettingsRow>
-          <SettingsText>{getLocale('braveTodayShowToolbarButton')}</SettingsText>
-          <Toggle
-            checked={props.showBraveNewsButton}
-            onChange={props.toggleShowBraveNewsButton}
-            size='large'/>
-        </SettingsRow>}
-      {shouldShowSources &&
-      <Sources category={category} setCategory={setCategory} {...props} />
-      }
+        props.featureFlagBraveNewsSubscribeButtonEnabled && (
+          <SettingsRow>
+            <SettingsText>
+              {getLocale('braveTodayShowToolbarButton')}
+            </SettingsText>
+            <Toggle
+              checked={props.showBraveNewsButton}
+              onChange={props.toggleShowBraveNewsButton}
+              size="large"
+            />
+          </SettingsRow>
+        )}
+      {shouldShowSources && (
+        <Sources category={category} setCategory={setCategory} {...props} />
+      )}
       {!category && (
-      <SettingsRow>
-        <Button type='warn' level='tertiary' onClick={confirmAction} text={getLocale('braveTodayResetAction')} />
-      </SettingsRow>
+        <SettingsRow>
+          <Button
+            type="warn"
+            level="tertiary"
+            onClick={confirmAction}
+            text={getLocale('braveTodayResetAction')}
+          />
+        </SettingsRow>
       )}
     </Styled.Section>
   )

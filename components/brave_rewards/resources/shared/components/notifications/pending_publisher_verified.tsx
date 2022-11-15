@@ -4,11 +4,14 @@
 
 import * as React from 'react'
 
-import { LocaleContext, formatMessage } from '../../../shared/lib/locale_context'
+import {
+  LocaleContext,
+  formatMessage
+} from '../../../shared/lib/locale_context'
 import { PendingPublisherVerifiedNotification } from './notification'
 import { NotificationViewProps } from './notification_view'
 
-export function PendingPublisherVerified (props: NotificationViewProps) {
+export function PendingPublisherVerified(props: NotificationViewProps) {
   const { getString } = React.useContext(LocaleContext)
   const { Title, Body, Action } = props
   const { publisherName } =
@@ -16,15 +19,11 @@ export function PendingPublisherVerified (props: NotificationViewProps) {
 
   return (
     <div>
-      <Title>
-        {getString('notificationPublisherVerifiedTitle')}
-      </Title>
+      <Title>{getString('notificationPublisherVerifiedTitle')}</Title>
       <Body>
-        {
-          formatMessage(getString('notificationPublisherVerifiedText'), [
-            <strong key='name'>{publisherName}</strong>
-          ])
-        }
+        {formatMessage(getString('notificationPublisherVerifiedText'), [
+          <strong key="name">{publisherName}</strong>
+        ])}
       </Body>
       <Action notification={props.notification} />
     </div>

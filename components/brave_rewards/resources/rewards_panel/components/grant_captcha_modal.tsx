@@ -14,16 +14,16 @@ import * as style from './grant_captcha_modal.style'
 
 interface Props {
   grantCaptchaInfo: GrantCaptchaInfo
-  onSolve: (solution: { x: number, y: number }) => void
+  onSolve: (solution: { x: number; y: number }) => void
   onClose: () => void
 }
 
-export function GrantCaptchaModal (props: Props) {
+export function GrantCaptchaModal(props: Props) {
   const { getString } = React.useContext(LocaleContext)
   const { grantCaptchaInfo } = props
   const { grantInfo } = grantCaptchaInfo
 
-  function renderChallenge (message: string) {
+  function renderChallenge(message: string) {
     return (
       <>
         <style.header>{getString(message)}</style.header>
@@ -35,14 +35,14 @@ export function GrantCaptchaModal (props: Props) {
     )
   }
 
-  function renderPassed () {
+  function renderPassed() {
     const dateFormatter = Intl.DateTimeFormat(undefined, {
       year: 'numeric',
       month: 'numeric',
       day: 'numeric'
     })
 
-    function getStrings () {
+    function getStrings() {
       switch (grantInfo.type) {
         case 'ads':
           return {
@@ -72,15 +72,14 @@ export function GrantCaptchaModal (props: Props) {
               <TokenAmount amount={grantInfo.amount} />
             </style.summaryValue>
           </style.summaryItem>
-          {
-            grantInfo.expiresAt !== null &&
-              <style.summaryItem>
-                {getString('grantCaptchaExpiration')}
-                <style.summaryValue>
-                  {dateFormatter.format(grantInfo.expiresAt)}
-                </style.summaryValue>
-              </style.summaryItem>
-          }
+          {grantInfo.expiresAt !== null && (
+            <style.summaryItem>
+              {getString('grantCaptchaExpiration')}
+              <style.summaryValue>
+                {dateFormatter.format(grantInfo.expiresAt)}
+              </style.summaryValue>
+            </style.summaryItem>
+          )}
         </style.summary>
         <style.okButton>
           <button onClick={props.onClose}>{getString('ok')}</button>
@@ -89,15 +88,11 @@ export function GrantCaptchaModal (props: Props) {
     )
   }
 
-  function renderError () {
+  function renderError() {
     return (
       <>
-        <style.header>
-          {getString('grantCaptchaErrorTitle')}
-        </style.header>
-        <style.text>
-          {getString('grantCaptchaErrorText')}
-        </style.text>
+        <style.header>{getString('grantCaptchaErrorTitle')}</style.header>
+        <style.text>{getString('grantCaptchaErrorText')}</style.text>
         <style.okButton>
           <button onClick={props.onClose}>{getString('ok')}</button>
         </style.okButton>
@@ -105,12 +100,16 @@ export function GrantCaptchaModal (props: Props) {
     )
   }
 
-  function renderContent (): React.ReactNode {
+  function renderContent(): React.ReactNode {
     switch (props.grantCaptchaInfo.status) {
-      case 'pending': return renderChallenge('grantCaptchaTitle')
-      case 'passed': return renderPassed()
-      case 'failed': return renderChallenge('grantCaptchaFailedTitle')
-      case 'error': return renderError()
+      case 'pending':
+        return renderChallenge('grantCaptchaTitle')
+      case 'passed':
+        return renderPassed()
+      case 'failed':
+        return renderChallenge('grantCaptchaFailedTitle')
+      case 'error':
+        return renderError()
     }
   }
 

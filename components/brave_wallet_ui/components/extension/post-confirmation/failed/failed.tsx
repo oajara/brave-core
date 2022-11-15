@@ -36,10 +36,11 @@ export const TransactionFailed = (props: Props) => {
     onClickPrimaryCTA
   } = props
 
-  const [showErrorCodeModal, setShowErrorCodeModal] = React.useState<boolean>(false)
+  const [showErrorCodeModal, setShowErrorCodeModal] =
+    React.useState<boolean>(false)
 
   return (
-    <Panel navAction={onClose} title={headerTitle} headerStyle='slim'>
+    <Panel navAction={onClose} title={headerTitle} headerStyle="slim">
       <ErrorIcon />
       <Title>{getLocale('braveWalletTransactionFailedTitle')}</Title>
       <TransactionStatusDescription>
@@ -48,13 +49,13 @@ export const TransactionFailed = (props: Props) => {
       <ButtonRow>
         {errorDetailContent && (
           <NavButton
-            buttonType='secondary'
+            buttonType="secondary"
             text={getLocale('braveWalletTransactionFailedViewErrorCTA')}
             onSubmit={() => setShowErrorCodeModal(true)}
           />
         )}
         <NavButton
-          buttonType='primary'
+          buttonType="primary"
           text={getLocale('braveWalletButtonClose')}
           onSubmit={onClickPrimaryCTA}
           disabled={isPrimaryCTADisabled}
@@ -82,7 +83,10 @@ const ErrorDetail = (props: ModalProps) => {
   const { content, title, onClose } = props
 
   return (
-    <PopupModal title={getLocale('braveWalletTransactionFailedModalTitle')} onClose={onClose}>
+    <PopupModal
+      title={getLocale('braveWalletTransactionFailedModalTitle')}
+      onClose={onClose}
+    >
       <ErrorDetailTitle>{title}</ErrorDetailTitle>
 
       <ErrorDetailContentContainer>
@@ -91,7 +95,7 @@ const ErrorDetail = (props: ModalProps) => {
 
       <ButtonRow>
         <NavButton
-          buttonType='primary'
+          buttonType="primary"
           text={getLocale('braveWalletButtonClose')}
           onSubmit={onClose}
         />

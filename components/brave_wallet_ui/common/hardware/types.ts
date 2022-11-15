@@ -8,7 +8,8 @@ import { EthereumSignedTx } from './ledgerjs/eth-ledger-messages'
 import { FilSignedLotusMessage } from './ledgerjs/fil-ledger-messages'
 
 export const FilecoinNetworkTypes = [
-  BraveWallet.FILECOIN_MAINNET, BraveWallet.FILECOIN_TESTNET
+  BraveWallet.FILECOIN_MAINNET,
+  BraveWallet.FILECOIN_TESTNET
 ] as const
 export type FilecoinNetwork = typeof FilecoinNetworkTypes[number]
 
@@ -61,7 +62,8 @@ const DerivationSchemeTypes = [
   LedgerDerivationPaths.Deprecated,
   TrezorDerivationPaths.Default,
   SolDerivationPaths.Default,
-  SolDerivationPaths.LedgerLive] as const
+  SolDerivationPaths.LedgerLive
+] as const
 export type HardwareDerivationScheme = typeof DerivationSchemeTypes[number]
 
 type HardwareWalletAccountBytesAddress = BraveWallet.HardwareWalletAccount & {

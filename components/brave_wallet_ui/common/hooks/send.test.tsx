@@ -28,7 +28,13 @@ import * as MockedLib from '../async/__mocks__/lib'
 import { createWalletReducer } from '../slices/wallet.slice'
 import { mockWalletState } from '../../stories/mock-data/mock-wallet-state'
 import { createSendCryptoReducer } from '../reducers/send_crypto_reducer'
-import { mockBasicAttentionToken, mockBinanceCoinErc20Token, mockEthToken, mockMoonCatNFT, mockNewAssetOptions } from '../../stories/mock-data/mock-asset-options'
+import {
+  mockBasicAttentionToken,
+  mockBinanceCoinErc20Token,
+  mockEthToken,
+  mockMoonCatNFT,
+  mockNewAssetOptions
+} from '../../stories/mock-data/mock-asset-options'
 
 const mockSendAssetOptions = [
   mockBasicAttentionToken,
@@ -41,10 +47,12 @@ const mockAccountWithAddress = {
   address: '0x8b52c24d6e2600bdb8dbb6e8da849ed38ab7e81f'
 }
 
-const makeStoreWithActionSpies = (actionSpies: Array<{
-  actionType: string
-  spy: typeof jest.fn
-}>) => {
+const makeStoreWithActionSpies = (
+  actionSpies: Array<{
+    actionType: string
+    spy: typeof jest.fn
+  }>
+) => {
   const listener = createListenerMiddleware()
 
   const walletReducer = createWalletReducer({
@@ -84,14 +92,15 @@ const makeStoreWithActionSpies = (actionSpies: Array<{
   return store
 }
 
-function renderHookOptionsWithCustomStore (store: any) {
+function renderHookOptionsWithCustomStore(store: any) {
   return {
-    wrapper: ({ children }: { children?: React.ReactChildren }) =>
+    wrapper: ({ children }: { children?: React.ReactChildren }) => (
       <Provider store={store}>
         <LibContext.Provider value={MockedLib as any}>
           {children}
         </LibContext.Provider>
       </Provider>
+    )
   }
 }
 
@@ -139,14 +148,12 @@ describe('useSend hook', () => {
     await act(async () => result.current.submitSend())
 
     // Expected transaction calls here
-    expect(sendTransactionSpy).toBeCalledWith(
-      {
-        from: mockAccountWithAddress.address,
-        to: 'mockAddress3',
-        value: '0x8ac7230489e80000',
-        coin: BraveWallet.CoinType.ETH
-      }
-    )
+    expect(sendTransactionSpy).toBeCalledWith({
+      from: mockAccountWithAddress.address,
+      to: 'mockAddress3',
+      value: '0x8ac7230489e80000',
+      coin: BraveWallet.CoinType.ETH
+    })
     expect(sendERC20TransferSpy).toBeCalledTimes(0)
     expect(sendTransactionSpy).toBeCalledTimes(1)
     expect(sendERC721TransferFromSpy).toBeCalledTimes(0)
@@ -195,15 +202,13 @@ describe('useSend hook', () => {
     act(() => result.current.submitSend())
 
     // Expected transaction calls here
-    expect(sendERC20TransferSpy).toBeCalledWith(
-      {
-        contractAddress: mockBasicAttentionToken.contractAddress,
-        from: mockAccountWithAddress.address,
-        to: 'mockAddress2',
-        value: '0x1043561a8829300000',
-        coin: BraveWallet.CoinType.ETH
-      }
-    )
+    expect(sendERC20TransferSpy).toBeCalledWith({
+      contractAddress: mockBasicAttentionToken.contractAddress,
+      from: mockAccountWithAddress.address,
+      to: 'mockAddress2',
+      value: '0x1043561a8829300000',
+      coin: BraveWallet.CoinType.ETH
+    })
     expect(sendERC20TransferSpy).toBeCalledTimes(1)
     expect(sendTransactionSpy).toBeCalledTimes(0)
     expect(sendERC721TransferFromSpy).toBeCalledTimes(0)
@@ -251,16 +256,14 @@ describe('useSend hook', () => {
     act(() => result.current.submitSend())
 
     // Expected transaction calls here
-    expect(sendERC721TransferFromSpy).toBeCalledWith(
-      {
-        contractAddress: mockNewAssetOptions[6].contractAddress,
-        from: mockAccountWithAddress.address,
-        to: 'mockAddress2',
-        tokenId: '0x42a5',
-        value: '',
-        coin: BraveWallet.CoinType.ETH
-      }
-    )
+    expect(sendERC721TransferFromSpy).toBeCalledWith({
+      contractAddress: mockNewAssetOptions[6].contractAddress,
+      from: mockAccountWithAddress.address,
+      to: 'mockAddress2',
+      tokenId: '0x42a5',
+      value: '',
+      coin: BraveWallet.CoinType.ETH
+    })
     expect(sendERC20TransferSpy).toBeCalledTimes(0)
     expect(sendTransactionSpy).toBeCalledTimes(0)
     expect(sendERC721TransferFromSpy).toBeCalledTimes(1)
@@ -312,7 +315,10 @@ describe('useSend hook', () => {
     describe.each([
       [mockAccountWithAddress.address, 'braveWalletSameAddressError'],
       ['0x8b52c24d6e2600bdb8dbb6e8da849ed', 'braveWalletNotValidAddress'],
-      ['0x0D8775F648430679A709E98d2b0Cb6250d2887EF', 'braveWalletContractAddressError']
+      [
+        '0x0D8775F648430679A709E98d2b0Cb6250d2887EF',
+        'braveWalletContractAddressError'
+      ]
     ])('%s', (toAddress, addressError) => {
       it(`Should return a ${addressError}`, async () => {
         let sendTransactionSpy = jest.fn()

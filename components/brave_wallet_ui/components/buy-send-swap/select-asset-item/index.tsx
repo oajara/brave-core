@@ -25,11 +25,15 @@ export interface Props {
   onSelectAsset: () => void
 }
 
-function SelectAssetItem (props: Props) {
+function SelectAssetItem(props: Props) {
   const { asset, selectedNetwork, onSelectAsset } = props
 
   const AssetIconWithPlaceholder = React.useMemo(() => {
-    return withPlaceholderIcon(AssetIcon, { size: 'small', marginLeft: 0, marginRight: 8 })
+    return withPlaceholderIcon(AssetIcon, {
+      size: 'small',
+      marginLeft: 0,
+      marginRight: 8
+    })
   }, [])
 
   return (
@@ -37,11 +41,10 @@ function SelectAssetItem (props: Props) {
       <AssetIconWithPlaceholder asset={asset} network={selectedNetwork} />
       <AssetAndBalance>
         <AssetName>
-          {asset.name} {
-            asset.isErc721 && asset.tokenId
-              ? '#' + new Amount(asset.tokenId).toNumber()
-              : ''
-          }
+          {asset.name}{' '}
+          {asset.isErc721 && asset.tokenId
+            ? '#' + new Amount(asset.tokenId).toNumber()
+            : ''}
         </AssetName>
         <AssetBalance>{asset.symbol}</AssetBalance>
       </AssetAndBalance>

@@ -3,10 +3,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 import * as React from 'react'
-import {
-  TopTabNavObjectType,
-  TabNavTypes
-} from '../../../constants/types'
+import { TopTabNavObjectType, TabNavTypes } from '../../../constants/types'
 
 // Styled Components
 import {
@@ -19,10 +16,7 @@ import {
 } from './style'
 
 // Components
-import {
-  TopTabNavButton,
-  WalletMorePopup
-} from '../'
+import { TopTabNavButton, WalletMorePopup } from '../'
 
 export interface Props {
   tabList: TopTabNavObjectType[]
@@ -35,7 +29,7 @@ export interface Props {
   onClickMore?: () => void
 }
 
-function TopTabNav (props: Props) {
+function TopTabNav(props: Props) {
   const {
     tabList,
     selectedTab,
@@ -53,14 +47,14 @@ function TopTabNav (props: Props) {
 
   return (
     <StyledWrapper>
-      {tabList.map((option) =>
+      {tabList.map((option) => (
         <TopTabNavButton
           key={option.id}
           isSelected={selectedTab === option.id}
           onSubmit={onClickSelectTab(option.id)}
           text={option.name}
         />
-      )}
+      ))}
       <MoreRow>
         {hasMoreButtons ? (
           <MoreButton onClick={onClickMore}>
@@ -71,12 +65,12 @@ function TopTabNav (props: Props) {
         )}
         <Line />
       </MoreRow>
-      {showMore &&
+      {showMore && (
         <WalletMorePopup
           onClickBackup={onClickBackup}
           onClickSetting={onClickSettings}
         />
-      }
+      )}
     </StyledWrapper>
   )
 }

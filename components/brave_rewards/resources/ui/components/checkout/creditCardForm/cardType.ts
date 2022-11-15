@@ -2,17 +2,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-type CardNumberError =
-  '' |
-  'invalid-length' |
-  'pattern-mismatch' |
-  'bad-luhn'
+type CardNumberError = '' | 'invalid-length' | 'pattern-mismatch' | 'bad-luhn'
 
-type SecurityCodeError =
-  '' |
-  'invalid-security-code'
+type SecurityCodeError = '' | 'invalid-security-code'
 
-function checkLuhn (digits: string) {
+function checkLuhn(digits: string) {
   let sum = 0
   let parity = digits.length % 2
   for (let i = 0; i < digits.length; ++i) {
@@ -25,7 +19,7 @@ function checkLuhn (digits: string) {
   return sum % 10 === 0
 }
 
-function removeCardNumberFormatting (cardNumber: string) {
+function removeCardNumberFormatting(cardNumber: string) {
   return cardNumber.replace(/\s+/g, '')
 }
 
@@ -40,13 +34,16 @@ export class CardType {
   lengths: number[] = [16]
   securityCodeLength: number = 3
 
-  constructor (init: object) {
+  constructor(init: object) {
     Object.assign(this, init)
   }
 
-  formatCardNumber (cardNumber: string) {
+  formatCardNumber(cardNumber: string) {
     cardNumber = removeCardNumberFormatting(cardNumber)
-    const maxLength = this.lengths.reduce((prev, current) => Math.max(prev, current), 0)
+    const maxLength = this.lengths.reduce(
+      (prev, current) => Math.max(prev, current),
+      0
+    )
     if (cardNumber.length > maxLength) {
       cardNumber = cardNumber.slice(0, maxLength)
     }
@@ -63,7 +60,7 @@ export class CardType {
     return formatted
   }
 
-  validateCardNumber (cardNumber: string): CardNumberError {
+  validateCardNumber(cardNumber: string): CardNumberError {
     cardNumber = removeCardNumberFormatting(cardNumber)
     if (!this.lengths.includes(cardNumber.length)) {
       return 'invalid-length'
@@ -77,22 +74,22 @@ export class CardType {
     return ''
   }
 
-  validateSecurityCode (code: string): SecurityCodeError {
+  validateSecurityCode(code: string): SecurityCodeError {
     if (code.length !== this.securityCodeLength || /^\D$/.test(code)) {
       return 'invalid-security-code'
     }
     return ''
   }
 
-  removeCardNumberFormatting (cardNumber: string) {
+  removeCardNumberFormatting(cardNumber: string) {
     return removeCardNumberFormatting(cardNumber)
   }
 
-  static fromIdentifier (id: string) {
+  static fromIdentifier(id: string) {
     return cardTypes.get(id) || null
   }
 
-  static fromCardNumber (cardNumber: string) {
+  static fromCardNumber(cardNumber: string) {
     cardNumber = removeCardNumberFormatting(cardNumber)
     for (const [, cardType] of cardTypes) {
       if (cardType.pattern.test(cardNumber)) {
@@ -103,7 +100,7 @@ export class CardType {
   }
 }
 
-function registerTypes (initList: object[]) {
+function registerTypes(initList: object[]) {
   for (const init of initList) {
     const cardType = new CardType(init)
     cardTypes.set(cardType.id, cardType)

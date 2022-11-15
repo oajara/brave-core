@@ -5,11 +5,7 @@
 
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import {
-  Redirect,
-  Route,
-  Switch
-} from 'react-router'
+import { Redirect, Route, Switch } from 'react-router'
 
 // components
 import { BackupRecoveryPhrase } from '../backup-wallet/backup-recovery-phrase/backup-recovery-phrase'
@@ -25,84 +21,87 @@ import { PageState, WalletRoutes, WalletState } from '../../../constants/types'
 import { OnboardingSuccess } from './onboarding-success/onboarding-success'
 
 export const OnboardingRoutes = () => {
- // redux
- const isWalletCreated = useSelector(({ wallet }: { wallet: WalletState }) => wallet.isWalletCreated)
- const termsAcknowledged = useSelector(({ page }: { page: PageState }) => page.walletTermsAcknowledged)
+  // redux
+  const isWalletCreated = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.isWalletCreated
+  )
+  const termsAcknowledged = useSelector(
+    ({ page }: { page: PageState }) => page.walletTermsAcknowledged
+  )
 
   // render
   return (
     <Switch>
-
-      {!isWalletCreated &&
+      {!isWalletCreated && (
         <Route path={WalletRoutes.OnboardingWelcome} exact>
           <OnboardingWelcome />
         </Route>
-      }
+      )}
 
-      {!isWalletCreated &&
+      {!isWalletCreated && (
         <Route path={WalletRoutes.Onboarding} exact>
           <Redirect to={WalletRoutes.OnboardingWelcome} />
         </Route>
-      }
+      )}
 
-      {(!termsAcknowledged && !isWalletCreated) &&
+      {!termsAcknowledged && !isWalletCreated && (
         <Redirect to={WalletRoutes.OnboardingWelcome} />
-      }
+      )}
 
       <Route path={WalletRoutes.OnboardingCreatePassword} exact>
         <OnboardingCreatePassword />
       </Route>
 
-      {!isWalletCreated &&
+      {!isWalletCreated && (
         <Route path={WalletRoutes.OnboardingImportOrRestore} exact>
           <OnboardingImportOrRestoreWallet />
         </Route>
-      }
+      )}
 
-      {!isWalletCreated &&
+      {!isWalletCreated && (
         <Route path={WalletRoutes.OnboardingRestoreWallet} exact>
           <OnboardingRestoreFromRecoveryPhrase
-            key='seed' // keys are set here to prevent holding state between page changes
-            restoreFrom='seed'
+            key="seed" // keys are set here to prevent holding state between page changes
+            restoreFrom="seed"
           />
         </Route>
-      }
+      )}
 
-      {!isWalletCreated &&
+      {!isWalletCreated && (
         <Route path={WalletRoutes.OnboardingImportMetaMask} exact>
           <OnboardingRestoreFromRecoveryPhrase
-            key='metamask'
-            restoreFrom='metamask'
+            key="metamask"
+            restoreFrom="metamask"
           />
         </Route>
-      }
+      )}
 
-      {!isWalletCreated &&
+      {!isWalletCreated && (
         <Route path={WalletRoutes.OnboardingImportMetaMaskSeed} exact>
           <OnboardingRestoreFromRecoveryPhrase
-            key='metamask-seed'
-            restoreFrom='metamask-seed'
+            key="metamask-seed"
+            restoreFrom="metamask-seed"
           />
         </Route>
-      }
+      )}
 
-      {!isWalletCreated &&
+      {!isWalletCreated && (
         <Route path={WalletRoutes.OnboardingImportCryptoWallets} exact>
           <OnboardingRestoreFromRecoveryPhrase
-            key='legacy'
-            restoreFrom='legacy'
+            key="legacy"
+            restoreFrom="legacy"
           />
         </Route>
-      }
+      )}
 
-      {!isWalletCreated &&
+      {!isWalletCreated && (
         <Route path={WalletRoutes.OnboardingImportCryptoWalletsSeed} exact>
           <OnboardingRestoreFromRecoveryPhrase
-            key='legacy-seed'
-            restoreFrom='legacy-seed'
+            key="legacy-seed"
+            restoreFrom="legacy-seed"
           />
         </Route>
-      }
+      )}
 
       {!isWalletCreated && <Redirect to={WalletRoutes.OnboardingWelcome} />}
 
@@ -123,7 +122,6 @@ export const OnboardingRoutes = () => {
       </Route>
 
       <Redirect to={WalletRoutes.OnboardingComplete} />
-
     </Switch>
   )
 }

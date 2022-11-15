@@ -11,20 +11,16 @@ import { TokenAmount } from '../token_amount'
 import { NotificationViewProps } from './notification_view'
 import { GrantAvailableGraphic } from '../grant_available_graphic'
 
-function OverlapWithCardHeader (props: { children: React.ReactChild }) {
-  return (
-    <div style={{ marginTop: '-20px' }}>
-      {props.children}
-    </div>
-  )
+function OverlapWithCardHeader(props: { children: React.ReactChild }) {
+  return <div style={{ marginTop: '-20px' }}>{props.children}</div>
 }
 
-export function GrantAvailable (props: NotificationViewProps) {
+export function GrantAvailable(props: NotificationViewProps) {
   const { getString } = React.useContext(LocaleContext)
   const { Title, Body, Action } = props
   const { grantInfo } = props.notification as GrantAvailableNotification
 
-  function getMessages () {
+  function getMessages() {
     switch (grantInfo.type) {
       case 'ads':
         return {
@@ -57,40 +53,34 @@ export function GrantAvailable (props: NotificationViewProps) {
           <GrantAvailableGraphic />
         </OverlapWithCardHeader>
       </Body>
-      <Title style='custom'>
+      <Title style="custom">
         {formatMessage(getString(messages.title), [grantMonth])}
       </Title>
-      {
-        grantInfo.amount > 0 && messages.amount &&
-          <Body>
-            {
-              formatMessage(getString(messages.amount), [
-                grantMonth,
-                <strong key='amount'>
-                  <TokenAmount
-                    amount={grantInfo.amount}
-                    minimumFractionDigits={1}
-                  />
-                </strong>
-              ])
-            }
-          </Body>
-      }
+      {grantInfo.amount > 0 && messages.amount && (
+        <Body>
+          {formatMessage(getString(messages.amount), [
+            grantMonth,
+            <strong key="amount">
+              <TokenAmount
+                amount={grantInfo.amount}
+                minimumFractionDigits={1}
+              />
+            </strong>
+          ])}
+        </Body>
+      )}
       <Action
         notification={props.notification}
         label={getString(messages.button)}
         action={action}
       />
-      {
-        daysToClaim &&
-          <Body>
-            {
-              formatMessage(getString('notificationGrantDaysRemaining'), [
-                <strong key='days'>{daysToClaim}</strong>
-              ])
-            }
-          </Body>
-      }
+      {daysToClaim && (
+        <Body>
+          {formatMessage(getString('notificationGrantDaysRemaining'), [
+            <strong key="days">{daysToClaim}</strong>
+          ])}
+        </Body>
+      )}
     </div>
   )
 }

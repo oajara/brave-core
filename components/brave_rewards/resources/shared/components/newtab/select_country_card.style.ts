@@ -10,9 +10,9 @@ export const root = styled.div`
   padding: 20px 16px;
   font-family: var(--brave-font-heading);
   text-align: center;
-  background: linear-gradient(137.04deg, #346FE1 33.4%, #5844C3 82.8%);
+  background: linear-gradient(137.04deg, #346fe1 33.4%, #5844c3 82.8%);
   border-radius: 8px;
-  color: var(--brave-palette-white);;
+  color: var(--brave-palette-white); ;
 `
 
 export const header = styled.div`

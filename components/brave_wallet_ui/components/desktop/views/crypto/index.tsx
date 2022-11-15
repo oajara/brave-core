@@ -4,7 +4,13 @@
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 
 import * as React from 'react'
-import { Route, useHistory, useParams, Switch, Redirect } from 'react-router-dom'
+import {
+  Route,
+  useHistory,
+  useParams,
+  Switch,
+  Redirect
+} from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 // actions
@@ -67,14 +73,25 @@ const CryptoView = (props: Props) => {
   useBalanceUpdater()
 
   // accounts tab state
-  const accountToRemove = useSelector(({ accountsTab }: { accountsTab: AccountsTabState }) => accountsTab.accountToRemove)
-  const showAccountModal = useSelector(({ accountsTab }: { accountsTab: AccountsTabState }) => accountsTab.showAccountModal)
-  const selectedAccount = useSelector(({ accountsTab }: { accountsTab: AccountsTabState }) => accountsTab.selectedAccount)
+  const accountToRemove = useSelector(
+    ({ accountsTab }: { accountsTab: AccountsTabState }) =>
+      accountsTab.accountToRemove
+  )
+  const showAccountModal = useSelector(
+    ({ accountsTab }: { accountsTab: AccountsTabState }) =>
+      accountsTab.showAccountModal
+  )
+  const selectedAccount = useSelector(
+    ({ accountsTab }: { accountsTab: AccountsTabState }) =>
+      accountsTab.selectedAccount
+  )
 
   // state
   // const [hideNav, setHideNav] = React.useState<boolean>(false)
-  const [showBackupWarning, setShowBackupWarning] = React.useState<boolean>(needsBackup)
-  const [showDefaultWalletBanner, setShowDefaultWalletBanner] = React.useState<boolean>(needsBackup)
+  const [showBackupWarning, setShowBackupWarning] =
+    React.useState<boolean>(needsBackup)
+  const [showDefaultWalletBanner, setShowDefaultWalletBanner] =
+    React.useState<boolean>(needsBackup)
   const [showMore, setShowMore] = React.useState<boolean>(false)
 
   // routing
@@ -137,66 +154,79 @@ const CryptoView = (props: Props) => {
     return (
       (defaultEthereumWallet !== BraveWallet.DefaultWallet.BraveWallet ||
         defaultSolanaWallet !== BraveWallet.DefaultWallet.BraveWallet) &&
-      (defaultEthereumWallet !== BraveWallet.DefaultWallet.BraveWalletPreferExtension ||
-        defaultSolanaWallet !== BraveWallet.DefaultWallet.BraveWalletPreferExtension ||
-        (defaultEthereumWallet === BraveWallet.DefaultWallet.BraveWalletPreferExtension &&
-          isMetaMaskInstalled))) &&
+      (defaultEthereumWallet !==
+        BraveWallet.DefaultWallet.BraveWalletPreferExtension ||
+        defaultSolanaWallet !==
+          BraveWallet.DefaultWallet.BraveWalletPreferExtension ||
+        (defaultEthereumWallet ===
+          BraveWallet.DefaultWallet.BraveWalletPreferExtension &&
+          isMetaMaskInstalled)) &&
       showDefaultWalletBanner
-  }, [defaultEthereumWallet, defaultSolanaWallet, isMetaMaskInstalled, showDefaultWalletBanner])
+    )
+  }, [
+    defaultEthereumWallet,
+    defaultSolanaWallet,
+    isMetaMaskInstalled,
+    showDefaultWalletBanner
+  ])
 
   // memos
-  const nav = React.useMemo(() => (
-    <>
-      <TopTabNav
-        selectedTab={category}
-        showMore={showMore}
-        hasMoreButtons={true}
-        onSelectTab={onSelectTab}
-        tabList={TOP_NAV_OPTIONS}
-        onClickBackup={onShowBackup}
-        onClickSettings={onClickSettings}
-        onClickMore={onClickShowMore}
-      />
-      {showBanner &&
-        <WalletBanner
-          onDismiss={onDismissDefaultWalletBanner}
-          onClick={onOpenWalletSettings}
-          bannerType='warning'
-          buttonText={getLocale('braveWalletWalletPopupSettings')}
-          description={getLocale('braveWalletDefaultWalletBanner')}
+  const nav = React.useMemo(
+    () => (
+      <>
+        <TopTabNav
+          selectedTab={category}
+          showMore={showMore}
+          hasMoreButtons={true}
+          onSelectTab={onSelectTab}
+          tabList={TOP_NAV_OPTIONS}
+          onClickBackup={onShowBackup}
+          onClickSettings={onClickSettings}
+          onClickMore={onClickShowMore}
         />
-      }
-      {needsBackup && showBackupWarning &&
-        <WalletBanner
-          onDismiss={onDismissBackupWarning}
-          onClick={onShowBackup}
-          bannerType='danger'
-          buttonText={getLocale('braveWalletBackupButton')}
-          description={getLocale('braveWalletBackupWarningText')}
-        />
-      }
-    </>
-  ), [
-    category,
-    showBanner,
-    needsBackup,
-    onClickSettings,
-    onClickShowMore,
-    onDismissBackupWarning,
-    onDismissDefaultWalletBanner,
-    onOpenWalletSettings,
-    onSelectTab,
-    onShowBackup,
-    showBackupWarning,
-    showMore
-  ])
+        {showBanner && (
+          <WalletBanner
+            onDismiss={onDismissDefaultWalletBanner}
+            onClick={onOpenWalletSettings}
+            bannerType="warning"
+            buttonText={getLocale('braveWalletWalletPopupSettings')}
+            description={getLocale('braveWalletDefaultWalletBanner')}
+          />
+        )}
+        {needsBackup && showBackupWarning && (
+          <WalletBanner
+            onDismiss={onDismissBackupWarning}
+            onClick={onShowBackup}
+            bannerType="danger"
+            buttonText={getLocale('braveWalletBackupButton')}
+            description={getLocale('braveWalletBackupWarningText')}
+          />
+        )}
+      </>
+    ),
+    [
+      category,
+      showBanner,
+      needsBackup,
+      onClickSettings,
+      onClickShowMore,
+      onDismissBackupWarning,
+      onDismissDefaultWalletBanner,
+      onOpenWalletSettings,
+      onSelectTab,
+      onShowBackup,
+      showBackupWarning,
+      showMore
+    ]
+  )
 
   // render
   return (
     <StyledWrapper onClick={onClickHideMore}>
       <Switch>
         {/* Portfolio */}
-        <Route path={WalletRoutes.AddAssetModal} exact>{/* Show portfolio overview in background */}
+        <Route path={WalletRoutes.AddAssetModal} exact>
+          {/* Show portfolio overview in background */}
           {nav}
           <PortfolioOverview />
         </Route>
@@ -211,15 +241,14 @@ const CryptoView = (props: Props) => {
         </Route>
 
         {/* Accounts */}
-        <Route path={WalletRoutes.AddAccountModal}>{/* Show accounts overview in background */}
+        <Route path={WalletRoutes.AddAccountModal}>
+          {/* Show accounts overview in background */}
           {nav}
           <Accounts />
         </Route>
 
         <Route path={WalletRoutes.Account}>
-          <Account
-            goBack={goBack}
-          />
+          <Account goBack={goBack} />
         </Route>
 
         <Route path={WalletRoutes.Accounts}>
@@ -234,9 +263,7 @@ const CryptoView = (props: Props) => {
 
         <Route path={WalletRoutes.MarketSub} exact={true}>
           {nav}
-          <PortfolioAsset
-            isShowingMarketData={true}
-          />
+          <PortfolioAsset isShowingMarketData={true} />
         </Route>
 
         <Route path={WalletRoutes.Nfts} exact={true}>
@@ -245,15 +272,12 @@ const CryptoView = (props: Props) => {
         </Route>
 
         <Redirect to={sessionRoute || WalletRoutes.Portfolio} />
-
       </Switch>
 
       {/* modals */}
       <Switch>
         <Route path={WalletRoutes.AddAssetModal} exact>
-          <EditVisibleAssetsModal
-            onClose={hideVisibleAssetsModal}
-          />
+          <EditVisibleAssetsModal onClose={hideVisibleAssetsModal} />
         </Route>
 
         <Route path={WalletRoutes.AddAccountModal}>
@@ -261,13 +285,9 @@ const CryptoView = (props: Props) => {
         </Route>
       </Switch>
 
-      {accountToRemove !== undefined &&
-        <ConfirmPasswordModal />
-      }
+      {accountToRemove !== undefined && <ConfirmPasswordModal />}
 
-      {showAccountModal && selectedAccount &&
-        <AccountSettingsModal />
-      }
+      {showAccountModal && selectedAccount && <AccountSettingsModal />}
     </StyledWrapper>
   )
 }

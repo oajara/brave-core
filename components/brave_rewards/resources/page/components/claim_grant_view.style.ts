@@ -84,8 +84,7 @@ export const action = styled.div`
     line-height: 18px;
 
     &:hover {
-      background:
-        linear-gradient(rgba(15, 28, 45, .05), rgba(15, 28, 45, .1)),
+      background: linear-gradient(rgba(15, 28, 45, 0.05), rgba(15, 28, 45, 0.1)),
         var(--brave-palette-blurple500);
     }
 

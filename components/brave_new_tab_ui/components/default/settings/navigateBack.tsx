@@ -29,13 +29,13 @@ const Back = styled('button')`
 
   &:focus,
   &:hover {
-    color: ${p => p.theme.color.brandBraveInteracting}
+    color: ${(p) => p.theme.color.brandBraveInteracting};
   }
   &:active {
-    color: ${p => p.theme.color.brandBraveActive}
+    color: ${(p) => p.theme.color.brandBraveActive};
   }
   &:focus-visible {
-    outline: solid 1px ${p => p.theme.color.brandBrave};
+    outline: solid 1px ${(p) => p.theme.color.brandBrave};
   }
 `
 
@@ -44,14 +44,18 @@ const Icon = styled('div')`
   height: 16px;
 `
 
-export default function NavigateBack (props: Props) {
+export default function NavigateBack(props: Props) {
   const onClick = React.useCallback(() => {
     props.onBack()
   }, [props.onBack])
   return (
     <Back onClick={onClick}>
-      <Icon><ArrowLeftIcon /></Icon>
-      <span>{ props.title ? props.title : getLocale('settingsNavigateBack')}</span>
+      <Icon>
+        <ArrowLeftIcon />
+      </Icon>
+      <span>
+        {props.title ? props.title : getLocale('settingsNavigateBack')}
+      </span>
     </Back>
   )
 }

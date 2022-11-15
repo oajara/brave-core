@@ -26,18 +26,18 @@ export const SelectBox = styled('select')<SelectBoxProps>`
   width: 100%;
   appearance: none;
   height: 32px;
-  color: ${p => p.theme.color.text};
+  color: ${(p) => p.theme.color.text};
   font-size: 12px;
   font-weight: 500;
   line-height: 18px;
-  font-family: ${p => p.theme.fontFamily.heading};
-  border: 1px solid ${p => p.theme.color.inputBorder};
+  font-family: ${(p) => p.theme.fontFamily.heading};
+  border: 1px solid ${(p) => p.theme.color.inputBorder};
   background: url(${caratUrl}) 97% / 16px no-repeat transparent;
   /* avoid text overflow w/ carat */
   -webkit-padding-start: 10px;
   -webkit-padding-end: 32px;
   outline-width: 2px;
-  outline-color: ${p => p.theme.color.brandBrave};
+  outline-color: ${(p) => p.theme.color.brandBrave};
   cursor: pointer;
   margin: 0 16px;
 
@@ -46,16 +46,18 @@ export const SelectBox = styled('select')<SelectBoxProps>`
     color: ${palette.black};
   }
 
-  ${(p: SelectBoxProps) => p.disabled
-    ? css`
-      user-select: none;
-      opacity: 0.6;
-    ` : ''
-  }
-  ${(p: SelectBoxProps) => p.multiple
-    ? css`
-      padding: 6px;
-      background: none;
-    ` : ''
-  }
+  ${(p: SelectBoxProps) =>
+    p.disabled
+      ? css`
+          user-select: none;
+          opacity: 0.6;
+        `
+      : ''}
+  ${(p: SelectBoxProps) =>
+    p.multiple
+      ? css`
+          padding: 6px;
+          background: none;
+        `
+      : ''}
 `

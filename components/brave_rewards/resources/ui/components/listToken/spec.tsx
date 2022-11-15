@@ -9,7 +9,11 @@ import ListToken from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('ListToken tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><ListToken id='list' {...props} value={10} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <ListToken id="list" {...props} value={10} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

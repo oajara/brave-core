@@ -24,7 +24,12 @@ interface Props {
   text?: string
 }
 
-export const CopyTooltip = ({ children, tooltipText, actionText, text }: Props) => {
+export const CopyTooltip = ({
+  children,
+  tooltipText,
+  actionText,
+  text
+}: Props) => {
   const { isCopied, copyToClipboard } = useCopyToClipboard(1500)
 
   const handleClick = React.useCallback(async () => {
@@ -37,7 +42,9 @@ export const CopyTooltip = ({ children, tooltipText, actionText, text }: Props) 
     <StyledWrapper onClick={handleClick}>
       <Tooltip
         text={tooltipText || getLocale('braveWalletToolTipCopyToClipboard')}
-        actionText={actionText || getLocale('braveWalletToolTipCopiedToClipboard')}
+        actionText={
+          actionText || getLocale('braveWalletToolTipCopiedToClipboard')
+        }
         isActionVisible={isCopied}
       >
         {children}

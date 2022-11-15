@@ -46,7 +46,8 @@ _DesktopSideNav.story = {
 }
 
 export const _DesktopTopTabNav = () => {
-  const [selectedTab, setSelectedTab] = React.useState<TopTabNavTypes>('portfolio')
+  const [selectedTab, setSelectedTab] =
+    React.useState<TopTabNavTypes>('portfolio')
 
   const onSelectTab = (path: TopTabNavTypes) => {
     setSelectedTab(path)
@@ -68,7 +69,10 @@ _DesktopTopTabNav.story = {
 }
 
 export const _LineChartControls = () => {
-  const [selectedTimeline, setSelectedTimeline] = React.useState<BraveWallet.AssetPriceTimeframe>(BraveWallet.AssetPriceTimeframe.OneDay)
+  const [selectedTimeline, setSelectedTimeline] =
+    React.useState<BraveWallet.AssetPriceTimeframe>(
+      BraveWallet.AssetPriceTimeframe.OneDay
+    )
 
   return (
     <DesktopComponentWrapper>
@@ -86,10 +90,12 @@ _LineChartControls.story = {
 }
 
 export const _SweepstakesBanner = () => {
-  return <SweepstakesBanner
-    startDate={new Date(Date.now())}
-    endDate={new Date(Date.now() + 1)}
-  />
+  return (
+    <SweepstakesBanner
+      startDate={new Date(Date.now())}
+      endDate={new Date(Date.now() + 1)}
+    />
+  )
 }
 
 _SweepstakesBanner.story = {
@@ -98,19 +104,17 @@ _SweepstakesBanner.story = {
 
 export const _LoadingSkeleton = () => {
   return (
-  <div
-    style={{
-      width: '600px',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center'
-    }}>
-    <LoadingSkeleton
-      width={500}
-      height={20}
-      count={5}
-    />
-  </div>)
+    <div
+      style={{
+        width: '600px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
+    >
+      <LoadingSkeleton width={500} height={20} count={5} />
+    </div>
+  )
 }
 
 _LoadingSkeleton.story = {
@@ -118,9 +122,7 @@ _LoadingSkeleton.story = {
 }
 
 export const _BuySendSwapDeposit = () => {
-  return (
-    <BuySendSwapDepositNav />
-  )
+  return <BuySendSwapDepositNav />
 }
 
 _BuySendSwapDeposit.story = {

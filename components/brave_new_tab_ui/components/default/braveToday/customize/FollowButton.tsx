@@ -14,25 +14,28 @@ interface Props extends Omit<ButtonProps, 'isPrimary'> {
 }
 
 const StyledButton = styled.div<{ following: boolean }>`
-  &> button {
-    --background: #FFF;
+  & > button {
+    --background: #fff;
     padding: 5px 14px;
-    ${p => p.following && css`
-      color: var(--interactive5);
-      --inner-border-color: var(--interactive5);
-      --outer-border-color: var(--interactive5);
-    `}
+    ${(p) =>
+      p.following &&
+      css`
+        color: var(--interactive5);
+        --inner-border-color: var(--interactive5);
+        --outer-border-color: var(--interactive5);
+      `}
   }
 `
 
-export default function FollowButton (props: Props) {
+export default function FollowButton(props: Props) {
   const { following, className, ...rest } = props
-  return <StyledButton className={className} following={following}>
-    <Button {...rest} scale='tiny' isPrimary={!following}>
-      {following
-        ? getLocale('braveNewsFollowButtonFollowing')
-        : getLocale('braveNewsFollowButtonNotFollowing')
-      }
-    </Button>
-  </StyledButton>
+  return (
+    <StyledButton className={className} following={following}>
+      <Button {...rest} scale="tiny" isPrimary={!following}>
+        {following
+          ? getLocale('braveNewsFollowButtonFollowing')
+          : getLocale('braveNewsFollowButtonNotFollowing')}
+      </Button>
+    </StyledButton>
+  )
 }

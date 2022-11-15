@@ -4,7 +4,9 @@
 
 import styled from 'styled-components'
 import { BatColorIcon } from 'brave-ui/components/icons'
-import Button, { Props as ButtonProps } from 'brave-ui/components/buttonsIndicators/button'
+import Button, {
+  Props as ButtonProps
+} from 'brave-ui/components/buttonsIndicators/button'
 import { ComponentType } from 'react'
 
 export const Content = styled.div`
@@ -19,7 +21,7 @@ export const WalletInfoPanel = styled.div<{ hasSufficientFunds?: boolean }>`
   left: 0;
 
   > * {
-    opacity: ${p => p.hasSufficientFunds ? '1' : '.5'};
+    opacity: ${(p) => (p.hasSufficientFunds ? '1' : '.5')};
   }
 `
 
@@ -58,33 +60,33 @@ export const BatSymbol = styled.span`
 
 export const ExchangeAmount = styled.span`
   font-size: 18px;
-  color: ${p => p.theme.palette.grey600};
+  color: ${(p) => p.theme.palette.grey600};
   padding-left: 14px;
 `
 
 export const LastUpdated = styled.div`
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   font-size: 12px;
-  color: ${p => p.theme.palette.grey500};
+  color: ${(p) => p.theme.palette.grey500};
   padding-top: 7px;
   padding-left: 2px;
   opacity: 1;
 `
 
 export const NotEnoughFunds = styled.div`
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   font-size: 14px;
-  color: ${p => p.theme.palette.grey600};
+  color: ${(p) => p.theme.palette.grey600};
   padding: 2px 0 0 5px;
 `
 
 export const TermsOfSale = styled.div`
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   font-size: 12px;
   text-align: center;
 
   a {
     font-weight: bold;
-    color: ${p => p.theme.palette.black};
+    color: ${(p) => p.theme.palette.black};
   }
 `

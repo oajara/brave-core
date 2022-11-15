@@ -54,48 +54,50 @@ export const Tooltip: React.FC<Props> = ({
   }, [disableHoverEvents])
 
   // memos
-  const toolTipPointer = React.useMemo(() => (
-    <Pointer
-      position={pointerPosition ?? 'center'}
-      verticalPosition={verticalPosition ?? 'below'}
-    />
-  ), [position, verticalPosition, pointerPosition])
+  const toolTipPointer = React.useMemo(
+    () => (
+      <Pointer
+        position={pointerPosition ?? 'center'}
+        verticalPosition={verticalPosition ?? 'below'}
+      />
+    ),
+    [position, verticalPosition, pointerPosition]
+  )
 
-  const toolTip = React.useMemo(() => active && isVisible && (
-    <TipWrapper
-      position={position ?? 'center'}
-      verticalPosition={verticalPosition ?? 'below'}
-    >
+  const toolTip = React.useMemo(
+    () =>
+      active &&
+      isVisible && (
+        <TipWrapper
+          position={position ?? 'center'}
+          verticalPosition={verticalPosition ?? 'below'}
+        >
+          {!isActionVisible && verticalPosition === 'below' && toolTipPointer}
 
-      {!isActionVisible && verticalPosition === 'below' && toolTipPointer}
-
-      {isActionVisible
-        ? <ActionNotification>
-            {actionText}
-          </ActionNotification>
-
-        : <Tip maxWidth={maxWidth} isAddress={isAddress}>
-            {text}
-          </Tip>
-      }
-      {!isActionVisible && verticalPosition === 'above' && toolTipPointer}
-    </TipWrapper>
-  ), [
-    active,
-    isVisible,
-    position,
-    verticalPosition,
-    isAddress,
-    text,
-    isActionVisible
-  ])
+          {isActionVisible ? (
+            <ActionNotification>{actionText}</ActionNotification>
+          ) : (
+            <Tip maxWidth={maxWidth} isAddress={isAddress}>
+              {text}
+            </Tip>
+          )}
+          {!isActionVisible && verticalPosition === 'above' && toolTipPointer}
+        </TipWrapper>
+      ),
+    [
+      active,
+      isVisible,
+      position,
+      verticalPosition,
+      isAddress,
+      text,
+      isActionVisible
+    ]
+  )
 
   // render
   return (
-    <TipAndChildrenWrapper
-      onMouseEnter={showTip}
-      onMouseLeave={hideTip}
-    >
+    <TipAndChildrenWrapper onMouseEnter={showTip} onMouseLeave={hideTip}>
       {verticalPosition === 'above' && toolTip}
       {children}
       {verticalPosition === 'below' && toolTip}

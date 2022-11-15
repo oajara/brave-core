@@ -8,10 +8,4 @@ import PartyIcon from './party.png'
 import QRIcon from './qr.png'
 import SearchIcon from './search-icon.png'
 
-export {
-  HideIcon,
-  ShowIcon,
-  PartyIcon,
-  QRIcon,
-  SearchIcon
-}
+export { HideIcon, ShowIcon, PartyIcon, QRIcon, SearchIcon }

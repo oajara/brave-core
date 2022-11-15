@@ -166,7 +166,7 @@ class Binance extends React.PureComponent<Props, State> {
   private convertTimer: any
   private refreshInterval: any
 
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       fiatShowing: false,
@@ -208,7 +208,7 @@ class Binance extends React.PureComponent<Props, State> {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { userTLDAutoSet } = this.props
 
     if (this.props.userAuthed) {
@@ -240,11 +240,11 @@ class Binance extends React.PureComponent<Props, State> {
     })
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearInterval(this.refreshInterval)
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (!prevProps.userAuthed && this.props.userAuthed) {
       this.props.onUpdateActions()
       this.checkSetRefreshInterval()
@@ -351,16 +351,14 @@ class Binance extends React.PureComponent<Props, State> {
   }
 
   onSetHideBalance = () => {
-    this.props.onSetHideBalance(
-      !this.props.hideBalance
-    )
+    this.props.onSetHideBalance(!this.props.hideBalance)
   }
 
-  setSelectedView (view: string) {
+  setSelectedView(view: string) {
     this.props.onSetSelectedView(view)
   }
 
-  setCurrentDepositAsset (asset: string) {
+  setCurrentDepositAsset(asset: string) {
     this.setState({
       currentDepositAsset: asset
     })
@@ -372,39 +370,42 @@ class Binance extends React.PureComponent<Props, State> {
     }
   }
 
-  setCurrentConvertAsset (asset: string) {
+  setCurrentConvertAsset(asset: string) {
     this.setState({
       currentConvertTo: asset,
       convertToShowing: false
     })
   }
 
-  setIsBuyView (isBuyView: boolean) {
+  setIsBuyView(isBuyView: boolean) {
     this.setState({ isBuyView })
   }
 
   processConvert = () => {
     const { currentConvertId } = this.state
-    chrome.binance.confirmConvert(currentConvertId, (success: boolean, message: string) => {
-      if (success) {
-        this.setState({ convertSuccess: true })
-      } else {
-        this.setState({
-          convertFailed: true,
-          convertError: message
-        })
+    chrome.binance.confirmConvert(
+      currentConvertId,
+      (success: boolean, message: string) => {
+        if (success) {
+          this.setState({ convertSuccess: true })
+        } else {
+          this.setState({
+            convertFailed: true,
+            convertError: message
+          })
+        }
       }
-    })
+    )
   }
 
-  setInitialAsset (asset: string) {
+  setInitialAsset(asset: string) {
     this.setState({
       currenciesShowing: false
     })
     this.props.onSetInitialAsset(asset)
   }
 
-  setInitialFiat (fiat: string) {
+  setInitialFiat(fiat: string) {
     this.setState({
       fiatShowing: false
     })
@@ -478,18 +479,16 @@ class Binance extends React.PureComponent<Props, State> {
 
   checkMeetsConvertMinimum = () => {
     const { convertAssets } = this.props
-    const {
-      currentConvertFrom,
-      currentConvertTo,
-      currentConvertAmount
-    } = this.state
+    const { currentConvertFrom, currentConvertTo, currentConvertAmount } =
+      this.state
 
     const subSelector = convertAssets[currentConvertFrom].find((item: any) => {
       return item.asset === currentConvertTo
     })
 
     const minAmount = (subSelector && subSelector.minAmount) || '0.00'
-    const meetsMinimum = parseFloat(currentConvertAmount) >= parseFloat(minAmount)
+    const meetsMinimum =
+      parseFloat(currentConvertAmount) >= parseFloat(minAmount)
 
     return {
       success: meetsMinimum,
@@ -498,16 +497,16 @@ class Binance extends React.PureComponent<Props, State> {
   }
 
   shouldShowConvertPreview = () => {
-    const {
-      currentConvertFrom,
-      currentConvertTo,
-      currentConvertAmount
-    } = this.state
+    const { currentConvertFrom, currentConvertTo, currentConvertAmount } =
+      this.state
     const { accountBalances } = this.props
 
     // As there are trading fees we shouldn't proceed even in equal amounts
-    if (!accountBalances[currentConvertFrom] ||
-        parseFloat(currentConvertAmount) >= parseFloat(accountBalances[currentConvertFrom])) {
+    if (
+      !accountBalances[currentConvertFrom] ||
+      parseFloat(currentConvertAmount) >=
+        parseFloat(accountBalances[currentConvertFrom])
+    ) {
       this.setState({ insufficientFunds: true })
       return
     }
@@ -521,34 +520,39 @@ class Binance extends React.PureComponent<Props, State> {
       return
     }
 
-    chrome.binance.getConvertQuote(currentConvertFrom, currentConvertTo, currentConvertAmount, (quote: any) => {
-      if (!quote.id || !quote.price || !quote.fee || !quote.amount) {
-        this.setState({ convertFailed: true })
-        return
-      }
-
-      this.setState({
-        currentConvertId: quote.id,
-        currentConvertPrice: quote.price,
-        currentConvertFee: quote.fee,
-        currentConvertTransAmount: quote.amount,
-        showConvertPreview: true
-      })
-
-      this.convertTimer = setInterval(() => {
-        const { currentConvertExpiryTime } = this.state
-
-        if (currentConvertExpiryTime - 1 === 0) {
-          clearInterval(this.convertTimer)
-          this.cancelConvert()
+    chrome.binance.getConvertQuote(
+      currentConvertFrom,
+      currentConvertTo,
+      currentConvertAmount,
+      (quote: any) => {
+        if (!quote.id || !quote.price || !quote.fee || !quote.amount) {
+          this.setState({ convertFailed: true })
           return
         }
 
         this.setState({
-          currentConvertExpiryTime: (currentConvertExpiryTime - 1)
+          currentConvertId: quote.id,
+          currentConvertPrice: quote.price,
+          currentConvertFee: quote.fee,
+          currentConvertTransAmount: quote.amount,
+          showConvertPreview: true
         })
-      }, 1000)
-    })
+
+        this.convertTimer = setInterval(() => {
+          const { currentConvertExpiryTime } = this.state
+
+          if (currentConvertExpiryTime - 1 === 0) {
+            clearInterval(this.convertTimer)
+            this.cancelConvert()
+            return
+          }
+
+          this.setState({
+            currentConvertExpiryTime: currentConvertExpiryTime - 1
+          })
+        }, 1000)
+      }
+    )
   }
 
   setQR = (asset: string) => {
@@ -598,8 +602,12 @@ class Binance extends React.PureComponent<Props, State> {
       currenciesShowing
     } = this.state
 
-    if (!fiatShowing && !convertToShowing &&
-        !convertFromShowing && !currenciesShowing) {
+    if (
+      !fiatShowing &&
+      !convertToShowing &&
+      !convertFromShowing &&
+      !currenciesShowing
+    ) {
       return
     }
 
@@ -633,22 +641,20 @@ class Binance extends React.PureComponent<Props, State> {
     )
   }
 
-  renderTitle () {
+  renderTitle() {
     return (
       <Header>
         <StyledTitle>
           <BinanceIcon>
             <BinanceLogo />
           </BinanceIcon>
-          <StyledTitleText>
-            {'Binance'}
-          </StyledTitleText>
+          <StyledTitleText>{'Binance'}</StyledTitleText>
         </StyledTitle>
       </Header>
     )
   }
 
-  renderTitleTab () {
+  renderTitleTab() {
     const { onShowContent, stackPosition } = this.props
 
     return (
@@ -663,12 +669,8 @@ class Binance extends React.PureComponent<Props, State> {
 
     return (
       <InvalidWrapper>
-        <InvalidTitle>
-          {getLocale('binanceWidgetAuthInvalid')}
-        </InvalidTitle>
-        <InvalidCopy>
-          {getLocale('binanceWidgetAuthInvalidCopy')}
-        </InvalidCopy>
+        <InvalidTitle>{getLocale('binanceWidgetAuthInvalid')}</InvalidTitle>
+        <InvalidCopy>{getLocale('binanceWidgetAuthInvalidCopy')}</InvalidCopy>
         <GenButton onClick={onDismissAuthInvalid}>
           {getLocale('binanceWidgetDone')}
         </GenButton>
@@ -709,7 +711,9 @@ class Binance extends React.PureComponent<Props, State> {
           <img src={PartyIcon} />
         </StyledEmoji>
         <InvalidTitle>
-          {`${getLocale('binanceWidgetConverted')} ${currentConvertAmount} ${currentConvertFrom} to ${currentConvertTransAmount} ${currentConvertTo}!`}
+          {`${getLocale(
+            'binanceWidgetConverted'
+          )} ${currentConvertAmount} ${currentConvertFrom} to ${currentConvertTransAmount} ${currentConvertTo}!`}
         </InvalidTitle>
         <ConnectButton isSmall={true} onClick={this.finishConvert}>
           {getLocale('binanceWidgetContinue')}
@@ -721,12 +725,8 @@ class Binance extends React.PureComponent<Props, State> {
   renderInsufficientFundsView = () => {
     return (
       <InvalidWrapper>
-        <InvalidTitle>
-          {getLocale('binanceWidgetUnableToConvert')}
-        </InvalidTitle>
-        <InvalidCopy>
-          {getLocale('binanceWidgetInsufficientFunds')}
-        </InvalidCopy>
+        <InvalidTitle>{getLocale('binanceWidgetUnableToConvert')}</InvalidTitle>
+        <InvalidCopy>{getLocale('binanceWidgetInsufficientFunds')}</InvalidCopy>
         <GenButton onClick={this.retryConvert}>
           {getLocale('binanceWidgetRetry')}
         </GenButton>
@@ -739,11 +739,10 @@ class Binance extends React.PureComponent<Props, State> {
 
     return (
       <InvalidWrapper>
-        <InvalidTitle>
-          {getLocale('binanceWidgetUnableToConvert')}
-        </InvalidTitle>
+        <InvalidTitle>{getLocale('binanceWidgetUnableToConvert')}</InvalidTitle>
         <InvalidCopy>
-          {getLocale('binanceWidgetUnderMinimum')} {currentConvertMinimum} {currentConvertFrom}
+          {getLocale('binanceWidgetUnderMinimum')} {currentConvertMinimum}{' '}
+          {currentConvertFrom}
         </InvalidCopy>
         <GenButton onClick={this.retryConvert}>
           {getLocale('binanceWidgetRetry')}
@@ -754,16 +753,13 @@ class Binance extends React.PureComponent<Props, State> {
 
   renderUnableToConvertView = () => {
     const { convertError } = this.state
-    const errorMessage = convertError || getLocale('binanceWidgetConversionFailed')
+    const errorMessage =
+      convertError || getLocale('binanceWidgetConversionFailed')
 
     return (
       <InvalidWrapper>
-        <InvalidTitle>
-          {getLocale('binanceWidgetUnableToConvert')}
-        </InvalidTitle>
-        <InvalidCopy>
-          {errorMessage}
-        </InvalidCopy>
+        <InvalidTitle>{getLocale('binanceWidgetUnableToConvert')}</InvalidTitle>
+        <InvalidCopy>{errorMessage}</InvalidCopy>
         <GenButton onClick={this.retryConvert}>
           {getLocale('binanceWidgetRetry')}
         </GenButton>
@@ -814,69 +810,55 @@ class Binance extends React.PureComponent<Props, State> {
             </BackArrow>
             {this.renderIconAsset(currentDepositAsset.toLowerCase(), true)}
           </DetailIcons>
-          <AssetTicker>
-            {currentDepositAsset}
-          </AssetTicker>
-          <AssetLabel>
-            {cleanNameDisplay}
-          </AssetLabel>
-          {
-            depositData
-            ? <AssetQR onClick={this.setQR.bind(this, currentDepositAsset)}>
-                <img style={{ width: '25px', marginRight: '5px' }} src={QRIcon} />
-              </AssetQR>
-            : null
-          }
+          <AssetTicker>{currentDepositAsset}</AssetTicker>
+          <AssetLabel>{cleanNameDisplay}</AssetLabel>
+          {depositData ? (
+            <AssetQR onClick={this.setQR.bind(this, currentDepositAsset)}>
+              <img style={{ width: '25px', marginRight: '5px' }} src={QRIcon} />
+            </AssetQR>
+          ) : null}
         </ListItem>
         <DetailArea>
-          {
-            !depositData
-            ? <MemoArea>
-                <MemoInfo>
-                  <DetailLabel>
-                    {`${currentDepositAsset}`}
-                  </DetailLabel>
-                  <DetailInfo>
-                    {getLocale('binanceWidgetAddressUnavailable')}
-                  </DetailInfo>
-                </MemoInfo>
-              </MemoArea>
-            : null
-          }
-          {
-            address
-            ? <MemoArea>
-                <MemoInfo>
-                  <DetailLabel>
-                    {`${currentDepositAsset} ${getLocale('binanceWidgetDepositAddress')}`}
-                  </DetailLabel>
-                  <DetailInfo>
-                    {address}
-                  </DetailInfo>
-                </MemoInfo>
-                <CopyButton onClick={this.copyToClipboard.bind(this, address)}>
-                  {getLocale('binanceWidgetCopy')}
-                </CopyButton>
-              </MemoArea>
-            : null
-          }
-          {
-            tag
-            ? <MemoArea>
-                <MemoInfo>
-                  <DetailLabel>
-                    {`${currentDepositAsset} ${getLocale('binanceWidgetDepositMemo')}`}
-                  </DetailLabel>
-                  <DetailInfo>
-                    {tag}
-                  </DetailInfo>
-                </MemoInfo>
-                <CopyButton onClick={this.copyToClipboard.bind(this, tag)}>
-                  {getLocale('binanceWidgetCopy')}
-                </CopyButton>
-              </MemoArea>
-            : null
-          }
+          {!depositData ? (
+            <MemoArea>
+              <MemoInfo>
+                <DetailLabel>{`${currentDepositAsset}`}</DetailLabel>
+                <DetailInfo>
+                  {getLocale('binanceWidgetAddressUnavailable')}
+                </DetailInfo>
+              </MemoInfo>
+            </MemoArea>
+          ) : null}
+          {address ? (
+            <MemoArea>
+              <MemoInfo>
+                <DetailLabel>
+                  {`${currentDepositAsset} ${getLocale(
+                    'binanceWidgetDepositAddress'
+                  )}`}
+                </DetailLabel>
+                <DetailInfo>{address}</DetailInfo>
+              </MemoInfo>
+              <CopyButton onClick={this.copyToClipboard.bind(this, address)}>
+                {getLocale('binanceWidgetCopy')}
+              </CopyButton>
+            </MemoArea>
+          ) : null}
+          {tag ? (
+            <MemoArea>
+              <MemoInfo>
+                <DetailLabel>
+                  {`${currentDepositAsset} ${getLocale(
+                    'binanceWidgetDepositMemo'
+                  )}`}
+                </DetailLabel>
+                <DetailInfo>{tag}</DetailInfo>
+              </MemoInfo>
+              <CopyButton onClick={this.copyToClipboard.bind(this, tag)}>
+                {getLocale('binanceWidgetCopy')}
+              </CopyButton>
+            </MemoArea>
+          ) : null}
         </DetailArea>
       </>
     )
@@ -911,8 +893,11 @@ class Binance extends React.PureComponent<Props, State> {
           const currencyName = currencyNames[asset] || false
           const nameString = currencyName ? `(${currencyName})` : ''
 
-          if (!lowerAsset.includes(lowerSearch) &&
-              !lowerName.includes(lowerSearch) && currentDepositSearch) {
+          if (
+            !lowerAsset.includes(lowerSearch) &&
+            !lowerName.includes(lowerSearch) &&
+            currentDepositSearch
+          ) {
             return null
           }
 
@@ -921,12 +906,8 @@ class Binance extends React.PureComponent<Props, State> {
               key={`list-${asset}`}
               onClick={this.setCurrentDepositAsset.bind(this, asset)}
             >
-              <ListIcon>
-                {this.renderIconAsset(asset.toLowerCase())}
-              </ListIcon>
-              <ListLabel clickable={true}>
-                {`${asset} ${nameString}`}
-              </ListLabel>
+              <ListIcon>{this.renderIconAsset(asset.toLowerCase())}</ListIcon>
+              <ListLabel clickable={true}>{`${asset} ${nameString}`}</ListLabel>
             </ListItem>
           )
         })}
@@ -945,7 +926,9 @@ class Binance extends React.PureComponent<Props, State> {
     } = this.props
     const currencyList = getCurrencyList()
     const totalBTCUSDValue = accountBTCUSDValue || '0.00'
-    const totalBTCValue = accountBTCValue ? this.formatCryptoBalance(accountBTCValue) : '0.000000'
+    const totalBTCValue = accountBTCValue
+      ? this.formatCryptoBalance(accountBTCValue)
+      : '0.000000'
 
     return (
       <>
@@ -953,7 +936,10 @@ class Binance extends React.PureComponent<Props, State> {
           <ListInfo position={'left'}>
             <TradeLabel>
               <Balance isBTC={true} hideBalance={hideBalance}>
-                {totalBTCValue} <TickerLabel>{getLocale('binanceWidgetBTCTickerText')}</TickerLabel>
+                {totalBTCValue}{' '}
+                <TickerLabel>
+                  {getLocale('binanceWidgetBTCTickerText')}
+                </TickerLabel>
               </Balance>
               <Converted isBTC={true} hideBalance={hideBalance}>
                 {`= $${totalBTCUSDValue}`}
@@ -963,30 +949,26 @@ class Binance extends React.PureComponent<Props, State> {
           <ListInfo position={'right'} isBTC={true}>
             <TradeLabel>
               <BlurIcon onClick={this.onSetHideBalance}>
-                {
-                  hideBalance
-                  ? <ShowIcon />
-                  : <HideIcon />
-                }
+                {hideBalance ? <ShowIcon /> : <HideIcon />}
               </BlurIcon>
             </TradeLabel>
           </ListInfo>
         </BTCSummary>
         {currencyList.map((asset: string) => {
           // Initial migration display
-          const assetAccountBalance = accountBalances ? accountBalances[asset] : '0.00'
-          const assetUSDValue = assetUSDValues ? (assetUSDValues[asset] || '0.00') : '0.00'
+          const assetAccountBalance = accountBalances
+            ? accountBalances[asset]
+            : '0.00'
+          const assetUSDValue = assetUSDValues
+            ? assetUSDValues[asset] || '0.00'
+            : '0.00'
           const assetBalance = this.formatCryptoBalance(assetAccountBalance)
 
           return (
             <ListItem key={`list-${asset}`}>
               <ListInfo isAsset={true} position={'left'}>
-                <ListIcon>
-                  {this.renderIconAsset(asset.toLowerCase())}
-                </ListIcon>
-                <ListLabel>
-                  {asset}
-                </ListLabel>
+                <ListIcon>{this.renderIconAsset(asset.toLowerCase())}</ListIcon>
+                <ListLabel>{asset}</ListLabel>
               </ListInfo>
               <ListInfo position={'right'}>
                 <Balance isBTC={false} hideBalance={hideBalance}>
@@ -1014,7 +996,9 @@ class Binance extends React.PureComponent<Props, State> {
     } = this.state
     const displayConvertAmount = this.formatCryptoBalance(currentConvertAmount)
     const displayConvertFee = this.formatCryptoBalance(currentConvertFee)
-    const displayReceiveAmount = this.formatCryptoBalance(currentConvertTransAmount)
+    const displayReceiveAmount = this.formatCryptoBalance(
+      currentConvertTransAmount
+    )
 
     return (
       <InvalidWrapper>
@@ -1037,7 +1021,9 @@ class Binance extends React.PureComponent<Props, State> {
         </ConvertInfoWrapper>
         <ActionsWrapper>
           <ConnectButton isSmall={true} onClick={this.processConvert}>
-            {`${getLocale('binanceWidgetConfirm')} (${currentConvertExpiryTime}s)`}
+            {`${getLocale(
+              'binanceWidgetConfirm'
+            )} (${currentConvertExpiryTime}s)`}
           </ConnectButton>
           <DismissAction onClick={this.cancelConvert}>
             {getLocale('binanceWidgetCancel')}
@@ -1056,14 +1042,18 @@ class Binance extends React.PureComponent<Props, State> {
       convertFromShowing,
       convertToShowing
     } = this.state
-    const convertFromAmount = this.formatCryptoBalance(accountBalances[currentConvertFrom])
+    const convertFromAmount = this.formatCryptoBalance(
+      accountBalances[currentConvertFrom]
+    )
     const compatibleCurrencies = convertAssets[currentConvertFrom]
     const convertAssetKeys = Object.keys(convertAssets)
 
     return (
       <>
         <Copy>
-          {`${getLocale('binanceWidgetAvailable')} ${convertFromAmount} ${currentConvertFrom}`}
+          {`${getLocale(
+            'binanceWidgetAvailable'
+          )} ${convertFromAmount} ${currentConvertFrom}`}
         </Copy>
         <BuyPromptWrapper>
           <FiatInputWrapper>
@@ -1078,37 +1068,33 @@ class Binance extends React.PureComponent<Props, State> {
               itemsShowing={convertFromShowing}
               onClick={this.handleConvertFromChange}
             >
-              <span>
-                {currentConvertFrom}
-              </span>
+              <span>{currentConvertFrom}</span>
               <CaratDropdown>
                 <CaratDownIcon />
               </CaratDropdown>
             </FiatDropdown>
-            {
-              convertFromShowing
-              ? <AssetItems isFiat={true}>
-                  {convertAssetKeys.map((asset: string, i: number) => {
-                    if (asset === currentConvertFrom) {
-                      return null
-                    }
+            {convertFromShowing ? (
+              <AssetItems isFiat={true}>
+                {convertAssetKeys.map((asset: string, i: number) => {
+                  if (asset === currentConvertFrom) {
+                    return null
+                  }
 
-                    return (
-                      <AssetItem
-                        key={`choice-${asset}`}
-                        isLast={i === convertAssetKeys.length - 1}
-                        onClick={this.setCurrentConvertFrom.bind(this, asset)}
-                      >
-                        <DropdownIcon>
-                          {this.renderIconAsset(asset.toLowerCase())}
-                        </DropdownIcon>
-                        {asset}
-                      </AssetItem>
-                    )
-                  })}
-                </AssetItems>
-              : null
-            }
+                  return (
+                    <AssetItem
+                      key={`choice-${asset}`}
+                      isLast={i === convertAssetKeys.length - 1}
+                      onClick={this.setCurrentConvertFrom.bind(this, asset)}
+                    >
+                      <DropdownIcon>
+                        {this.renderIconAsset(asset.toLowerCase())}
+                      </DropdownIcon>
+                      {asset}
+                    </AssetItem>
+                  )
+                })}
+              </AssetItems>
+            ) : null}
           </FiatInputWrapper>
           <AssetDropdown
             className={'asset-dropdown'}
@@ -1125,10 +1111,10 @@ class Binance extends React.PureComponent<Props, State> {
               <CaratDownIcon />
             </CaratDropdown>
           </AssetDropdown>
-          {
-            convertToShowing
-            ? <AssetItems>
-                {compatibleCurrencies.map((item: Record<string, string>, i: number) => {
+          {convertToShowing ? (
+            <AssetItems>
+              {compatibleCurrencies.map(
+                (item: Record<string, string>, i: number) => {
                   const { asset } = item
 
                   if (asset === currentConvertTo) {
@@ -1138,7 +1124,7 @@ class Binance extends React.PureComponent<Props, State> {
                   return (
                     <AssetItem
                       key={`choice-${asset}`}
-                      isLast={i === (compatibleCurrencies.length - 1)}
+                      isLast={i === compatibleCurrencies.length - 1}
                       onClick={this.setCurrentConvertAsset.bind(this, asset)}
                     >
                       <DropdownIcon>
@@ -1147,10 +1133,10 @@ class Binance extends React.PureComponent<Props, State> {
                       {asset}
                     </AssetItem>
                   )
-                })}
-              </AssetItems>
-            : null
-          }
+                }
+              )}
+            </AssetItems>
+          ) : null}
         </BuyPromptWrapper>
         <ActionsWrapper>
           <ActionButton onClick={this.shouldShowConvertPreview}>
@@ -1218,13 +1204,13 @@ class Binance extends React.PureComponent<Props, State> {
             {getLocale('binanceWidgetBuy')}
           </NavigationItem>
         </NavigationBar>
-        {
-          selectedView === 'convert' || selectedView === 'buy'
-          ? this.renderSelectedView()
-          : <SelectedView hideOverflow={!!hideOverflow}>
-              {this.renderSelectedView()}
-            </SelectedView>
-        }
+        {selectedView === 'convert' || selectedView === 'buy' ? (
+          this.renderSelectedView()
+        ) : (
+          <SelectedView hideOverflow={!!hideOverflow}>
+            {this.renderSelectedView()}
+          </SelectedView>
+        )}
       </>
     )
   }
@@ -1239,30 +1225,21 @@ class Binance extends React.PureComponent<Props, State> {
       userAuthed,
       getCurrencyList
     } = this.props
-    const {
-      fiatShowing,
-      currenciesShowing
-    } = this.state
+    const { fiatShowing, currenciesShowing } = this.state
     const isUS = userTLD === 'us'
-    const ButtonComponent: AnyStyledComponent = userAuthed ? ActionButton : ConnectButton
+    const ButtonComponent: AnyStyledComponent = userAuthed
+      ? ActionButton
+      : ConnectButton
     const currencies = getCurrencyList()
 
     return (
       <>
-        <Copy>
-          {getLocale('binanceWidgetBuyCrypto')}
-        </Copy>
+        <Copy>{getLocale('binanceWidgetBuyCrypto')}</Copy>
         <TLDSwitchWrapper>
-          <TLDSwitch
-            onClick={this.toggleTLD}
-            isActive={userTLD === 'com'}
-          >
+          <TLDSwitch onClick={this.toggleTLD} isActive={userTLD === 'com'}>
             {'.com'}
           </TLDSwitch>
-          <TLDSwitch
-            onClick={this.toggleTLD}
-            isActive={userTLD === 'us'}
-          >
+          <TLDSwitch onClick={this.toggleTLD} isActive={userTLD === 'us'}>
             {'.us'}
           </TLDSwitch>
         </TLDSwitchWrapper>
@@ -1282,34 +1259,30 @@ class Binance extends React.PureComponent<Props, State> {
               className={'asset-dropdown'}
               onClick={this.handleFiatChange}
             >
-              <span>
-                {initialFiat}
-              </span>
+              <span>{initialFiat}</span>
               <CaratDropdown hide={isUS}>
                 <CaratDownIcon />
               </CaratDropdown>
             </FiatDropdown>
-            {
-              fiatShowing
-              ? <AssetItems isFiat={true}>
-                  {this.fiatList.map((fiat: string, i: number) => {
-                    if (fiat === initialFiat) {
-                      return null
-                    }
+            {fiatShowing ? (
+              <AssetItems isFiat={true}>
+                {this.fiatList.map((fiat: string, i: number) => {
+                  if (fiat === initialFiat) {
+                    return null
+                  }
 
-                    return (
-                      <AssetItem
-                        key={`choice-${fiat}`}
-                        isLast={i === (this.fiatList.length - 1)}
-                        onClick={this.setInitialFiat.bind(this, fiat)}
-                      >
-                        {fiat}
-                      </AssetItem>
-                    )
-                  })}
-                </AssetItems>
-              : null
-            }
+                  return (
+                    <AssetItem
+                      key={`choice-${fiat}`}
+                      isLast={i === this.fiatList.length - 1}
+                      onClick={this.setInitialFiat.bind(this, fiat)}
+                    >
+                      {fiat}
+                    </AssetItem>
+                  )
+                })}
+              </AssetItems>
+            ) : null}
           </FiatInputWrapper>
           <AssetDropdown
             className={'asset-dropdown'}
@@ -1326,48 +1299,51 @@ class Binance extends React.PureComponent<Props, State> {
               <CaratDownIcon />
             </CaratDropdown>
           </AssetDropdown>
-          {
-            currenciesShowing
-            ? <AssetItems>
-                {currencies.map((asset: string, i: number) => {
-                  if (asset === initialAsset) {
-                    return null
-                  }
+          {currenciesShowing ? (
+            <AssetItems>
+              {currencies.map((asset: string, i: number) => {
+                if (asset === initialAsset) {
+                  return null
+                }
 
-                  return (
-                    <AssetItem
-                      key={`choice-${asset}`}
-                      isLast={i === (currencies.length - 1)}
-                      onClick={this.setInitialAsset.bind(this, asset)}
-                    >
-                      <DropdownIcon>
-                        {this.renderIconAsset(asset.toLowerCase())}
-                      </DropdownIcon>
-                      {asset}
-                    </AssetItem>
-                  )
-                })}
-              </AssetItems>
-            : null
-          }
+                return (
+                  <AssetItem
+                    key={`choice-${asset}`}
+                    isLast={i === currencies.length - 1}
+                    onClick={this.setInitialAsset.bind(this, asset)}
+                  >
+                    <DropdownIcon>
+                      {this.renderIconAsset(asset.toLowerCase())}
+                    </DropdownIcon>
+                    {asset}
+                  </AssetItem>
+                )
+              })}
+            </AssetItems>
+          ) : null}
         </BuyPromptWrapper>
         <ActionsWrapper isFirstView={!userAuthed}>
-          <ButtonComponent onClick={onBuyCrypto.bind(this, initialAsset, initialAmount, initialFiat)}>
+          <ButtonComponent
+            onClick={onBuyCrypto.bind(
+              this,
+              initialAsset,
+              initialAmount,
+              initialFiat
+            )}
+          >
             {`${getLocale('binanceWidgetBuy')} ${initialAsset}`}
           </ButtonComponent>
-          {
-            !userAuthed && !isUS
-            ? <ConnectAction onClick={this.connectBinance}>
-                {getLocale('binanceWidgetConnect')}
-              </ConnectAction>
-            : null
-          }
+          {!userAuthed && !isUS ? (
+            <ConnectAction onClick={this.connectBinance}>
+              {getLocale('binanceWidgetConnect')}
+            </ConnectAction>
+          ) : null}
         </ActionsWrapper>
       </>
     )
   }
 
-  renderIndexView () {
+  renderIndexView() {
     const {
       currentQRAsset,
       insufficientFunds,
@@ -1376,10 +1352,7 @@ class Binance extends React.PureComponent<Props, State> {
       showConvertPreview,
       underMinimumConvertAmount
     } = this.state
-    const {
-      authInvalid,
-      disconnectInProgress
-    } = this.props
+    const { authInvalid, disconnectInProgress } = this.props
 
     if (authInvalid) {
       return this.renderAuthInvalid()
@@ -1402,7 +1375,7 @@ class Binance extends React.PureComponent<Props, State> {
     }
   }
 
-  render () {
+  render() {
     const { showContent, userAuthed } = this.props
 
     if (!showContent) {
@@ -1410,15 +1383,19 @@ class Binance extends React.PureComponent<Props, State> {
     }
 
     return (
-      <WidgetWrapper tabIndex={0} userAuthed={userAuthed} onClick={this.unpersistDropdowns}>
-        {
+      <WidgetWrapper
+        tabIndex={0}
+        userAuthed={userAuthed}
+        onClick={this.unpersistDropdowns}
+      >
+        {this.renderIndexView() ? (
           this.renderIndexView()
-          ? this.renderIndexView()
-          : <>
-              {this.renderTitle()}
-              {this.renderRoutes()}
-            </>
-        }
+        ) : (
+          <>
+            {this.renderTitle()}
+            {this.renderRoutes()}
+          </>
+        )}
       </WidgetWrapper>
     )
   }

@@ -32,7 +32,7 @@ export interface Props {
 }
 
 export default class Alert extends React.PureComponent<Props, {}> {
-  get icon () {
+  get icon() {
     switch (this.props.type) {
       case 'error':
         return (
@@ -57,7 +57,7 @@ export default class Alert extends React.PureComponent<Props, {}> {
     return null
   }
 
-  render () {
+  render() {
     const { id, children, onClose, colored, bg, type } = this.props
 
     return (

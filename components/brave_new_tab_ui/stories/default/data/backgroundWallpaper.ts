@@ -6,13 +6,19 @@
 import { CHANGE } from '@storybook/addon-knobs'
 import { addons } from '@storybook/addons'
 
-import { images, solidColorsForBackground, gradientColorsForBackground } from '../../../data/backgrounds'
+import {
+  images,
+  solidColorsForBackground,
+  gradientColorsForBackground
+} from '../../../data/backgrounds'
 
 const addonsChannel = addons.getChannel()
 
-const generateWallpapers = function (images: NewTab.BackgroundWallpaper[],
-                                      solidColors: NewTab.ColorBackground[],
-                                      gradientColors: NewTab.ColorBackground[]) {
+const generateWallpapers = function (
+  images: NewTab.BackgroundWallpaper[],
+  solidColors: NewTab.ColorBackground[],
+  gradientColors: NewTab.ColorBackground[]
+) {
   let staticImages = { defaultImage: undefined }
   for (const image of images) {
     // author is optional field.
@@ -23,7 +29,8 @@ const generateWallpapers = function (images: NewTab.BackgroundWallpaper[],
     Object.assign(staticImages, {
       [image.author]: {
         ...image,
-        wallpaperImageUrl: require('../../../../img/newtab/backgrounds/' + image.wallpaperImageUrl)
+        wallpaperImageUrl: require('../../../../img/newtab/backgrounds/' +
+          image.wallpaperImageUrl)
       }
     })
 
@@ -51,7 +58,10 @@ export const backgroundWallpapers = generateWallpapers()
  * Mock handler for colored backgrounds. Emits a change event to knobs
  * @param {string} value
  */
-export const onChangeColoredBackground = (value: string, useRandomValue: boolean) => {
+export const onChangeColoredBackground = (
+  value: string,
+  useRandomValue: boolean
+) => {
   addonsChannel.emit(CHANGE, {
     name: 'Show branded background image?',
     value: false

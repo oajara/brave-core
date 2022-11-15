@@ -8,15 +8,14 @@
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 
 import { loadTimeData } from '../../common/loadTimeData'
-import {
-  BraveWallet,
-  DefaultCurrencies
-} from '../constants/types'
+import { BraveWallet, DefaultCurrencies } from '../constants/types'
 
 const marketUiOrigin = loadTimeData.getString('braveWalletMarketUiBridgeUrl')
 
 // remove trailing /
-export const braveMarketUiOrigin = marketUiOrigin.endsWith('/') ? marketUiOrigin.slice(0, -1) : marketUiOrigin
+export const braveMarketUiOrigin = marketUiOrigin.endsWith('/')
+  ? marketUiOrigin.slice(0, -1)
+  : marketUiOrigin
 export const braveWalletOrigin = 'chrome://wallet'
 
 export const enum MarketUiCommand {
@@ -64,13 +63,19 @@ export type UpdateDepositableAssetsMessage = MarketCommandMessage & {
   payload: BraveWallet.BlockchainToken[]
 }
 
-export const sendMessageToMarketUiFrame = (targetWindow: Window | null, message: MarketCommandMessage) => {
+export const sendMessageToMarketUiFrame = (
+  targetWindow: Window | null,
+  message: MarketCommandMessage
+) => {
   if (targetWindow) {
     targetWindow.postMessage(message, braveMarketUiOrigin)
   }
 }
 
-export const sendMessageToWalletUi = (targetWindow: Window | null, message: MarketCommandMessage) => {
+export const sendMessageToWalletUi = (
+  targetWindow: Window | null,
+  message: MarketCommandMessage
+) => {
   if (targetWindow) {
     targetWindow.postMessage(message, braveWalletOrigin)
   }

@@ -7,14 +7,16 @@ import * as React from 'react'
 import { useActions, useRewardsData } from '../lib/redux_hooks'
 import { ClaimGrantView } from './claim_grant_view'
 
-function promotionTypesToGrantType (type: Rewards.PromotionTypes) {
+function promotionTypesToGrantType(type: Rewards.PromotionTypes) {
   switch (type) {
-    case 1: return 'ads' // Rewards.PromotionTypes.ADS
-    default: return 'ugp'
+    case 1:
+      return 'ads' // Rewards.PromotionTypes.ADS
+    default:
+      return 'ugp'
   }
 }
 
-export function GrantList () {
+export function GrantList() {
   const actions = useActions()
   const { promotions } = useRewardsData((data) => ({
     promotions: data.promotions
@@ -25,35 +27,33 @@ export function GrantList () {
   }
 
   return (
-    <div data-test-id='promotion-claim-box'>
-      {
-        promotions.map((promotion) => {
-          if (!promotion.promotionId) {
-            return null
-          }
+    <div data-test-id="promotion-claim-box">
+      {promotions.map((promotion) => {
+        if (!promotion.promotionId) {
+          return null
+        }
 
-          const onClaim = () => {
-            actions.claimPromotion(promotion.promotionId)
-          }
+        const onClaim = () => {
+          actions.claimPromotion(promotion.promotionId)
+        }
 
-          return (
-            <div key={promotion.promotionId}>
-              <ClaimGrantView
-                grantInfo={{
-                  id: promotion.promotionId,
-                  type: promotionTypesToGrantType(promotion.type),
-                  amount: promotion.amount,
-                  createdAt: promotion.createdAt,
-                  claimableUntil: promotion.claimableUntil,
-                  expiresAt: promotion.expiresAt
-                }}
-                showSpinner={promotion.captchaStatus === 'start'}
-                onClaim={onClaim}
-              />
-            </div>
-          )
-        })
-      }
+        return (
+          <div key={promotion.promotionId}>
+            <ClaimGrantView
+              grantInfo={{
+                id: promotion.promotionId,
+                type: promotionTypesToGrantType(promotion.type),
+                amount: promotion.amount,
+                createdAt: promotion.createdAt,
+                claimableUntil: promotion.claimableUntil,
+                expiresAt: promotion.expiresAt
+              }}
+              showSpinner={promotion.captchaStatus === 'start'}
+              onClaim={onClaim}
+            />
+          </div>
+        )
+      })}
     </div>
   )
 }

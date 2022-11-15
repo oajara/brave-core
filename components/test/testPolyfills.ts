@@ -5,7 +5,6 @@
 import { randomFillSync, randomUUID } from 'crypto'
 import { JSDOM } from 'jsdom'
 import { getMockChrome } from './testData'
-
 ;(global as any).window = new JSDOM().window
 ;(global as any).document = window.document
 ;(global as any).navigator = window.navigator
@@ -21,19 +20,19 @@ window.requestAnimationFrame = function (cb: FrameRequestCallback) {
 }
 
 window.loadTimeData = {
-  getString (key) {
+  getString(key) {
     if (key === 'braveWalletLedgerBridgeUrl') {
       return 'chrome-untrusted://ledger-bridge'
     }
     return key
   },
-  getBoolean () {
+  getBoolean() {
     return true
   },
-  getInteger () {
+  getInteger() {
     return 2
   },
-  getStringF (key) {
+  getStringF(key) {
     return key
   }
 }
@@ -45,8 +44,8 @@ Object.defineProperty(window, 'crypto', {
   }
 })
 
-console.timeStamp = function (key: string) { }
+console.timeStamp = function (key: string) {}
 
 if ((global as any).chrome === undefined) {
-  (global as any).chrome = getMockChrome()
+  ;(global as any).chrome = getMockChrome()
 }

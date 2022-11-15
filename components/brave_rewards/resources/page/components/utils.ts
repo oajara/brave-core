@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-export function convertBalance (tokens: number, rate: number): string {
+export function convertBalance(tokens: number, rate: number): string {
   if (tokens === 0) {
     return '0.00'
   }
@@ -16,6 +16,8 @@ export function convertBalance (tokens: number, rate: number): string {
   return converted.toFixed(2)
 }
 
-export function isPublisherConnectedOrVerified (status: Rewards.PublisherStatus) {
+export function isPublisherConnectedOrVerified(
+  status: Rewards.PublisherStatus
+) {
   return status > 0
 }

@@ -80,7 +80,7 @@ export const BackButton = styled.button`
   cursor: pointer;
 
   svg {
-    fill: ${(p) => p.theme.color.interactive05}
+    fill: ${(p) => p.theme.color.interactive05};
   }
 `
 

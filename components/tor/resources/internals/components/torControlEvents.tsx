@@ -12,13 +12,13 @@ interface Props {
 }
 
 export class TorControlEvents extends React.Component<Props, {}> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
   }
 
-  render () {
+  render() {
     return (
-      <LogTextArea value={this.props.events.join('\r\n')} readOnly={true}/>
+      <LogTextArea value={this.props.events.join('\r\n')} readOnly={true} />
     )
   }
 }

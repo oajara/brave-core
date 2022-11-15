@@ -9,7 +9,11 @@ import ModalRedirect from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('ModalRedirect tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><ModalRedirect id='modal' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <ModalRedirect id="modal" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

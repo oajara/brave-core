@@ -29,45 +29,42 @@ export interface Props {
   timelineOptions: ChartTimelineObjectType[]
 }
 
-export const ChartControlBar = React.memo(({
-  disabled,
-  onDisabledChanged,
-  onSelectTimeframe,
-  selectedTimeline,
-  timelineOptions
-}: Props) => {
-  const toggleIsDisabled = () => onDisabledChanged?.(!disabled)
+export const ChartControlBar = React.memo(
+  ({
+    disabled,
+    onDisabledChanged,
+    onSelectTimeframe,
+    selectedTimeline,
+    timelineOptions
+  }: Props) => {
+    const toggleIsDisabled = () => onDisabledChanged?.(!disabled)
 
-  return (
-    <StyledWrapper>
-
-      <RowReveal hideContent={disabled}>
-        {timelineOptions.map((t) =>
-          <StyledButton
-            key={t.id}
-            onClick={() => onSelectTimeframe(t.id)}
-            isSelected={selectedTimeline === t.id}
-            disabled={disabled}
-          >
-            <ButtonText
+    return (
+      <StyledWrapper>
+        <RowReveal hideContent={disabled}>
+          {timelineOptions.map((t) => (
+            <StyledButton
+              key={t.id}
+              onClick={() => onSelectTimeframe(t.id)}
               isSelected={selectedTimeline === t.id}
               disabled={disabled}
             >
-              {getLocale(t.name)}
-            </ButtonText>
-          </StyledButton>
-        )}
-      </RowReveal>
+              <ButtonText
+                isSelected={selectedTimeline === t.id}
+                disabled={disabled}
+              >
+                {getLocale(t.name)}
+              </ButtonText>
+            </StyledButton>
+          ))}
+        </RowReveal>
 
-      {onDisabledChanged &&
-        <ToggleVisibilityButton
-          onClick={toggleIsDisabled}
-        >
-          <ToggleVisibilityIcon
-            isVisible={!disabled}
-          />
-        </ToggleVisibilityButton>
-      }
-    </StyledWrapper>
-  )
-})
+        {onDisabledChanged && (
+          <ToggleVisibilityButton onClick={toggleIsDisabled}>
+            <ToggleVisibilityIcon isVisible={!disabled} />
+          </ToggleVisibilityButton>
+        )}
+      </StyledWrapper>
+    )
+  }
+)

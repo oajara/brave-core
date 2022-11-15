@@ -31,7 +31,7 @@ const getMargin = (index?: number, size?: number) => {
 
 export const RewardsTabWrapper = styled('div')<{}>`
   display: flex;
-  font-family: Poppins,sans-serif;
+  font-family: Poppins, sans-serif;
 `
 
 export const StyledSwitch = styled('div')<{}>`
@@ -45,22 +45,25 @@ export const StyledSwitch = styled('div')<{}>`
 export const StyledSlider = styled('div')<{}>`
   width: 100%;
   height: 100%;
-  background: #DFDFE8;
+  background: #dfdfe8;
   border-radius: 21.5px 21.5px 21.5px 21.5px;
   display: flex;
 `
 
 export const StyledBullet = styled('div')<StyleProps>`
   top: -17px;
-  width: ${p => 100 / ((p && p.size) || 1)}%;
+  width: ${(p) => 100 / ((p && p.size) || 1)}%;
   height: 37px;
-  background: ${p => p.theme.color.primaryBackground};
+  background: ${(p) => p.theme.color.primaryBackground};
   border-radius: 21.5px 21.5px 21.5px 21.5px;
   position: relative;
-  transition: all .4s ease;
-  transform: translate(calc(${p => 100 * (((p && p.tabIndexSelected) || 0))}%), calc(-50% - 4px));
+  transition: all 0.4s ease;
+  transform: translate(
+    calc(${(p) => 100 * ((p && p.tabIndexSelected) || 0)}%),
+    calc(-50% - 4px)
+  );
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
-  margin-left: ${p => getMargin(p.tabIndexSelected, p.size)}px;
+  margin-left: ${(p) => getMargin(p.tabIndexSelected, p.size)}px;
 `
 
 export const StyledTab = styled('div')<StyleProps>`
@@ -82,11 +85,13 @@ export const StyledText = styled('div')<StyleProps>`
   overflow: hidden;
   text-align: center;
   user-select: none;
-  color: ${p => p.selected
-    ? p.type === 'contribute' ? palette.blurple500 : p.theme.color.brandBrave
-    : p.theme.color.subtleActive
-  };
-  font-weight: ${p => p.selected ? '500' : 'normal'};
+  color: ${(p) =>
+    p.selected
+      ? p.type === 'contribute'
+        ? palette.blurple500
+        : p.theme.color.brandBrave
+      : p.theme.color.subtleActive};
+  font-weight: ${(p) => (p.selected ? '500' : 'normal')};
 
   @media (max-width: 485px) {
     font-size: 12px;

@@ -19,9 +19,11 @@ interface EnableRewardsPanelProps {
   onEnableRewards: () => void
 }
 
-export function EnableRewardsPanel (props: EnableRewardsPanelProps) {
+export function EnableRewardsPanel(props: EnableRewardsPanelProps) {
   const locale = React.useContext(LocaleContext)
-  const handleClick = () => { props.onEnableRewards() }
+  const handleClick = () => {
+    props.onEnableRewards()
+  }
   const tags = getLocaleWithTag(locale.get('enableRewardsTerms'))
 
   return (
@@ -29,18 +31,18 @@ export function EnableRewardsPanel (props: EnableRewardsPanelProps) {
       <Title>{locale.get('enableRewardsTitle')}</Title>
       <Text>{locale.get('enableRewardsText')}</Text>
       <LearnMore>
-        <a href='javascript:void 0'>{locale.get('enableRewardsLearnMore')}</a>
+        <a href="javascript:void 0">{locale.get('enableRewardsLearnMore')}</a>
       </LearnMore>
       <EnableRewardsButton
         text={locale.get('enableRewardsButtonText')}
-        size='medium'
+        size="medium"
         onClick={handleClick}
-        type='accent'
-        brand='rewards'
+        type="accent"
+        brand="rewards"
       />
       <TermsOfService>
         {tags.beforeTag}
-        <a href='javascript: void 0'>{tags.duringTag}</a>
+        <a href="javascript: void 0">{tags.duringTag}</a>
         {tags.afterTag}
       </TermsOfService>
     </Container>

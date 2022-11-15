@@ -46,7 +46,7 @@ export type InitialRewardsData = {
 const isIncognito: boolean = chrome.extension.inIncognitoContext
 
 // Gets all data required for the first render of the page
-export async function getInitialData (): Promise<InitialData> {
+export async function getInitialData(): Promise<InitialData> {
   try {
     console.timeStamp('Getting initial data...')
     const [
@@ -103,13 +103,27 @@ export async function getInitialData (): Promise<InitialData> {
           resolve(supported)
         })
       }),
-      getNTPBrowserAPI().pageHandler.isSearchPromotionEnabled().then(({ enabled }) => enabled),
-      getNTPBrowserAPI().pageHandler.getBraveBackgrounds().then(({ backgrounds }) => {
-        return backgrounds.map(background => ({ type: 'brave', wallpaperImageUrl: background.imageUrl.url, author: background.author, link: background.link.url }))
-      }),
-      getNTPBrowserAPI().pageHandler.getCustomImageBackgrounds().then(({ backgrounds }) => {
-        return backgrounds.map(background => ({ type: 'image', wallpaperImageUrl: background.url.url }))
-      })
+      getNTPBrowserAPI()
+        .pageHandler.isSearchPromotionEnabled()
+        .then(({ enabled }) => enabled),
+      getNTPBrowserAPI()
+        .pageHandler.getBraveBackgrounds()
+        .then(({ backgrounds }) => {
+          return backgrounds.map((background) => ({
+            type: 'brave',
+            wallpaperImageUrl: background.imageUrl.url,
+            author: background.author,
+            link: background.link.url
+          }))
+        }),
+      getNTPBrowserAPI()
+        .pageHandler.getCustomImageBackgrounds()
+        .then(({ backgrounds }) => {
+          return backgrounds.map((background) => ({
+            type: 'image',
+            wallpaperImageUrl: background.url.url
+          }))
+        })
     ])
     console.timeStamp('Got all initial data.')
     return {
@@ -133,7 +147,7 @@ export async function getInitialData (): Promise<InitialData> {
   }
 }
 
-export async function getRewardsPreInitialData (): Promise<PreInitialRewardsData> {
+export async function getRewardsPreInitialData(): Promise<PreInitialRewardsData> {
   const [
     rewardsEnabled,
     isUnsupportedRegion,
@@ -142,16 +156,21 @@ export async function getRewardsPreInitialData (): Promise<PreInitialRewardsData
     adsSupported,
     adsData
   ] = await Promise.all([
-    new Promise<boolean>(
-      (resolve) => chrome.braveRewards.getRewardsEnabled(resolve)),
-    new Promise<boolean>(
-      (resolve) => chrome.braveRewards.isUnsupportedRegion(resolve)),
-    new Promise<string>(
-      (resolve) => chrome.braveRewards.getDeclaredCountry(resolve)),
-    new Promise<boolean>(
-      (resolve) => chrome.braveRewards.getAdsEnabled(resolve)),
-    new Promise<boolean>(
-      (resolve) => chrome.braveRewards.getAdsSupported(resolve)),
+    new Promise<boolean>((resolve) =>
+      chrome.braveRewards.getRewardsEnabled(resolve)
+    ),
+    new Promise<boolean>((resolve) =>
+      chrome.braveRewards.isUnsupportedRegion(resolve)
+    ),
+    new Promise<string>((resolve) =>
+      chrome.braveRewards.getDeclaredCountry(resolve)
+    ),
+    new Promise<boolean>((resolve) =>
+      chrome.braveRewards.getAdsEnabled(resolve)
+    ),
+    new Promise<boolean>((resolve) =>
+      chrome.braveRewards.getAdsSupported(resolve)
+    ),
     newTabAdsDataAPI.getNewTabAdsData()
   ])
 
@@ -167,34 +186,48 @@ export async function getRewardsPreInitialData (): Promise<PreInitialRewardsData
   }
 }
 
-export async function getRewardsInitialData (): Promise<InitialRewardsData> {
+export async function getRewardsInitialData(): Promise<InitialRewardsData> {
   try {
-    const [
-      adsAccountStatement,
-      report,
-      balance,
-      parameters,
-      externalWallet
-    ] = await Promise.all([
-      new Promise(resolve => chrome.braveRewards.getAdsAccountStatement((success: boolean, adsAccountStatement: NewTab.AdsAccountStatement) => {
-        resolve(success ? adsAccountStatement : undefined)
-      })),
-      new Promise(resolve => chrome.braveRewards.getBalanceReport(new Date().getMonth() + 1, new Date().getFullYear(), (report: NewTab.RewardsBalanceReport) => {
-        resolve(report)
-      })),
-      new Promise(resolve => chrome.braveRewards.fetchBalance((balance: NewTab.RewardsBalance) => {
-        resolve(balance)
-      })),
-      new Promise(resolve => chrome.braveRewards.getRewardsParameters((parameters: NewTab.RewardsParameters) => {
-        resolve(parameters)
-      })),
-      new Promise(resolve => {
-        chrome.braveRewards.getExternalWallet((wallet) => resolve(wallet))
-      }),
-      new Promise(resolve => {
-        chrome.braveRewards.fetchPromotions(resolve)
-      })
-    ])
+    const [adsAccountStatement, report, balance, parameters, externalWallet] =
+      await Promise.all([
+        new Promise((resolve) =>
+          chrome.braveRewards.getAdsAccountStatement(
+            (
+              success: boolean,
+              adsAccountStatement: NewTab.AdsAccountStatement
+            ) => {
+              resolve(success ? adsAccountStatement : undefined)
+            }
+          )
+        ),
+        new Promise((resolve) =>
+          chrome.braveRewards.getBalanceReport(
+            new Date().getMonth() + 1,
+            new Date().getFullYear(),
+            (report: NewTab.RewardsBalanceReport) => {
+              resolve(report)
+            }
+          )
+        ),
+        new Promise((resolve) =>
+          chrome.braveRewards.fetchBalance((balance: NewTab.RewardsBalance) => {
+            resolve(balance)
+          })
+        ),
+        new Promise((resolve) =>
+          chrome.braveRewards.getRewardsParameters(
+            (parameters: NewTab.RewardsParameters) => {
+              resolve(parameters)
+            }
+          )
+        ),
+        new Promise((resolve) => {
+          chrome.braveRewards.getExternalWallet((wallet) => resolve(wallet))
+        }),
+        new Promise((resolve) => {
+          chrome.braveRewards.fetchPromotions(resolve)
+        })
+      ])
     return {
       adsAccountStatement,
       report,

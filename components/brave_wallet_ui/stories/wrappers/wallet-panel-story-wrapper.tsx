@@ -34,24 +34,24 @@ export interface WalletPanelStoryProps {
   panelStateOverride?: Partial<PanelState>
 }
 
-export const WalletPanelStory: React.FC<React.PropsWithChildren<WalletPanelStoryProps>> = ({
-  children,
-  panelStateOverride,
-  walletStateOverride
-}) => {
+export const WalletPanelStory: React.FC<
+  React.PropsWithChildren<WalletPanelStoryProps>
+> = ({ children, panelStateOverride, walletStateOverride }) => {
   // redux
   const store = React.useMemo(() => {
-    return createStore(combineReducers({
-      wallet: createWalletReducer({
-        ...mockWalletState,
-        ...(walletStateOverride || {})
-      }),
-      panel: createPanelReducer({
-        ...mockPanelState,
-        ...(panelStateOverride || {})
-      }),
-      sendCrypto: createSendCryptoReducer(mockSendCryptoState)
-    }))
+    return createStore(
+      combineReducers({
+        wallet: createWalletReducer({
+          ...mockWalletState,
+          ...(walletStateOverride || {})
+        }),
+        panel: createPanelReducer({
+          ...mockPanelState,
+          ...(panelStateOverride || {})
+        }),
+        sendCrypto: createSendCryptoReducer(mockSendCryptoState)
+      })
+    )
   }, [walletStateOverride, panelStateOverride])
 
   React.useEffect(() => {
@@ -62,9 +62,7 @@ export const WalletPanelStory: React.FC<React.PropsWithChildren<WalletPanelStory
   return (
     <MemoryRouter initialEntries={['/']}>
       <Provider store={store}>
-        <LibContext.Provider value={Lib as any}>
-          {children}
-        </LibContext.Provider>
+        <LibContext.Provider value={Lib as any}>{children}</LibContext.Provider>
       </Provider>
     </MemoryRouter>
   )

@@ -5,7 +5,10 @@
 import * as React from 'react'
 
 import { LocaleContext } from '../../shared/lib/locale_context'
-import { AdaptiveCaptchaInfo, AdaptiveCaptchaResult } from '../../rewards_panel/lib/interfaces'
+import {
+  AdaptiveCaptchaInfo,
+  AdaptiveCaptchaResult
+} from '../../rewards_panel/lib/interfaces'
 
 import * as styles from './adaptive_captcha_view.style'
 
@@ -36,7 +39,7 @@ interface Props {
   onContactSupport: () => void
 }
 
-export function AdaptiveCaptchaView (props: Props) {
+export function AdaptiveCaptchaView(props: Props) {
   const { getString } = React.useContext(LocaleContext)
   const iframeRef = React.useRef<HTMLIFrameElement | null>(null)
   const { adaptiveCaptchaInfo } = props
@@ -72,10 +75,12 @@ export function AdaptiveCaptchaView (props: Props) {
     }
 
     window.addEventListener('message', listener)
-    return () => { window.removeEventListener('message', listener) }
+    return () => {
+      window.removeEventListener('message', listener)
+    }
   }, [props.onCaptchaResult])
 
-  function renderCaptcha () {
+  function renderCaptcha() {
     return (
       <styles.overlay>
         <styles.frameRoot>
@@ -83,24 +88,23 @@ export function AdaptiveCaptchaView (props: Props) {
             ref={iframeRef}
             allow={iframeAllow.trim().replace(/\n/g, '')}
             src={adaptiveCaptchaInfo.url}
-            sandbox='allow-scripts'
-            scrolling='no'
+            sandbox="allow-scripts"
+            scrolling="no"
           />
         </styles.frameRoot>
       </styles.overlay>
     )
   }
 
-  function renderSuccess () {
+  function renderSuccess() {
     return (
       <styles.overlay>
         <styles.modalRoot>
           <styles.title>
-            <img src={checkIconSrc} />{getString('captchaSolvedTitle')}
+            <img src={checkIconSrc} />
+            {getString('captchaSolvedTitle')}
           </styles.title>
-          <styles.text>
-            {getString('captchaSolvedText')}
-          </styles.text>
+          <styles.text>{getString('captchaSolvedText')}</styles.text>
           <styles.closeAction>
             <button onClick={props.onClose}>
               {getString('captchaDismiss')}
@@ -111,11 +115,11 @@ export function AdaptiveCaptchaView (props: Props) {
     )
   }
 
-  function renderMaxAttemptsExceededMessage () {
+  function renderMaxAttemptsExceededMessage() {
     return (
       <styles.overlay>
         <styles.modalRoot>
-          <styles.title className='long'>
+          <styles.title className="long">
             <img src={smileySadIconSrc} />
             {getString('captchaMaxAttemptsExceededTitle')}
           </styles.title>
@@ -133,8 +137,11 @@ export function AdaptiveCaptchaView (props: Props) {
   }
 
   switch (adaptiveCaptchaInfo.status) {
-    case 'pending': return renderCaptcha()
-    case 'success': return renderSuccess()
-    case 'max-attempts-exceeded': return renderMaxAttemptsExceededMessage()
+    case 'pending':
+      return renderCaptcha()
+    case 'success':
+      return renderSuccess()
+    case 'max-attempts-exceeded':
+      return renderMaxAttemptsExceededMessage()
   }
 }

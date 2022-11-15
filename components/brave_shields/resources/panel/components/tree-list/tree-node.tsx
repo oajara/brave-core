@@ -67,16 +67,16 @@ interface TreeNodeProps {
   resourceList: string[]
 }
 
-function rectToQuad (rect: DOMRect) {
+function rectToQuad(rect: DOMRect) {
   return DOMQuad.fromRect({
-    x: ('x' in rect) ? rect.x : rect.left,
-    y: ('y' in rect) ? rect.y : rect.top,
+    x: 'x' in rect ? rect.x : rect.left,
+    y: 'y' in rect ? rect.y : rect.top,
     width: rect.width,
     height: rect.height
   })
 }
 
-function getRelativeBoundingRect (from: DOMRect, to: Element) {
+function getRelativeBoundingRect(from: DOMRect, to: Element) {
   const fromQuad = rectToQuad(from)
   const toQuad = rectToQuad(to.getBoundingClientRect())
 
@@ -87,8 +87,9 @@ function getRelativeBoundingRect (from: DOMRect, to: Element) {
   )
 }
 
-function TreeNode (props: TreeNodeProps) {
-  const treeChildrenBoxRef = React.useRef() as React.MutableRefObject<HTMLDivElement>
+function TreeNode(props: TreeNodeProps) {
+  const treeChildrenBoxRef =
+    React.useRef() as React.MutableRefObject<HTMLDivElement>
   const svgBoxRef = React.useRef() as React.MutableRefObject<HTMLElement>
   const [axisLeftHeight, setAxisLeftHeight] = React.useState(0)
   const [tickValues, setTickValues] = React.useState<number[]>([])
@@ -106,8 +107,9 @@ function TreeNode (props: TreeNodeProps) {
         // Calculate the vertical center of each element's box. The positions we get from this will be the translate values for our ticks
         const finalValues = els.map((el: HTMLElement) => {
           const rect = getRelativeBoundingRect(svgBoxRect, el)
-           // When an element expands, the box height increases and elYCenter gets recalculated. We should always align the tick position to the center of the first line.
-          const elYCenter = (parseInt(getComputedStyle(el).getPropertyValue('line-height')) / 2)
+          // When an element expands, the box height increases and elYCenter gets recalculated. We should always align the tick position to the center of the first line.
+          const elYCenter =
+            parseInt(getComputedStyle(el).getPropertyValue('line-height')) / 2
 
           return Math.round(rect.top + elYCenter)
         })
@@ -115,7 +117,8 @@ function TreeNode (props: TreeNodeProps) {
         // TODO(nullhook): Batch state updates
         // We dont let the height of the axis extend to avoid hanging dash
         const height = Math.min(
-          finalValues[finalValues.length - 1] + 1, /* pad the value so the position isn't exactly on the edge */
+          finalValues[finalValues.length - 1] +
+            1 /* pad the value so the position isn't exactly on the edge */,
           Math.round(treeChildrenBoxRef.current.offsetHeight)
         )
 
@@ -130,13 +133,37 @@ function TreeNode (props: TreeNodeProps) {
       <ExpandToggleButton
         aria-label="Expand to see sub resources"
         role="button"
-        onClick={() => setIsExpanded(x => !x)}
+        onClick={() => setIsExpanded((x) => !x)}
         aria-expanded={isExpanded}
       >
         {isExpanded ? (
-          <svg width="12" height="3" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 1h9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          <svg
+            width="12"
+            height="3"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1.5 1h9"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         ) : (
-          <svg width="12" height="12" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M6 11.25a.75.75 0 0 0 .75-.75V6.75h3.75a.75.75 0 0 0 0-1.5H6.75V1.5a.75.75 0 0 0-1.5 0v3.75H1.5a.75.75 0 0 0 0 1.5h3.75v3.75c0 .414.336.75.75.75Z"/></svg>
+          <svg
+            width="12"
+            height="12"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M6 11.25a.75.75 0 0 0 .75-.75V6.75h3.75a.75.75 0 0 0 0-1.5H6.75V1.5a.75.75 0 0 0-1.5 0v3.75H1.5a.75.75 0 0 0 0 1.5h3.75v3.75c0 .414.336.75.75.75Z"
+            />
+          </svg>
         )}
       </ExpandToggleButton>
     )
@@ -145,8 +172,13 @@ function TreeNode (props: TreeNodeProps) {
   const renderBullet = () => {
     return (
       <i>
-        <svg width="5" height="5" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="1.5" cy="1.5" r="1.5"/>
+        <svg
+          width="5"
+          height="5"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle cx="1.5" cy="1.5" r="1.5" />
         </svg>
       </i>
     )
@@ -155,7 +187,12 @@ function TreeNode (props: TreeNodeProps) {
   const renderLeftAxis = () => {
     return (
       <SVGBox ref={svgBoxRef}>
-        <svg width="20" height={axisLeftHeight} fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <svg
+          width="20"
+          height={axisLeftHeight}
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <g id="vertical-axis">
             <path
               d={`M.5 0v${axisLeftHeight}`}
@@ -165,15 +202,18 @@ function TreeNode (props: TreeNodeProps) {
               strokeDasharray="2 4"
             />
           </g>
-          {
-            tickValues.map((value, idx) => {
-              return (
-                <g key={idx} transform={`translate(0,${value})`}>
-                  <path d="M1 .5h12" stroke="currentColor" strokeLinejoin="round" strokeDasharray="2 2" />
-                </g>
-              )
-            })
-          }
+          {tickValues.map((value, idx) => {
+            return (
+              <g key={idx} transform={`translate(0,${value})`}>
+                <path
+                  d="M1 .5h12"
+                  stroke="currentColor"
+                  strokeLinejoin="round"
+                  strokeDasharray="2 2"
+                />
+              </g>
+            )
+          })}
         </svg>
       </SVGBox>
     )
@@ -194,18 +234,16 @@ function TreeNode (props: TreeNodeProps) {
         <UrlElement name={props.host} isHost={true} />
         {hasResources && isExpanded ? (
           <div ref={treeChildrenBoxRef}>
-            {
-              props.resourceList.map((resourceUrl: string, idx) => {
-                return (
-                  <UrlElement
-                    key={idx}
-                    isHost={false}
-                    name={resourceUrl}
-                    onExpand={() => measure()}
-                  />
-                )
-              })
-            }
+            {props.resourceList.map((resourceUrl: string, idx) => {
+              return (
+                <UrlElement
+                  key={idx}
+                  isHost={false}
+                  name={resourceUrl}
+                  onExpand={() => measure()}
+                />
+              )
+            })}
           </div>
         ) : null}
       </TreeContents>

@@ -14,4 +14,5 @@ export const panelDataHandler = new SpeedreaderPanel.PanelDataHandlerRemote()
 
 factory.createInterfaces(
   panelHandler.$.bindNewPipeAndPassReceiver(),
-  panelDataHandler.$.bindNewPipeAndPassReceiver())
+  panelDataHandler.$.bindNewPipeAndPassReceiver()
+)

@@ -5,7 +5,13 @@
 import * as React from 'react'
 
 // Feature-specific components
-import { Content, Title, Paragraph, TermsOfService, PrimaryButton } from '../../components'
+import {
+  Content,
+  Title,
+  Paragraph,
+  TermsOfService,
+  PrimaryButton
+} from '../../components'
 
 // Images
 import { WelcomeRewardsImage } from '../../components/images'
@@ -19,45 +25,42 @@ interface Props {
   onClick: () => void
 }
 
-function splitMessage (key: string) {
+function splitMessage(key: string) {
   return getLocale(key).split(/\$\d+/g)
 }
 
 export default class PaymentsBox extends React.PureComponent<Props, {}> {
-  renderText () {
-    const [
-      before,
-      during,
-      after
-    ] = splitMessage('setupBraveRewards')
+  renderText() {
+    const [before, during, after] = splitMessage('setupBraveRewards')
 
-    return <>{before}<strong>{during}</strong>{after}</>
+    return (
+      <>
+        {before}
+        <strong>{during}</strong>
+        {after}
+      </>
+    )
   }
 
-  renderTerms () {
-    const [
-      beforeLink1,
-      link1,
-      afterLink1,
-      link2,
-      afterLink2
-    ] = splitMessage('braveRewardsTerms')
+  renderTerms() {
+    const [beforeLink1, link1, afterLink1, link2, afterLink2] =
+      splitMessage('braveRewardsTerms')
 
     return (
       <>
         {beforeLink1}
         <a
-          href='https://basicattentiontoken.org/user-terms-of-service'
-          target='_blank'
-          rel='noopener noreferrer'
+          href="https://basicattentiontoken.org/user-terms-of-service"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           {link1}
         </a>
         {afterLink1}
         <a
-          href='https://brave.com/privacy/#rewards'
-          target='_blank'
-          rel='noopener noreferrer'
+          href="https://brave.com/privacy/#rewards"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           {link2}
         </a>
@@ -68,7 +71,7 @@ export default class PaymentsBox extends React.PureComponent<Props, {}> {
     )
   }
 
-  render () {
+  render() {
     const { index, currentScreen, onClick } = this.props
     return (
       <Content
@@ -82,9 +85,9 @@ export default class PaymentsBox extends React.PureComponent<Props, {}> {
         <Paragraph>{this.renderText()}</Paragraph>
         <TermsOfService>{this.renderTerms()}</TermsOfService>
         <PrimaryButton
-          level='primary'
-          type='accent'
-          size='large'
+          level="primary"
+          type="accent"
+          size="large"
           text={getLocale('enableRewards')}
           onClick={onClick}
         />

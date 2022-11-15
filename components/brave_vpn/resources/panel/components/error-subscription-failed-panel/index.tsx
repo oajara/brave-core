@@ -11,8 +11,9 @@ import { getLocale } from '../../../../../common/locale'
 import ContactSupport from '../contact-support'
 import getPanelBrowserAPI from '../../api/panel_browser_api'
 
-function ErrorSubscriptionFailed () {
-  const [isContactSupportVisible, setContactSupportVisible] = React.useState(false)
+function ErrorSubscriptionFailed() {
+  const [isContactSupportVisible, setContactSupportVisible] =
+    React.useState(false)
 
   const handleEditPayment = () => {
     getPanelBrowserAPI().panelHandler.openVpnUI('manage')
@@ -22,22 +23,21 @@ function ErrorSubscriptionFailed () {
   const closeContactSupport = () => setContactSupportVisible(false)
 
   if (isContactSupportVisible) {
-    return (<ContactSupport
-      onCloseContactSupport={closeContactSupport}
-    />)
+    return <ContactSupport onCloseContactSupport={closeContactSupport} />
   }
 
   return (
     <S.Box>
       <S.PanelContent>
         <S.IconBox>
-          <AlertCircleIcon color='#84889C' />
+          <AlertCircleIcon color="#84889C" />
         </S.IconBox>
-        <S.ReasonTitle>
-          {getLocale('braveVpnPaymentFailure')}
-        </S.ReasonTitle>
+        <S.ReasonTitle>{getLocale('braveVpnPaymentFailure')}</S.ReasonTitle>
         <S.ReasonDesc>
-          {getLocale('braveVpnPaymentFailureReason').replace('$1', getLocale('braveVpn'))}
+          {getLocale('braveVpnPaymentFailureReason').replace(
+            '$1',
+            getLocale('braveVpn')
+          )}
         </S.ReasonDesc>
         <S.ActionArea>
           <Button

@@ -17,11 +17,7 @@ import {
 import { useAssets } from '../../../common/hooks'
 
 // Components
-import {
-  AccountsAssetsNetworks,
-  Header,
-  Buy
-} from '..'
+import { AccountsAssetsNetworks, Header, Buy } from '..'
 
 export interface Props {
   showHeader?: boolean
@@ -29,29 +25,33 @@ export interface Props {
   onSelectAccount: (account: UserAccountType) => void
 }
 
-function BuyTab (props: Props) {
-  const {
-    showHeader,
-    onSelectAccount
-  } = props
+function BuyTab(props: Props) {
+  const { showHeader, onSelectAccount } = props
   // Custom Hooks
   const { buyAssetOptions } = useAssets()
   const [buyView, setBuyView] = React.useState<BuySendSwapViewTypes>('buy')
-  const [selectedAsset, setSelectedAsset] = React.useState<BraveWallet.BlockchainToken>(buyAssetOptions[0])
+  const [selectedAsset, setSelectedAsset] =
+    React.useState<BraveWallet.BlockchainToken>(buyAssetOptions[0])
 
   const onChangeBuyView = React.useCallback((view: BuySendSwapViewTypes) => {
     setBuyView(view)
   }, [])
 
-  const onClickSelectAccount = React.useCallback((account: UserAccountType) => () => {
-    onSelectAccount(account)
-    setBuyView('buy')
-  }, [onSelectAccount])
+  const onClickSelectAccount = React.useCallback(
+    (account: UserAccountType) => () => {
+      onSelectAccount(account)
+      setBuyView('buy')
+    },
+    [onSelectAccount]
+  )
 
-  const onSelectedAsset = React.useCallback((asset: BraveWallet.BlockchainToken) => () => {
-    setSelectedAsset(asset)
-    setBuyView('buy')
-  }, [])
+  const onSelectedAsset = React.useCallback(
+    (asset: BraveWallet.BlockchainToken) => () => {
+      setSelectedAsset(asset)
+      setBuyView('buy')
+    },
+    []
+  )
 
   const onSelectCurrency = React.useCallback(() => {
     // hide currency selection view
@@ -79,21 +79,17 @@ function BuyTab (props: Props) {
 
   return (
     <>
-      {buyView === 'buy' &&
+      {buyView === 'buy' && (
         <>
-          {showHeader &&
-            <Header
-              onChangeSwapView={onChangeBuyView}
-            />
-          }
+          {showHeader && <Header onChangeSwapView={onChangeBuyView} />}
           <Buy
             selectedAsset={selectedAsset}
             onChangeBuyView={onChangeBuyView}
             onShowCurrencySelection={onShowCurrencySelection}
           />
         </>
-      }
-      {buyView !== 'buy' &&
+      )}
+      {buyView !== 'buy' && (
         <AccountsAssetsNetworks
           goBack={goBack}
           assetOptions={filteredAssetOptions}
@@ -102,7 +98,7 @@ function BuyTab (props: Props) {
           onSelectCurrency={onSelectCurrency}
           selectedView={buyView}
         />
-      }
+      )}
     </>
   )
 }

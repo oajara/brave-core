@@ -28,7 +28,7 @@ interface State {
 export class Log extends React.Component<Props, State> {
   private interval: number
 
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       autoRefresh: false,
@@ -36,7 +36,7 @@ export class Log extends React.Component<Props, State> {
     }
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.fullLog.length !== 0) {
       this.downloadFile(this.props.fullLog)
       this.props.onDownloadCompleted()
@@ -61,7 +61,10 @@ export class Log extends React.Component<Props, State> {
   downloadFile = (log: string) => {
     const filename = 'brave_rewards_log.txt'
     let element = document.createElement('a')
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(log))
+    element.setAttribute(
+      'href',
+      'data:text/plain;charset=utf-8,' + encodeURIComponent(log)
+    )
     element.setAttribute('download', filename)
 
     element.style.display = 'none'
@@ -71,44 +74,42 @@ export class Log extends React.Component<Props, State> {
     document.body.removeChild(element)
   }
 
-  render () {
+  render() {
     return (
-    <>
-      <LogControls>
-        <Checkbox
+      <>
+        <LogControls>
+          <Checkbox
             value={{ 'auto': this.state.autoRefresh }}
             size={'small'}
             onChange={this.autoRefreshToggle}
             type={'light'}
-        >
-          <div data-key='auto'>{getLocale('autoRefresh')}</div>
-        </Checkbox>
-        <ButtonGroup>
-          <Button
-             text={getLocale('clearButton')}
-             size={'medium'}
-             type={'accent'}
-             onClick={this.props.onClear}
-          />
-          <Button
-             text={getLocale('refreshButton')}
-             size={'medium'}
-             type={'accent'}
-             onClick={this.props.onGet}
-          />
-          <Button
-             text={getLocale('downloadButton')}
-             size={'medium'}
-             type={'accent'}
-             onClick={this.props.onFullLog}
-          />
-        </ButtonGroup>
-      </LogControls>
-      <LogTextArea value={this.props.log} readOnly={true} />
-      <Notice>
-        {getLocale('logNotice', { numberOfLines: '5,000' })}
-      </Notice>
-    </>
+          >
+            <div data-key="auto">{getLocale('autoRefresh')}</div>
+          </Checkbox>
+          <ButtonGroup>
+            <Button
+              text={getLocale('clearButton')}
+              size={'medium'}
+              type={'accent'}
+              onClick={this.props.onClear}
+            />
+            <Button
+              text={getLocale('refreshButton')}
+              size={'medium'}
+              type={'accent'}
+              onClick={this.props.onGet}
+            />
+            <Button
+              text={getLocale('downloadButton')}
+              size={'medium'}
+              type={'accent'}
+              onClick={this.props.onFullLog}
+            />
+          </ButtonGroup>
+        </LogControls>
+        <LogTextArea value={this.props.log} readOnly={true} />
+        <Notice>{getLocale('logNotice', { numberOfLines: '5,000' })}</Notice>
+      </>
     )
   }
 }

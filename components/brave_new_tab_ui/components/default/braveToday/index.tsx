@@ -14,10 +14,15 @@ const Content = React.lazy(() => import('./content'))
 
 export type OnReadFeedItem = (args: TodayActions.ReadFeedItemPayload) => any
 export type OnSetPublisherPref = (publisherId: string, enabled: boolean) => any
-export type OnPromotedItemViewed = (args: TodayActions.PromotedItemViewedPayload) => any
+export type OnPromotedItemViewed = (
+  args: TodayActions.PromotedItemViewedPayload
+) => any
 export type OnVisitDisplayAd = (args: TodayActions.VisitDisplayAdPayload) => any
-export type OnViewedDisplayAd = (args: TodayActions.DisplayAdViewedPayload) => any
-export type GetDisplayAdContent = BraveNews.BraveNewsControllerRemote['getDisplayAd']
+export type OnViewedDisplayAd = (
+  args: TodayActions.DisplayAdViewedPayload
+) => any
+export type GetDisplayAdContent =
+  BraveNews.BraveNewsControllerRemote['getDisplayAd']
 
 export type Props = {
   isFetching: boolean
@@ -49,7 +54,7 @@ export const attributeNameCardCount = 'data-today-card-count'
 
 const intersectionOptions = { root: null, rootMargin: '0px', threshold: 0.25 }
 
-export default function BraveTodaySection (props: Props) {
+export default function BraveTodaySection(props: Props) {
   const dispatch = useDispatch()
 
   // Don't ask for initial data more than once
@@ -59,15 +64,19 @@ export default function BraveTodaySection (props: Props) {
     const handleHits: IntersectionObserverCallback = (entries) => {
       // When the scroll trigger hits the viewport (or is above the viewport),
       // we can start to fetch data.
-      const isIntersecting = entries.some(entry => entry.isIntersecting)
+      const isIntersecting = entries.some((entry) => entry.isIntersecting)
       if (isIntersecting && !hasRequestedLoad.current) {
         // Only send interaction event when we're not loading data simply because
         // we're promoting items. In that case, the interaction event will
         // be sent by the content component when the content is first interacted
         // with.
         const shouldMarkInteraction = !props.isPrompting
-        console.debug('Brave News: section is in position that requires requesting data load')
-        dispatch(TodayActions.refresh({ isFirstInteraction: shouldMarkInteraction }))
+        console.debug(
+          'Brave News: section is in position that requires requesting data load'
+        )
+        dispatch(
+          TodayActions.refresh({ isFirstInteraction: shouldMarkInteraction })
+        )
         hasRequestedLoad.current = true
       }
     }
@@ -95,26 +104,22 @@ export default function BraveTodaySection (props: Props) {
   // by accident and get all the elements added.
   // Also sanity check isOptedIn, but without it there shouldn't be any content
   // anyway.
-  const shouldDisplayContent = props.isOptedIn &&
-    (props.hasInteracted || props.isPrompting)
+  const shouldDisplayContent =
+    props.isOptedIn && (props.hasInteracted || props.isPrompting)
 
   return (
     <BraveTodayElement.Section>
-      <div
-        ref={loadDataTrigger}
-        style={{ position: 'sticky', top: '100px' }}
-      />
-      { !props.isOptedIn &&
-      <>
-        <CardOptIn onOptIn={props.onOptIn} onDisable={props.onDisable} />
-      </>
-      }
-      { shouldDisplayContent &&
-      <React.Suspense fallback={(<CardLoading />)}>
-        <Content {...props} />
-      </React.Suspense>
-      }
-
+      <div ref={loadDataTrigger} style={{ position: 'sticky', top: '100px' }} />
+      {!props.isOptedIn && (
+        <>
+          <CardOptIn onOptIn={props.onOptIn} onDisable={props.onDisable} />
+        </>
+      )}
+      {shouldDisplayContent && (
+        <React.Suspense fallback={<CardLoading />}>
+          <Content {...props} />
+        </React.Suspense>
+      )}
     </BraveTodayElement.Section>
   )
 }

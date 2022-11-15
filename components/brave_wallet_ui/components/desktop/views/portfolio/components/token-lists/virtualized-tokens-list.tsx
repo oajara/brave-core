@@ -7,7 +7,10 @@ import * as React from 'react'
 import { VariableSizeList as List } from 'react-window'
 
 // types
-import { BraveWallet, UserAssetInfoType } from '../../../../../../constants/types'
+import {
+  BraveWallet,
+  UserAssetInfoType
+} from '../../../../../../constants/types'
 import { getAssetIdKey } from '../../../../../../utils/asset-utils'
 
 type ViewMode = 'list' | 'grid'
@@ -18,7 +21,9 @@ type RenderTokenProps = {
   index: number
 }
 
-export type RenderTokenFunc = (props: RenderTokenProps) => JSX.Element | undefined | null
+export type RenderTokenFunc = (
+  props: RenderTokenProps
+) => JSX.Element | undefined | null
 
 type VirtualizedTokensListProps = {
   userAssetList: UserAssetInfoType[]
@@ -27,26 +32,20 @@ type VirtualizedTokensListProps = {
   getItemSize: (index: number) => number
 }
 
-type ListItemProps<T extends UserAssetInfoType | BraveWallet.BlockchainToken = UserAssetInfoType> = {
+type ListItemProps<
+  T extends UserAssetInfoType | BraveWallet.BlockchainToken = UserAssetInfoType
+> = {
   index: number
   data: T
   style: React.CSSProperties
   renderToken: RenderTokenFunc
 }
 
-const ListItem = ({
-  data,
-  index,
-  renderToken,
-  style
-}: ListItemProps) => {
+const ListItem = ({ data, index, renderToken, style }: ListItemProps) => {
   const token = data[index] as UserAssetInfoType
 
   if (!token) {
-    console.warn('Token was null at index',
-      index,
-      data
-    )
+    console.warn('Token was null at index', index, data)
   }
 
   return (
@@ -60,7 +59,8 @@ const LIST_STYLE = {
   overscrollBehavior: 'contain'
 }
 
-const getListItemKey = (i: number, data: UserAssetInfoType[]) => getAssetIdKey(data[i].asset)
+const getListItemKey = (i: number, data: UserAssetInfoType[]) =>
+  getAssetIdKey(data[i].asset)
 
 export const VirtualizedTokensList = ({
   renderToken,
@@ -70,7 +70,7 @@ export const VirtualizedTokensList = ({
 }: VirtualizedTokensListProps) => {
   // computed
   // last item shown as 50% visible to indicate that scrolling is possible here
-  const minimumItems = (Math.min(4.5, userAssetList.length || 1)) // min: 1, max: 4.5
+  const minimumItems = Math.min(4.5, userAssetList.length || 1) // min: 1, max: 4.5
   const listHeight = estimatedItemSize * minimumItems
 
   // render
@@ -86,10 +86,7 @@ export const VirtualizedTokensList = ({
       itemKey={getListItemKey}
       style={LIST_STYLE}
       children={(itemProps) => (
-        <ListItem
-          {...itemProps}
-          renderToken={renderToken}
-        />
+        <ListItem {...itemProps} renderToken={renderToken} />
       )}
     />
   )

@@ -11,8 +11,8 @@ interface Props {
   onChange: (checked: boolean) => void
 }
 
-export function ToggleButton (props: Props) {
-  function toggleChecked () {
+export function ToggleButton(props: Props) {
+  function toggleChecked() {
     props.onChange(!props.checked)
   }
 

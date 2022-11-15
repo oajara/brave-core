@@ -10,7 +10,10 @@ import { types } from '../constants/rewards_internals_types'
 // Utils
 import * as storage from '../storage'
 
-const rewardsInternalsReducer: Reducer<RewardsInternals.State | undefined> = (state: RewardsInternals.State | undefined, action) => {
+const rewardsInternalsReducer: Reducer<RewardsInternals.State | undefined> = (
+  state: RewardsInternals.State | undefined,
+  action
+) => {
   if (state === undefined) {
     state = storage.load()
   }
@@ -79,8 +82,10 @@ const rewardsInternalsReducer: Reducer<RewardsInternals.State | undefined> = (st
       if (!action.payload.logs || !Array.isArray(action.payload.logs)) {
         break
       }
-      state.eventLogs = action.payload.logs
-        .sort((a: RewardsInternals.EventLog, b: RewardsInternals.EventLog) => b.createdAt - a.createdAt)
+      state.eventLogs = action.payload.logs.sort(
+        (a: RewardsInternals.EventLog, b: RewardsInternals.EventLog) =>
+          b.createdAt - a.createdAt
+      )
       break
     case types.GET_AD_DIAGNOSTICS:
       chrome.send('brave_rewards_internals.getAdDiagnostics')

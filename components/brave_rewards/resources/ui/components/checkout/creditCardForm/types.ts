@@ -3,11 +3,11 @@
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 export type CreditCardErrorType =
-  '' |
-  'required-input' |
-  'invalid-card-number' |
-  'invalid-expiry' |
-  'invalid-security-code'
+  | ''
+  | 'required-input'
+  | 'invalid-card-number'
+  | 'invalid-expiry'
+  | 'invalid-security-code'
 
 export interface CreditCardError {
   type: CreditCardErrorType

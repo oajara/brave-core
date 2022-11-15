@@ -20,7 +20,7 @@ interface Props {
 }
 
 export class General extends React.Component<Props, {}> {
-  render () {
+  render() {
     return (
       <>
         <ButtonWrapper>

@@ -13,14 +13,20 @@ import tapBackgroud from '../assets/tap_bg.svg'
 import upholdCardBackground from '../assets/uphold_card_bg.png'
 import upholdEquitiesBackground from '../assets/uphold_equities_bg.svg'
 
-function getBackgroundImage (key: PromotionKey) {
+function getBackgroundImage(key: PromotionKey) {
   switch (key) {
-    case 'bitflyer-verification': return ''
-    case 'brave-creators': return braveCreatorsBackground
-    case 'gemini': return geminiBackground
-    case 'tap-network': return tapBackgroud
-    case 'uphold-card': return upholdCardBackground
-    case 'uphold-equities': return upholdEquitiesBackground
+    case 'bitflyer-verification':
+      return ''
+    case 'brave-creators':
+      return braveCreatorsBackground
+    case 'gemini':
+      return geminiBackground
+    case 'tap-network':
+      return tapBackgroud
+    case 'uphold-card':
+      return upholdCardBackground
+    case 'uphold-equities':
+      return upholdEquitiesBackground
   }
 }
 
@@ -86,7 +92,7 @@ export const close = styled.div`
   }
 
   .icon {
-    color: #AEB1C2;
+    color: #aeb1c2;
     display: block;
     height: 12px;
     width: auto;
@@ -102,7 +108,7 @@ export const text = styled.div`
 
 export const disclaimer = styled.div`
   margin: 10px 16px 0 0;
-  color: #AEB1C2;
+  color: #aeb1c2;
   font-size: 11px;
   font-weight: 600;
 `

@@ -5,7 +5,10 @@
 
 import * as React from 'react'
 
-export default function useCloseWhenUnfocused (ref: React.RefObject<HTMLUListElement>, onClose: () => unknown) {
+export default function useCloseWhenUnfocused(
+  ref: React.RefObject<HTMLUListElement>,
+  onClose: () => unknown
+) {
   // Call onClose when
   // - click outside
   // - lose focus
@@ -18,7 +21,8 @@ export default function useCloseWhenUnfocused (ref: React.RefObject<HTMLUListEle
       if (!ref.current) {
         return
       }
-      const isFocusWithinMenu = (document.activeElement === ref.current) ||
+      const isFocusWithinMenu =
+        document.activeElement === ref.current ||
         ref.current.contains(document.activeElement)
       if (!isFocusWithinMenu) {
         onClose()
@@ -30,7 +34,11 @@ export default function useCloseWhenUnfocused (ref: React.RefObject<HTMLUListEle
       }
     }
     const handleClick = (ev: MouseEvent) => {
-      if (ref.current && ev.target instanceof HTMLElement && !ref.current.contains(ev.target)) {
+      if (
+        ref.current &&
+        ev.target instanceof HTMLElement &&
+        !ref.current.contains(ev.target)
+      ) {
         onClose()
       }
     }

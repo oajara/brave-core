@@ -14,10 +14,13 @@ import {
 describe('getSolanaSystemInstructionParamsAndType', () => {
   it('converts a brave wallet instruction to a solana instruction', () => {
     const typedInstruction = getSolanaTransactionInstructionParamsAndType(
-      mockSolDappSignAndSendTransactionRequest.txDataUnion.solanaTxData.instructions[0]
+      mockSolDappSignAndSendTransactionRequest.txDataUnion.solanaTxData
+        .instructions[0]
     )
 
-    expect(typedInstruction.instruction).toBeInstanceOf(Solana.TransactionInstruction)
+    expect(typedInstruction.instruction).toBeInstanceOf(
+      Solana.TransactionInstruction
+    )
     expect(typedInstruction.params).toBeDefined()
     expect(typedInstruction.params).toHaveProperty('lamports')
   })
@@ -25,6 +28,8 @@ describe('getSolanaSystemInstructionParamsAndType', () => {
 
 describe('getSolanaInstructionParamKeyName', () => {
   it('returns the key name if translation/mapping not found', () => {
-    expect(getSolanaInstructionParamKeyName('madeUpKey' as any)).toBe('madeUpKey')
+    expect(getSolanaInstructionParamKeyName('madeUpKey' as any)).toBe(
+      'madeUpKey'
+    )
   })
 })

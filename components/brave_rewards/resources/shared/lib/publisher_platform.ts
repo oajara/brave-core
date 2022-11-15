@@ -3,32 +3,45 @@
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 export type PublisherPlatform =
-  'twitter' |
-  'youtube' |
-  'twitch' |
-  'reddit' |
-  'vimeo' |
-  'github'
+  | 'twitter'
+  | 'youtube'
+  | 'twitch'
+  | 'reddit'
+  | 'vimeo'
+  | 'github'
 
-export function getPublisherPlatformName (platform: PublisherPlatform) {
+export function getPublisherPlatformName(platform: PublisherPlatform) {
   switch (platform) {
-    case 'twitter': return 'Twitter'
-    case 'youtube': return 'YouTube'
-    case 'twitch': return 'Twitch'
-    case 'reddit': return 'Reddit'
-    case 'vimeo': return 'Vimeo'
-    case 'github': return 'GitHub'
+    case 'twitter':
+      return 'Twitter'
+    case 'youtube':
+      return 'YouTube'
+    case 'twitch':
+      return 'Twitch'
+    case 'reddit':
+      return 'Reddit'
+    case 'vimeo':
+      return 'Vimeo'
+    case 'github':
+      return 'GitHub'
   }
 }
 
-export function lookupPublisherPlatformName (platform: string) {
+export function lookupPublisherPlatformName(platform: string) {
   switch (platform) {
-    case 'twitter': return 'Twitter'
-    case 'youtube': return 'YouTube'
-    case 'twitch': return 'Twitch'
-    case 'reddit': return 'Reddit'
-    case 'vimeo': return 'Vimeo'
-    case 'github': return 'GitHub'
-    default: return ''
+    case 'twitter':
+      return 'Twitter'
+    case 'youtube':
+      return 'YouTube'
+    case 'twitch':
+      return 'Twitch'
+    case 'reddit':
+      return 'Reddit'
+    case 'vimeo':
+      return 'Vimeo'
+    case 'github':
+      return 'GitHub'
+    default:
+      return ''
   }
 }

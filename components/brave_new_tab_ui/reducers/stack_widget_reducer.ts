@@ -14,7 +14,10 @@ const widgets = {
   'ftx': 'showFTX'
 }
 
-const removeStackWidget = (widget: NewTab.StackWidget, state: NewTab.State): NewTab.State => {
+const removeStackWidget = (
+  widget: NewTab.StackWidget,
+  state: NewTab.State
+): NewTab.State => {
   let { removedStackWidgets, widgetStackOrder } = state
 
   if (!widgetStackOrder.length) {
@@ -33,12 +36,17 @@ const removeStackWidget = (widget: NewTab.StackWidget, state: NewTab.State): New
   return state
 }
 
-const setForegroundStackWidget = (widget: NewTab.StackWidget, state: NewTab.State): NewTab.State => {
+const setForegroundStackWidget = (
+  widget: NewTab.StackWidget,
+  state: NewTab.State
+): NewTab.State => {
   let newWidgetStackOrder = state.widgetStackOrder
 
-  newWidgetStackOrder = newWidgetStackOrder.filter((stackWidget: NewTab.StackWidget) => {
-    return stackWidget !== widget
-  })
+  newWidgetStackOrder = newWidgetStackOrder.filter(
+    (stackWidget: NewTab.StackWidget) => {
+      return stackWidget !== widget
+    }
+  )
 
   newWidgetStackOrder.push(widget)
 
@@ -50,7 +58,10 @@ const setForegroundStackWidget = (widget: NewTab.StackWidget, state: NewTab.Stat
   return state
 }
 
-const handleWidgetPrefsChange = (state: NewTab.State, oldState: NewTab.State): NewTab.State => {
+const handleWidgetPrefsChange = (
+  state: NewTab.State,
+  oldState: NewTab.State
+): NewTab.State => {
   for (const val in widgets) {
     const widget = val as NewTab.StackWidget
     const showKey = widgets[widget]
@@ -67,12 +78,18 @@ const handleWidgetPrefsChange = (state: NewTab.State, oldState: NewTab.State): N
   return state
 }
 
-const stackWidgetReducer: Reducer<NewTab.State | undefined> = (state: NewTab.State, action) => {
+const stackWidgetReducer: Reducer<NewTab.State | undefined> = (
+  state: NewTab.State,
+  action
+) => {
   const payload = action.payload
 
   switch (action.type) {
     case types.SET_FOREGROUND_STACK_WIDGET:
-      state = setForegroundStackWidget(payload.widget as NewTab.StackWidget, state)
+      state = setForegroundStackWidget(
+        payload.widget as NewTab.StackWidget,
+        state
+      )
       break
 
     default:
@@ -82,7 +99,4 @@ const stackWidgetReducer: Reducer<NewTab.State | undefined> = (state: NewTab.Sta
   return state
 }
 
-export {
-  stackWidgetReducer,
-  handleWidgetPrefsChange
-}
+export { stackWidgetReducer, handleWidgetPrefsChange }

@@ -7,20 +7,26 @@ import { DisplayAd } from '../../../api/brave_news'
 
 let callCount = 0
 
-export default function getBraveNewsDisplayAd (always: boolean = false) {
+export default function getBraveNewsDisplayAd(always: boolean = false) {
   callCount++
-  const ad: DisplayAd | null = (always || callCount % 2)
-    ? {
-      description: 'Technica',
-      uuid: '0abc',
-      creativeInstanceId: '1234',
-      title: '10 reasons why technica recreated the sound of old classics.',
-      ctaText: 'Hear it',
-      targetUrl: { url: 'https://www.brave.com' },
-      image: { imageUrl: undefined, paddedImageUrl: { url: 'https://pcdn.brave.software/brave-today/cache/0e9f8fa60d995c1ca86f924b6104195c40555f696598b2f772b27d9b954ce158.jpg.pad' } },
-      dimensions: '1x3'
-    }
-    : null
+  const ad: DisplayAd | null =
+    always || callCount % 2
+      ? {
+          description: 'Technica',
+          uuid: '0abc',
+          creativeInstanceId: '1234',
+          title: '10 reasons why technica recreated the sound of old classics.',
+          ctaText: 'Hear it',
+          targetUrl: { url: 'https://www.brave.com' },
+          image: {
+            imageUrl: undefined,
+            paddedImageUrl: {
+              url: 'https://pcdn.brave.software/brave-today/cache/0e9f8fa60d995c1ca86f924b6104195c40555f696598b2f772b27d9b954ce158.jpg.pad'
+            }
+          },
+          dimensions: '1x3'
+        }
+      : null
   return new Promise<{ ad: DisplayAd | null }>(function (resolve) {
     setTimeout(() => resolve({ ad }), 2400)
   })

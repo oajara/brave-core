@@ -3,7 +3,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 
-const Environment = require("jest-environment-jsdom")
+const Environment = require('jest-environment-jsdom')
 
 module.exports = class CustomEnvironment extends Environment {
   constructor(config) {
@@ -16,7 +16,7 @@ module.exports = class CustomEnvironment extends Environment {
         // If removing these globals results in all tests passing on all platforms,
         // then we can keep them removed.
         Uint8Array: Uint8Array
-      }),
+      })
     })
     super(config)
   }

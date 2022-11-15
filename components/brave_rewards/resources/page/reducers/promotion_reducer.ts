@@ -12,11 +12,14 @@ const getPromotion = (id: string, promotions?: Rewards.Promotion[]) => {
   }
 
   return promotions.find((promotion: Rewards.Promotion) => {
-    return (promotion.promotionId === id)
+    return promotion.promotionId === id
   })
 }
 
-const updatePromotions = (newPromotion: Rewards.Promotion, promotions: Rewards.Promotion[]): Rewards.Promotion[] => {
+const updatePromotions = (
+  newPromotion: Rewards.Promotion,
+  promotions: Rewards.Promotion[]
+): Rewards.Promotion[] => {
   return promotions.map((promotion: Rewards.Promotion) => {
     if (newPromotion.promotionId === promotion.promotionId) {
       return Object.assign(promotion, newPromotion)
@@ -25,8 +28,14 @@ const updatePromotions = (newPromotion: Rewards.Promotion, promotions: Rewards.P
   })
 }
 
-const updatePromotion = (newPromotion: Rewards.Promotion, promotions: Rewards.Promotion[]): Rewards.Promotion => {
-  const oldPromotion = promotions.filter((promotion: Rewards.Promotion) => newPromotion.promotionId === promotion.promotionId)
+const updatePromotion = (
+  newPromotion: Rewards.Promotion,
+  promotions: Rewards.Promotion[]
+): Rewards.Promotion => {
+  const oldPromotion = promotions.filter(
+    (promotion: Rewards.Promotion) =>
+      newPromotion.promotionId === promotion.promotionId
+  )
 
   if (oldPromotion.length === 0) {
     return newPromotion
@@ -35,7 +44,10 @@ const updatePromotion = (newPromotion: Rewards.Promotion, promotions: Rewards.Pr
   return Object.assign(oldPromotion[0], newPromotion)
 }
 
-const promotionReducer: Reducer<Rewards.State | undefined> = (state: Rewards.State, action) => {
+const promotionReducer: Reducer<Rewards.State | undefined> = (
+  state: Rewards.State,
+  action
+) => {
   if (!state) {
     return
   }
@@ -118,10 +130,13 @@ const promotionReducer: Reducer<Rewards.State | undefined> = (state: Rewards.Sta
         if (promotion) {
           state = {
             ...state,
-            promotions: updatePromotions({
-              ...promotion,
-              captchaStatus: 'start'
-            }, state.promotions)
+            promotions: updatePromotions(
+              {
+                ...promotion,
+                captchaStatus: 'start'
+              },
+              state.promotions
+            )
           }
         }
       }

@@ -17,7 +17,7 @@ import { useLib } from './'
 // Utils
 import { addLogoToToken } from '../../utils/asset-utils'
 
-export function useTokenRegistry () {
+export function useTokenRegistry() {
   // Hooks
   const { getTokenList } = useLib()
 
@@ -31,22 +31,24 @@ export function useTokenRegistry () {
   React.useEffect(() => {
     let subscribed = true
     let registry = tokenRegistry
-    Promise.all(networkList.map(async (network) => {
-      await getTokenList(network).then(
-        (result) => {
-          const formattedListWithIcons = result.tokens.map((token) => {
-            return addLogoToToken(token)
+    Promise.all(
+      networkList.map(async (network) => {
+        await getTokenList(network)
+          .then((result) => {
+            const formattedListWithIcons = result.tokens.map((token) => {
+              return addLogoToToken(token)
+            })
+            registry[network.chainId] = formattedListWithIcons
           })
-          registry[network.chainId] = formattedListWithIcons
-        }
-      ).catch((error) => {
-        if (!subscribed) {
-          return
-        }
-        console.log(error)
-        setIsLoading(false)
+          .catch((error) => {
+            if (!subscribed) {
+              return
+            }
+            console.log(error)
+            setIsLoading(false)
+          })
       })
-    })).then(() => {
+    ).then(() => {
       if (!subscribed) {
         return
       }
@@ -60,9 +62,12 @@ export function useTokenRegistry () {
   }, [tokenRegistry, networkList, getTokenList])
 
   // Creates a flat list of all tokens in the tokenRegistry
-  const fullTokenListAllChains: BraveWallet.BlockchainToken[] = React.useMemo(() => {
-    return Object.keys(tokenRegistry).length === 0 ? [] : networkList.map((network) => tokenRegistry[network.chainId]).flat(1)
-  }, [tokenRegistry, networkList, Object.keys(tokenRegistry).length])
+  const fullTokenListAllChains: BraveWallet.BlockchainToken[] =
+    React.useMemo(() => {
+      return Object.keys(tokenRegistry).length === 0
+        ? []
+        : networkList.map((network) => tokenRegistry[network.chainId]).flat(1)
+    }, [tokenRegistry, networkList, Object.keys(tokenRegistry).length])
 
   return { tokenRegistry, fullTokenListAllChains, isLoading }
 }

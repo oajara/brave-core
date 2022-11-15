@@ -5,7 +5,7 @@
 import styled from 'styled-components'
 
 export const StyledExcludedText = styled('div')<{}>`
-  color: #4B4C5C;
+  color: #4b4c5c;
   font-size: 14px;
   font-weight: 300;
   text-align: left;

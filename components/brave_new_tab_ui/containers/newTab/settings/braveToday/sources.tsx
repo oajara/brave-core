@@ -6,7 +6,10 @@
 import * as React from 'react'
 import { CaratRightIcon, PlusIcon } from 'brave-ui/components/icons'
 import { getLocale } from '../../../../../common/locale'
-import getBraveNewsController, { Publisher, PublisherType } from '../../../../api/brave_news'
+import getBraveNewsController, {
+  Publisher,
+  PublisherType
+} from '../../../../api/brave_news'
 import {
   SettingsRow,
   SettingsText,
@@ -25,7 +28,7 @@ type CategoryListProps = {
   setCategory: (category: string) => any
 }
 
-function CategoryList (props: CategoryListProps) {
+function CategoryList(props: CategoryListProps) {
   type ClickFunctions = { [category: string]: () => any }
   const clickFunctions: ClickFunctions = React.useMemo(() => {
     const functions = {}
@@ -36,10 +39,16 @@ function CategoryList (props: CategoryListProps) {
   }, [props.categories, props.setCategory])
   return (
     <>
-      <SettingsSectionTitle>{getLocale('braveTodaySourcesTitle')}</SettingsSectionTitle>
-      {props.categories.map(category => {
+      <SettingsSectionTitle>
+        {getLocale('braveTodaySourcesTitle')}
+      </SettingsSectionTitle>
+      {props.categories.map((category) => {
         return (
-          <SettingsRow key={category} isInteractive={true} onClick={clickFunctions[category]}>
+          <SettingsRow
+            key={category}
+            isInteractive={true}
+            onClick={clickFunctions[category]}
+          >
             <SettingsText>{category}</SettingsText>
             <Styled.SourcesCommandIcon>
               <CaratRightIcon />
@@ -58,7 +67,7 @@ type CategoryProps = {
   setPublisherPref: (publisherId: string, enabled: boolean) => any
 }
 
-function Category (props: CategoryProps) {
+function Category(props: CategoryProps) {
   return (
     <Styled.Section>
       <Styled.StaticPrefs>
@@ -85,12 +94,14 @@ type SourcesProps = Props & {
 const useBraveNewsLocale = () => {
   const [locale, setLocale] = React.useState('')
   React.useEffect(() => {
-    getBraveNewsController().getLocale().then(({ locale }) => setLocale(locale))
+    getBraveNewsController()
+      .getLocale()
+      .then(({ locale }) => setLocale(locale))
   }, [])
   return locale
 }
 
-export default function Sources (props: SourcesProps) {
+export default function Sources(props: SourcesProps) {
   const locale = useBraveNewsLocale()
 
   // Memoisze list of publishers by category
@@ -104,7 +115,10 @@ export default function Sources (props: SourcesProps) {
     for (const publisher of Object.values(props.publishers)) {
       // If the publisher has a locale (which can only happen in the V2 API) and
       // it doesn't include the current locale, skip over it.
-      if (publisher.locales.length !== 0 && !publisher.locales.some(l => l.locale === locale)) {
+      if (
+        publisher.locales.length !== 0 &&
+        !publisher.locales.some((l) => l.locale === locale)
+      ) {
         continue
       }
 
@@ -123,7 +137,11 @@ export default function Sources (props: SourcesProps) {
 
     // Sort all publishers alphabetically
     for (const publishers of result.values()) {
-      publishers.sort((a, b) => a.publisherName.toLocaleLowerCase().localeCompare(b.publisherName.toLocaleLowerCase()))
+      publishers.sort((a, b) =>
+        a.publisherName
+          .toLocaleLowerCase()
+          .localeCompare(b.publisherName.toLocaleLowerCase())
+      )
     }
     return result
   }, [props.publishers, locale])
@@ -156,28 +174,50 @@ export default function Sources (props: SourcesProps) {
             {/* getLocale('braveTodayYourSourcesTitle') */}
             Your Sources
           </SettingsSectionTitle>
-          {userFeeds && userFeeds.map(publisher => (
-            <SettingsRow key={publisher.publisherId} isInteractive={false} isLayoutControlled={true}>
-              <SettingsText title={publisher.feedSource.url}>{publisher.publisherName}</SettingsText>
-              <DirectFeedItemMenu key={publisher.publisherId} onRemove={onRemoveDirectFeed.bind(undefined, publisher)} />
-            </SettingsRow>
-          ))}
-          <Styled.AddSourceForm onSubmit={e => { e.preventDefault() }}>
+          {userFeeds &&
+            userFeeds.map((publisher) => (
+              <SettingsRow
+                key={publisher.publisherId}
+                isInteractive={false}
+                isLayoutControlled={true}
+              >
+                <SettingsText title={publisher.feedSource.url}>
+                  {publisher.publisherName}
+                </SettingsText>
+                <DirectFeedItemMenu
+                  key={publisher.publisherId}
+                  onRemove={onRemoveDirectFeed.bind(undefined, publisher)}
+                />
+              </SettingsRow>
+            ))}
+          <Styled.AddSourceForm
+            onSubmit={(e) => {
+              e.preventDefault()
+            }}
+          >
             <Styled.FeedInputLabel>
               Feed URL
-              <Styled.FeedInput type={'text'} value={feedInputText} onChange={onChangeFeedInput} />
+              <Styled.FeedInput
+                type={'text'}
+                value={feedInputText}
+                onChange={onChangeFeedInput}
+              />
             </Styled.FeedInputLabel>
-            {(feedInputIsValid === FeedInputValidity.NotValid) &&
-              <Styled.FeedUrlError>Sorry, we couldn't find a feed at that address.</Styled.FeedUrlError>
-            }
-            {(feedInputIsValid === FeedInputValidity.IsDuplicate) &&
-              <Styled.FeedUrlError>Seems like you already subscribe to that feed.</Styled.FeedUrlError>
-            }
+            {feedInputIsValid === FeedInputValidity.NotValid && (
+              <Styled.FeedUrlError>
+                Sorry, we couldn't find a feed at that address.
+              </Styled.FeedUrlError>
+            )}
+            {feedInputIsValid === FeedInputValidity.IsDuplicate && (
+              <Styled.FeedUrlError>
+                Seems like you already subscribe to that feed.
+              </Styled.FeedUrlError>
+            )}
             <Styled.YourSourcesAction>
               <Button
                 isPrimary
-                scale='small'
-                type='submit'
+                scale="small"
+                type="submit"
                 isDisabled={feedInputIsValid !== FeedInputValidity.Valid}
                 isLoading={feedInputIsValid === FeedInputValidity.Pending}
                 onClick={onSearchForSources}
@@ -186,11 +226,11 @@ export default function Sources (props: SourcesProps) {
               </Button>
             </Styled.YourSourcesAction>
           </Styled.AddSourceForm>
-          {(feedInputIsValid === FeedInputValidity.HasResults) &&
+          {feedInputIsValid === FeedInputValidity.HasResults && (
             <Styled.FeedSearchResults>
               Multiple feeds were found:
               <Styled.ResultItems>
-                {feedSearchResults.map(result => (
+                {feedSearchResults.map((result) => (
                   <Styled.ResultItem key={result.feedUrl.url}>
                     <span title={result.feedUrl.url}>{result.feedTitle}</span>
                     <Button
@@ -208,7 +248,7 @@ export default function Sources (props: SourcesProps) {
                 ))}
               </Styled.ResultItems>
             </Styled.FeedSearchResults>
-          }
+          )}
         </Styled.YourSources>
         <CategoryList
           categories={[...publishersByCategory.keys()]}

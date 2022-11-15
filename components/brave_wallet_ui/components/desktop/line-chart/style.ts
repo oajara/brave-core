@@ -9,7 +9,7 @@ interface StyleProps {
   labelPosition: 'start' | 'middle' | 'end'
   labelTranslate: number
   isLoading: boolean
-  customStyle?: {[key: string]: string}
+  customStyle?: { [key: string]: string }
 }
 
 export const StyledWrapper = styled.div<Partial<StyleProps>>`
@@ -18,25 +18,33 @@ export const StyledWrapper = styled.div<Partial<StyleProps>>`
   margin-bottom: 30px;
   box-sizing: border-box;
   position: relative;
-  ${p => p.customStyle
-    ? css`
-      ${p.customStyle}
-    `
-    : ''
-  };
+  ${(p) =>
+    p.customStyle
+      ? css`
+          ${p.customStyle}
+        `
+      : ''};
 `
 
 export const LabelWrapper = styled.div<Partial<StyleProps>>`
-  --label-start-translate: translateX(calc(-${(p) => p.labelTranslate}px + 4px));
+  --label-start-translate: translateX(
+    calc(-${(p) => p.labelTranslate}px + 4px)
+  );
   --label-end-translate: translateX(calc(-100% + ${(p) => p.labelTranslate}px));
-  --label-middle-end-condition: ${(p) => p.labelPosition === 'end' ? 'var(--label-end-translate)' : 'translateX(-50%)'};
+  --label-middle-end-condition: ${(p) =>
+    p.labelPosition === 'end'
+      ? 'var(--label-end-translate)'
+      : 'translateX(-50%)'};
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
   top: -16px;
-  transform: ${(p) => p.labelPosition === 'start' ? 'var(--label-start-translate)' : 'var(--label-middle-end-condition)'};
-  white-space: nowrap
+  transform: ${(p) =>
+    p.labelPosition === 'start'
+      ? 'var(--label-start-translate)'
+      : 'var(--label-middle-end-condition)'};
+  white-space: nowrap;
 `
 
 export const ChartLabel = styled.span`
@@ -47,7 +55,7 @@ export const ChartLabel = styled.span`
 `
 
 export const LoadingOverlay = styled.div<Partial<StyleProps>>`
-  display: ${(p) => p.isLoading ? 'flex' : 'none'};
+  display: ${(p) => (p.isLoading ? 'flex' : 'none')};
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -59,8 +67,8 @@ export const LoadingOverlay = styled.div<Partial<StyleProps>>`
 `
 
 export const LoadIcon = styled(LoaderIcon)`
-  color: ${p => p.theme.color.interactive08};
+  color: ${(p) => p.theme.color.interactive08};
   height: 70px;
   width: 70px;
-  opacity: .4;
+  opacity: 0.4;
 `

@@ -23,11 +23,11 @@ export const Header = styled.h2`
   font-size: 22px;
   font-weight: 500;
   margin: 0;
-  color: ${p => p.theme.palette.neutral700};
+  color: ${(p) => p.theme.palette.neutral700};
 `
 
 export const Text = styled.p`
   margin-top: 12px;
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   font-size: 16px;
 `

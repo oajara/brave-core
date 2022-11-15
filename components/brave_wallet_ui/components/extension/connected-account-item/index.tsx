@@ -4,16 +4,17 @@
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 
 import * as React from 'react'
-import {
-  useDispatch,
-  useSelector
-} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 // Actions
 import { WalletActions } from '../../../common/actions'
 
 // Types
-import { BraveWallet, WalletAccountType, WalletState } from '../../../constants/types'
+import {
+  BraveWallet,
+  WalletAccountType,
+  WalletState
+} from '../../../constants/types'
 
 // Utils
 import { reduceAccountDisplayName } from '../../../utils/reduce-account-name'
@@ -40,29 +41,31 @@ export interface Props {
 }
 
 const SitePermissionAccountItem = (props: Props) => {
-  const {
-    account
-  } = props
+  const { account } = props
 
   const dispatch = useDispatch()
-  const {
-    selectedAccount,
-    connectedAccounts,
-    activeOrigin,
-    selectedCoin
-  } = useSelector(({ wallet }: { wallet: WalletState }) => wallet)
+  const { selectedAccount, connectedAccounts, activeOrigin, selectedCoin } =
+    useSelector(({ wallet }: { wallet: WalletState }) => wallet)
 
   // memos
   const orb = React.useMemo(() => {
-    return create({ seed: account.address.toLowerCase(), size: 8, scale: 16 }).toDataURL()
+    return create({
+      seed: account.address.toLowerCase(),
+      size: 8,
+      scale: 16
+    }).toDataURL()
   }, [account.address])
 
   const isActive = React.useMemo((): boolean => {
-    return account.address.toLowerCase() === selectedAccount?.address.toLowerCase()
+    return (
+      account.address.toLowerCase() === selectedAccount?.address.toLowerCase()
+    )
   }, [selectedAccount?.address, account.address])
 
   const hasPermission = React.useMemo((): boolean => {
-    return connectedAccounts.some(a => a.address.toLowerCase() === account.address.toLowerCase())
+    return connectedAccounts.some(
+      (a) => a.address.toLowerCase() === account.address.toLowerCase()
+    )
   }, [connectedAccounts, account])
 
   const buttonText = React.useMemo((): string => {
@@ -80,15 +83,30 @@ const SitePermissionAccountItem = (props: Props) => {
 
   // methods
   const onClickConnect = React.useCallback(() => {
-    dispatch(WalletActions.addSitePermission({ coin: account.coin, origin: activeOrigin.origin, account: account.address }))
+    dispatch(
+      WalletActions.addSitePermission({
+        coin: account.coin,
+        origin: activeOrigin.origin,
+        account: account.address
+      })
+    )
     if (selectedCoin !== BraveWallet.CoinType.SOL) {
       dispatch(WalletActions.selectAccount(account))
     }
   }, [activeOrigin, account, selectedCoin])
 
   const onClickDisconnect = React.useCallback(() => {
-    dispatch(WalletActions.removeSitePermission({ coin: account.coin, origin: activeOrigin.origin, account: account.address }))
-    if (connectedAccounts.length !== 0 && selectedCoin !== BraveWallet.CoinType.SOL) {
+    dispatch(
+      WalletActions.removeSitePermission({
+        coin: account.coin,
+        origin: activeOrigin.origin,
+        account: account.address
+      })
+    )
+    if (
+      connectedAccounts.length !== 0 &&
+      selectedCoin !== BraveWallet.CoinType.SOL
+    ) {
       dispatch(WalletActions.selectAccount(connectedAccounts[0]))
     }
   }, [connectedAccounts, activeOrigin, account, selectedCoin])
@@ -99,32 +117,37 @@ const SitePermissionAccountItem = (props: Props) => {
 
   const onClickConnectDisconnectOrSwitch = React.useCallback(() => {
     if (selectedCoin === BraveWallet.CoinType.SOL) {
-      return hasPermission
-        ? onClickDisconnect()
-        : onClickConnect()
+      return hasPermission ? onClickDisconnect() : onClickConnect()
     }
     return hasPermission
       ? isActive
         ? onClickDisconnect()
         : onClickSwitchAccount()
       : onClickConnect()
-  }, [selectedCoin, hasPermission, isActive, onClickDisconnect, onClickConnect, onClickSwitchAccount])
+  }, [
+    selectedCoin,
+    hasPermission,
+    isActive,
+    onClickDisconnect,
+    onClickConnect,
+    onClickSwitchAccount
+  ])
 
   return (
     <StyledWrapper>
       <LeftSide>
         <AccountCircle orb={orb} />
         <NameAndAddressColumn>
-          <AccountNameText>{reduceAccountDisplayName(account.name, 22)}</AccountNameText>
+          <AccountNameText>
+            {reduceAccountDisplayName(account.name, 22)}
+          </AccountNameText>
           <AccountAddressText>
             {reduceAddress(account.address)}
           </AccountAddressText>
         </NameAndAddressColumn>
       </LeftSide>
       <RightSide>
-        <PrimaryButton
-          onClick={onClickConnectDisconnectOrSwitch}
-        >
+        <PrimaryButton onClick={onClickConnectDisconnectOrSwitch}>
           {buttonText}
         </PrimaryButton>
       </RightSide>

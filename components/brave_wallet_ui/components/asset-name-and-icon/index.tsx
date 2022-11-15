@@ -5,7 +5,13 @@
 
 import * as React from 'react'
 
-import { StyledWrapper, NameAndSymbolWrapper, AssetName, AssetSymbol, AssetIcon } from './style'
+import {
+  StyledWrapper,
+  NameAndSymbolWrapper,
+  AssetName,
+  AssetSymbol,
+  AssetIcon
+} from './style'
 
 export interface Props {
   symbol: string
@@ -14,11 +20,7 @@ export interface Props {
 }
 
 export const AssetNameAndIcon = (props: Props) => {
-  const {
-    assetLogo,
-    assetName,
-    symbol
-  } = props
+  const { assetLogo, assetName, symbol } = props
 
   return (
     <StyledWrapper>

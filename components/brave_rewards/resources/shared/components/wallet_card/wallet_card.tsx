@@ -5,7 +5,10 @@
 import * as React from 'react'
 
 import { LocaleContext, formatMessage } from '../../lib/locale_context'
-import { ExternalWallet, getExternalWalletProviderName } from '../../lib/external_wallet'
+import {
+  ExternalWallet,
+  getExternalWalletProviderName
+} from '../../lib/external_wallet'
 import { ProviderPayoutStatus } from '../../lib/provider_payout_status'
 
 import { TokenAmount } from '../token_amount'
@@ -44,25 +47,25 @@ interface Props {
   onViewStatement?: () => void
 }
 
-export function getCurrentMonthRange () {
+export function getCurrentMonthRange() {
   const now = new Date(Date.now())
   const start = new Date(now.getFullYear(), now.getMonth(), 1)
   const end = new Date(now.getFullYear(), now.getMonth() + 1, 0)
   return rangeFormatter.format(start) + ' – ' + rangeFormatter.format(end)
 }
 
-export function WalletCard (props: Props) {
+export function WalletCard(props: Props) {
   const { getString } = React.useContext(LocaleContext)
   const { externalWallet } = props
 
   const walletDisconnected =
     externalWallet && externalWallet.status === mojom.WalletStatus.kLoggedOut
 
-  function onAddFundsClick () {
+  function onAddFundsClick() {
     props.onExternalWalletAction('add-funds')
   }
 
-  function renderBalance () {
+  function renderBalance() {
     if (externalWallet && walletDisconnected) {
       const onReconnectClick = () => {
         props.onExternalWalletAction('reconnect')
@@ -75,16 +78,14 @@ export function WalletCard (props: Props) {
           className={coverActions ? 'cover-actions' : ''}
           onClick={onReconnectClick}
         >
-          {
-            formatMessage(getString('rewardsLogInToSeeBalance'), {
-              placeholders: {
-                $2: getExternalWalletProviderName(externalWallet.provider)
-              },
-              tags: {
-                $1: (content) => <strong key='1'>{content}</strong>
-              }
-            })
-          }
+          {formatMessage(getString('rewardsLogInToSeeBalance'), {
+            placeholders: {
+              $2: getExternalWalletProviderName(externalWallet.provider)
+            },
+            tags: {
+              $1: (content) => <strong key="1">{content}</strong>
+            }
+          })}
           <ArrowCircleIcon />
         </style.disconnectedBalance>
       )
@@ -95,7 +96,7 @@ export function WalletCard (props: Props) {
         <style.balanceHeader>
           {getString('walletYourBalance')}
         </style.balanceHeader>
-        <style.batAmount data-test-id='rewards-balance-text'>
+        <style.batAmount data-test-id="rewards-balance-text">
           <TokenAmount amount={props.balance} />
         </style.batAmount>
         <style.exchangeAmount>
@@ -116,9 +117,7 @@ export function WalletCard (props: Props) {
         </style.statusIndicator>
         {renderBalance()}
         <style.earningsPanel>
-          <style.dateRange>
-            {getCurrentMonthRange()}
-          </style.dateRange>
+          <style.dateRange>{getCurrentMonthRange()}</style.dateRange>
           <style.earningsHeader>
             {getString('walletEstimatedEarnings')}
           </style.earningsHeader>
@@ -134,49 +133,49 @@ export function WalletCard (props: Props) {
             />
           </style.exchangeAmount>
         </style.earningsPanel>
-        {
-          props.showSummary && !walletDisconnected &&
-            <style.addFunds>
-              <button onClick={onAddFundsClick}>
-                <PlusIcon />{getString('walletAddFunds')}
-              </button>
-            </style.addFunds>
-        }
-        {
-          props.showSummary && props.onViewStatement &&
-            <style.viewStatement>
-              <button
-                onClick={props.onViewStatement}
-                data-test-id='view-statement-button'
-              >
-                <WalletInfoIcon />{getString('walletViewStatement')}
-              </button>
-            </style.viewStatement>
-        }
+        {props.showSummary && !walletDisconnected && (
+          <style.addFunds>
+            <button onClick={onAddFundsClick}>
+              <PlusIcon />
+              {getString('walletAddFunds')}
+            </button>
+          </style.addFunds>
+        )}
+        {props.showSummary && props.onViewStatement && (
+          <style.viewStatement>
+            <button
+              onClick={props.onViewStatement}
+              data-test-id="view-statement-button"
+            >
+              <WalletInfoIcon />
+              {getString('walletViewStatement')}
+            </button>
+          </style.viewStatement>
+        )}
       </style.grid>
-      {
-        props.showSummary
-          ? <style.summaryBox>
-              <RewardsSummary
-                data={props.summaryData}
-                providerPayoutStatus={props.providerPayoutStatus}
-                autoContributeEnabled={props.autoContributeEnabled}
-                hideAdEarnings={Boolean(props.externalWallet)}
-                earningsLastMonth={props.earningsLastMonth}
-                nextPaymentDate={props.nextPaymentDate}
-                exchangeRate={props.exchangeRate}
-                exchangeCurrency={props.exchangeCurrency}
-                onViewPendingTips={props.onViewPendingTips}
-              />
-            </style.summaryBox>
-          : <style.pendingBox>
-              <PendingRewardsView
-                earningsLastMonth={props.earningsLastMonth}
-                nextPaymentDate={props.nextPaymentDate}
-                providerPayoutStatus={props.providerPayoutStatus}
-              />
-            </style.pendingBox>
-      }
+      {props.showSummary ? (
+        <style.summaryBox>
+          <RewardsSummary
+            data={props.summaryData}
+            providerPayoutStatus={props.providerPayoutStatus}
+            autoContributeEnabled={props.autoContributeEnabled}
+            hideAdEarnings={Boolean(props.externalWallet)}
+            earningsLastMonth={props.earningsLastMonth}
+            nextPaymentDate={props.nextPaymentDate}
+            exchangeRate={props.exchangeRate}
+            exchangeCurrency={props.exchangeCurrency}
+            onViewPendingTips={props.onViewPendingTips}
+          />
+        </style.summaryBox>
+      ) : (
+        <style.pendingBox>
+          <PendingRewardsView
+            earningsLastMonth={props.earningsLastMonth}
+            nextPaymentDate={props.nextPaymentDate}
+            providerPayoutStatus={props.providerPayoutStatus}
+          />
+        </style.pendingBox>
+      )}
     </style.root>
   )
 }

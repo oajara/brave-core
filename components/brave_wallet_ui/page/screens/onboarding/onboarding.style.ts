@@ -126,7 +126,7 @@ export const PhraseCardBody = styled.div`
 export const PhraseCardBottomRow = styled(PhraseCardTopRow)<{
   centered?: boolean
 }>`
-  justify-content: ${(p) => p.centered ? 'center' : 'flex-start'};
+  justify-content: ${(p) => (p.centered ? 'center' : 'flex-start')};
   height: 40px;
   gap: 14px;
 `

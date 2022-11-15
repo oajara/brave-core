@@ -16,7 +16,7 @@ interface Props {
 }
 
 export class EventLogs extends React.Component<Props, {}> {
-  render () {
+  render() {
     return (
       <EventTable>
         <thead>
@@ -27,13 +27,13 @@ export class EventLogs extends React.Component<Props, {}> {
           </tr>
         </thead>
         <tbody>
-        {this.props.items.map((item) =>
-          <tr key={item.id}>
-            <EventCell>{formatDate(item.createdAt * 1000)}</EventCell>
-            <EventCell>{item.key}</EventCell>
-            <EventCell>{item.value}</EventCell>
-          </tr>
-        )}
+          {this.props.items.map((item) => (
+            <tr key={item.id}>
+              <EventCell>{formatDate(item.createdAt * 1000)}</EventCell>
+              <EventCell>{item.key}</EventCell>
+              <EventCell>{item.value}</EventCell>
+            </tr>
+          ))}
         </tbody>
       </EventTable>
     )

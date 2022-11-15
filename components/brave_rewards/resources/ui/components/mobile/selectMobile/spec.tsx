@@ -9,7 +9,11 @@ import SelectMobile from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('SelectMobile tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><SelectMobile id='selectMobile' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <SelectMobile id="selectMobile" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

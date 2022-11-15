@@ -20,5 +20,4 @@ export const onSubmitReport = (details: string, contact: string) =>
     contact
   })
 
-export const onClose = () =>
-  action(types.WEBCOMPATREPORTER_ON_CLOSE)
+export const onClose = () => action(types.WEBCOMPATREPORTER_ON_CLOSE)

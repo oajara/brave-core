@@ -5,20 +5,21 @@
 
 import * as mojom from 'gen/brave/components/brave_shields/common/cookie_list_opt_in.mojom.m.js'
 
-let instance: CookieListOptInProxy|null = null
+let instance: CookieListOptInProxy | null = null
 
 export class CookieListOptInProxy {
   handler: mojom.CookieListOptInPageHandlerRemote
 
-  constructor (handler: mojom.CookieListOptInPageHandlerRemote) {
+  constructor(handler: mojom.CookieListOptInPageHandlerRemote) {
     this.handler = handler
   }
 
-  static getInstance (): CookieListOptInProxy {
+  static getInstance(): CookieListOptInProxy {
     if (!instance) {
       const handler = new mojom.CookieListOptInPageHandlerRemote()
       mojom.CookieListOptInPageHandlerFactory.getRemote().createPageHandler(
-        handler.$.bindNewPipeAndPassReceiver())
+        handler.$.bindNewPipeAndPassReceiver()
+      )
       instance = new CookieListOptInProxy(handler)
     }
     return instance

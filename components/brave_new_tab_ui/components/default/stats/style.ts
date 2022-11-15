@@ -23,17 +23,21 @@ export const StyledStatsItem = styled('li')<{}>`
   font-size: inherit;
   font-family: inherit;
   margin: 10px 16px;
-  &:first-child { color: var(--override-readability-color, var(--interactive2)); }
-  &:nth-child(2) { color: var(--override-readability-color, var(--interactive9)); }
-  &:last-child { 
-    color: var(--override-readability-color, #FFFFFF); 
+  &:first-child {
+    color: var(--override-readability-color, var(--interactive2));
+  }
+  &:nth-child(2) {
+    color: var(--override-readability-color, var(--interactive9));
+  }
+  &:last-child {
+    color: var(--override-readability-color, #ffffff);
     margin-right: 0;
   }
 `
 
 export const StyledStatsItemCounter = styled('span')<{}>`
   color: inherit;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
   font-size: 40px;
   font-weight: 400;
   width: 7ch;
@@ -45,7 +49,7 @@ export const StyledStatsItemCounter = styled('span')<{}>`
 
 export const StyledStatsItemText = styled('span')<{}>`
   font-size: 24px;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
   margin-left: 4px;
   display: inline;
   letter-spacing: 0;
@@ -54,7 +58,7 @@ export const StyledStatsItemText = styled('span')<{}>`
 export const StyledStatsItemDescription = styled('div')<{}>`
   font-size: 16px;
   font-weight: 500;
-  color: var(--override-readability-color-rgb, #FFFFFF);
+  color: var(--override-readability-color-rgb, #ffffff);
   margin-top: 8px;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
 `

@@ -31,7 +31,7 @@ interface Props {
 }
 
 export default class FooterBox extends React.PureComponent<Props, {}> {
-  render () {
+  render() {
     const {
       currentScreen,
       totalScreensSize,
@@ -43,46 +43,55 @@ export default class FooterBox extends React.PureComponent<Props, {}> {
     return (
       <Footer>
         <FooterLeftColumn>
-          <SkipButton onClick={onClickSkip}>{getLocale('skipWelcomeTour')}</SkipButton>
+          <SkipButton onClick={onClickSkip}>
+            {getLocale('skipWelcomeTour')}
+          </SkipButton>
         </FooterLeftColumn>
         <FooterMiddleColumn>
-          {Array.from({ length: totalScreensSize }, (v: undefined, k: number) => (
-            <Bullet
-              active={currentScreen === k + 1}
-              key={k}
-              onClick={onClickSlideBullet.bind(this, k + 1)}
-            >
-              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
-                <circle cx='8' cy='8' r='8' fill='currentColor' fillRule='evenodd' />
-              </svg>
-            </Bullet>
-          ))}
+          {Array.from(
+            { length: totalScreensSize },
+            (v: undefined, k: number) => (
+              <Bullet
+                active={currentScreen === k + 1}
+                key={k}
+                onClick={onClickSlideBullet.bind(this, k + 1)}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                  <circle
+                    cx="8"
+                    cy="8"
+                    r="8"
+                    fill="currentColor"
+                    fillRule="evenodd"
+                  />
+                </svg>
+              </Bullet>
+            )
+          )}
         </FooterMiddleColumn>
         <FooterRightColumn>
-          {
-            currentScreen !== totalScreensSize &&
-            // don't show the next button in the first screen
-            currentScreen !== 1
-              ? (
-                <FooterButton
-                  level='secondary'
-                  type='default'
-                  size='medium'
-                  onClick={onClickNext}
-                  text={getLocale('next')}
-                  icon={{ position: 'after', image: <ArrowRightIcon /> }}
-                />
-              )
-              : currentScreen !== 1 && (
-                <FooterButton
-                  level='secondary'
-                  type='default'
-                  size='medium'
-                  onClick={onClickDone}
-                  text={getLocale('done')}
-                />
+          {currentScreen !== totalScreensSize &&
+          // don't show the next button in the first screen
+          currentScreen !== 1 ? (
+            <FooterButton
+              level="secondary"
+              type="default"
+              size="medium"
+              onClick={onClickNext}
+              text={getLocale('next')}
+              icon={{ position: 'after', image: <ArrowRightIcon /> }}
+            />
+          ) : (
+            currentScreen !== 1 && (
+              <FooterButton
+                level="secondary"
+                type="default"
+                size="medium"
+                onClick={onClickDone}
+                text={getLocale('done')}
+              />
             )
-          }
+          )}
         </FooterRightColumn>
       </Footer>
     )

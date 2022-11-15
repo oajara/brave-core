@@ -46,8 +46,12 @@ export const TokenListItem = (props: Props) => {
 
   // Wallet Selectors
   const networks = useUnsafeWalletSelector(WalletSelectors.networkList)
-  const spotPrices = useUnsafeWalletSelector(WalletSelectors.transactionSpotPrices)
-  const defaultCurrencies = useUnsafeWalletSelector(WalletSelectors.defaultCurrencies)
+  const spotPrices = useUnsafeWalletSelector(
+    WalletSelectors.transactionSpotPrices
+  )
+  const defaultCurrencies = useUnsafeWalletSelector(
+    WalletSelectors.defaultCurrencies
+  )
 
   // Memos
   const AssetIconWithPlaceholder = React.useMemo(() => {
@@ -66,7 +70,11 @@ export const TokenListItem = (props: Props) => {
   }, [token, networks])
 
   const fiatBalance = React.useMemo(() => {
-    return computeFiatAmount(spotPrices, { decimals: token.decimals, symbol: token.symbol, value: balance })
+    return computeFiatAmount(spotPrices, {
+      decimals: token.decimals,
+      symbol: token.symbol,
+      value: balance
+    })
   }, [spotPrices, balance, token.symbol, token.decimals])
 
   const formattedFiatBalance = React.useMemo(() => {
@@ -101,25 +109,29 @@ export const TokenListItem = (props: Props) => {
             </NetworkIconWrapper>
           )}
         </IconsWrapper>
-        <Column horizontalAlign='flex-start'>
-          <Text textColor='text01' textSize='14px' isBold={true}>
+        <Column horizontalAlign="flex-start">
+          <Text textColor="text01" textSize="14px" isBold={true}>
             {tokenDisplayName}
           </Text>
-          <Text textColor='text03' textSize='12px' isBold={false}>
+          <Text textColor="text03" textSize="12px" isBold={false}>
             {networkDescription}
           </Text>
         </Column>
       </Row>
-      {!token.isErc721 && !token.isNft &&
-        <Column horizontalAlign='flex-end'>
-          <Text textColor='text01' textSize='14px' isBold={true}>
-            {formatTokenBalanceWithSymbol(balance, token.decimals, token.symbol)}
+      {!token.isErc721 && !token.isNft && (
+        <Column horizontalAlign="flex-end">
+          <Text textColor="text01" textSize="14px" isBold={true}>
+            {formatTokenBalanceWithSymbol(
+              balance,
+              token.decimals,
+              token.symbol
+            )}
           </Text>
-          <Text textColor='text03' textSize='12px' isBold={false}>
+          <Text textColor="text03" textSize="12px" isBold={false}>
             {formattedFiatBalance}
           </Text>
         </Column>
-      }
+      )}
     </Button>
   )
 }

@@ -17,14 +17,15 @@ import Container from './container'
 import { LibContext } from '../common/context/lib.context'
 import * as Lib from '../common/async/lib'
 
-function App () {
-  const [initialThemeType, setInitialThemeType] = React.useState<chrome.braveTheme.ThemeType>()
+function App() {
+  const [initialThemeType, setInitialThemeType] =
+    React.useState<chrome.braveTheme.ThemeType>()
   React.useEffect(() => {
     chrome.braveTheme.getBraveThemeType(setInitialThemeType)
   }, [])
   return (
     <Provider store={store}>
-      {initialThemeType &&
+      {initialThemeType && (
         <BraveCoreThemeProvider
           initialThemeType={initialThemeType}
           dark={walletDarkTheme}
@@ -34,12 +35,12 @@ function App () {
             <Container />
           </LibContext.Provider>
         </BraveCoreThemeProvider>
-      }
+      )}
     </Provider>
   )
 }
 
-function initialize () {
+function initialize() {
   initLocale(loadTimeData.data_)
   store.dispatch(WalletActions.initialize())
   render(<App />, document.getElementById('mountPoint'))

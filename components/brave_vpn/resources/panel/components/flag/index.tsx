@@ -20,15 +20,29 @@ export const IconBox = styled.span`
   }
 `
 
-const COUNTRIES = ['GB', 'US', 'CH', 'ES', 'SG', 'NL', 'JP', 'DE', 'FR', 'CA', 'AU']
+const COUNTRIES = [
+  'GB',
+  'US',
+  'CH',
+  'ES',
+  'SG',
+  'NL',
+  'JP',
+  'DE',
+  'FR',
+  'CA',
+  'AU'
+]
 
-function Flag (props: Props) {
+function Flag(props: Props) {
   let [url, setUrl] = React.useState(undefined)
 
   React.useEffect(() => {
     let canceled = false
     const updateSvgUrl = async () => {
-      const svgUrl = await import(`../../assets/country-flags/${props.countryCode}.svg`)
+      const svgUrl = await import(
+        `../../assets/country-flags/${props.countryCode}.svg`
+      )
       setUrl(svgUrl.default)
     }
 

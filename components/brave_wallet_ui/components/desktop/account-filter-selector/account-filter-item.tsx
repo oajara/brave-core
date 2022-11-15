@@ -10,9 +10,7 @@ import { create } from 'ethereum-blockies'
 import { WalletAccountType } from '../../../constants/types'
 
 // Styled Components
-import {
-  AccountCircle
-} from './account-filter-selector.style'
+import { AccountCircle } from './account-filter-selector.style'
 
 import {
   NetworkItemButton,
@@ -38,22 +36,21 @@ export const AccountFilterItem = (props: Props) => {
 
   // Memos
   const orb = React.useMemo(() => {
-    return create({ seed: account.address.toLowerCase(), size: 8, scale: 16 }).toDataURL()
+    return create({
+      seed: account.address.toLowerCase(),
+      size: 8,
+      scale: 16
+    }).toDataURL()
   }, [account.address])
 
   return (
     <NetworkItemWrapper>
       <NetworkItemButton onClick={onClickSelectAccount}>
         <LeftSide>
-          {account.address !== '' && (
-            <AccountCircle orb={orb} />
-          )}
-          <NetworkName>
-            {account.name}
-          </NetworkName>
+          {account.address !== '' && <AccountCircle orb={orb} />}
+          <NetworkName>{account.name}</NetworkName>
         </LeftSide>
-        {selected &&
-          <BigCheckMark />}
+        {selected && <BigCheckMark />}
       </NetworkItemButton>
     </NetworkItemWrapper>
   )

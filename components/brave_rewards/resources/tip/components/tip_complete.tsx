@@ -14,7 +14,7 @@ import { TokenAmount } from '../../shared/components/token_amount'
 
 import * as style from './tip_complete.style'
 
-function getNextContribution (reconcileDate: Date | undefined) {
+function getNextContribution(reconcileDate: Date | undefined) {
   if (!reconcileDate) {
     return ''
   }
@@ -31,12 +31,13 @@ interface Props {
   tipPending: boolean
 }
 
-export function TipComplete (props: Props) {
+export function TipComplete(props: Props) {
   const host = React.useContext(HostContext)
   const { getString } = React.useContext(LocaleContext)
 
   const [nextContribution, setNextContribution] = React.useState(
-    getNextContribution(host.state.nextReconcileDate))
+    getNextContribution(host.state.nextReconcileDate)
+  )
 
   React.useEffect(() => {
     return host.addListener((state) => {
@@ -44,18 +45,20 @@ export function TipComplete (props: Props) {
     })
   }, [host])
 
-  function onShareClick () {
+  function onShareClick() {
     host.shareTip('twitter')
   }
 
-  function getSummaryTable () {
+  function getSummaryTable() {
     if (props.tipKind === 'monthly') {
       return (
         <table>
           <tbody>
             <tr>
               <td>{getString('tipAmount')}</td>
-              <td><TokenAmount amount={props.tipAmount} /></td>
+              <td>
+                <TokenAmount amount={props.tipAmount} />
+              </td>
             </tr>
             <tr>
               <td>{getString('nextTipDate')}</td>
@@ -70,7 +73,9 @@ export function TipComplete (props: Props) {
         <tbody>
           <tr>
             <td>{getString('oneTimeTipAmount')}</td>
-            <td><TokenAmount amount={props.tipAmount} /></td>
+            <td>
+              <TokenAmount amount={props.tipAmount} />
+            </td>
           </tr>
         </tbody>
       </table>
@@ -84,9 +89,7 @@ export function TipComplete (props: Props) {
           <style.cancelHeader>
             {getString('sorryToSeeYouGo')}
           </style.cancelHeader>
-          <style.cancelText>
-            {getString('tipCanceled')}
-          </style.cancelText>
+          <style.cancelText>{getString('tipCanceled')}</style.cancelText>
         </style.main>
       </style.root>
     )
@@ -96,31 +99,26 @@ export function TipComplete (props: Props) {
     <style.success>
       <style.root>
         <style.main>
-          <style.header>
-            {getString('thanksForTheSupport')}
-          </style.header>
+          <style.header>{getString('thanksForTheSupport')}</style.header>
           <style.message>
-            {
-              getString(props.tipKind === 'monthly' ? 'monthlyTipSet'
-                : props.tipPending ? 'tipIsPending'
-                : 'tipHasBeenSent')
-            }
+            {getString(
+              props.tipKind === 'monthly'
+                ? 'monthlyTipSet'
+                : props.tipPending
+                ? 'tipIsPending'
+                : 'tipHasBeenSent'
+            )}
           </style.message>
-          <style.table>
-            {getSummaryTable()}
-          </style.table>
-          {
-            props.tipKind === 'one-time' && !props.tipPending &&
-              <style.delayNote>
-                {
-                  formatMessage(getString('tipDelayNote'), {
-                    tags: {
-                      $1: (content) => <strong key='label'>{content}</strong>
-                    }
-                  })
+          <style.table>{getSummaryTable()}</style.table>
+          {props.tipKind === 'one-time' && !props.tipPending && (
+            <style.delayNote>
+              {formatMessage(getString('tipDelayNote'), {
+                tags: {
+                  $1: (content) => <strong key="label">{content}</strong>
                 }
-              </style.delayNote>
-          }
+              })}
+            </style.delayNote>
+          )}
         </style.main>
         <style.share>
           <button onClick={onShareClick}>

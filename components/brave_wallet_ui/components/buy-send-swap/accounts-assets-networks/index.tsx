@@ -10,16 +10,10 @@ import {
   WalletState
 } from '../../../constants/types'
 
-import {
-  SelectAccount,
-  SelectNetworkWithHeader,
-  SelectAsset
-} from '../'
+import { SelectAccount, SelectNetworkWithHeader, SelectAsset } from '../'
 
 // Styled Components
-import {
-  StyledWrapper
-} from './style'
+import { StyledWrapper } from './style'
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
@@ -48,12 +42,11 @@ export const AccountsAssetsNetworks = (props: Props) => {
   } = props
 
   // redux
-  const {
-    accounts,
-    selectedAccount
-  } = useSelector((state: {wallet: WalletState}) => {
-    return state.wallet
-  })
+  const { accounts, selectedAccount } = useSelector(
+    (state: { wallet: WalletState }) => {
+      return state.wallet
+    }
+  )
   const dispatch = useDispatch()
 
   // methods
@@ -64,35 +57,32 @@ export const AccountsAssetsNetworks = (props: Props) => {
   // render
   return (
     <StyledWrapper>
-      {selectedView === 'acounts' &&
+      {selectedView === 'acounts' && (
         <SelectAccount
           selectedAccount={selectedAccount}
           accounts={accounts}
           onSelectAccount={onClickSelectAccount}
           onBack={goBack}
         />
-      }
-      {selectedView === 'assets' &&
+      )}
+      {selectedView === 'assets' && (
         <SelectAsset
           assets={assetOptions}
           onSelectAsset={onSelectedAsset}
           onBack={goBack}
         />
-      }
-      {selectedView === 'networks' &&
+      )}
+      {selectedView === 'networks' && (
         <SelectNetworkWithHeader
           onBack={goBack}
           hasAddButton={true}
           onAddNetwork={onAddNetwork}
         />
-      }
+      )}
 
-      {selectedView === 'currencies' &&
-        <SelectCurrency
-          onSelectCurrency={onSelectCurrency}
-          onBack={goBack}
-        />
-      }
+      {selectedView === 'currencies' && (
+        <SelectCurrency onSelectCurrency={onSelectCurrency} onBack={goBack} />
+      )}
     </StyledWrapper>
   )
 }

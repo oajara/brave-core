@@ -14,12 +14,18 @@ interface Props {
   onClickLogo: () => void
 }
 
-function Logo ({ data, onClickLogo }: Props) {
+function Logo({ data, onClickLogo }: Props) {
   return (
     <>
       <Styled.Image src={data.image} alt={data.alt} />
-      <Styled.Anchor href={data.destinationUrl} title={data.alt} onClick={onClickLogo}>
-        <Styled.Indicator><OpenNewIcon /></Styled.Indicator>
+      <Styled.Anchor
+        href={data.destinationUrl}
+        title={data.alt}
+        onClick={onClickLogo}
+      >
+        <Styled.Indicator>
+          <OpenNewIcon />
+        </Styled.Indicator>
       </Styled.Anchor>
     </>
   )

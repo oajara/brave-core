@@ -4,18 +4,18 @@
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 
 function setupEvents() {
-  $('body').classList.add('decentralized_dns');
-  $('icon').classList.add('icon');
+  $('body').classList.add('decentralized_dns')
+  $('icon').classList.add('icon')
 
-  $('primary-button').addEventListener('click', function() {
-    sendCommand(SecurityInterstitialCommandId.CMD_PROCEED);
-  });
+  $('primary-button').addEventListener('click', function () {
+    sendCommand(SecurityInterstitialCommandId.CMD_PROCEED)
+  })
 
-  $('main-content').classList.remove(HIDDEN_CLASS);
+  $('main-content').classList.remove(HIDDEN_CLASS)
 
-  $('dont-proceed-button').addEventListener('click', function(event) {
-    sendCommand(SecurityInterstitialCommandId.CMD_DONT_PROCEED);
-  });
+  $('dont-proceed-button').addEventListener('click', function (event) {
+    sendCommand(SecurityInterstitialCommandId.CMD_DONT_PROCEED)
+  })
 }
 
-document.addEventListener('DOMContentLoaded', setupEvents);
+document.addEventListener('DOMContentLoaded', setupEvents)

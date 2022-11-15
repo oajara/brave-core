@@ -4,7 +4,7 @@
 
 import { HostState } from './interfaces'
 
-export function getInitialState (): HostState {
+export function getInitialState(): HostState {
   return {
     openTime: Date.now(),
     loading: true,

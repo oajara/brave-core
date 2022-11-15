@@ -16,9 +16,9 @@ interface Props {
   showContactSupport: React.MouseEventHandler<HTMLButtonElement>
 }
 
-function ErrorPanel (props: Props) {
+function ErrorPanel(props: Props) {
   const dispatch = useDispatch()
-  const currentRegion = useSelector(state => state.currentRegion)
+  const currentRegion = useSelector((state) => state.currentRegion)
 
   const handleTryAgain = () => {
     dispatch(Actions.retryConnect())
@@ -37,11 +37,16 @@ function ErrorPanel (props: Props) {
     <S.Box>
       <S.PanelContent>
         <IconBox>
-          <AlertCircleIcon color='#84889C' />
+          <AlertCircleIcon color="#84889C" />
         </IconBox>
-        <S.ReasonTitle>{getLocale('braveVpnUnableConnectToServer')}</S.ReasonTitle>
+        <S.ReasonTitle>
+          {getLocale('braveVpnUnableConnectToServer')}
+        </S.ReasonTitle>
         <S.ReasonDesc>
-          {getLocale('braveVpnUnableConnectInfo').replace(/\$\d+/g, (match) => matches[match])}
+          {getLocale('braveVpnUnableConnectInfo').replace(
+            /\$\d+/g,
+            (match) => matches[match]
+          )}
         </S.ReasonDesc>
         <S.ActionArea>
           <Button

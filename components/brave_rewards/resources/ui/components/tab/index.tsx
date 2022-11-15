@@ -30,22 +30,24 @@ export default class Tab extends React.PureComponent<Props, {}> {
   getTabs = (tabTitles: string[]) => {
     const { type } = this.props
 
-    const tabs: React.ReactNode[] = tabTitles.map((title: string, i: number) => {
-      return (
-        <StyledTab
-          key={`tab-${i}`}
-          data-test-id={`${this.props.testId}-${i}`}
-          onClick={this.onSwitchChange.bind(this, i)}
-        >
-          <StyledText
-            type={type}
-            selected={i === this.props.tabIndexSelected}
+    const tabs: React.ReactNode[] = tabTitles.map(
+      (title: string, i: number) => {
+        return (
+          <StyledTab
+            key={`tab-${i}`}
+            data-test-id={`${this.props.testId}-${i}`}
+            onClick={this.onSwitchChange.bind(this, i)}
           >
-            {title}
-          </StyledText>
-        </StyledTab>
-      )
-    })
+            <StyledText
+              type={type}
+              selected={i === this.props.tabIndexSelected}
+            >
+              {title}
+            </StyledText>
+          </StyledTab>
+        )
+      }
+    )
     return tabs
   }
 
@@ -59,12 +61,8 @@ export default class Tab extends React.PureComponent<Props, {}> {
     }
   }
 
-  render () {
-    const {
-      testId,
-      tabTitles,
-      tabIndexSelected
-    } = this.props
+  render() {
+    const { testId, tabTitles, tabIndexSelected } = this.props
 
     if (!tabTitles) {
       return null
@@ -76,7 +74,10 @@ export default class Tab extends React.PureComponent<Props, {}> {
           <StyledSlider data-test-id={testId}>
             {this.getTabs(tabTitles)}
           </StyledSlider>
-          <StyledBullet size={tabTitles.length} tabIndexSelected={tabIndexSelected} />
+          <StyledBullet
+            size={tabTitles.length}
+            tabIndexSelected={tabIndexSelected}
+          />
         </StyledSwitch>
       </RewardsTabWrapper>
     )

@@ -20,7 +20,8 @@ storiesOf('New Tab/Widgets', module)
           widgetInfo={{
             title: 'FTX',
             icon: ftxLogo,
-            description: 'Trade and sell cryptocurrency on this popular exchange.',
+            description:
+              'Trade and sell cryptocurrency on this popular exchange.',
             bannerImage: bannerImage
           }}
         />

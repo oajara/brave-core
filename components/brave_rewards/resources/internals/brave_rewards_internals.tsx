@@ -17,61 +17,65 @@ import Theme from 'brave-ui/theme/brave-default'
 import store from './store'
 import * as rewardsInternalsActions from './actions/rewards_internals_actions'
 
-function getActions () {
+function getActions() {
   const actions: any = getUtilActions()
   if (actions) {
     return actions
   }
 
-  const newActions = bindActionCreators(rewardsInternalsActions, store.dispatch.bind(store))
+  const newActions = bindActionCreators(
+    rewardsInternalsActions,
+    store.dispatch.bind(store)
+  )
   setActions(newActions)
   return newActions
 }
 
-function onGetRewardsInternalsInfo (info: RewardsInternals.State) {
+function onGetRewardsInternalsInfo(info: RewardsInternals.State) {
   getActions().onGetRewardsInternalsInfo(info)
 }
 
-function balance (balance: RewardsInternals.Balance) {
+function balance(balance: RewardsInternals.Balance) {
   getActions().onBalance(balance)
 }
 
-function contributions (contributions: RewardsInternals.ContributionInfo[]) {
+function contributions(contributions: RewardsInternals.ContributionInfo[]) {
   getActions().onContributions(contributions)
 }
 
-function promotions (promotions: RewardsInternals.Promotion[]) {
+function promotions(promotions: RewardsInternals.Promotion[]) {
   getActions().onPromotions(promotions)
 }
 
-function partialLog (log: string) {
+function partialLog(log: string) {
   getActions().onGetPartialLog(log)
 }
 
-function fullLog (log: string) {
+function fullLog(log: string) {
   getActions().onGetFullLog(log)
 }
 
-function onGetExternalWallet (wallet: RewardsInternals.ExternalWallet) {
+function onGetExternalWallet(wallet: RewardsInternals.ExternalWallet) {
   getActions().onGetExternalWallet(wallet)
 }
 
-function eventLogs (logs: RewardsInternals.EventLog[]) {
+function eventLogs(logs: RewardsInternals.EventLog[]) {
   getActions().onEventLogs(logs)
 }
 
-function adDiagnostics (diagnostics: RewardsInternals.AdDiagnosticsEntry[]) {
+function adDiagnostics(diagnostics: RewardsInternals.AdDiagnosticsEntry[]) {
   getActions().onAdDiagnostics(diagnostics)
 }
 
-function initialize () {
+function initialize() {
   render(
     <Provider store={store}>
       <ThemeProvider theme={Theme}>
         <App />
       </ThemeProvider>
     </Provider>,
-    document.getElementById('root'))
+    document.getElementById('root')
+  )
 }
 
 // Expose functions to Page Handlers.

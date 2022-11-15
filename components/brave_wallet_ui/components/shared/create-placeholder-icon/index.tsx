@@ -35,12 +35,11 @@ interface Props {
   network: BraveWallet.NetworkInfo | undefined
 }
 
-function withPlaceholderIcon (WrappedComponent: React.ComponentType<any>, config: Config) {
-  const {
-    size,
-    marginLeft,
-    marginRight
-  } = config
+function withPlaceholderIcon(
+  WrappedComponent: React.ComponentType<any>,
+  config: Config
+) {
+  const { size, marginLeft, marginRight } = config
 
   return function (props: Props) {
     const { asset, network } = props
@@ -51,18 +50,22 @@ function withPlaceholderIcon (WrappedComponent: React.ComponentType<any>, config
 
     const networkLogo = getNetworkLogo(network)
 
-    const isNativeAsset = React.useMemo(() =>
-      asset.symbol.toLowerCase() === network.symbol.toLowerCase(),
+    const isNativeAsset = React.useMemo(
+      () => asset.symbol.toLowerCase() === network.symbol.toLowerCase(),
       [network.symbol, asset.symbol]
     )
 
     const tokenImageURL = stripERC20TokenImageURL(asset.logo)
     const isRemoteURL = isRemoteImageURL(tokenImageURL)
-    const isStorybook = asset.logo.startsWith('static/media/components/brave_wallet_ui/')
+    const isStorybook = asset.logo.startsWith(
+      'static/media/components/brave_wallet_ui/'
+    )
 
     const isValidIcon = React.useMemo(() => {
       if (isRemoteURL || isDataURL(asset.logo)) {
-        return tokenImageURL?.includes('data:image/') || isIpfs(tokenImageURL) ? true : isValidIconExtension(new URL(asset.logo).pathname)
+        return tokenImageURL?.includes('data:image/') || isIpfs(tokenImageURL)
+          ? true
+          : isValidIconExtension(new URL(asset.logo).pathname)
       }
       if (isStorybook) {
         return true
@@ -76,7 +79,11 @@ function withPlaceholderIcon (WrappedComponent: React.ComponentType<any>, config
 
     const bg = React.useMemo(() => {
       if (needsPlaceholder) {
-        return background({ seed: asset.contractAddress ? asset.contractAddress.toLowerCase() : asset.name })
+        return background({
+          seed: asset.contractAddress
+            ? asset.contractAddress.toLowerCase()
+            : asset.name
+        })
       }
     }, [needsPlaceholder, asset.contractAddress, asset.name])
 
@@ -96,7 +103,9 @@ function withPlaceholderIcon (WrappedComponent: React.ComponentType<any>, config
           marginLeft={marginLeft ?? 0}
           marginRight={marginRight ?? 0}
         >
-          <PlaceholderText size={size}>{asset.symbol.charAt(0)}</PlaceholderText>
+          <PlaceholderText size={size}>
+            {asset.symbol.charAt(0)}
+          </PlaceholderText>
         </IconWrapper>
       )
     }
@@ -112,7 +121,9 @@ function withPlaceholderIcon (WrappedComponent: React.ComponentType<any>, config
           icon={
             isNativeAsset && networkLogo
               ? networkLogo
-              : isRemoteURL ? remoteImage : asset.logo
+              : isRemoteURL
+              ? remoteImage
+              : asset.logo
           }
         />
       </IconWrapper>

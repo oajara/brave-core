@@ -17,13 +17,15 @@ const props = {
     tips: { tokens: '19.0', converted: '5.25' },
     total: { tokens: '19.0', converted: '5.25' }
   },
-  onActivity: () => { console.log('nothing') }
+  onActivity: () => {
+    console.log('nothing')
+  }
 }
 
 describe('WalletSummary tests', () => {
   const baseComponent = (props: Props) => (
     <TestThemeProvider>
-      <WalletSummary id='empty' {...props} />
+      <WalletSummary id="empty" {...props} />
     </TestThemeProvider>
   )
 
@@ -31,7 +33,7 @@ describe('WalletSummary tests', () => {
     it('matches the snapshot', () => {
       const RealDate = Date
       global.Date = class extends RealDate {
-        constructor () {
+        constructor() {
           return new RealDate('2019-06-02')
         }
       }

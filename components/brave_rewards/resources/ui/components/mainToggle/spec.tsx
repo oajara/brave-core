@@ -9,7 +9,11 @@ import MainToggle from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('MainToggle tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><MainToggle id='mainToggle' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <MainToggle id="mainToggle" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

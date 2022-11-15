@@ -15,8 +15,11 @@ export const tileRemoved = (url: string) => {
   return action(types.TILE_REMOVED, { url })
 }
 
-export const tilesReordered = (gridSites: NewTab.Site[],
-    oldPos: number, newPos: number) => {
+export const tilesReordered = (
+  gridSites: NewTab.Site[],
+  oldPos: number,
+  newPos: number
+) => {
   return action(types.TILES_REORDERED, { gridSites, oldPos, newPos })
 }
 

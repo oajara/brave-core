@@ -14,16 +14,14 @@ interface Props {
 }
 
 export class AddressesConfig extends React.Component<Props, {}> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
   }
 
-  render () {
+  render() {
     return (
       <Section>
-        <Title>
-          {getLocale('addressesConfigTitle')}
-        </Title>
+        <Title>{getLocale('addressesConfigTitle')}</Title>
         <div>
           {getLocale('api')}: {this.props.addressesConfig.api}
         </div>

@@ -8,7 +8,9 @@ import { BraveWallet, NFTMetadataReturnType } from '../constants/types'
 
 const nftDisplayOrigin = loadTimeData.getString('braveWalletNftBridgeUrl')
 // remove trailing /
-export const braveNftDisplayOrigin = nftDisplayOrigin.endsWith('/') ? nftDisplayOrigin.slice(0, -1) : nftDisplayOrigin
+export const braveNftDisplayOrigin = nftDisplayOrigin.endsWith('/')
+  ? nftDisplayOrigin.slice(0, -1)
+  : nftDisplayOrigin
 
 export const braveWalletOrigin = 'chrome://wallet'
 export const braveWalletPanelOrigin = 'chrome://wallet-panel.top-chrome'
@@ -34,10 +36,7 @@ export type UpdateSelectedAssetMessage = CommandMessage & {
   payload: BraveWallet.BlockchainToken
 }
 
-export type DisplayMode =
-| 'icon'
-| 'grid'
-| 'details'
+export type DisplayMode = 'icon' | 'grid' | 'details'
 
 export type UpdateNFtMetadataMessage = CommandMessage & {
   payload: {
@@ -62,13 +61,19 @@ export type ToggleNftModal = CommandMessage & {
   payload: boolean
 }
 
-export const sendMessageToNftUiFrame = (targetWindow: Window | null, message: CommandMessage) => {
+export const sendMessageToNftUiFrame = (
+  targetWindow: Window | null,
+  message: CommandMessage
+) => {
   if (targetWindow) {
     targetWindow.postMessage(message, braveNftDisplayOrigin)
   }
 }
 
-export const sendMessageToWalletUi = (targetWindow: Window | null, message: CommandMessage) => {
+export const sendMessageToWalletUi = (
+  targetWindow: Window | null,
+  message: CommandMessage
+) => {
   if (targetWindow) {
     targetWindow.postMessage(message, braveWalletOrigin)
   }

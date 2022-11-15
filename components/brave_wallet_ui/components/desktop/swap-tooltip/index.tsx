@@ -4,18 +4,14 @@
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 import * as React from 'react'
 
-import {
-  StyledWrapper,
-  Tip,
-  Pointer
-} from './style'
+import { StyledWrapper, Tip, Pointer } from './style'
 
 export interface Props {
   children?: React.ReactNode
   text: string
 }
 
-function SwapTooltip (props: Props) {
+function SwapTooltip(props: Props) {
   const { children, text } = props
   const [active, setActive] = React.useState(false)
 
@@ -28,19 +24,14 @@ function SwapTooltip (props: Props) {
   }
 
   return (
-    <StyledWrapper
-      onMouseEnter={showTip}
-      onMouseLeave={hideTip}
-    >
+    <StyledWrapper onMouseEnter={showTip} onMouseLeave={hideTip}>
       {children}
-      {active &&
+      {active && (
         <>
           <Pointer />
-          <Tip>
-            {text}
-          </Tip>
+          <Tip>{text}</Tip>
         </>
-      }
+      )}
     </StyledWrapper>
   )
 }

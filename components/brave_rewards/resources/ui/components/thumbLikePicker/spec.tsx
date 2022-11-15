@@ -9,7 +9,11 @@ import { TestThemeProvider } from 'brave-ui/theme'
 import ThumbLikePicker from './index'
 
 describe('Amount tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><ThumbLikePicker id={'thumbLikePicker'} likeAction={0} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <ThumbLikePicker id={'thumbLikePicker'} likeAction={0} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

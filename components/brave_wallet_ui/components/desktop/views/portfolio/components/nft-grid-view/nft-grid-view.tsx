@@ -9,22 +9,16 @@ import * as React from 'react'
 import { UserAssetInfoType } from '../../../../../../constants/types'
 
 // Styled Components
-import {
-  StyledWrapper
-} from './style'
+import { StyledWrapper } from './style'
 
 interface Props {
   nonFungibleTokens: UserAssetInfoType[]
-  renderToken: (item: UserAssetInfoType, index: number) => JSX.Element | undefined | null
+  renderToken: (
+    item: UserAssetInfoType,
+    index: number
+  ) => JSX.Element | undefined | null
 }
 
-export const NFTGridView = ({
-  nonFungibleTokens,
-  renderToken
-}: Props) => {
-  return (
-    <StyledWrapper>
-      {nonFungibleTokens.map(renderToken)}
-    </StyledWrapper>
-  )
+export const NFTGridView = ({ nonFungibleTokens, renderToken }: Props) => {
+  return <StyledWrapper>{nonFungibleTokens.map(renderToken)}</StyledWrapper>
 }

@@ -4,17 +4,19 @@
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 
 function setupEvents() {
-  $('primary-button').addEventListener('click', function() {
-    sendCommand(SecurityInterstitialCommandId.CMD_PROCEED);
-  });
-  $('back-button').addEventListener('click', function() {
-    sendCommand(SecurityInterstitialCommandId.CMD_DONT_PROCEED);
-  });
-  $('dont-warn-again-checkbox').addEventListener('click', function() {
-    sendCommand($('dont-warn-again-checkbox').checked ?
-                SecurityInterstitialCommandId.CMD_DO_REPORT :
-                SecurityInterstitialCommandId.CMD_DONT_REPORT);
-  });
+  $('primary-button').addEventListener('click', function () {
+    sendCommand(SecurityInterstitialCommandId.CMD_PROCEED)
+  })
+  $('back-button').addEventListener('click', function () {
+    sendCommand(SecurityInterstitialCommandId.CMD_DONT_PROCEED)
+  })
+  $('dont-warn-again-checkbox').addEventListener('click', function () {
+    sendCommand(
+      $('dont-warn-again-checkbox').checked
+        ? SecurityInterstitialCommandId.CMD_DO_REPORT
+        : SecurityInterstitialCommandId.CMD_DONT_REPORT
+    )
+  })
 }
 
-document.addEventListener('DOMContentLoaded', setupEvents);
+document.addEventListener('DOMContentLoaded', setupEvents)

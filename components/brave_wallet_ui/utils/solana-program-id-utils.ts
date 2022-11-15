@@ -15,13 +15,21 @@ import { getLocale } from '$web-common/locale'
  */
 export const getSolanaProgramIdName = (programId: Solana.PublicKey) => {
   switch (programId.toString()) {
-    case '11111111111111111111111111111111': return getLocale('braveWalletSolanaSystemProgram')
-    case 'Config1111111111111111111111111111111111111': return getLocale('braveWalletSolanaConfigProgram')
-    case 'Stake11111111111111111111111111111111111111': return getLocale('braveWalletSolanaStakeProgram')
-    case 'Vote111111111111111111111111111111111111111': return getLocale('braveWalletSolanaVoteProgram')
-    case 'BPFLoaderUpgradeab1e11111111111111111111111': return getLocale('braveWalletSolanaBPFLoader')
-    case 'Ed25519SigVerify111111111111111111111111111': return getLocale('braveWalletSolanaEd25519Program')
-    case 'KeccakSecp256k11111111111111111111111111111': return getLocale('braveWalletSolanaSecp256k1Program')
-    default: return programId.toString()
+    case '11111111111111111111111111111111':
+      return getLocale('braveWalletSolanaSystemProgram')
+    case 'Config1111111111111111111111111111111111111':
+      return getLocale('braveWalletSolanaConfigProgram')
+    case 'Stake11111111111111111111111111111111111111':
+      return getLocale('braveWalletSolanaStakeProgram')
+    case 'Vote111111111111111111111111111111111111111':
+      return getLocale('braveWalletSolanaVoteProgram')
+    case 'BPFLoaderUpgradeab1e11111111111111111111111':
+      return getLocale('braveWalletSolanaBPFLoader')
+    case 'Ed25519SigVerify111111111111111111111111111':
+      return getLocale('braveWalletSolanaEd25519Program')
+    case 'KeccakSecp256k11111111111111111111111111111':
+      return getLocale('braveWalletSolanaSecp256k1Program')
+    default:
+      return programId.toString()
   }
 }

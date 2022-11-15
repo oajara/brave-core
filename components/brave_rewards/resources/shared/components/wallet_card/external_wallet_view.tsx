@@ -23,44 +23,45 @@ interface Props {
   onExternalWalletAction: (action: ExternalWalletAction) => void
 }
 
-export function ExternalWalletView (props: Props) {
+export function ExternalWalletView(props: Props) {
   const { getString } = React.useContext(LocaleContext)
   const [showBubble, setShowBubble] = React.useState(false)
 
   const { externalWallet } = props
 
-  function actionHandler (action: ExternalWalletAction) {
+  function actionHandler(action: ExternalWalletAction) {
     return () => props.onExternalWalletAction(action)
   }
 
-  function ProviderIcon () {
+  function ProviderIcon() {
     if (!externalWallet) {
       return null
     }
 
     switch (externalWallet.provider) {
-      case 'gemini': return <GeminiIcon />
-      case 'bitflyer': return <BitflyerIcon />
-      case 'uphold': return <UpholdIcon />
+      case 'gemini':
+        return <GeminiIcon />
+      case 'bitflyer':
+        return <BitflyerIcon />
+      case 'uphold':
+        return <UpholdIcon />
     }
   }
 
-  function toggleBubble () {
+  function toggleBubble() {
     setShowBubble(!showBubble)
   }
 
-  function renderButton () {
+  function renderButton() {
     if (!externalWallet) {
       return (
         <style.verifyWallet>
           <button
-            data-test-id='verify-rewards-button'
-            className='connect'
+            data-test-id="verify-rewards-button"
+            className="connect"
             onClick={actionHandler('verify')}
           >
-            <style.buttonText>
-              {getString('walletUnverified')}
-            </style.buttonText>
+            <style.buttonText>{getString('walletUnverified')}</style.buttonText>
             <style.buttonIcons>
               <ArrowCircleIcon />
             </style.buttonIcons>
@@ -72,17 +73,19 @@ export function ExternalWalletView (props: Props) {
     return (
       <style.bubbleAction>
         <button onClick={toggleBubble} className={showBubble ? 'pressed' : ''}>
-          <style.buttonText data-test-id='external-wallet-status-text'>
-            {
-              getString(externalWallet.status === mojom.WalletStatus.kLoggedOut
+          <style.buttonText data-test-id="external-wallet-status-text">
+            {getString(
+              externalWallet.status === mojom.WalletStatus.kLoggedOut
                 ? 'walletDisconnected'
-                : 'walletVerified')
-            }
+                : 'walletVerified'
+            )}
           </style.buttonText>
           <style.buttonIcons>
-            <span className='provider'><ProviderIcon /></span>
-            <span className='caret'>
-              <CaretIcon direction='down' />
+            <span className="provider">
+              <ProviderIcon />
+            </span>
+            <span className="caret">
+              <CaretIcon direction="down" />
             </span>
           </style.buttonIcons>
         </button>
@@ -90,7 +93,7 @@ export function ExternalWalletView (props: Props) {
     )
   }
 
-  function renderBubble () {
+  function renderBubble() {
     if (!showBubble || !externalWallet) {
       return null
     }

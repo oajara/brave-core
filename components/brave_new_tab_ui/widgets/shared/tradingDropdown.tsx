@@ -30,21 +30,21 @@ interface Props {
   onChange: (from: string, to: string, quantity: number) => unknown
 }
 
-export const TradingDropdown = ({
-  fromAssets,
-  toAssets,
-  onChange
-}: Props) => {
+export const TradingDropdown = ({ fromAssets, toAssets, onChange }: Props) => {
   const [fromDropdownShowing, setFromDropdown] = React.useState(false)
   const [toDropdownShowing, setToDropdown] = React.useState(false)
   const [currentQuantity, setCurrentQuantity] = React.useState<string>()
-  const [fromAsset, setFromAsset] = React.useState(fromAssets.length ? fromAssets[0] : '')
+  const [fromAsset, setFromAsset] = React.useState(
+    fromAssets.length ? fromAssets[0] : ''
+  )
 
   const toAssetsFiltered = React.useMemo(() => {
-    return toAssets.filter(name => name !== fromAsset)
+    return toAssets.filter((name) => name !== fromAsset)
   }, [toAssets, fromAsset])
 
-  const [toAsset, setToAsset] = React.useState(toAssetsFiltered.length ? toAssetsFiltered[0] : '')
+  const [toAsset, setToAsset] = React.useState(
+    toAssetsFiltered.length ? toAssetsFiltered[0] : ''
+  )
 
   const toggleDropDowns = (dropdown: string) => {
     if (dropdown === 'to') {
@@ -99,10 +99,11 @@ export const TradingDropdown = ({
               <CaratDownIcon />
             </CaratDropdown>
           </Dropdown>
-          {
-            fromDropdownShowing
-              ? <AssetItems>
-                {fromAssets.filter(v => v !== fromAsset).map((asset: string, i: number, filteredAssets: string[]) => {
+          {fromDropdownShowing ? (
+            <AssetItems>
+              {fromAssets
+                .filter((v) => v !== fromAsset)
+                .map((asset: string, i: number, filteredAssets: string[]) => {
                   return (
                     <AssetItem
                       key={`choice-${asset}`}
@@ -116,14 +117,10 @@ export const TradingDropdown = ({
                     </AssetItem>
                   )
                 })}
-              </AssetItems>
-              : null
-          }
+            </AssetItems>
+          ) : null}
         </InputWrapper>
-        <InputWrapper
-          isFlex={true}
-          itemsShowing={toDropdownShowing}
-        >
+        <InputWrapper isFlex={true} itemsShowing={toDropdownShowing}>
           <BasicBox
             isFlex={true}
             isFullWidth={true}
@@ -132,17 +129,16 @@ export const TradingDropdown = ({
             <DropdownIcon>
               {renderIconAsset(toAsset.toLowerCase())}
             </DropdownIcon>
-            <AssetDropdownLabel>
-              {toAsset}
-            </AssetDropdownLabel>
+            <AssetDropdownLabel>{toAsset}</AssetDropdownLabel>
             <CaratDropdown>
               <CaratDownIcon />
             </CaratDropdown>
           </BasicBox>
-          {
-            toDropdownShowing
-              ? <AssetItems>
-                {toAssetsFiltered.filter(v => v !== toAsset).map((asset: string, i: number, filteredAssets: string[]) => {
+          {toDropdownShowing ? (
+            <AssetItems>
+              {toAssetsFiltered
+                .filter((v) => v !== toAsset)
+                .map((asset: string, i: number, filteredAssets: string[]) => {
                   return (
                     <AssetItem
                       key={`choice-${asset}`}
@@ -156,9 +152,8 @@ export const TradingDropdown = ({
                     </AssetItem>
                   )
                 })}
-              </AssetItems>
-              : null
-          }
+            </AssetItems>
+          ) : null}
         </InputWrapper>
       </TradeWrapper>
     </>

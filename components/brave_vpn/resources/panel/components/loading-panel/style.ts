@@ -27,7 +27,7 @@ export const LoaderIconBox = styled.div`
   margin-bottom: 24px;
 
   svg > path {
-    fill: #CA3BB2;
+    fill: #ca3bb2;
   }
 `
 

@@ -7,7 +7,8 @@ import { localeStrings as onboardingStrings } from '../../shared/components/onbo
 export const localeStrings = {
   batFunds: 'BAT Funds',
   cancel: 'Cancel',
-  cancelConfirmationText: 'Are you sure you want to stop supporting this creator?',
+  cancelConfirmationText:
+    'Are you sure you want to stop supporting this creator?',
   cancelMonthlyTip: 'Cancel Monthly Tip',
   changeAmount: 'Change Amount',
   confirmCancel: 'Confirm Canceling Monthly',
@@ -35,11 +36,14 @@ export const localeStrings = {
   oneTimeTipAmount: 'One-time tip amount:',
   postHeader: '$1’s post',
   postHeaderTwitter: '$1’s tweet',
-  rewardsBannerText1: 'You can support this content creator by sending a tip. It’s a way of thanking them for making great content. Verified creators get paid for their tips during the first week of each calendar month.',
+  rewardsBannerText1:
+    'You can support this content creator by sending a tip. It’s a way of thanking them for making great content. Verified creators get paid for their tips during the first week of each calendar month.',
   sendDonation: 'Send Tip',
   siteBannerNoticeNote: 'NOTE:',
-  siteBannerNoticeNotRegistered: 'This creator is not signed up yet. Any tip you make will remain pending and retry automatically for 90 days.',
-  siteBannerNoticeText: 'This creator is currently not configured to receive tips from your Rewards custodial wallet service. Any tip you make will remain pending and retry automatically for 90 days.',
+  siteBannerNoticeNotRegistered:
+    'This creator is not signed up yet. Any tip you make will remain pending and retry automatically for 90 days.',
+  siteBannerNoticeText:
+    'This creator is currently not configured to receive tips from your Rewards custodial wallet service. Any tip you make will remain pending and retry automatically for 90 days.',
   sorryToSeeYouGo: 'Sorry to see you go…',
   supportThisCreator: 'Support this creator',
   thanksForTheSupport: 'Thanks for the support!',

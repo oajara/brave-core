@@ -36,8 +36,12 @@ export interface Props {
 
 export const SwapHeader = ({ onChangeSwapView }: Props) => {
   // redux
-  const selectedAccount = useSelector(({ wallet }: {wallet: WalletState}) => wallet.selectedAccount)
-  const selectedNetwork = useSelector(({ wallet }: {wallet: WalletState}) => wallet.selectedNetwork)
+  const selectedAccount = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.selectedAccount
+  )
+  const selectedNetwork = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.selectedNetwork
+  )
 
   // methods
   const onShowAccounts = React.useCallback(() => {
@@ -53,19 +57,22 @@ export const SwapHeader = ({ onChangeSwapView }: Props) => {
   const selectedAccountName = selectedAccount?.name || ''
 
   const orb = React.useMemo(() => {
-    return create({ seed: selectedAccountAddress.toLowerCase(), size: 8, scale: 16 }).toDataURL()
+    return create({
+      seed: selectedAccountAddress.toLowerCase(),
+      size: 8,
+      scale: 16
+    }).toDataURL()
   }, [selectedAccountAddress])
 
   // render
   return (
     <StyledWrapper>
-
       <SelectNetworkButton
         selectedNetwork={selectedNetwork}
         onClick={onShowNetworks}
       />
 
-      <VerticalSpace space='8px' />
+      <VerticalSpace space="8px" />
 
       <NameAndIcon>
         <AccountCircle onClick={onShowAccounts} orb={orb}>
@@ -73,13 +80,16 @@ export const SwapHeader = ({ onChangeSwapView }: Props) => {
         </AccountCircle>
         <CopyTooltip text={selectedAccountAddress}>
           <AccountAndAddress>
-            <AccountName>{reduceAccountDisplayName(selectedAccountName, 11)}</AccountName>
-            <AccountAddress>{reduceAddress(selectedAccountAddress)}</AccountAddress>
+            <AccountName>
+              {reduceAccountDisplayName(selectedAccountName, 11)}
+            </AccountName>
+            <AccountAddress>
+              {reduceAddress(selectedAccountAddress)}
+            </AccountAddress>
           </AccountAndAddress>
         </CopyTooltip>
       </NameAndIcon>
-
-    </StyledWrapper >
+    </StyledWrapper>
   )
 }
 

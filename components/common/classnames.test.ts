@@ -52,10 +52,7 @@ describe('classnames', function () {
   })
 
   it('handles arrays that include falsy and true values', function () {
-    assert.equal(
-      classnames(['a', 0, null, undefined, false, true, 'b']),
-      'a b'
-    )
+    assert.equal(classnames(['a', 0, null, undefined, false, true, 'b']), 'a b')
   })
 
   it('handles arrays that include arrays', function () {
@@ -116,14 +113,14 @@ describe('classnames', function () {
   })
 
   it('handles toString() method defined inherited in object', function () {
-    function Class1 () {}
-    function Class2 () {}
+    function Class1() {}
+    function Class2() {}
     Class1.prototype.toString = function () {
       return 'classFromMethod'
     }
     Class2.prototype = Object.create(Class1.prototype)
     // @ts-expect-error (empty class is always 'any')
-    const instance: { toString: () => string} = new Class2()
+    const instance: { toString: () => string } = new Class2()
     assert.equal(classnames(instance), 'classFromMethod')
   })
 })

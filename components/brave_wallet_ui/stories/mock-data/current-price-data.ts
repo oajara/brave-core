@@ -12,7 +12,6 @@ export const mockedCurrentPriceData = [
     btc: '1',
     usdTimeframeChange: '2.3',
     btcTimeframeChange: '-0.1'
-
   },
   {
     name: 'Binance Coin',

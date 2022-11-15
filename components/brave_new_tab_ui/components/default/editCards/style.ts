@@ -15,7 +15,11 @@ export const StyledWrapper = styled('button')<{}>`
   cursor: pointer;
   backdrop-filter: blur(23px);
   padding: 12px 20px;
-  background: linear-gradient(90deg, rgba(33, 37, 41, 0.6) 0%, rgba(33, 37, 41, 0.24) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(33, 37, 41, 0.6) 0%,
+    rgba(33, 37, 41, 0.24) 100%
+  );
   outline: none;
 
   &:hover {
@@ -23,7 +27,7 @@ export const StyledWrapper = styled('button')<{}>`
   }
 
   &:focus-visible {
-    box-shadow: 0 0 0 1px ${p => p.theme.color.brandBrave};
+    box-shadow: 0 0 0 1px ${(p) => p.theme.color.brandBrave};
   }
 `
 
@@ -35,7 +39,7 @@ export const StyledTitle = styled('div')<{}>`
   font-weight: 600;
   color: ${palette.white};
   margin: 0 auto;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
 `
 
 export const StyledEditIcon = styled('img')<{}>`

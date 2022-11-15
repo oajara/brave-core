@@ -11,7 +11,7 @@ interface Props {
   logEntries: RewardsInternals.EventLog[]
 }
 
-function processLogEntries (
+function processLogEntries(
   currentPaymentId: string,
   entries: RewardsInternals.EventLog[]
 ) {
@@ -57,7 +57,7 @@ function processLogEntries (
   return list
 }
 
-export function WalletHistory (props: Props) {
+export function WalletHistory(props: Props) {
   const results = processLogEntries(props.paymentId, props.logEntries)
   if (results.length === 0) {
     return null
@@ -72,14 +72,13 @@ export function WalletHistory (props: Props) {
   return (
     <div>
       <h3>{getLocale('walletHistory')}</h3>
-      {
-        results.map((result) =>
-          <div key={result.paymentId}>
-            {result.paymentId}{result.corrupted ? '*' : ''}&nbsp;
-            ({dateFormatter.format(new Date(result.timestamp))})
-          </div>
-        )
-      }
+      {results.map((result) => (
+        <div key={result.paymentId}>
+          {result.paymentId}
+          {result.corrupted ? '*' : ''}&nbsp; (
+          {dateFormatter.format(new Date(result.timestamp))})
+        </div>
+      ))}
     </div>
   )
 }

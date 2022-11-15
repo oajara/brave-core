@@ -27,16 +27,12 @@ interface Props {
 }
 
 export default class ReportView extends React.PureComponent<Props, {}> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
   }
 
-  render () {
-    const {
-      siteUrl,
-      onSubmitReport,
-      onClose
-    } = this.props
+  render() {
+    const { siteUrl, onSubmitReport, onClose } = this.props
     return (
       <ModalLayout>
         <TextSection>

@@ -19,7 +19,7 @@ interface Props {
   onAnimationComplete: () => void
 }
 
-function MainPanel (props: Props) {
+function MainPanel(props: Props) {
   const [enabled, setEnabled] = React.useState(false)
 
   const onRootMounted = (elem: HTMLElement | null) => {
@@ -30,30 +30,32 @@ function MainPanel (props: Props) {
 
   const onEnablePressed = () => {
     setEnabled(true)
-    setTimeout(() => { props.onAnimationComplete() }, 3500)
+    setTimeout(() => {
+      props.onAnimationComplete()
+    }, 3500)
     props.onEnable()
   }
 
   return (
     <S.Root ref={onRootMounted} className={enabled ? 'success' : ''}>
       <S.TitleBar>
-        <div><ShieldsIcon /></div>
+        <div>
+          <ShieldsIcon />
+        </div>
         <S.TitleBarText>{getLocale('cookieListTitle')}</S.TitleBarText>
-        <button onClick={props.onDismiss}><CloseIcon /></button>
+        <button onClick={props.onDismiss}>
+          <CloseIcon />
+        </button>
       </S.TitleBar>
       <S.Content>
         <S.CookieGraphic />
-        <S.Header>
-          {getLocale('cookieListHeader')}
-        </S.Header>
-        <S.Description>
-          {getLocale('cookieListText')}
-        </S.Description>
-        <S.OptIn className='opt-in-action'>
+        <S.Header>{getLocale('cookieListHeader')}</S.Header>
+        <S.Description>{getLocale('cookieListText')}</S.Description>
+        <S.OptIn className="opt-in-action">
           <Button
             isPrimary
             isCallToAction
-            scale='large'
+            scale="large"
             onClick={onEnablePressed}
           >
             {getLocale('cookieListButtonText')}

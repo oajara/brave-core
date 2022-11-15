@@ -13,25 +13,34 @@ import CustomizePage from './CustomizePage'
 import DiscoverSection from './DiscoverSection'
 import FeedCard from './FeedCard'
 
-export function SuggestionsCarousel () {
+export function SuggestionsCarousel() {
   const { suggestedPublisherIds, setCustomizePage } = useBraveNews()
 
-  return <Carousel
-    title={<Flex justify='space-between'>
-      {getLocale('braveNewsSuggestionsTitle')}
-      <CustomizeLink onClick={() => setCustomizePage('suggestions')}>
-        {getLocale('braveNewsViewAllButton')}
-      </CustomizeLink>
-    </Flex>}
-    subtitle={getLocale('braveNewsSuggestionsSubtitle')}
-    publisherIds={suggestedPublisherIds}/>
+  return (
+    <Carousel
+      title={
+        <Flex justify="space-between">
+          {getLocale('braveNewsSuggestionsTitle')}
+          <CustomizeLink onClick={() => setCustomizePage('suggestions')}>
+            {getLocale('braveNewsViewAllButton')}
+          </CustomizeLink>
+        </Flex>
+      }
+      subtitle={getLocale('braveNewsSuggestionsSubtitle')}
+      publisherIds={suggestedPublisherIds}
+    />
+  )
 }
 
-export function SuggestionsPage () {
+export function SuggestionsPage() {
   const { suggestedPublisherIds } = useBraveNews()
-  return <CustomizePage title={getLocale('braveNewsSuggestionsTitle')}>
-    <DiscoverSection>
-      {suggestedPublisherIds.map(p => <FeedCard key={p} publisherId={p} />)}
-    </DiscoverSection>
-  </CustomizePage>
+  return (
+    <CustomizePage title={getLocale('braveNewsSuggestionsTitle')}>
+      <DiscoverSection>
+        {suggestedPublisherIds.map((p) => (
+          <FeedCard key={p} publisherId={p} />
+        ))}
+      </DiscoverSection>
+    </CustomizePage>
+  )
 }

@@ -19,15 +19,15 @@ interface Props {
 }
 
 class WebcompatReportContainer extends React.Component<Props, {}> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
   }
 
-  get actions () {
+  get actions() {
     return this.props.actions
   }
 
-  render () {
+  render() {
     const { actions, reporterState } = this.props
     return (
       <WebcompatReportModal

@@ -61,13 +61,16 @@ export const gridSitesReducer: Reducer<NewTab.GridSitesState | undefined> = (
         offset++
       }
       // Change the order in Chromium
-      reorderMostVisitedTile(gridSites[oldPos].url, (newPos - offset))
+      reorderMostVisitedTile(gridSites[oldPos].url, newPos - offset)
       // Change the order that user sees. Chromium will overwrite this
       // when `MostVisitedInfoChanged` is called- but changing BEFORE that
       // avoids a flicker for the user where (for a second or so), tiles would
       // have the wrong order.
-      const reorderedGridSites: NewTab.Site[] =
-          arrayMove(gridSites, oldPos, newPos)
+      const reorderedGridSites: NewTab.Site[] = arrayMove(
+        gridSites,
+        oldPos,
+        newPos
+      )
       state = gridSitesState.tilesUpdated(state, reorderedGridSites)
       break
     }

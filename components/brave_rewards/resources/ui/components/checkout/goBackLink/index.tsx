@@ -11,7 +11,7 @@ interface GoBackLinkProps {
   onClick: () => void
 }
 
-export function GoBackLink (props: GoBackLinkProps) {
+export function GoBackLink(props: GoBackLinkProps) {
   const locale = React.useContext(LocaleContext)
   const handleClick = (event: React.MouseEvent) => {
     event.preventDefault()
@@ -19,7 +19,7 @@ export function GoBackLink (props: GoBackLinkProps) {
   }
   return (
     <Container>
-      <a href='#' onClick={handleClick}>
+      <a href="#" onClick={handleClick}>
         <LeftIcon />
         {locale.get('goBack')}
       </a>

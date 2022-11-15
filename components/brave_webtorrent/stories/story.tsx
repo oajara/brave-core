@@ -19,7 +19,7 @@ const FullPageStory = (storyFn: any) => (
   <div style={fullPageStoryStyles}>{storyFn()}</div>
 )
 
-function consoleLog () {
+function consoleLog() {
   console.log('Clicked something')
 }
 

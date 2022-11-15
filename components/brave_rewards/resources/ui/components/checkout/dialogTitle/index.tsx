@@ -10,6 +10,6 @@ interface DialogTitleProps {
   children: React.ReactNode
 }
 
-export function DialogTitle (props: DialogTitleProps) {
+export function DialogTitle(props: DialogTitleProps) {
   return <StyledHeader>{props.children}</StyledHeader>
 }

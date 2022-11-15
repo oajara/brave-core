@@ -1,4 +1,3 @@
-
 // Copyright (c) 2020 The Brave Authors. All rights reserved.
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
@@ -17,7 +16,7 @@ import * as ColorUtil from '../../../helpers/colorUtil'
 
 const addonsChannel = addons.getChannel()
 
-function generateTopSites (topSites: typeof defaultTopSitesData) {
+function generateTopSites(topSites: typeof defaultTopSitesData) {
   const staticTopSites = []
   for (const [index, topSite] of topSites.entries()) {
     staticTopSites.push({
@@ -33,14 +32,16 @@ function generateTopSites (topSites: typeof defaultTopSitesData) {
   return staticTopSites
 }
 
-function shouldShowBrandedWallpaperData (shouldShow: boolean): NewTab.BrandedWallpaper | undefined {
+function shouldShowBrandedWallpaperData(
+  shouldShow: boolean
+): NewTab.BrandedWallpaper | undefined {
   if (!shouldShow) {
     return undefined
   }
   return dummyBrandedWallpaper
 }
 
-function getWidgetStackOrder (firstWidget: string): NewTab.StackWidget[] {
+function getWidgetStackOrder(firstWidget: string): NewTab.StackWidget[] {
   switch (firstWidget) {
     case 'braveTalk':
       return ['rewards', 'binance', 'braveTalk', 'ftx']
@@ -61,10 +62,11 @@ function getWidgetStackOrder (firstWidget: string): NewTab.StackWidget[] {
  * @param key The key to guess the label for.
  * @returns The guessed label. Not guaranteed to be accurate, sorry :'(
  */
-const guessLabelForKey = (key: string) => key
-  .replace(/([A-Z])/g, (match) => ` ${match.toLowerCase()}`)
-  .replace(/^./, (match) => match.toUpperCase())
-  .trim() + '?'
+const guessLabelForKey = (key: string) =>
+  key
+    .replace(/([A-Z])/g, (match) => ` ${match.toLowerCase()}`)
+    .replace(/^./, (match) => match.toUpperCase())
+    .trim() + '?'
 
 export const useNewTabData = (state: NewTab.State = defaultState) => {
   const result: NewTab.State = {
@@ -78,14 +80,22 @@ export const useNewTabData = (state: NewTab.State = defaultState) => {
       Background.backgroundWallpapers,
       Background.backgroundWallpapers.defaultImage
     ),
-    readabilityThreshold: number('Readability threshold', ColorUtil.getThresholdForReadability(), { range: true, min: 0, max: 10, step: 0.1 }),
+    readabilityThreshold: number(
+      'Readability threshold',
+      ColorUtil.getThresholdForReadability(),
+      { range: true, min: 0, max: 10, step: 0.1 }
+    ),
     customLinksEnabled: boolean('CustomLinks Enabled?', false),
     featureFlagBraveNTPSponsoredImagesWallpaper: true,
     featureCustomBackgroundEnabled: true,
     featureFlagBraveNewsEnabled: true,
     featureFlagBraveNewsPromptEnabled: true,
     searchPromotionEnabled: false,
-    forceSettingsTab: select('Open settings tab?', [undefined, ...Object.keys(SettingsTabType)], undefined),
+    forceSettingsTab: select(
+      'Open settings tab?',
+      [undefined, ...Object.keys(SettingsTabType)],
+      undefined
+    ),
     showBackgroundImage: boolean('Show background image?', true),
     showStats: boolean('Show stats?', true),
     showToday: boolean('Show Brave News?', true),
@@ -116,7 +126,9 @@ export const useNewTabData = (state: NewTab.State = defaultState) => {
     //   binanceSupported: boolean('Binance supported?', true)
     // },
     initialDataLoaded: true,
-    widgetStackOrder: getWidgetStackOrder(select('First widget', ['braveTalk', 'rewards'], 'rewards'))
+    widgetStackOrder: getWidgetStackOrder(
+      select('First widget', ['braveTalk', 'rewards'], 'rewards')
+    )
   }
 
   // On all updates, notify that the prefs might've changed. Listeners are

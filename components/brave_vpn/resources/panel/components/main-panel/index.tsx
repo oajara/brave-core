@@ -3,7 +3,10 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 import * as React from 'react'
-import { SettingsAdvancedIcon, CaratStrongRightIcon } from 'brave-ui/components/icons'
+import {
+  SettingsAdvancedIcon,
+  CaratStrongRightIcon
+} from 'brave-ui/components/icons'
 
 import * as S from './style'
 import { getLocale } from '../../../../../common/locale'
@@ -18,14 +21,16 @@ import * as Actions from '../../state/actions'
 import { ConnectionState } from '../../api/panel_browser_api'
 import Flag from '../flag'
 
-function MainPanel () {
+function MainPanel() {
   const dispatch = useDispatch()
-  const [isSettingsPanelVisible, setSettingsPanelVisible] = React.useState(false)
-  const [isContactSupportVisible, setContactSupportVisible] = React.useState(false)
-  const currentRegion = useSelector(state => state.currentRegion)
-  const hasError = useSelector(state => state.hasError)
-  const isSelectingRegion = useSelector(state => state.isSelectingRegion)
-  const connectionStatus = useSelector(state => state.connectionStatus)
+  const [isSettingsPanelVisible, setSettingsPanelVisible] =
+    React.useState(false)
+  const [isContactSupportVisible, setContactSupportVisible] =
+    React.useState(false)
+  const currentRegion = useSelector((state) => state.currentRegion)
+  const hasError = useSelector((state) => state.hasError)
+  const isSelectingRegion = useSelector((state) => state.isSelectingRegion)
+  const connectionStatus = useSelector((state) => state.connectionStatus)
 
   const onSelectRegionButtonClick = () => {
     dispatch(Actions.toggleRegionSelector(true))
@@ -38,34 +43,31 @@ function MainPanel () {
   const closeContactSupport = () => setContactSupportVisible(false)
 
   if (isContactSupportVisible) {
-    return (<ContactSupport
-      onCloseContactSupport={closeContactSupport}
-    />)
+    return <ContactSupport onCloseContactSupport={closeContactSupport} />
   }
 
   if (isSettingsPanelVisible) {
-    return (<SettingsPanel
-      closeSettingsPanel={closeSettingsPanel}
-      showContactSupport={showContactSupport}
-    />)
+    return (
+      <SettingsPanel
+        closeSettingsPanel={closeSettingsPanel}
+        showContactSupport={showContactSupport}
+      />
+    )
   }
 
   if (isSelectingRegion) {
-    return (<SelectRegionList />)
+    return <SelectRegionList />
   }
 
   if (hasError) {
-    return (<ErrorPanel showContactSupport={showContactSupport} />)
+    return <ErrorPanel showContactSupport={showContactSupport} />
   }
 
   return (
     <PanelBox>
       <S.PanelContent>
         <S.PanelHeader>
-          <S.SettingsButton
-            type='button'
-            onClick={handleSettingsButtonClick}
-          >
+          <S.SettingsButton type="button" onClick={handleSettingsButtonClick}>
             <SettingsAdvancedIcon />
           </S.SettingsButton>
         </S.PanelHeader>
@@ -73,14 +75,14 @@ function MainPanel () {
         <Toggle />
         {connectionStatus === ConnectionState.CONNECT_NOT_ALLOWED && (
           <S.ConnectNotAllowedNote>
-          <div>{getLocale('braveVpnConnectNotAllowed')}</div>
+            <div>{getLocale('braveVpnConnectNotAllowed')}</div>
           </S.ConnectNotAllowedNote>
         )}
         <S.RegionSelectorButton
-          type='button'
+          type="button"
           onClick={onSelectRegionButtonClick}
         >
-          <Flag countryCode={currentRegion?.countryIsoCode}/>
+          <Flag countryCode={currentRegion?.countryIsoCode} />
           <S.RegionLabel>{currentRegion?.namePretty}</S.RegionLabel>
           <CaratStrongRightIcon />
         </S.RegionSelectorButton>

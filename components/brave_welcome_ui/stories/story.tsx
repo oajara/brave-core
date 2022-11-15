@@ -22,5 +22,7 @@ export default {
 }
 
 export const Page = () => (
-  <WelcomePage isDefaultSearchGoogle={boolean('Is default search google?', true)}/>
+  <WelcomePage
+    isDefaultSearchGoogle={boolean('Is default search google?', true)}
+  />
 )

@@ -24,7 +24,8 @@ const getInfo = (state: RewardsInternals.State) => {
   return (
     <>
       <div>
-        {getLocale('keyInfoSeed')} {getKeyInfoSeedValidString(state.info.isKeyInfoSeedValid || false)}
+        {getLocale('keyInfoSeed')}{' '}
+        {getKeyInfoSeedValidString(state.info.isKeyInfoSeedValid || false)}
       </div>
       <div>
         {getLocale('walletPaymentId')} {state.info.walletPaymentId || ''}
@@ -33,9 +34,11 @@ const getInfo = (state: RewardsInternals.State) => {
         {getLocale('bootStamp')} {formatDate(state.info.bootStamp * 1000)}
       </div>
       <div>
-        {getLocale('rewardsCountry')} {state.info.declaredGeo || getLocale('notSet')}
+        {getLocale('rewardsCountry')}{' '}
+        {state.info.declaredGeo || getLocale('notSet')}
       </div>
-    </>)
+    </>
+  )
 }
 
 export const WalletInfo = (props: Props) => {
@@ -44,14 +47,11 @@ export const WalletInfo = (props: Props) => {
   return (
     <>
       <h3>{getLocale('walletInfo')}</h3>
-      {
-        info.bootStamp
-          ? getInfo(props.state)
-          : <div>
-            {getLocale('walletNotCreated')}
-          </div>
-      }
-
+      {info.bootStamp ? (
+        getInfo(props.state)
+      ) : (
+        <div>{getLocale('walletNotCreated')}</div>
+      )}
     </>
   )
 }

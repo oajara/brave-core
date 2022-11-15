@@ -7,14 +7,12 @@ import * as React from 'react'
 import { LocaleContext } from '../localeContext'
 import { Container, LoadIcon } from './style'
 
-export function PaymentProcessing () {
+export function PaymentProcessing() {
   const locale = React.useContext(LocaleContext)
   return (
     <Container>
       <LoadIcon />
-      <div>
-        {locale.get('paymentProcessing')}
-      </div>
+      <div>{locale.get('paymentProcessing')}</div>
     </Container>
   )
 }

@@ -9,12 +9,7 @@ import * as React from 'react'
 import { getLocale } from '../../../../common/locale'
 
 // Styled Components
-import {
-  HeaderTitle,
-  HeaderWrapper,
-  ActionIcon,
-  ExpandIcon
-} from './style'
+import { HeaderTitle, HeaderWrapper, ActionIcon, ExpandIcon } from './style'
 
 // components
 import { WalletMorePopup } from '../../desktop'
@@ -42,12 +37,12 @@ export const ConnectedHeader = (props: Props) => {
       <ExpandIcon onClick={onExpand} />
       <HeaderTitle>{getLocale('braveWalletPanelTitle')}</HeaderTitle>
       <ActionIcon onClick={onClickMore} />
-      {showMore &&
+      {showMore && (
         <WalletMorePopup
           onClickSetting={onClickSetting}
           onClickViewOnBlockExplorer={onClickViewOnBlockExplorer}
         />
-      }
+      )}
     </HeaderWrapper>
   )
 }

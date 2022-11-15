@@ -30,7 +30,9 @@ import BraveTalkItem from './braveTalkItem'
 import { getLocale } from '../../../../common/locale'
 import { DismissBraveTalkPromptPayload } from '../../../actions/new_tab_actions'
 
-export type OnDismissBraveTalkPrompt = (payload: DismissBraveTalkPromptPayload) => unknown
+export type OnDismissBraveTalkPrompt = (
+  payload: DismissBraveTalkPromptPayload
+) => unknown
 export interface Props {
   textDirection: string
   supportsBraveTalk: boolean
@@ -42,7 +44,7 @@ export interface Props {
 }
 
 export default class FooterInfo extends React.PureComponent<Props, {}> {
-  render () {
+  render() {
     const {
       textDirection,
       supportsBraveTalk,
@@ -53,19 +55,24 @@ export default class FooterInfo extends React.PureComponent<Props, {}> {
 
     return (
       <>
-        { showPhotoInfo && backgroundImageInfo?.type === 'brave' &&
+        {showPhotoInfo && backgroundImageInfo?.type === 'brave' && (
           <S.GridItemCredits>
             <PhotoName>
               {`${getLocale('photoBy')} `}
-              { backgroundImageInfo.link
-                  ? <Link href={backgroundImageInfo.link} rel='noreferrer noopener' target='_blank'>
-                      {backgroundImageInfo.author}
-                    </Link>
-                  : <Label> {backgroundImageInfo.author} </Label>
-              }
+              {backgroundImageInfo.link ? (
+                <Link
+                  href={backgroundImageInfo.link}
+                  rel="noreferrer noopener"
+                  target="_blank"
+                >
+                  {backgroundImageInfo.author}
+                </Link>
+              ) : (
+                <Label> {backgroundImageInfo.author} </Label>
+              )}
             </PhotoName>
           </S.GridItemCredits>
-        }
+        )}
         <S.GridItemNavigation>
           <Navigation>
             <IconButtonContainer textDirection={textDirection}>
@@ -76,18 +83,25 @@ export default class FooterInfo extends React.PureComponent<Props, {}> {
                 {getLocale('customize')}
               </IconButtonSideText>
             </IconButtonContainer>
-            <IconLink title={getLocale('preferencesPageTitle')} href='chrome://settings'>
+            <IconLink
+              title={getLocale('preferencesPageTitle')}
+              href="chrome://settings"
+            >
               <SettingsAdvancedIcon />
             </IconLink>
-            <IconLink title={getLocale('bookmarksPageTitle')} href='chrome://bookmarks'>
+            <IconLink
+              title={getLocale('bookmarksPageTitle')}
+              href="chrome://bookmarks"
+            >
               <BookmarkBook />
             </IconLink>
-            <IconLink title={getLocale('historyPageTitle')} href='chrome://history'>
+            <IconLink
+              title={getLocale('historyPageTitle')}
+              href="chrome://history"
+            >
               <HistoryIcon />
             </IconLink>
-            {supportsBraveTalk &&
-              <BraveTalkItem {...this.props} />
-            }
+            {supportsBraveTalk && <BraveTalkItem {...this.props} />}
           </Navigation>
         </S.GridItemNavigation>
       </>

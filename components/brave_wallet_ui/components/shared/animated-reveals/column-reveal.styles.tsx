@@ -6,7 +6,7 @@
 import styled from 'styled-components'
 
 export const RevealableContentContainer = styled.div<{ hideContent?: boolean }>`
-  --scroll-offset: ${(p) => p?.hideContent ? '-400px' : '0px'};
+  --scroll-offset: ${(p) => (p?.hideContent ? '-400px' : '0px')};
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
@@ -18,7 +18,7 @@ export const RevealableContentColumn = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: var(--scroll-offset);
-  transition: margin-top .3s ease-in-out;
+  transition: margin-top 0.3s ease-in-out;
   overflow: hidden;
   white-space: nowrap;
   overflow: hidden;

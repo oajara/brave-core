@@ -9,7 +9,10 @@ import * as React from 'react'
 import { PriceDataObjectType } from '../../../../../../constants/types'
 
 // utils
-import { useSafeWalletSelector, useUnsafeWalletSelector } from '../../../../../../common/hooks/use-safe-selector'
+import {
+  useSafeWalletSelector,
+  useUnsafeWalletSelector
+} from '../../../../../../common/hooks/use-safe-selector'
 import { WalletSelectors } from '../../../../../../common/selectors'
 import Amount from '../../../../../../utils/amount'
 
@@ -29,11 +32,17 @@ export const PortfolioOverviewChart: React.FC<Props> = ({
   onHover
 }) => {
   // safe selectors
-  const defaultFiatCurrency = useSafeWalletSelector(WalletSelectors.defaultFiatCurrency)
-  const isFetchingPortfolioPriceHistory = useSafeWalletSelector(WalletSelectors.isFetchingPortfolioPriceHistory)
+  const defaultFiatCurrency = useSafeWalletSelector(
+    WalletSelectors.defaultFiatCurrency
+  )
+  const isFetchingPortfolioPriceHistory = useSafeWalletSelector(
+    WalletSelectors.isFetchingPortfolioPriceHistory
+  )
 
   // unsafe selectors
-  const portfolioPriceHistory = useUnsafeWalletSelector(WalletSelectors.portfolioPriceHistory)
+  const portfolioPriceHistory = useUnsafeWalletSelector(
+    WalletSelectors.portfolioPriceHistory
+  )
 
   // memos
   const priceHistory = React.useMemo((): PriceDataObjectType[] => {
@@ -44,13 +53,18 @@ export const PortfolioOverviewChart: React.FC<Props> = ({
   }, [portfolioPriceHistory, hasZeroBalance])
 
   // methods
-  const onUpdateBalance = React.useCallback((value: number | undefined) => {
-    onHover(value ? new Amount(value).formatAsFiat(defaultFiatCurrency) : undefined)
-  }, [onHover, defaultFiatCurrency])
+  const onUpdateBalance = React.useCallback(
+    (value: number | undefined) => {
+      onHover(
+        value ? new Amount(value).formatAsFiat(defaultFiatCurrency) : undefined
+      )
+    },
+    [onHover, defaultFiatCurrency]
+  )
 
   // render
   return (
-    <Column alignItems='center' fullWidth>
+    <Column alignItems="center" fullWidth>
       <LineChart
         isDown={false}
         isAsset={false}

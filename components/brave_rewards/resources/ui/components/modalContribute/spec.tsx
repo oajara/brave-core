@@ -9,7 +9,11 @@ import ModalContribute from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('ModalContribute tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><ModalContribute id='modal' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <ModalContribute id="modal" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

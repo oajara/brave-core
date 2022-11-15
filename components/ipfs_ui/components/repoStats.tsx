@@ -17,16 +17,14 @@ interface Props {
 }
 
 export class RepoStats extends React.Component<Props, {}> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
   }
 
-  render () {
+  render() {
     return (
       <Section>
-        <Title>
-          {getLocale('repoStatsTitle')}
-        </Title>
+        <Title>{getLocale('repoStatsTitle')}</Title>
         <div>
           {getLocale('objects')}: {this.props.repoStats.objects}
         </div>
@@ -43,17 +41,20 @@ export class RepoStats extends React.Component<Props, {}> {
           {getLocale('version')}: {this.props.repoStats.version.toString()}
         </div>
         <PaddedButton
-          disabled={!this.props.daemonStatus.launched || this.props.garbageCollectionStatus.started}
+          disabled={
+            !this.props.daemonStatus.launched ||
+            this.props.garbageCollectionStatus.started
+          }
           text={getLocale('runGarbageCollectionTitle')}
           size={'small'}
           onClick={this.props.onGarbageCollection}
         />
-        {!this.props.garbageCollectionStatus.success && this.props.daemonStatus.launched && (
-        <div
-          style={Error}
-        >
-          {getLocale('gcError')}: {this.props.garbageCollectionStatus.error}
-        </div>)}
+        {!this.props.garbageCollectionStatus.success &&
+          this.props.daemonStatus.launched && (
+            <div style={Error}>
+              {getLocale('gcError')}: {this.props.garbageCollectionStatus.error}
+            </div>
+          )}
       </Section>
     )
   }

@@ -27,7 +27,7 @@ type ListItemProps = {
   shouldScrollIntoView: boolean
 }
 
-function ListItem (props: ListItemProps) {
+function ListItem(props: ListItemProps) {
   const [cardRef] = useScrollIntoView(props.shouldScrollIntoView)
   const onClick = useReadArticleClickHandler(props.onReadFeedItem, {
     item: props.item
@@ -39,23 +39,21 @@ function ListItem (props: ListItemProps) {
   return (
     <Card.ListItem>
       <a onClick={onClick} href={data.url.url} ref={cardRef}>
-        <Card.Heading>
-          {data.title}
-        </Card.Heading>
+        <Card.Heading>{data.title}</Card.Heading>
         <Card.Time>{data.relativeTimeDescription}</Card.Time>
       </a>
     </Card.ListItem>
   )
 }
 
-export default function PublisherGroup (props: Props) {
+export default function PublisherGroup(props: Props) {
   // No content no render®
-  if (props.content.length < 3 || props.content.some(c => !c.article)) {
+  if (props.content.length < 3 || props.content.some((c) => !c.article)) {
     return null
   }
   return (
     <Card.OrderedList>
-      {props.publisher &&
+      {props.publisher && (
         <Card.ListTitle>
           <PublisherMeta
             publisher={props.publisher}
@@ -63,21 +61,20 @@ export default function PublisherGroup (props: Props) {
             onSetPublisherPref={props.onSetPublisherPref}
           />
         </Card.ListTitle>
-      }
+      )}
       <Card.List>
-        {
-          props.content.map((item, index) => {
-            const data = item.article?.data
-            // we already validated this, but typescript wants
-            // us to do it again
-            if (!data) {
-              return <React.Fragment key={index} />
-            }
-            const shouldScrollTo = (
-              !!props.articleToScrollTo &&
-              props.articleToScrollTo.url.url === data.url.url
-            )
-            return <ListItem
+        {props.content.map((item, index) => {
+          const data = item.article?.data
+          // we already validated this, but typescript wants
+          // us to do it again
+          if (!data) {
+            return <React.Fragment key={index} />
+          }
+          const shouldScrollTo =
+            !!props.articleToScrollTo &&
+            props.articleToScrollTo.url.url === data.url.url
+          return (
+            <ListItem
               publisher={props.publisher}
               item={item}
               key={index}
@@ -85,8 +82,8 @@ export default function PublisherGroup (props: Props) {
               onReadFeedItem={props.onReadFeedItem}
               onSetPublisherPref={props.onSetPublisherPref}
             />
-          })
-        }
+          )
+        })}
       </Card.List>
     </Card.OrderedList>
   )

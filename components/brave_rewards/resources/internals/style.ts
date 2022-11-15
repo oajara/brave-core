@@ -10,7 +10,7 @@ export const Wrapper = styled('div')<{}>`
   width: 100%;
   max-width: 1350px;
   margin: 15px auto 0;
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   font-size: 14px;
 `
 
@@ -66,7 +66,7 @@ export const PublisherKey = styled('h4')<{}>`
 
 export const Disclaimer = styled('p')<{}>`
   font-size: 13px;
-  color: ${p => p.theme.palette.grey800};
+  color: ${(p) => p.theme.palette.grey800};
   margin: 0 0 10px;
   padding: 0px;
   text-align: center;
@@ -78,7 +78,7 @@ export const EventTable = styled('table')<{}>`
 `
 
 export const EventCell = styled('td')<{}>`
-  border-bottom: 1px solid ${p => p.theme.palette.blackFade85};
+  border-bottom: 1px solid ${(p) => p.theme.palette.blackFade85};
   padding: 10px;
 `
 

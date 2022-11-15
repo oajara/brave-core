@@ -44,5 +44,5 @@ export const StyledText = styled('div')<{}>`
 `
 
 export const StyledButtonWrapper = styled('div')<StyleProps>`
-  margin-top: ${p => p.isMobile ? 40 : 32}px;
+  margin-top: ${(p) => (p.isMobile ? 40 : 32)}px;
 `

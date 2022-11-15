@@ -19,14 +19,16 @@ export type PrivateTabData = {
 
 type PrivateTabDataUpdatedHandler = (data: PrivateTabData) => void
 
-export function getPrivateTabData (): Promise<PrivateTabData> {
+export function getPrivateTabData(): Promise<PrivateTabData> {
   return Cr.sendWithPromise('getNewTabPagePrivateProperties')
 }
 
-export function toggleAlternativePrivateSearchEngine (): void {
+export function toggleAlternativePrivateSearchEngine(): void {
   chrome.send('toggleAlternativePrivateSearchEngine', [])
 }
 
-export function addChangeListener (listener: PrivateTabDataUpdatedHandler): void {
+export function addChangeListener(
+  listener: PrivateTabDataUpdatedHandler
+): void {
   Cr.addWebUIListener('private-tab-data-updated', listener)
 }

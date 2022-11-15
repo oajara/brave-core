@@ -11,7 +11,7 @@ type Props = {
   size?: number
 }
 
-export default function IconAsset (props: Props) {
+export default function IconAsset(props: Props) {
   let { iconKey, size = 25 } = props
   if (iconKey === '1inch') {
     // 1inch key is changed to oneinch because Identifier can't be started with number.

@@ -13,12 +13,13 @@ interface Props {
   onClick: () => void
 }
 
-export function ManageWalletButton (props: Props) {
+export function ManageWalletButton(props: Props) {
   const { getString } = React.useContext(LocaleContext)
   return (
     <style.root>
-      <button onClick={props.onClick} data-test-id='manage-wallet-button'>
-        <ManageWalletIcon />{getString('manageWallet')}
+      <button onClick={props.onClick} data-test-id="manage-wallet-button">
+        <ManageWalletIcon />
+        {getString('manageWallet')}
       </button>
     </style.root>
   )

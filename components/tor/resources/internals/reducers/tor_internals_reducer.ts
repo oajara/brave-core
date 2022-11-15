@@ -11,7 +11,10 @@ import { types } from '../constants/tor_internals_types'
 // Utils
 import * as storage from '../storage'
 
-const torInternalsReducer: Reducer<TorInternals.State | undefined> = (state: TorInternals.State | undefined, action) => {
+const torInternalsReducer: Reducer<TorInternals.State | undefined> = (
+  state: TorInternals.State | undefined,
+  action
+) => {
   if (state === undefined) {
     state = storage.load()
   }

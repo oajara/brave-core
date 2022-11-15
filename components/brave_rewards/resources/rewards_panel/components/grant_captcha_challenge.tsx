@@ -23,21 +23,21 @@ interface Props {
   onSolve: (solution: Point) => void
 }
 
-export function GrantCaptchaChallenge (props: Props) {
+export function GrantCaptchaChallenge(props: Props) {
   const { getString } = React.useContext(LocaleContext)
   const [centerOffset, setCenterOffset] = React.useState<Point | null>(null)
 
   const { grantCaptchaInfo } = props
 
-  function onDragStart (event: React.DragEvent) {
+  function onDragStart(event: React.DragEvent) {
     const target = event.target as HTMLElement
     const rect = target.getBoundingClientRect()
 
     // Record the offset from the user's mouse position to the center of the
     // draggable object.
     setCenterOffset({
-      x: (rect.width / 2) - (event.clientX - rect.left),
-      y: (rect.height / 2) - (event.clientY - rect.top)
+      x: rect.width / 2 - (event.clientX - rect.left),
+      y: rect.height / 2 - (event.clientY - rect.top)
     })
 
     // Work around Linux-specific upstream bug by explicitly setting the drag
@@ -47,15 +47,16 @@ export function GrantCaptchaChallenge (props: Props) {
       event.dataTransfer.setDragImage(
         target,
         event.clientX - rect.left,
-        event.clientY - rect.top)
+        event.clientY - rect.top
+      )
     }
   }
 
-  function onDragOver (event: React.DragEvent) {
+  function onDragOver(event: React.DragEvent) {
     event.preventDefault()
   }
 
-  function onDrop (event: React.DragEvent) {
+  function onDrop(event: React.DragEvent) {
     event.preventDefault()
 
     if (!centerOffset) {
@@ -86,11 +87,9 @@ export function GrantCaptchaChallenge (props: Props) {
   return (
     <style.root>
       <style.hint>
-        {
-          formatMessage(getString('grantCaptchaHint'), [
-            <strong key='hint'>{grantCaptchaInfo.hint}</strong>
-          ])
-        }
+        {formatMessage(getString('grantCaptchaHint'), [
+          <strong key="hint">{grantCaptchaInfo.hint}</strong>
+        ])}
       </style.hint>
       <style.dragObject>
         <style.dragObjectCircle>
@@ -98,7 +97,7 @@ export function GrantCaptchaChallenge (props: Props) {
             src={dragIconURL}
             draggable={true}
             onDragStart={onDragStart}
-            data-test-id='grant-captcha-object'
+            data-test-id="grant-captcha-object"
           />
         </style.dragObjectCircle>
       </style.dragObject>
@@ -110,7 +109,7 @@ export function GrantCaptchaChallenge (props: Props) {
           src={grantCaptchaInfo.imageURL}
           onDragOver={onDragOver}
           onDrop={onDrop}
-          data-test-id='grant-captcha-target'
+          data-test-id="grant-captcha-target"
         />
       </style.dragTarget>
     </style.root>

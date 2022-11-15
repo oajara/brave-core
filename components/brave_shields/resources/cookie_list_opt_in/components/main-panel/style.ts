@@ -14,22 +14,22 @@ import cookieImageURL from '../../assets/cookie.png'
 export const Root = styled.div`
   --available-height: 800px;
 
-  --color-link: #4C54D2;
-  --color-titlebar-background: #F8F9FA;
-  --color-titlebar-text: #3B3E4F;
+  --color-link: #4c54d2;
+  --color-titlebar-background: #f8f9fa;
+  --color-titlebar-text: #3b3e4f;
   --color-content-background: #fff;
   --color-content-text: #212529;
   --color-decline: var(--color-link);
   --background-image-url: url(${backgroundLightURL});
   --animation-image-url: url(${animationLightURL});
 
-  @media (prefers-color-scheme:dark) {
-    --color-link: #737ADE;
+  @media (prefers-color-scheme: dark) {
+    --color-link: #737ade;
     --color-titlebar-background: #313341;
-    --color-titlebar-text: #E9E9F4;
-    --color-content-background: #1E2029;
-    --color-content-text: #F0F2FF;
-    --color-decline: #FFFFFF;
+    --color-titlebar-text: #e9e9f4;
+    --color-content-background: #1e2029;
+    --color-content-text: #f0f2ff;
+    --color-decline: #ffffff;
     --background-image-url: url(${backgroundDarkURL});
     --animation-image-url: url(${animationDarkURL});
   }

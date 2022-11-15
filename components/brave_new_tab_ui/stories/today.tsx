@@ -20,7 +20,11 @@ const onClick = () => alert('clicked')
 export default {
   title: 'New Tab/Brave Today',
   decorators: [
-    (Story: any) => <ThemeProvider><Story /></ThemeProvider>,
+    (Story: any) => (
+      <ThemeProvider>
+        <Story />
+      </ThemeProvider>
+    ),
     (Story: any) => (
       <div
         style={{
@@ -57,11 +61,13 @@ export const Publisher = () => (
         coverUrl: undefined,
         faviconUrl: undefined,
         siteUrl: { url: 'https://www.example.com' },
-        locales: [{
-          locale: 'en_US',
-          rank: 0,
-          channels: ['Top News', 'Top Sources']
-        }],
+        locales: [
+          {
+            locale: 'en_US',
+            rank: 0,
+            channels: ['Top News', 'Top Sources']
+          }
+        ],
         type: BraveNews.PublisherType.COMBINED_SOURCE,
         isEnabled: true,
         userEnabledStatus: BraveNews.UserEnabled.NOT_MODIFIED
@@ -78,11 +84,13 @@ export const Publisher = () => (
         coverUrl: undefined,
         faviconUrl: undefined,
         siteUrl: { url: 'https://www.example.com' },
-        locales: [{
-          locale: 'en_US',
-          rank: 0,
-          channels: ['Top News', 'Top Sources']
-        }],
+        locales: [
+          {
+            locale: 'en_US',
+            rank: 0,
+            channels: ['Top News', 'Top Sources']
+          }
+        ],
         type: BraveNews.PublisherType.COMBINED_SOURCE,
         isEnabled: true,
         userEnabledStatus: BraveNews.UserEnabled.NOT_MODIFIED
@@ -92,16 +100,17 @@ export const Publisher = () => (
   </>
 )
 
-export const Loading = () => (
-  <BraveTodayLoadingCard />
-)
+export const Loading = () => <BraveTodayLoadingCard />
 
 export const Error = () => (
   <BraveTodayErrorCard onRefresh={() => console.log('refresh clicked')} />
 )
 
 export const OptIn = () => (
-  <BraveTodayOptInCard onOptIn={() => console.log('opt-in clicked')} onDisable={() => console.log('disable clicked')} />
+  <BraveTodayOptInCard
+    onOptIn={() => console.log('opt-in clicked')}
+    onDisable={() => console.log('disable clicked')}
+  />
 )
 
 const handleDisplayAdVisit = () => alert('handle visit')

@@ -52,7 +52,7 @@ export const Image = styled(StandardImage)`
   width: 100px;
   height: 100px;
   border-radius: 8px;
-  background-color: rgba(188,188,188,0.2);
+  background-color: rgba(188, 188, 188, 0.2);
 `
 
 export const Title = styled(StandardHeading)`
@@ -75,7 +75,7 @@ export const Publisher = styled('div')`
   display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
   font-size: 14px;
   color: white;
   font-weight: 500;

@@ -4,7 +4,10 @@
 
 import * as React from 'react'
 
-import { ExternalWallet, getExternalWalletProviderName } from '../../lib/external_wallet'
+import {
+  ExternalWallet,
+  getExternalWalletProviderName
+} from '../../lib/external_wallet'
 import { ExternalWalletAction } from './external_wallet_action'
 
 import { LocaleContext, formatMessage } from '../../lib/locale_context'
@@ -22,24 +25,29 @@ interface Props {
   onCloseBubble: () => void
 }
 
-export function ExternalWalletBubble (props: Props) {
+export function ExternalWalletBubble(props: Props) {
   const { getString } = React.useContext(LocaleContext)
   const { externalWallet } = props
   const providerName = getExternalWalletProviderName(externalWallet.provider)
 
-  function actionHandler (action: ExternalWalletAction) {
-    return () => { props.onExternalWalletAction(action) }
-  }
-
-  function ProviderIcon () {
-    switch (externalWallet.provider) {
-      case 'gemini': return <GeminiIcon />
-      case 'bitflyer': return <BitflyerIcon />
-      case 'uphold': return <UpholdIcon />
+  function actionHandler(action: ExternalWalletAction) {
+    return () => {
+      props.onExternalWalletAction(action)
     }
   }
 
-  function getWalletStatus () {
+  function ProviderIcon() {
+    switch (externalWallet.provider) {
+      case 'gemini':
+        return <GeminiIcon />
+      case 'bitflyer':
+        return <BitflyerIcon />
+      case 'uphold':
+        return <UpholdIcon />
+    }
+  }
+
+  function getWalletStatus() {
     switch (externalWallet.status) {
       case mojom.WalletStatus.kLoggedOut:
         return getString('walletDisconnected')
@@ -50,16 +58,14 @@ export function ExternalWalletBubble (props: Props) {
     return ''
   }
 
-  function renderAccountLink () {
+  function renderAccountLink() {
     switch (externalWallet.status) {
       case mojom.WalletStatus.kLoggedOut:
         return (
           <button onClick={actionHandler('reconnect')}>
-            {
-              formatMessage(getString('walletLogIntoYourAccount'), [
-                providerName
-              ])
-            }
+            {formatMessage(getString('walletLogIntoYourAccount'), [
+              providerName
+            ])}
           </button>
         )
       case mojom.WalletStatus.kConnected:
@@ -80,10 +86,14 @@ export function ExternalWalletBubble (props: Props) {
           <style.providerIcon>
             <ProviderIcon />
           </style.providerIcon>
-          <style.username>
-            {externalWallet.username}
-          </style.username>
-          <style.status className={externalWallet.status === mojom.WalletStatus.kConnected ? 'connected' : ''}>
+          <style.username>{externalWallet.username}</style.username>
+          <style.status
+            className={
+              externalWallet.status === mojom.WalletStatus.kConnected
+                ? 'connected'
+                : ''
+            }
+          >
             {getWalletStatus()}
           </style.status>
         </style.header>

@@ -10,17 +10,25 @@ import { WalletAccountType } from '../../../constants/types'
 import { reduceAddress } from '../../../utils/reduce-address'
 
 export const useAddressLabels = (accounts: WalletAccountType[]) => {
-  const findAccountName = React.useCallback((address: string) => {
-    return accounts.find((account) => account.address.toLowerCase() === address.toLowerCase())?.name
-  }, [accounts])
+  const findAccountName = React.useCallback(
+    (address: string) => {
+      return accounts.find(
+        (account) => account.address.toLowerCase() === address.toLowerCase()
+      )?.name
+    },
+    [accounts]
+  )
 
-  const getAddressLabel = React.useCallback((address: string): string => {
-    return (
-      Registry[address.toLowerCase()] ??
-      findAccountName(address) ??
-      reduceAddress(address)
-    )
-  }, [findAccountName])
+  const getAddressLabel = React.useCallback(
+    (address: string): string => {
+      return (
+        Registry[address.toLowerCase()] ??
+        findAccountName(address) ??
+        reduceAddress(address)
+      )
+    },
+    [findAccountName]
+  )
 
   return {
     findAccountName,

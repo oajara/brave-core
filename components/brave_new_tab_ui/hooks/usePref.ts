@@ -2,13 +2,21 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // you can obtain one at https://mozilla.org/MPL/2.0/.
-import { addChangeListener, getPreferences, sendSavePref } from '../api/preferences'
+import {
+  addChangeListener,
+  getPreferences,
+  sendSavePref
+} from '../api/preferences'
 import { PrefHookManager, createPrefsHook } from './PrefHookManager'
 
 /**
  * The pref manager. Exported for use from stories.
  */
-export const newTabPrefManager = new PrefHookManager(getPreferences, sendSavePref, addChangeListener)
+export const newTabPrefManager = new PrefHookManager(
+  getPreferences,
+  sendSavePref,
+  addChangeListener
+)
 
 /**
  * A hook for subscribing to and updating |NewTab.Preferences|.

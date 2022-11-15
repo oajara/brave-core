@@ -15,7 +15,11 @@ import { getLocale } from '../../../../common/locale'
 
 // types
 import { WalletState } from '../../../constants/types'
-import { getSolanaInstructionParamKeyName, SolanaInstructionParamKeys, TypedSolanaInstructionWithParams } from '../../../utils/solana-instruction-utils'
+import {
+  getSolanaInstructionParamKeyName,
+  SolanaInstructionParamKeys,
+  TypedSolanaInstructionWithParams
+} from '../../../utils/solana-instruction-utils'
 
 // styles
 import {
@@ -44,59 +48,63 @@ interface Props {
 
 export const SolanaTransactionInstruction: React.FC<Props> = ({
   typedInstructionWithParams: {
-    instruction: {
-      programId,
-      data,
-      keys
-    },
+    instruction: { programId, data, keys },
     type,
     params
   }
 }) => {
   // redux
-  const accounts = useSelector(({ wallet }: { wallet: WalletState }) => wallet.accounts)
+  const accounts = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.accounts
+  )
 
   // render
   return (
     <InstructionBox>
       {type === 'Unknown' ? (
         <>
-          {keys.length > 0 &&
+          {keys.length > 0 && (
             <>
-              <CodeSectionTitle>{getLocale('braveWalletSolanaAccounts')}</CodeSectionTitle>
+              <CodeSectionTitle>
+                {getLocale('braveWalletSolanaAccounts')}
+              </CodeSectionTitle>
               {keys.map((entry, i) => {
                 return (
-                  <CodeSnippet
-                    key={i}
-                  >
+                  <CodeSnippet key={i}>
                     <code>
-                      <CodeSnippetText>{entry.pubkey.toString()}</CodeSnippetText>
+                      <CodeSnippetText>
+                        {entry.pubkey.toString()}
+                      </CodeSnippetText>
                     </code>
                   </CodeSnippet>
                 )
               })}
             </>
-          }
-          {data &&
+          )}
+          {data && (
             <>
-              <CodeSectionTitle>{getLocale('braveWalletSolanaData')}</CodeSectionTitle>
+              <CodeSectionTitle>
+                {getLocale('braveWalletSolanaData')}
+              </CodeSectionTitle>
               <CodeSnippet>
                 <code>
                   <CodeSnippetText>{JSON.stringify(data)}</CodeSnippetText>
                 </code>
               </CodeSnippet>
             </>
-          }
-          {programId &&
+          )}
+          {programId && (
             <>
-              <CodeSectionTitle>{getLocale('braveWalletSolanaProgramID')}</CodeSectionTitle>
+              <CodeSectionTitle>
+                {getLocale('braveWalletSolanaProgramID')}
+              </CodeSectionTitle>
               <CodeSnippet>
                 <code>
                   <CodeSnippetText>{JSON.stringify(programId)}</CodeSnippetText>
                 </code>
               </CodeSnippet>
             </>
-          }
+          )}
         </>
       ) : (
         <>
@@ -108,42 +116,49 @@ export const SolanaTransactionInstruction: React.FC<Props> = ({
           {Object.keys(params).length > 0 && (
             <>
               <Divider />
-              {
-                Object.entries(params).map(([key, value]) => {
-                  const paramName = getSolanaInstructionParamKeyName(key as SolanaInstructionParamKeys)
-                  const isAddressParam = key.toString().toLowerCase().includes('pubkey')
-                  const formattedParamValue = (key as SolanaInstructionParamKeys === 'lamports'
-                    // format lamports to SOL
-                    ? new Amount(value.toString()).div(LAMPORTS_PER_SOL).formatAsAsset(9, 'SOL')
+              {Object.entries(params).map(([key, value]) => {
+                const paramName = getSolanaInstructionParamKeyName(
+                  key as SolanaInstructionParamKeys
+                )
+                const isAddressParam = key
+                  .toString()
+                  .toLowerCase()
+                  .includes('pubkey')
+                const formattedParamValue = (
+                  (key as SolanaInstructionParamKeys) === 'lamports'
+                    ? // format lamports to SOL
+                      new Amount(value.toString())
+                        .div(LAMPORTS_PER_SOL)
+                        .formatAsAsset(9, 'SOL')
+                    : // show friendly account address names
+                    isAddressParam
+                    ? findAccountName(accounts, value.toString()) ?? value
+                    : // unformatted param value
+                      value
+                ).toString()
 
-                    // show friendly account address names
-                    : isAddressParam ? findAccountName(accounts, value.toString()) ?? value
-
-                      // unformatted param value
-                      : value
-                  ).toString()
-
-                  return <InstructionParamBox key={key}>
+                return (
+                  <InstructionParamBox key={key}>
                     <var>{paramName}</var>
-                    {isAddressParam
-                      ? <Tooltip
+                    {isAddressParam ? (
+                      <Tooltip
                         isAddress
                         text={value.toString()}
-                        position='left'
+                        position="left"
                       >
                         <AddressText>{formattedParamValue}</AddressText>
                       </Tooltip>
-                      : <samp>{formattedParamValue}</samp>
-                    }
+                    ) : (
+                      <samp>{formattedParamValue}</samp>
+                    )}
                   </InstructionParamBox>
-                })
-              }
+                )
+              })}
             </>
           )}
         </>
-      )
-      }
-    </InstructionBox >
+      )}
+    </InstructionBox>
   )
 }
 

@@ -53,8 +53,8 @@ export const root = styled.div`
   }
 
   .brave-theme-dark & {
-    background: #1E2029;
-    color: #999EA2;
+    background: #1e2029;
+    color: #999ea2;
 
     button:hover {
       color: var(--brave-palette-grey100);
@@ -98,6 +98,6 @@ export const settings = styled.div`
 
   .brave-theme-dark & {
     border-color: var(--brave-palette-grey800);
-    color: #999EA2;
+    color: #999ea2;
   }
 `

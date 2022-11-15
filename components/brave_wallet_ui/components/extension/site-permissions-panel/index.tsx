@@ -4,10 +4,7 @@
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 
 import * as React from 'react'
-import {
-  useDispatch,
-  useSelector
-} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 // Actions
 import { PanelActions } from '../../../panel/actions'
@@ -19,10 +16,7 @@ import { WalletAccountType, WalletState } from '../../../constants/types'
 import { getLocale } from '../../../../common/locale'
 
 // Components
-import {
-  DividerLine,
-  ConnectedAccountItem
-} from '../'
+import { DividerLine, ConnectedAccountItem } from '../'
 import { CreateSiteOrigin } from '../../shared'
 
 // Styled Components
@@ -40,12 +34,8 @@ import {
 
 export const SitePermissions = () => {
   const dispatch = useDispatch()
-  const {
-    accounts,
-    connectedAccounts,
-    activeOrigin,
-    selectedCoin
-  } = useSelector(({ wallet }: { wallet: WalletState }) => wallet)
+  const { accounts, connectedAccounts, activeOrigin, selectedCoin } =
+    useSelector(({ wallet }: { wallet: WalletState }) => wallet)
 
   // methods
   const onAddAccount = React.useCallback(() => {
@@ -60,7 +50,9 @@ export const SitePermissions = () => {
   return (
     <StyledWrapper>
       <HeaderRow>
-        <FavIcon src={`chrome://favicon/size/64@1x/${activeOrigin.originSpec}`} />
+        <FavIcon
+          src={`chrome://favicon/size/64@1x/${activeOrigin.originSpec}`}
+        />
         <HeaderColumn>
           <SiteOriginTitle>
             <CreateSiteOrigin
@@ -68,18 +60,22 @@ export const SitePermissions = () => {
               eTldPlusOne={activeOrigin.eTldPlusOne}
             />
           </SiteOriginTitle>
-          <AccountsTitle>{getLocale('braveWalletSitePermissionsAccounts').replace('$1', connectedAccounts.length.toString())}</AccountsTitle>
+          <AccountsTitle>
+            {getLocale('braveWalletSitePermissionsAccounts').replace(
+              '$1',
+              connectedAccounts.length.toString()
+            )}
+          </AccountsTitle>
         </HeaderColumn>
       </HeaderRow>
       <AddressContainer>
-        <NewAccountButton onClick={onAddAccount}>{getLocale('braveWalletSitePermissionsNewAccount')}</NewAccountButton>
+        <NewAccountButton onClick={onAddAccount}>
+          {getLocale('braveWalletSitePermissionsNewAccount')}
+        </NewAccountButton>
         <DividerLine />
         <AddressScrollContainer>
           {accountByCoinType.map((account) => (
-            <ConnectedAccountItem
-              key={account.id}
-              account={account}
-            />
+            <ConnectedAccountItem key={account.id} account={account} />
           ))}
         </AddressScrollContainer>
       </AddressContainer>

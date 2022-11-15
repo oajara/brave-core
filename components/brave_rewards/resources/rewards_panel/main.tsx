@@ -8,7 +8,7 @@ import * as ReactDOM from 'react-dom'
 import { App } from './components/app'
 import { createHost } from './lib/extension_host'
 
-function onReady () {
+function onReady() {
   ReactDOM.render(<App host={createHost()} />, document.getElementById('root'))
 }
 

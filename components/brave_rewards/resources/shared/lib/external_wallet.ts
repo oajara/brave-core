@@ -4,10 +4,7 @@
 
 import * as mojom from '../../shared/lib/mojom'
 
-export type ExternalWalletProvider =
-  'uphold' |
-  'bitflyer' |
-  'gemini'
+export type ExternalWalletProvider = 'uphold' | 'bitflyer' | 'gemini'
 
 export interface ExternalWallet {
   provider: ExternalWalletProvider
@@ -21,13 +18,16 @@ export interface ExternalWallet {
 }
 
 // Returns the external wallet provider name for the specified provider.
-export function getExternalWalletProviderName (
+export function getExternalWalletProviderName(
   provider: ExternalWalletProvider
 ) {
   switch (provider) {
-    case 'bitflyer': return 'bitFlyer'
-    case 'gemini': return 'Gemini'
-    case 'uphold': return 'Uphold'
+    case 'bitflyer':
+      return 'bitFlyer'
+    case 'gemini':
+      return 'Gemini'
+    case 'uphold':
+      return 'Uphold'
   }
 }
 
@@ -35,7 +35,7 @@ export function getExternalWalletProviderName (
 // |null| if the key is invalid. This function is provided for backward
 // compatibility with code that does not yet use the |ExternalWalletProvider|
 // type.
-export function externalWalletProviderFromString (
+export function externalWalletProviderFromString(
   key: string
 ): ExternalWalletProvider | null {
   switch (key) {
@@ -52,7 +52,7 @@ export function externalWalletProviderFromString (
 // provider key, or the empty string if the key is not recognized. This function
 // is provided for backward compatibility with code that does not yet use the
 // |ExternalWalletProvider| type. Prefer |getExternalWalletProviderName|.
-export function lookupExternalWalletProviderName (providerKey: string) {
+export function lookupExternalWalletProviderName(providerKey: string) {
   const provider = externalWalletProviderFromString(providerKey)
   return provider ? getExternalWalletProviderName(provider) : ''
 }
@@ -60,10 +60,10 @@ export function lookupExternalWalletProviderName (providerKey: string) {
 // Converts external wallet information returned from the `chrome.braveRewards`
 // extension API into an |ExternalWallet| object, or |null| if the specified
 // object cannot be converted.
-export function externalWalletFromExtensionData (
+export function externalWalletFromExtensionData(
   data: any
 ): ExternalWallet | null {
-  function mapStatus (status: number): mojom.WalletStatus | null {
+  function mapStatus(status: number): mojom.WalletStatus | null {
     switch (status) {
       case 2:
         return mojom.WalletStatus.kConnected

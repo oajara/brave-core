@@ -18,31 +18,32 @@ import App from './containers/app'
 import store from './store'
 import * as welcomeActions from './actions/welcome_actions'
 
-function loadWelcomeData () {
+function loadWelcomeData() {
   const actions = bindActionCreators(welcomeActions, store.dispatch.bind(store))
   actions.getSearchEngineProviders()
   actions.getBrowserProfiles()
 }
 
-function initialize () {
+function initialize() {
   loadWelcomeData()
-  new Promise(resolve => chrome.braveTheme.getBraveThemeType(resolve))
-  .then((themeType: chrome.braveTheme.ThemeType) => {
-    render(
-      <Provider store={store}>
-        <BraveCoreThemeProvider
-          initialThemeType={themeType}
-          dark={welcomeDarkTheme}
-          light={welcomeLightTheme}
-        >
-          <App />
-        </BraveCoreThemeProvider>
-      </Provider>,
-      document.getElementById('root'))
-  })
-  .catch((error) => {
-    console.error('Problem mounting brave welcome', error)
-  })
+  new Promise((resolve) => chrome.braveTheme.getBraveThemeType(resolve))
+    .then((themeType: chrome.braveTheme.ThemeType) => {
+      render(
+        <Provider store={store}>
+          <BraveCoreThemeProvider
+            initialThemeType={themeType}
+            dark={welcomeDarkTheme}
+            light={welcomeLightTheme}
+          >
+            <App />
+          </BraveCoreThemeProvider>
+        </Provider>,
+        document.getElementById('root')
+      )
+    })
+    .catch((error) => {
+      console.error('Problem mounting brave welcome', error)
+    })
 }
 
 document.addEventListener('DOMContentLoaded', initialize)

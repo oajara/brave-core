@@ -67,8 +67,12 @@ export const TokenLists = ({
   const history = useHistory()
 
   // redux
-  const tokenSpotPrices = useSelector(({ wallet }: { wallet: WalletState }) => wallet.transactionSpotPrices)
-  const selectedAssetFilter = useSelector(({ wallet }: { wallet: WalletState }) => wallet.selectedAssetFilter)
+  const tokenSpotPrices = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.transactionSpotPrices
+  )
+  const selectedAssetFilter = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.selectedAssetFilter
+  )
 
   // hooks
   const { computeFiatAmount } = usePricing(tokenSpotPrices)
@@ -79,9 +83,12 @@ export const TokenLists = ({
   // methods
 
   // This filters a list of assets when the user types in search bar
-  const onSearchValueChange = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value)
-  }, [])
+  const onSearchValueChange = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchValue(event.target.value)
+    },
+    []
+  )
 
   const showAddAssetsModal = React.useCallback(() => {
     history.push(WalletRoutes.AddAssetModal)
@@ -106,21 +113,18 @@ export const TokenLists = ({
     })
   }, [searchValue, visibleTokens])
 
-  const [fungibleTokens, nonFungibleTokens] = React.useMemo(
-    () => {
-      let fungible = []
-      let nonFungible = []
-      for (const token of filteredAssetList) {
-        if (token.asset.isErc721 || token.asset.isNft) {
-          nonFungible.push(token)
-        } else {
-          fungible.push(token)
-        }
+  const [fungibleTokens, nonFungibleTokens] = React.useMemo(() => {
+    let fungible = []
+    let nonFungible = []
+    for (const token of filteredAssetList) {
+      if (token.asset.isErc721 || token.asset.isNft) {
+        nonFungible.push(token)
+      } else {
+        fungible.push(token)
       }
-      return [fungible, nonFungible]
-    },
-    [filteredAssetList]
-  )
+    }
+    return [fungible, nonFungible]
+  }, [filteredAssetList])
 
   const sortedFungibleTokensList: UserAssetInfoType[] = React.useMemo(() => {
     if (
@@ -130,39 +134,49 @@ export const TokenLists = ({
       return [...fungibleTokens].sort(function (a, b) {
         const aBalance = a.assetBalance
         const bBalance = b.assetBalance
-        const bFiatBalance = computeFiatAmount(bBalance, b.asset.symbol, b.asset.decimals)
-        const aFiatBalance = computeFiatAmount(aBalance, a.asset.symbol, a.asset.decimals)
+        const bFiatBalance = computeFiatAmount(
+          bBalance,
+          b.asset.symbol,
+          b.asset.decimals
+        )
+        const aFiatBalance = computeFiatAmount(
+          aBalance,
+          a.asset.symbol,
+          a.asset.decimals
+        )
         return selectedAssetFilter.id === 'highToLow'
           ? bFiatBalance.toNumber() - aFiatBalance.toNumber()
           : aFiatBalance.toNumber() - bFiatBalance.toNumber()
       })
     }
     return fungibleTokens
-  }, [
-    selectedAssetFilter.id,
-    fungibleTokens,
-    computeFiatAmount
-  ])
+  }, [selectedAssetFilter.id, fungibleTokens, computeFiatAmount])
 
   const listUi = React.useMemo(() => {
     return selectedAssetFilter.id !== 'nfts' ? (
-        <>
-          {sortedFungibleTokensList.map((token, index) => renderToken({ index, item: token, viewMode: 'list' }))}
-          {nonFungibleTokens.length !== 0 &&
-            <>
-              <Spacer />
-              <DividerText>{getLocale('braveWalletTopNavNFTS')}</DividerText>
-              <SubDivider />
-              {nonFungibleTokens.map((token, index) => renderToken({ index, item: token, viewMode: 'list' }))}
-            </>
-          }
-        </>
-      ) : (
-        <NFTGridView
-          nonFungibleTokens={nonFungibleTokens}
-          renderToken={(token, index) => renderToken({ index, item: token, viewMode: 'list' })}
-        />
-      )
+      <>
+        {sortedFungibleTokensList.map((token, index) =>
+          renderToken({ index, item: token, viewMode: 'list' })
+        )}
+        {nonFungibleTokens.length !== 0 && (
+          <>
+            <Spacer />
+            <DividerText>{getLocale('braveWalletTopNavNFTS')}</DividerText>
+            <SubDivider />
+            {nonFungibleTokens.map((token, index) =>
+              renderToken({ index, item: token, viewMode: 'list' })
+            )}
+          </>
+        )}
+      </>
+    ) : (
+      <NFTGridView
+        nonFungibleTokens={nonFungibleTokens}
+        renderToken={(token, index) =>
+          renderToken({ index, item: token, viewMode: 'list' })
+        }
+      />
+    )
   }, [
     selectedAssetFilter.id,
     sortedFungibleTokensList,
@@ -182,8 +196,7 @@ export const TokenLists = ({
   return (
     <>
       <FilterTokenRow>
-
-        <Column flex={1} style={{ minWidth: '25%' }} alignItems='flex-start'>
+        <Column flex={1} style={{ minWidth: '25%' }} alignItems="flex-start">
           <SearchBar
             placeholder={getLocale('braveWalletSearchText')}
             action={onSearchValueChange}
@@ -193,34 +206,26 @@ export const TokenLists = ({
 
         <NetworkFilterSelector networkListSubset={networks} />
 
-        {!hideAssetFilter &&
-          <AssetFilterSelector />
-        }
+        {!hideAssetFilter && <AssetFilterSelector />}
 
-        {!hideAccountFilter &&
-          <AccountFilterSelector />
-        }
-
+        {!hideAccountFilter && <AccountFilterSelector />}
       </FilterTokenRow>
 
-      {enableScroll
-        ? (
-          <ScrollableColumn maxHeight={maxListHeight}>
-            {listUi}
-          </ScrollableColumn>
-        )
-        : listUi
-      }
+      {enableScroll ? (
+        <ScrollableColumn maxHeight={maxListHeight}>{listUi}</ScrollableColumn>
+      ) : (
+        listUi
+      )}
 
-      {!hideAddButton &&
+      {!hideAddButton && (
         <ButtonRow>
           <AddButton
-            buttonType='secondary'
+            buttonType="secondary"
             onSubmit={showAddAssetsModal}
             text={getLocale('braveWalletAccountsEditVisibleAssets')}
           />
         </ButtonRow>
-      }
+      )}
     </>
   )
 }

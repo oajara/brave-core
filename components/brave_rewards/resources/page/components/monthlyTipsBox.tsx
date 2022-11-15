@@ -21,22 +21,21 @@ import { getLocale } from '../../../../common/locale'
 import * as rewardsActions from '../actions/rewards_actions'
 import { DetailRow } from '../../ui/components/tableDonation'
 
-interface Props extends Rewards.ComponentProps {
-}
+interface Props extends Rewards.ComponentProps {}
 
 interface State {
   modalShowAll: boolean
 }
 
 class MonthlyTipsBox extends React.Component<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       modalShowAll: false
     }
   }
 
-  get actions () {
+  get actions() {
     return this.props.actions
   }
 
@@ -69,7 +68,9 @@ class MonthlyTipsBox extends React.Component<Props, State> {
         },
         url: item.url,
         type: 'recurring' as any,
-        onRemove: () => { this.actions.removeRecurringTip(item.id) }
+        onRemove: () => {
+          this.actions.removeRecurringTip(item.id)
+        }
       }
     })
   }
@@ -80,12 +81,8 @@ class MonthlyTipsBox extends React.Component<Props, State> {
     })
   }
 
-  render () {
-    const {
-      parameters,
-      recurringList,
-      reconcileStamp
-    } = this.props.rewardsData
+  render() {
+    const { parameters, recurringList, reconcileStamp } = this.props.rewardsData
     const tipRows = this.getRows()
     const topRows = tipRows.slice(0, 5)
     const numRows = tipRows && tipRows.length
@@ -99,21 +96,22 @@ class MonthlyTipsBox extends React.Component<Props, State> {
         title={getLocale('monthlyTipsTitle')}
         description={getLocale('monthlyTipsDesc')}
       >
-        {
-          this.state.modalShowAll
-          ? <ModalDonation
+        {this.state.modalShowAll ? (
+          <ModalDonation
             rows={tipRows}
             onClose={this.onModalToggle}
             title={getLocale('monthlyTipsTitle')}
           />
-          : null
-        }
+        ) : null}
         <List title={getLocale('donationTotalMonthlyTips')}>
           <Tokens value={total.toFixed(3)} converted={converted} />
         </List>
         <List title={getLocale('donationNextDate')}>
           <NextContribution>
-            {new Intl.DateTimeFormat('default', { month: 'short', day: 'numeric' }).format(reconcileStamp * 1000)}
+            {new Intl.DateTimeFormat('default', {
+              month: 'short',
+              day: 'numeric'
+            }).format(reconcileStamp * 1000)}
           </NextContribution>
         </List>
 
@@ -139,7 +137,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   actions: bindActionCreators(rewardsActions, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MonthlyTipsBox)
+export default connect(mapStateToProps, mapDispatchToProps)(MonthlyTipsBox)

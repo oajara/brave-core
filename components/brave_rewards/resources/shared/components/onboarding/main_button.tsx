@@ -12,12 +12,12 @@ interface Props {
   children: React.ReactNode
 }
 
-export function MainButton (props: Props) {
+export function MainButton(props: Props) {
   return (
     <style.root>
       <button
         onClick={props.onClick}
-        data-test-id='rewards-onboarding-main-button'
+        data-test-id="rewards-onboarding-main-button"
         disabled={props.disabled}
       >
         {props.children}

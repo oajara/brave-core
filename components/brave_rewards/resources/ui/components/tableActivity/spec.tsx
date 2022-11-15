@@ -9,7 +9,11 @@ import TableDonation from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('TableDonation tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><TableDonation id='table' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <TableDonation id="table" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

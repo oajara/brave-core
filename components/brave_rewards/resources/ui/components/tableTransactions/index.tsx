@@ -3,22 +3,19 @@
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import * as React from 'react'
-import {
-  StyledTHLast,
-  StyledProvider
-} from './style'
+import { StyledTHLast, StyledProvider } from './style'
 import Table, { Row } from 'brave-ui/components/dataTables/table/index'
 import { getLocale } from 'brave-ui/helpers'
 import Tokens, { Type as TokenType } from '../tokens'
 import { SummaryType as TransactionType } from '../modalActivity'
 
-type Description = string | { publisher: string, platform: string }
+type Description = string | { publisher: string; platform: string }
 
 export interface DetailRow {
   date: number
   type: TransactionType
   description: Description
-  amount: { value: string, converted: string, isNegative?: boolean }
+  amount: { value: string; converted: string; isNegative?: boolean }
 }
 
 export interface Props {
@@ -45,9 +42,8 @@ export default class TableTransactions extends React.PureComponent<Props, {}> {
 
     return header.map((item: string, i: number) => {
       return {
-        content: i === header.length - 1
-        ? <StyledTHLast>{item}</StyledTHLast>
-        : item
+        content:
+          i === header.length - 1 ? <StyledTHLast>{item}</StyledTHLast> : item
       }
     })
   }
@@ -59,7 +55,10 @@ export default class TableTransactions extends React.PureComponent<Props, {}> {
 
     return (
       <>
-        <span>{desc.publisher}</span> <StyledProvider>{getLocale('on')} {desc.platform}</StyledProvider>
+        <span>{desc.publisher}</span>{' '}
+        <StyledProvider>
+          {getLocale('on')} {desc.platform}
+        </StyledProvider>
       </>
     )
   }
@@ -73,7 +72,10 @@ export default class TableTransactions extends React.PureComponent<Props, {}> {
       const cell: Row = {
         content: [
           {
-            content: new Intl.DateTimeFormat('default', { month: 'short', day: 'numeric' }).format(row.date * 1000)
+            content: new Intl.DateTimeFormat('default', {
+              month: 'short',
+              day: 'numeric'
+            }).format(row.date * 1000)
           },
           {
             content: this.getDescription(row.description)
@@ -99,7 +101,7 @@ export default class TableTransactions extends React.PureComponent<Props, {}> {
     })
   }
 
-  render () {
+  render() {
     const { id, children, rows } = this.props
 
     return (

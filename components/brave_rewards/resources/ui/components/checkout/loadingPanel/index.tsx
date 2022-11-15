@@ -10,7 +10,7 @@ interface LoadingPanelProps {
   text?: string
 }
 
-export function LoadingPanel (props: LoadingPanelProps) {
+export function LoadingPanel(props: LoadingPanelProps) {
   return (
     <Container>
       <LoadIcon />

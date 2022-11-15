@@ -10,11 +10,7 @@ import { TextEncoder, TextDecoder } from 'util'
 global.TextDecoder = TextDecoder
 global.TextEncoder = TextEncoder
 import { renderHook, act } from '@testing-library/react-hooks'
-import {
-  mockAccount,
-  mockAssetPrices,
-  mockNetwork
-} from '../constants/mocks'
+import { mockAccount, mockAssetPrices, mockNetwork } from '../constants/mocks'
 import useAssets from './assets'
 import { WalletAccountType } from '../../constants/types'
 import { setMockedBuyAssets } from '../async/__mocks__/lib'
@@ -22,7 +18,10 @@ import * as MockedLib from '../async/__mocks__/lib'
 import { LibContext } from '../context/lib.context'
 import { mockWalletState } from '../../stories/mock-data/mock-wallet-state'
 import { createWalletReducer, createWalletSlice } from '../slices/wallet.slice'
-import { mockBasicAttentionToken, mockEthToken } from '../../stories/mock-data/mock-asset-options'
+import {
+  mockBasicAttentionToken,
+  mockEthToken
+} from '../../stories/mock-data/mock-asset-options'
 
 const mockAccounts = [
   {
@@ -42,18 +41,16 @@ const mockAccounts = [
   } as WalletAccountType
 ]
 
-const mockVisibleList = [
-  mockEthToken,
-  mockBasicAttentionToken
-]
+const mockVisibleList = [mockEthToken, mockBasicAttentionToken]
 
 const renderHookOptionsWithCustomStore = (store: any) => ({
-  wrapper: ({ children }: { children?: React.ReactChildren }) =>
+  wrapper: ({ children }: { children?: React.ReactChildren }) => (
     <Provider store={store}>
       <LibContext.Provider value={MockedLib as any}>
         {children}
       </LibContext.Provider>
     </Provider>
+  )
 })
 
 describe('useAssets hook', () => {
@@ -62,17 +59,19 @@ describe('useAssets hook', () => {
     const { result, waitForNextUpdate } = renderHook(
       () => useAssets(),
       renderHookOptionsWithCustomStore(
-        createStore(combineReducers({
-          wallet: createWalletSlice({
-            ...mockWalletState,
-            userVisibleTokensInfo: mockVisibleList,
-            selectedAccount: mockAccounts[0],
-            accounts: mockAccounts,
-            transactionSpotPrices: mockAssetPrices,
-            selectedNetwork: mockNetwork,
-            networkList: [mockNetwork]
-          }).reducer
-        }))
+        createStore(
+          combineReducers({
+            wallet: createWalletSlice({
+              ...mockWalletState,
+              userVisibleTokensInfo: mockVisibleList,
+              selectedAccount: mockAccounts[0],
+              accounts: mockAccounts,
+              transactionSpotPrices: mockAssetPrices,
+              selectedNetwork: mockNetwork,
+              networkList: [mockNetwork]
+            }).reducer
+          })
+        )
       )
     )
     await act(async () => {
@@ -85,17 +84,19 @@ describe('useAssets hook', () => {
     const { result, waitForNextUpdate } = renderHook(
       () => useAssets(),
       renderHookOptionsWithCustomStore(
-        createStore(combineReducers({
-          wallet: createWalletReducer({
-            ...mockWalletState,
-            userVisibleTokensInfo: [],
-            selectedAccount: mockAccounts[0],
-            accounts: mockAccounts,
-            transactionSpotPrices: mockAssetPrices,
-            selectedNetwork: mockNetwork,
-            networkList: [mockNetwork]
+        createStore(
+          combineReducers({
+            wallet: createWalletReducer({
+              ...mockWalletState,
+              userVisibleTokensInfo: [],
+              selectedAccount: mockAccounts[0],
+              accounts: mockAccounts,
+              transactionSpotPrices: mockAssetPrices,
+              selectedNetwork: mockNetwork,
+              networkList: [mockNetwork]
+            })
           })
-        }))
+        )
       )
     )
     await act(async () => {

@@ -10,20 +10,16 @@ import TorrentViewerFooter from '../../../brave_webtorrent/extension/components/
 describe('torrentViewerFooter component', () => {
   describe('torrentViewerFooter dumb component', () => {
     it('renders the component with webtorrent link if torrent is passed', () => {
-      const wrapper = shallow(
-        <TorrentViewerFooter
-          torrent={torrentObj}
-        />
-      )
+      const wrapper = shallow(<TorrentViewerFooter torrent={torrentObj} />)
       const assertion = wrapper.find({ href: 'https://webtorrent.io' })
       expect(assertion.length).toBe(1)
     })
 
     it('renders the component with privacy notice if no torrent object', () => {
-      const wrapper = shallow(
-        <TorrentViewerFooter />
+      const wrapper = shallow(<TorrentViewerFooter />)
+      expect(wrapper.text()).toEqual(
+        expect.stringContaining('Privacy Warning:')
       )
-      expect(wrapper.text()).toEqual(expect.stringContaining('Privacy Warning:'))
     })
   })
 })

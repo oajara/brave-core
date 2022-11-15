@@ -13,7 +13,7 @@ import { loadTimeData } from '../../../common/loadTimeData'
 import BraveCoreThemeProvider from '../../../common/BraveCoreThemeProvider'
 import Container from './container'
 
-function App () {
+function App() {
   React.useEffect(() => {
     const onVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
@@ -37,7 +37,7 @@ function App () {
   )
 }
 
-function initialize () {
+function initialize() {
   initLocale(loadTimeData.data_)
   render(<App />, document.getElementById('mountPoint'), () => {
     panelHandler.showBubble()

@@ -9,10 +9,7 @@ import { SelectNetwork } from '../../shared'
 import Header from '../select-header'
 import { getLocale } from '../../../../common/locale'
 // Styled Components
-import {
-  SelectWrapper,
-  SelectScrollContainer
-} from '../shared-styles'
+import { SelectWrapper, SelectScrollContainer } from '../shared-styles'
 
 import { WalletActions } from '../../../common/actions'
 import { BraveWallet, WalletState } from '../../../constants/types'
@@ -30,13 +27,18 @@ export const SelectNetworkWithHeader = ({
 }: Props) => {
   // redux
   const dispatch = useDispatch()
-  const selectedNetwork = useSelector(({ wallet }: { wallet: WalletState }) => wallet.selectedNetwork)
+  const selectedNetwork = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.selectedNetwork
+  )
 
   // methods
-  const onSelectCustomNetwork = React.useCallback((network: BraveWallet.NetworkInfo): void => {
-    dispatch(WalletActions.selectNetwork(network))
-    onBack()
-  }, [onBack])
+  const onSelectCustomNetwork = React.useCallback(
+    (network: BraveWallet.NetworkInfo): void => {
+      dispatch(WalletActions.selectNetwork(network))
+      onBack()
+    },
+    [onBack]
+  )
 
   // render
   return (

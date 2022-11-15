@@ -3,7 +3,9 @@
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import styled from 'styled-components'
-import Button, { Props as ButtonProps } from 'brave-ui/components/buttonsIndicators/button'
+import Button, {
+  Props as ButtonProps
+} from 'brave-ui/components/buttonsIndicators/button'
 import { ComponentType } from 'react'
 
 export const Container = styled.div`
@@ -36,7 +38,7 @@ export const EnableRewardsButton = styled(Button as ComponentType<ButtonProps>)`
 `
 
 export const TermsOfService = styled.div`
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   font-size: 13px;
   line-height: 16px;
   max-width: 282px;
@@ -44,6 +46,6 @@ export const TermsOfService = styled.div`
 
   a {
     font-weight: bold;
-    color: ${p => p.theme.palette.black};
+    color: ${(p) => p.theme.palette.black};
   }
 `

@@ -26,11 +26,11 @@ interface Props {
 }
 
 export class IPFSPage extends React.Component<Props, {}> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
   }
 
-  get actions () {
+  get actions() {
     return this.props.actions
   }
 
@@ -72,37 +72,76 @@ export class IPFSPage extends React.Component<Props, {}> {
     }
   }
 
-  componentDidUpdate (prevProps: Props) {
-    if (prevProps.ipfsData.daemonStatus.launched !== this.props.ipfsData.daemonStatus.launched) {
+  componentDidUpdate(prevProps: Props) {
+    if (
+      prevProps.ipfsData.daemonStatus.launched !==
+      this.props.ipfsData.daemonStatus.launched
+    ) {
       setTimeout(this.refreshActions, 2000)
     }
   }
 
-  render () {
+  render() {
     return (
-      <div id='ipfsPage'>
+      <div id="ipfsPage">
         {!this.props.ipfsData.daemonStatus.installed && (
-        <UninstalledView daemonStatus={this.props.ipfsData.daemonStatus} installationProgress={this.props.ipfsData.installationProgress} onInstall={this.installDaemon}/>
+          <UninstalledView
+            daemonStatus={this.props.ipfsData.daemonStatus}
+            installationProgress={this.props.ipfsData.installationProgress}
+            onInstall={this.installDaemon}
+          />
         )}
         {this.props.ipfsData.daemonStatus.installed && (
-        <DaemonStatus daemonStatus={this.props.ipfsData.daemonStatus} addressesConfig={this.props.ipfsData.addressesConfig} onLaunch={this.launchDaemon} onShutdown={this.shutdownDaemon} onRestart={this.restartDaemon} onOpenNodeWebUI={this.openNodeWebUI} />
+          <DaemonStatus
+            daemonStatus={this.props.ipfsData.daemonStatus}
+            addressesConfig={this.props.ipfsData.addressesConfig}
+            onLaunch={this.launchDaemon}
+            onShutdown={this.shutdownDaemon}
+            onRestart={this.restartDaemon}
+            onOpenNodeWebUI={this.openNodeWebUI}
+          />
         )}
 
         <div
-          style={(!this.props.ipfsData.daemonStatus.installed ||
-          this.props.ipfsData.daemonStatus.restarting ||
-          !this.props.ipfsData.daemonStatus.launched) ? GrayStyle : {}}
+          style={
+            !this.props.ipfsData.daemonStatus.installed ||
+            this.props.ipfsData.daemonStatus.restarting ||
+            !this.props.ipfsData.daemonStatus.launched
+              ? GrayStyle
+              : {}
+          }
         >
-          <ConnectedPeers addressesConfig={this.props.ipfsData.addressesConfig} connectedPeers={this.props.ipfsData.connectedPeers} onOpenPeersWebUI={this.openPeersWebUI} />
-          <AddressesConfig addressesConfig={this.props.ipfsData.addressesConfig} />
-          <RepoStats repoStats={this.props.ipfsData.repoStats} daemonStatus={this.props.ipfsData.daemonStatus} garbageCollectionStatus={this.props.ipfsData.garbageCollectionStatus} onGarbageCollection={this.garbageCollection} />
+          <ConnectedPeers
+            addressesConfig={this.props.ipfsData.addressesConfig}
+            connectedPeers={this.props.ipfsData.connectedPeers}
+            onOpenPeersWebUI={this.openPeersWebUI}
+          />
+          <AddressesConfig
+            addressesConfig={this.props.ipfsData.addressesConfig}
+          />
+          <RepoStats
+            repoStats={this.props.ipfsData.repoStats}
+            daemonStatus={this.props.ipfsData.daemonStatus}
+            garbageCollectionStatus={
+              this.props.ipfsData.garbageCollectionStatus
+            }
+            onGarbageCollection={this.garbageCollection}
+          />
           <NodeInfo nodeInfo={this.props.ipfsData.nodeInfo} />
-          <a style={LearnMoreLink} href='chrome://settings/ipfs/keys' target='_blank'>
+          <a
+            style={LearnMoreLink}
+            href="chrome://settings/ipfs/keys"
+            target="_blank"
+          >
             {getLocale('rotateIdentity')}
           </a>
         </div>
         <div style={LinkContainer}>
-          <a style={LearnMoreLink} href='https://support.brave.com/hc/en-us/sections/360010974932-InterPlanetary-File-System-IPFS-' target='_blank'>
+          <a
+            style={LearnMoreLink}
+            href="https://support.brave.com/hc/en-us/sections/360010974932-InterPlanetary-File-System-IPFS-"
+            target="_blank"
+          >
             {getLocale('learnMore')}
           </a>
         </div>
@@ -119,7 +158,4 @@ export const mapDispatchToProps = (dispatch: Dispatch) => ({
   actions: bindActionCreators(ipfsActions, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(IPFSPage)
+export default connect(mapStateToProps, mapDispatchToProps)(IPFSPage)

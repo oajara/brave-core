@@ -6,8 +6,8 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   padding: 7px 15px 28px;
-  border-top: solid 1px ${p => p.theme.color.separatorLine};
-  border-bottom: solid 1px ${p => p.theme.color.separatorLine};
+  border-top: solid 1px ${(p) => p.theme.color.separatorLine};
+  border-bottom: solid 1px ${(p) => p.theme.color.separatorLine};
 `
 
 export const StyledTable = styled.table`
@@ -21,7 +21,7 @@ export const StyledTableHeader = styled.th`
   vertical-align: top;
   line-height: 22px;
   min-width: 96px;
-  color: ${p => p.theme.palette.blurple600};
+  color: ${(p) => p.theme.palette.blurple600};
   font-weight: 500;
 `
 
@@ -50,5 +50,5 @@ export const BatSymbol = styled.span`
 
 export const ExchangeAmount = styled.span`
   display: block;
-  color: ${p => p.theme.palette.grey600};
+  color: ${(p) => p.theme.palette.grey600};
 `

@@ -26,7 +26,7 @@ export interface Props {
 
 export default class DropMenu extends React.PureComponent<Props, State> {
   private readonly container: React.RefObject<HTMLDivElement>
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       menuOpen: false
@@ -34,16 +34,19 @@ export default class DropMenu extends React.PureComponent<Props, State> {
     this.container = React.createRef<HTMLDivElement>()
   }
 
-  componentDidMount () {
+  componentDidMount() {
     document.addEventListener('mousedown', this.handleClickOutside)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClickOutside)
   }
 
   handleClickOutside = (event: MouseEvent) => {
-    if (this.container.current && !this.container.current.contains(event.target as Element)) {
+    if (
+      this.container.current &&
+      !this.container.current.contains(event.target as Element)
+    ) {
       this.setState({
         menuOpen: false
       })
@@ -56,48 +59,39 @@ export default class DropMenu extends React.PureComponent<Props, State> {
     })
   }
 
-  render () {
-    const { onMenuFlag, onMenuSave, currentlySaved, currentlyFlagged } = this.props
+  render() {
+    const { onMenuFlag, onMenuSave, currentlySaved, currentlyFlagged } =
+      this.props
     return (
       <StyledAdStatBulletMenuIcon onClick={this.showMenu}>
         <div ref={this.container}>
           <MoreVertLIcon />
-          {
-            this.state.menuOpen
-              ? <StyledAdMenuDropContent>
-                <StyledAdMenuOptionDropContent>
-                  {
-                    !currentlySaved
-                    ? <StyledAdMenuOptionDropContentText onClick={onMenuSave}>
-                      {
-                        getLocale('saveAd')
-                      }
-                    </StyledAdMenuOptionDropContentText>
-                    : <StyledAdMenuOptionDropContentText onClick={onMenuSave}>
-                      {
-                        getLocale('removeAdFromSaved')
-                      }
-                    </StyledAdMenuOptionDropContentText>
-                  }
-                </StyledAdMenuOptionDropContent>
-                <StyledAdMenuOptionDropContent>
-                  {
-                    !currentlyFlagged
-                    ? <StyledAdMenuOptionDropContentText onClick={onMenuFlag}>
-                      {
-                        getLocale('markAsInappropriate')
-                      }
-                    </StyledAdMenuOptionDropContentText>
-                    : <StyledAdMenuOptionDropContentText onClick={onMenuFlag}>
-                      {
-                        getLocale('markAsInappropriateChecked')
-                      }
-                    </StyledAdMenuOptionDropContentText>
-                  }
-                </StyledAdMenuOptionDropContent>
-              </StyledAdMenuDropContent>
-              : null
-          }
+          {this.state.menuOpen ? (
+            <StyledAdMenuDropContent>
+              <StyledAdMenuOptionDropContent>
+                {!currentlySaved ? (
+                  <StyledAdMenuOptionDropContentText onClick={onMenuSave}>
+                    {getLocale('saveAd')}
+                  </StyledAdMenuOptionDropContentText>
+                ) : (
+                  <StyledAdMenuOptionDropContentText onClick={onMenuSave}>
+                    {getLocale('removeAdFromSaved')}
+                  </StyledAdMenuOptionDropContentText>
+                )}
+              </StyledAdMenuOptionDropContent>
+              <StyledAdMenuOptionDropContent>
+                {!currentlyFlagged ? (
+                  <StyledAdMenuOptionDropContentText onClick={onMenuFlag}>
+                    {getLocale('markAsInappropriate')}
+                  </StyledAdMenuOptionDropContentText>
+                ) : (
+                  <StyledAdMenuOptionDropContentText onClick={onMenuFlag}>
+                    {getLocale('markAsInappropriateChecked')}
+                  </StyledAdMenuOptionDropContentText>
+                )}
+              </StyledAdMenuOptionDropContent>
+            </StyledAdMenuDropContent>
+          ) : null}
         </div>
       </StyledAdStatBulletMenuIcon>
     )

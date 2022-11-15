@@ -9,7 +9,11 @@ import { TestThemeProvider } from 'brave-ui/theme'
 import TableAdsHistory from './index'
 
 describe('Amount tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><TableAdsHistory id={'tableAdsHistory'} header={[]} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <TableAdsHistory id={'tableAdsHistory'} header={[]} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

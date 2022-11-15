@@ -11,12 +11,12 @@ import guardianLogoUrl from '../../assets/svg-icons/guardian-logo.svg'
 export const Box = styled.div`
   width: 100%;
   height: 100%;
-  background: #381E85;
+  background: #381e85;
   position: relative;
 `
 
 export const ProductTitle = styled.h1`
-  color: #F0F2FF;
+  color: #f0f2ff;
   font-family: ${(p) => p.theme.fontFamily.heading};
   font-weight: 600;
   font-size: 20px;
@@ -33,7 +33,7 @@ export const PoweredBy = styled.div`
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
-    color: #C2C4CF;
+    color: #c2c4cf;
   }
 `
 
@@ -43,7 +43,7 @@ export const List = styled.ul`
   margin: 0 0 16px 0;
 
   li {
-    color: #F0F2FF;
+    color: #f0f2ff;
     font-family: ${(p) => p.theme.fontFamily.heading};
     font-weight: 600;
     font-size: 12px;
@@ -129,7 +129,7 @@ export const ActionArea = styled.div`
   box-sizing: border-box;
 
   a {
-    --color: #F0F2FF;
+    --color: #f0f2ff;
     color: var(--color);
     font-family: ${(p) => p.theme.fontFamily.heading};
     font-size: 12px;

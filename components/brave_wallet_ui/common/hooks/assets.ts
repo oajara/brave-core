@@ -22,7 +22,7 @@ import usePricing from './pricing'
 import { useIsMounted } from './useIsMounted'
 import { useLib } from './useLib'
 
-export function useAssets () {
+export function useAssets() {
   // redux
   const {
     selectedAccount,
@@ -37,9 +37,15 @@ export function useAssets () {
   const { computeFiatAmount } = usePricing(spotPrices)
 
   // state
-  const [wyreAssetOptions, setWyreAssetOptions] = React.useState<BraveWallet.BlockchainToken[]>([])
-  const [rampAssetOptions, setRampAssetOptions] = React.useState<BraveWallet.BlockchainToken[]>([])
-  const [sardineAssetOptions, setSardineAssetOptions] = React.useState<BraveWallet.BlockchainToken[]>([])
+  const [wyreAssetOptions, setWyreAssetOptions] = React.useState<
+    BraveWallet.BlockchainToken[]
+  >([])
+  const [rampAssetOptions, setRampAssetOptions] = React.useState<
+    BraveWallet.BlockchainToken[]
+  >([])
+  const [sardineAssetOptions, setSardineAssetOptions] = React.useState<
+    BraveWallet.BlockchainToken[]
+  >([])
 
   // memos
   const assetsByNetwork = React.useMemo(() => {
@@ -48,9 +54,10 @@ export function useAssets () {
     }
     // We also filter by coinType here because localhost
     // networks share the same chainId.
-    return userVisibleTokensInfo.filter((token) =>
-      token.chainId === selectedNetwork.chainId &&
-      token.coin === selectedNetwork.coin
+    return userVisibleTokensInfo.filter(
+      (token) =>
+        token.chainId === selectedNetwork.chainId &&
+        token.coin === selectedNetwork.coin
     )
   }, [userVisibleTokensInfo, selectedNetwork])
 
@@ -83,8 +90,9 @@ export function useAssets () {
       ? [...rampAssetOptions, ...wyreAssetOptions, ...sardineAssetOptions]
       : [...rampAssetOptions, ...wyreAssetOptions]
 
-    return assetOptions
-      .filter(asset => asset.chainId === selectedNetwork.chainId)
+    return assetOptions.filter(
+      (asset) => asset.chainId === selectedNetwork.chainId
+    )
   }, [rampAssetOptions, wyreAssetOptions, sardineAssetOptions, selectedNetwork])
 
   // methods

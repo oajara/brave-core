@@ -22,7 +22,7 @@ export const root = styled.div`
     background-size: 12px;
     width: 100%;
     border-radius: 4px;
-    border: 1px solid #DFDFE8;
+    border: 1px solid #dfdfe8;
     color: #686978;
     font-size: 14px;
     padding: 8px 41px 8px 13px;

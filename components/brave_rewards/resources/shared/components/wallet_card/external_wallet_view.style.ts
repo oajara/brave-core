@@ -34,7 +34,7 @@ export const verifyWallet = styled.div`
     background: rgba(255, 255, 255, 0.24);
 
     &:hover {
-      background: rgba(255, 255, 255, 0.30);
+      background: rgba(255, 255, 255, 0.3);
     }
   }
 
@@ -52,7 +52,8 @@ export const bubbleAction = styled.div`
     ${buttonMixin}
     background: none;
 
-    &.pressed, &:hover {
+    &.pressed,
+    &:hover {
       background: rgba(0, 0, 0, 0.14);
     }
 

@@ -16,22 +16,21 @@ import { WalletPanelStory } from '../../../stories/wrappers/wallet-panel-story-w
 import { ConfirmSolanaTransactionPanel } from './confirm-solana-transaction-panel'
 
 export const _ConfirmSolanaTransactionPanel = () => {
-  return <WalletPanelStory
-    walletStateOverride={{
-      selectedNetwork: mockSolanaTestnetNetwork,
-      hasInitialized: true,
-      isWalletCreated: true,
-      selectedPendingTransaction: mockSolDappSignAndSendTransactionRequest
-    }}
-    panelStateOverride={{
-      hasInitialized: true
-    }}
-  >
-    <ConfirmSolanaTransactionPanel
-      onConfirm={() => {}}
-      onReject={() => {}}
-    />
-  </WalletPanelStory>
+  return (
+    <WalletPanelStory
+      walletStateOverride={{
+        selectedNetwork: mockSolanaTestnetNetwork,
+        hasInitialized: true,
+        isWalletCreated: true,
+        selectedPendingTransaction: mockSolDappSignAndSendTransactionRequest
+      }}
+      panelStateOverride={{
+        hasInitialized: true
+      }}
+    >
+      <ConfirmSolanaTransactionPanel onConfirm={() => {}} onReject={() => {}} />
+    </WalletPanelStory>
+  )
 }
 
 _ConfirmSolanaTransactionPanel.story = {

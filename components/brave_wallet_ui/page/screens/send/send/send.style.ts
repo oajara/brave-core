@@ -23,7 +23,7 @@ export const SendContainer = styled(StyledDiv)`
   }
 `
 
-export const SectionBox = styled(StyledDiv) <{
+export const SectionBox = styled(StyledDiv)<{
   hasError?: boolean
   minHeight?: number
   lessLeftPadding?: boolean
@@ -40,7 +40,7 @@ export const SectionBox = styled(StyledDiv) <{
   min-height: ${(p) => (p.minHeight ? `${p.minHeight}px` : 'unset')};
 `
 
-export const AmountInput = styled(StyledInput) <{
+export const AmountInput = styled(StyledInput)<{
   hasError: boolean
 }>`
   color: ${(p) => (p.hasError ? p.theme.color.errorBorder : 'inherit')};
@@ -54,7 +54,7 @@ export const AmountInput = styled(StyledInput) <{
   }
 `
 
-export const AddressInput = styled(StyledInput) <{
+export const AddressInput = styled(StyledInput)<{
   hasError: boolean
 }>`
   color: ${(p) => (p.hasError ? p.theme.color.errorBorder : 'inherit')};
@@ -69,7 +69,7 @@ export const AddressInput = styled(StyledInput) <{
   }
 `
 
-export const Background = styled(StyledDiv) <{
+export const Background = styled(StyledDiv)<{
   height: number
   network: string
   backgroundOpacity: number
@@ -149,17 +149,17 @@ export const Background = styled(StyledDiv) <{
   --0x539461: var(--f);
   filter: blur(150px);
   width: 512px;
-  height: ${p => p.height}px;
-  opacity: ${p => p.backgroundOpacity};
+  height: ${(p) => p.height}px;
+  opacity: ${(p) => p.backgroundOpacity};
   transition-delay: 0s;
   transition-duration: 1s;
   transition-timing-function: ease;
   position: absolute;
   z-index: 8;
-  background-image: var(--${p => p.network});
+  background-image: var(--${(p) => p.network});
 `
 
-export const FoundAddress = styled(Text) <{ position: number }>`
+export const FoundAddress = styled(Text)<{ position: number }>`
   position: absolute;
   z-index: 8;
   left: ${(p) => p.position}px;
@@ -170,7 +170,7 @@ export const DIVForWidth = styled.div`
   display: inline-block;
   visibility: hidden;
   position: fixed;
-  overflow:auto;
+  overflow: auto;
   font-family: 'Poppins';
   font-weight: 400;
   font-size: 16px;

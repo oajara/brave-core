@@ -27,7 +27,12 @@ interface Props {
   onSave: (title: string, url: string, newUrl: string) => void
 }
 
-export default function EditTopSite ({ targetTopSiteForEditing, textDirection, onClose, onSave }: Props) {
+export default function EditTopSite({
+  targetTopSiteForEditing,
+  textDirection,
+  onClose,
+  onSave
+}: Props) {
   const dialogRef = useRef<HTMLDivElement>(null)
   const [title, setTitle] = useState(targetTopSiteForEditing?.title ?? '')
   const [url, setUrl] = useState(targetTopSiteForEditing?.url ?? '')
@@ -58,49 +63,53 @@ export default function EditTopSite ({ targetTopSiteForEditing, textDirection, o
     }
   }, [saveTopSite, onClose])
 
-  return <StyledDialogWrapper textDirection={textDirection}>
-    <StyledDialog
-      ref={dialogRef}
-      textDirection={textDirection}>
-      <DialogTitle>
-        {targetTopSiteForEditing
-          ? getLocale('editTopSiteDialogTitle')
-          : getLocale('addTopSiteDialogTitle')}
-      </DialogTitle>
-      <CloseButton onClick={onClose}>
-        <CloseIcon />
-      </CloseButton>
-      <StyledInputLabel>
-        {getLocale('addTopSiteDialogNameLabel')}
-      </StyledInputLabel>
-      <StyledInput
-        autoFocus={true}
-        type='text'
-        value={title}
-        onChange={e => setTitle(e.target.value)}
-        placeholder={getLocale('addTopSiteDialogNameInputPlaceHolder')} />
-      <StyledInputLabel>
-        {getLocale('addTopSiteDialogURLLabel')}
-      </StyledInputLabel>
-      <StyledInput
-        type='url'
-        value={url}
-        onChange={e => setUrl(e.target.value)}
-        placeholder={getLocale('addTopSiteDialogURLInputPlaceHolder')} />
-      <StyledButtonsContainer>
-        <StyledButton
-          text={getLocale('addTopSiteDialogCancelButtonLabel')}
-          level={'secondary'}
-          size={'small'}
-          onClick={onClose} />
-        <StyledButton
-          text={getLocale('addTopSiteDialogSaveButtonLabel')}
-          level={'primary'}
-          type={'accent'}
-          size={'small'}
-          disabled={!url}
-          onClick={saveTopSite} />
-      </StyledButtonsContainer>
-    </StyledDialog>
-  </StyledDialogWrapper>
+  return (
+    <StyledDialogWrapper textDirection={textDirection}>
+      <StyledDialog ref={dialogRef} textDirection={textDirection}>
+        <DialogTitle>
+          {targetTopSiteForEditing
+            ? getLocale('editTopSiteDialogTitle')
+            : getLocale('addTopSiteDialogTitle')}
+        </DialogTitle>
+        <CloseButton onClick={onClose}>
+          <CloseIcon />
+        </CloseButton>
+        <StyledInputLabel>
+          {getLocale('addTopSiteDialogNameLabel')}
+        </StyledInputLabel>
+        <StyledInput
+          autoFocus={true}
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder={getLocale('addTopSiteDialogNameInputPlaceHolder')}
+        />
+        <StyledInputLabel>
+          {getLocale('addTopSiteDialogURLLabel')}
+        </StyledInputLabel>
+        <StyledInput
+          type="url"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+          placeholder={getLocale('addTopSiteDialogURLInputPlaceHolder')}
+        />
+        <StyledButtonsContainer>
+          <StyledButton
+            text={getLocale('addTopSiteDialogCancelButtonLabel')}
+            level={'secondary'}
+            size={'small'}
+            onClick={onClose}
+          />
+          <StyledButton
+            text={getLocale('addTopSiteDialogSaveButtonLabel')}
+            level={'primary'}
+            type={'accent'}
+            size={'small'}
+            disabled={!url}
+            onClick={saveTopSite}
+          />
+        </StyledButtonsContainer>
+      </StyledDialog>
+    </StyledDialogWrapper>
+  )
 }

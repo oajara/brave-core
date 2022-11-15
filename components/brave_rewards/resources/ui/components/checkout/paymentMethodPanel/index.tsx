@@ -27,7 +27,7 @@ interface PaymentMethodPanelProps {
   onShowAddFunds: () => void
 }
 
-export function PaymentMethodPanel (props: PaymentMethodPanelProps) {
+export function PaymentMethodPanel(props: PaymentMethodPanelProps) {
   const locale = React.useContext(LocaleContext)
   const [continueWithCard, setContinueWithCard] = React.useState(false)
 
@@ -39,30 +39,29 @@ export function PaymentMethodPanel (props: PaymentMethodPanelProps) {
         orderTotal={props.orderTotal}
         orderTotalConverted={props.orderTotalConverted}
       />
-      {
-        continueWithCard ? null
-          : <UseWalletPanel
-            canAddFunds={props.canUseCreditCard}
-            balance={props.walletBalance}
-            balanceConverted={props.walletBalanceConverted}
-            lastUpdated={props.walletLastUpdated}
-            hasSufficientFunds={props.hasSufficientFunds}
-            rewardsEnabled={props.rewardsEnabled}
-            walletVerified={props.walletVerified}
-            onShowAddFunds={props.onShowAddFunds}
-            onPayWithWallet={props.onPayWithWallet}
-          />
-      }
-      { !props.canUseCreditCard ? null
-          : <UseCreditCardPanel
-            hasSufficientFunds={props.hasSufficientFunds}
-            rewardsEnabled={props.rewardsEnabled}
-            walletVerified={props.walletVerified}
-            continueWithCard={continueWithCard}
-            setContinueWithCard={setContinueWithCard}
-            onPayWithCreditCard={props.onPayWithCreditCard}
-          />
-      }
+      {continueWithCard ? null : (
+        <UseWalletPanel
+          canAddFunds={props.canUseCreditCard}
+          balance={props.walletBalance}
+          balanceConverted={props.walletBalanceConverted}
+          lastUpdated={props.walletLastUpdated}
+          hasSufficientFunds={props.hasSufficientFunds}
+          rewardsEnabled={props.rewardsEnabled}
+          walletVerified={props.walletVerified}
+          onShowAddFunds={props.onShowAddFunds}
+          onPayWithWallet={props.onPayWithWallet}
+        />
+      )}
+      {!props.canUseCreditCard ? null : (
+        <UseCreditCardPanel
+          hasSufficientFunds={props.hasSufficientFunds}
+          rewardsEnabled={props.rewardsEnabled}
+          walletVerified={props.walletVerified}
+          continueWithCard={continueWithCard}
+          setContinueWithCard={setContinueWithCard}
+          onPayWithCreditCard={props.onPayWithCreditCard}
+        />
+      )}
     </>
   )
 }

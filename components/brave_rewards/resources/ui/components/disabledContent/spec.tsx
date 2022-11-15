@@ -9,7 +9,11 @@ import DisabledContent from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('Disabled Content tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><DisabledContent id='disabled' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <DisabledContent id="disabled" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

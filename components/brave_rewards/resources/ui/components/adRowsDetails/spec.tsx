@@ -9,7 +9,11 @@ import { TestThemeProvider } from 'brave-ui/theme'
 import AdRowsDetails from './index'
 
 describe('Ad Rows Details tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><AdRowsDetails id={'adRowsDetails'} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <AdRowsDetails id={'adRowsDetails'} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

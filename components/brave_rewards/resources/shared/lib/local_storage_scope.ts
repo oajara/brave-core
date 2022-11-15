@@ -2,13 +2,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-export function createLocalStorageScope<Key> (prefix: string) {
+export function createLocalStorageScope<Key>(prefix: string) {
   if (prefix) {
     prefix += '-'
   }
 
   return {
-    readJSON (key: Key): unknown {
+    readJSON(key: Key): unknown {
       try {
         return JSON.parse(localStorage.getItem(prefix + key) || '')
       } catch {
@@ -16,7 +16,7 @@ export function createLocalStorageScope<Key> (prefix: string) {
       }
     },
 
-    writeJSON (key: Key, value: unknown): void {
+    writeJSON(key: Key, value: unknown): void {
       localStorage.setItem(prefix + key, JSON.stringify(value))
     }
   }

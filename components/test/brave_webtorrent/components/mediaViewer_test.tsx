@@ -12,12 +12,7 @@ describe('mediaViewer component', () => {
   describe('mediaViewer dumb component', () => {
     const ix = 0
     it('renders loading media if not ready', () => {
-      const wrapper = shallow(
-        <MediaViewer
-          torrent={torrentObj}
-          ix={ix}
-        />
-      )
+      const wrapper = shallow(<MediaViewer torrent={torrentObj} ix={ix} />)
       const assertion = wrapper.find(Spinner)
       expect(assertion.length).toBe(1)
     })
@@ -27,10 +22,7 @@ describe('mediaViewer component', () => {
       const files = [{ name: 'file.mp4', length: 500 }]
       const torrentWithVideoFile = { ...torrentObj, files, serverURL }
       const wrapper = shallow(
-        <MediaViewer
-          torrent={torrentWithVideoFile}
-          ix={ix}
-        />
+        <MediaViewer torrent={torrentWithVideoFile} ix={ix} />
       )
       const assertion = wrapper.find('#video')
       expect(assertion.length).toBe(1)
@@ -40,10 +32,7 @@ describe('mediaViewer component', () => {
       const files = [{ name: 'file.mp3', length: 500 }]
       const torrentWithAudioFile = { ...torrentObj, files, serverURL }
       const wrapper = shallow(
-        <MediaViewer
-          torrent={torrentWithAudioFile}
-          ix={ix}
-        />
+        <MediaViewer torrent={torrentWithAudioFile} ix={ix} />
       )
       const assertion = wrapper.find('#audio')
       expect(assertion.length).toBe(1)
@@ -53,10 +42,7 @@ describe('mediaViewer component', () => {
       const files = [{ name: 'file.jpg', length: 500 }]
       const torrentWithJpgFile = { ...torrentObj, files, serverURL }
       const wrapper = shallow(
-        <MediaViewer
-          torrent={torrentWithJpgFile}
-          ix={ix}
-        />
+        <MediaViewer torrent={torrentWithJpgFile} ix={ix} />
       )
       const assertion = wrapper.find('#image')
       expect(assertion.length).toBe(1)
@@ -66,10 +52,7 @@ describe('mediaViewer component', () => {
       const files = [{ name: 'file.pdf', length: 500 }]
       const torrentWithPdfFile = { ...torrentObj, files, serverURL }
       const wrapper = shallow(
-        <MediaViewer
-          torrent={torrentWithPdfFile}
-          ix={ix}
-        />
+        <MediaViewer torrent={torrentWithPdfFile} ix={ix} />
       )
       const assertion = wrapper.find('#object')
       expect(assertion.length).toBe(1)
@@ -79,10 +62,7 @@ describe('mediaViewer component', () => {
       const files = [{ name: 'file.txt', length: 500 }]
       const torrentWithTxtFile = { ...torrentObj, files, serverURL }
       const wrapper = shallow(
-        <MediaViewer
-          torrent={torrentWithTxtFile}
-          ix={ix}
-        />
+        <MediaViewer torrent={torrentWithTxtFile} ix={ix} />
       )
       const assertion = wrapper.find('#iframe')
       expect(assertion.length).toBe(1)

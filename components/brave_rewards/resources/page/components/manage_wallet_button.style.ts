@@ -23,7 +23,7 @@ export const root = styled.div`
     cursor: pointer;
 
     &:active {
-      background: rgba(0, 0, 0, .01);
+      background: rgba(0, 0, 0, 0.01);
     }
   }
 

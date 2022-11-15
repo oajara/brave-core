@@ -25,7 +25,7 @@ const monthNameFormatter = new Intl.DateTimeFormat(undefined, {
   month: 'long'
 })
 
-export function getDaysUntilRewardsPayment (nextPaymentDate: number | Date) {
+export function getDaysUntilRewardsPayment(nextPaymentDate: number | Date) {
   if (typeof nextPaymentDate === 'number') {
     nextPaymentDate = new Date(nextPaymentDate)
   }
@@ -34,7 +34,8 @@ export function getDaysUntilRewardsPayment (nextPaymentDate: number | Date) {
   nextPaymentDate = new Date(
     nextPaymentDate.getFullYear(),
     nextPaymentDate.getMonth(),
-    nextPaymentDate.getDate())
+    nextPaymentDate.getDate()
+  )
 
   const now = Date.now()
 
@@ -52,7 +53,7 @@ export function getDaysUntilRewardsPayment (nextPaymentDate: number | Date) {
   return pendingDaysFormatter.format(days)
 }
 
-function getPaymentMonth () {
+function getPaymentMonth() {
   const date = new Date()
   const lastMonth = new Date(date.getFullYear(), date.getMonth() - 1)
   return monthNameFormatter.format(lastMonth)
@@ -62,14 +63,11 @@ interface RewardAmountProps {
   amount: number
 }
 
-function RewardAmount (props: RewardAmountProps) {
+function RewardAmount(props: RewardAmountProps) {
   return (
-    <span className='rewards-payment-amount'>
-      <span className='plus'>+</span>
-      <TokenAmount
-        minimumFractionDigits={1}
-        amount={props.amount}
-      />
+    <span className="rewards-payment-amount">
+      <span className="plus">+</span>
+      <TokenAmount minimumFractionDigits={1} amount={props.amount} />
     </span>
   )
 }
@@ -80,7 +78,7 @@ interface Props {
   providerPayoutStatus: ProviderPayoutStatus
 }
 
-export function PaymentStatusView (props: Props) {
+export function PaymentStatusView(props: Props) {
   const { getString } = React.useContext(LocaleContext)
 
   if (props.earningsLastMonth <= 0) {
@@ -90,16 +88,16 @@ export function PaymentStatusView (props: Props) {
   const estimatedPendingDays = getDaysUntilRewardsPayment(props.nextPaymentDate)
   if (estimatedPendingDays) {
     return (
-      <div className='rewards-payment-pending'>
-        <div><MoneyBagIcon /></div>
+      <div className="rewards-payment-pending">
         <div>
-          {
-            formatMessage(getString('rewardsPaymentPending'), [
-              <RewardAmount key='amount' amount={props.earningsLastMonth} />,
-              getPaymentMonth(),
-              estimatedPendingDays
-            ])
-          }
+          <MoneyBagIcon />
+        </div>
+        <div>
+          {formatMessage(getString('rewardsPaymentPending'), [
+            <RewardAmount key="amount" amount={props.earningsLastMonth} />,
+            getPaymentMonth(),
+            estimatedPendingDays
+          ])}
         </div>
       </div>
     )
@@ -107,14 +105,14 @@ export function PaymentStatusView (props: Props) {
 
   if (props.providerPayoutStatus === 'complete') {
     return (
-      <div className='rewards-payment-completed'>
-        <div><PaymentCompleteIcon /></div>
+      <div className="rewards-payment-completed">
         <div>
-          {
-            formatMessage(getString('rewardsPaymentCompleted'), [
-              getPaymentMonth()
-            ])
-          }
+          <PaymentCompleteIcon />
+        </div>
+        <div>
+          {formatMessage(getString('rewardsPaymentCompleted'), [
+            getPaymentMonth()
+          ])}
         </div>
       </div>
     )
@@ -122,16 +120,15 @@ export function PaymentStatusView (props: Props) {
 
   if (props.providerPayoutStatus === 'processing') {
     return (
-      <div className='rewards-payment-processing'>
+      <div className="rewards-payment-processing">
         <div>
-          {
-            formatMessage(getString('rewardsPaymentProcessing'), [
-              <RewardAmount key='amount' amount={props.earningsLastMonth} />,
-              getPaymentMonth()
-            ])
-          }&nbsp;
-          <span className='rewards-payment-check-status'>
-            <NewTabLink key='status' href={urls.payoutStatusURL}>
+          {formatMessage(getString('rewardsPaymentProcessing'), [
+            <RewardAmount key="amount" amount={props.earningsLastMonth} />,
+            getPaymentMonth()
+          ])}
+          &nbsp;
+          <span className="rewards-payment-check-status">
+            <NewTabLink key="status" href={urls.payoutStatusURL}>
               {getString('rewardsPaymentCheckStatus')}
             </NewTabLink>
           </span>
@@ -143,7 +140,7 @@ export function PaymentStatusView (props: Props) {
   return null
 }
 
-export function shouldRenderPendingRewards (
+export function shouldRenderPendingRewards(
   earningsLastMonth: number,
   nextPaymentDate: number
 ) {

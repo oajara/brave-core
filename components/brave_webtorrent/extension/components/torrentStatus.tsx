@@ -20,7 +20,7 @@ const StatsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  
+
   padding: 16px;
   border-radius: 8px;
 
@@ -44,9 +44,10 @@ interface Props {
   errorMsg?: string
 }
 
-function Eta ({ torrent }: {torrent: TorrentObj}) {
-   // Zero download speed
-  if (torrent.timeRemaining === 0 || torrent.timeRemaining === Infinity) return null
+function Eta({ torrent }: { torrent: TorrentObj }) {
+  // Zero download speed
+  if (torrent.timeRemaining === 0 || torrent.timeRemaining === Infinity)
+    return null
 
   // Already done
   if (torrent.downloaded === torrent.length) return null
@@ -62,39 +63,56 @@ function Eta ({ torrent }: {torrent: TorrentObj}) {
   const minutesStr = hours || minutes ? minutes + 'm' : ''
   const secondsStr = seconds + 's'
 
-  return <>
+  return (
+    <>
       <StatsDivider />
       <span>
         {hoursStr} {minutesStr} {secondsStr} remaining
       </span>
     </>
+  )
 }
 
-export default function TorrentStatus ({ torrent, errorMsg }: Props) {
+export default function TorrentStatus({ torrent, errorMsg }: Props) {
   if (errorMsg) return <div>{errorMsg}</div>
   if (!torrent) return null
 
   const downloaded = prettierBytes(torrent.downloaded)
   const total = prettierBytes(torrent.length)
-  return <Container>
-    <Header>Torrent stats</Header>
-    <StatsContainer>
-      <StatusText>{torrent.progress < 1 ? 'Downloading' : 'Seeding'}</StatusText>
-      <StatsDivider/>
-      <span>{torrent.progress < 1 ? (torrent.progress * 100).toFixed(1) : 100}%</span>
-      <StatsDivider/>
-      {torrent.downloadSpeed !== 0 && <>
-        <span>↓ {prettierBytes(torrent.downloadSpeed)}/s</span>
-        <StatsDivider/>
-      </>}
-      {torrent.uploadSpeed !== 0 && <>
-        <span>↑ {prettierBytes(torrent.uploadSpeed)}/s</span>
-        <StatsDivider/>
-      </>}
-      <span>{downloaded}{downloaded !== total && ` / ${total}`}</span>
-      <StatsDivider/>
-      <span>{torrent.numPeers} {torrent.numPeers === 1 ? 'peer' : 'peers'}</span>
-      <Eta torrent={torrent}/>
-    </StatsContainer>
-  </Container>
+  return (
+    <Container>
+      <Header>Torrent stats</Header>
+      <StatsContainer>
+        <StatusText>
+          {torrent.progress < 1 ? 'Downloading' : 'Seeding'}
+        </StatusText>
+        <StatsDivider />
+        <span>
+          {torrent.progress < 1 ? (torrent.progress * 100).toFixed(1) : 100}%
+        </span>
+        <StatsDivider />
+        {torrent.downloadSpeed !== 0 && (
+          <>
+            <span>↓ {prettierBytes(torrent.downloadSpeed)}/s</span>
+            <StatsDivider />
+          </>
+        )}
+        {torrent.uploadSpeed !== 0 && (
+          <>
+            <span>↑ {prettierBytes(torrent.uploadSpeed)}/s</span>
+            <StatsDivider />
+          </>
+        )}
+        <span>
+          {downloaded}
+          {downloaded !== total && ` / ${total}`}
+        </span>
+        <StatsDivider />
+        <span>
+          {torrent.numPeers} {torrent.numPeers === 1 ? 'peer' : 'peers'}
+        </span>
+        <Eta torrent={torrent} />
+      </StatsContainer>
+    </Container>
+  )
 }

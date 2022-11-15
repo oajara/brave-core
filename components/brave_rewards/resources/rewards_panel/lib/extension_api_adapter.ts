@@ -28,13 +28,15 @@ import {
 // amount of mapping/adapter code found in |extension_host|. As the extension
 // APIs are improved, the need for this adapter will diminish.
 
-export function getRewardsBalance () {
+export function getRewardsBalance() {
   return new Promise<number>((resolve) => {
-    chrome.braveRewards.fetchBalance((balance) => { resolve(balance.total) })
+    chrome.braveRewards.fetchBalance((balance) => {
+      resolve(balance.total)
+    })
   })
 }
 
-export function getSettings () {
+export function getSettings() {
   return new Promise<Settings>((resolve) => {
     chrome.braveRewards.getPrefs((prefs) => {
       resolve({
@@ -46,7 +48,7 @@ export function getSettings () {
   })
 }
 
-export function getEarningsInfo () {
+export function getEarningsInfo() {
   return new Promise<EarningsInfo | null>((resolve) => {
     chrome.braveRewards.getAdsAccountStatement((success, statement) => {
       if (success) {
@@ -62,7 +64,7 @@ export function getEarningsInfo () {
   })
 }
 
-export function getRewardsParameters () {
+export function getRewardsParameters() {
   interface Result {
     exchangeInfo: ExchangeInfo
     payoutStatus: Record<string, ProviderPayoutStatus>
@@ -85,7 +87,7 @@ export function getRewardsParameters () {
   })
 }
 
-export function getExternalWalletProviders () {
+export function getExternalWalletProviders() {
   return new Promise<ExternalWalletProvider[]>((resolve) => {
     // The extension API currently does not support retrieving a list of
     // external wallet providers. Instead, use the `getExternalWallet` function
@@ -97,13 +99,15 @@ export function getExternalWalletProviders () {
   })
 }
 
-export function getExternalWallet () {
+export function getExternalWallet() {
   return new Promise((resolve) => {
-    chrome.braveRewards.getExternalWallet((wallet) => { resolve(wallet) })
+    chrome.braveRewards.getExternalWallet((wallet) => {
+      resolve(wallet)
+    })
   }).then(externalWalletFromExtensionData)
 }
 
-export function getRewardsSummaryData () {
+export function getRewardsSummaryData() {
   return new Promise<RewardsSummaryData>((resolve) => {
     const now = new Date()
     const month = now.getMonth() + 1
@@ -121,7 +125,7 @@ export function getRewardsSummaryData () {
   })
 }
 
-export function getNotifications () {
+export function getNotifications() {
   return new Promise<Notification[]>((resolve) => {
     chrome.braveRewards.getAllNotifications((list) => {
       const notifications: Notification[] = []
@@ -133,9 +137,11 @@ export function getNotifications () {
         // Legacy "monthly contribution failure" notifications are keyed on the
         // contribution ID, which can result it duplicate failure notifications.
         // Dedupe them now.
-        if (notification &&
-            notification.type === 'monthly-contribution-failed' &&
-            typeSet.has(notification.type)) {
+        if (
+          notification &&
+          notification.type === 'monthly-contribution-failed' &&
+          typeSet.has(notification.type)
+        ) {
           notification = null
         }
 
@@ -153,7 +159,7 @@ export function getNotifications () {
   })
 }
 
-function promotionToGrant (promotion: RewardsExtension.Promotion): GrantInfo {
+function promotionToGrant(promotion: RewardsExtension.Promotion): GrantInfo {
   return {
     id: promotion.promotionId,
     type: promotion.type === 1 ? 'ads' : 'ugp',
@@ -174,11 +180,11 @@ chrome.braveRewards.onPromotions.addListener((result, promotions) => {
   }
 })
 
-export function onGrantsUpdated (callback: (grants: GrantInfo[]) => void) {
+export function onGrantsUpdated(callback: (grants: GrantInfo[]) => void) {
   grantsUpdatedCallbacks.push(callback)
 }
 
-export function getGrants () {
+export function getGrants() {
   return new Promise<GrantInfo[]>((resolve) => {
     chrome.braveRewards.fetchPromotions((promotions) => {
       resolve(promotions.map(promotionToGrant))
@@ -186,19 +192,19 @@ export function getGrants () {
   })
 }
 
-export function getRewardsEnabled () {
+export function getRewardsEnabled() {
   return new Promise<boolean>((resolve) => {
     chrome.braveRewards.getRewardsEnabled(resolve)
   })
 }
 
-export function getDeclaredCountry () {
+export function getDeclaredCountry() {
   return new Promise<string>((resolve) => {
     chrome.braveRewards.getDeclaredCountry(resolve)
   })
 }
 
-export function createRewardsWallet (country: string) {
+export function createRewardsWallet(country: string) {
   return new Promise<OnboardingResult>((resolve) => {
     chrome.braveRewards.createRewardsWallet(country, (result) => {
       switch (result) {
@@ -216,13 +222,13 @@ export function createRewardsWallet (country: string) {
   })
 }
 
-export function getAvailableCountries () {
+export function getAvailableCountries() {
   return new Promise<string[]>((resolve) => {
     chrome.braveRewards.getAvailableCountries(resolve)
   })
 }
 
-function getMonthlyTipAmount (publisherKey: string) {
+function getMonthlyTipAmount(publisherKey: string) {
   return new Promise<number>((resolve) => {
     chrome.braveRewards.getRecurringTips((result) => {
       for (const item of result.recurringTips) {
@@ -236,13 +242,15 @@ function getMonthlyTipAmount (publisherKey: string) {
   })
 }
 
-function getTab (tabId: number) {
+function getTab(tabId: number) {
   return new Promise<chrome.tabs.Tab | null>((resolve) => {
-    chrome.tabs.get(tabId, (tab) => { resolve(tab || null) })
+    chrome.tabs.get(tabId, (tab) => {
+      resolve(tab || null)
+    })
   })
 }
 
-function parseURL (url: string) {
+function parseURL(url: string) {
   try {
     return new URL(url)
   } catch {
@@ -250,12 +258,12 @@ function parseURL (url: string) {
   }
 }
 
-function isPublisherURL (url: string) {
+function isPublisherURL(url: string) {
   const parsedURL = parseURL(url)
   return parsedURL && /^https?:$/.test(parsedURL.protocol)
 }
 
-function defaultPublisherInfo (url: string) {
+function defaultPublisherInfo(url: string) {
   const parsedURL = parseURL(url)
   if (!parsedURL) {
     return null
@@ -274,7 +282,7 @@ function defaultPublisherInfo (url: string) {
   }
 }
 
-function getPublisherPlatform (name: string) {
+function getPublisherPlatform(name: string) {
   switch (name) {
     case 'github':
     case 'reddit':
@@ -287,7 +295,7 @@ function getPublisherPlatform (name: string) {
   return null
 }
 
-export async function getPublisherInfo (tabId: number) {
+export async function getPublisherInfo(tabId: number) {
   const tab = await getTab(tabId)
   if (!tab || !tab.url) {
     return null
@@ -346,6 +354,8 @@ export async function getPublisherInfo (tabId: number) {
   return info
 }
 
-export function onPublisherDataUpdated (callback: () => void) {
-  chrome.braveRewards.onPublisherData.addListener(() => { callback() })
+export function onPublisherDataUpdated(callback: () => void) {
+  chrome.braveRewards.onPublisherData.addListener(() => {
+    callback()
+  })
 }

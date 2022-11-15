@@ -3,13 +3,15 @@
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 import { ComponentType } from 'react'
 import styled from 'styled-components'
-import Button, { Props as ButtonProps } from 'brave-ui/components/buttonsIndicators/button'
+import Button, {
+  Props as ButtonProps
+} from 'brave-ui/components/buttonsIndicators/button'
 
 export const StyledContent = styled('div')<{}>`
   font-size: 14px;
   font-family: Poppins, sans-serif;
   letter-spacing: 0;
-  color: ${p => p.theme.color.text};
+  color: ${(p) => p.theme.color.text};
   line-height: 26px;
   margin-bottom: 25px;
 `
@@ -41,7 +43,7 @@ export const StyledTitle = styled('span')<{}>`
   font-weight: normal;
   letter-spacing: 0;
   line-height: 40px;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
   text-transform: capitalize;
 `
 
@@ -55,7 +57,7 @@ export const StyledText = styled('p')<{}>`
   letter-spacing: 0;
   line-height: 26px;
   font-family: Poppins, sans-serif;
-  color: ${p => p.theme.color.text};
+  color: ${(p) => p.theme.color.text};
 `
 
 export const StyledTextWrapper = styled('div')<{}>`
@@ -63,7 +65,7 @@ export const StyledTextWrapper = styled('div')<{}>`
 `
 
 export const StyledLink = styled('a')<{}>`
-  color: ${p => p.theme.color.brandBatInteracting};
+  color: ${(p) => p.theme.color.brandBatInteracting};
   cursor: pointer;
   display: inline-block;
   font-weight: 700;

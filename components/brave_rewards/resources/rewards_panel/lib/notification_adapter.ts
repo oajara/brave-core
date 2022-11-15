@@ -19,12 +19,12 @@ import {
   UpholdInsufficientCapabilitiesNotification
 } from '../../shared/components/notifications'
 
-function parseGrantId (id: string) {
+function parseGrantId(id: string) {
   const parts = id.split('_')
   return (parts.length > 1 && parts.pop()) || ''
 }
 
-function parseGrantDetails (args: string[]) {
+function parseGrantDetails(args: string[]) {
   return {
     amount: parseFloat(args[0]) || 0,
     createdAt: parseFloat(args[1]) || null,
@@ -33,7 +33,7 @@ function parseGrantDetails (args: string[]) {
   }
 }
 
-function mapProvider (name: string): ExternalWalletProvider {
+function mapProvider(name: string): ExternalWalletProvider {
   const provider = externalWalletProviderFromString(name.toLocaleLowerCase())
   return provider || 'uphold'
 }
@@ -50,12 +50,14 @@ enum ExtensionNotificationType {
 }
 
 // Ensures that the specified object literal matches some type |T|
-function create<T> (obj: T): T { return obj }
+function create<T>(obj: T): T {
+  return obj
+}
 
 // Converts a notification object coming from the extension API into an instance
 // of the |Notification| type. If the object cannot be converted, |null| is
 // returned.
-export function mapNotification (
+export function mapNotification(
   obj: RewardsExtension.Notification
 ): Notification | null {
   const baseProps = {

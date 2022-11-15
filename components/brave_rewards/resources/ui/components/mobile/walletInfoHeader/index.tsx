@@ -38,42 +38,37 @@ export interface AlertWallet {
 }
 
 export default class WalletInfoHeader extends React.PureComponent<Props, {}> {
-  render () {
+  render() {
     const { id, balance, converted, alert, onClick } = this.props
     const batFormatString = getLocale('bat')
 
     return (
-      <StyledWrapper
-        id={id}
-        onClick={onClick}
-      >
-      {
-        alert && alert.node
-        ? <StyledAlertWrapper>
-          {
-            alert.onAlertClose
-            ? <StyledAlertClose onClick={alert.onAlertClose}>
-              <CloseCircleOIcon />
-            </StyledAlertClose> : null
-          }
-          <Alert type={alert.type} bg={true}>
-            {alert.node}
-        </Alert>
-        </StyledAlertWrapper>
-        : <StyledHeader>
-          <StyledTitle>{getLocale('yourWallet')}</StyledTitle>
+      <StyledWrapper id={id} onClick={onClick}>
+        {alert && alert.node ? (
+          <StyledAlertWrapper>
+            {alert.onAlertClose ? (
+              <StyledAlertClose onClick={alert.onAlertClose}>
+                <CloseCircleOIcon />
+              </StyledAlertClose>
+            ) : null}
+            <Alert type={alert.type} bg={true}>
+              {alert.node}
+            </Alert>
+          </StyledAlertWrapper>
+        ) : (
+          <StyledHeader>
+            <StyledTitle>{getLocale('yourWallet')}</StyledTitle>
             <StyledBalance>
               <StyledBalanceTokens>
-                {balance} <StyledBalanceCurrency>{batFormatString}</StyledBalanceCurrency>
+                {balance}{' '}
+                <StyledBalanceCurrency>{batFormatString}</StyledBalanceCurrency>
               </StyledBalanceTokens>
-              {
-                converted
-                ? <StyledBalanceConverted>{converted}</StyledBalanceConverted>
-                : null
-              }
+              {converted ? (
+                <StyledBalanceConverted>{converted}</StyledBalanceConverted>
+              ) : null}
             </StyledBalance>
-        </StyledHeader>
-      }
+          </StyledHeader>
+        )}
       </StyledWrapper>
     )
   }

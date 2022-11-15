@@ -8,7 +8,11 @@ import styled from 'styled-components'
 import { getLocale } from '$web-common/locale'
 import Flex from '../../../Flex'
 import { useLazyFavicon } from '../useUnpaddedImageUrl'
-import { useChannelSubscribed, usePublisher, usePublisherFollowed } from './Context'
+import {
+  useChannelSubscribed,
+  usePublisher,
+  usePublisherFollowed
+} from './Context'
 import { getTranslatedChannelName } from './ChannelCard'
 import { channels as ChannelIcons } from './Icons'
 
@@ -64,7 +68,7 @@ const ChannelNameText = styled(Text)`
   font-weight: 600;
 `
 
-function FavIcon (props: { publisherId: string }) {
+function FavIcon(props: { publisherId: string }) {
   const { url, setElementRef } = useLazyFavicon(props.publisherId, {
     rootElement: document.getElementById('brave-news-configure'),
     rootMargin: '200px 0px 200px 0px'
@@ -77,12 +81,12 @@ function FavIcon (props: { publisherId: string }) {
   )
 }
 
-export function FeedListEntry (props: Props) {
+export function FeedListEntry(props: Props) {
   const publisher = usePublisher(props.publisherId)
   const { setFollowed } = usePublisherFollowed(props.publisherId)
 
   return (
-    <Container direction="row" justify="space-between" align='center' gap={8}>
+    <Container direction="row" justify="space-between" align="center" gap={8}>
       <FavIcon publisherId={props.publisherId} />
       <Text>{publisher.publisherName}</Text>
       <ToggleButton onClick={() => setFollowed(false)}>
@@ -92,15 +96,17 @@ export function FeedListEntry (props: Props) {
   )
 }
 
-export function ChannelListEntry (props: { channelName: string }) {
+export function ChannelListEntry(props: { channelName: string }) {
   const { setSubscribed } = useChannelSubscribed(props.channelName)
 
   return (
-    <Container direction="row" justify='space-between' align='center' gap={8}>
+    <Container direction="row" justify="space-between" align="center" gap={8}>
       <FavIconContainer>
         {ChannelIcons[props.channelName] ?? ChannelIcons.default}
       </FavIconContainer>
-      <ChannelNameText>{getTranslatedChannelName(props.channelName)}</ChannelNameText>
+      <ChannelNameText>
+        {getTranslatedChannelName(props.channelName)}
+      </ChannelNameText>
       <ToggleButton onClick={() => setSubscribed(false)}>
         {getLocale('braveNewsFollowButtonFollowing')}
       </ToggleButton>

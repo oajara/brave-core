@@ -13,7 +13,7 @@ const braveSrcPath = path.join(srcPath, 'brave')
  * @param {*} [atPath=process.env.ROOT_GEN_DIR]
  * @returns void
  */
- async function createGenTsConfig (atPath = process.env.ROOT_GEN_DIR) {
+async function createGenTsConfig(atPath = process.env.ROOT_GEN_DIR) {
   const configExtendsFrom = path.relative(
     atPath,
     path.join(braveSrcPath, 'tsconfig-webpack.json')
@@ -49,8 +49,7 @@ const braveSrcPath = path.join(srcPath, 'brave')
   return tsConfigPath
 }
 
-createGenTsConfig()
-.catch(err => {
+createGenTsConfig().catch((err) => {
   console.error(err)
   process.exit(1)
 })

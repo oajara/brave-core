@@ -44,7 +44,8 @@ export const AssetsColumnItemSpacer = styled.div`
 `
 export const TextWrapper = styled.div<StyleProps>`
   display: flex;
-  justify-content: ${p => p.alignment === 'right' ? 'flex-end' : 'flex-start'};
+  justify-content: ${(p) =>
+    p.alignment === 'right' ? 'flex-end' : 'flex-start'};
   width: 100%;
   font-family: Poppins;
   font-size: 14px;
@@ -61,10 +62,10 @@ export const LineChartWrapper = styled.div`
 `
 
 export const LoadIcon = styled(LoaderIcon)`
-  color: ${p => p.theme.color.interactive08};
+  color: ${(p) => p.theme.color.interactive08};
   height: 70px;
   width: 70px;
-  opacity: .4;
+  opacity: 0.4;
 `
 
 export const LoadIconWrapper = styled.div`

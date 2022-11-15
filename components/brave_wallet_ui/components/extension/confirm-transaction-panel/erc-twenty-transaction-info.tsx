@@ -12,7 +12,8 @@ import { usePendingTransactions } from '../../../common/hooks/use-pending-transa
 import {
   TransactionTitle,
   TransactionTypeText,
-  TransactionText, Divider,
+  TransactionText,
+  Divider,
   SectionRow,
   EditButton
 } from './style'
@@ -21,15 +22,16 @@ interface Erc20TransactionInfoProps {
   onToggleEditGas: () => void
 }
 
-export const Erc20ApproveTransactionInfo = ({ onToggleEditGas }: Erc20TransactionInfoProps) => {
-  const {
-    currentTokenAllowance, transactionDetails, transactionsNetwork
-  } = usePendingTransactions()
+export const Erc20ApproveTransactionInfo = ({
+  onToggleEditGas
+}: Erc20TransactionInfoProps) => {
+  const { currentTokenAllowance, transactionDetails, transactionsNetwork } =
+    usePendingTransactions()
 
   // redux
-  const {
-    defaultCurrencies
-  } = useSelector((state: { wallet: WalletState }) => state.wallet)
+  const { defaultCurrencies } = useSelector(
+    (state: { wallet: WalletState }) => state.wallet
+  )
 
   // exit early if no details
   if (!transactionDetails) {
@@ -37,50 +39,65 @@ export const Erc20ApproveTransactionInfo = ({ onToggleEditGas }: Erc20Transactio
   }
 
   // render
-  return <>
-    <SectionRow>
-      <TransactionTitle>{getLocale('braveWalletAllowSpendTransactionFee')}</TransactionTitle>
-      <EditButton onClick={onToggleEditGas}>{getLocale('braveWalletAllowSpendEditButton')}</EditButton>
-    </SectionRow>
+  return (
+    <>
+      <SectionRow>
+        <TransactionTitle>
+          {getLocale('braveWalletAllowSpendTransactionFee')}
+        </TransactionTitle>
+        <EditButton onClick={onToggleEditGas}>
+          {getLocale('braveWalletAllowSpendEditButton')}
+        </EditButton>
+      </SectionRow>
 
-    <TransactionTypeText>
-      {transactionsNetwork && new Amount(transactionDetails.gasFee)
-        .divideByDecimals(transactionsNetwork.decimals)
-        .formatAsAsset(6, transactionsNetwork.symbol)}
-    </TransactionTypeText>
+      <TransactionTypeText>
+        {transactionsNetwork &&
+          new Amount(transactionDetails.gasFee)
+            .divideByDecimals(transactionsNetwork.decimals)
+            .formatAsAsset(6, transactionsNetwork.symbol)}
+      </TransactionTypeText>
 
-    <TransactionText hasError={false}>
-      {new Amount(transactionDetails.gasFeeFiat)
-        .formatAsFiat(defaultCurrencies.fiat)}
-    </TransactionText>
-
-    {transactionDetails.insufficientFundsForGasError &&
-      <TransactionText hasError={true}>
-        {getLocale('braveWalletSwapInsufficientFundsForGas')}
+      <TransactionText hasError={false}>
+        {new Amount(transactionDetails.gasFeeFiat).formatAsFiat(
+          defaultCurrencies.fiat
+        )}
       </TransactionText>
-    }
 
-    {transactionDetails.insufficientFundsForGasError === false &&
-      transactionDetails.insufficientFundsError &&
-      <TransactionText hasError={true}>
-        {getLocale('braveWalletSwapInsufficientBalance')}
-      </TransactionText>
-    }
+      {transactionDetails.insufficientFundsForGasError && (
+        <TransactionText hasError={true}>
+          {getLocale('braveWalletSwapInsufficientFundsForGas')}
+        </TransactionText>
+      )}
 
-    <Divider />
+      {transactionDetails.insufficientFundsForGasError === false &&
+        transactionDetails.insufficientFundsError && (
+          <TransactionText hasError={true}>
+            {getLocale('braveWalletSwapInsufficientBalance')}
+          </TransactionText>
+        )}
 
-    <TransactionTitle>{getLocale('braveWalletAllowSpendCurrentAllowance')}</TransactionTitle>
-    <TransactionTypeText>{currentTokenAllowance} {transactionDetails.symbol}</TransactionTypeText>
+      <Divider />
 
-    <Divider />
+      <TransactionTitle>
+        {getLocale('braveWalletAllowSpendCurrentAllowance')}
+      </TransactionTitle>
+      <TransactionTypeText>
+        {currentTokenAllowance} {transactionDetails.symbol}
+      </TransactionTypeText>
 
-    <TransactionTitle>{getLocale('braveWalletAllowSpendProposedAllowance')}</TransactionTitle>
-    <TransactionTypeText>
-      {transactionDetails.isApprovalUnlimited
-        ? getLocale('braveWalletTransactionApproveUnlimited')
-        : new Amount(transactionDetails.valueExact)
-          .formatAsAsset(undefined, transactionDetails.symbol)}
-    </TransactionTypeText>
+      <Divider />
 
-  </>
+      <TransactionTitle>
+        {getLocale('braveWalletAllowSpendProposedAllowance')}
+      </TransactionTitle>
+      <TransactionTypeText>
+        {transactionDetails.isApprovalUnlimited
+          ? getLocale('braveWalletTransactionApproveUnlimited')
+          : new Amount(transactionDetails.valueExact).formatAsAsset(
+              undefined,
+              transactionDetails.symbol
+            )}
+      </TransactionTypeText>
+    </>
+  )
 }

@@ -3,7 +3,16 @@
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import * as React from 'react'
-import { StyledWrapper, StyledHeader, StyledTitle, StyledClose, StyledText, StyledGrantIcon, StyledPanelText, StyledHint } from './style'
+import {
+  StyledWrapper,
+  StyledHeader,
+  StyledTitle,
+  StyledClose,
+  StyledText,
+  StyledGrantIcon,
+  StyledPanelText,
+  StyledHint
+} from './style'
 import { CloseCircleOIcon } from 'brave-ui/components/icons'
 import { getLocale } from 'brave-ui/helpers'
 
@@ -24,7 +33,7 @@ export interface Props {
 }
 
 export default class GrantWrapper extends React.PureComponent<Props, {}> {
-  render () {
+  render() {
     const {
       id,
       testId,
@@ -49,30 +58,19 @@ export default class GrantWrapper extends React.PureComponent<Props, {}> {
         <StyledClose onClick={onClose}>
           <CloseCircleOIcon />
         </StyledClose>
-        {
-          !isPanel
-            ? <StyledHeader>
-              {header}
-            </StyledHeader>
-            : <StyledGrantIcon src={giftIconUrl} />
-        }
-        <StyledTitle isPanel={isPanel}>
-          {title}
-        </StyledTitle>
-        {
-          !isPanel || !hint
-            ? <StyledText>
-              {text}
-            </StyledText>
-            : null
-        }
-        {
-          isPanel && hint
-            ? <StyledPanelText>
-              {getLocale('captchaDrag')} <StyledHint>{hint}</StyledHint> {getLocale('captchaTarget')}
-            </StyledPanelText>
-            : null
-        }
+        {!isPanel ? (
+          <StyledHeader>{header}</StyledHeader>
+        ) : (
+          <StyledGrantIcon src={giftIconUrl} />
+        )}
+        <StyledTitle isPanel={isPanel}>{title}</StyledTitle>
+        {!isPanel || !hint ? <StyledText>{text}</StyledText> : null}
+        {isPanel && hint ? (
+          <StyledPanelText>
+            {getLocale('captchaDrag')} <StyledHint>{hint}</StyledHint>{' '}
+            {getLocale('captchaTarget')}
+          </StyledPanelText>
+        ) : null}
         {children}
       </StyledWrapper>
     )

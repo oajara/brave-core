@@ -11,18 +11,20 @@ interface Props {
   key: string
 }
 
-export default function DirectFeedItemMenu (props: Props) {
+export default function DirectFeedItemMenu(props: Props) {
   const [isOpen, setIsOpen] = React.useState(false)
   return (
     <EllipsisTrigger isOpen={isOpen} onTrigger={setIsOpen.bind(null, !isOpen)}>
       <PopupMenu
         isOpen={isOpen}
         onClose={setIsOpen.bind(null, false)}
-        menuItems={[{
-          key: props.key,
-          onClick: props.onRemove,
-          child: <span>Remove</span>
-        }]}
+        menuItems={[
+          {
+            key: props.key,
+            onClick: props.onRemove,
+            child: <span>Remove</span>
+          }
+        ]}
       />
     </EllipsisTrigger>
   )

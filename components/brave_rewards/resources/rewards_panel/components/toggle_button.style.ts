@@ -9,7 +9,7 @@ export const root = styled.div`
     position: relative;
     height: 24px;
     width: 48px;
-    background: #E1E2F6;
+    background: #e1e2f6;
     border: none;
     border-radius: 32px;
     margin: 0;
@@ -18,7 +18,7 @@ export const root = styled.div`
     cursor: pointer;
 
     .brave-theme-dark & {
-      background: #7679B1;
+      background: #7679b1;
     }
   }
 `
@@ -27,11 +27,11 @@ export const handle = styled.div`
   position: absolute;
   top: 2px;
   left: 2px;
-  background-color: rgba(0, 0, 0, .3);
+  background-color: rgba(0, 0, 0, 0.3);
   height: 20px;
   width: 20px;
   border-radius: 50%;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 
   &.checked {
     right: 0;
@@ -39,7 +39,7 @@ export const handle = styled.div`
     background-color: var(--brave-color-brandBatInteracting);
 
     .brave-theme-dark & {
-      background-color: #4436E1;
+      background-color: #4436e1;
     }
   }
 `

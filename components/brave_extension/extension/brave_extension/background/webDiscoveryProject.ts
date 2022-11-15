@@ -10,7 +10,9 @@ import { App } from 'gen/brave/web-discovery-project'
 
 declare let window: any
 
-function onCommitted (details: chrome.webNavigation.WebNavigationTransitionCallbackDetails) {
+function onCommitted(
+  details: chrome.webNavigation.WebNavigationTransitionCallbackDetails
+) {
   // Only inject if page is acceptable protocol (to skip internal pages like
   // devtools://, brave://, etc.). We also make sure to only inject if we
   // receive the onCommitted for the main_frame (frameId === 0).
@@ -18,15 +20,22 @@ function onCommitted (details: chrome.webNavigation.WebNavigationTransitionCallb
     details.frameId === 0 &&
     (details.url.startsWith('https://') || details.url.startsWith('http://'))
   ) {
-    chrome.tabs.executeScript(details.tabId, {
-      file: 'bundles/web-discovery-content-script.bundle.js',
-      matchAboutBlank: false,
-      runAt: 'document_end'
-    }, () => {
-      if (chrome.runtime.lastError) {
-        console.warn('[web-discovery-project] Could not inject script:', chrome.runtime.lastError)
+    chrome.tabs.executeScript(
+      details.tabId,
+      {
+        file: 'bundles/web-discovery-content-script.bundle.js',
+        matchAboutBlank: false,
+        runAt: 'document_end'
+      },
+      () => {
+        if (chrome.runtime.lastError) {
+          console.warn(
+            '[web-discovery-project] Could not inject script:',
+            chrome.runtime.lastError
+          )
+        }
       }
-    })
+    )
   }
 }
 
@@ -43,15 +52,16 @@ if (!chrome.extension.inIncognitoContext) {
       const enable = pref.value
       if (enable) {
         // enable
-        APP.start()
-          .then(
-            () => {
-              // Dynamically inject WDP content script so that users with the pref disabled
-              // don't need to pay the loading cost on each page.
-              chrome.webNavigation.onCommitted.addListener(onCommitted)
-            },
-            (err) => { console.error('[web-discovery]', err) }
-          )
+        APP.start().then(
+          () => {
+            // Dynamically inject WDP content script so that users with the pref disabled
+            // don't need to pay the loading cost on each page.
+            chrome.webNavigation.onCommitted.addListener(onCommitted)
+          },
+          (err) => {
+            console.error('[web-discovery]', err)
+          }
+        )
       } else {
         // Stop injecting dynamic content scripts
         if (chrome.webNavigation.onCommitted.hasListener(onCommitted)) {
@@ -66,12 +76,17 @@ if (!chrome.extension.inIncognitoContext) {
     }
   }
 
-  chrome.settingsPrivate.onPrefsChanged.addListener((prefs: chrome.settingsPrivate.PrefObject[]) => {
-    const pref = prefs.find(p => p.key === WEB_DISCOVERY_PREF_KEY)
-    toggleWebDiscovery(pref)
-  })
+  chrome.settingsPrivate.onPrefsChanged.addListener(
+    (prefs: chrome.settingsPrivate.PrefObject[]) => {
+      const pref = prefs.find((p) => p.key === WEB_DISCOVERY_PREF_KEY)
+      toggleWebDiscovery(pref)
+    }
+  )
 
-  chrome.settingsPrivate.getPref(WEB_DISCOVERY_PREF_KEY, (pref: chrome.settingsPrivate.PrefObject) => {
-    toggleWebDiscovery(pref)
-  })
+  chrome.settingsPrivate.getPref(
+    WEB_DISCOVERY_PREF_KEY,
+    (pref: chrome.settingsPrivate.PrefObject) => {
+      toggleWebDiscovery(pref)
+    }
+  )
 }

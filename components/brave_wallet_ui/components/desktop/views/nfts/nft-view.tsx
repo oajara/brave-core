@@ -7,10 +7,7 @@ import * as React from 'react'
 import { useSelector } from 'react-redux'
 
 // types
-import {
-  SupportedTestNetworks,
-  WalletState
-} from '../../../../constants/types'
+import { SupportedTestNetworks, WalletState } from '../../../../constants/types'
 
 // components
 import { Nfts } from './components/nfts'
@@ -18,22 +15,31 @@ import { AllNetworksOption } from '../../../../options/network-filter-options'
 
 export const NftView = () => {
   // redux
-  const networkList = useSelector(({ wallet }: { wallet: WalletState }) => wallet.networkList)
-  const userVisibleTokensInfo = useSelector(({ wallet }: { wallet: WalletState}) => wallet.userVisibleTokensInfo)
-  const selectedNetworkFilter = useSelector(({ wallet }: { wallet: WalletState }) => wallet.selectedNetworkFilter)
+  const networkList = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.networkList
+  )
+  const userVisibleTokensInfo = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.userVisibleTokensInfo
+  )
+  const selectedNetworkFilter = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.selectedNetworkFilter
+  )
 
   const nonFungibleTokens = React.useMemo(() => {
     if (selectedNetworkFilter.chainId === AllNetworksOption.chainId) {
-      return userVisibleTokensInfo.filter((token) => !SupportedTestNetworks.includes(token.chainId) && (token.isErc721 || token.isNft))
+      return userVisibleTokensInfo.filter(
+        (token) =>
+          !SupportedTestNetworks.includes(token.chainId) &&
+          (token.isErc721 || token.isNft)
+      )
     }
 
-    return userVisibleTokensInfo.filter(token => token.chainId === selectedNetworkFilter.chainId && (token.isErc721 || token.isNft))
+    return userVisibleTokensInfo.filter(
+      (token) =>
+        token.chainId === selectedNetworkFilter.chainId &&
+        (token.isErc721 || token.isNft)
+    )
   }, [userVisibleTokensInfo, selectedNetworkFilter])
 
-  return (
-    <Nfts
-      networks={networkList}
-      nftList={nonFungibleTokens}
-    />
-  )
+  return <Nfts networks={networkList} nftList={nonFungibleTokens} />
 }

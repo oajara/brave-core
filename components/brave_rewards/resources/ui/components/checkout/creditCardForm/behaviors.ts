@@ -2,7 +2,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import { CreditCardDetails, CreditCardErrorType, CreditCardError } from './types'
+import {
+  CreditCardDetails,
+  CreditCardErrorType,
+  CreditCardError
+} from './types'
 import { CardType } from './cardType'
 import { ExpiryFormat } from './expiryFormat'
 
@@ -13,7 +17,6 @@ interface InputDictionary {
 }
 
 interface BehaviorsInit {
-
   // A dictionary containing references to credit card <input>
   // elements.
   inputs: InputDictionary
@@ -39,7 +42,7 @@ export class Behaviors {
   onCardTypeChange?: (cardType: CardType | null) => void
   onInputValidation?: (error: CreditCardError) => void
 
-  constructor (init: BehaviorsInit) {
+  constructor(init: BehaviorsInit) {
     this.inputs = init.inputs
     this.expiryFormat = new ExpiryFormat()
     this.cardType = null
@@ -51,21 +54,21 @@ export class Behaviors {
     this._attachSecurityCodeHandlers()
   }
 
-  focus () {
+  focus() {
     this.inputs.cardNumber.focus()
   }
 
-  get details (): CreditCardDetails {
+  get details(): CreditCardDetails {
     const { cardNumber, expiry, securityCode } = this.inputs
 
-    const [
-      expiryMonth,
-      expiryYear
-    ] = this.expiryFormat.parse(expiry.value, { fullYear: true })
+    const [expiryMonth, expiryYear] = this.expiryFormat.parse(expiry.value, {
+      fullYear: true
+    })
 
     let cardNumberValue = cardNumber.value
     if (this.cardType) {
-      cardNumberValue = this.cardType.removeCardNumberFormatting(cardNumberValue)
+      cardNumberValue =
+        this.cardType.removeCardNumberFormatting(cardNumberValue)
     }
 
     return {
@@ -76,7 +79,7 @@ export class Behaviors {
     }
   }
 
-  validate (): CreditCardError[] {
+  validate(): CreditCardError[] {
     return [
       ...this._validateCardNumber(),
       ...this._validateExpiry(),
@@ -84,7 +87,7 @@ export class Behaviors {
     ]
   }
 
-  _attachCardNumberHandlers () {
+  _attachCardNumberHandlers() {
     const { cardNumber } = this.inputs
 
     const fixCaretPositionAfterDelay = () => {
@@ -126,7 +129,7 @@ export class Behaviors {
     })
   }
 
-  _attachExpiryHandlers () {
+  _attachExpiryHandlers() {
     const { expiry } = this.inputs
 
     expiry.addEventListener('input', () => {
@@ -145,13 +148,11 @@ export class Behaviors {
     })
   }
 
-  _attachSecurityCodeHandlers () {
+  _attachSecurityCodeHandlers() {
     const { securityCode } = this.inputs
 
     securityCode.addEventListener('input', () => {
-      const maxLength = this.cardType
-        ? this.cardType.securityCodeLength
-        : 3
+      const maxLength = this.cardType ? this.cardType.securityCodeLength : 3
 
       let { value } = securityCode
       value = value.replace(/\D/g, '')
@@ -166,7 +167,7 @@ export class Behaviors {
     })
   }
 
-  _validateCardNumber () {
+  _validateCardNumber() {
     return this._runValidator(this.inputs.cardNumber, (value) => {
       if (!value) {
         return 'required-input'
@@ -181,7 +182,7 @@ export class Behaviors {
     })
   }
 
-  _validateExpiry () {
+  _validateExpiry() {
     return this._runValidator(this.inputs.expiry, (value) => {
       if (!value) {
         return 'required-input'
@@ -194,7 +195,7 @@ export class Behaviors {
     })
   }
 
-  _validateSecurityCode () {
+  _validateSecurityCode() {
     return this._runValidator(this.inputs.securityCode, (value) => {
       if (!value) {
         return 'required-input'
@@ -209,7 +210,7 @@ export class Behaviors {
     })
   }
 
-  _runValidator (
+  _runValidator(
     element: HTMLInputElement,
     fn: (value: string) => CreditCardErrorType
   ): CreditCardError[] {

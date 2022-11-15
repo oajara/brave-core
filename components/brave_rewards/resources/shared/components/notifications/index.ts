@@ -19,7 +19,7 @@ import { UpholdInsufficientCapabilities } from './uphold_insufficient_capabiliti
 export * from './notification'
 export * from './notification_view'
 
-export function getNotificationView (
+export function getNotificationView(
   notification: Notification
 ): NotificationView {
   switch (notification.type) {

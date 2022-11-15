@@ -5,13 +5,17 @@
 
 import { MiddlewareAPI, Dispatch, AnyAction } from 'redux'
 import AsyncActionHandler from '../../../../common/AsyncActionHandler'
-import getPanelBrowserAPI, { ConnectionState, PurchasedState } from '../api/panel_browser_api'
+import getPanelBrowserAPI, {
+  ConnectionState,
+  PurchasedState
+} from '../api/panel_browser_api'
 import * as Actions from './actions'
 import { RootState } from './store'
 
 const handler = new AsyncActionHandler()
 type Store = MiddlewareAPI<Dispatch<AnyAction>, any>
-const getState = (store: Store) => (store.getState() as RootState) /* Helper to infer specific store type */
+const getState = (store: Store) =>
+  store.getState() as RootState /* Helper to infer specific store type */
 
 handler.on(Actions.connect.getType(), async () => {
   getPanelBrowserAPI().serviceHandler.connect()
@@ -53,12 +57,16 @@ handler.on(Actions.purchaseConfirmed.getType(), async (store) => {
     getPanelBrowserAPI().serviceHandler.getAllRegions()
   ])
 
-  store.dispatch(Actions.showMainView({
-    currentRegion,
-    regions,
-    connectionStatus: ((state === ConnectionState.CONNECT_FAILED)
-    ? ConnectionState.DISCONNECTED : state) /* Treat connection failure on startup as disconnected */
-  }))
+  store.dispatch(
+    Actions.showMainView({
+      currentRegion,
+      regions,
+      connectionStatus:
+        state === ConnectionState.CONNECT_FAILED
+          ? ConnectionState.DISCONNECTED
+          : state /* Treat connection failure on startup as disconnected */
+    })
+  )
 })
 
 handler.on(Actions.initialize.getType(), async (store) => {
@@ -67,9 +75,11 @@ handler.on(Actions.initialize.getType(), async (store) => {
     getPanelBrowserAPI().serviceHandler.getProductUrls()
   ])
 
-  store.dispatch(Actions.initialized({
-    productUrls: urls
-  }))
+  store.dispatch(
+    Actions.initialized({
+      productUrls: urls
+    })
+  )
 
   if (state === PurchasedState.NOT_PURCHASED) {
     store.dispatch(Actions.showSellView())

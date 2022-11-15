@@ -12,6 +12,5 @@ const CustomizeLink = styled.button`
   line-height: 18px;
   color: var(--interactive5);
   cursor: pointer;
-
 `
 export default CustomizeLink

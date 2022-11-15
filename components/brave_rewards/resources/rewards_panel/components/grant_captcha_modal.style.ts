@@ -6,8 +6,11 @@ import styled from 'styled-components'
 
 export const root = styled.div`
   width: 377px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.5) 61.69%, #E9E9F4 102.5%),
+  background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.5) 61.69%,
+      #e9e9f4 102.5%
+    ),
     var(--brave-palette-white);
   padding: 17px;
   border-radius: 16px;

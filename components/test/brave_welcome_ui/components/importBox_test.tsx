@@ -4,9 +4,14 @@
 
 import * as React from 'react'
 import { shallow } from 'enzyme'
-import { Content, PrimaryButton } from '../../../../components/brave_welcome_ui/components'
+import {
+  Content,
+  PrimaryButton
+} from '../../../../components/brave_welcome_ui/components'
 import { WelcomeImportImage } from '../../../../components/brave_welcome_ui/components/images'
-import ImportBox, { Props } from '../../../../components/brave_welcome_ui/containers/screens/importBox'
+import ImportBox, {
+  Props
+} from '../../../../components/brave_welcome_ui/containers/screens/importBox'
 import { mockImportSources } from '../../testData'
 
 describe('ImportBox component tests', () => {
@@ -25,7 +30,8 @@ describe('ImportBox component tests', () => {
           currentScreen={mockProps.currentScreen}
           onClick={mockProps.onClick}
           browserProfiles={mockProps.browserProfiles}
-        />)
+        />
+      )
 
       expect(wrapper.find(Content)).toHaveLength(1)
       expect(wrapper.contains(<WelcomeImportImage />))
@@ -41,7 +47,8 @@ describe('ImportBox component tests', () => {
           currentScreen={mockProps.currentScreen}
           onClick={mockAction}
           browserProfiles={mockProps.browserProfiles}
-        />)
+        />
+      )
       const button = wrapper.find(PrimaryButton)
       expect(button).toHaveLength(1)
       button.simulate('click')
@@ -62,7 +69,8 @@ describe('ImportBox component tests', () => {
           currentScreen={mockProps.currentScreen}
           onClick={mockProps.onClick}
           browserProfiles={mockProps.browserProfiles}
-        />)
+        />
+      )
 
       const expected = null
       wrapper.instance().onChangeImportSource(mockEvent)
@@ -81,7 +89,8 @@ describe('ImportBox component tests', () => {
           currentScreen={mockProps.currentScreen}
           onClick={mockProps.onClick}
           browserProfiles={mockImportSources}
-        />)
+        />
+      )
 
       // Chrome profile which has browser index of 1
       const expected = mockImportSources[0]

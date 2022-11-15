@@ -25,8 +25,7 @@ export const Small = styled(StandardBlock.withComponent('article'))`
   min-height: 310px;
 `
 
-export const DealsCard = styled(StandardBlock)`
-`
+export const DealsCard = styled(StandardBlock)``
 
 export const Content = styled('div')<{}>`
   box-sizing: border-box;
@@ -41,7 +40,7 @@ type ImageFrameProps = {
 }
 
 export const ImageFrame = styled('figure')<ImageFrameProps>`
-  opacity: ${p => p.isImageLoaded ? 1 : 0};
+  opacity: ${(p) => (p.isImageLoaded ? 1 : 0)};
   margin: 0;
   width: 100%;
   position: relative;
@@ -72,8 +71,8 @@ export const Image = styled('img')<ImageProps>`
   right: 0;
   width: 100%;
   height: 100%;
-  object-fit: ${p => p.isPromoted ? 'contain' : 'cover'};
-  background-color: rgba(188,188,188,0.2);
+  object-fit: ${(p) => (p.isPromoted ? 'contain' : 'cover')};
+  background-color: rgba(188, 188, 188, 0.2);
 `
 
 export const Heading = styled(StandardHeading)`
@@ -90,7 +89,7 @@ export const PublisherHeading = styled(StandardHeading)`
 `
 
 export const Text = styled(StandardText)`
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
   font-size: 18px;
   line-height: 25px;
   font-weight: 600;
@@ -118,16 +117,16 @@ export const Source = styled('div')`
 
 export const Publisher = styled('div')`
   box-sizing: border-box;
-  font: 500 14px ${p => p.theme.fontFamily.heading};
+  font: 500 14px ${(p) => p.theme.fontFamily.heading};
   color: #fff;
 `
 
 export const PromotedLabel = styled('a')`
   border-radius: 4px;
   background: #495057;
-  color: rgba(255, 255, 255, .8);
+  color: rgba(255, 255, 255, 0.8);
   padding: 4px 8px;
-  font: 400 12px ${p => p.theme.fontFamily.heading};
+  font: 400 12px ${(p) => p.theme.fontFamily.heading};
   display: flex;
   flex-direction: row;
   gap: 5px;
@@ -154,7 +153,7 @@ export const ContainerForTwo = styled('div')<{}>`
 
 export const DealsCategory = styled('h3')`
   margin: 0;
-  font: 600 18px ${p => p.theme.fontFamily.heading};
+  font: 600 18px ${(p) => p.theme.fontFamily.heading};
   color: white;
 `
 

@@ -8,7 +8,8 @@ import { provideStrings } from '../../../../../.storybook/locale'
 provideStrings({
   cookieListTitle: 'Shields',
   cookieListHeader: 'Tired of cookie consent notices?',
-  cookieListText: 'Brave already blocks third-party cookies. We can block cookie consent notices, too.',
+  cookieListText:
+    'Brave already blocks third-party cookies. We can block cookie consent notices, too.',
   cookieListButtonText: 'Yes, block cookie consent notices',
   cookieListNoThanks: 'No thanks'
 })

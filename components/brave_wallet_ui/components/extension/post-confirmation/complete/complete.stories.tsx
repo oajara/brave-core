@@ -22,7 +22,7 @@ export const _TransactionComplete = () => {
       <PanelWrapper isLonger={false}>
         <StyledExtensionWrapper>
           <TransactionComplete
-            headerTitle='Swap 0.01 ETH to 32.2583 USDC'
+            headerTitle="Swap 0.01 ETH to 32.2583 USDC"
             description={getLocale('braveWalletTransactionCompleteDescription')}
             isPrimaryCTADisabled={false}
             primaryCTAText={getLocale('braveWalletButtonNext')}

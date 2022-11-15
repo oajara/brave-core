@@ -22,7 +22,7 @@ interface Props {
   onRemoveValue?: (value: NewTab.BackgroundWallpaper) => void
 }
 
-const StyledRemoveButton = styled.div<{hovered: boolean}>`
+const StyledRemoveButton = styled.div<{ hovered: boolean }>`
   position: absolute;
   top: 10px;
   right: 10px;
@@ -31,31 +31,49 @@ const StyledRemoveButton = styled.div<{hovered: boolean}>`
   border: unset;
   background: transparent;
   color: white;
-  visibility: ${p => p.hovered ? 'visible' : 'hidden'};
+  visibility: ${(p) => (p.hovered ? 'visible' : 'hidden')};
   & svg {
     border-radius: 20px;
-    filter: drop-shadow( 0 0 5px rgba(0, 0, 0, .7));
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.7));
   }
 `
 
-export default function BackgroundOption ({ background, selected, onSelectValue, onRemoveValue }: Props) {
+export default function BackgroundOption({
+  background,
+  selected,
+  onSelectValue,
+  onRemoveValue
+}: Props) {
   const [hovered, setHovered] = React.useState(false)
   return (
-    <StyledCustomBackgroundOption onClick={_ => onSelectValue(background) } onMouseOver={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+    <StyledCustomBackgroundOption
+      onClick={(_) => onSelectValue(background)}
+      onMouseOver={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <StyledSelectionBorder selected={selected} removable={!!onRemoveValue}>
-          { onRemoveValue &&
-            <StyledRemoveButton hovered={hovered} onClick={(e) => {
-                onRemoveValue(background)
-                e.stopPropagation()
-            }}>
-              <CloseCircleIcon />
-            </StyledRemoveButton>
-          }
-          {
-            background.type === 'color'
-              ? <StyledCustomBackgroundOptionColor colorValue={background.wallpaperColor} selected={selected}/>
-              : <StyledCustomBackgroundOptionImage image={background.wallpaperImageUrl } selected={selected}/>
-          }
+        {onRemoveValue && (
+          <StyledRemoveButton
+            hovered={hovered}
+            onClick={(e) => {
+              onRemoveValue(background)
+              e.stopPropagation()
+            }}
+          >
+            <CloseCircleIcon />
+          </StyledRemoveButton>
+        )}
+        {background.type === 'color' ? (
+          <StyledCustomBackgroundOptionColor
+            colorValue={background.wallpaperColor}
+            selected={selected}
+          />
+        ) : (
+          <StyledCustomBackgroundOptionImage
+            image={background.wallpaperImageUrl}
+            selected={selected}
+          />
+        )}
       </StyledSelectionBorder>
     </StyledCustomBackgroundOption>
   )

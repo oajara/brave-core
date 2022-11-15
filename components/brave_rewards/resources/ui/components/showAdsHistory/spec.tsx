@@ -9,7 +9,11 @@ import ShowAdsHistory from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('ShowAdsHistory tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><ShowAdsHistory id='disabled-panel' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <ShowAdsHistory id="disabled-panel" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

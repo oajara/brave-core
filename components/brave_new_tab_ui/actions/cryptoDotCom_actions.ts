@@ -8,7 +8,10 @@ import { types } from '../constants/cryptoDotCom_types'
 
 export const onBtcPriceOptIn = () => action(types.ON_BTC_PRICE_OPT_IN)
 
-export const cryptoDotComMarketDataUpdate = (tickerPrices: object, losersGainers: object[]) => {
+export const cryptoDotComMarketDataUpdate = (
+  tickerPrices: object,
+  losersGainers: object[]
+) => {
   return action(types.MARKET_DATA_UPDATED, { tickerPrices, losersGainers })
 }
 
@@ -16,7 +19,11 @@ export const setCryptoDotComAssetData = (charts: object, pairs: object[]) => {
   return action(types.SET_ASSET_DATA, { charts, pairs })
 }
 
-export const onCryptoDotComRefreshData = (tickerPrices: object, losersGainers: object[], charts: object) => {
+export const onCryptoDotComRefreshData = (
+  tickerPrices: object,
+  losersGainers: object[],
+  charts: object
+) => {
   return action(types.ON_REFRESH_DATA, { tickerPrices, losersGainers, charts })
 }
 

@@ -51,7 +51,7 @@ const getClaimData = (claimedAt: number, claimId: string) => {
   return (
     <>
       {getLocale('promotionClaimedAt')}: {formatDate(claimedAt * 1000)}
-      <br/>
+      <br />
       {getLocale('promotionClaimId')}: {claimId}
     </>
   )
@@ -69,17 +69,19 @@ export const Promotion = (props: Props) => (
   <div>
     <h3>{props.promotion.promotionId}</h3>
     {getLocale('promotionStatus')}: {getStatus(props.promotion.status)}
-    <br/>
+    <br />
     {getLocale('promotionAmount')}: {props.promotion.amount} {getLocale('bat')}
-    <br/>
+    <br />
     {getLocale('promotionType')}: {getType(props.promotion.type)}
-    <br/>
-    {getLocale('promotionExpiresAt')}: {getExpirationDate(props.promotion.expiresAt)}
-    <br/>
-    {getLocale('promotionLegacyClaimed')}: {getLegacyClaimed(props.promotion.legacyClaimed)}
-    <br/>
+    <br />
+    {getLocale('promotionExpiresAt')}:{' '}
+    {getExpirationDate(props.promotion.expiresAt)}
+    <br />
+    {getLocale('promotionLegacyClaimed')}:{' '}
+    {getLegacyClaimed(props.promotion.legacyClaimed)}
+    <br />
     {getLocale('promotionVersion')}: {props.promotion.version}
-    <br/>
+    <br />
     {getClaimData(props.promotion.claimedAt, props.promotion.claimId)}
   </div>
 )

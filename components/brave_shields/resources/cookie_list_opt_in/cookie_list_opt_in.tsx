@@ -11,7 +11,7 @@ import { loadTimeData } from '../../../common/loadTimeData'
 import { CookieListOptInProxy } from './api/cookie_list_opt_in_proxy'
 import MainPanel from './components/main-panel'
 
-function App () {
+function App() {
   const [proxy] = React.useState(CookieListOptInProxy.getInstance())
   const [openedAt, setOpenedAt] = React.useState(Date.now())
 

@@ -10,5 +10,6 @@ provideStrings({
   braveSpeedreaderThemeLabel: 'Theme',
   braveSpeedreaderFontStyleLabel: 'Font style',
   braveSpeedreaderContentStyleLabel: 'Content style',
-  braveSpeedreaderTurnOffDesc: 'Toggle reader mode just for this website. To turn off Speedreader for your entire browser profile, visit $1 Settings $2'
+  braveSpeedreaderTurnOffDesc:
+    'Toggle reader mode just for this website. To turn off Speedreader for your entire browser profile, visit $1 Settings $2'
 })

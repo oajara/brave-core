@@ -17,7 +17,7 @@ export const IconWrapper = styled.div<{
   width: 15px;
   height: 15px;
   margin-right: ${(p) => `${p.marginRight}px`};
-  filter: ${(p) => p.isTestnet ? 'grayscale(100%)' : 'none'};
+  filter: ${(p) => (p.isTestnet ? 'grayscale(100%)' : 'none')};
 `
 
 export const Placeholder = styled.div<{ orb: string }>`
@@ -32,7 +32,7 @@ interface IconProps extends AssetIconProps {
   size?: 'big' | 'small'
 }
 
-export const NetworkIcon = AssetIconFactory<IconProps>(props => ({
+export const NetworkIcon = AssetIconFactory<IconProps>((props) => ({
   width: props.size === 'big' ? '24px' : '15px',
   height: 'auto'
 }))

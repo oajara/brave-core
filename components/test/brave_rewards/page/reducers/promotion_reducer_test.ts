@@ -101,17 +101,20 @@ describe('Promotion Reducer', () => {
         }
       ]
 
-      const assertion = reducers({
-        rewardsData: initialState
-      }, {
-        type: types.ON_PROMOTIONS,
-        payload: {
-          properties: {
-            promotions: [],
-            status: 0
+      const assertion = reducers(
+        {
+          rewardsData: initialState
+        },
+        {
+          type: types.ON_PROMOTIONS,
+          payload: {
+            properties: {
+              promotions: [],
+              status: 0
+            }
           }
         }
-      })
+      )
 
       const expectedState: Rewards.State = defaultState()
 
@@ -145,14 +148,17 @@ describe('Promotion Reducer', () => {
         }
       ]
 
-      const assertion = reducers({
-        rewardsData: initialState
-      }, {
-        type: types.DELETE_PROMOTION,
-        payload: {
-          promotionId: 'test-promotion-id-2'
+      const assertion = reducers(
+        {
+          rewardsData: initialState
+        },
+        {
+          type: types.DELETE_PROMOTION,
+          payload: {
+            promotionId: 'test-promotion-id-2'
+          }
         }
-      })
+      )
 
       const expectedState: Rewards.State = defaultState()
       expectedState.promotions = [
@@ -186,21 +192,24 @@ describe('Promotion Reducer', () => {
 
   describe('ON_PROMOTION_FINISH', () => {
     it('does not modify state if there are no promotions available', () => {
-      const assertion = reducers({ rewardsData: defaultState() }, {
-        type: types.ON_PROMOTION_FINISH,
-        payload: {
-          properties: {
-            result: 0,
-            promotion: {
-              promotionId: 'test-promotion-id',
-              createdAt: 10000,
-              claimableUntil: 11000,
-              expiresAt: 11000,
-              amount: 30.0
+      const assertion = reducers(
+        { rewardsData: defaultState() },
+        {
+          type: types.ON_PROMOTION_FINISH,
+          payload: {
+            properties: {
+              result: 0,
+              promotion: {
+                promotionId: 'test-promotion-id',
+                createdAt: 10000,
+                claimableUntil: 11000,
+                expiresAt: 11000,
+                amount: 30.0
+              }
             }
           }
         }
-      })
+      )
 
       const expectedState: Rewards.State = {
         ...defaultState(),
@@ -234,24 +243,27 @@ describe('Promotion Reducer', () => {
           hint: 'blue'
         }
       ]
-      const assertion = reducers({
-        rewardsData: initialState
-      }, {
-        type: types.ON_PROMOTION_FINISH,
-        payload: {
-          properties: {
-            result: 0,
-            promotion: {
-              promotionId: 'test-promotion-id',
-              createdAt: 0,
-              claimableUntil: 0,
-              expiresAt: 0,
-              amount: 1.0,
-              type: 1
+      const assertion = reducers(
+        {
+          rewardsData: initialState
+        },
+        {
+          type: types.ON_PROMOTION_FINISH,
+          payload: {
+            properties: {
+              result: 0,
+              promotion: {
+                promotionId: 'test-promotion-id',
+                createdAt: 0,
+                claimableUntil: 0,
+                expiresAt: 0,
+                amount: 1.0,
+                type: 1
+              }
             }
           }
         }
-      })
+      )
 
       const expectedState: Rewards.State = defaultState()
       expectedState.promotions = [
@@ -307,19 +319,22 @@ describe('Promotion Reducer', () => {
         }
       ]
 
-      const assertion = reducers({
-        rewardsData: initialState
-      }, {
-        type: types.ON_PROMOTION_FINISH,
-        payload: {
-          properties: {
-            result: 6,
-            promotion: {
-              promotionId: 'test-promotion-id'
+      const assertion = reducers(
+        {
+          rewardsData: initialState
+        },
+        {
+          type: types.ON_PROMOTION_FINISH,
+          payload: {
+            properties: {
+              result: 6,
+              promotion: {
+                promotionId: 'test-promotion-id'
+              }
             }
           }
         }
-      })
+      )
 
       const expectedState: Rewards.State = defaultState()
       expectedState.promotions = [

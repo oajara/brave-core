@@ -22,9 +22,9 @@ export const StyledWrapper = styled.div`
   border-radius: 12px;
   padding: 8px;
   background: none;
-  --selected-color: ${p => p.theme.palette.white};
+  --selected-color: ${(p) => p.theme.palette.white};
   @media (prefers-color-scheme: dark) {
-    --selected-color: ${p => p.theme.color.background02};
+    --selected-color: ${(p) => p.theme.color.background02};
   }
 `
 
@@ -32,7 +32,7 @@ export const StyledButton = styled(WalletButton)<{ isSelected?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: ${(p) => p.disabled ? 'not-allowed' : 'pointer'};
+  cursor: ${(p) => (p.disabled ? 'not-allowed' : 'pointer')};
   border-radius: 4px;
   outline: none;
   padding: 4px 6px;
@@ -42,17 +42,20 @@ export const StyledButton = styled(WalletButton)<{ isSelected?: boolean }>`
   margin: 0px 2px;
 `
 
-export const ButtonText = styled.span<{ isSelected?: boolean, disabled?: boolean }>`
+export const ButtonText = styled.span<{
+  isSelected?: boolean
+  disabled?: boolean
+}>`
   font-family: Poppins;
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.01em;
-  color: ${p => p.disabled
-    ? p.theme.color.disabled
-    : p.isSelected
+  color: ${(p) =>
+    p.disabled
+      ? p.theme.color.disabled
+      : p.isSelected
       ? 'var(--selected-color)'
-      : p.theme.color.text02
-  };
+      : p.theme.color.text02};
 `
 
 export const ToggleVisibilityButton = styled(WalletButton)`
@@ -73,8 +76,8 @@ export const ToggleVisibilityIcon = styled.div<{
   width: 18px;
   height: 18px;
   background-color: ${(p) => p.theme.color.text02};
-  -webkit-mask-image: url(${(p) => !p.isVisible ? EyeOffIcon : EyeOnIcon});
-  mask-image: url(${(p) => !p.isVisible ? EyeOffIcon : EyeOnIcon});
+  -webkit-mask-image: url(${(p) => (!p.isVisible ? EyeOffIcon : EyeOnIcon)});
+  mask-image: url(${(p) => (!p.isVisible ? EyeOffIcon : EyeOnIcon)});
   mask-size: contain;
   mask-repeat: no-repeat;
 `

@@ -7,7 +7,8 @@ import { action } from 'typesafe-actions'
 // Constants
 import { types } from '../constants/rewards_internals_types'
 
-export const getRewardsInternalsInfo = () => action(types.GET_REWARDS_INTERNALS_INFO)
+export const getRewardsInternalsInfo = () =>
+  action(types.GET_REWARDS_INTERNALS_INFO)
 
 export const onGetRewardsInternalsInfo = (info: RewardsInternals.State) =>
   action(types.ON_GET_REWARDS_INTERNALS_INFO, {
@@ -23,7 +24,9 @@ export const onBalance = (balance: RewardsInternals.Balance) =>
 
 export const getContributions = () => action(types.GET_CONTRIBUTIONS)
 
-export const onContributions = (contributions: RewardsInternals.ContributionInfo[]) =>
+export const onContributions = (
+  contributions: RewardsInternals.ContributionInfo[]
+) =>
   action(types.ON_CONTRIBUTIONS, {
     contributions
   })
@@ -55,21 +58,26 @@ export const downloadCompleted = () => action(types.DOWNLOAD_COMPLETED)
 
 export const getExternalWallet = () => action(types.GET_EXTERNAL_WALLET)
 
-export const onGetExternalWallet = (wallet: RewardsInternals.ExternalWallet) => action(types.ON_GET_EXTERNAL_WALLET, {
-  wallet
-})
+export const onGetExternalWallet = (wallet: RewardsInternals.ExternalWallet) =>
+  action(types.ON_GET_EXTERNAL_WALLET, {
+    wallet
+  })
 
-export const getEventLogs = (type: RewardsInternals.WalletType) => action(types.GET_EVENT_LOGS, {
-  type
-})
+export const getEventLogs = (type: RewardsInternals.WalletType) =>
+  action(types.GET_EVENT_LOGS, {
+    type
+  })
 
-export const onEventLogs = (logs: RewardsInternals.EventLog[]) => action(types.ON_EVENT_LOGS, {
-  logs
-})
+export const onEventLogs = (logs: RewardsInternals.EventLog[]) =>
+  action(types.ON_EVENT_LOGS, {
+    logs
+  })
 
 export const getAdDiagnostics = () => action(types.GET_AD_DIAGNOSTICS)
 
-export const onAdDiagnostics = (adDiagnostics: RewardsInternals.AdDiagnosticsEntry[]) =>
+export const onAdDiagnostics = (
+  adDiagnostics: RewardsInternals.AdDiagnosticsEntry[]
+) =>
   action(types.ON_AD_DIAGNOSTICS, {
     adDiagnostics
   })

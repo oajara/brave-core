@@ -9,7 +9,11 @@ import ModalActivity from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('ModalActivity tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><ModalActivity id='activity' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <ModalActivity id="activity" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

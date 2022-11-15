@@ -5,7 +5,9 @@
 
 import * as React from 'react'
 import styled from 'styled-components'
-import Button, { Props as ButtonProps } from 'brave-ui/components/buttonsIndicators/button'
+import Button, {
+  Props as ButtonProps
+} from 'brave-ui/components/buttonsIndicators/button'
 
 export const SideBySideButtons = styled('div')<{}>`
   box-sizing: border-box;

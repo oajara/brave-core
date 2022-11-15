@@ -27,18 +27,18 @@ interface State {
 }
 
 export class TorInternalsPage extends React.Component<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       currentTabId: 'generalInfo'
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.getGeneralInfo()
   }
 
-  get actions () {
+  get actions() {
     return this.props.actions
   }
 
@@ -67,23 +67,28 @@ export class TorInternalsPage extends React.Component<Props, State> {
     }
   }
 
-  render () {
+  render() {
     return (
-        <Tabs
-          id={'internals-tabs'}
-          activeTabId={this.state.currentTabId}
-          onChange={this.onTabChange}
+      <Tabs
+        id={'internals-tabs'}
+        activeTabId={this.state.currentTabId}
+        onChange={this.onTabChange}
+      >
+        <div data-key="generalInfo" data-title={getLocale('tabGeneralInfo')}>
+          <GeneralInfo state={this.props.torInternalsData} />
+        </div>
+        <div data-key="log" data-title={getLocale('tabLogs')}>
+          <Log log={this.props.torInternalsData.log} />
+        </div>
+        <div
+          data-key="torControlEvents"
+          data-title={getLocale('torControlEvents')}
         >
-          <div data-key='generalInfo' data-title={getLocale('tabGeneralInfo')}>
-            <GeneralInfo state={this.props.torInternalsData} />
-          </div>
-          <div data-key='log' data-title={getLocale('tabLogs')}>
-            <Log log={this.props.torInternalsData.log}/>
-          </div>
-          <div data-key='torControlEvents' data-title={getLocale('torControlEvents')}>
-            <TorControlEvents events={this.props.torInternalsData.torControlEvents}/>
-          </div>
-        </Tabs>
+          <TorControlEvents
+            events={this.props.torInternalsData.torControlEvents}
+          />
+        </div>
+      </Tabs>
     )
   }
 }
@@ -96,7 +101,4 @@ export const mapDispatchToProps = (dispatch: Dispatch) => ({
   actions: bindActionCreators(torInternalsActions, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TorInternalsPage)
+export default connect(mapStateToProps, mapDispatchToProps)(TorInternalsPage)

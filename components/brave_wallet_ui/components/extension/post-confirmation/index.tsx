@@ -6,7 +6,11 @@ import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 // Constants
-import { BraveWallet, TransactionProviderError, WalletState } from '../../../constants/types'
+import {
+  BraveWallet,
+  TransactionProviderError,
+  WalletState
+} from '../../../constants/types'
 
 // Utils
 import { getLocale } from '$web-common/locale'
@@ -30,7 +34,7 @@ interface Props {
   transaction: BraveWallet.TransactionInfo
 }
 
-export function TransactionStatus (props: Props) {
+export function TransactionStatus(props: Props) {
   const { transaction } = props
 
   // redux
@@ -39,7 +43,10 @@ export function TransactionStatus (props: Props) {
   )
 
   const liveTransaction: BraveWallet.TransactionInfo = React.useMemo(
-    () => transactions[transaction.fromAddress].find(tx => tx.id === transaction.id) || transaction,
+    () =>
+      transactions[transaction.fromAddress].find(
+        (tx) => tx.id === transaction.id
+      ) || transaction,
     [transactions, transaction]
   )
 
@@ -54,8 +61,10 @@ export function TransactionStatus (props: Props) {
     [transactionParser, liveTransaction]
   )
 
-  const viewTransactionDetail = () => dispatch(WalletPanelActions.navigateTo('transactionDetails'))
-  const onClose = () => dispatch(WalletPanelActions.setSelectedTransaction(undefined))
+  const viewTransactionDetail = () =>
+    dispatch(WalletPanelActions.navigateTo('transactionDetails'))
+  const onClose = () =>
+    dispatch(WalletPanelActions.setSelectedTransaction(undefined))
   const completePrimaryCTAText =
     transactionsQueueLength === 0
       ? getLocale('braveWalletButtonClose')
@@ -88,13 +97,16 @@ export function TransactionStatus (props: Props) {
   if (liveTransaction.txStatus === BraveWallet.TransactionStatus.Error) {
     const providerError: TransactionProviderError | undefined =
       transactionProviderErrorRegistry[liveTransaction.id]
-    const errorDetailContent = providerError && `${providerError.code}: ${providerError.message}`
+    const errorDetailContent =
+      providerError && `${providerError.code}: ${providerError.message}`
 
     return (
       <TransactionFailed
         headerTitle={parsedTransaction.intent}
         isPrimaryCTADisabled={false}
-        errorDetailTitle={getLocale('braveWalletTransactionFailedModalSubtitle')}
+        errorDetailTitle={getLocale(
+          'braveWalletTransactionFailedModalSubtitle'
+        )}
         errorDetailContent={errorDetailContent}
         onClose={onClose}
         onClickPrimaryCTA={onClose}
@@ -103,7 +115,11 @@ export function TransactionStatus (props: Props) {
   }
 
   return (
-    <Panel navAction={onClose} title={parsedTransaction.intent} headerStyle='slim'>
+    <Panel
+      navAction={onClose}
+      title={parsedTransaction.intent}
+      headerStyle="slim"
+    >
       <Loader />
     </Panel>
   )

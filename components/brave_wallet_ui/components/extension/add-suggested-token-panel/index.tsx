@@ -40,17 +40,15 @@ export interface Props {
   token?: BraveWallet.BlockchainToken
 }
 
-function AddSuggestedTokenPanel (props: Props) {
-  const {
-    onCancel,
-    onAddToken,
-    token,
-    selectedNetwork,
-    originInfo
-  } = props
+function AddSuggestedTokenPanel(props: Props) {
+  const { onCancel, onAddToken, token, selectedNetwork, originInfo } = props
 
   const AssetIconWithPlaceholder = React.useMemo(() => {
-    return withPlaceholderIcon(AssetIcon, { size: 'big', marginLeft: 0, marginRight: 0 })
+    return withPlaceholderIcon(AssetIcon, {
+      size: 'big',
+      marginLeft: 0,
+      marginRight: 0
+    })
   }, [])
 
   const onClickViewOnBlockExplorer = useExplorer(selectedNetwork)
@@ -68,14 +66,19 @@ function AddSuggestedTokenPanel (props: Props) {
             eTldPlusOne={originInfo.eTldPlusOne}
           />
         </URLText>
-        <Description>{getLocale('braveWalletAddSuggestedTokenDescription')}</Description>
+        <Description>
+          {getLocale('braveWalletAddSuggestedTokenDescription')}
+        </Description>
         <AssetIconWithPlaceholder asset={token} network={selectedNetwork} />
-        <TokenName>{token?.name ?? ''} ({token?.symbol ?? ''})</TokenName>
-        <Tooltip
-          text={getLocale('braveWalletTransactionExplorer')}
-        >
+        <TokenName>
+          {token?.name ?? ''} ({token?.symbol ?? ''})
+        </TokenName>
+        <Tooltip text={getLocale('braveWalletTransactionExplorer')}>
           <ContractAddress
-            onClick={onClickViewOnBlockExplorer('token', token?.contractAddress)}
+            onClick={onClickViewOnBlockExplorer(
+              'token',
+              token?.contractAddress
+            )}
           >
             {reduceAddress(token?.contractAddress ?? '')}
           </ContractAddress>
@@ -83,17 +86,16 @@ function AddSuggestedTokenPanel (props: Props) {
       </TopWrapper>
       <ButtonWrapper>
         <NavButton
-          buttonType='secondary'
+          buttonType="secondary"
           text={getLocale('braveWalletButtonCancel')}
           onSubmit={onCancel}
         />
         <NavButton
-          buttonType='confirm'
+          buttonType="confirm"
           text={getLocale('braveWalletWatchListAdd')}
           onSubmit={onAddToken}
         />
       </ButtonWrapper>
-
     </StyledWrapper>
   )
 }

@@ -41,7 +41,7 @@ export interface Props {
   onApproveChangeNetwork: () => void
 }
 
-function AllowAddChangeNetworkPanel (props: Props) {
+function AllowAddChangeNetworkPanel(props: Props) {
   const {
     originInfo,
     networkPayload,
@@ -50,8 +50,12 @@ function AllowAddChangeNetworkPanel (props: Props) {
     onApproveAddNetwork,
     onApproveChangeNetwork
   } = props
-  const rpcUrl = networkPayload.rpcEndpoints[networkPayload.activeRpcEndpointIndex]?.url || ''
-  const blockUrl = networkPayload.blockExplorerUrls.length ? networkPayload.blockExplorerUrls[0] : ''
+  const rpcUrl =
+    networkPayload.rpcEndpoints[networkPayload.activeRpcEndpointIndex]?.url ||
+    ''
+  const blockUrl = networkPayload.blockExplorerUrls.length
+    ? networkPayload.blockExplorerUrls[0]
+    : ''
 
   const [selectedTab, setSelectedTab] = React.useState<tabs>('network')
   const onSelectTab = (tab: tabs) => () => {
@@ -59,9 +63,13 @@ function AllowAddChangeNetworkPanel (props: Props) {
   }
 
   const onLearnMore = () => {
-    chrome.tabs.create({
-      url: 'https://support.brave.com/hc/en-us/articles/4415497656461-Brave-Wallet-FAQ'
-    }).catch((e) => { console.error(e) })
+    chrome.tabs
+      .create({
+        url: 'https://support.brave.com/hc/en-us/articles/4415497656461-Brave-Wallet-FAQ'
+      })
+      .catch((e) => {
+        console.error(e)
+      })
   }
 
   return (
@@ -77,20 +85,17 @@ function AllowAddChangeNetworkPanel (props: Props) {
         <PanelTitle>
           {panelType === 'change'
             ? getLocale('braveWalletAllowChangeNetworkTitle')
-            : getLocale('braveWalletAllowAddNetworkTitle')
-          }
+            : getLocale('braveWalletAllowAddNetworkTitle')}
         </PanelTitle>
         <Description>
           {panelType === 'change'
             ? getLocale('braveWalletAllowChangeNetworkDescription')
             : getLocale('braveWalletAllowAddNetworkDescription')}{' '}
-          {panelType === 'add' &&
-            <DetailsButton
-              onClick={onLearnMore}
-            >
+          {panelType === 'add' && (
+            <DetailsButton onClick={onLearnMore}>
               {getLocale('braveWalletAllowAddNetworkLearnMoreButton')}
             </DetailsButton>
-          }
+          )}
         </Description>
         <TabRow>
           <PanelTab
@@ -106,52 +111,62 @@ function AllowAddChangeNetworkPanel (props: Props) {
         </TabRow>
         <MessageBox>
           <MessageBoxColumn>
-            <NetworkTitle>{getLocale('braveWalletAllowAddNetworkName')}</NetworkTitle>
+            <NetworkTitle>
+              {getLocale('braveWalletAllowAddNetworkName')}
+            </NetworkTitle>
             <NetworkDetail>{networkPayload.chainName}</NetworkDetail>
           </MessageBoxColumn>
           <MessageBoxColumn>
-            <NetworkTitle>{getLocale('braveWalletAllowAddNetworkUrl')}</NetworkTitle>
+            <NetworkTitle>
+              {getLocale('braveWalletAllowAddNetworkUrl')}
+            </NetworkTitle>
             <NetworkDetail>{rpcUrl}</NetworkDetail>
           </MessageBoxColumn>
-          {selectedTab === 'details' &&
+          {selectedTab === 'details' && (
             <>
               <MessageBoxColumn>
-                <NetworkTitle>{getLocale('braveWalletAllowAddNetworkChainID')}</NetworkTitle>
+                <NetworkTitle>
+                  {getLocale('braveWalletAllowAddNetworkChainID')}
+                </NetworkTitle>
                 <NetworkDetail>{networkPayload.chainId}</NetworkDetail>
               </MessageBoxColumn>
               <MessageBoxColumn>
-                <NetworkTitle>{getLocale('braveWalletAllowAddNetworkCurrencySymbol')}</NetworkTitle>
+                <NetworkTitle>
+                  {getLocale('braveWalletAllowAddNetworkCurrencySymbol')}
+                </NetworkTitle>
                 <NetworkDetail>{networkPayload.symbol}</NetworkDetail>
               </MessageBoxColumn>
               <MessageBoxColumn>
-                <NetworkTitle>{getLocale('braveWalletWatchListTokenDecimals')}</NetworkTitle>
+                <NetworkTitle>
+                  {getLocale('braveWalletWatchListTokenDecimals')}
+                </NetworkTitle>
                 <NetworkDetail>{networkPayload.decimals}</NetworkDetail>
               </MessageBoxColumn>
               <MessageBoxColumn>
-                <NetworkTitle>{getLocale('braveWalletAllowAddNetworkExplorer')}</NetworkTitle>
+                <NetworkTitle>
+                  {getLocale('braveWalletAllowAddNetworkExplorer')}
+                </NetworkTitle>
                 <NetworkDetail>{blockUrl}</NetworkDetail>
               </MessageBoxColumn>
             </>
-          }
+          )}
         </MessageBox>
       </CenterColumn>
       <ButtonRow>
         <NavButton
-          buttonType='secondary'
+          buttonType="secondary"
           text={getLocale('braveWalletButtonCancel')}
           onSubmit={onCancel}
         />
         <NavButton
-          buttonType='confirm'
+          buttonType="confirm"
           text={
             panelType === 'change'
               ? getLocale('braveWalletAllowChangeNetworkButton')
               : getLocale('braveWalletAllowAddNetworkButton')
           }
           onSubmit={
-            panelType === 'add'
-              ? onApproveAddNetwork
-              : onApproveChangeNetwork
+            panelType === 'add' ? onApproveAddNetwork : onApproveChangeNetwork
           }
         />
       </ButtonRow>

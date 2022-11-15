@@ -29,7 +29,9 @@ export const onGetDaemonStatus = (daemonStatus: IPFS.DaemonStatus) =>
     daemonStatus
   })
 
-export const onInstallationProgress = (installationProgress: IPFS.InstallationProgress) =>
+export const onInstallationProgress = (
+  installationProgress: IPFS.InstallationProgress
+) =>
   action(types.IPFS_ON_INSTALLATION_PROGRESS, {
     installationProgress
   })
@@ -57,7 +59,9 @@ export const openPeersWebUI = () => action(types.IPFS_OPEN_PEERS_WEBUI)
 
 export const garbageCollection = () => action(types.IPFS_GARBAGE_COLLECTION)
 
-export const onGarbageCollection = (garbageCollectionStatus: IPFS.GarbageCollectionStatus) =>
+export const onGarbageCollection = (
+  garbageCollectionStatus: IPFS.GarbageCollectionStatus
+) =>
   action(types.IPFS_ON_GARBAGE_COLLECTION, {
     garbageCollectionStatus
   })

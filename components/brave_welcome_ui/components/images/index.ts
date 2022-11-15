@@ -25,7 +25,9 @@ export const WelcomeImportImage = styled(BaseImage).attrs({ src: ImportImage })`
   height: 190px;
 `
 
-export const WelcomeRewardsImage = styled(BaseImage).attrs({ src: RewardsImage })`
+export const WelcomeRewardsImage = styled(BaseImage).attrs({
+  src: RewardsImage
+})`
   height: 190px;
 `
 
@@ -33,7 +35,9 @@ export const WelcomeSearchImage = styled(BaseImage).attrs({ src: SearchImage })`
   height: 190px;
 `
 
-export const WelcomeShieldsImage = styled(BaseImage).attrs({ src: ShieldsImage })`
+export const WelcomeShieldsImage = styled(BaseImage).attrs({
+  src: ShieldsImage
+})`
   height: 140px;
 `
 

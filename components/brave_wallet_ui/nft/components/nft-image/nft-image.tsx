@@ -8,11 +8,7 @@ import * as React from 'react'
 import { LoadingSkeleton } from '../../../components/shared'
 
 // styles
-import {
-  MagnifyButton,
-  ImageWrapper,
-  Image
-} from './nft-image.styles'
+import { MagnifyButton, ImageWrapper, Image } from './nft-image.styles'
 import { MediaSkeletonWrapper } from '../nft-multimedia/nft-multimedia.styles'
 
 interface Props {
@@ -32,9 +28,7 @@ export const NftImage = (props: Props) => {
         <Image src={imageUrl} onLoad={() => setIsImageLoaded(true)} />
         <MagnifyButton onClick={onMagnify} />
       </ImageWrapper>
-      {!isImageLoaded &&
-        <LoadingSkeleton wrapper={MediaSkeletonWrapper} />
-      }
+      {!isImageLoaded && <LoadingSkeleton wrapper={MediaSkeletonWrapper} />}
     </>
   )
 }

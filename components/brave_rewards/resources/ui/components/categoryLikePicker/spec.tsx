@@ -9,7 +9,11 @@ import { TestThemeProvider } from 'brave-ui/theme'
 import CategoryLikePicker from './index'
 
 describe('Category Like Picker tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><CategoryLikePicker id={'categoryLikePicker'} optAction={0} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <CategoryLikePicker id={'categoryLikePicker'} optAction={0} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

@@ -65,7 +65,7 @@ export const RegionSelectorButton = styled.button`
     height: 18px;
   }
 
-  svg>path {
+  svg > path {
     fill: var(--svg-color);
   }
 
@@ -96,7 +96,7 @@ export const ConnectNotAllowedNote = styled.section`
   text-align: center;
   padding: 0 22px;
   margin-bottom: 20px;
-  
+
   div {
     padding: 12px;
     background-color: ${(p) => p.theme.color.warningBackground};

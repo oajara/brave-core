@@ -4,7 +4,9 @@
 
 import { ComponentType } from 'react'
 import styled, { css } from '../../theme'
-import Button, { Props as ButtonProps } from 'brave-ui/components/buttonsIndicators/button'
+import Button, {
+  Props as ButtonProps
+} from 'brave-ui/components/buttonsIndicators/button'
 
 interface BaseButtonProps {
   active?: boolean
@@ -24,30 +26,30 @@ const BaseButton = styled('button')<BaseButtonProps>`
 
 export const FooterButton = styled(Button as ComponentType<ButtonProps>)`
   outline: none;
-  border: 1px solid ${p => p.theme.palette.grey400};
-  color: ${p => p.theme.color.text};
+  border: 1px solid ${(p) => p.theme.palette.grey400};
+  color: ${(p) => p.theme.color.text};
 
   &:hover {
-    opacity: .9;
+    opacity: 0.9;
   }
 
   &:focus {
-    box-shadow: 0 0 0 2px rgba(255,80,0,0.2);
+    box-shadow: 0 0 0 2px rgba(255, 80, 0, 0.2);
   }
 `
 
 export const SkipButton = styled(BaseButton)`
-  color: ${p => p.theme.color.text};
+  color: ${(p) => p.theme.color.text};
   text-decoration: underline;
   font-weight: 300;
   letter-spacing: 0;
 
   &:hover {
-    opacity: .9;
+    opacity: 0.9;
   }
 
   &:focus {
-    box-shadow: 0 0 0 2px ${p => p.theme.color.outlineColor};
+    box-shadow: 0 0 0 2px ${(p) => p.theme.color.outlineColor};
   }
 `
 
@@ -55,11 +57,11 @@ export const PrimaryButton = styled(Button as ComponentType<ButtonProps>)`
   outline: none;
 
   &:hover {
-    opacity: .9;
+    opacity: 0.9;
   }
 
   &:focus {
-    box-shadow: 0 0 0 2px ${p => p.theme.color.outlineColor};
+    box-shadow: 0 0 0 2px ${(p) => p.theme.color.outlineColor};
   }
 `
 
@@ -67,7 +69,7 @@ export const Bullet = styled(BaseButton as ComponentType<any>)`
   margin: 0 7px;
   width: 11px;
   height: 11px;
-  color: #7C7D8C;
+  color: #7c7d8c;
   letter-spacing: 0;
 
   &:hover {
@@ -75,17 +77,19 @@ export const Bullet = styled(BaseButton as ComponentType<any>)`
   }
 
   &:focus {
-    box-shadow: 0 0 0 2px ${p => p.theme.color.outlineColor};
+    box-shadow: 0 0 0 2px ${(p) => p.theme.color.outlineColor};
     border-radius: 50%;
   }
 
-  ${p => p.active && css`
-    color: #FB542B;
+  ${(p) =>
+    p.active &&
+    css`
+      color: #fb542b;
 
-    &:hover {
-      color: #C72E03;
-    }
-  `}
+      &:hover {
+        color: #c72e03;
+      }
+    `}
 `
 
 /**
@@ -94,7 +98,7 @@ export const Bullet = styled(BaseButton as ComponentType<any>)`
 export const Link = styled('button')<{}>`
   box-sizing: border-box;
   -webkit-appearance: none;
-  color: ${p => p.theme.color.brandBrave};
+  color: ${(p) => p.theme.color.brandBrave};
   border: 0;
   padding: 0;
   background: transparent;
@@ -107,7 +111,7 @@ export const Link = styled('button')<{}>`
     text-decoration: underline;
   }
   &:focus {
-    outline-color: ${p => p.theme.color.outlineColor};
+    outline-color: ${(p) => p.theme.color.outlineColor};
     outline-width: 2px;
   }
   &:active {

@@ -5,7 +5,12 @@
 
 import * as React from 'react'
 import { useDispatch } from 'react-redux'
-import getBraveNewsAPI, { FeedSearchResultItem, Publisher, Publishers, PublisherType } from '../../../../api/brave_news'
+import getBraveNewsAPI, {
+  FeedSearchResultItem,
+  Publisher,
+  Publishers,
+  PublisherType
+} from '../../../../api/brave_news'
 import * as todayActions from '../../../../actions/today_actions'
 
 export enum FeedInputValidity {
@@ -13,12 +18,12 @@ export enum FeedInputValidity {
   NotValid,
   IsDuplicate,
   Pending,
-  HasResults,
+  HasResults
 }
 
 const regexThe = /^the /
 
-function comparePublishersByName (a: Publisher, b: Publisher) {
+function comparePublishersByName(a: Publisher, b: Publisher) {
   // TODO(petemill): culture-independent 'the' removal, perhaps
   // do the sorting on the service-side.
   const aName = a.publisherName.toLowerCase().replace(regexThe, '')
@@ -32,18 +37,20 @@ function comparePublishersByName (a: Publisher, b: Publisher) {
   return 0
 }
 
-function isValidFeedUrl (feedInput: string): boolean {
+function isValidFeedUrl(feedInput: string): boolean {
   // is valid url?
   try {
     const url = new URL(feedInput)
     return ['http:', 'https:'].includes(url.protocol)
-  } catch { }
+  } catch {}
   return false
 }
 
-type FeedSearchResultModel = FeedSearchResultItem & { status?: FeedInputValidity }
+type FeedSearchResultModel = FeedSearchResultItem & {
+  status?: FeedInputValidity
+}
 
-export default function useManageDirectFeeds (publishers?: Publishers) {
+export default function useManageDirectFeeds(publishers?: Publishers) {
   const dispatch = useDispatch()
   // Memoize user feeds
   const userFeeds = React.useMemo<Publisher[] | undefined>(() => {
@@ -51,7 +58,7 @@ export default function useManageDirectFeeds (publishers?: Publishers) {
       return
     }
     return Object.values(publishers)
-      .filter(p => p.type === PublisherType.DIRECT_SOURCE)
+      .filter((p) => p.type === PublisherType.DIRECT_SOURCE)
       .sort(comparePublishersByName)
   }, [publishers])
   // Function to turn direct feed off
@@ -59,8 +66,11 @@ export default function useManageDirectFeeds (publishers?: Publishers) {
     dispatch(todayActions.removeDirectFeed({ directFeed }))
   }
   const [feedInputText, setFeedInputText] = React.useState<string>()
-  const [feedInputIsValid, setFeedInputIsValid] = React.useState<FeedInputValidity>(FeedInputValidity.Valid)
-  const [feedSearchResults, setFeedSearchResults] = React.useState<FeedSearchResultModel[]>([])
+  const [feedInputIsValid, setFeedInputIsValid] =
+    React.useState<FeedInputValidity>(FeedInputValidity.Valid)
+  const [feedSearchResults, setFeedSearchResults] = React.useState<
+    FeedSearchResultModel[]
+  >([])
 
   const onChangeFeedInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFeedInputText(e.target.value)
@@ -105,14 +115,21 @@ export default function useManageDirectFeeds (publishers?: Publishers) {
       dispatch(todayActions.dataReceived({ publishers: result.publishers }))
       return
     }
-    setFeedSearchResults(results.map(r => ({ ...r, status: FeedInputValidity.Valid })))
+    setFeedSearchResults(
+      results.map((r) => ({ ...r, status: FeedInputValidity.Valid }))
+    )
     setFeedInputIsValid(FeedInputValidity.HasResults)
   }
 
-  const setFeedSearchResultsItemStatus = (sourceUrl: string, status: FeedInputValidity) => {
-    setFeedSearchResults(existing => {
+  const setFeedSearchResultsItemStatus = (
+    sourceUrl: string,
+    status: FeedInputValidity
+  ) => {
+    setFeedSearchResults((existing) => {
       // Amend by index to preserve order
-      const itemIdx = existing.findIndex(item => item.feedUrl.url === sourceUrl)
+      const itemIdx = existing.findIndex(
+        (item) => item.feedUrl.url === sourceUrl
+      )
       const newResults = [...existing]
       newResults[itemIdx] = {
         ...newResults[itemIdx],
@@ -123,10 +140,12 @@ export default function useManageDirectFeeds (publishers?: Publishers) {
   }
 
   const removeSearchResultItem = (sourceUrl: string) => {
-    const item = feedSearchResults.find(item => item.feedUrl.url === sourceUrl)
+    const item = feedSearchResults.find(
+      (item) => item.feedUrl.url === sourceUrl
+    )
     if (item) {
       if (feedSearchResults.length > 1) {
-        const others = feedSearchResults.filter(other => other !== item)
+        const others = feedSearchResults.filter((other) => other !== item)
         setFeedSearchResults(others)
       } else {
         // Remove all results
@@ -144,8 +163,8 @@ export default function useManageDirectFeeds (publishers?: Publishers) {
     const status = !result.isValidFeed
       ? FeedInputValidity.NotValid
       : result.isDuplicate
-        ? FeedInputValidity.IsDuplicate
-        : FeedInputValidity.Valid
+      ? FeedInputValidity.IsDuplicate
+      : FeedInputValidity.Valid
     // Remove item if successful, as user shouldn't try to add more than once
     if (status === FeedInputValidity.Valid) {
       removeSearchResultItem(sourceUrl)

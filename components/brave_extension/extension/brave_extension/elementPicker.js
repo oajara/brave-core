@@ -1,7 +1,7 @@
-"use strict"
+'use strict'
 
 // Namespace for creating SVG elements
-const NSSVG = "http://www.w3.org/2000/svg"
+const NSSVG = 'http://www.w3.org/2000/svg'
 
 const sendMessageActiveTab = (message, callback = null) => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -19,28 +19,36 @@ const sendMessageActiveTab = (message, callback = null) => {
 window.onload = () => {
   let hasSelectedTarget = false
 
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-      event.stopPropagation()
-      event.preventDefault()
-      sendMessageActiveTab({type: 'quitElementPicker'})
-    }
-  }, true)
+  document.addEventListener(
+    'keydown',
+    (event) => {
+      if (event.key === 'Escape') {
+        event.stopPropagation()
+        event.preventDefault()
+        sendMessageActiveTab({ type: 'quitElementPicker' })
+      }
+    },
+    true
+  )
 
   const svg = document.getElementById('picker-ui')
 
-  svg.addEventListener('mousemove', (event) => {
-    if (!hasSelectedTarget) {
-      sendMessageActiveTab({
+  svg.addEventListener(
+    'mousemove',
+    (event) => {
+      if (!hasSelectedTarget) {
+        sendMessageActiveTab({
           type: 'elementPickerHoverCoordsChanged',
           coords: {
             x: event.clientX,
             y: event.clientY
           }
-      })
-    }
-    event.stopPropagation()
-  }, true)
+        })
+      }
+      event.stopPropagation()
+    },
+    true
+  )
 
   const rulesTextArea = document.querySelector('#rules-box > textarea')
   let textInputTimer = null
@@ -51,7 +59,7 @@ window.onload = () => {
       if (selector.length > 0) {
         sendMessageActiveTab({
           type: 'elementPickerUserModifiedRule',
-          selector: selector,
+          selector: selector
         })
       }
     }, 700)
@@ -72,18 +80,21 @@ window.onload = () => {
   const slider = document.getElementById('sliderSpecificity')
 
   const dispatchSelect = () => {
-    sendMessageActiveTab({
-      type: 'elementPickerUserSelectedTarget',
-      specificity: parseInt(slider.value)
-    }, (response) => {
-      const { isValid, selector } = response
-      if (isValid) {
-        hasSelectedTarget = true
-        togglePopup(true)
-        // disable hovering new elements
-        rulesTextArea.value = selector
+    sendMessageActiveTab(
+      {
+        type: 'elementPickerUserSelectedTarget',
+        specificity: parseInt(slider.value)
+      },
+      (response) => {
+        const { isValid, selector } = response
+        if (isValid) {
+          hasSelectedTarget = true
+          togglePopup(true)
+          // disable hovering new elements
+          rulesTextArea.value = selector
+        }
       }
-    })
+    )
   }
 
   slider.addEventListener('input', (event) => {
@@ -108,14 +119,14 @@ window.onload = () => {
     if (selector.length > 0) {
       sendMessageActiveTab({
         type: 'elementPickerUserCreatedRule',
-        selector: selector,
+        selector: selector
       })
     }
   })
 
   const quitButton = document.getElementById('btnQuit')
   quitButton.addEventListener('click', (event) => {
-    sendMessageActiveTab({type: 'quitElementPicker'})
+    sendMessageActiveTab({ type: 'quitElementPicker' })
   })
 }
 
@@ -125,7 +136,9 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     case 'highlightElements': {
       // Delete old element targeting rectangles and their corresponding masks
       const oldMask = document.getElementsByClassName('mask')
-      while (oldMask.length > 0) { oldMask[0].remove() }
+      while (oldMask.length > 0) {
+        oldMask[0].remove()
+      }
 
       const svg = document.getElementById('picker-ui')
       const svgMask = document.getElementById('highlight-mask')

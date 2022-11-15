@@ -17,32 +17,32 @@ import Theme from 'brave-ui/theme/brave-default'
 import store from './store'
 import * as ipfsActions from './actions/ipfs_actions'
 
-function getDaemonStatus () {
+function getDaemonStatus() {
   const actions = bindActionCreators(ipfsActions, store.dispatch.bind(store))
   actions.getDaemonStatus()
 }
 
-function getConnectedPeers () {
+function getConnectedPeers() {
   const actions = bindActionCreators(ipfsActions, store.dispatch.bind(store))
   actions.getConnectedPeers()
 }
 
-function getAddressesConfig () {
+function getAddressesConfig() {
   const actions = bindActionCreators(ipfsActions, store.dispatch.bind(store))
   actions.getAddressesConfig()
 }
 
-function getRepoStats () {
+function getRepoStats() {
   const actions = bindActionCreators(ipfsActions, store.dispatch.bind(store))
   actions.getRepoStats()
 }
 
-function getNodeInfo () {
+function getNodeInfo() {
   const actions = bindActionCreators(ipfsActions, store.dispatch.bind(store))
   actions.getNodeInfo()
 }
 
-function initialize () {
+function initialize() {
   getDaemonStatus()
   render(
     <Provider store={store}>
@@ -50,25 +50,28 @@ function initialize () {
         <App />
       </ThemeProvider>
     </Provider>,
-    document.getElementById('root'))
+    document.getElementById('root')
+  )
 }
 
-function onGetConnectedPeers (connectedPeers: IPFS.ConnectedPeers) {
+function onGetConnectedPeers(connectedPeers: IPFS.ConnectedPeers) {
   const actions = bindActionCreators(ipfsActions, store.dispatch.bind(store))
   actions.onGetConnectedPeers(connectedPeers)
 }
 
-function onGetAddressesConfig (addressesConfig: IPFS.AddressesConfig) {
+function onGetAddressesConfig(addressesConfig: IPFS.AddressesConfig) {
   const actions = bindActionCreators(ipfsActions, store.dispatch.bind(store))
   actions.onGetAddressesConfig(addressesConfig)
 }
 
-function onInstallationProgress (installationProgress: IPFS.InstallationProgress) {
+function onInstallationProgress(
+  installationProgress: IPFS.InstallationProgress
+) {
   const actions = bindActionCreators(ipfsActions, store.dispatch.bind(store))
   actions.onInstallationProgress(installationProgress)
 }
 
-function onGetDaemonStatus (daemonStatus: IPFS.DaemonStatus) {
+function onGetDaemonStatus(daemonStatus: IPFS.DaemonStatus) {
   const actions = bindActionCreators(ipfsActions, store.dispatch.bind(store))
   actions.onGetDaemonStatus(daemonStatus)
   if (daemonStatus.launched) {
@@ -79,17 +82,19 @@ function onGetDaemonStatus (daemonStatus: IPFS.DaemonStatus) {
   }
 }
 
-function onGetRepoStats (repoStats: IPFS.RepoStats) {
+function onGetRepoStats(repoStats: IPFS.RepoStats) {
   const actions = bindActionCreators(ipfsActions, store.dispatch.bind(store))
   actions.onGetRepoStats(repoStats)
 }
 
-function onGetNodeInfo (nodeInfo: IPFS.NodeInfo) {
+function onGetNodeInfo(nodeInfo: IPFS.NodeInfo) {
   const actions = bindActionCreators(ipfsActions, store.dispatch.bind(store))
   actions.onGetNodeInfo(nodeInfo)
 }
 
-function onGarbageCollection (garbageCollectionStatus: IPFS.GarbageCollectionStatus) {
+function onGarbageCollection(
+  garbageCollectionStatus: IPFS.GarbageCollectionStatus
+) {
   const actions = bindActionCreators(ipfsActions, store.dispatch.bind(store))
   actions.onGarbageCollection(garbageCollectionStatus)
 }

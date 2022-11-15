@@ -9,7 +9,7 @@ const ADDRESS_SEPARATORS = [';', ',']
  * Very simple email address validation that determines if something looks like
  * an email address and does not look like multiple email addresses.
  */
-export default function isValidEmailAddress (input: string): boolean {
+export default function isValidEmailAddress(input: string): boolean {
   // Empty string is not a valid address
   if (!input) {
     return false
@@ -21,7 +21,7 @@ export default function isValidEmailAddress (input: string): boolean {
   }
   // Make sure it's only a single address, and not breaking out to also
   // include an invalid address
-  if (ADDRESS_SEPARATORS.some(sep => input.includes(sep))) {
+  if (ADDRESS_SEPARATORS.some((sep) => input.includes(sep))) {
     return false
   }
   return true

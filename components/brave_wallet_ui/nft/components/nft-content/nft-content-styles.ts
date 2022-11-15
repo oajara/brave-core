@@ -39,7 +39,7 @@ export const Image = styled.img<{
 `
 
 export const LoadingOverlay = styled.div<{ isLoading: boolean }>`
-  display: ${(p) => p.isLoading ? 'flex' : 'none'};
+  display: ${(p) => (p.isLoading ? 'flex' : 'none')};
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -51,8 +51,8 @@ export const LoadingOverlay = styled.div<{ isLoading: boolean }>`
 `
 
 export const LoadIcon = styled(LoaderIcon)`
-  color: ${p => p.theme.color.interactive08};
+  color: ${(p) => p.theme.color.interactive08};
   height: 70px;
   width: 70px;
-  opacity: .4;
+  opacity: 0.4;
 `

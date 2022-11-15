@@ -5,15 +5,15 @@
 import styled from 'styled-components'
 
 export const StyledWrapper = styled('div')<{}>`
-  background: ${p => p.theme.color.subtleBackground};
+  background: ${(p) => p.theme.color.subtleBackground};
   min-height: 100vh;
   width: 100%;
   padding-top: 35px;
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
 `
 
 export const StyledContent = styled('div')<{}>`
-   max-width: 1000px;
-   margin: 0 auto;
-   padding: 40px 10px 0 10px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 10px 0 10px;
 `

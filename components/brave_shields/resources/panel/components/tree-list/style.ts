@@ -24,7 +24,9 @@ export const HeaderBox = styled.section`
 export const TreeBox = styled.section`
   background-color: ${(p) => p.theme.color.background02};
   padding: 10px 17px 10px 17px;
-  height: calc(100% - 94px - 96px); /* subtract offset top from height of footer */
+  height: calc(
+    100% - 94px - 96px
+  ); /* subtract offset top from height of footer */
   overflow: auto;
   position: relative;
   z-index: 2;

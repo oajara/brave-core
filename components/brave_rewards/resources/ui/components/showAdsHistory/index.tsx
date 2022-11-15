@@ -3,10 +3,7 @@
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import * as React from 'react'
-import {
-  StyledLink,
-  StyledWrapper
-} from './style'
+import { StyledLink, StyledWrapper } from './style'
 
 import { getLocale } from 'brave-ui/helpers'
 
@@ -15,7 +12,7 @@ export interface Props {
 }
 
 export default class ShowAdsHistory extends React.PureComponent<Props, {}> {
-  render () {
+  render() {
     const { onAdsHistoryOpen } = this.props
 
     return (

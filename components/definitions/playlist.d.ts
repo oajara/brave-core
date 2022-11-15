@@ -6,11 +6,11 @@ import * as PlaylistMojo from 'gen/brave/components/playlist/mojom/playlist.mojo
 
 declare namespace Playlist {
   export interface ApplicationState {
-    playlistData: State|undefined
+    playlistData: State | undefined
   }
 
   export interface State {
-    lists : PlaylistMojo.Playlist[]
-    currentList: PlaylistMojo.Playlist|undefined
+    lists: PlaylistMojo.Playlist[]
+    currentList: PlaylistMojo.Playlist | undefined
   }
 }

@@ -9,7 +9,11 @@ import MainToggleMobile from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('MainToggleMobile tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><MainToggleMobile id='mainToggleMobile' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <MainToggleMobile id="mainToggleMobile" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

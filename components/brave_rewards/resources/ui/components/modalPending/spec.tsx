@@ -9,7 +9,11 @@ import ModalPending from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('ModalPending tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><ModalPending id='modal' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <ModalPending id="modal" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

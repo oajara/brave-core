@@ -23,7 +23,7 @@ export const root = styled.div`
   }
 
   button:focus-visible {
-    outline: solid 2px rgba(255, 255, 255, .7);
+    outline: solid 2px rgba(255, 255, 255, 0.7);
     outline-offset: -2px;
   }
 

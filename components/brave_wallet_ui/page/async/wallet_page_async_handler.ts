@@ -40,24 +40,27 @@ import { getLocale } from '../../../common/locale'
 
 const handler = new AsyncActionHandler()
 
-function getWalletState (store: Store): WalletState {
+function getWalletState(store: Store): WalletState {
   return store.getState().wallet
 }
 
-async function refreshWalletInfo (store: Store) {
+async function refreshWalletInfo(store: Store) {
   const walletHandler = getWalletPageApiProxy().walletHandler
   const result = await walletHandler.getWalletInfo()
-  store.dispatch(WalletActions.initialized({ ...result, selectedAccount: '', visibleTokens: [] }))
+  store.dispatch(
+    WalletActions.initialized({
+      ...result,
+      selectedAccount: '',
+      visibleTokens: []
+    })
+  )
 }
 
-async function importFromExternalWallet (
+async function importFromExternalWallet(
   walletType: BraveWallet.ExternalWalletType,
   payload: ImportFromExternalWalletPayloadType
 ): Promise<ImportWalletErrorPayloadType> {
-  const {
-    braveWalletService,
-    keyringService
-  } = getWalletPageApiProxy()
+  const { braveWalletService, keyringService } = getWalletPageApiProxy()
 
   const result = await braveWalletService.importFromExternalWallet(
     walletType,
@@ -71,12 +74,15 @@ async function importFromExternalWallet (
   }
 
   // was the provided import password correct?
-  const checkExistingPasswordError = result.errorMessage === getLocale('braveWalletImportPasswordError')
-    ? result.errorMessage
-    : undefined
+  const checkExistingPasswordError =
+    result.errorMessage === getLocale('braveWalletImportPasswordError')
+      ? result.errorMessage
+      : undefined
 
   // was import successful (if attempted)
-  const importError = payload.newPassword ? result.errorMessage || undefined : undefined
+  const importError = payload.newPassword
+    ? result.errorMessage || undefined
+    : undefined
 
   return {
     hasError: !!(importError || checkExistingPasswordError),
@@ -85,183 +91,283 @@ async function importFromExternalWallet (
   }
 }
 
-handler.on(WalletPageActions.createWallet.type, async (store: Store, payload: CreateWalletPayloadType) => {
-  const keyringService = getWalletPageApiProxy().keyringService
-  const result = await keyringService.createWallet(payload.password)
-  store.dispatch(WalletPageActions.walletCreated({ mnemonic: result.mnemonic }))
-})
-
-handler.on(WalletPageActions.restoreWallet.type, async (store: Store, payload: RestoreWalletPayloadType) => {
-  const keyringService = getWalletPageApiProxy().keyringService
-  const result = await keyringService.restoreWallet(payload.mnemonic, payload.password, payload.isLegacy)
-  if (!result.isValidMnemonic) {
-    store.dispatch(WalletPageActions.hasMnemonicError(!result.isValidMnemonic))
-    return
+handler.on(
+  WalletPageActions.createWallet.type,
+  async (store: Store, payload: CreateWalletPayloadType) => {
+    const keyringService = getWalletPageApiProxy().keyringService
+    const result = await keyringService.createWallet(payload.password)
+    store.dispatch(
+      WalletPageActions.walletCreated({ mnemonic: result.mnemonic })
+    )
   }
-  keyringService.notifyWalletBackupComplete()
-  await refreshWalletInfo(store)
-  store.dispatch(WalletPageActions.setShowIsRestoring(false))
-  if (payload?.completeWalletSetup) {
-    store.dispatch(WalletPageActions.walletSetupComplete(payload.completeWalletSetup))
-  } else {
-    const braveWalletP3A = getWalletPageApiProxy().braveWalletP3A
-    await braveWalletP3A.reportOnboardingAction(OnboardingAction.RESTORED_WALLET)
-  }
-})
+)
 
-handler.on(WalletPageActions.showRecoveryPhrase.type, async (store: Store, {
-  password,
-  show
-}: ShowRecoveryPhrasePayload) => {
-  if (password) {
-    const { keyringService } = getWalletPageApiProxy()
-    const { mnemonic } = await keyringService.getMnemonicForDefaultKeyring(password)
-    store.dispatch(WalletPageActions.recoveryWordsAvailable({ mnemonic }))
-    return
+handler.on(
+  WalletPageActions.restoreWallet.type,
+  async (store: Store, payload: RestoreWalletPayloadType) => {
+    const keyringService = getWalletPageApiProxy().keyringService
+    const result = await keyringService.restoreWallet(
+      payload.mnemonic,
+      payload.password,
+      payload.isLegacy
+    )
+    if (!result.isValidMnemonic) {
+      store.dispatch(
+        WalletPageActions.hasMnemonicError(!result.isValidMnemonic)
+      )
+      return
+    }
+    keyringService.notifyWalletBackupComplete()
+    await refreshWalletInfo(store)
+    store.dispatch(WalletPageActions.setShowIsRestoring(false))
+    if (payload?.completeWalletSetup) {
+      store.dispatch(
+        WalletPageActions.walletSetupComplete(payload.completeWalletSetup)
+      )
+    } else {
+      const braveWalletP3A = getWalletPageApiProxy().braveWalletP3A
+      await braveWalletP3A.reportOnboardingAction(
+        OnboardingAction.RESTORED_WALLET
+      )
+    }
   }
+)
 
-  store.dispatch(WalletPageActions.recoveryWordsAvailable({ mnemonic: '' }))
-})
+handler.on(
+  WalletPageActions.showRecoveryPhrase.type,
+  async (store: Store, { password, show }: ShowRecoveryPhrasePayload) => {
+    if (password) {
+      const { keyringService } = getWalletPageApiProxy()
+      const { mnemonic } = await keyringService.getMnemonicForDefaultKeyring(
+        password
+      )
+      store.dispatch(WalletPageActions.recoveryWordsAvailable({ mnemonic }))
+      return
+    }
+
+    store.dispatch(WalletPageActions.recoveryWordsAvailable({ mnemonic: '' }))
+  }
+)
 
 handler.on(WalletPageActions.walletBackupComplete.type, async (store) => {
   const keyringService = getWalletPageApiProxy().keyringService
   keyringService.notifyWalletBackupComplete()
 })
 
-handler.on(WalletPageActions.selectAsset.type, async (store: Store, payload: UpdateSelectedAssetType) => {
-  store.dispatch(WalletPageActions.updateSelectedAsset(payload.asset))
-  store.dispatch(WalletPageActions.setIsFetchingPriceHistory(true))
-  const assetRatioService = getWalletPageApiProxy().assetRatioService
-  const walletState = getWalletState(store)
-  const defaultFiat = walletState.defaultCurrencies.fiat.toLowerCase()
-  const defaultCrypto = walletState.defaultCurrencies.crypto.toLowerCase()
-  if (payload.asset) {
-    const selectedAsset = payload.asset
-    const defaultPrices = await assetRatioService.getPrice([getTokenParam(selectedAsset)], [defaultFiat, defaultCrypto], payload.timeFrame)
-    const priceHistory = await assetRatioService.getPriceHistory(getTokenParam(selectedAsset), defaultFiat, payload.timeFrame)
-    store.dispatch(WalletPageActions.updatePriceInfo({ priceHistory: priceHistory, defaultFiatPrice: defaultPrices.values[0], defaultCryptoPrice: defaultPrices.values[1], timeFrame: payload.timeFrame }))
+handler.on(
+  WalletPageActions.selectAsset.type,
+  async (store: Store, payload: UpdateSelectedAssetType) => {
+    store.dispatch(WalletPageActions.updateSelectedAsset(payload.asset))
+    store.dispatch(WalletPageActions.setIsFetchingPriceHistory(true))
+    const assetRatioService = getWalletPageApiProxy().assetRatioService
+    const walletState = getWalletState(store)
+    const defaultFiat = walletState.defaultCurrencies.fiat.toLowerCase()
+    const defaultCrypto = walletState.defaultCurrencies.crypto.toLowerCase()
+    if (payload.asset) {
+      const selectedAsset = payload.asset
+      const defaultPrices = await assetRatioService.getPrice(
+        [getTokenParam(selectedAsset)],
+        [defaultFiat, defaultCrypto],
+        payload.timeFrame
+      )
+      const priceHistory = await assetRatioService.getPriceHistory(
+        getTokenParam(selectedAsset),
+        defaultFiat,
+        payload.timeFrame
+      )
+      store.dispatch(
+        WalletPageActions.updatePriceInfo({
+          priceHistory: priceHistory,
+          defaultFiatPrice: defaultPrices.values[0],
+          defaultCryptoPrice: defaultPrices.values[1],
+          timeFrame: payload.timeFrame
+        })
+      )
 
-    if (payload.asset.isErc721) {
-      store.dispatch(WalletPageActions.getNFTMetadata(payload.asset))
+      if (payload.asset.isErc721) {
+        store.dispatch(WalletPageActions.getNFTMetadata(payload.asset))
+      }
+    } else {
+      store.dispatch(
+        WalletPageActions.updatePriceInfo({
+          priceHistory: undefined,
+          defaultFiatPrice: undefined,
+          defaultCryptoPrice: undefined,
+          timeFrame: payload.timeFrame
+        })
+      )
     }
-  } else {
-    store.dispatch(WalletPageActions.updatePriceInfo({ priceHistory: undefined, defaultFiatPrice: undefined, defaultCryptoPrice: undefined, timeFrame: payload.timeFrame }))
   }
-})
+)
 
-handler.on(WalletPageActions.importAccount.type, async (store: Store, payload: ImportAccountPayloadType) => {
-  const keyringService = getWalletPageApiProxy().keyringService
-  const result = await keyringService.importAccount(payload.accountName, payload.privateKey, payload.coin)
-  if (result.success) {
-    store.dispatch(WalletPageActions.setImportAccountError(false))
-    store.dispatch(WalletPageActions.setShowAddModal(false))
-  } else {
-    store.dispatch(WalletPageActions.setImportAccountError(true))
+handler.on(
+  WalletPageActions.importAccount.type,
+  async (store: Store, payload: ImportAccountPayloadType) => {
+    const keyringService = getWalletPageApiProxy().keyringService
+    const result = await keyringService.importAccount(
+      payload.accountName,
+      payload.privateKey,
+      payload.coin
+    )
+    if (result.success) {
+      store.dispatch(WalletPageActions.setImportAccountError(false))
+      store.dispatch(WalletPageActions.setShowAddModal(false))
+    } else {
+      store.dispatch(WalletPageActions.setImportAccountError(true))
+    }
   }
-})
+)
 
-handler.on(WalletPageActions.importFilecoinAccount.type, async (store: Store, payload: ImportFilecoinAccountPayloadType) => {
-  const { keyringService } = getWalletPageApiProxy()
-  const result = await keyringService.importFilecoinAccount(payload.accountName, payload.privateKey, payload.network)
+handler.on(
+  WalletPageActions.importFilecoinAccount.type,
+  async (store: Store, payload: ImportFilecoinAccountPayloadType) => {
+    const { keyringService } = getWalletPageApiProxy()
+    const result = await keyringService.importFilecoinAccount(
+      payload.accountName,
+      payload.privateKey,
+      payload.network
+    )
 
-  if (result.success) {
-    store.dispatch(WalletPageActions.setImportAccountError(false))
-    store.dispatch(WalletPageActions.setShowAddModal(false))
-  } else {
-    store.dispatch(WalletPageActions.setImportAccountError(true))
+    if (result.success) {
+      store.dispatch(WalletPageActions.setImportAccountError(false))
+      store.dispatch(WalletPageActions.setShowAddModal(false))
+    } else {
+      store.dispatch(WalletPageActions.setImportAccountError(true))
+    }
   }
-})
+)
 
-handler.on(WalletPageActions.importAccountFromJson.type, async (store: Store, payload: ImportAccountFromJsonPayloadType) => {
-  const keyringService = getWalletPageApiProxy().keyringService
-  const result = await keyringService.importAccountFromJson(payload.accountName, payload.password, payload.json)
-  if (result.success) {
-    store.dispatch(WalletPageActions.setImportAccountError(false))
-    store.dispatch(WalletPageActions.setShowAddModal(false))
-  } else {
-    store.dispatch(WalletPageActions.setImportAccountError(true))
+handler.on(
+  WalletPageActions.importAccountFromJson.type,
+  async (store: Store, payload: ImportAccountFromJsonPayloadType) => {
+    const keyringService = getWalletPageApiProxy().keyringService
+    const result = await keyringService.importAccountFromJson(
+      payload.accountName,
+      payload.password,
+      payload.json
+    )
+    if (result.success) {
+      store.dispatch(WalletPageActions.setImportAccountError(false))
+      store.dispatch(WalletPageActions.setShowAddModal(false))
+    } else {
+      store.dispatch(WalletPageActions.setImportAccountError(true))
+    }
   }
-})
+)
 
-handler.on(WalletPageActions.removeImportedAccount.type, async (
-  store: Store,
-  payload: RemoveImportedAccountPayloadType
-) => {
-  const { keyringService } = getWalletPageApiProxy()
-  await keyringService.removeImportedAccount(
-    payload.address,
-    payload.password,
-    payload.coin
-  )
-})
+handler.on(
+  WalletPageActions.removeImportedAccount.type,
+  async (store: Store, payload: RemoveImportedAccountPayloadType) => {
+    const { keyringService } = getWalletPageApiProxy()
+    await keyringService.removeImportedAccount(
+      payload.address,
+      payload.password,
+      payload.coin
+    )
+  }
+)
 
-handler.on(WalletPageActions.updateAccountName.type, async (store: Store, payload: UpdateAccountNamePayloadType) => {
-  const keyringService = getWalletPageApiProxy().keyringService
-  const hardwareAccount = await findHardwareAccountInfo(payload.address)
-  if (hardwareAccount && hardwareAccount.hardware) {
-    const result = await keyringService.setHardwareAccountName(payload.address, payload.name, hardwareAccount.coin)
+handler.on(
+  WalletPageActions.updateAccountName.type,
+  async (store: Store, payload: UpdateAccountNamePayloadType) => {
+    const keyringService = getWalletPageApiProxy().keyringService
+    const hardwareAccount = await findHardwareAccountInfo(payload.address)
+    if (hardwareAccount && hardwareAccount.hardware) {
+      const result = await keyringService.setHardwareAccountName(
+        payload.address,
+        payload.name,
+        hardwareAccount.coin
+      )
+      return result.success
+    }
+    const keyringId = await getKeyringIdFromAddress(payload.address)
+    const result = payload.isDerived
+      ? await keyringService.setKeyringDerivedAccountName(
+          keyringId,
+          payload.address,
+          payload.name
+        )
+      : await keyringService.setKeyringImportedAccountName(
+          keyringId,
+          payload.address,
+          payload.name
+        )
     return result.success
   }
-  const keyringId = await getKeyringIdFromAddress(payload.address)
-  const result = payload.isDerived
-    ? await keyringService.setKeyringDerivedAccountName(keyringId, payload.address, payload.name)
-    : await keyringService.setKeyringImportedAccountName(keyringId, payload.address, payload.name)
-  return result.success
-})
+)
 
-handler.on(WalletPageActions.addHardwareAccounts.type, async (store: Store, accounts: BraveWallet.HardwareWalletAccount[]) => {
-  const keyringService = getWalletPageApiProxy().keyringService
-  keyringService.addHardwareAccounts(accounts)
-  store.dispatch(WalletPageActions.setShowAddModal(false))
-})
-
-handler.on(WalletPageActions.removeHardwareAccount.type, async (store: Store, payload: RemoveHardwareAccountPayloadType) => {
-  const { keyringService } = getWalletPageApiProxy()
-  const { success } = await keyringService.removeHardwareAccount(
-    payload.address,
-    payload.password,
-    payload.coin
-  )
-
-  if (success) {
+handler.on(
+  WalletPageActions.addHardwareAccounts.type,
+  async (store: Store, accounts: BraveWallet.HardwareWalletAccount[]) => {
+    const keyringService = getWalletPageApiProxy().keyringService
+    keyringService.addHardwareAccounts(accounts)
     store.dispatch(WalletPageActions.setShowAddModal(false))
   }
-})
+)
+
+handler.on(
+  WalletPageActions.removeHardwareAccount.type,
+  async (store: Store, payload: RemoveHardwareAccountPayloadType) => {
+    const { keyringService } = getWalletPageApiProxy()
+    const { success } = await keyringService.removeHardwareAccount(
+      payload.address,
+      payload.password,
+      payload.coin
+    )
+
+    if (success) {
+      store.dispatch(WalletPageActions.setShowAddModal(false))
+    }
+  }
+)
 
 handler.on(WalletPageActions.checkWalletsToImport.type, async (store) => {
   store.dispatch(WalletPageActions.setImportWalletsCheckComplete(false))
   const braveWalletService = getWalletPageApiProxy().braveWalletService
-  const cwResult =
-    await braveWalletService.isExternalWalletInitialized(
-      BraveWallet.ExternalWalletType.CryptoWallets)
-  const mmResult =
-    await braveWalletService.isExternalWalletInitialized(
-      BraveWallet.ExternalWalletType.MetaMask)
-  store.dispatch(WalletPageActions.setCryptoWalletsInitialized(cwResult.initialized))
+  const cwResult = await braveWalletService.isExternalWalletInitialized(
+    BraveWallet.ExternalWalletType.CryptoWallets
+  )
+  const mmResult = await braveWalletService.isExternalWalletInitialized(
+    BraveWallet.ExternalWalletType.MetaMask
+  )
+  store.dispatch(
+    WalletPageActions.setCryptoWalletsInitialized(cwResult.initialized)
+  )
   store.dispatch(WalletPageActions.setMetaMaskInitialized(mmResult.initialized))
   store.dispatch(WalletPageActions.setImportWalletsCheckComplete(true))
 })
 
-handler.on(WalletPageActions.importFromCryptoWallets.type, async (store: Store, payload: ImportFromExternalWalletPayloadType) => {
-  const results: ImportWalletErrorPayloadType = await importFromExternalWallet(
-    BraveWallet.ExternalWalletType.CryptoWallets,
-    payload
-  )
-  store.dispatch(WalletPageActions.setImportWalletError(results))
-})
+handler.on(
+  WalletPageActions.importFromCryptoWallets.type,
+  async (store: Store, payload: ImportFromExternalWalletPayloadType) => {
+    const results: ImportWalletErrorPayloadType =
+      await importFromExternalWallet(
+        BraveWallet.ExternalWalletType.CryptoWallets,
+        payload
+      )
+    store.dispatch(WalletPageActions.setImportWalletError(results))
+  }
+)
 
-handler.on(WalletPageActions.importFromMetaMask.type, async (store: Store, payload: ImportFromExternalWalletPayloadType) => {
-  const results: ImportWalletErrorPayloadType = await importFromExternalWallet(
-    BraveWallet.ExternalWalletType.MetaMask,
-    payload
-  )
-  store.dispatch(WalletPageActions.setImportWalletError(results))
-})
+handler.on(
+  WalletPageActions.importFromMetaMask.type,
+  async (store: Store, payload: ImportFromExternalWalletPayloadType) => {
+    const results: ImportWalletErrorPayloadType =
+      await importFromExternalWallet(
+        BraveWallet.ExternalWalletType.MetaMask,
+        payload
+      )
+    store.dispatch(WalletPageActions.setImportWalletError(results))
+  }
+)
 
-handler.on(WalletActions.newUnapprovedTxAdded.type, async (store: Store, payload: NewUnapprovedTxAdded) => {
-  const pageHandler = getWalletPageApiProxy().pageHandler
-  pageHandler.showApprovePanelUI()
-})
+handler.on(
+  WalletActions.newUnapprovedTxAdded.type,
+  async (store: Store, payload: NewUnapprovedTxAdded) => {
+    const pageHandler = getWalletPageApiProxy().pageHandler
+    pageHandler.showApprovePanelUI()
+  }
+)
 
 handler.on(WalletPageActions.openWalletSettings.type, async (store) => {
   chrome.tabs.create({ url: 'chrome://settings/wallet' }, () => {
@@ -271,38 +377,52 @@ handler.on(WalletPageActions.openWalletSettings.type, async (store) => {
   })
 })
 
-handler.on(WalletPageActions.getNFTMetadata.type, async (store, payload: BraveWallet.BlockchainToken) => {
-  store.dispatch(WalletPageActions.setIsFetchingNFTMetadata(true))
-  const jsonRpcService = getWalletPageApiProxy().jsonRpcService
-  const result = await jsonRpcService.getERC721Metadata(payload.contractAddress, payload.tokenId, payload.chainId)
+handler.on(
+  WalletPageActions.getNFTMetadata.type,
+  async (store, payload: BraveWallet.BlockchainToken) => {
+    store.dispatch(WalletPageActions.setIsFetchingNFTMetadata(true))
+    const jsonRpcService = getWalletPageApiProxy().jsonRpcService
+    const result = await jsonRpcService.getERC721Metadata(
+      payload.contractAddress,
+      payload.tokenId,
+      payload.chainId
+    )
 
-  if (!result.error) {
-    const response = JSON.parse(result.response)
-    const tokenNetwork = getTokensNetwork(getWalletState(store).networkList, payload)
-    const nftMetadata: NFTMetadataReturnType = {
-      chainName: tokenNetwork.chainName,
-      tokenType: 'ERC721', // getNFTMetadata currently supports only ERC721 standard. When other standards are supported, this value should be dynamic
-      tokenID: payload.tokenId,
-      imageURL: response.image.startsWith('data:image/') ? response.image : httpifyIpfsUrl(response.image),
-      imageMimeType: 'image/*',
-      floorFiatPrice: '',
-      floorCryptoPrice: '',
-      contractInformation: {
-        address: payload.contractAddress,
-        name: response.name,
-        description: response.description,
-        website: '',
-        twitter: '',
-        facebook: '',
-        logo: ''
+    if (!result.error) {
+      const response = JSON.parse(result.response)
+      const tokenNetwork = getTokensNetwork(
+        getWalletState(store).networkList,
+        payload
+      )
+      const nftMetadata: NFTMetadataReturnType = {
+        chainName: tokenNetwork.chainName,
+        tokenType: 'ERC721', // getNFTMetadata currently supports only ERC721 standard. When other standards are supported, this value should be dynamic
+        tokenID: payload.tokenId,
+        imageURL: response.image.startsWith('data:image/')
+          ? response.image
+          : httpifyIpfsUrl(response.image),
+        imageMimeType: 'image/*',
+        floorFiatPrice: '',
+        floorCryptoPrice: '',
+        contractInformation: {
+          address: payload.contractAddress,
+          name: response.name,
+          description: response.description,
+          website: '',
+          twitter: '',
+          facebook: '',
+          logo: ''
+        }
       }
+      store.dispatch(WalletPageActions.updateNFTMetadata(nftMetadata))
+      store.dispatch(WalletPageActions.updateNftMetadataError(undefined))
+    } else {
+      store.dispatch(
+        WalletPageActions.updateNftMetadataError(result.errorMessage)
+      )
     }
-    store.dispatch(WalletPageActions.updateNFTMetadata(nftMetadata))
-    store.dispatch(WalletPageActions.updateNftMetadataError(undefined))
-  } else {
-    store.dispatch(WalletPageActions.updateNftMetadataError(result.errorMessage))
+    store.dispatch(WalletPageActions.setIsFetchingNFTMetadata(false))
   }
-  store.dispatch(WalletPageActions.setIsFetchingNFTMetadata(false))
-})
+)
 
 export default handler.middleware

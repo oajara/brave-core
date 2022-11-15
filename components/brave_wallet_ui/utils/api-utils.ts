@@ -2,7 +2,11 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // you can obtain one at https://mozilla.org/MPL/2.0/.
-import { BraveWallet, WalletAccountType, GetFlattenedAccountBalancesReturnInfo } from '../constants/types'
+import {
+  BraveWallet,
+  WalletAccountType,
+  GetFlattenedAccountBalancesReturnInfo
+} from '../constants/types'
 
 export const getTokenParam = (token: BraveWallet.BlockchainToken): string => {
   if (token.coingeckoId) {
@@ -23,7 +27,10 @@ export const getTokenParam = (token: BraveWallet.BlockchainToken): string => {
 }
 
 // This will get the sum balance for each token between all accounts
-export const getFlattenedAccountBalances = (accounts: WalletAccountType[], userVisibleTokensInfo: BraveWallet.BlockchainToken[]): GetFlattenedAccountBalancesReturnInfo[] => {
+export const getFlattenedAccountBalances = (
+  accounts: WalletAccountType[],
+  userVisibleTokensInfo: BraveWallet.BlockchainToken[]
+): GetFlattenedAccountBalancesReturnInfo[] => {
   if (accounts.length === 0) {
     return []
   }
@@ -32,7 +39,7 @@ export const getFlattenedAccountBalances = (accounts: WalletAccountType[], userV
     return {
       token: token,
       balance: accounts
-        .map(account => {
+        .map((account) => {
           const balance = token.contractAddress
             ? account.tokenBalanceRegistry[token.contractAddress.toLowerCase()]
             : account.nativeBalanceRegistry[token.chainId]

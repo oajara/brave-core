@@ -17,7 +17,7 @@ interface Props {
   host: Host
 }
 
-function Loading () {
+function Loading() {
   return (
     <style.loading>
       <LoadingIcon />
@@ -25,7 +25,7 @@ function Loading () {
   )
 }
 
-export function App (props: Props) {
+export function App(props: Props) {
   const [loading, setLoading] = React.useState(props.host.state.loading)
   const [openTime, setOpenTime] = React.useState(props.host.state.openTime)
 
@@ -34,7 +34,9 @@ export function App (props: Props) {
     setOpenTime(state.openTime)
   })
 
-  React.useEffect(() => { props.host.onAppRendered() }, [props.host, openTime])
+  React.useEffect(() => {
+    props.host.onAppRendered()
+  }, [props.host, openTime])
 
   // This component key is used to reset the internal view state of the
   // component tree when a cached panel is reopened.

@@ -11,7 +11,7 @@ interface Props {
   onCustomize: () => unknown
 }
 
-export default function CardNoContent (props: Props) {
+export default function CardNoContent(props: Props) {
   return (
     <UnidealMessageCard
       heading={getLocale('braveNewsNoContentHeading')}

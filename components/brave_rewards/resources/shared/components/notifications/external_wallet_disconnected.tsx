@@ -7,13 +7,13 @@ import * as React from 'react'
 import { LocaleContext } from '../../lib/locale_context'
 import { NotificationViewProps } from './notification_view'
 
-export function ExternalWalletDisconnected (props: NotificationViewProps) {
+export function ExternalWalletDisconnected(props: NotificationViewProps) {
   const { getString } = React.useContext(LocaleContext)
   const { Title, Body, Action } = props
 
   return (
     <div>
-      <Title style='error'>
+      <Title style="error">
         {getString('notificationWalletDisconnectedTitle')}
       </Title>
       <Body>{getString('notificationWalletDisconnectedText')}</Body>

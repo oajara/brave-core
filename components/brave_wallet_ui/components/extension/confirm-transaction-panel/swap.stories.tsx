@@ -52,7 +52,10 @@ export const _ConfirmSwapTransaction = () => {
     >
       <PanelWrapper isLonger={true}>
         <LongWrapper>
-          <ConfirmSwapTransaction onConfirm={onConfirmTransaction} onReject={onRejectTransaction} />
+          <ConfirmSwapTransaction
+            onConfirm={onConfirmTransaction}
+            onReject={onRejectTransaction}
+          />
         </LongWrapper>
       </PanelWrapper>
     </WalletPanelStory>

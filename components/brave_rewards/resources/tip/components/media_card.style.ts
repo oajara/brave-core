@@ -4,8 +4,7 @@
 
 import styled from 'styled-components'
 
-export const root = styled.div`
-`
+export const root = styled.div``
 
 export const header = styled.div`
   display: flex;

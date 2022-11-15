@@ -5,7 +5,7 @@
 
 const DEFAULT_MIMETYPE = 'image/jpg'
 
-export async function fetchResource (url: string) {
+export async function fetchResource(url: string) {
   const response = await fetch(url, {
     // TODO(petemill): strip user-agent when this is possible
     // https://crbug.com/571722
@@ -18,9 +18,12 @@ export async function fetchResource (url: string) {
   return response
 }
 
-export async function getDataUrl (buffer: ArrayBuffer, mimeType = DEFAULT_MIMETYPE) {
+export async function getDataUrl(
+  buffer: ArrayBuffer,
+  mimeType = DEFAULT_MIMETYPE
+) {
   const unpaddedBlob = new Blob([buffer], { type: mimeType })
-  const dataUrl = await new Promise<string>(resolve => {
+  const dataUrl = await new Promise<string>((resolve) => {
     let reader = new FileReader()
     reader.onload = () => resolve(reader.result as string)
     reader.readAsDataURL(unpaddedBlob)
@@ -28,12 +31,12 @@ export async function getDataUrl (buffer: ArrayBuffer, mimeType = DEFAULT_MIMETY
   return dataUrl
 }
 
-export async function getUnpaddedAsDataUrl (buffer: ArrayBuffer, mimeType = DEFAULT_MIMETYPE) {
+export async function getUnpaddedAsDataUrl(
+  buffer: ArrayBuffer,
+  mimeType = DEFAULT_MIMETYPE
+) {
   const data = new DataView(buffer)
-  const contentLength = data.getUint32(
-    0,
-    false /* big endian */
-  )
+  const contentLength = data.getUint32(0, false /* big endian */)
   const unpaddedData = buffer.slice(4, contentLength + 4)
   return getDataUrl(unpaddedData, mimeType)
 }

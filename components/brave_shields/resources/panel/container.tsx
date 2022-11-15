@@ -15,33 +15,39 @@ const Box = styled.div`
   position: relative;
 `
 
-function Container () {
+function Container() {
   const { siteBlockInfo, viewType } = React.useContext(DataContext)
   const detailView = viewType !== ViewType.Main && siteBlockInfo
 
   const renderDetailView = () => {
     if (viewType === ViewType.AdsList && detailView) {
-      return (<TreeList
-        data={siteBlockInfo?.adsList}
-        totalBlockedCount={siteBlockInfo?.adsList.length}
-        blockedCountTitle={getLocale('braveShieldsTrackersAndAds')}
-      />)
+      return (
+        <TreeList
+          data={siteBlockInfo?.adsList}
+          totalBlockedCount={siteBlockInfo?.adsList.length}
+          blockedCountTitle={getLocale('braveShieldsTrackersAndAds')}
+        />
+      )
     }
 
     if (viewType === ViewType.HttpsList && detailView) {
-      return (<TreeList
-        data={siteBlockInfo?.httpRedirectsList}
-        totalBlockedCount={siteBlockInfo?.httpRedirectsList.length}
-        blockedCountTitle={getLocale('braveShieldsConnectionsUpgraded')}
-      />)
+      return (
+        <TreeList
+          data={siteBlockInfo?.httpRedirectsList}
+          totalBlockedCount={siteBlockInfo?.httpRedirectsList.length}
+          blockedCountTitle={getLocale('braveShieldsConnectionsUpgraded')}
+        />
+      )
     }
 
     if (viewType === ViewType.ScriptsList && detailView) {
-      return (<TreeList
-        data={siteBlockInfo?.jsList}
-        totalBlockedCount={siteBlockInfo?.jsList.length}
-        blockedCountTitle={getLocale('braveShieldsBlockedScriptsLabel')}
-      />)
+      return (
+        <TreeList
+          data={siteBlockInfo?.jsList}
+          totalBlockedCount={siteBlockInfo?.jsList.length}
+          blockedCountTitle={getLocale('braveShieldsBlockedScriptsLabel')}
+        />
+      )
     }
 
     return null

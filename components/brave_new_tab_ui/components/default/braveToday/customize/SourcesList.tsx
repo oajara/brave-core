@@ -24,22 +24,33 @@ const Subtitle = styled.span`
   color: #868e96;
 `
 
-export default function SourcesList () {
+export default function SourcesList() {
   const { subscribedPublisherIds } = useBraveNews()
   const channels = useChannels({ subscribedOnly: true })
 
-  const { result: sourcesCount } = usePromise(async () => PluralStringProxyImpl.getInstance().getPluralString('braveNewsSourceCount', subscribedPublisherIds.length + channels.length), [subscribedPublisherIds.length, channels.length])
+  const { result: sourcesCount } = usePromise(
+    async () =>
+      PluralStringProxyImpl.getInstance().getPluralString(
+        'braveNewsSourceCount',
+        subscribedPublisherIds.length + channels.length
+      ),
+    [subscribedPublisherIds.length, channels.length]
+  )
 
-  return <div>
-    <Flex direction="row" justify="space-between" align="center">
-      <Title>{getLocale('braveNewsFeedsHeading')}</Title>
-      <Subtitle>{sourcesCount}</Subtitle>
-    </Flex>
-    <Flex direction="column">
-      {channels.map(c => <ChannelListEntry key={c.channelName} channelName={c.channelName} />)}
-      {subscribedPublisherIds.map((p) => (
-        <FeedListEntry key={p} publisherId={p} />
-      ))}
-    </Flex>
-  </div>
+  return (
+    <div>
+      <Flex direction="row" justify="space-between" align="center">
+        <Title>{getLocale('braveNewsFeedsHeading')}</Title>
+        <Subtitle>{sourcesCount}</Subtitle>
+      </Flex>
+      <Flex direction="column">
+        {channels.map((c) => (
+          <ChannelListEntry key={c.channelName} channelName={c.channelName} />
+        ))}
+        {subscribedPublisherIds.map((p) => (
+          <FeedListEntry key={p} publisherId={p} />
+        ))}
+      </Flex>
+    </div>
+  )
 }

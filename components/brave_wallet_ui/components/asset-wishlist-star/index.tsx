@@ -22,10 +22,7 @@ export const AssetWishlistStar = (props: Props) => {
   }
   return (
     <StyledWrapper>
-      <Star
-        active={active}
-        onClick={onClick}
-      />
+      <Star active={active} onClick={onClick} />
     </StyledWrapper>
   )
 }

@@ -23,7 +23,7 @@ interface OrderSummaryProps {
   orderTotalConverted: string
 }
 
-export function OrderSummary (props: OrderSummaryProps) {
+export function OrderSummary(props: OrderSummaryProps) {
   const locale = React.useContext(LocaleContext)
   return (
     <Container>

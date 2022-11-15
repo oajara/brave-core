@@ -8,12 +8,14 @@ import { createStore, applyMiddleware } from 'redux'
 import reducer from './reducer'
 import asyncHandler from './async'
 import * as Actions from './actions'
-import getPanelBrowserAPI, { ServiceObserverReceiver, ConnectionState, PurchasedState, Region } from '../api/panel_browser_api'
+import getPanelBrowserAPI, {
+  ServiceObserverReceiver,
+  ConnectionState,
+  PurchasedState,
+  Region
+} from '../api/panel_browser_api'
 
-const store = createStore(
-  reducer,
-  applyMiddleware(asyncHandler)
-)
+const store = createStore(reducer, applyMiddleware(asyncHandler))
 
 // Register the observer earlier
 const observer = {
@@ -46,7 +48,8 @@ const observer = {
 }
 const serviceObserver = new ServiceObserverReceiver(observer)
 getPanelBrowserAPI().serviceHandler.addObserver(
-  serviceObserver.$.bindNewPipeAndPassRemote())
+  serviceObserver.$.bindNewPipeAndPassRemote()
+)
 
 store.dispatch(Actions.initialize())
 

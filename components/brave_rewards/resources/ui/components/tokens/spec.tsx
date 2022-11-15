@@ -9,7 +9,11 @@ import Tokens from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('Tokens tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><Tokens id={'tokens'} value={'10'} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <Tokens id={'tokens'} value={'10'} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

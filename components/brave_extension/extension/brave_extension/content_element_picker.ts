@@ -17,7 +17,9 @@ let pickerFrame: HTMLIFrameElement | null
 // frame. We disable pointer events for the duration of the query to get
 // around this.
 const elementFromFrameCoords = (x: number, y: number): Element | null => {
-  if (!pickerFrame) { return null }
+  if (!pickerFrame) {
+    return null
+  }
   pickerFrame.style.setProperty('pointer-events', 'none', 'important')
   const elem = document.elementFromPoint(x, y)
   pickerFrame.style.setProperty('pointer-events', 'auto', 'important')
@@ -25,11 +27,11 @@ const elementFromFrameCoords = (x: number, y: number): Element | null => {
 }
 
 enum SpecificityFlags {
-  Id = (1 << 0),
-  Hierarchy = (1 << 1),
-  Attributes = (1 << 2),
-  Class = (1 << 3),
-  NthOfType = (1 << 4)
+  Id = 1 << 0,
+  Hierarchy = 1 << 1,
+  Attributes = 1 << 2,
+  Class = 1 << 3,
+  NthOfType = 1 << 4
 }
 
 const mostSpecificMask = 0b11111
@@ -52,14 +54,14 @@ class ElementSelectorBuilder {
   private readonly rules: Rule[]
   private tag: string
 
-  constructor (elem: Element) {
+  constructor(elem: Element) {
     this.rules = []
     this.tag = ''
     this.elem = elem
     this.hasId = false
   }
 
-  addRule (rule: Rule): void {
+  addRule(rule: Rule): void {
     if (rule.type < Selector.Id || rule.type > Selector.NthOfType) {
       console.log(`Unexpected selector: ${rule.type}`)
       return
@@ -67,19 +69,21 @@ class ElementSelectorBuilder {
     if (Array.isArray(rule.value) && rule.value.length === 0) {
       return
     }
-    if (rule.type === Selector.Id) { this.hasId = true }
+    if (rule.type === Selector.Id) {
+      this.hasId = true
+    }
     this.rules.push(rule)
   }
 
-  addTag (tag: string): void {
+  addTag(tag: string): void {
     this.tag = tag
   }
 
-  size (): number {
+  size(): number {
     return this.rules.length
   }
 
-  toString (mask: number = mostSpecificMask): string {
+  toString(mask: number = mostSpecificMask): string {
     let selector = this.tag + ''
     for (const rule of this.rules) {
       if (!(mask & SpecificityFlags.Id) && rule.type === Selector.Id) {
@@ -88,13 +92,23 @@ class ElementSelectorBuilder {
       if (!(mask & SpecificityFlags.Class) && rule.type === Selector.Class) {
         continue
       }
-      if (!(mask & SpecificityFlags.Attributes) && rule.type === Selector.Attributes) {
+      if (
+        !(mask & SpecificityFlags.Attributes) &&
+        rule.type === Selector.Attributes
+      ) {
         continue
       }
-      if (!(mask & SpecificityFlags.NthOfType) && rule.type === Selector.NthOfType) {
+      if (
+        !(mask & SpecificityFlags.NthOfType) &&
+        rule.type === Selector.NthOfType
+      ) {
         continue
       }
-      if (this.hasId && (mask & SpecificityFlags.Id) && rule.type === Selector.Class) {
+      if (
+        this.hasId &&
+        mask & SpecificityFlags.Id &&
+        rule.type === Selector.Class
+      ) {
         continue
       }
 
@@ -125,7 +139,9 @@ class ElementSelectorBuilder {
           selector += `:nth-of-type(${rule.value})`
           break
         }
-        default: { /* Unreachable */ }
+        default: {
+          /* Unreachable */
+        }
       }
     }
     return selector
@@ -203,7 +219,9 @@ const cssSelectorFromElement = (elem: Element): ElementSelectorBuilder => {
         }
         break
       }
-      default: { break }
+      default: {
+        break
+      }
     }
     if (attributes.length > 0) {
       builder.addRule({
@@ -213,23 +231,35 @@ const cssSelectorFromElement = (elem: Element): ElementSelectorBuilder => {
     }
   }
 
-  const querySelectorNoExcept = (node: Element | null, selector: string): Element[] => {
+  const querySelectorNoExcept = (
+    node: Element | null,
+    selector: string
+  ): Element[] => {
     if (node !== null) {
       try {
         let r = node.querySelectorAll(selector)
         return Array.from(r)
-      } catch (e) { /* Deliberately left empty */ }
+      } catch (e) {
+        /* Deliberately left empty */
+      }
     }
     return []
   }
 
-  if (builder.size() === 0 || querySelectorNoExcept(elem.parentElement, builder.toString()).length > 1) {
+  if (
+    builder.size() === 0 ||
+    querySelectorNoExcept(elem.parentElement, builder.toString()).length > 1
+  ) {
     builder.addTag(tag)
-    if (querySelectorNoExcept(elem.parentElement, builder.toString()).length > 1) {
+    if (
+      querySelectorNoExcept(elem.parentElement, builder.toString()).length > 1
+    ) {
       let index = 1
       let sibling: Element | null = elem.previousElementSibling
       while (sibling !== null) {
-        if (sibling.localName === tag) { index++ }
+        if (sibling.localName === tag) {
+          index++
+        }
         sibling = sibling.previousElementSibling
       }
       builder.addRule({
@@ -328,12 +358,16 @@ let targetedElems: Element[] = []
 
 const recalculateAndSendTargets = (elems: Element[]) => {
   targetedElems = elems
-  const coords: TargetRect[] = elems.map((e: Element) => targetRectFromElement(e))
+  const coords: TargetRect[] = elems.map((e: Element) =>
+    targetRectFromElement(e)
+  )
   chrome.runtime.sendMessage({ type: 'highlightElements', coords: coords })
 }
 
 const onTargetSelected = (selected: Element | null, index: number): string => {
-  if (lastHoveredElem === null) { return '' }
+  if (lastHoveredElem === null) {
+    return ''
+  }
 
   let elem: Element | null = selected
   const selectorBuilders = []
@@ -359,16 +393,18 @@ const onTargetSelected = (selected: Element | null, index: number): string => {
   let i = 0
   for (; i < selectorBuilders.length; i++) {
     const b = selectorBuilders[i]
-    if ((mask & SpecificityFlags.Id) && b.hasId ||
-        document.querySelectorAll(b.toString(mask)).length === 1) {
+    if (
+      (mask & SpecificityFlags.Id && b.hasId) ||
+      document.querySelectorAll(b.toString(mask)).length === 1
+    ) {
       break
     }
   }
   const selector = selectorBuilders
-      .slice(0, i + 1)
-      .reverse()
-      .map((b) => b.toString(mask))
-      .join(' > ')
+    .slice(0, i + 1)
+    .reverse()
+    .map((b) => b.toString(mask))
+    .join(' > ')
   return selector
 }
 
@@ -384,7 +420,11 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     case 'elementPickerHoverCoordsChanged': {
       const { coords } = msg
       const elem = elementFromFrameCoords(coords.x, coords.y)
-      if (elem !== null && (elem instanceof HTMLElement) && elem !== lastHoveredElem) {
+      if (
+        elem !== null &&
+        elem instanceof HTMLElement &&
+        elem !== lastHoveredElem
+      ) {
         recalculateAndSendTargets([elem])
         lastHoveredElem = elem
       }
@@ -392,9 +432,11 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     }
     case 'elementPickerUserSelectedTarget': {
       const { specificity } = msg
-      if (lastHoveredElem !== null && (lastHoveredElem instanceof HTMLElement)) {
+      if (lastHoveredElem !== null && lastHoveredElem instanceof HTMLElement) {
         const selector = onTargetSelected(lastHoveredElem, specificity)
-        recalculateAndSendTargets(Array.from(document.querySelectorAll(selector)))
+        recalculateAndSendTargets(
+          Array.from(document.querySelectorAll(selector))
+        )
         sendResponse({
           isValid: selector !== '',
           selector: selector.trim()
@@ -405,7 +447,9 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     case 'elementPickerUserModifiedRule': {
       const selector = msg.selector
       if (selector.length > 0) {
-        recalculateAndSendTargets(Array.from(document.querySelectorAll(selector)))
+        recalculateAndSendTargets(
+          Array.from(document.querySelectorAll(selector))
+        )
       }
       break
     }

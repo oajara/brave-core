@@ -9,7 +9,7 @@ interface Props {
   children: React.ReactNode
 }
 
-function PanelBox (props: Props) {
+function PanelBox(props: Props) {
   return (
     <S.Box>
       {props.children}

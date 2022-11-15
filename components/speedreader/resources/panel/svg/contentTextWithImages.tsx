@@ -5,12 +5,7 @@
 import * as React from 'react'
 
 const SvgComponent = () => (
-  <svg
-    width={48}
-    height={24}
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+  <svg width={48} height={24} fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M14.163 11.217a.8.8 0 0 1 .617.203l3.97 3.592a.8.8 0 1 1-1.073 1.187l-3.316-3-2.972 4.022a.8.8 0 0 1-1.194.104l-1.602-1.521-1.748 2.536a.8.8 0 1 1-1.318-.909l2.28-3.306A.8.8 0 0 1 9.017 14l1.624 1.543 2.958-4.004a.8.8 0 0 1 .564-.32Z"
       fill="currentColor"

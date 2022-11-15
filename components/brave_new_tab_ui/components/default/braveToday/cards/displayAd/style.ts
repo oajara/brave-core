@@ -12,16 +12,16 @@ export const BatAdLabel = styled('a')`
   position: absolute;
   top: 8px;
   right: 6px;
-  background: #FFFFFF;
+  background: #ffffff;
   border: 1px solid rgba(76, 84, 210, 0.33);
   border-radius: 4px;
-  backdrop-filter: blur(10px) brightness(.7);
+  backdrop-filter: blur(10px) brightness(0.7);
   padding: 0 2px;
   display: flex;
   align-items: center;
   white-space: nowrap;
-  color: ${p => p.theme.color.interactive05};
-  font: 500 12px ${p => p.theme.fontFamily.heading};
+  color: ${(p) => p.theme.color.interactive05};
+  font: 500 12px ${(p) => p.theme.fontFamily.heading};
   /* line-height: 18px; */
   ::before {
     width: 15px;

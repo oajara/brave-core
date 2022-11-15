@@ -17,18 +17,18 @@ export const StyledWrapper = styled.div<LayoutProps>`
   flex-direction: row;
   padding: 10px 0;
   align-items: flex-start;
-  
-  ${(p) => p?.layoutType === 'loose'
-    ? css`
-      width: 100%;
-      margin-top: 16px;
-      margin-bottom: 4px;
-      border: 1px solid ${(p) => p.theme.color.divider01};
-      border-radius: 4px;
-      padding: 12px;
-    `
-    : ''
-  }
+
+  ${(p) =>
+    p?.layoutType === 'loose'
+      ? css`
+          width: 100%;
+          margin-top: 16px;
+          margin-bottom: 4px;
+          border: 1px solid ${(p) => p.theme.color.divider01};
+          border-radius: 4px;
+          padding: 12px;
+        `
+      : ''}
 `
 
 export const Logo = styled.img`
@@ -51,7 +51,7 @@ export const Name = styled.span`
   line-height: 26px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: ${p => p.theme.color.text01};
+  color: ${(p) => p.theme.color.text01};
 `
 
 export const Description = styled.span`
@@ -59,7 +59,7 @@ export const Description = styled.span`
   font-weight: 400;
   font-size: 12px;
   line-height: 18px;
-  color: ${p => p.theme.color.text02};
+  color: ${(p) => p.theme.color.text02};
   margin-bottom: 4px;
 `
 
@@ -72,20 +72,19 @@ export const StyledButton = styled(WalletButton)`
   padding: 6px 18px;
   outline: none;
   background-color: transparent;
-  border: ${p => `1px solid ${p.theme.color.interactive08}`};
-  
+  border: ${(p) => `1px solid ${p.theme.color.interactive08}`};
 `
 
 export const ButtonText = styled.span`
   font-family: 'Poppins';
   font-size: 13px;
   font-weight: 600;
-  color: ${p => p.theme.color.interactive07};
+  color: ${(p) => p.theme.color.interactive07};
   text-align: center;
 `
 
 export const LoadIcon = styled(LoaderIcon)`
-  color: ${p => p.theme.color.interactive08};
+  color: ${(p) => p.theme.color.interactive08};
   height: 13px;
   width: 13px;
 `

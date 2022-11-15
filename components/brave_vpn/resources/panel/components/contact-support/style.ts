@@ -9,7 +9,7 @@ export const Box = styled.div`
   height: 100%;
   background: ${(p) => p.theme.color.panelBackground};
   overflow: hidden;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
 `
 
 export const Form = styled.form`

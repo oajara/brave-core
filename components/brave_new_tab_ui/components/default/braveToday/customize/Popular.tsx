@@ -16,41 +16,61 @@ import FeedCard from './FeedCard'
 
 const usePopularPublisherIds = () => {
   const { filteredPublisherIds, publishers } = useBraveNews()
-  return React.useMemo(() => filteredPublisherIds.map(id => publishers[id])
-    .map(p => [p, p.locales.find(l => l.locale === api.locale)?.rank] as const)
-    // Filter out publishers which aren't in the current locale.
-    .filter(([p, pRank]) => pRank !== undefined)
-    .sort(([a, aRank], [b, bRank]) => {
-      // Neither source has a rank, sort alphabetically
-      if (!aRank && !bRank) {
-        return a.publisherName.localeCompare(b.publisherName)
-      }
+  return React.useMemo(
+    () =>
+      filteredPublisherIds
+        .map((id) => publishers[id])
+        .map(
+          (p) =>
+            [p, p.locales.find((l) => l.locale === api.locale)?.rank] as const
+        )
+        // Filter out publishers which aren't in the current locale.
+        .filter(([p, pRank]) => pRank !== undefined)
+        .sort(([a, aRank], [b, bRank]) => {
+          // Neither source has a rank, sort alphabetically
+          if (!aRank && !bRank) {
+            return a.publisherName.localeCompare(b.publisherName)
+          }
 
-      // 0 is considered unranked, because mojo doesn't support optional
-      // primitives, so we want to sort 0 last.
-      return (aRank || Number.MAX_SAFE_INTEGER) - (bRank || Number.MAX_SAFE_INTEGER)
-    })
-    .map(([p]) => p.publisherId), [filteredPublisherIds, publishers])
-}
-
-export function PopularCarousel () {
-  const { setCustomizePage } = useBraveNews()
-  const popularPublisherIds = usePopularPublisherIds()
-  return (
-    <Carousel title={<Flex justify='space-between'>
-      {getLocale('braveNewsPopularTitle')}
-      <CustomizeLink onClick={() => setCustomizePage('popular')}>
-        {getLocale('braveNewsViewAllButton')}
-      </CustomizeLink>
-    </Flex>} publisherIds={popularPublisherIds} />
+          // 0 is considered unranked, because mojo doesn't support optional
+          // primitives, so we want to sort 0 last.
+          return (
+            (aRank || Number.MAX_SAFE_INTEGER) -
+            (bRank || Number.MAX_SAFE_INTEGER)
+          )
+        })
+        .map(([p]) => p.publisherId),
+    [filteredPublisherIds, publishers]
   )
 }
 
-export function PopularPage () {
+export function PopularCarousel() {
+  const { setCustomizePage } = useBraveNews()
   const popularPublisherIds = usePopularPublisherIds()
-  return <CustomizePage title={getLocale('braveNewsPopularTitle')}>
-    <DiscoverSection>
-      {popularPublisherIds.map(p => <FeedCard key={p} publisherId={p} />)}
-    </DiscoverSection>
-  </CustomizePage>
+  return (
+    <Carousel
+      title={
+        <Flex justify="space-between">
+          {getLocale('braveNewsPopularTitle')}
+          <CustomizeLink onClick={() => setCustomizePage('popular')}>
+            {getLocale('braveNewsViewAllButton')}
+          </CustomizeLink>
+        </Flex>
+      }
+      publisherIds={popularPublisherIds}
+    />
+  )
+}
+
+export function PopularPage() {
+  const popularPublisherIds = usePopularPublisherIds()
+  return (
+    <CustomizePage title={getLocale('braveNewsPopularTitle')}>
+      <DiscoverSection>
+        {popularPublisherIds.map((p) => (
+          <FeedCard key={p} publisherId={p} />
+        ))}
+      </DiscoverSection>
+    </CustomizePage>
+  )
 }

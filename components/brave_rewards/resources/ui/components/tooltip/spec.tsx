@@ -9,7 +9,11 @@ import Tooltip from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('Tooltip tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><Tooltip id='tooltip' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <Tooltip id="tooltip" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

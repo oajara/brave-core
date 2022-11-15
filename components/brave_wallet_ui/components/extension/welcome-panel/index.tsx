@@ -12,15 +12,8 @@ import { getLocale } from '../../../../common/locale'
 import { NavButton } from '../buttons/nav-button/index'
 
 // style
-import {
-  VerticalSpace,
-  WalletWelcomeGraphic
-} from '../../shared/style'
-import {
-  StyledWrapper,
-  Title,
-  Description
-} from './style'
+import { VerticalSpace, WalletWelcomeGraphic } from '../../shared/style'
+import { StyledWrapper, Title, Description } from './style'
 
 interface Props {
   onSetup: () => void
@@ -29,9 +22,9 @@ interface Props {
 export const WelcomePanel = ({ onSetup }: Props) => {
   return (
     <StyledWrapper>
-      <WalletWelcomeGraphic scale={0.9}/>
+      <WalletWelcomeGraphic scale={0.9} />
 
-      <VerticalSpace space='16px' />
+      <VerticalSpace space="16px" />
 
       <Title>{getLocale('braveWalletPanelTitle')}</Title>
       <Description>
@@ -39,12 +32,12 @@ export const WelcomePanel = ({ onSetup }: Props) => {
       </Description>
 
       <NavButton
-        buttonType='primary'
+        buttonType="primary"
         text={getLocale('braveWalletLearnMore')}
         onSubmit={onSetup}
       />
 
-      <VerticalSpace space='16px' />
+      <VerticalSpace space="16px" />
     </StyledWrapper>
   )
 }

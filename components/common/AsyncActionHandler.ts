@@ -26,7 +26,7 @@ type Handlers = Map<string, Array<Handler<unknown>>>
 export default class AsyncHandler {
   handlersByType: Handlers = new Map()
 
-  setHandlerForAction<T> (actionType: string, doStuff: Handler<T>) {
+  setHandlerForAction<T>(actionType: string, doStuff: Handler<T>) {
     let handlers = this.handlersByType.get(actionType)
     if (!handlers) {
       handlers = []
@@ -35,7 +35,7 @@ export default class AsyncHandler {
     handlers.push(doStuff)
   }
 
-  on<T> (actionType: string | string[], doStuff: Handler<T>) {
+  on<T>(actionType: string | string[], doStuff: Handler<T>) {
     if (Array.isArray(actionType)) {
       for (const action of actionType) {
         this.setHandlerForAction(action, doStuff)
@@ -45,14 +45,17 @@ export default class AsyncHandler {
     }
   }
 
-  middleware: Middleware = (store: MiddlewareAPI) => (next: Dispatch<AnyAction>) => (action: AnyAction) => {
-    const result = next(action)
-    const handlers = this.handlersByType.get(action.type)
-    if (handlers) {
-      for (const handler of handlers) {
-        handler(store, action.payload)
+  middleware: Middleware =
+    (store: MiddlewareAPI) =>
+    (next: Dispatch<AnyAction>) =>
+    (action: AnyAction) => {
+      const result = next(action)
+      const handlers = this.handlersByType.get(action.type)
+      if (handlers) {
+        for (const handler of handlers) {
+          handler(store, action.payload)
+        }
       }
+      return result
     }
-    return result
-  }
 }

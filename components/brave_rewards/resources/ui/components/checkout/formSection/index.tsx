@@ -11,7 +11,7 @@ interface FormSectionProps {
   children: React.ReactNode
 }
 
-export function FormSection (props: FormSectionProps) {
+export function FormSection(props: FormSectionProps) {
   return (
     <Box>
       <Header>{props.title}</Header>

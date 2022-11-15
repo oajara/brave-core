@@ -33,7 +33,11 @@ const ScrollButton = styled.button<{ hidden: boolean }>`
     color: var(--interactive4);
   }
 
-  ${p => p.hidden && css`opacity: 0;`}
+  ${(p) =>
+    p.hidden &&
+    css`
+      opacity: 0;
+    `}
 
   transition: opacity 0.2s ease-in-out, color 0.2s ease-in-out;
 `
@@ -78,8 +82,8 @@ const ItemsContainer = styled(Flex)`
   scroll-snap-type: x mandatory;
 
   &::-webkit-scrollbar {
-   display: none;
-   width: 0;
+    display: none;
+    width: 0;
   }
 `
 
@@ -95,13 +99,17 @@ interface Props {
   publisherIds: string[]
 }
 
-export default function Carousel (props: Props) {
+export default function Carousel(props: Props) {
   const scrollContainerRef = React.useRef<HTMLDivElement>()
-  const [availableDirections, setAvailableDirections] = React.useState<'none' | 'left' | 'right' | 'both'>('right')
+  const [availableDirections, setAvailableDirections] = React.useState<
+    'none' | 'left' | 'right' | 'both'
+  >('right')
   const updateAvailableDirections = React.useCallback(() => {
     if (!scrollContainerRef.current) return
 
-    const end = scrollContainerRef.current.scrollWidth - scrollContainerRef.current.clientWidth
+    const end =
+      scrollContainerRef.current.scrollWidth -
+      scrollContainerRef.current.clientWidth
     const scrollPos = scrollContainerRef.current.scrollLeft
     if (end <= 0) {
       setAvailableDirections('none')
@@ -128,23 +136,38 @@ export default function Carousel (props: Props) {
   }
 
   return (
-    <Container direction='column'>
-      <Flex direction='row' gap={8} align='center'>
+    <Container direction="column">
+      <Flex direction="row" gap={8} align="center">
         <Header>{props.title}</Header>
       </Flex>
-      {props.subtitle && <Subtitle>
-        {props.subtitle}
-      </Subtitle>}
+      {props.subtitle && <Subtitle>{props.subtitle}</Subtitle>}
       <CarouselContainer>
-        <ItemsContainer direction='row' gap={CARD_GAP} ref={scrollContainerRef as any} onScroll={updateAvailableDirections}>
-          {props.publisherIds.map(p => <FeedCardContainer key={p}>
-            <FeedCard publisherId={p}/>
-          </FeedCardContainer>)}
+        <ItemsContainer
+          direction="row"
+          gap={CARD_GAP}
+          ref={scrollContainerRef as any}
+          onScroll={updateAvailableDirections}
+        >
+          {props.publisherIds.map((p) => (
+            <FeedCardContainer key={p}>
+              <FeedCard publisherId={p} />
+            </FeedCardContainer>
+          ))}
         </ItemsContainer>
-         <ScrollButtonLeft onClick={() => scroll('left')} hidden={availableDirections === 'right' || availableDirections === 'none'}>
+        <ScrollButtonLeft
+          onClick={() => scroll('left')}
+          hidden={
+            availableDirections === 'right' || availableDirections === 'none'
+          }
+        >
           {ArrowRight}
         </ScrollButtonLeft>
-        <ScrollButtonRight onClick={() => scroll('right')} hidden={availableDirections === 'left' || availableDirections === 'none'}>
+        <ScrollButtonRight
+          onClick={() => scroll('right')}
+          hidden={
+            availableDirections === 'left' || availableDirections === 'none'
+          }
+        >
           {ArrowRight}
         </ScrollButtonRight>
       </CarouselContainer>

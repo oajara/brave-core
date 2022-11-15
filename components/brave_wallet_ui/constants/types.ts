@@ -17,7 +17,11 @@ export { TimeDelta }
 interface TokenBalanceRegistry {
   [contractAddress: string]: string
 }
-const BraveKeyringsTypes = [BraveWallet.DEFAULT_KEYRING_ID, BraveWallet.FILECOIN_KEYRING_ID, BraveWallet.SOLANA_KEYRING_ID] as const
+const BraveKeyringsTypes = [
+  BraveWallet.DEFAULT_KEYRING_ID,
+  BraveWallet.FILECOIN_KEYRING_ID,
+  BraveWallet.SOLANA_KEYRING_ID
+] as const
 export type BraveKeyrings = typeof BraveKeyringsTypes[number]
 
 export interface WalletAccountType {
@@ -78,9 +82,7 @@ export interface RPCResponseType {
   transactions: RPCTransactionType[]
 }
 
-export type PanelHeaderSizes =
-  | 'regular'
-  | 'slim'
+export type PanelHeaderSizes = 'regular' | 'slim'
 
 export interface PanelTitleObjectType {
   title: string
@@ -117,10 +119,7 @@ export type PanelTypes =
   | 'currencies'
   | 'transactionStatus'
 
-export type NavTypes =
-  | 'crypto'
-  | 'rewards'
-  | 'cards'
+export type NavTypes = 'crypto' | 'rewards' | 'cards'
 
 export type TopTabNavTypes =
   | 'portfolio'
@@ -129,27 +128,15 @@ export type TopTabNavTypes =
   | 'accounts'
   | 'market'
 
-export type AddAccountNavTypes =
-  | 'create'
-  | 'import'
-  | 'hardware'
+export type AddAccountNavTypes = 'create' | 'import' | 'hardware'
 
-export type AccountSettingsNavTypes =
-  | 'details'
-  | 'privateKey'
+export type AccountSettingsNavTypes = 'details' | 'privateKey'
 
-export type AddCustomAssetFormNavTypes =
-  | 'token'
-  | 'nft'
+export type AddCustomAssetFormNavTypes = 'token' | 'nft'
 
-export type HardwareAccountSettingsNavTypes =
-  | 'details'
+export type HardwareAccountSettingsNavTypes = 'details'
 
-export type BuySendSwapTypes =
-  | 'buy'
-  | 'send'
-  | 'swap'
-  | 'deposit'
+export type BuySendSwapTypes = 'buy' | 'send' | 'swap' | 'deposit'
 
 export type ChartTimelineType =
   | '5MIN'
@@ -165,7 +152,12 @@ export interface BuySendSwapObjectType {
   id: BuySendSwapTypes
 }
 
-export type TabNavTypes = TopTabNavTypes | AddAccountNavTypes | AccountSettingsNavTypes | HardwareAccountSettingsNavTypes | AddCustomAssetFormNavTypes
+export type TabNavTypes =
+  | TopTabNavTypes
+  | AddAccountNavTypes
+  | AccountSettingsNavTypes
+  | HardwareAccountSettingsNavTypes
+  | AddCustomAssetFormNavTypes
 
 export interface TopTabNavObjectType {
   name: string
@@ -349,7 +341,7 @@ export interface WalletInfo extends WalletInfoBase {
 export interface SwapErrorResponse {
   code: number
   reason: string
-  validationErrors?: Array<{ field: string, code: number, reason: string }>
+  validationErrors?: Array<{ field: string; code: number; reason: string }>
 }
 
 export interface JupiterErrorResponse {
@@ -447,8 +439,7 @@ export interface SendFilTransactionParams extends BaseTransactionParams {
   maxFee?: string
 }
 
-export interface SendSolTransactionParams extends BaseTransactionParams {
-}
+export interface SendSolTransactionParams extends BaseTransactionParams {}
 
 export interface SPLTransferFromParams extends BaseTransactionParams {
   splTokenMintAddress: string
@@ -466,7 +457,10 @@ export interface SendEthTransactionParams extends BaseEthTransactionParams {
   data?: number[]
 }
 
-export type SendTransactionParams = SendEthTransactionParams | SendFilTransactionParams | SendSolTransactionParams
+export type SendTransactionParams =
+  | SendEthTransactionParams
+  | SendFilTransactionParams
+  | SendSolTransactionParams
 
 export interface ER20TransferParams extends BaseEthTransactionParams {
   contractAddress: string
@@ -488,19 +482,25 @@ export type AccountTransactions = {
   [accountId: string]: BraveWallet.TransactionInfo[]
 }
 
-export type GetEthAddrReturnInfo = BraveWallet.JsonRpcService_EnsGetEthAddr_ResponseParams
-export type GetSolAddrReturnInfo = BraveWallet.JsonRpcService_SnsGetSolAddr_ResponseParams
-export type GetUnstoppableDomainsWalletAddrReturnInfo = BraveWallet.JsonRpcService_UnstoppableDomainsGetWalletAddr_ResponseParams
+export type GetEthAddrReturnInfo =
+  BraveWallet.JsonRpcService_EnsGetEthAddr_ResponseParams
+export type GetSolAddrReturnInfo =
+  BraveWallet.JsonRpcService_SnsGetSolAddr_ResponseParams
+export type GetUnstoppableDomainsWalletAddrReturnInfo =
+  BraveWallet.JsonRpcService_UnstoppableDomainsGetWalletAddr_ResponseParams
 
 export interface GetBlockchainTokenInfoReturnInfo {
   token: BraveWallet.BlockchainToken | null
 }
 
-export type GetIsStrongPassswordReturnInfo = BraveWallet.KeyringService_IsStrongPassword_ResponseParams
+export type GetIsStrongPassswordReturnInfo =
+  BraveWallet.KeyringService_IsStrongPassword_ResponseParams
 
-export type GetChecksumEthAddressReturnInfo = BraveWallet.KeyringService_GetChecksumEthAddress_ResponseParams
+export type GetChecksumEthAddressReturnInfo =
+  BraveWallet.KeyringService_GetChecksumEthAddress_ResponseParams
 
-export type IsBase58EncodedSolanaPubkeyReturnInfo = BraveWallet.BraveWalletService_IsBase58EncodedSolanaPubkey_ResponseParams
+export type IsBase58EncodedSolanaPubkeyReturnInfo =
+  BraveWallet.BraveWalletService_IsBase58EncodedSolanaPubkey_ResponseParams
 
 export interface RecoveryObject {
   value: string
@@ -528,9 +528,7 @@ export type BuySendSwapViewTypes =
   | 'assets'
   | 'currencies'
 
-export type OrderTypes =
-  | 'market'
-  | 'limit'
+export type OrderTypes = 'market' | 'limit'
 
 export interface SlippagePresetObjectType {
   id: number
@@ -543,21 +541,14 @@ export interface ExpirationPresetObjectType {
   expiration: number
 }
 
-export type AmountPresetTypes =
-  | 0
-  | 0.25
-  | 0.50
-  | 0.75
-  | 1
+export type AmountPresetTypes = 0 | 0.25 | 0.5 | 0.75 | 1
 
 export interface AmountPresetObjectType {
   name: string
   value: AmountPresetTypes
 }
 
-export type ToOrFromType =
-  | 'to'
-  | 'from'
+export type ToOrFromType = 'to' | 'from'
 
 export type TransactionDataType = {
   functionName: string
@@ -806,18 +797,14 @@ export interface AssetFilterOption {
 
 export type ImportAccountErrorType = boolean | undefined
 
-export type MarketAssetFilterOption =
-  | 'all'
-  | 'tradable'
+export type MarketAssetFilterOption = 'all' | 'tradable'
 
 export type AssetFilter = {
   value: MarketAssetFilterOption
   label: string
 }
 
-export type SortOrder =
-  | 'asc'
-  | 'desc'
+export type SortOrder = 'asc' | 'desc'
 
 export type MarketDataTableColumnTypes =
   | 'assets'
@@ -856,7 +843,8 @@ export const P3ASendTransactionTypes = [
   BraveWallet.TransactionType.ERC20Transfer,
   BraveWallet.TransactionType.SolanaSystemTransfer,
   BraveWallet.TransactionType.SolanaSPLTokenTransfer,
-  BraveWallet.TransactionType.SolanaSPLTokenTransferWithAssociatedTokenAccountCreation
+  BraveWallet.TransactionType
+    .SolanaSPLTokenTransferWithAssociatedTokenAccountCreation
 ]
 
 export type SendOptionTypes = 'token' | 'nft'

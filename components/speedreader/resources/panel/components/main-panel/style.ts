@@ -5,7 +5,7 @@
 import styled from 'styled-components'
 
 export const Box = styled.div`
-  --speedreader-background: #FFFFFF;
+  --speedreader-background: #ffffff;
   background: var(--speedreader-background);
   color: ${(p) => p.theme.color.text01};
   width: 100%;
@@ -15,7 +15,7 @@ export const Box = styled.div`
   position: relative;
 
   @media (prefers-color-scheme: dark) {
-    --speedreader-background: #1E2029;
+    --speedreader-background: #1e2029;
   }
 
   a {
@@ -24,7 +24,7 @@ export const Box = styled.div`
 `
 
 export const HeaderBox = styled.div`
-  border-bottom: 1px solid #3B3E4F;
+  border-bottom: 1px solid #3b3e4f;
   margin-bottom: 24px;
 `
 
@@ -66,7 +66,7 @@ export const Bg = styled.div`
   bottom: 0;
   width: 100%;
   padding: 0 24px 5px 24px;
-  color: #F1F3F5;
+  color: #f1f3f5;
   opacity: 0.1;
   pointer-events: none;
 `

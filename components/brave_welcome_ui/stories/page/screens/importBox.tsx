@@ -31,7 +31,7 @@ interface State {
 }
 
 export default class ImportBox extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       importSelected: false
@@ -46,7 +46,7 @@ export default class ImportBox extends React.PureComponent<Props, State> {
     this.setState({ importSelected: event.target.value !== '' })
   }
 
-  render () {
+  render() {
     const { index, currentScreen } = this.props
     const { importSelected } = this.state
     return (
@@ -59,21 +59,21 @@ export default class ImportBox extends React.PureComponent<Props, State> {
         <WelcomeImportImage />
         <Title>{locale.importFromAnotherBrowser}</Title>
         <Paragraph>{locale.setupImport}</Paragraph>
-          <SelectGrid>
-              <SelectBox onChange={this.onChangeImportOption}>
-                <option value=''>{locale.importFrom}</option>
-                <option value='Chrome'>{locale.fakeBrowser1}</option>
-                <option value='Firefox'>{locale.fakeBrowser2}</option>
-              </SelectBox>
-              <PrimaryButton
-                level='primary'
-                type='accent'
-                size='large'
-                text={locale.import}
-                disabled={!importSelected}
-                onClick={this.onClickImport}
-              />
-            </SelectGrid>
+        <SelectGrid>
+          <SelectBox onChange={this.onChangeImportOption}>
+            <option value="">{locale.importFrom}</option>
+            <option value="Chrome">{locale.fakeBrowser1}</option>
+            <option value="Firefox">{locale.fakeBrowser2}</option>
+          </SelectBox>
+          <PrimaryButton
+            level="primary"
+            type="accent"
+            size="large"
+            text={locale.import}
+            disabled={!importSelected}
+            onClick={this.onClickImport}
+          />
+        </SelectGrid>
       </Content>
     )
   }

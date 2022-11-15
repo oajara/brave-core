@@ -5,7 +5,4 @@
 import { Chart } from './chart'
 import { TradingDropdown } from './tradingDropdown'
 
-export {
-   Chart,
-   TradingDropdown
- }
+export { Chart, TradingDropdown }

@@ -33,16 +33,15 @@ interface BaseProps {
   minWidth?: string
 }
 
-type ClickProps = (
-  {
-    onSubmit: () => void
-    url?: string
-  }
+type ClickProps =
   | {
-    url: string
-    onSubmit?: () => void
-  }
-)
+      onSubmit: () => void
+      url?: string
+    }
+  | {
+      url: string
+      onSubmit?: () => void
+    }
 
 export type Props = BaseProps & ClickProps
 
@@ -58,18 +57,14 @@ export const NavButton: React.FC<Props> = ({
 }) => {
   // memos
   const buttonContent = React.useMemo(() => {
-    return <>
-      {buttonType === 'reject' &&
-        <RejectIcon />
-      }
-      {buttonType === 'sign' &&
-        <SignIcon />
-      }
-      {buttonType === 'confirm' &&
-        <ConfirmIcon />
-      }
-      <ButtonText buttonType={buttonType}>{text}</ButtonText>
-    </>
+    return (
+      <>
+        {buttonType === 'reject' && <RejectIcon />}
+        {buttonType === 'sign' && <SignIcon />}
+        {buttonType === 'confirm' && <ConfirmIcon />}
+        <ButtonText buttonType={buttonType}>{text}</ButtonText>
+      </>
+    )
   }, [buttonType, text])
 
   // render

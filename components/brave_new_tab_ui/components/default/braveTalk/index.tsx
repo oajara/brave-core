@@ -33,22 +33,20 @@ class BraveTalk extends React.PureComponent<Props, {}> {
     return getLocale('braveTalkWidgetStartButton')
   }
 
-  renderTitle () {
+  renderTitle() {
     return (
       <Header>
         <StyledTitle>
           <BraveTalkIcon>
             <BraveTalkSvg />
           </BraveTalkIcon>
-          <>
-            {getLocale('braveTalkWidgetTitle')}
-          </>
+          <>{getLocale('braveTalkWidgetTitle')}</>
         </StyledTitle>
       </Header>
     )
   }
 
-  renderTitleTab () {
+  renderTitleTab() {
     const { onShowContent, stackPosition } = this.props
 
     return (
@@ -63,10 +61,8 @@ class BraveTalk extends React.PureComponent<Props, {}> {
     window.open(braveTalkWidgetUrl, '_self', 'noopener')
   }
 
-  render () {
-    const {
-      showContent
-    } = this.props
+  render() {
+    const { showContent } = this.props
 
     if (!showContent) {
       return this.renderTitleTab()
@@ -74,26 +70,24 @@ class BraveTalk extends React.PureComponent<Props, {}> {
 
     return (
       <WidgetWrapper>
-          {this.renderTitle()}
-          <Content>
-            <WelcomeText>
-              {getLocale('braveTalkWidgetWelcomeTitle')}
-            </WelcomeText>
-            <ActionsWrapper>
-              <CallButton onClick={this.shouldCreateCall}>
-                {getLocale('braveTalkWidgetStartButton')}
-              </CallButton>
-              <Privacy>
-                <PrivacyLink
-                  rel={'noopener'}
-                  target={'_blank'}
-                  href={'https://brave.com/privacy/browser/#brave-talk-learn'}
-                >
-                  {getLocale('braveTalkWidgetAboutData')}
-                </PrivacyLink>
-              </Privacy>
-            </ActionsWrapper>
-          </Content>
+        {this.renderTitle()}
+        <Content>
+          <WelcomeText>{getLocale('braveTalkWidgetWelcomeTitle')}</WelcomeText>
+          <ActionsWrapper>
+            <CallButton onClick={this.shouldCreateCall}>
+              {getLocale('braveTalkWidgetStartButton')}
+            </CallButton>
+            <Privacy>
+              <PrivacyLink
+                rel={'noopener'}
+                target={'_blank'}
+                href={'https://brave.com/privacy/browser/#brave-talk-learn'}
+              >
+                {getLocale('braveTalkWidgetAboutData')}
+              </PrivacyLink>
+            </Privacy>
+          </ActionsWrapper>
+        </Content>
       </WidgetWrapper>
     )
   }

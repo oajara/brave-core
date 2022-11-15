@@ -58,13 +58,11 @@ interface ModalProps {
   children: React.ReactNode
 }
 
-export function Modal (props: ModalProps) {
+export function Modal(props: ModalProps) {
   return (
     <style.root>
       <style.topSpacer />
-      <style.content>
-        {props.children}
-      </style.content>
+      <style.content>{props.children}</style.content>
       <style.bottomSpacer />
     </style.root>
   )
@@ -74,10 +72,12 @@ interface ModalCloseButtonProps {
   onClick: () => void
 }
 
-export function ModalCloseButton (props: ModalCloseButtonProps) {
+export function ModalCloseButton(props: ModalCloseButtonProps) {
   return (
     <style.close>
-      <button onClick={props.onClick}><CloseIcon /></button>
+      <button onClick={props.onClick}>
+        <CloseIcon />
+      </button>
     </style.close>
   )
 }

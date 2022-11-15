@@ -29,11 +29,8 @@ export interface Props {
 }
 
 export default class ModalContribute extends React.PureComponent<Props, {}> {
-  get headers () {
-    return [
-      getLocale('site'),
-      getLocale('rewardsContributeAttention')
-    ]
+  get headers() {
+    return [getLocale('site'), getLocale('rewardsContributeAttention')]
   }
 
   getTabTitle = (key: string, numSites?: number) => {
@@ -46,7 +43,7 @@ export default class ModalContribute extends React.PureComponent<Props, {}> {
 
   getACTable = () => {
     const { rows } = this.props
-    const numSites = rows && rows.length || 0
+    const numSites = (rows && rows.length) || 0
 
     return (
       <>
@@ -64,25 +61,25 @@ export default class ModalContribute extends React.PureComponent<Props, {}> {
 
   getExcludedTable = () => {
     const { excludedRows, onRestore } = this.props
-    const numExcludedSites = excludedRows && excludedRows.length || 0
+    const numExcludedSites = (excludedRows && excludedRows.length) || 0
 
     return (
       <>
         <StyledContent>
           <div>
-            {getLocale('rewardsExcludedText1')} <StyledNum>{numExcludedSites}</StyledNum> {getLocale('rewardsExcludedText2')}
+            {getLocale('rewardsExcludedText1')}{' '}
+            <StyledNum>{numExcludedSites}</StyledNum>{' '}
+            {getLocale('rewardsExcludedText2')}
           </div>
-          {
-            numExcludedSites > 0
-            ? <RestoreWrapper>
-                <RestoreSites
-                  showText={false}
-                  onRestore={onRestore}
-                  numExcludedSites={numExcludedSites}
-                />
-              </RestoreWrapper>
-            : null
-          }
+          {numExcludedSites > 0 ? (
+            <RestoreWrapper>
+              <RestoreSites
+                showText={false}
+                onRestore={onRestore}
+                numExcludedSites={numExcludedSites}
+              />
+            </RestoreWrapper>
+          ) : null}
         </StyledContent>
         <TableContribute
           rows={excludedRows}
@@ -96,25 +93,17 @@ export default class ModalContribute extends React.PureComponent<Props, {}> {
     )
   }
 
-  render () {
-    const {
-      id,
-      onClose,
-      rows,
-      excludedRows,
-      activeTabId,
-      onTabChange
-    } = this.props
-    const numSites = rows && rows.length || 0
-    const numExcluded = excludedRows && excludedRows.length || 0
+  render() {
+    const { id, onClose, rows, excludedRows, activeTabId, onTabChange } =
+      this.props
+    const numSites = (rows && rows.length) || 0
+    const numExcluded = (excludedRows && excludedRows.length) || 0
 
     return (
       <Modal id={id} onClose={onClose} size={'small'}>
         <StyledWrapper>
           <StyledControlWrapper>
-            <StyledTitle>
-              {getLocale('rewardsContribute')}
-            </StyledTitle>
+            <StyledTitle>{getLocale('rewardsContribute')}</StyledTitle>
             <StyledTabWrapper>
               <Tab
                 type={'contribute'}
@@ -127,11 +116,7 @@ export default class ModalContribute extends React.PureComponent<Props, {}> {
               />
             </StyledTabWrapper>
           </StyledControlWrapper>
-          {
-            activeTabId === 0
-            ? this.getACTable()
-            : this.getExcludedTable()
-          }
+          {activeTabId === 0 ? this.getACTable() : this.getExcludedTable()}
         </StyledWrapper>
       </Modal>
     )

@@ -18,14 +18,16 @@ class PageHandlerAPI implements API {
   pageHandler: BravePrivateNewTab.PageHandlerRemote
   callbackRouter: BravePrivateNewTab.PrivateTabPageCallbackRouter
 
-  constructor () {
+  constructor() {
     this.pageHandler = BravePrivateNewTab.PageHandler.getRemote()
     this.callbackRouter = new BravePrivateNewTab.PrivateTabPageCallbackRouter()
-    this.pageHandler.setClientPage(this.callbackRouter.$.bindNewPipeAndPassRemote())
+    this.pageHandler.setClientPage(
+      this.callbackRouter.$.bindNewPipeAndPassRemote()
+    )
   }
 }
 
-export default function getPageHandlerInstance () {
+export default function getPageHandlerInstance() {
   if (!apiInstance) {
     apiInstance = new PageHandlerAPI()
   }

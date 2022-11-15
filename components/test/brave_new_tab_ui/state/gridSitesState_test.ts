@@ -36,19 +36,24 @@ const generateGridSiteProperties = (
   }
 }
 
-const gridSites: NewTab.Site[] = [{
-  ...newTopSite1,
-  ...generateGridSiteProperties(0, newTopSite1)
-}, {
-  ...newTopSite2,
-  ...generateGridSiteProperties(1, newTopSite2)
-}]
+const gridSites: NewTab.Site[] = [
+  {
+    ...newTopSite1,
+    ...generateGridSiteProperties(0, newTopSite1)
+  },
+  {
+    ...newTopSite2,
+    ...generateGridSiteProperties(1, newTopSite2)
+  }
+]
 
 describe('gridSitesState', () => {
   describe('tilesUpdated', () => {
     it('update state.gridSites list', () => {
-      const assertion = gridSitesState
-        .tilesUpdated(storage.initialGridSitesState, gridSites)
+      const assertion = gridSitesState.tilesUpdated(
+        storage.initialGridSitesState,
+        gridSites
+      )
 
       expect(assertion.gridSites).toHaveLength(2)
     })
@@ -57,8 +62,10 @@ describe('gridSitesState', () => {
     it('update state with the specified payload value', () => {
       const shouldShow: boolean = true
 
-      const assertion = gridSitesState
-        .showTilesRemovedNotice(storage.initialGridSitesState, shouldShow)
+      const assertion = gridSitesState.showTilesRemovedNotice(
+        storage.initialGridSitesState,
+        shouldShow
+      )
 
       expect(assertion.shouldShowSiteRemovedNotification).toBe(true)
     })

@@ -3,15 +3,19 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 import styled from 'styled-components'
-import { AssetIconProps, AssetIconFactory, WalletButton } from '../../shared/style'
+import {
+  AssetIconProps,
+  AssetIconFactory,
+  WalletButton
+} from '../../shared/style'
 
-export const StyledWrapper = styled(WalletButton) <{ disabled: boolean }>`
+export const StyledWrapper = styled(WalletButton)<{ disabled: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
   width: 100%;
-  cursor: ${(p) => p.disabled ? 'default' : 'pointer'};
+  cursor: ${(p) => (p.disabled ? 'default' : 'pointer')};
   outline: none;
   background: none;
   border: none;

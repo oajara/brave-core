@@ -23,9 +23,8 @@ const getBackground = (props: StyleProps) => {
 }
 
 export const StyledWrapper = styled('div')<StyleProps>`
-  position: ${p => p.fullScreen
-    ? 'fixed'
-    : p.overlay ? 'absolute' : 'relative'};
+  position: ${(p) =>
+    p.fullScreen ? 'fixed' : p.overlay ? 'absolute' : 'relative'};
   top: 0;
   left: 0;
   z-index: 6;
@@ -37,10 +36,10 @@ export const StyledWrapper = styled('div')<StyleProps>`
   width: 100%;
   padding: 0 52px 36px;
   border-radius: 6px;
-  min-height: ${p => (p.fullScreen || p.isPanel) ? '100%' : 'auto'};
+  min-height: ${(p) => (p.fullScreen || p.isPanel ? '100%' : 'auto')};
   min-width: 373px;
-  overflow-y: ${p => p.fullScreen ? 'scroll' : 'hidden'};
-  background: ${p => getBackground(p)};
+  overflow-y: ${(p) => (p.fullScreen ? 'scroll' : 'hidden')};
+  background: ${(p) => getBackground(p)};
 `
 
 export const StyledHeader = styled('div')<{}>`
@@ -51,8 +50,8 @@ export const StyledHeader = styled('div')<{}>`
 
 export const StyledTitle = styled('div')<StyleProps>`
   width: 100%;
-  font-size: ${p => p.isPanel ? 20 : 28}px;
-  font-weight: ${p => p.isPanel ? 'normal' : 500};
+  font-size: ${(p) => (p.isPanel ? 20 : 28)}px;
+  font-weight: ${(p) => (p.isPanel ? 'normal' : 500)};
   line-height: 1.29;
   letter-spacing: -0.2px;
   text-align: center;
@@ -67,7 +66,7 @@ export const StyledClose = styled('button')<{}>`
   border: none;
   background: none;
   cursor: pointer;
-  color: #9E9FAB;
+  color: #9e9fab;
   width: 20px;
   height: 20px;
 `
@@ -92,7 +91,7 @@ export const StyledPanelText = styled('div')<{}>`
   padding: 7px;
   font-size: 12px;
   margin: 5px auto 0px;
-  background: rgba(241, 241, 245, 0.70);
+  background: rgba(241, 241, 245, 0.7);
   border-radius: 8px 8px 8px 8px;
 `
 

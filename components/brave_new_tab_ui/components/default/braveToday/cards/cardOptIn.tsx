@@ -16,7 +16,7 @@ type Props = {
 
 const descriptionTwoTextParts = getLocaleWithTag('braveNewsIntroDescriptionTwo')
 
-export default function IntroCard (props: Props) {
+export default function IntroCard(props: Props) {
   const introElementRef = React.useRef(null)
   return (
     <Card.Intro ref={introElementRef}>

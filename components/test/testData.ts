@@ -10,15 +10,15 @@ import { defaultState as adblockData } from '../../components/brave_adblock_ui/s
 export class ChromeEvent {
   listeners: Array<() => void>
 
-  constructor () {
+  constructor() {
     this.listeners = []
   }
 
-  emit (...args: Array<() => void>) {
+  emit(...args: Array<() => void>) {
     this.listeners.forEach((cb: () => void) => cb.apply(null, args))
   }
 
-  addListener (cb: () => void) {
+  addListener(cb: () => void) {
     this.listeners.push(cb)
   }
 }
@@ -54,7 +54,10 @@ export const newTabInitialState: NewTab.ApplicationState = {
 }
 
 // see: https://developer.chrome.com/extensions/events
-interface OnMessageEvent extends chrome.events.Event<(message: object, options: any, responseCallback: any) => void> {
+interface OnMessageEvent
+  extends chrome.events.Event<
+    (message: object, options: any, responseCallback: any) => void
+  > {
   emit: (message: object) => void
 }
 
@@ -79,36 +82,36 @@ export const getMockChrome = () => {
       }
     },
     browserAction: {
-      setBadgeBackgroundColor: function (properties: object) {
-
-      },
-      setBadgeText: function (textProperties: object) {
-
-      },
-      setIcon: function (iconProperties: object) {
-
-      },
-      enable: function (tabId?: number) {
-
-      },
-      disable: function (tabId?: number) {
-
-      }
+      setBadgeBackgroundColor: function (properties: object) {},
+      setBadgeText: function (textProperties: object) {},
+      setIcon: function (iconProperties: object) {},
+      enable: function (tabId?: number) {},
+      disable: function (tabId?: number) {}
     },
     tabs: {
       create: function (createProperties: object, cb: () => void) {
         setImmediate(cb)
       },
-      reload: function (tabId: number, reloadProperties: object, cb: () => void) {
+      reload: function (
+        tabId: number,
+        reloadProperties: object,
+        cb: () => void
+      ) {
         setImmediate(cb)
       },
-      insertCSS: function (details: jest.SpyInstance) {
-
-      },
-      query: function (queryInfo: chrome.tabs.QueryInfo, callback: (result: chrome.tabs.Tab[]) => void) {
+      insertCSS: function (details: jest.SpyInstance) {},
+      query: function (
+        queryInfo: chrome.tabs.QueryInfo,
+        callback: (result: chrome.tabs.Tab[]) => void
+      ) {
         return callback
       },
-      sendMessage: function (tabID: Number, message: any, options: object, responseCallback: any) {
+      sendMessage: function (
+        tabID: Number,
+        message: any,
+        options: object,
+        responseCallback: any
+      ) {
         return responseCallback
       },
       onActivated: new ChromeEvent(),
@@ -125,18 +128,14 @@ export const getMockChrome = () => {
       }
     },
     i18n: {
-      getMessage: function (message: string) {
-
-      }
+      getMessage: function (message: string) {}
     },
     storage: {
       local: {
-        get: function (callback: (items: { [key: string]: any }) => void): void {
-
-        },
-        set: function (items: Object, callback?: () => void): void {
-
-        }
+        get: function (
+          callback: (items: { [key: string]: any }) => void
+        ): void {},
+        set: function (items: Object, callback?: () => void): void {}
       }
     },
     extension: {
@@ -148,21 +147,25 @@ export const getMockChrome = () => {
       }
     },
     bookmarks: {
-      create: function (bookmark: chrome.bookmarks.BookmarkCreateArg, callback?: (result: chrome.bookmarks.BookmarkTreeNode[]) => void) {
-
-      },
-      remove: function (id: string, callback?: Function) {
-
-      },
-      search: function (query: string, callback: (results: chrome.bookmarks.BookmarkTreeNode[]) => void) {
-
-      }
+      create: function (
+        bookmark: chrome.bookmarks.BookmarkCreateArg,
+        callback?: (result: chrome.bookmarks.BookmarkTreeNode[]) => void
+      ) {},
+      remove: function (id: string, callback?: Function) {},
+      search: function (
+        query: string,
+        callback: (results: chrome.bookmarks.BookmarkTreeNode[]) => void
+      ) {}
     },
     contextMenus: {
       create: function (data: any) {
         return Promise.resolve()
       },
-      allowScriptsOnce: function (origins: string[], tabId: number, cb: () => void) {
+      allowScriptsOnce: function (
+        origins: string[],
+        tabId: number,
+        cb: () => void
+      ) {
         setImmediate(cb)
       },
       onClicked: new ChromeEvent()

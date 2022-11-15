@@ -24,12 +24,10 @@ export { SponsoredImageTooltip }
 
 const locale = { getString: (key: string) => getLocale(key) }
 
-export function RewardsContextAdapter (props: { children: React.ReactNode }) {
+export function RewardsContextAdapter(props: { children: React.ReactNode }) {
   return (
     <LocaleContext.Provider value={locale}>
-      <WithThemeVariables>
-        {props.children}
-      </WithThemeVariables>
+      <WithThemeVariables>{props.children}</WithThemeVariables>
     </LocaleContext.Provider>
   )
 }
@@ -54,7 +52,7 @@ export interface RewardsProps {
   onDismissNotification: (id: string) => void
 }
 
-function getVisibleGrant (promotions: NewTab.Promotion[]): GrantInfo | null {
+function getVisibleGrant(promotions: NewTab.Promotion[]): GrantInfo | null {
   if (promotions.length === 0) {
     return null
   }
@@ -113,7 +111,7 @@ export const RewardsWidget = createWidget((props: RewardsProps) => {
       adsSupported={Boolean(props.adsSupported)}
       needsBrowserUpgradeToServeAds={props.needsBrowserUpgradeToServeAds}
       rewardsBalance={props.balance.total}
-      exchangeCurrency='USD'
+      exchangeCurrency="USD"
       exchangeRate={props.parameters.rate}
       providerPayoutStatus={providerPayoutStatus}
       grantInfo={grantInfo}

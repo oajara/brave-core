@@ -9,7 +9,11 @@ import GrantWrapper from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('Grant wrapper tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><GrantWrapper id='wrapper' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <GrantWrapper id="wrapper" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

@@ -14,7 +14,11 @@ import {
 } from '../../utils/asset-utils'
 
 // types
-import { BraveWallet, BuyOption, SupportedOnRampNetworks } from '../../constants/types'
+import {
+  BraveWallet,
+  BuyOption,
+  SupportedOnRampNetworks
+} from '../../constants/types'
 import { WalletSelectors } from '../selectors'
 import { PageSelectors } from '../../page/selectors'
 
@@ -24,12 +28,17 @@ import { BuyOptions } from '../../options/buy-with-options'
 // hooks
 import { useIsMounted } from './useIsMounted'
 import { useLib } from './useLib'
-import { useUnsafePageSelector, useUnsafeWalletSelector } from './use-safe-selector'
+import {
+  useUnsafePageSelector,
+  useUnsafeWalletSelector
+} from './use-safe-selector'
 
 export const useMultiChainBuyAssets = () => {
   // redux
   const networkList = useUnsafeWalletSelector(WalletSelectors.networkList)
-  const selectedCurrency = useUnsafeWalletSelector(WalletSelectors.selectedCurrency)
+  const selectedCurrency = useUnsafeWalletSelector(
+    WalletSelectors.selectedCurrency
+  )
   const reduxSelectedAsset = useUnsafePageSelector(PageSelectors.selectedAsset)
 
   // custom hooks
@@ -38,15 +47,15 @@ export const useMultiChainBuyAssets = () => {
 
   // state
   const [buyAmount, setBuyAmount] = React.useState<string>('')
-  const [selectedAsset, setSelectedAsset] = React.useState<BraveWallet.BlockchainToken | undefined>()
-  const [options, setOptions] = React.useState<
-    {
-      wyreAssetOptions: BraveWallet.BlockchainToken[]
-      rampAssetOptions: BraveWallet.BlockchainToken[]
-      sardineAssetOptions: BraveWallet.BlockchainToken[]
-      allAssetOptions: BraveWallet.BlockchainToken[]
-    }
-  >({
+  const [selectedAsset, setSelectedAsset] = React.useState<
+    BraveWallet.BlockchainToken | undefined
+  >()
+  const [options, setOptions] = React.useState<{
+    wyreAssetOptions: BraveWallet.BlockchainToken[]
+    rampAssetOptions: BraveWallet.BlockchainToken[]
+    sardineAssetOptions: BraveWallet.BlockchainToken[]
+    allAssetOptions: BraveWallet.BlockchainToken[]
+  }>({
     wyreAssetOptions: [],
     rampAssetOptions: [],
     sardineAssetOptions: [],
@@ -55,13 +64,21 @@ export const useMultiChainBuyAssets = () => {
 
   // memos
   const buyAssetNetworks = React.useMemo((): BraveWallet.NetworkInfo[] => {
-    return networkList.filter(n =>
+    return networkList.filter((n) =>
       SupportedOnRampNetworks.includes(n.chainId)
     )
   }, [networkList])
 
-  const selectedAssetNetwork = React.useMemo((): BraveWallet.NetworkInfo | undefined => {
-    return selectedAsset ? getNetworkInfo(selectedAsset.chainId, selectedAsset.coin, buyAssetNetworks) : undefined
+  const selectedAssetNetwork = React.useMemo(():
+    | BraveWallet.NetworkInfo
+    | undefined => {
+    return selectedAsset
+      ? getNetworkInfo(
+          selectedAsset.chainId,
+          selectedAsset.coin,
+          buyAssetNetworks
+        )
+      : undefined
   }, [selectedAsset, buyAssetNetworks])
 
   const selectedAssetBuyOptions: BuyOption[] = React.useMemo(() => {
@@ -73,62 +90,74 @@ export const useMultiChainBuyAssets = () => {
     }
     return selectedAsset
       ? [...BuyOptions]
-        .filter(buyOption => isSelectedAssetInAssetOptions(selectedAsset, onRampAssetMap[buyOption.id]))
-        .sort((optionA, optionB) => optionA.name.localeCompare(optionB.name))
+          .filter((buyOption) =>
+            isSelectedAssetInAssetOptions(
+              selectedAsset,
+              onRampAssetMap[buyOption.id]
+            )
+          )
+          .sort((optionA, optionB) => optionA.name.localeCompare(optionB.name))
       : []
   }, [selectedAsset, options])
 
   // methods
   const getAllBuyOptionsAllChains = React.useCallback(() => {
-    getAllBuyAssets()
-      .then(result => {
-        if (isMounted && result) {
-          setOptions(result)
-        }
-      })
+    getAllBuyAssets().then((result) => {
+      if (isMounted && result) {
+        setOptions(result)
+      }
+    })
   }, [getAllBuyAssets, isMounted])
 
-  const openBuyAssetLink = React.useCallback(({ buyOption, depositAddress }: {
-    buyOption: BraveWallet.OnRampProvider
-    depositAddress: string
-  }) => {
-    if (!selectedAsset || !selectedAssetNetwork) {
-      return
-    }
+  const openBuyAssetLink = React.useCallback(
+    ({
+      buyOption,
+      depositAddress
+    }: {
+      buyOption: BraveWallet.OnRampProvider
+      depositAddress: string
+    }) => {
+      if (!selectedAsset || !selectedAssetNetwork) {
+        return
+      }
 
-    const asset = {
-      ...selectedAsset,
-      symbol:
-        buyOption === BraveWallet.OnRampProvider.kRamp ? getRampAssetSymbol(selectedAsset)
-          : buyOption === BraveWallet.OnRampProvider.kWyre ? getWyreAssetSymbol(selectedAsset)
+      const asset = {
+        ...selectedAsset,
+        symbol:
+          buyOption === BraveWallet.OnRampProvider.kRamp
+            ? getRampAssetSymbol(selectedAsset)
+            : buyOption === BraveWallet.OnRampProvider.kWyre
+            ? getWyreAssetSymbol(selectedAsset)
             : selectedAsset.symbol
-    }
+      }
 
-    getBuyAssetUrl({
-      asset,
-      onRampProvider: buyOption,
-      chainId: selectedAssetNetwork.chainId,
-      address: depositAddress,
-      amount: buyAmount,
-      currencyCode: selectedCurrency ? selectedCurrency.currencyCode : 'USD'
-    })
-      .then(url => {
-        chrome.tabs.create({ url }, () => {
-          if (chrome.runtime.lastError) {
-            console.error('tabs.create failed: ' + chrome.runtime.lastError.message)
-          }
-        })
+      getBuyAssetUrl({
+        asset,
+        onRampProvider: buyOption,
+        chainId: selectedAssetNetwork.chainId,
+        address: depositAddress,
+        amount: buyAmount,
+        currencyCode: selectedCurrency ? selectedCurrency.currencyCode : 'USD'
       })
-      .catch(e => console.error(e))
-  }, [
-    selectedAsset,
-    selectedAssetNetwork,
-    getBuyAssetUrl,
-    buyAmount
-  ])
+        .then((url) => {
+          chrome.tabs.create({ url }, () => {
+            if (chrome.runtime.lastError) {
+              console.error(
+                'tabs.create failed: ' + chrome.runtime.lastError.message
+              )
+            }
+          })
+        })
+        .catch((e) => console.error(e))
+    },
+    [selectedAsset, selectedAssetNetwork, getBuyAssetUrl, buyAmount]
+  )
 
   const isReduxSelectedAssetBuySupported = React.useMemo(() => {
-    return options.allAssetOptions.some((asset) => asset.symbol.toLowerCase() === reduxSelectedAsset?.symbol.toLowerCase())
+    return options.allAssetOptions.some(
+      (asset) =>
+        asset.symbol.toLowerCase() === reduxSelectedAsset?.symbol.toLowerCase()
+    )
   }, [options.allAssetOptions, reduxSelectedAsset?.symbol])
 
   return {

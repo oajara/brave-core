@@ -19,11 +19,11 @@ import {
 import { getLocale } from '../../../common/locale'
 
 export default class ConfirmationView extends React.PureComponent<{}, {}> {
-  constructor (props: {}) {
+  constructor(props: {}) {
     super(props)
   }
 
-  render () {
+  render() {
     return (
       <ModalLayout>
         <IconTitle>

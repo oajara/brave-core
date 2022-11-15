@@ -9,7 +9,11 @@ import Tab from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('Tab tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><Tab id='tab' tabTitles={['Test1', 'Test2']} {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <Tab id="tab" tabTitles={['Test1', 'Test2']} {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

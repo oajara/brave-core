@@ -5,8 +5,8 @@
 import styled from 'styled-components'
 
 export const Title = styled.h1`
-  font-family: ${p => p.theme.fontFamily.body};
-  color: ${p => p.theme.color.text};
+  font-family: ${(p) => p.theme.fontFamily.body};
+  color: ${(p) => p.theme.color.text};
   font-size: 34px;
   margin: 24px 0 0;
   text-align: center;
@@ -15,8 +15,8 @@ export const Title = styled.h1`
 `
 
 export const Paragraph = styled.p`
-  color: ${p => p.theme.color.text};
-  font-family: ${p => p.theme.fontFamily.body};
+  color: ${(p) => p.theme.color.text};
+  font-family: ${(p) => p.theme.fontFamily.body};
   display: block;
   -webkit-font-smoothing: antialiased;
   font-size: 18px;
@@ -26,7 +26,7 @@ export const Paragraph = styled.p`
   margin: 12px 0 32px;
   a {
     box-sizing: border-box;
-    color: ${p => p.theme.color.brandBrave};
+    color: ${(p) => p.theme.color.brandBrave};
     border: 0;
     padding: 0;
     background: transparent;
@@ -39,7 +39,7 @@ export const Paragraph = styled.p`
       text-decoration: underline;
     }
     &:focus {
-      outline-color: ${p => p.theme.color.brandBrave};
+      outline-color: ${(p) => p.theme.color.brandBrave};
       outline-width: 2px;
     }
     &:active {
@@ -51,7 +51,7 @@ export const Paragraph = styled.p`
 export const TermsOfService = styled(Paragraph)`
   font-size: 13px;
   line-height: 20px;
-  opacity: .8;
+  opacity: 0.8;
 
   /* Collapse bottom margin of preceding Paragraph */
   ${Paragraph} + & {

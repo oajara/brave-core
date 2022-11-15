@@ -11,16 +11,9 @@ import walletPanelAsyncHandler from './async/wallet_panel_async_handler'
 import walletAsyncHandler from '../common/async/handlers'
 import getWalletPanelApiProxy from './wallet_panel_api_proxy'
 
-const middlewares = [
-  thunk,
-  walletAsyncHandler,
-  walletPanelAsyncHandler
-]
+const middlewares = [thunk, walletAsyncHandler, walletPanelAsyncHandler]
 
-const store = createStore(
-    reducers,
-    applyMiddleware(...middlewares)
-)
+const store = createStore(reducers, applyMiddleware(...middlewares))
 
 getWalletPanelApiProxy().addJsonRpcServiceObserver(store)
 getWalletPanelApiProxy().addKeyringServiceObserver(store)

@@ -21,7 +21,7 @@ interface ToggleProps {
 // We dont set the size for large toggles as they're always consistent
 interface FabulouslyLargeToggleProps extends Omit<ToggleProps, 'size'> {}
 
-function useToggleProps (props: ToggleProps) {
+function useToggleProps(props: ToggleProps) {
   const [isOn, setIsOn] = React.useState(props.isOn ?? false)
 
   React.useEffect(() => {
@@ -34,7 +34,7 @@ function useToggleProps (props: ToggleProps) {
     props.onChange?.(activated)
   }
 
-  return ({
+  return {
     'onClick': onToggleClick,
     'isOn': isOn,
     'disabled': props.disabled,
@@ -42,28 +42,19 @@ function useToggleProps (props: ToggleProps) {
     'aria-label': props.accessibleLabel,
     'aria-checked': props.isOn,
     'brand': props.brand
-  })
+  }
 }
 
-function Toggle (props: ToggleProps) {
+function Toggle(props: ToggleProps) {
   const toggleProps = useToggleProps(props)
 
-  return (
-    <S.ToggleBox
-      {...toggleProps}
-    />
-  )
+  return <S.ToggleBox {...toggleProps} />
 }
 
-export function FabulouslyLargeToggle (props: FabulouslyLargeToggleProps) {
+export function FabulouslyLargeToggle(props: FabulouslyLargeToggleProps) {
   const toggleProps = useToggleProps(props)
 
-  return (
-    <S.FLToggleBox
-      {...toggleProps}
-      brand={props.brand}
-    />
-  )
+  return <S.FLToggleBox {...toggleProps} brand={props.brand} />
 }
 
 export default Toggle

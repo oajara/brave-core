@@ -4,10 +4,7 @@
 
 import * as React from 'react'
 import { getLocale } from 'brave-ui/helpers'
-import {
-  StyledExcludedText,
-  StyledRestore
-} from './style'
+import { StyledExcludedText, StyledRestore } from './style'
 
 export interface Props {
   numExcludedSites: number
@@ -16,24 +13,20 @@ export interface Props {
 }
 
 export default class RestoreSites extends React.PureComponent<Props, {}> {
-  getRestoreText () {
+  getRestoreText() {
     return `(${getLocale('clearExcludeList')})`
   }
 
-  getExclusionText (numSites: number) {
+  getExclusionText(numSites: number) {
     return `${getLocale('excludedSitesText')} ${numSites}`
   }
 
-  render () {
+  render() {
     const { numExcludedSites, onRestore, showText } = this.props
 
     return (
       <StyledExcludedText>
-        {
-          showText
-          ? this.getExclusionText(numExcludedSites)
-          : null
-        }
+        {showText ? this.getExclusionText(numExcludedSites) : null}
         <StyledRestore onClick={onRestore}>
           {this.getRestoreText()}
         </StyledRestore>

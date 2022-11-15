@@ -29,9 +29,20 @@ import {
   StyledVerifiedDivider
 } from './style'
 import { getLocale } from 'brave-ui/helpers'
-import { VerifiedSIcon, UnVerifiedSIcon, LoaderIcon, CheckmarkCircleS } from 'brave-ui/components/icons'
+import {
+  VerifiedSIcon,
+  UnVerifiedSIcon,
+  LoaderIcon,
+  CheckmarkCircleS
+} from 'brave-ui/components/icons'
 
-export type Provider = 'twitter' | 'youtube' | 'twitch' | 'reddit' | 'vimeo' | 'github'
+export type Provider =
+  | 'twitter'
+  | 'youtube'
+  | 'twitch'
+  | 'reddit'
+  | 'vimeo'
+  | 'github'
 
 export interface Props {
   id?: string
@@ -57,7 +68,7 @@ export default class Profile extends React.PureComponent<Props, {}> {
     type: 'small'
   }
 
-  getProviderName (provider: Provider) {
+  getProviderName(provider: Provider) {
     switch (provider) {
       case 'youtube':
         return `${getLocale('on')} YouTube`
@@ -74,7 +85,7 @@ export default class Profile extends React.PureComponent<Props, {}> {
     }
   }
 
-  getSrc (src?: string) {
+  getSrc(src?: string) {
     return src || ''
   }
 
@@ -96,17 +107,13 @@ export default class Profile extends React.PureComponent<Props, {}> {
 
     return (
       <StyledProviderWrap>
-        {
-          this.getVerifiedInfo()
-        }
-        {
-          showUnVerified
-          ? <>
-              <StyledVerifiedDivider />
-              {this.getUnverifiedAction()}
-            </>
-          : null
-        }
+        {this.getVerifiedInfo()}
+        {showUnVerified ? (
+          <>
+            <StyledVerifiedDivider />
+            {this.getUnverifiedAction()}
+          </>
+        ) : null}
       </StyledProviderWrap>
     )
   }
@@ -115,9 +122,7 @@ export default class Profile extends React.PureComponent<Props, {}> {
     return (
       <>
         <StyledProviderWrapRefreshing>
-          {
-            this.getVerifiedInfo()
-          }
+          {this.getVerifiedInfo()}
         </StyledProviderWrapRefreshing>
         <StyledRefreshOverlay>
           <StyledRefresh>
@@ -134,19 +139,15 @@ export default class Profile extends React.PureComponent<Props, {}> {
     return (
       <>
         <StyledProviderWrapRefreshFinished>
-          {
-            this.getVerifiedInfo()
-          }
-          {
-            showUnVerified
-            ? <>
-                <StyledVerifiedDivider />
-                <StyledVerifiedCheckNoLink>
-                  {getLocale('unVerifiedCheck')}
-                </StyledVerifiedCheckNoLink>
-              </>
-            : null
-          }
+          {this.getVerifiedInfo()}
+          {showUnVerified ? (
+            <>
+              <StyledVerifiedDivider />
+              <StyledVerifiedCheckNoLink>
+                {getLocale('unVerifiedCheck')}
+              </StyledVerifiedCheckNoLink>
+            </>
+          ) : null}
         </StyledProviderWrapRefreshFinished>
         <StyledRefreshOverlayFinished>
           <StyledRefreshLoaderFinished>
@@ -163,18 +164,13 @@ export default class Profile extends React.PureComponent<Props, {}> {
   }
 
   getVerifiedPanelWrapping = () => {
-    const {
-      refreshingPublisher,
-      publisherRefreshed
-    } = this.props
+    const { refreshingPublisher, publisherRefreshed } = this.props
 
-    return (
-      !refreshingPublisher && !publisherRefreshed
-        ? this.getDefaultVerifiedPanelWrap()
-    : !publisherRefreshed && refreshingPublisher
-        ? this.getVerifiedPanelWrapRefreshing()
-    : this.getVerifiedPanelWrapRefreshFinished()
-    )
+    return !refreshingPublisher && !publisherRefreshed
+      ? this.getDefaultVerifiedPanelWrap()
+      : !publisherRefreshed && refreshingPublisher
+      ? this.getVerifiedPanelWrapRefreshing()
+      : this.getVerifiedPanelWrapRefreshFinished()
   }
 
   getUnverifiedInfo = () => {
@@ -194,12 +190,8 @@ export default class Profile extends React.PureComponent<Props, {}> {
   getDefaultUnverifiedPanelWrap = () => {
     return (
       <StyledProviderWrap>
-        {
-          this.getUnverifiedInfo()
-        }
-        {
-          this.getUnverifiedAction()
-        }
+        {this.getUnverifiedInfo()}
+        {this.getUnverifiedAction()}
       </StyledProviderWrap>
     )
   }
@@ -208,9 +200,7 @@ export default class Profile extends React.PureComponent<Props, {}> {
     return (
       <>
         <StyledProviderWrapRefreshing>
-          {
-            this.getUnverifiedInfo()
-          }
+          {this.getUnverifiedInfo()}
           <StyledVerifiedCheckLink>
             {getLocale('unVerifiedCheck')}
           </StyledVerifiedCheckLink>
@@ -228,9 +218,7 @@ export default class Profile extends React.PureComponent<Props, {}> {
     return (
       <>
         <StyledProviderWrapRefreshFinished>
-          {
-            this.getUnverifiedInfo()
-          }
+          {this.getUnverifiedInfo()}
           <StyledVerifiedCheckNoLink>
             {getLocale('unVerifiedCheck')}
           </StyledVerifiedCheckNoLink>
@@ -253,37 +241,28 @@ export default class Profile extends React.PureComponent<Props, {}> {
     const { onRefreshPublisher } = this.props
 
     return (
-      <StyledVerifiedCheckLink onClick={onRefreshPublisher} data-test-id={'unverified-check-button'}>
+      <StyledVerifiedCheckLink
+        onClick={onRefreshPublisher}
+        data-test-id={'unverified-check-button'}
+      >
         {getLocale('unVerifiedCheck')}
       </StyledVerifiedCheckLink>
     )
   }
 
   getUnverifiedPanelWrapping = () => {
-    const {
-      refreshingPublisher,
-      publisherRefreshed
-    } = this.props
+    const { refreshingPublisher, publisherRefreshed } = this.props
 
-    return (
-      !publisherRefreshed && !refreshingPublisher
-        ? this.getDefaultUnverifiedPanelWrap()
+    return !publisherRefreshed && !refreshingPublisher
+      ? this.getDefaultUnverifiedPanelWrap()
       : !publisherRefreshed && refreshingPublisher
-        ? this.getUnverifiedPanelWrapRefreshing()
+      ? this.getUnverifiedPanelWrapRefreshing()
       : this.getUnverifiedPanelWrapRefreshFinished()
-    )
   }
 
-  render () {
-    const {
-      id,
-      type,
-      provider,
-      src,
-      title,
-      verified,
-      showUnVerifiedHelpIcon
-    } = this.props
+  render() {
+    const { id, type, provider, src, title, verified, showUnVerifiedHelpIcon } =
+      this.props
 
     return (
       <StyledWrapper id={id} type={type}>
@@ -304,9 +283,11 @@ export default class Profile extends React.PureComponent<Props, {}> {
               </StyledProvider>
             ) : null}
           </StyledTitleWrap>
-          {verified && type === 'big' ? this.getVerifiedPanelWrapping()
-          : showUnVerifiedHelpIcon ? this.getUnverifiedPanelWrapping()
-          : null}
+          {verified && type === 'big'
+            ? this.getVerifiedPanelWrapping()
+            : showUnVerifiedHelpIcon
+            ? this.getUnverifiedPanelWrapping()
+            : null}
         </StyledContent>
       </StyledWrapper>
     )

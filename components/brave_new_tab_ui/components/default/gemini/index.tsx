@@ -143,7 +143,7 @@ class Gemini extends React.PureComponent<Props, State> {
   private refreshInterval: any
   private tradeTimer: any
 
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       currentDepositSearch: '',
@@ -167,7 +167,7 @@ class Gemini extends React.PureComponent<Props, State> {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { userAuthed, authInProgress } = this.props
 
     if (userAuthed) {
@@ -181,7 +181,7 @@ class Gemini extends React.PureComponent<Props, State> {
     this.getClientURL()
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (!prevProps.userAuthed && this.props.userAuthed) {
       this.props.onUpdateActions()
       this.checkSetRefreshInterval()
@@ -193,7 +193,7 @@ class Gemini extends React.PureComponent<Props, State> {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearInterval(this.refreshInterval)
   }
 
@@ -246,7 +246,7 @@ class Gemini extends React.PureComponent<Props, State> {
     })
   }
 
-  renderIndexView () {
+  renderIndexView() {
     const {
       currentQRAsset,
       insufficientFunds,
@@ -275,7 +275,7 @@ class Gemini extends React.PureComponent<Props, State> {
     return false
   }
 
-  setSelectedView (view: string) {
+  setSelectedView(view: string) {
     this.props.onSetSelectedView(view)
   }
 
@@ -285,7 +285,7 @@ class Gemini extends React.PureComponent<Props, State> {
     })
   }
 
-  setCurrentDepositAsset (asset: string) {
+  setCurrentDepositAsset(asset: string) {
     this.setState({
       currentDepositAsset: asset
     })
@@ -318,9 +318,7 @@ class Gemini extends React.PureComponent<Props, State> {
   }
 
   onSetHideBalance = () => {
-    this.props.onSetHideBalance(
-      !this.props.hideBalance
-    )
+    this.props.onSetHideBalance(!this.props.hideBalance)
   }
 
   formatCryptoBalance = (balance: string, precision: number = 3) => {
@@ -333,7 +331,7 @@ class Gemini extends React.PureComponent<Props, State> {
 
   getAccountUSDValue = () => {
     const { accountBalances, tickerPrices } = this.props
-    let USDValue = 0.00
+    let USDValue = 0.0
 
     for (let ticker in tickerPrices) {
       if (!(ticker in accountBalances)) {
@@ -390,12 +388,8 @@ class Gemini extends React.PureComponent<Props, State> {
 
     return (
       <InvalidWrapper>
-        <InvalidTitle>
-          {getLocale('geminiWidgetAuthInvalid')}
-        </InvalidTitle>
-        <InvalidCopy>
-          {getLocale('geminiWidgetAuthInvalidCopy')}
-        </InvalidCopy>
+        <InvalidTitle>{getLocale('geminiWidgetAuthInvalid')}</InvalidTitle>
+        <InvalidCopy>{getLocale('geminiWidgetAuthInvalidCopy')}</InvalidCopy>
         <GenButton onClick={onDismissAuthInvalid}>
           {getLocale('geminiWidgetDone')}
         </GenButton>
@@ -422,15 +416,11 @@ class Gemini extends React.PureComponent<Props, State> {
     )
   }
 
-  renderAuthView () {
+  renderAuthView() {
     return (
       <>
-        <IntroTitle>
-          {getLocale('geminiWidgetConnectTitle')}
-        </IntroTitle>
-        <Copy>
-          {getLocale('geminiWidgetConnectCopy')}
-        </Copy>
+        <IntroTitle>{getLocale('geminiWidgetConnectTitle')}</IntroTitle>
+        <Copy>{getLocale('geminiWidgetConnectCopy')}</Copy>
         <ActionsWrapper isAuth={true}>
           <ConnectButton onClick={this.connectGemini}>
             {getLocale('geminiWidgetConnectButton')}
@@ -440,7 +430,7 @@ class Gemini extends React.PureComponent<Props, State> {
     )
   }
 
-  renderSelectedView () {
+  renderSelectedView() {
     const { selectedView } = this.props
 
     switch (selectedView) {
@@ -455,7 +445,7 @@ class Gemini extends React.PureComponent<Props, State> {
     }
   }
 
-  renderQRView () {
+  renderQRView() {
     const { assetAddressQRCodes } = this.props
     const imageSrc = assetAddressQRCodes[this.state.currentQRAsset]
 
@@ -469,11 +459,8 @@ class Gemini extends React.PureComponent<Props, State> {
     )
   }
 
-  renderBalanceView () {
-    const {
-      hideBalance,
-      accountBalances
-    } = this.props
+  renderBalanceView() {
+    const { hideBalance, accountBalances } = this.props
     const accountUSDValue = this.getAccountUSDValue()
     const balanceKeys = Object.keys(accountBalances)
 
@@ -490,41 +477,42 @@ class Gemini extends React.PureComponent<Props, State> {
           <ListInfo position={'right'} isSummary={true}>
             <TradeLabel>
               <BlurIcon onClick={this.onSetHideBalance}>
-                {
-                  hideBalance
-                  ? <ShowIcon />
-                  : <HideIcon />
-                }
+                {hideBalance ? <ShowIcon /> : <HideIcon />}
               </BlurIcon>
             </TradeLabel>
           </ListInfo>
         </AccountSummary>
-        {balanceKeys.length !== 0
-        ? <>
-          {balanceKeys.map((asset: string) => {
-            const assetAccountBalance = accountBalances[asset]
-            const assetBalance = this.formatCryptoBalance(assetAccountBalance)
-            return (
-              <S.ListItem key={`list-${asset}`} isFlex={true} $p={10}>
-                <S.FlexItem $mr={10} $w={25} $h={25}>
-                  <IconAsset iconKey={asset.toLowerCase()} />
-                </S.FlexItem>
-                <S.FlexItem>
-                  <S.Text>{geminiData.currencyNames[asset]}</S.Text>
-                </S.FlexItem>
-                <S.FlexItem textAlign='right' flex={1}>
-                  <S.Balance hideBalance={hideBalance}>
-                    <S.Text lineHeight={1.15}>{assetBalance} {asset}</S.Text>
-                  </S.Balance>
-                </S.FlexItem>
-              </S.ListItem>
-            )
-          })}
-        </>
-        : <S.Balance hideBalance={hideBalance}>
-            <S.Text lineHeight={1.15} $p={12}>{getLocale('geminiWidgetSummaryNoBalance')}</S.Text>
+        {balanceKeys.length !== 0 ? (
+          <>
+            {balanceKeys.map((asset: string) => {
+              const assetAccountBalance = accountBalances[asset]
+              const assetBalance = this.formatCryptoBalance(assetAccountBalance)
+              return (
+                <S.ListItem key={`list-${asset}`} isFlex={true} $p={10}>
+                  <S.FlexItem $mr={10} $w={25} $h={25}>
+                    <IconAsset iconKey={asset.toLowerCase()} />
+                  </S.FlexItem>
+                  <S.FlexItem>
+                    <S.Text>{geminiData.currencyNames[asset]}</S.Text>
+                  </S.FlexItem>
+                  <S.FlexItem textAlign="right" flex={1}>
+                    <S.Balance hideBalance={hideBalance}>
+                      <S.Text lineHeight={1.15}>
+                        {assetBalance} {asset}
+                      </S.Text>
+                    </S.Balance>
+                  </S.FlexItem>
+                </S.ListItem>
+              )
+            })}
+          </>
+        ) : (
+          <S.Balance hideBalance={hideBalance}>
+            <S.Text lineHeight={1.15} $p={12}>
+              {getLocale('geminiWidgetSummaryNoBalance')}
+            </S.Text>
           </S.Balance>
-        }
+        )}
       </>
     )
   }
@@ -533,7 +521,7 @@ class Gemini extends React.PureComponent<Props, State> {
     this.setState({ currentTradeQuantity: target.value })
   }
 
-  setCurrentTradeAsset (asset: string) {
+  setCurrentTradeAsset(asset: string) {
     this.setState({
       currentTradeAsset: asset,
       tradeDropdownShowing: false
@@ -608,16 +596,24 @@ class Gemini extends React.PureComponent<Props, State> {
     } = this.state
     const quoteId = parseInt(currentTradeId, 10)
     const symbol = `${currentTradeAsset}usd`.toUpperCase()
-    chrome.gemini.executeOrder(symbol, side, quantity, price, fee, quoteId, (success: boolean) => {
-      if (success) {
-        this.setState({ tradeSuccess: true })
-        setTimeout(() => {
-          this.props.onUpdateActions()
-        }, 1000)
-      } else {
-        this.setTradeFailed()
+    chrome.gemini.executeOrder(
+      symbol,
+      side,
+      quantity,
+      price,
+      fee,
+      quoteId,
+      (success: boolean) => {
+        if (success) {
+          this.setState({ tradeSuccess: true })
+          setTimeout(() => {
+            this.props.onUpdateActions()
+          }, 1000)
+        } else {
+          this.setTradeFailed()
+        }
       }
-    })
+    )
   }
 
   finishTrade = () => {
@@ -634,20 +630,18 @@ class Gemini extends React.PureComponent<Props, State> {
   }
 
   shouldShowTradePreview = () => {
-    const {
-      currentTradeMode,
-      currentTradeAsset,
-      currentTradeQuantity
-    } = this.state
+    const { currentTradeMode, currentTradeAsset, currentTradeQuantity } =
+      this.state
     const { accountBalances } = this.props
 
     if (!currentTradeQuantity || isNaN(parseFloat(currentTradeQuantity))) {
       return
     }
 
-    const compare = currentTradeMode === 'buy'
-      ? (accountBalances.USD || '0')
-      : (accountBalances[currentTradeAsset] || '0')
+    const compare =
+      currentTradeMode === 'buy'
+        ? accountBalances.USD || '0'
+        : accountBalances[currentTradeAsset] || '0'
 
     if (parseFloat(currentTradeQuantity) >= parseFloat(compare)) {
       this.setState({
@@ -656,46 +650,53 @@ class Gemini extends React.PureComponent<Props, State> {
       return
     }
 
-    chrome.gemini.getOrderQuote(currentTradeMode, `${currentTradeAsset}usd`, currentTradeQuantity, (quote: any, error: string) => {
-      if (!quote.id || !quote.quantity || !quote.fee || !quote.price || !quote.totalPrice) {
-        this.setTradeFailed(error)
-        return
-      }
-
-      this.setState({
-        currentTradeId: quote.id,
-        currentTradeFee: quote.fee,
-        currentTradePrice: quote.price,
-        currentTradeTotalPrice: quote.totalPrice,
-        currentTradeQuantityLive: quote.quantity,
-        showTradePreview: true
-      })
-
-      this.tradeTimer = setInterval(() => {
-        const { currentTradeExpiryTime } = this.state
-
-        if (currentTradeExpiryTime - 1 === 0) {
-          clearInterval(this.tradeTimer)
-          this.cancelTrade()
+    chrome.gemini.getOrderQuote(
+      currentTradeMode,
+      `${currentTradeAsset}usd`,
+      currentTradeQuantity,
+      (quote: any, error: string) => {
+        if (
+          !quote.id ||
+          !quote.quantity ||
+          !quote.fee ||
+          !quote.price ||
+          !quote.totalPrice
+        ) {
+          this.setTradeFailed(error)
           return
         }
 
         this.setState({
-          currentTradeExpiryTime: (currentTradeExpiryTime - 1)
+          currentTradeId: quote.id,
+          currentTradeFee: quote.fee,
+          currentTradePrice: quote.price,
+          currentTradeTotalPrice: quote.totalPrice,
+          currentTradeQuantityLive: quote.quantity,
+          showTradePreview: true
         })
-      }, 1000)
-    })
+
+        this.tradeTimer = setInterval(() => {
+          const { currentTradeExpiryTime } = this.state
+
+          if (currentTradeExpiryTime - 1 === 0) {
+            clearInterval(this.tradeTimer)
+            this.cancelTrade()
+            return
+          }
+
+          this.setState({
+            currentTradeExpiryTime: currentTradeExpiryTime - 1
+          })
+        }, 1000)
+      }
+    )
   }
 
   renderInsufficientFundsView = () => {
     return (
       <InvalidWrapper>
-        <InvalidTitle>
-          {getLocale('geminiWidgetFailedTrade')}
-        </InvalidTitle>
-        <InvalidCopy>
-          {getLocale('geminiWidgetInsufficientFunds')}
-        </InvalidCopy>
+        <InvalidTitle>{getLocale('geminiWidgetFailedTrade')}</InvalidTitle>
+        <InvalidCopy>{getLocale('geminiWidgetInsufficientFunds')}</InvalidCopy>
         <GenButton onClick={this.retryTrade}>
           {getLocale('geminiWidgetRetry')}
         </GenButton>
@@ -709,12 +710,8 @@ class Gemini extends React.PureComponent<Props, State> {
 
     return (
       <InvalidWrapper>
-        <InvalidTitle>
-          {getLocale('geminiWidgetFailedTrade')}
-        </InvalidTitle>
-        <InvalidCopy>
-          {errorMessage}
-        </InvalidCopy>
+        <InvalidTitle>{getLocale('geminiWidgetFailedTrade')}</InvalidTitle>
+        <InvalidCopy>{errorMessage}</InvalidCopy>
         <GenButton onClick={this.retryTrade}>
           {getLocale('geminiWidgetRetry')}
         </GenButton>
@@ -723,19 +720,15 @@ class Gemini extends React.PureComponent<Props, State> {
   }
 
   renderTradeSuccess = () => {
-    const {
-      currentTradeAsset,
-      currentTradeQuantityLive,
-      currentTradeMode
-    } = this.state
+    const { currentTradeAsset, currentTradeQuantityLive, currentTradeMode } =
+      this.state
     const quantity = this.formatCryptoBalance(currentTradeQuantityLive)
-    const actionLabel = currentTradeMode === 'buy' ? 'geminiWidgetBought' : 'geminiWidgetSold'
+    const actionLabel =
+      currentTradeMode === 'buy' ? 'geminiWidgetBought' : 'geminiWidgetSold'
 
     return (
       <InvalidWrapper>
-        <StyledParty>
-          🎉
-        </StyledParty>
+        <StyledParty>🎉</StyledParty>
         <InvalidTitle>
           {`${getLocale(actionLabel)} ${quantity} ${currentTradeAsset}!`}
         </InvalidTitle>
@@ -761,20 +754,22 @@ class Gemini extends React.PureComponent<Props, State> {
     const quantity = this.formatCryptoBalance(currentTradeQuantityLive)
     const fee = this.formatCryptoBalance(currentTradeFee)
     const total = this.formatCryptoBalance(currentTradeTotalPrice, 2)
-    const totalLabel = isBuy ? 'geminiWidgetTotalPrice' : 'geminiWidgetTotalAmount'
+    const totalLabel = isBuy
+      ? 'geminiWidgetTotalPrice'
+      : 'geminiWidgetTotalAmount'
 
     return (
       <InvalidWrapper>
-        <InvalidTitle>
-          {getLocale('geminiWidgetConfirmTrade')}
-        </InvalidTitle>
+        <InvalidTitle>{getLocale('geminiWidgetConfirmTrade')}</InvalidTitle>
         <TradeInfoWrapper>
           <TradeInfoItem>
             <TradeItemLabel>{getLocale(tradeLabel)}</TradeItemLabel>
             <TradeValue>{`${quantity} ${currentTradeAsset}`}</TradeValue>
           </TradeInfoItem>
           <TradeInfoItem>
-            <TradeItemLabel>{getLocale('geminiWidgetUnitPrice')}</TradeItemLabel>
+            <TradeItemLabel>
+              {getLocale('geminiWidgetUnitPrice')}
+            </TradeItemLabel>
             <TradeValue>{`${currentTradePrice} USD/${currentTradeAsset}`}</TradeValue>
           </TradeInfoItem>
           <TradeInfoItem>
@@ -798,7 +793,7 @@ class Gemini extends React.PureComponent<Props, State> {
     )
   }
 
-  renderTradeView () {
+  renderTradeView() {
     const {
       currentTradeMode,
       currentTradeAsset,
@@ -806,15 +801,21 @@ class Gemini extends React.PureComponent<Props, State> {
       tradeDropdownShowing
     } = this.state
     const { accountBalances } = this.props
-    const currentAssetBalance = this.formatCryptoBalance(accountBalances[currentTradeAsset] || '0')
+    const currentAssetBalance = this.formatCryptoBalance(
+      accountBalances[currentTradeAsset] || '0'
+    )
     const accountUSDBalance = accountBalances.USD || '0.00'
-    const availableAmount = currentTradeMode === 'buy' ? accountUSDBalance : currentAssetBalance
-    const availableLabel = currentTradeMode === 'buy' ? 'USD' : currentTradeAsset
+    const availableAmount =
+      currentTradeMode === 'buy' ? accountUSDBalance : currentAssetBalance
+    const availableLabel =
+      currentTradeMode === 'buy' ? 'USD' : currentTradeAsset
 
     return (
       <>
         <Copy>
-          {`${getLocale('geminiWidgetAvailable')} ${availableAmount} ${availableLabel}`}
+          {`${getLocale(
+            'geminiWidgetAvailable'
+          )} ${availableAmount} ${availableLabel}`}
         </Copy>
         <TradeSwitchWrapper>
           <TradeSwitch
@@ -843,11 +844,7 @@ class Gemini extends React.PureComponent<Props, State> {
               itemsShowing={false}
               className={'asset-dropdown'}
             >
-              {
-                currentTradeMode === 'buy'
-                ? 'USD'
-                : currentTradeAsset
-              }
+              {currentTradeMode === 'buy' ? 'USD' : currentTradeAsset}
             </Dropdown>
           </InputWrapper>
           <AssetDropdown
@@ -858,37 +855,33 @@ class Gemini extends React.PureComponent<Props, State> {
             <DropdownIcon>
               <IconAsset iconKey={currentTradeAsset.toLowerCase()} size={15} />
             </DropdownIcon>
-            <AssetDropdownLabel>
-              {currentTradeAsset}
-            </AssetDropdownLabel>
+            <AssetDropdownLabel>{currentTradeAsset}</AssetDropdownLabel>
             <CaratDropdown>
               <CaratDownIcon />
             </CaratDropdown>
           </AssetDropdown>
-          {
-            tradeDropdownShowing
-            ? <AssetItems>
-                {geminiData.currencies.map((asset: string, i: number) => {
-                  if (asset === currentTradeAsset) {
-                    return null
-                  }
+          {tradeDropdownShowing ? (
+            <AssetItems>
+              {geminiData.currencies.map((asset: string, i: number) => {
+                if (asset === currentTradeAsset) {
+                  return null
+                }
 
-                  return (
-                    <AssetItem
-                      key={`choice-${asset}`}
-                      isLast={i === geminiData.currencies.length - 1}
-                      onClick={this.setCurrentTradeAsset.bind(this, asset)}
-                    >
-                      <DropdownIcon>
-                        <IconAsset iconKey={asset.toLowerCase()} size={15} />
-                      </DropdownIcon>
-                      {asset}
-                    </AssetItem>
-                  )
-                })}
-              </AssetItems>
-            : null
-          }
+                return (
+                  <AssetItem
+                    key={`choice-${asset}`}
+                    isLast={i === geminiData.currencies.length - 1}
+                    onClick={this.setCurrentTradeAsset.bind(this, asset)}
+                  >
+                    <DropdownIcon>
+                      <IconAsset iconKey={asset.toLowerCase()} size={15} />
+                    </DropdownIcon>
+                    {asset}
+                  </AssetItem>
+                )
+              })}
+            </AssetItems>
+          ) : null}
         </TradeWrapper>
         <ActionsWrapper>
           <ActionButton onClick={this.shouldShowTradePreview}>
@@ -917,58 +910,46 @@ class Gemini extends React.PureComponent<Props, State> {
               <IconAsset iconKey={currentDepositAsset.toLowerCase()} />
             </DetailIconWrapper>
           </DetailIcons>
-          <AssetTicker>
-            {currentDepositAsset}
-          </AssetTicker>
-          <AssetLabel>
-            {geminiData.currencies[currentDepositAsset]}
-          </AssetLabel>
-          {
-            currentDepositAddress
-            ? <AssetQR onClick={this.setQR.bind(this, currentDepositAsset)}>
-                <img style={{ width: '25px', marginRight: '5px' }} src={QRIcon} />
-              </AssetQR>
-            : null
-          }
+          <AssetTicker>{currentDepositAsset}</AssetTicker>
+          <AssetLabel>{geminiData.currencies[currentDepositAsset]}</AssetLabel>
+          {currentDepositAddress ? (
+            <AssetQR onClick={this.setQR.bind(this, currentDepositAsset)}>
+              <img style={{ width: '25px', marginRight: '5px' }} src={QRIcon} />
+            </AssetQR>
+          ) : null}
         </ListItem>
         <DetailArea>
-          {
-            !currentDepositAddress
-            ? <MemoArea>
-                <MemoInfo>
-                  <DetailLabel>
-                    {`${currentDepositAsset}`}
-                  </DetailLabel>
-                  <DetailInfo>
-                    {getLocale('geminiWidgetUnavailable')}
-                  </DetailInfo>
-                </MemoInfo>
-              </MemoArea>
-            : null
-          }
-          {
-            currentDepositAddress
-            ? <MemoArea>
-                <MemoInfo>
-                  <DetailLabel>
-                    {`${currentDepositAsset} ${getLocale('geminiWidgetDepositAddress')}`}
-                  </DetailLabel>
-                  <DetailInfo>
-                    {currentDepositAddress}
-                  </DetailInfo>
-                </MemoInfo>
-                <CopyButton onClick={this.copyToClipboard.bind(this, currentDepositAddress)}>
-                  {getLocale('geminiWidgetCopy')}
-                </CopyButton>
-              </MemoArea>
-            : null
-          }
+          {!currentDepositAddress ? (
+            <MemoArea>
+              <MemoInfo>
+                <DetailLabel>{`${currentDepositAsset}`}</DetailLabel>
+                <DetailInfo>{getLocale('geminiWidgetUnavailable')}</DetailInfo>
+              </MemoInfo>
+            </MemoArea>
+          ) : null}
+          {currentDepositAddress ? (
+            <MemoArea>
+              <MemoInfo>
+                <DetailLabel>
+                  {`${currentDepositAsset} ${getLocale(
+                    'geminiWidgetDepositAddress'
+                  )}`}
+                </DetailLabel>
+                <DetailInfo>{currentDepositAddress}</DetailInfo>
+              </MemoInfo>
+              <CopyButton
+                onClick={this.copyToClipboard.bind(this, currentDepositAddress)}
+              >
+                {getLocale('geminiWidgetCopy')}
+              </CopyButton>
+            </MemoArea>
+          ) : null}
         </DetailArea>
       </>
     )
   }
 
-  renderDepositView () {
+  renderDepositView() {
     const { currentDepositSearch, currentDepositAsset } = this.state
 
     if (currentDepositAsset) {
@@ -993,8 +974,11 @@ class Gemini extends React.PureComponent<Props, State> {
           const lowerName = cleanName.toLowerCase()
           const lowerSearch = currentDepositSearch.toLowerCase()
 
-          if (!lowerAsset.includes(lowerSearch) &&
-              lowerName.indexOf(lowerSearch) < 0 && currentDepositSearch) {
+          if (
+            !lowerAsset.includes(lowerSearch) &&
+            lowerName.indexOf(lowerSearch) < 0 &&
+            currentDepositSearch
+          ) {
             return null
           }
 
@@ -1002,7 +986,7 @@ class Gemini extends React.PureComponent<Props, State> {
             <S.ListItem
               key={`list-${asset}`}
               isFlex={true}
-              justify='flex-start'
+              justify="flex-start"
               $p={10}
               onClick={this.setCurrentDepositAsset.bind(this, asset)}
             >
@@ -1010,9 +994,7 @@ class Gemini extends React.PureComponent<Props, State> {
                 <IconAsset iconKey={lowerAsset} />
               </S.FlexItem>
               <S.FlexItem>
-                <S.Text $fontSize={12}>
-                  {`${asset} (${cleanName})`}
-                </S.Text>
+                <S.Text $fontSize={12}>{`${asset} (${cleanName})`}</S.Text>
               </S.FlexItem>
             </S.ListItem>
           )
@@ -1021,7 +1003,7 @@ class Gemini extends React.PureComponent<Props, State> {
     )
   }
 
-  renderAccountView () {
+  renderAccountView() {
     const { selectedView } = this.props
     const { currentDepositAsset } = this.state
     const isBalanceView = !selectedView || selectedView === 'balance'
@@ -1030,40 +1012,40 @@ class Gemini extends React.PureComponent<Props, State> {
     return (
       <>
         <NavigationBar>
-            <NavigationItem
-              tabIndex={0}
-              isActive={selectedView === 'deposit'}
-              onClick={this.setSelectedView.bind(this, 'deposit')}
-            >
-              {getLocale('geminiWidgetDepositLabel')}
-            </NavigationItem>
-            <NavigationItem
-              tabIndex={0}
-              isActive={selectedView === 'trade'}
-              onClick={this.setSelectedView.bind(this, 'trade')}
-            >
-              {getLocale('geminiWidgetTradeLabel')}
-            </NavigationItem>
-            <NavigationItem
-              tabIndex={0}
-              isActive={isBalanceView}
-              onClick={this.setSelectedView.bind(this, 'balance')}
-            >
-              {getLocale('geminiWidgetBalanceLabel')}
-            </NavigationItem>
+          <NavigationItem
+            tabIndex={0}
+            isActive={selectedView === 'deposit'}
+            onClick={this.setSelectedView.bind(this, 'deposit')}
+          >
+            {getLocale('geminiWidgetDepositLabel')}
+          </NavigationItem>
+          <NavigationItem
+            tabIndex={0}
+            isActive={selectedView === 'trade'}
+            onClick={this.setSelectedView.bind(this, 'trade')}
+          >
+            {getLocale('geminiWidgetTradeLabel')}
+          </NavigationItem>
+          <NavigationItem
+            tabIndex={0}
+            isActive={isBalanceView}
+            onClick={this.setSelectedView.bind(this, 'balance')}
+          >
+            {getLocale('geminiWidgetBalanceLabel')}
+          </NavigationItem>
         </NavigationBar>
-        {
-          selectedView === 'trade'
-          ? this.renderSelectedView()
-          : <SelectedView hideOverflow={!!hideOverflow}>
-              {this.renderSelectedView()}
-            </SelectedView>
-        }
+        {selectedView === 'trade' ? (
+          this.renderSelectedView()
+        ) : (
+          <SelectedView hideOverflow={!!hideOverflow}>
+            {this.renderSelectedView()}
+          </SelectedView>
+        )}
       </>
     )
   }
 
-  renderRoutes () {
+  renderRoutes() {
     const { userAuthed } = this.props
 
     if (userAuthed) {
@@ -1073,22 +1055,20 @@ class Gemini extends React.PureComponent<Props, State> {
     return this.renderAuthView()
   }
 
-  renderTitle () {
+  renderTitle() {
     return (
       <Header>
         <StyledTitle>
           <GeminiIcon>
             <GeminiLogo />
           </GeminiIcon>
-          <StyledTitleText>
-            {'Gemini'}
-          </StyledTitleText>
+          <StyledTitleText>{'Gemini'}</StyledTitleText>
         </StyledTitle>
       </Header>
     )
   }
 
-  renderTitleTab () {
+  renderTitleTab() {
     const { onShowContent, stackPosition } = this.props
 
     return (
@@ -1098,7 +1078,7 @@ class Gemini extends React.PureComponent<Props, State> {
     )
   }
 
-  render () {
+  render() {
     const { showContent, userAuthed } = this.props
 
     if (!showContent) {
@@ -1106,15 +1086,19 @@ class Gemini extends React.PureComponent<Props, State> {
     }
 
     return (
-      <WidgetWrapper tabIndex={0} userAuthed={userAuthed} onClick={this.disableTradeAssetDropdown}>
-        {
+      <WidgetWrapper
+        tabIndex={0}
+        userAuthed={userAuthed}
+        onClick={this.disableTradeAssetDropdown}
+      >
+        {this.renderIndexView() ? (
           this.renderIndexView()
-          ? this.renderIndexView()
-          : <>
-              {this.renderTitle()}
-              {this.renderRoutes()}
-            </>
-        }
+        ) : (
+          <>
+            {this.renderTitle()}
+            {this.renderRoutes()}
+          </>
+        )}
       </WidgetWrapper>
     )
   }

@@ -17,7 +17,7 @@ export const StyledWrapper = styled.span<StyleProps>`
   align-items: center;
   padding: 4px 9px;
   border-radius: 8px;
-  background-color: ${p => p.isDown ? '#F75A3A' : '#2AC194'};
+  background-color: ${(p) => (p.isDown ? '#F75A3A' : '#2AC194')};
   width: 62px;
   height: 24px;
 `
@@ -28,10 +28,10 @@ export const PriceChange = styled.span`
   font-size: 11px;
   font-weight: 400;
   letter-spacing: 0.01em;
-  color: ${p => p.theme.color.background01};
-  
+  color: ${(p) => p.theme.color.background01};
+
   @media (prefers-color-scheme: dark) {
-    color: ${p => p.theme.color.text};
+    color: ${(p) => p.theme.color.text};
   }
 `
 

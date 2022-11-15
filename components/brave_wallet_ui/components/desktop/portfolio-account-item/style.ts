@@ -103,7 +103,7 @@ export const AccountCircle = styled.div<StyleProps>`
 `
 
 export const MoreButton = styled(WalletButton)`
-  display: flex;;
+  display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;

@@ -4,16 +4,16 @@ declare namespace TorInternals {
   }
 
   export interface State {
-    generalInfo: GeneralInfo,
-    log: string,
+    generalInfo: GeneralInfo
+    log: string
     torControlEvents: string[]
   }
 
   export interface GeneralInfo {
-    torVersion: string,
-    torPid: number,
-    torProxyURI: string,
-    isTorConnected: boolean,
+    torVersion: string
+    torPid: number
+    torProxyURI: string
+    isTorConnected: boolean
     torInitPercentage: string
   }
 }

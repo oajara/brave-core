@@ -59,31 +59,27 @@ interface Props {
 }
 
 class CardsSettings extends React.PureComponent<Props, {}> {
-  renderToggleButton = (on: boolean, toggleFunc: any, float: boolean = true) => {
+  renderToggleButton = (
+    on: boolean,
+    toggleFunc: any,
+    float: boolean = true
+  ) => {
     const ButtonContainer = on ? StyledHideButtonIcon : StyledAddButtonIcon
     const ButtonIcon = on ? HideIcon : PlusIcon
 
     return (
-      <StyledWidgetToggle
-        isAdd={!on}
-        float={float}
-        onClick={toggleFunc}
-      >
+      <StyledWidgetToggle isAdd={!on} float={float} onClick={toggleFunc}>
         <ButtonContainer>
           <ButtonIcon />
         </ButtonContainer>
         <StyledButtonLabel>
-          {
-            on
-            ? getLocale('hideWidget')
-            : getLocale('addWidget')
-          }
+          {on ? getLocale('hideWidget') : getLocale('addWidget')}
         </StyledButtonLabel>
       </StyledWidgetToggle>
     )
   }
 
-  render () {
+  render() {
     const {
       binanceSupported,
       toggleShowBinance,
@@ -108,110 +104,93 @@ class CardsSettings extends React.PureComponent<Props, {}> {
     } = this.props
     return (
       <StyledWidgetSettings>
-        {
-          braveTalkSupported
-          ? <FeaturedSettingsWidget>
-              <StyledBannerImage src={braveTalkBanner} />
-              <StyledSettingsInfo>
-                <StyledSettingsTitle>
-                  {getLocale('braveTalkWidgetTitle')}
-                </StyledSettingsTitle>
-                <StyledSettingsCopy>
-                  {getLocale('braveTalkWidgetWelcomeTitle')}
-                </StyledSettingsCopy>
-              </StyledSettingsInfo>
-              {this.renderToggleButton(showBraveTalk, toggleShowBraveTalk)}
-            </FeaturedSettingsWidget>
-          : null
-        }
-        {
-          geminiSupported
-          ? <SettingsWidget>
-              <StyledBannerImage src={geminiBanner} />
-              <StyledSettingsInfo>
-                <StyledSettingsTitle>
-                  {'Gemini'}
-                </StyledSettingsTitle>
-                <StyledSettingsCopy>
-                  {getLocale('geminiWidgetDesc')}
-                </StyledSettingsCopy>
-              </StyledSettingsInfo>
-              {this.renderToggleButton(showGemini, toggleShowGemini, false)}
-            </SettingsWidget>
-          : null
-        }
-        {
-          binanceSupported
-          ? <SettingsWidget>
-              <StyledBannerImage src={binanceBanner} />
-              <StyledSettingsInfo>
-                <StyledSettingsTitle>
-                  {'Binance'}
-                </StyledSettingsTitle>
-                <StyledSettingsCopy>
-                  {getLocale('binanceWidgetDesc')}
-                </StyledSettingsCopy>
-              </StyledSettingsInfo>
-              {this.renderToggleButton(showBinance, toggleShowBinance, false)}
-            </SettingsWidget>
-          : null
-        }
-        {
-          cryptoDotComSupported
-          ? <SettingsWidget>
-              <StyledBannerImage src={cryptoDotComBanner} />
-              <StyledSettingsInfo>
-                <StyledSettingsTitle>
-                  {'Crypto.com'}
-                </StyledSettingsTitle>
-                <StyledSettingsCopy>
-                  {getLocale('cryptoDotComWidgetDesc')}
-                </StyledSettingsCopy>
-              </StyledSettingsInfo>
-              {this.renderToggleButton(showCryptoDotCom, toggleShowCryptoDotCom, false)}
-            </SettingsWidget>
-          : null
-        }
-        {
-        ftxSupported &&
-        <SettingsWidget>
-          <StyledBannerImage src={ftxPreviewImageUrl} />
-          <StyledSettingsInfo>
-            <StyledSettingsTitle>
-              FTX
-            </StyledSettingsTitle>
-            <StyledSettingsCopy>
-              {getLocale('ftxWidgetDescription')}
-            </StyledSettingsCopy>
-          </StyledSettingsInfo>
-          {this.renderToggleButton(showFTX, toggleShowFTX, false)}
-        </SettingsWidget>
-        }
-        {
-          braveRewardsSupported
-            ? <SettingsWidget>
-              <StyledBannerImage src={rewardsBanner} />
-              <StyledSettingsInfo>
-                <StyledSettingsTitle>
-                  {getLocale('braveRewardsTitle')}
-                </StyledSettingsTitle>
-                <StyledSettingsCopy>
-                  {getLocale('rewardsWidgetDesc')}
-                </StyledSettingsCopy>
-              </StyledSettingsInfo>
-              {this.renderToggleButton(showRewards, toggleShowRewards, false)}
-            </SettingsWidget>
-            : null
-        }
+        {braveTalkSupported ? (
+          <FeaturedSettingsWidget>
+            <StyledBannerImage src={braveTalkBanner} />
+            <StyledSettingsInfo>
+              <StyledSettingsTitle>
+                {getLocale('braveTalkWidgetTitle')}
+              </StyledSettingsTitle>
+              <StyledSettingsCopy>
+                {getLocale('braveTalkWidgetWelcomeTitle')}
+              </StyledSettingsCopy>
+            </StyledSettingsInfo>
+            {this.renderToggleButton(showBraveTalk, toggleShowBraveTalk)}
+          </FeaturedSettingsWidget>
+        ) : null}
+        {geminiSupported ? (
+          <SettingsWidget>
+            <StyledBannerImage src={geminiBanner} />
+            <StyledSettingsInfo>
+              <StyledSettingsTitle>{'Gemini'}</StyledSettingsTitle>
+              <StyledSettingsCopy>
+                {getLocale('geminiWidgetDesc')}
+              </StyledSettingsCopy>
+            </StyledSettingsInfo>
+            {this.renderToggleButton(showGemini, toggleShowGemini, false)}
+          </SettingsWidget>
+        ) : null}
+        {binanceSupported ? (
+          <SettingsWidget>
+            <StyledBannerImage src={binanceBanner} />
+            <StyledSettingsInfo>
+              <StyledSettingsTitle>{'Binance'}</StyledSettingsTitle>
+              <StyledSettingsCopy>
+                {getLocale('binanceWidgetDesc')}
+              </StyledSettingsCopy>
+            </StyledSettingsInfo>
+            {this.renderToggleButton(showBinance, toggleShowBinance, false)}
+          </SettingsWidget>
+        ) : null}
+        {cryptoDotComSupported ? (
+          <SettingsWidget>
+            <StyledBannerImage src={cryptoDotComBanner} />
+            <StyledSettingsInfo>
+              <StyledSettingsTitle>{'Crypto.com'}</StyledSettingsTitle>
+              <StyledSettingsCopy>
+                {getLocale('cryptoDotComWidgetDesc')}
+              </StyledSettingsCopy>
+            </StyledSettingsInfo>
+            {this.renderToggleButton(
+              showCryptoDotCom,
+              toggleShowCryptoDotCom,
+              false
+            )}
+          </SettingsWidget>
+        ) : null}
+        {ftxSupported && (
+          <SettingsWidget>
+            <StyledBannerImage src={ftxPreviewImageUrl} />
+            <StyledSettingsInfo>
+              <StyledSettingsTitle>FTX</StyledSettingsTitle>
+              <StyledSettingsCopy>
+                {getLocale('ftxWidgetDescription')}
+              </StyledSettingsCopy>
+            </StyledSettingsInfo>
+            {this.renderToggleButton(showFTX, toggleShowFTX, false)}
+          </SettingsWidget>
+        )}
+        {braveRewardsSupported ? (
+          <SettingsWidget>
+            <StyledBannerImage src={rewardsBanner} />
+            <StyledSettingsInfo>
+              <StyledSettingsTitle>
+                {getLocale('braveRewardsTitle')}
+              </StyledSettingsTitle>
+              <StyledSettingsCopy>
+                {getLocale('rewardsWidgetDesc')}
+              </StyledSettingsCopy>
+            </StyledSettingsInfo>
+            {this.renderToggleButton(showRewards, toggleShowRewards, false)}
+          </SettingsWidget>
+        ) : null}
         <FeaturedSettingsWidget>
           <ToggleCardsWrapper>
             <ToggleCardsText>
               <ToggleCardsTitle>
                 {getLocale('cardsToggleTitle')}
               </ToggleCardsTitle>
-              <ToggleCardsCopy>
-                {getLocale('cardsToggleDesc')}
-              </ToggleCardsCopy>
+              <ToggleCardsCopy>{getLocale('cardsToggleDesc')}</ToggleCardsCopy>
             </ToggleCardsText>
             <ToggleCardsSwitch>
               <Toggle

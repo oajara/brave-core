@@ -9,9 +9,8 @@ import backgroundBG from './assets/promo_bg.svg'
 export const root = styled.div`
   width: 100%;
   position: relative;
-  background-image:
-    url('${backgroundBG}'),
-    linear-gradient(279.66deg, #694CD9 0%, #7D186C 100%);
+  background-image: url('${backgroundBG}'),
+    linear-gradient(279.66deg, #694cd9 0%, #7d186c 100%);
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 12px;

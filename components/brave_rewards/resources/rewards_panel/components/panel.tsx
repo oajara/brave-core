@@ -13,25 +13,31 @@ import { PublisherCard } from './publisher_card'
 
 type ActiveView = 'tip' | 'summary'
 
-export function Panel () {
+export function Panel() {
   const host = React.useContext(HostContext)
 
   const [balance, setBalance] = React.useState(host.state.balance)
   const [settings, setSettings] = React.useState(host.state.settings)
-  const [externalWallet, setExternalWallet] =
-    React.useState(host.state.externalWallet)
-  const [exchangeInfo, setExchangeInfo] =
-    React.useState(host.state.exchangeInfo)
-  const [earningsInfo, setEarningsInfo] =
-    React.useState(host.state.earningsInfo)
-  const [payoutStatus, setPayoutStatus] =
-    React.useState(host.state.payoutStatus)
+  const [externalWallet, setExternalWallet] = React.useState(
+    host.state.externalWallet
+  )
+  const [exchangeInfo, setExchangeInfo] = React.useState(
+    host.state.exchangeInfo
+  )
+  const [earningsInfo, setEarningsInfo] = React.useState(
+    host.state.earningsInfo
+  )
+  const [payoutStatus, setPayoutStatus] = React.useState(
+    host.state.payoutStatus
+  )
   const [summaryData, setSummaryData] = React.useState(host.state.summaryData)
-  const [publisherInfo, setPublisherInfo] =
-    React.useState(host.state.publisherInfo)
+  const [publisherInfo, setPublisherInfo] = React.useState(
+    host.state.publisherInfo
+  )
 
   const [activeView, setActiveView] = React.useState<ActiveView>(
-    publisherInfo ? 'tip' : 'summary')
+    publisherInfo ? 'tip' : 'summary'
+  )
 
   useHostListener(host, (state) => {
     setBalance(state.balance)
@@ -46,11 +52,13 @@ export function Panel () {
 
   const walletProvider = externalWallet ? externalWallet.provider : null
   const providerPayoutStatus = getProviderPayoutStatus(
-    payoutStatus, walletProvider)
+    payoutStatus,
+    walletProvider
+  )
 
   return (
     <div>
-      <div className='rewards-panel' data-test-id='rewards-panel'>
+      <div className="rewards-panel" data-test-id="rewards-panel">
         <WalletCard
           balance={balance}
           externalWallet={externalWallet}

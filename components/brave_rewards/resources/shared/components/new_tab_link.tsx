@@ -9,7 +9,7 @@ interface Props {
   children: React.ReactNode
 }
 
-export function NewTabLink (props: Props) {
+export function NewTabLink(props: Props) {
   const onClick = (event: React.UIEvent) => {
     // If the `chrome.tabs` API is available, then use it to open the new tab.
     // This will allow links to be opened from contexts where normal links do
@@ -24,8 +24,8 @@ export function NewTabLink (props: Props) {
     <a
       href={props.href}
       onClick={onClick}
-      target='_blank'
-      rel='noopener noreferrer'
+      target="_blank"
+      rel="noopener noreferrer"
     >
       {props.children}
     </a>

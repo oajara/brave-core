@@ -28,33 +28,59 @@ interface Props {
   onRemoveValue?: (background: string) => void
 }
 
-function BackgroundChooser ({ title, backgrounds, onBack, onSelectValue, currentValue, usingRandomColor, onToggleRandomColor, renderExtraButton, onRemoveValue }: Props) {
+function BackgroundChooser({
+  title,
+  backgrounds,
+  onBack,
+  onSelectValue,
+  currentValue,
+  usingRandomColor,
+  onToggleRandomColor,
+  renderExtraButton,
+  onRemoveValue
+}: Props) {
   const containerEl = React.useRef<HTMLDivElement>(null)
   React.useEffect(() => {
     containerEl.current?.scrollIntoView(true)
   }, [])
 
   return (
-      <div ref={containerEl}>
-        <NavigateBack onBack={onBack} title={title} />
-        <SettingsRow>
-          <SettingsText>{getLocale('refreshBackgroundOnNewTab')}</SettingsText>
-          <Toggle
-            onChange={e => onToggleRandomColor(e.target.checked)}
-            checked={usingRandomColor}
-          />
-        </SettingsRow>
-        <StyledCustomBackgroundSettings>
-          {backgrounds.map((background) => {
-            const value = background.type === 'color' ? background.wallpaperColor : background.wallpaperImageUrl
-            return <BackgroundOption key={value} background={background}
-                      selected={!usingRandomColor && currentValue === value}
-                      onSelectValue={() => onSelectValue(value, /* useRandomColor= */false)}
-                      onRemoveValue={onRemoveValue ? () => { onRemoveValue(value) } : undefined} />
-          })}
-          { renderExtraButton?.() }
-        </StyledCustomBackgroundSettings>
-      </div>
+    <div ref={containerEl}>
+      <NavigateBack onBack={onBack} title={title} />
+      <SettingsRow>
+        <SettingsText>{getLocale('refreshBackgroundOnNewTab')}</SettingsText>
+        <Toggle
+          onChange={(e) => onToggleRandomColor(e.target.checked)}
+          checked={usingRandomColor}
+        />
+      </SettingsRow>
+      <StyledCustomBackgroundSettings>
+        {backgrounds.map((background) => {
+          const value =
+            background.type === 'color'
+              ? background.wallpaperColor
+              : background.wallpaperImageUrl
+          return (
+            <BackgroundOption
+              key={value}
+              background={background}
+              selected={!usingRandomColor && currentValue === value}
+              onSelectValue={() =>
+                onSelectValue(value, /* useRandomColor= */ false)
+              }
+              onRemoveValue={
+                onRemoveValue
+                  ? () => {
+                      onRemoveValue(value)
+                    }
+                  : undefined
+              }
+            />
+          )
+        })}
+        {renderExtraButton?.()}
+      </StyledCustomBackgroundSettings>
+    </div>
   )
 }
 

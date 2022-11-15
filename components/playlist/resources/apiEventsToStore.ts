@@ -6,20 +6,24 @@
 import { getAllActions } from './api/getAllActions'
 import { getPlaylistAPI } from './api/api'
 
-async function getInitialData () {
+async function getInitialData() {
   return getPlaylistAPI().getAllPlaylists()
 }
 
-export default function wireApiEventsToStore () {
+export default function wireApiEventsToStore() {
   // Get initial data and dispatch to store
   getInitialData()
-      .then((initialData) => {
-        getAllActions().playlistLoaded(initialData.playlists)
+    .then((initialData) => {
+      getAllActions().playlistLoaded(initialData.playlists)
 
-        // TODO: Add proper event listeners for changes to playlist
-        getPlaylistAPI().addEventListener((e) => {
-          getInitialData().then(data => { getAllActions().playlistLoaded(data.playlists) })
+      // TODO: Add proper event listeners for changes to playlist
+      getPlaylistAPI().addEventListener((e) => {
+        getInitialData().then((data) => {
+          getAllActions().playlistLoaded(data.playlists)
         })
       })
-      .catch(e => { console.error('New Tab Page fatal error:', e) })
+    })
+    .catch((e) => {
+      console.error('New Tab Page fatal error:', e)
+    })
 }

@@ -6,7 +6,9 @@
 import styled from 'styled-components'
 import { WalletButton } from '../style'
 
-export const BuyAssetOptionWrapper = styled(WalletButton)<{ isSelected?: boolean}>`
+export const BuyAssetOptionWrapper = styled(WalletButton)<{
+  isSelected?: boolean
+}>`
   width: 100%;
   height: 76px;
   box-sizing: border-box;
@@ -18,11 +20,12 @@ export const BuyAssetOptionWrapper = styled(WalletButton)<{ isSelected?: boolean
   border-style: solid;
   border-radius: 4px;
   background-color: ${(p) => p.theme.color.background02};
-  border-color: ${(p) => p.isSelected ? p.theme.color.focusBorder : p.theme.color.divider01};
-  border-width: ${(p) => p.isSelected ? '3px' : '1px'};
+  border-color: ${(p) =>
+    p.isSelected ? p.theme.color.focusBorder : p.theme.color.divider01};
+  border-width: ${(p) => (p.isSelected ? '3px' : '1px')};
   margin-top: 6px;
   margin-bottom: 18px;
-  padding: ${(p) => p.isSelected ? '11px' : '13px'};
+  padding: ${(p) => (p.isSelected ? '11px' : '13px')};
 `
 
 export const NameAndIcon = styled.div`

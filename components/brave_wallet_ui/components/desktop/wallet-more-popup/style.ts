@@ -4,7 +4,13 @@
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 import styled from 'styled-components'
 import { OpenNewIcon } from 'brave-ui/components/icons'
-import { LockIconD, SafeIcon, InternetIcon, InfoIcon, SettingsAdvancedIcon } from '../../../assets/svg-icons/nav-button-icons'
+import {
+  LockIconD,
+  SafeIcon,
+  InternetIcon,
+  InfoIcon,
+  SettingsAdvancedIcon
+} from '../../../assets/svg-icons/nav-button-icons'
 import { WalletButton } from '../../shared/style'
 
 export const StyledWrapper = styled.div`
@@ -20,7 +26,7 @@ export const StyledWrapper = styled.div`
   top: 35px;
   right: 15px;
   z-index: 20;
- `
+`
 
 export const PopupButton = styled(WalletButton)`
   display: flex;
@@ -52,14 +58,14 @@ export const PopupButtonText = styled.span`
 `
 
 export const SettingsIcon = styled.div`
- width: 20px;
- height: 20px;
- margin-right: 18px;
- margin-left: 14px;
- background-color: ${(p) => p.theme.color.interactive07};
- -webkit-mask-image: url(${SettingsAdvancedIcon});
- mask-image: url(${SettingsAdvancedIcon});
- mask-size: contain;
+  width: 20px;
+  height: 20px;
+  margin-right: 18px;
+  margin-left: 14px;
+  background-color: ${(p) => p.theme.color.interactive07};
+  -webkit-mask-image: url(${SettingsAdvancedIcon});
+  mask-image: url(${SettingsAdvancedIcon});
+  mask-size: contain;
 `
 
 export const ExplorerIcon = styled(OpenNewIcon)`

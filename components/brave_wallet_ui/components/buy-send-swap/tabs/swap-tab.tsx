@@ -9,30 +9,28 @@ import {
   BraveWallet,
   WalletAccountType
 } from '../../../constants/types'
-import {
-  AccountsAssetsNetworks,
-  Header,
-  Swap
-} from '..'
+import { AccountsAssetsNetworks, Header, Swap } from '..'
 import { useSwap } from '../../../common/hooks'
 import { useDispatch } from 'react-redux'
 import { WalletActions } from '../../../common/actions'
 
-function SwapTab () {
+function SwapTab() {
   const swap = useSwap()
-  const {
-    onSelectTransactAsset,
-    swapAssetOptions
-  } = swap
+  const { onSelectTransactAsset, swapAssetOptions } = swap
 
   // redux
   const dispatch = useDispatch()
 
   const [swapView, setSwapView] = React.useState<BuySendSwapViewTypes>('swap')
-  const [isSelectingAsset, setIsSelectingAsset] = React.useState<ToOrFromType>('from')
-  const [filteredAssetList, setFilteredAssetList] = React.useState<BraveWallet.BlockchainToken[]>(swapAssetOptions)
+  const [isSelectingAsset, setIsSelectingAsset] =
+    React.useState<ToOrFromType>('from')
+  const [filteredAssetList, setFilteredAssetList] =
+    React.useState<BraveWallet.BlockchainToken[]>(swapAssetOptions)
 
-  const onChangeSwapView = (view: BuySendSwapViewTypes, option?: ToOrFromType) => {
+  const onChangeSwapView = (
+    view: BuySendSwapViewTypes,
+    option?: ToOrFromType
+  ) => {
     if (option) {
       setIsSelectingAsset(option)
     }
@@ -49,14 +47,17 @@ function SwapTab () {
     setSwapView('swap')
   }
 
-  const onFilterAssetList = React.useCallback((asset?: BraveWallet.BlockchainToken) => {
-    if (!asset) {
-      return
-    }
+  const onFilterAssetList = React.useCallback(
+    (asset?: BraveWallet.BlockchainToken) => {
+      if (!asset) {
+        return
+      }
 
-    const newList = swapAssetOptions.filter((assets) => assets !== asset)
-    setFilteredAssetList(newList)
-  }, [swapAssetOptions])
+      const newList = swapAssetOptions.filter((assets) => assets !== asset)
+      setFilteredAssetList(newList)
+    },
+    [swapAssetOptions]
+  )
 
   const goBack = () => {
     setSwapView('swap')
@@ -64,11 +65,9 @@ function SwapTab () {
 
   return (
     <>
-      {swapView === 'swap' &&
+      {swapView === 'swap' && (
         <>
-          <Header
-            onChangeSwapView={onChangeSwapView}
-          />
+          <Header onChangeSwapView={onChangeSwapView} />
           <Swap
             customSlippageTolerance={swap.customSlippageTolerance}
             exchangeRate={swap.exchangeRate}
@@ -78,7 +77,9 @@ function SwapTab () {
             isFetchingSwapQuote={swap.isFetchingSwapQuote}
             isSwapButtonDisabled={swap.isSwapButtonDisabled}
             onChangeSwapView={onChangeSwapView}
-            onCustomSlippageToleranceChange={swap.onCustomSlippageToleranceChange}
+            onCustomSlippageToleranceChange={
+              swap.onCustomSlippageToleranceChange
+            }
             onFilterAssetList={onFilterAssetList}
             setOrderExpiration={swap.setOrderExpiration}
             onSelectPresetAmount={swap.onSelectPresetAmount}
@@ -100,8 +101,8 @@ function SwapTab () {
             swapProvider={swap.swapProvider}
           />
         </>
-      }
-      {swapView !== 'swap' &&
+      )}
+      {swapView !== 'swap' && (
         <AccountsAssetsNetworks
           goBack={goBack}
           assetOptions={filteredAssetList}
@@ -109,7 +110,7 @@ function SwapTab () {
           onSelectedAsset={onSelectAsset}
           selectedView={swapView}
         />
-      }
+      )}
     </>
   )
 }

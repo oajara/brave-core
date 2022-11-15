@@ -24,7 +24,7 @@ import * as mojom from '../shared/lib/mojom'
 const store = createStore(createReducer())
 const actions = bindActionCreators(rewardsActions, store.dispatch.bind(store))
 
-function initialize () {
+function initialize() {
   initLocale(loadTimeData.data_)
 
   const localeContext = {
@@ -47,138 +47,143 @@ function initialize () {
         </LocaleContext.Provider>
       </ThemeProvider>
     </Provider>,
-    document.getElementById('root'))
+    document.getElementById('root')
+  )
 }
 
-function rewardsParameters (properties: Rewards.RewardsParameters) {
+function rewardsParameters(properties: Rewards.RewardsParameters) {
   actions.onRewardsParameters(properties)
   // Get the current AC amount after rewards parameters have been
   // updated, as the default AC amount may have been changed.
   actions.getContributionAmount()
 }
 
-function promotions (properties: Rewards.PromotionResponse) {
+function promotions(properties: Rewards.PromotionResponse) {
   actions.onPromotions(properties)
 }
 
-function promotionClaimStarted (promotionId: string) {
+function promotionClaimStarted(promotionId: string) {
   actions.onPromotionClaimStarted(promotionId)
 }
 
-function promotionFinish (properties: Rewards.PromotionFinish) {
+function promotionFinish(properties: Rewards.PromotionFinish) {
   actions.onPromotionFinish(properties)
 }
 
-function reconcileStamp (stamp: number) {
+function reconcileStamp(stamp: number) {
   actions.onReconcileStamp(stamp)
 }
 
-function contributeList (list: Rewards.Publisher[]) {
+function contributeList(list: Rewards.Publisher[]) {
   actions.onContributeList(list)
 }
 
-function excludedList (list: Rewards.ExcludedPublisher[]) {
+function excludedList(list: Rewards.ExcludedPublisher[]) {
   actions.onExcludedList(list)
 }
 
-function balanceReport (properties: {month: number, year: number, report: Rewards.BalanceReport}) {
+function balanceReport(properties: {
+  month: number
+  year: number
+  report: Rewards.BalanceReport
+}) {
   actions.onBalanceReport(properties)
 }
 
-function contributionAmount (amount: number) {
+function contributionAmount(amount: number) {
   actions.onContributionAmount(amount)
 }
 
-function recurringTips (list: Rewards.Publisher[]) {
+function recurringTips(list: Rewards.Publisher[]) {
   actions.onRecurringTips(list)
 }
 
-function currentTips (list: Rewards.Publisher[]) {
+function currentTips(list: Rewards.Publisher[]) {
   actions.onCurrentTips(list)
 }
 
-function autoContributeProperties (properties: any) {
+function autoContributeProperties(properties: any) {
   actions.onAutoContributeProperties(properties)
 }
 
-function adsData (adsData: Rewards.AdsData) {
+function adsData(adsData: Rewards.AdsData) {
   actions.onAdsData(adsData)
 }
 
-function adsHistory (adsHistory: Rewards.AdsHistory[]) {
+function adsHistory(adsHistory: Rewards.AdsHistory[]) {
   actions.onAdsHistory(adsHistory)
 }
 
-function onToggleAdThumbUp (result: Rewards.ToggleLikeAction) {
+function onToggleAdThumbUp(result: Rewards.ToggleLikeAction) {
   actions.onToggleAdThumbUp(result)
 }
 
-function onToggleAdThumbDown (result: Rewards.ToggleLikeAction) {
+function onToggleAdThumbDown(result: Rewards.ToggleLikeAction) {
   actions.onToggleAdThumbDown(result)
 }
 
-function onToggleAdOptIn (result: Rewards.ToggleOptAction) {
+function onToggleAdOptIn(result: Rewards.ToggleOptAction) {
   actions.onToggleAdOptIn(result)
 }
 
-function onToggleAdOptOut (result: Rewards.ToggleOptAction) {
+function onToggleAdOptOut(result: Rewards.ToggleOptAction) {
   actions.onToggleAdOptOut(result)
 }
 
-function onToggleSavedAd (result: Rewards.ToggleSavedAd) {
+function onToggleSavedAd(result: Rewards.ToggleSavedAd) {
   actions.onToggleSavedAd(result)
 }
 
-function onToggleFlaggedAd (result: Rewards.ToggleFlaggedAd) {
+function onToggleFlaggedAd(result: Rewards.ToggleFlaggedAd) {
   actions.onToggleFlaggedAd(result)
 }
 
-function onPendingContributionSaved (result: number) {
+function onPendingContributionSaved(result: number) {
   if (result === 0) {
     actions.getPendingContributions()
   }
 }
 
-function statement (data: any) {
+function statement(data: any) {
   actions.onStatement(data)
 }
 
-function statementChanged () {
+function statementChanged() {
   actions.onStatementChanged()
 }
 
-function recurringTipSaved (success: boolean) {
+function recurringTipSaved(success: boolean) {
   actions.onRecurringTipSaved(success)
 }
 
-function recurringTipRemoved (success: boolean) {
+function recurringTipRemoved(success: boolean) {
   actions.onRecurringTipRemoved(success)
 }
 
-function externalWalletProviderList (list: Rewards.ExternalWalletProvider[]) {
+function externalWalletProviderList(list: Rewards.ExternalWalletProvider[]) {
   actions.onExternalWalletProviderList(list)
 }
 
-function pendingContributions (list: Rewards.PendingContribution[]) {
+function pendingContributions(list: Rewards.PendingContribution[]) {
   actions.onPendingContributions(list)
 }
 
-function onRemovePendingContribution (result: number) {
+function onRemovePendingContribution(result: number) {
   if (result === 0) {
     actions.getPendingContributions()
   }
 }
 
-function excludedSiteChanged () {
+function excludedSiteChanged() {
   actions.getExcludedSites()
   actions.getContributeList()
 }
 
-function balance (properties: {status: number, balance: Rewards.Balance}) {
+function balance(properties: { status: number; balance: Rewards.Balance }) {
   actions.onBalance(properties.status, properties.balance)
 }
 
-function reconcileComplete (properties: {type: number, result: number}) {
+function reconcileComplete(properties: { type: number; result: number }) {
   chrome.send('brave_rewards.getReconcileStamp')
   actions.getContributeList()
   actions.getBalance()
@@ -186,7 +191,8 @@ function reconcileComplete (properties: {type: number, result: number}) {
 
   getCurrentBalanceReport()
 
-  if (properties.type === 8) { // Rewards.RewardsType.ONE_TIME_TIP
+  if (properties.type === 8) {
+    // Rewards.RewardsType.ONE_TIME_TIP
     chrome.send('brave_rewards.getOneTimeTips')
   }
 
@@ -196,15 +202,15 @@ function reconcileComplete (properties: {type: number, result: number}) {
   }
 }
 
-function onGetExternalWallet (result: mojom.GetExternalWalletResult) {
+function onGetExternalWallet(result: mojom.GetExternalWalletResult) {
   actions.onGetExternalWallet(result)
 }
 
-function onConnectExternalWallet (result: mojom.ConnectExternalWalletResult) {
+function onConnectExternalWallet(result: mojom.ConnectExternalWalletResult) {
   actions.onConnectExternalWallet(result)
 }
 
-function disconnectWallet (properties: {result: number}) {
+function disconnectWallet(properties: { result: number }) {
   if (properties.result === 0) {
     actions.getExternalWallet()
     actions.getBalance()
@@ -213,51 +219,56 @@ function disconnectWallet (properties: {result: number}) {
   actions.disconnectWalletError()
 }
 
-function unblindedTokensReady () {
+function unblindedTokensReady() {
   actions.getBalance()
 }
 
-function monthlyReport (properties: { result: number, month: number, year: number, report: Rewards.MonthlyReport}) {
+function monthlyReport(properties: {
+  result: number
+  month: number
+  year: number
+  report: Rewards.MonthlyReport
+}) {
   actions.onMonthlyReport(properties)
 }
 
-function reconcileStampReset () {
+function reconcileStampReset() {
   actions.onReconcileStampReset()
 }
 
-function monthlyReportIds (ids: string[]) {
+function monthlyReportIds(ids: string[]) {
   actions.onMonthlyReportIds(ids)
 }
 
-function countryCode (countryCode: string) {
+function countryCode(countryCode: string) {
   actions.onCountryCode(countryCode)
 }
 
-function initialized () {
+function initialized() {
   actions.onInitialized()
 }
 
-function completeReset (success: boolean) {
+function completeReset(success: boolean) {
   actions.onCompleteReset(success)
 }
 
-function onboardingStatus (result: { showOnboarding: boolean }) {
+function onboardingStatus(result: { showOnboarding: boolean }) {
   actions.onOnboardingStatus(result.showOnboarding)
 }
 
-function enabledInlineTippingPlatforms (list: string[]) {
+function enabledInlineTippingPlatforms(list: string[]) {
   actions.onEnabledInlineTippingPlatforms(list)
 }
 
-function externalWalletLogin (url: string) {
+function externalWalletLogin(url: string) {
   window.open(url, '_self')
 }
 
-function onPrefChanged (key: string) {
+function onPrefChanged(key: string) {
   actions.onPrefChanged(key)
 }
 
-function onIsUnsupportedRegion (isUnsupportedRegion: boolean) {
+function onIsUnsupportedRegion(isUnsupportedRegion: boolean) {
   actions.onIsUnsupportedRegion(isUnsupportedRegion)
 }
 

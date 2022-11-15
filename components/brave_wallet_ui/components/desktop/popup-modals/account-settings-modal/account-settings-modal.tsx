@@ -6,10 +6,7 @@
 import * as React from 'react'
 
 // redux
-import {
-  useDispatch,
-  useSelector
-} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 // // actions
 import { WalletPageActions } from '../../../../page/actions'
@@ -29,9 +26,7 @@ import { FILECOIN_FORMAT_DESCRIPTION_URL } from '../../../../common/constants/ur
 import { AccountButtonOptions } from '../../../../options/account-list-button-options'
 
 // types
-import {
-  BraveWallet
-} from '../../../../constants/types'
+import { BraveWallet } from '../../../../constants/types'
 
 // components
 import { NavButton } from '../../../extension'
@@ -74,43 +69,55 @@ export const AccountSettingsModal = () => {
   const dispatch = useDispatch()
 
   // accounts tab state
-  const selectedAccount = useSelector(({ accountsTab }: { accountsTab: AccountsTabState }) => accountsTab.selectedAccount)
-  const accountModalType = useSelector(({ accountsTab }: { accountsTab: AccountsTabState }) => accountsTab.accountModalType)
+  const selectedAccount = useSelector(
+    ({ accountsTab }: { accountsTab: AccountsTabState }) =>
+      accountsTab.selectedAccount
+  )
+  const accountModalType = useSelector(
+    ({ accountsTab }: { accountsTab: AccountsTabState }) =>
+      accountsTab.accountModalType
+  )
 
   // state
-  const [accountName, setAccountName] = React.useState<string>(selectedAccount?.name ?? '')
+  const [accountName, setAccountName] = React.useState<string>(
+    selectedAccount?.name ?? ''
+  )
   const [updateError, setUpdateError] = React.useState<boolean>(false)
   const [password, setPassword] = React.useState<string>('')
   const [privateKey, setPrivateKey] = React.useState<string>('')
-  const [isCorrectPassword, setIsCorrectPassword] = React.useState<boolean>(true)
+  const [isCorrectPassword, setIsCorrectPassword] =
+    React.useState<boolean>(true)
   const [qrCode, setQRCode] = React.useState<string>('')
 
   // custom hooks
   const { attemptPasswordEntry } = usePasswordAttempts()
 
   // methods
-  const onViewPrivateKey = React.useCallback(async (
-    address: string,
-    coin: BraveWallet.CoinType
-  ) => {
-    const { privateKey, success } = await keyringService.getPrivateKeyForKeyringAccount(
-      address,
-      password,
-      coin
-    )
-    if (isMounted) {
-      if (success) {
-        return setPrivateKey(privateKey)
+  const onViewPrivateKey = React.useCallback(
+    async (address: string, coin: BraveWallet.CoinType) => {
+      const { privateKey, success } =
+        await keyringService.getPrivateKeyForKeyringAccount(
+          address,
+          password,
+          coin
+        )
+      if (isMounted) {
+        if (success) {
+          return setPrivateKey(privateKey)
+        }
+        return setPrivateKey('')
       }
-      return setPrivateKey('')
-    }
-  }, [password, keyringService, isMounted])
+    },
+    [password, keyringService, isMounted]
+  )
 
   const onDoneViewingPrivateKey = React.useCallback(() => {
     setPrivateKey('')
   }, [])
 
-  const handleAccountNameChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAccountNameChanged = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setAccountName(event.target.value)
     setUpdateError(false)
   }
@@ -135,7 +142,7 @@ export const AccountSettingsModal = () => {
 
   const generateQRData = React.useCallback(() => {
     if (selectedAccount) {
-      generateQRCode(selectedAccount.address).then(qr => {
+      generateQRCode(selectedAccount.address).then((qr) => {
         if (isMounted) {
           setQRCode(qr)
         }
@@ -144,7 +151,8 @@ export const AccountSettingsModal = () => {
   }, [selectedAccount, isMounted])
 
   const onShowPrivateKey = async () => {
-    if (!password || !selectedAccount) { // require password to view key
+    if (!password || !selectedAccount) {
+      // require password to view key
       return
     }
 
@@ -160,10 +168,7 @@ export const AccountSettingsModal = () => {
     setPassword('')
     setIsCorrectPassword(true)
 
-    onViewPrivateKey(
-      selectedAccount?.address ?? '',
-      selectedAccount?.coin
-    )
+    onViewPrivateKey(selectedAccount?.address ?? '', selectedAccount?.coin)
   }
 
   const onHidePrivateKey = () => {
@@ -188,7 +193,9 @@ export const AccountSettingsModal = () => {
     setPassword(value)
   }
 
-  const handlePasswordKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handlePasswordKeyDown = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
     if (event.key === 'Enter') {
       onShowPrivateKey()
     }
@@ -201,14 +208,21 @@ export const AccountSettingsModal = () => {
   // memos
   const modalTitle = React.useMemo((): string => {
     if (accountModalType) {
-      return AccountButtonOptions.find((option) => option.id === accountModalType)?.name ?? ''
+      return (
+        AccountButtonOptions.find((option) => option.id === accountModalType)
+          ?.name ?? ''
+      )
     }
     return ''
   }, [accountModalType])
 
   const orb = React.useMemo(() => {
     if (selectedAccount) {
-      return create({ seed: selectedAccount.address.toLowerCase(), size: 8, scale: 16 }).toDataURL()
+      return create({
+        seed: selectedAccount.address.toLowerCase(),
+        size: 8,
+        scale: 16
+      }).toDataURL()
     }
   }, [selectedAccount])
 
@@ -222,7 +236,7 @@ export const AccountSettingsModal = () => {
     <PopupModal title={getLocale(modalTitle)} onClose={onClickClose}>
       <Line />
       <StyledWrapper>
-        {accountModalType === 'deposit' &&
+        {accountModalType === 'deposit' && (
           <>
             <NameAndIcon>
               <AccountCircle orb={orb} />
@@ -230,12 +244,15 @@ export const AccountSettingsModal = () => {
             </NameAndIcon>
             <QRCodeWrapper src={qrCode} />
             <CopyTooltip text={selectedAccount?.address ?? ''}>
-              <AddressButton>{selectedAccount?.address ?? ''}<CopyIcon /></AddressButton>
+              <AddressButton>
+                {selectedAccount?.address ?? ''}
+                <CopyIcon />
+              </AddressButton>
             </CopyTooltip>
             <VerticalSpacer space={20} />
           </>
-        }
-        {accountModalType === 'edit' &&
+        )}
+        {accountModalType === 'edit' && (
           <>
             <Input
               value={accountName}
@@ -243,43 +260,54 @@ export const AccountSettingsModal = () => {
               onChange={handleAccountNameChanged}
               onKeyDown={handleKeyDown}
             />
-            {updateError &&
-              <ErrorText>{getLocale('braveWalletAccountSettingsUpdateError')}</ErrorText>
-            }
+            {updateError && (
+              <ErrorText>
+                {getLocale('braveWalletAccountSettingsUpdateError')}
+              </ErrorText>
+            )}
             <ButtonRow>
               <NavButton
                 onSubmit={onSubmitUpdateName}
                 disabled={!accountName}
                 text={getLocale('braveWalletAccountSettingsSave')}
-                buttonType='secondary'
+                buttonType="secondary"
               />
             </ButtonRow>
           </>
-        }
-        {accountModalType === 'privateKey' &&
+        )}
+        {accountModalType === 'privateKey' && (
           <PrivateKeyWrapper>
             <WarningWrapper>
-              <WarningText>{getLocale('braveWalletAccountSettingsDisclaimer')}</WarningText>
+              <WarningText>
+                {getLocale('braveWalletAccountSettingsDisclaimer')}
+              </WarningText>
             </WarningWrapper>
-            {privateKey
-              ? <>
-                {selectedAccount?.coin === BraveWallet.CoinType.FIL &&
+            {privateKey ? (
+              <>
+                {selectedAccount?.coin === BraveWallet.CoinType.FIL && (
                   <WarningWrapper>
                     <WarningText>
                       {filPrivateKeyFormatDescriptionTextParts.beforeTag}
-                      <a target='_blank' href={FILECOIN_FORMAT_DESCRIPTION_URL} rel='noopener noreferrer'>
+                      <a
+                        target="_blank"
+                        href={FILECOIN_FORMAT_DESCRIPTION_URL}
+                        rel="noopener noreferrer"
+                      >
                         {filPrivateKeyFormatDescriptionTextParts.duringTag}
                       </a>
                       {filPrivateKeyFormatDescriptionTextParts.afterTag}
                     </WarningText>
                   </WarningWrapper>
-                }
+                )}
                 <CopyTooltip text={privateKey}>
                   <PrivateKeyBubble>{privateKey}</PrivateKeyBubble>
                 </CopyTooltip>
               </>
-              : <PasswordInput
-                placeholder={getLocale('braveWalletEnterYourBraveWalletPassword')}
+            ) : (
+              <PasswordInput
+                placeholder={getLocale(
+                  'braveWalletEnterYourBraveWalletPassword'
+                )}
                 onChange={onPasswordChange}
                 hasError={!!password && !isCorrectPassword}
                 error={getLocale('braveWalletLockScreenError')}
@@ -287,24 +315,23 @@ export const AccountSettingsModal = () => {
                 value={password}
                 onKeyDown={handlePasswordKeyDown}
               />
-            }
+            )}
             <ButtonWrapper>
               <NavButton
                 onSubmit={!privateKey ? onShowPrivateKey : onHidePrivateKey}
-                text={getLocale(!privateKey
-                  ? 'braveWalletAccountSettingsShowKey'
-                  : 'braveWalletAccountSettingsHideKey'
+                text={getLocale(
+                  !privateKey
+                    ? 'braveWalletAccountSettingsShowKey'
+                    : 'braveWalletAccountSettingsHideKey'
                 )}
-                buttonType='primary'
+                buttonType="primary"
                 disabled={
-                  privateKey
-                    ? false
-                    : password ? !isCorrectPassword : true
+                  privateKey ? false : password ? !isCorrectPassword : true
                 }
               />
             </ButtonWrapper>
           </PrivateKeyWrapper>
-        }
+        )}
       </StyledWrapper>
     </PopupModal>
   )

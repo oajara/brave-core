@@ -10,23 +10,35 @@ export const stripERC20TokenImageURL = (url?: string) =>
   url?.replace('chrome://erc-token-images/', '')
 
 export const toProperCase = (value: string) =>
-  value.replace(/\w\S*/g,
-    (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())
+  value.replace(
+    /\w\S*/g,
+    (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+  )
 
 export const isRemoteImageURL = (url?: string) =>
-  url?.startsWith('http://') || url?.startsWith('https://') || url?.startsWith('data:image/') || url?.startsWith('ipfs://')
+  url?.startsWith('http://') ||
+  url?.startsWith('https://') ||
+  url?.startsWith('data:image/') ||
+  url?.startsWith('ipfs://')
 
 export const isValidIconExtension = (url?: string) =>
-  url?.endsWith('.jpg') || url?.endsWith('.jpeg') || url?.endsWith('.png') || url?.endsWith('.svg') || url?.endsWith('.gif')
+  url?.endsWith('.jpg') ||
+  url?.endsWith('.jpeg') ||
+  url?.endsWith('.png') ||
+  url?.endsWith('.svg') ||
+  url?.endsWith('.gif')
 
 export const httpifyIpfsUrl = (url: string | undefined) => {
   const trimmedUrl = url ? url.trim() : ''
-  return trimmedUrl.startsWith('ipfs://') ? trimmedUrl.replace('ipfs://', 'https://ipfs.io/ipfs/') : trimmedUrl
+  return trimmedUrl.startsWith('ipfs://')
+    ? trimmedUrl.replace('ipfs://', 'https://ipfs.io/ipfs/')
+    : trimmedUrl
 }
 
 export const isIpfs = (url?: string) => url?.startsWith('ipfs://')
 
-export const isDataURL = (url?: string) => url?.startsWith('chrome://erc-token-images/')
+export const isDataURL = (url?: string) =>
+  url?.startsWith('chrome://erc-token-images/')
 
 /**
  * Wyre currently supports the following chains:
@@ -37,24 +49,37 @@ export const isDataURL = (url?: string) => url?.startsWith('chrome://erc-token-i
  */
 export const getWyreNetworkPrefix = (chainId: string) => {
   switch (chainId) {
-    case BraveWallet.POLYGON_MAINNET_CHAIN_ID: return 'M'
-    case BraveWallet.AVALANCHE_MAINNET_CHAIN_ID: return 'AVAXC'
-    case BraveWallet.MAINNET_CHAIN_ID: return ''
-    default: return ''
+    case BraveWallet.POLYGON_MAINNET_CHAIN_ID:
+      return 'M'
+    case BraveWallet.AVALANCHE_MAINNET_CHAIN_ID:
+      return 'AVAXC'
+    case BraveWallet.MAINNET_CHAIN_ID:
+      return ''
+    default:
+      return ''
   }
 }
 
 export const getRampNetworkPrefix = (chainId: string) => {
   switch (chainId) {
-    case BraveWallet.MAINNET_CHAIN_ID: return ''
-    case BraveWallet.AVALANCHE_MAINNET_CHAIN_ID: return 'AVAXC'
-    case BraveWallet.BINANCE_SMART_CHAIN_MAINNET_CHAIN_ID: return 'BSC'
-    case BraveWallet.POLYGON_MAINNET_CHAIN_ID: return 'MATIC'
-    case BraveWallet.SOLANA_MAINNET: return 'SOLANA'
-    case BraveWallet.OPTIMISM_MAINNET_CHAIN_ID: return 'OPTIMISM'
-    case BraveWallet.CELO_MAINNET_CHAIN_ID: return ''
-    case BraveWallet.FILECOIN_MAINNET: return 'FILECOIN'
-    default: return ''
+    case BraveWallet.MAINNET_CHAIN_ID:
+      return ''
+    case BraveWallet.AVALANCHE_MAINNET_CHAIN_ID:
+      return 'AVAXC'
+    case BraveWallet.BINANCE_SMART_CHAIN_MAINNET_CHAIN_ID:
+      return 'BSC'
+    case BraveWallet.POLYGON_MAINNET_CHAIN_ID:
+      return 'MATIC'
+    case BraveWallet.SOLANA_MAINNET:
+      return 'SOLANA'
+    case BraveWallet.OPTIMISM_MAINNET_CHAIN_ID:
+      return 'OPTIMISM'
+    case BraveWallet.CELO_MAINNET_CHAIN_ID:
+      return ''
+    case BraveWallet.FILECOIN_MAINNET:
+      return 'FILECOIN'
+    default:
+      return ''
   }
 }
 
@@ -67,7 +92,7 @@ export const isValidateUrl = (url: string) => {
   return re.test(url)
 }
 
-export function hasUnicode (str: string) {
+export function hasUnicode(str: string) {
   for (let i = 0; i < str.length; i++) {
     if (str.charCodeAt(i) > 127) {
       return true
@@ -76,16 +101,17 @@ export function hasUnicode (str: string) {
   return false
 }
 
-export function padWithLeadingZeros (string: string) {
+export function padWithLeadingZeros(string: string) {
   return new Array(5 - string.length).join('0') + string
 }
 
-export function unicodeCharEscape (charCode: number) {
+export function unicodeCharEscape(charCode: number) {
   return '\\u' + padWithLeadingZeros(charCode.toString(16))
 }
 
-export function unicodeEscape (string: string) {
-  return string.split('')
+export function unicodeEscape(string: string) {
+  return string
+    .split('')
     .map(function (char: string) {
       const charCode = char.charCodeAt(0)
       return charCode > 127 ? unicodeCharEscape(charCode) : char

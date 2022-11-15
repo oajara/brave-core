@@ -10,7 +10,10 @@ import { loadTimeData } from './loadTimeData'
  * @param {object} replacements - replacements for specific translation, replacement should be defined as {{key}}
  * @returns {string} - the localized string
  */
-export const getLocale = (key: string, replacements?: Record<string, string>) => {
+export const getLocale = (
+  key: string,
+  replacements?: Record<string, string>
+) => {
   if (!key) {
     return key
   }
@@ -22,7 +25,10 @@ export const getLocale = (key: string, replacements?: Record<string, string>) =>
 
   if (replacements) {
     for (let item in replacements) {
-      returnVal = returnVal.replace(new RegExp('\\[\\[\\s*' + item + '\\s*\\]\\]'), replacements[item].toString())
+      returnVal = returnVal.replace(
+        new RegExp('\\[\\[\\s*' + item + '\\s*\\]\\]'),
+        replacements[item].toString()
+      )
     }
   }
 
@@ -42,7 +48,10 @@ interface SplitStringForTagResult {
  * @param {object} replacements - replacements for specific translation, replacement should be defined as {{key}}
  * @returns {SplitStringForTagResult}
  */
-export const getLocaleWithTag = (key: string, replacements?: Record<string, string>) => {
+export const getLocaleWithTag = (
+  key: string,
+  replacements?: Record<string, string>
+) => {
   const text = getLocale(key, replacements)
   return splitStringForTag(text)
 }
@@ -55,11 +64,15 @@ export const getLocaleWithTag = (key: string, replacements?: Record<string, stri
  * @param {object} replacements - replacements for specific translation, replacement should be defined as {{key}}
  * @returns {SplitStringForTagResult}
  */
-export const getLocaleWithTags = (key: string, tags: number, replacements?: Record<string, string>) => {
+export const getLocaleWithTags = (
+  key: string,
+  tags: number,
+  replacements?: Record<string, string>
+) => {
   let text = getLocale(key, replacements)
   let result = []
   for (let i = 1; i <= tags; i++) {
-    const split = splitStringForTag(text, (i * 2 - 1))
+    const split = splitStringForTag(text, i * 2 - 1)
     text = split.afterTag || ''
     if (i !== tags) {
       split.afterTag = ''
@@ -81,12 +94,15 @@ export const getLocaleWithTags = (key: string, tags: number, replacements?: Reco
  * @param {number} tagStartNumber - starting number for the tag
  * @returns {SplitStringForTagResult}
  */
-export function splitStringForTag (text: string, tagStartNumber: number = 1): SplitStringForTagResult {
+export function splitStringForTag(
+  text: string,
+  tagStartNumber: number = 1
+): SplitStringForTagResult {
   const tagOpenPlaceholder = `$${tagStartNumber}`
   const tagClosePlaceholder = `$${tagStartNumber + 1}`
   const tagStartIndex: number = text.indexOf(tagOpenPlaceholder)
   const tagEndIndex: number = text.lastIndexOf(tagClosePlaceholder)
-  const isValid = (tagStartIndex !== -1)
+  const isValid = tagStartIndex !== -1
   let beforeTag = text
   let duringTag: string | null = null
   let afterTag: string | null = null
@@ -94,7 +110,10 @@ export function splitStringForTag (text: string, tagStartNumber: number = 1): Sp
     beforeTag = text.substring(0, tagStartIndex)
     if (tagEndIndex !== -1) {
       // Handle we have 'open' and 'close' tags
-      duringTag = text.substring(tagStartIndex + tagOpenPlaceholder.length, tagEndIndex)
+      duringTag = text.substring(
+        tagStartIndex + tagOpenPlaceholder.length,
+        tagEndIndex
+      )
       afterTag = text.substring(tagEndIndex + tagClosePlaceholder.length)
     } else {
       // Handle we have a single replacement block

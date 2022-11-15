@@ -59,7 +59,7 @@ export const StyledWrapper = styled('div')<Props>`
   align-items: center;
   flex-wrap: nowrap;
   padding: 15px 38px 15px 19px;
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   width: 100%;
   ${getBgColor};
   background: var(--alert-wrapper-color);
@@ -75,7 +75,7 @@ export const StyledContent = styled('div')<Props>`
   flex-grow: 1;
   flex-basis: 50%;
   padding-left: 19px;
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   font-size: 16px;
   font-weight: 300;
   letter-spacing: -0.3px;
@@ -102,13 +102,13 @@ export const StyledClose = styled('div')<{}>`
 `
 
 export const StyledError = styled('div')<{}>`
-  color: #F43405;
+  color: #f43405;
 `
 
 export const StyledSuccess = styled('div')<{}>`
-  color: #1BBA6A;
+  color: #1bba6a;
 `
 
 export const StyledWarning = styled('div')<{}>`
-  color: #FF7900;
+  color: #ff7900;
 `

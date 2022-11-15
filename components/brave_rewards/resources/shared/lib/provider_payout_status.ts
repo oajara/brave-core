@@ -6,7 +6,7 @@ import { ExternalWalletProvider } from '../../shared/lib/external_wallet'
 
 export type ProviderPayoutStatus = 'off' | 'processing' | 'complete'
 
-export function getProviderPayoutStatus (
+export function getProviderPayoutStatus(
   payoutStatus: Record<string, ProviderPayoutStatus>,
   walletProvider: ExternalWalletProvider | null
 ): ProviderPayoutStatus {

@@ -6,7 +6,10 @@ import * as React from 'react'
 import { shallow } from 'enzyme'
 import { applicationState, torrentState, torrentObj } from '../testData'
 import { TorrentState } from '../../../brave_webtorrent/extension/constants/webtorrentState'
-import { BraveWebTorrentPage, mapStateToProps } from '../../../brave_webtorrent/extension/components/app'
+import {
+  BraveWebTorrentPage,
+  mapStateToProps
+} from '../../../brave_webtorrent/extension/components/app'
 import TorrentViewer from '../../../brave_webtorrent/extension/components/torrentViewer'
 import MediaViewer from '../../../brave_webtorrent/extension/components/mediaViewer'
 
@@ -35,10 +38,7 @@ describe('BraveWebtorrentPage component', () => {
     })
     it('renders the TorrentViewer component with a valid torrent state', () => {
       const wrapper = shallow(
-        <BraveWebTorrentPage
-          torrentState={torrentState}
-          actions={{}}
-        />
+        <BraveWebTorrentPage torrentState={torrentState} actions={{}} />
       )
 
       expect(wrapper.find(TorrentViewer)).toHaveLength(1)

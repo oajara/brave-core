@@ -5,7 +5,7 @@
 import styled from 'styled-components'
 
 export const root = styled.div`
-  background: linear-gradient(125.83deg, #392DD1 0%, #A91B78 99.09%);
+  background: linear-gradient(125.83deg, #392dd1 0%, #a91b78 99.09%);
   border-radius: 14px;
   font-family: var(--brave-font-heading);
   color: var(--brave-palette-white);
@@ -17,9 +17,9 @@ export const grid = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto;
   grid-template-areas:
-    "status-indicator earnings"
-    "balance          earnings"
-    "add-funds        view-statement";
+    'status-indicator earnings'
+    'balance          earnings'
+    'add-funds        view-statement';
 `
 
 export const statusIndicator = styled.div`
@@ -42,7 +42,7 @@ export const disconnectedBalance = styled.div`
   margin: 6px 15px 0 4px;
   padding: 12px;
   border-radius: 8px;
-  background: linear-gradient(137.04deg, #346FE1 33.4%, #5844C3 82.8%);
+  background: linear-gradient(137.04deg, #346fe1 33.4%, #5844c3 82.8%);
   font-size: 12px;
   line-height: 18px;
   cursor: pointer;
@@ -141,7 +141,7 @@ export const addFunds = styled.div`
     background: rgba(255, 255, 255, 0.24);
 
     &:hover {
-      background: rgba(255, 255, 255, 0.30);
+      background: rgba(255, 255, 255, 0.3);
     }
   }
 

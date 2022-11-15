@@ -10,13 +10,13 @@ interface Props {
   currency?: string
 }
 
-export function ExchangeAmount (props: Props) {
-  const exchangeAmount = (props.amount * props.rate) || 0
+export function ExchangeAmount(props: Props) {
+  const exchangeAmount = props.amount * props.rate || 0
   const currency = props.currency || 'USD'
   return (
     <>
-      <span className='amount'>{exchangeAmount.toFixed(2)}</span>&nbsp;
-      <span className='currency'>{currency}</span>
+      <span className="amount">{exchangeAmount.toFixed(2)}</span>&nbsp;
+      <span className="currency">{currency}</span>
     </>
   )
 }

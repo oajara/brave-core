@@ -6,11 +6,11 @@ import * as React from 'react'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 // Components
+import { ModalActivity, ModalBackupReset } from '../../ui/components'
 import {
-  ModalActivity,
-  ModalBackupReset
-} from '../../ui/components'
-import { WalletCard, ExternalWalletAction } from '../../shared/components/wallet_card'
+  WalletCard,
+  ExternalWalletAction
+} from '../../shared/components/wallet_card'
 import { LayoutKind } from '../lib/layout_context'
 
 import {
@@ -24,7 +24,11 @@ import { Provider } from '../../ui/components/profile'
 import { getLocale } from '../../../../common/locale'
 import * as rewardsActions from '../actions/rewards_actions'
 import { convertBalance, isPublisherConnectedOrVerified } from './utils'
-import { ExtendedActivityRow, SummaryItem, SummaryType } from '../../ui/components/modalActivity'
+import {
+  ExtendedActivityRow,
+  SummaryItem,
+  SummaryType
+} from '../../ui/components/modalActivity'
 import { DetailRow as TransactionRow } from '../../ui/components/tableTransactions'
 import { ConnectWalletModal } from './connect_wallet_modal'
 import { ManageWalletButton } from './manage_wallet_button'
@@ -44,7 +48,7 @@ interface Props extends Rewards.ComponentProps {
 }
 
 class PageWallet extends React.Component<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       activeTabId: 0,
@@ -54,11 +58,11 @@ class PageWallet extends React.Component<Props, State> {
     }
   }
 
-  get actions () {
+  get actions() {
     return this.props.actions
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.isBackupUrl()
     this.isDisconnectUrl()
     this.isVerifyUrl()
@@ -147,7 +151,10 @@ class PageWallet extends React.Component<Props, State> {
       if (items.length !== 2) {
         return
       }
-      this.actions.getMonthlyReport(parseInt(items[1], 10), parseInt(items[0], 10))
+      this.actions.getMonthlyReport(
+        parseInt(items[1], 10),
+        parseInt(items[0], 10)
+      )
     }
   }
 
@@ -193,7 +200,10 @@ class PageWallet extends React.Component<Props, State> {
 
   getExternalWalletStatus = (): mojom.WalletStatus | null => {
     const { externalWallet } = this.props.rewardsData
-    if (!externalWallet || externalWallet.status === mojom.WalletStatus.kNotConnected) {
+    if (
+      !externalWallet ||
+      externalWallet.status === mojom.WalletStatus.kNotConnected
+    ) {
       return null
     }
 
@@ -207,10 +217,14 @@ class PageWallet extends React.Component<Props, State> {
     }
 
     switch (externalWallet.type) {
-      case 'bitflyer': return 'bitflyer'
-      case 'gemini': return 'gemini'
-      case 'uphold': return 'uphold'
-      default: return null
+      case 'bitflyer':
+        return 'bitflyer'
+      case 'gemini':
+        return 'gemini'
+      case 'uphold':
+        return 'uphold'
+      default:
+        return null
     }
   }
 
@@ -259,11 +273,7 @@ class PageWallet extends React.Component<Props, State> {
   }
 
   getBalanceToken = (key: string) => {
-    const {
-      monthlyReport,
-      parameters,
-      externalWallet
-    } = this.props.rewardsData
+    const { monthlyReport, parameters, externalWallet } = this.props.rewardsData
 
     let value = 0.0
     if (monthlyReport && monthlyReport.balance && monthlyReport.balance[key]) {
@@ -273,7 +283,12 @@ class PageWallet extends React.Component<Props, State> {
     return {
       value: value.toFixed(3),
       converted: convertBalance(value, parameters.rate),
-      link: externalWallet && externalWallet.status === 2 /* VERIFIED */ && key === 'ads' ? externalWallet.activityUrl : undefined
+      link:
+        externalWallet &&
+        externalWallet.status === 2 /* VERIFIED */ &&
+        key === 'ads'
+          ? externalWallet.activityUrl
+          : undefined
     }
   }
 
@@ -303,10 +318,7 @@ class PageWallet extends React.Component<Props, State> {
   }
 
   generateActivityRows = (): ExtendedActivityRow[] => {
-    const {
-      monthlyReport,
-      parameters
-    } = this.props.rewardsData
+    const { monthlyReport, parameters } = this.props.rewardsData
 
     if (!monthlyReport.contributions) {
       return []
@@ -314,8 +326,8 @@ class PageWallet extends React.Component<Props, State> {
 
     let records: ExtendedActivityRow[] = []
 
-    monthlyReport.contributions
-      .forEach((contribution: Rewards.ContributionReport) => {
+    monthlyReport.contributions.forEach(
+      (contribution: Rewards.ContributionReport) => {
         records = contribution.publishers
           .map((publisher: Rewards.Publisher): ExtendedActivityRow => {
             let faviconUrl = `chrome://favicon/size/64@1x/${publisher.url}`
@@ -327,7 +339,9 @@ class PageWallet extends React.Component<Props, State> {
               profile: {
                 name: publisher.name,
                 verified,
-                provider: (publisher.provider ? publisher.provider : undefined) as Provider,
+                provider: (publisher.provider
+                  ? publisher.provider
+                  : undefined) as Provider,
                 src: faviconUrl
               },
               url: publisher.url,
@@ -340,26 +354,32 @@ class PageWallet extends React.Component<Props, State> {
             }
           })
           .concat(records)
-      })
+      }
+    )
 
     return records
   }
 
   getSummaryType = (type: Rewards.ReportType): SummaryType => {
     switch (type) {
-      case 0: { // Rewards.ReportType.GRANT_UGP
+      case 0: {
+        // Rewards.ReportType.GRANT_UGP
         return 'grant'
       }
-      case 1: { // Rewards.ReportType.AUTO_CONTRIBUTION
+      case 1: {
+        // Rewards.ReportType.AUTO_CONTRIBUTION
         return 'contribute'
       }
-      case 3: { // Rewards.ReportType.GRANT_AD
+      case 3: {
+        // Rewards.ReportType.GRANT_AD
         return 'ads'
       }
-      case 4: { // Rewards.ReportType.TIP_RECURRING
+      case 4: {
+        // Rewards.ReportType.TIP_RECURRING
         return 'monthly'
       }
-      case 5: { // Rewards.ReportType.TIP
+      case 5: {
+        // Rewards.ReportType.TIP
         return 'tip'
       }
     }
@@ -369,10 +389,12 @@ class PageWallet extends React.Component<Props, State> {
 
   getTransactionDescription = (transaction: Rewards.TransactionReport) => {
     switch (transaction.type) {
-      case 0: { // Rewards.ReportType.GRANT_UGP
+      case 0: {
+        // Rewards.ReportType.GRANT_UGP
         return getLocale('tokenGrantReceived')
       }
-      case 3: { // Rewards.ReportType.GRANT_AD
+      case 3: {
+        // Rewards.ReportType.GRANT_AD
         return getLocale('adsGrantReceived')
       }
     }
@@ -383,23 +405,28 @@ class PageWallet extends React.Component<Props, State> {
   getProcessorString = (processor: Rewards.Processor) => {
     let text = ''
     switch (processor) {
-      case 0: { // Rewards.Processor.NONE
+      case 0: {
+        // Rewards.Processor.NONE
         text = ''
         break
       }
-      case 1: { // Rewards.Processor.BRAVE_TOKENS
+      case 1: {
+        // Rewards.Processor.BRAVE_TOKENS
         text = getLocale('processorBraveTokens')
         break
       }
-      case 2: { // Rewards.Processor.UPHOLD
+      case 2: {
+        // Rewards.Processor.UPHOLD
         text = getLocale('processorUphold')
         break
       }
-      case 4: { // Rewards.Processor.BITFLYER
+      case 4: {
+        // Rewards.Processor.BITFLYER
         text = getLocale('processorBitflyer')
         break
       }
-      case 5: { // Rewards.Processor.GEMINI
+      case 5: {
+        // Rewards.Processor.GEMINI
         text = getLocale('processorGemini')
         break
       }
@@ -413,20 +440,18 @@ class PageWallet extends React.Component<Props, State> {
   }
 
   getContributionDescription = (contribution: Rewards.ContributionReport) => {
-    if (contribution.type === 1) { // Rewards.ReportType.AUTO_CONTRIBUTION
-      return getLocale(
-        'autoContributeTransaction',
-        { processor: this.getProcessorString(contribution.processor) })
+    if (contribution.type === 1) {
+      // Rewards.ReportType.AUTO_CONTRIBUTION
+      return getLocale('autoContributeTransaction', {
+        processor: this.getProcessorString(contribution.processor)
+      })
     }
 
     return ''
   }
 
   generateTransactionRows = (): TransactionRow[] => {
-    const {
-      monthlyReport,
-      parameters
-    } = this.props.rewardsData
+    const { monthlyReport, parameters } = this.props.rewardsData
 
     if (!monthlyReport.transactions && !monthlyReport.contributions) {
       return []
@@ -435,23 +460,28 @@ class PageWallet extends React.Component<Props, State> {
     let transactions: TransactionRow[] = []
 
     if (monthlyReport.transactions) {
-      transactions = monthlyReport.transactions.map((transaction: Rewards.TransactionReport) => {
-        return {
-          date: transaction.created_at,
-          type: this.getSummaryType(transaction.type),
-          description: this.getTransactionDescription(transaction),
-          amount: {
-            value: transaction.amount.toFixed(3),
-            converted: convertBalance(transaction.amount, parameters.rate)
+      transactions = monthlyReport.transactions.map(
+        (transaction: Rewards.TransactionReport) => {
+          return {
+            date: transaction.created_at,
+            type: this.getSummaryType(transaction.type),
+            description: this.getTransactionDescription(transaction),
+            amount: {
+              value: transaction.amount.toFixed(3),
+              converted: convertBalance(transaction.amount, parameters.rate)
+            }
           }
         }
-      })
+      )
     }
 
     if (monthlyReport.contributions) {
       transactions = transactions.concat(
         monthlyReport.contributions
-          .filter((contribution: Rewards.ContributionReport) => contribution.type === 1)
+          .filter(
+            (contribution: Rewards.ContributionReport) =>
+              contribution.type === 1
+          )
           .map((contribution: Rewards.ContributionReport) => {
             return {
               date: contribution.created_at,
@@ -477,7 +507,7 @@ class PageWallet extends React.Component<Props, State> {
 
     const ids = [
       `${new Date().getFullYear()}_${new Date().getMonth() + 1}`,
-      ...monthlyReportIds || []
+      ...(monthlyReportIds || [])
     ]
 
     let result: Record<string, string> = {}
@@ -501,7 +531,10 @@ class PageWallet extends React.Component<Props, State> {
       }
 
       const date = new Date(Date.UTC(year, month, 10))
-      result[id] = new Intl.DateTimeFormat('default', { month: 'long', year: 'numeric' }).format(date)
+      result[id] = new Intl.DateTimeFormat('default', {
+        month: 'long',
+        year: 'numeric'
+      }).format(date)
     })
 
     return result
@@ -510,7 +543,11 @@ class PageWallet extends React.Component<Props, State> {
   generateMonthlyReport = () => {
     const { monthlyReport, externalWallet } = this.props.rewardsData
 
-    if (!monthlyReport || monthlyReport.year === -1 || monthlyReport.month === -1) {
+    if (
+      !monthlyReport ||
+      monthlyReport.year === -1 ||
+      monthlyReport.month === -1
+    ) {
       return undefined
     }
 
@@ -533,7 +570,7 @@ class PageWallet extends React.Component<Props, State> {
       return 0
     }
 
-    return (balance.wallets.blinded || 0)
+    return balance.wallets.blinded || 0
   }
 
   isWalletProviderEnabled = (walletProvider: string) => {
@@ -550,8 +587,10 @@ class PageWallet extends React.Component<Props, State> {
       return true
     }
 
-    return allow.includes(currentCountryCode) ||
-      block.length !== 0 && !block.includes(currentCountryCode)
+    return (
+      allow.includes(currentCountryCode) ||
+      (block.length !== 0 && !block.includes(currentCountryCode))
+    )
   }
 
   generateExternalWalletProviderList = (walletProviders: string[]) => {
@@ -582,7 +621,7 @@ class PageWallet extends React.Component<Props, State> {
     }
   }
 
-  render () {
+  render() {
     const {
       adsData,
       balance,
@@ -611,10 +650,10 @@ class PageWallet extends React.Component<Props, State> {
     }
 
     const summaryData = {
-      adEarnings: balanceReport && balanceReport.ads || 0,
-      autoContributions: balanceReport && balanceReport.contribute || 0,
-      oneTimeTips: balanceReport && balanceReport.tips || 0,
-      monthlyTips: balanceReport && balanceReport.monthly || 0,
+      adEarnings: (balanceReport && balanceReport.ads) || 0,
+      autoContributions: (balanceReport && balanceReport.contribute) || 0,
+      oneTimeTips: (balanceReport && balanceReport.tips) || 0,
+      monthlyTips: (balanceReport && balanceReport.monthly) || 0,
       pendingTips: pendingContributionTotal || 0
     }
 
@@ -634,47 +673,46 @@ class PageWallet extends React.Component<Props, State> {
           autoContributeEnabled={enabledContribute}
           onExternalWalletAction={this.onExternalWalletAction}
           onViewPendingTips={this.onModalPendingToggle}
-          onViewStatement={this.props.layout === 'wide' ? this.onModalActivityToggle : undefined}
+          onViewStatement={
+            this.props.layout === 'wide'
+              ? this.onModalActivityToggle
+              : undefined
+          }
         />
-        { this.props.layout === 'wide' && <ManageWalletButton onClick={this.onModalBackupOpen} /> }
-        {
-          modalBackup
-            ? <ModalBackupReset
-              activeTabId={this.state.activeTabId}
-              onTabChange={this.onModalBackupTabChange}
-              onClose={this.onModalBackupClose}
-              onVerify={this.onVerifyClick}
-              onReset={this.onModalBackupOnReset}
-              internalFunds={this.getInternalFunds()}
-            />
-            : null
-        }
-        {
-          this.state.modalPendingContribution && (
-            <PendingContributionsModal
-              contributions={pendingContributions}
-              exchangeRate={parameters.rate}
-              exchangeCurrency='USD'
-              onDelete={this.removePendingContribution}
-              onDeleteAll={this.removeAllPendingContribution}
-              onClose={this.onModalPendingToggle} />
-          )
-        }
-        {
-          this.state.modalVerify
-            ? <ConnectWalletModal
-                rewardsBalance={balance.total}
-                providers={this.generateExternalWalletProviderList(externalWalletProviderList)}
-                onContinue={this.onConnectWalletContinue}
-                onClose={this.toggleVerifyModal}
-            />
-            : null
-        }
-        {
-          this.state.modalActivity
-            ? this.generateMonthlyReport()
-            : null
-        }
+        {this.props.layout === 'wide' && (
+          <ManageWalletButton onClick={this.onModalBackupOpen} />
+        )}
+        {modalBackup ? (
+          <ModalBackupReset
+            activeTabId={this.state.activeTabId}
+            onTabChange={this.onModalBackupTabChange}
+            onClose={this.onModalBackupClose}
+            onVerify={this.onVerifyClick}
+            onReset={this.onModalBackupOnReset}
+            internalFunds={this.getInternalFunds()}
+          />
+        ) : null}
+        {this.state.modalPendingContribution && (
+          <PendingContributionsModal
+            contributions={pendingContributions}
+            exchangeRate={parameters.rate}
+            exchangeCurrency="USD"
+            onDelete={this.removePendingContribution}
+            onDeleteAll={this.removeAllPendingContribution}
+            onClose={this.onModalPendingToggle}
+          />
+        )}
+        {this.state.modalVerify ? (
+          <ConnectWalletModal
+            rewardsBalance={balance.total}
+            providers={this.generateExternalWalletProviderList(
+              externalWalletProviderList
+            )}
+            onContinue={this.onConnectWalletContinue}
+            onClose={this.toggleVerifyModal}
+          />
+        ) : null}
+        {this.state.modalActivity ? this.generateMonthlyReport() : null}
       </div>
     )
   }
@@ -688,7 +726,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   actions: bindActionCreators(rewardsActions, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PageWallet)
+export default connect(mapStateToProps, mapDispatchToProps)(PageWallet)

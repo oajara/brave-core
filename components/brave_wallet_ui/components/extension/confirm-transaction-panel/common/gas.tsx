@@ -14,7 +14,7 @@ interface Props {
   onCancel: () => void
 }
 
-export function EditPendingTransactionGas (props: Props) {
+export function EditPendingTransactionGas(props: Props) {
   const { onCancel } = props
 
   // redux
@@ -22,10 +22,10 @@ export function EditPendingTransactionGas (props: Props) {
     ({ wallet }: { wallet: WalletState }) => wallet
   )
 
-  const [suggestedSliderStep, setSuggestedSliderStep] = React.useState<string>('1')
-  const [maxPriorityPanel, setMaxPriorityPanel] = React.useState<MaxPriorityPanels>(
-    MaxPriorityPanels.setSuggested
-  )
+  const [suggestedSliderStep, setSuggestedSliderStep] =
+    React.useState<string>('1')
+  const [maxPriorityPanel, setMaxPriorityPanel] =
+    React.useState<MaxPriorityPanels>(MaxPriorityPanels.setSuggested)
 
   const {
     suggestedMaxPriorityFeeChoices,
@@ -47,7 +47,9 @@ export function EditPendingTransactionGas (props: Props) {
       selectedNetwork={transactionsNetwork}
       baseFeePerGas={baseFeePerGas}
       suggestedMaxPriorityFeeChoices={suggestedMaxPriorityFeeChoices}
-      updateUnapprovedTransactionGasFields={updateUnapprovedTransactionGasFields}
+      updateUnapprovedTransactionGasFields={
+        updateUnapprovedTransactionGasFields
+      }
       suggestedSliderStep={suggestedSliderStep}
       setSuggestedSliderStep={setSuggestedSliderStep}
       maxPriorityPanel={maxPriorityPanel}

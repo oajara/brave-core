@@ -14,7 +14,7 @@ import {
 export const OrderedList = styled(StandardBlock)``
 
 export const ListTitle = styled('div')`
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
   font-weight: 500;
   font-size: 28px;
   color: #fff;
@@ -38,7 +38,7 @@ export const ListItem = styled('li')<{}>`
     position: absolute;
     left: -48px;
     height: 100%;
-    content: counter(item) " ";
+    content: counter(item) ' ';
     counter-increment: item;
     display: marker;
     font-size: 18px;

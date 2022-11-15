@@ -16,10 +16,7 @@ import { getLocale } from '../../../../common/locale'
 import { getBalance } from '../../../utils/balance-utils'
 
 // Styled Components
-import {
-  StyledWrapper,
-  AddAssetButton
-} from './style'
+import { StyledWrapper, AddAssetButton } from './style'
 
 import { PortfolioAssetItem } from '../../desktop'
 import { getAssetIdKey } from '../../../utils/asset-utils'
@@ -30,11 +27,7 @@ export interface Props {
 }
 
 const AssetsPanel = (props: Props) => {
-  const {
-    userAssetList,
-    selectedAccount,
-    onAddAsset
-  } = props
+  const { userAssetList, selectedAccount, onAddAsset } = props
 
   const onClickAsset = (symbol: string) => () => {
     const url = `brave://wallet${WalletRoutes.Portfolio}/${symbol}`
@@ -47,12 +40,10 @@ const AssetsPanel = (props: Props) => {
 
   return (
     <StyledWrapper>
-      <AddAssetButton
-        onClick={onAddAsset}
-      >
+      <AddAssetButton onClick={onAddAsset}>
         {getLocale('braveWalletAddAsset')}
       </AddAssetButton>
-      {userAssetList?.map((asset) =>
+      {userAssetList?.map((asset) => (
         <PortfolioAssetItem
           action={onClickAsset(asset.symbol)}
           key={getAssetIdKey(asset)}
@@ -60,7 +51,7 @@ const AssetsPanel = (props: Props) => {
           token={asset}
           isPanel={true}
         />
-      )}
+      ))}
     </StyledWrapper>
   )
 }

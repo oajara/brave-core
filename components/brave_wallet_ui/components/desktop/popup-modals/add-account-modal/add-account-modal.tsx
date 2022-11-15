@@ -17,7 +17,6 @@ import { CreateAccountModal } from './create-account-modal'
 export const AddAccountModal = () => {
   return (
     <Switch>
-
       <Route path={WalletRoutes.AddHardwareAccountModal} exact>
         <AddHardwareAccountModal />
       </Route>
@@ -31,7 +30,6 @@ export const AddAccountModal = () => {
       </Route>
 
       <Redirect to={WalletRoutes.CreateAccountModalStart} />
-
     </Switch>
   )
 }

@@ -5,7 +5,7 @@
 import styled from 'styled-components'
 
 export const StyledWrapper = styled('div')<{}>`
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   display: flex;
   width: 100%;
   background-color: #fff;
@@ -15,15 +15,15 @@ export const StyledWrapper = styled('div')<{}>`
   left: 0;
   height: 61px;
   z-index: 2;
-  box-shadow: 0 2px 4px  rgba(0,0,0, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   padding: 0 16px;
 `
 
 export const StyledTitle = styled('div')<{}>`
-  color: #4B4C5C;
+  color: #4b4c5c;
   font-size: 22px;
   font-weight: 600;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
 
   @media (max-width: 375px) {
     word-wrap: break-word;

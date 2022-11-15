@@ -7,10 +7,7 @@ import * as React from 'react'
 import { create } from 'ethereum-blockies'
 
 // Redux
-import {
-  useSelector,
-  useDispatch
-} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { WalletActions } from '../../../common/actions'
 
 // Types
@@ -24,9 +21,7 @@ import { AllNetworksOption } from '../../../options/network-filter-options'
 import { AccountFilterItem } from './account-filter-item'
 
 // Styles
-import {
-  AccountCircle
-} from './account-filter-selector.style'
+import { AccountCircle } from './account-filter-selector.style'
 
 import {
   StyledWrapper,
@@ -42,34 +37,50 @@ export const AccountFilterSelector = () => {
   const dispatch = useDispatch()
 
   // Wallet State
-  const accounts = useSelector(({ wallet }: { wallet: WalletState }) => wallet.accounts)
-  const selectedAccountFilter = useSelector(({ wallet }: { wallet: WalletState }) => wallet.selectedAccountFilter)
-  const selectedNetworkFilter = useSelector(({ wallet }: { wallet: WalletState }) => wallet.selectedNetworkFilter)
+  const accounts = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.accounts
+  )
+  const selectedAccountFilter = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.selectedAccountFilter
+  )
+  const selectedNetworkFilter = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.selectedNetworkFilter
+  )
 
   // State
   const [isOpen, setIsOpen] = React.useState(false)
 
   // Methods
   const onClick = React.useCallback(() => {
-    setIsOpen(prevIsOpen => !prevIsOpen)
+    setIsOpen((prevIsOpen) => !prevIsOpen)
   }, [])
 
-  const onSelectAccountAndClose = React.useCallback((account: WalletAccountType) => {
-    setIsOpen(false)
-    dispatch(WalletActions.setSelectedAccountFilterItem(account))
-  }, [dispatch])
+  const onSelectAccountAndClose = React.useCallback(
+    (account: WalletAccountType) => {
+      setIsOpen(false)
+      dispatch(WalletActions.setSelectedAccountFilterItem(account))
+    },
+    [dispatch]
+  )
 
   // Memos
   const orb = React.useMemo(() => {
-    return create({ seed: selectedAccountFilter.address.toLowerCase(), size: 8, scale: 16 }).toDataURL()
+    return create({
+      seed: selectedAccountFilter.address.toLowerCase(),
+      size: 8,
+      scale: 16
+    }).toDataURL()
   }, [selectedAccountFilter.address])
 
   // Filters accounts by network if a selectedNetworkFilter is selected
-  const accountsFilteredBySelectedNetworkFilter: WalletAccountType[] = React.useMemo(() => {
-    return selectedNetworkFilter.chainId === AllNetworksOption.chainId
-      ? accounts
-      : accounts.filter((account) => account.coin === selectedNetworkFilter.coin)
-  }, [accounts, selectedNetworkFilter])
+  const accountsFilteredBySelectedNetworkFilter: WalletAccountType[] =
+    React.useMemo(() => {
+      return selectedNetworkFilter.chainId === AllNetworksOption.chainId
+        ? accounts
+        : accounts.filter(
+            (account) => account.coin === selectedNetworkFilter.coin
+          )
+    }, [accounts, selectedNetworkFilter])
 
   const accountsList: WalletAccountType[] = React.useMemo(() => {
     return [AllAccountsOption, ...accountsFilteredBySelectedNetworkFilter]
@@ -79,28 +90,24 @@ export const AccountFilterSelector = () => {
     <StyledWrapper>
       <DropDownButton onClick={onClick}>
         <SelectorLeftSide>
-          {selectedAccountFilter.address !== '' &&
-            <AccountCircle orb={orb} />
-          }
+          {selectedAccountFilter.address !== '' && <AccountCircle orb={orb} />}
           {selectedAccountFilter.name}
         </SelectorLeftSide>
         <DropDownIcon />
       </DropDownButton>
-      {isOpen &&
+      {isOpen && (
         <DropDown>
-          {accountsList.map(account =>
+          {accountsList.map((account) => (
             <AccountFilterItem
               key={account.address}
               account={account}
               selected={selectedAccountFilter.address === account.address}
               onSelectAccount={onSelectAccountAndClose}
             />
-          )}
+          ))}
         </DropDown>
-      }
-      {isOpen &&
-        <ClickAwayArea onClick={() => setIsOpen(false)} />
-      }
+      )}
+      {isOpen && <ClickAwayArea onClick={() => setIsOpen(false)} />}
     </StyledWrapper>
   )
 }

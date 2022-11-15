@@ -21,21 +21,27 @@ interface Props {
   onSelect: (amount: number) => void
 }
 
-export function TipAmountSelector (props: Props) {
+export function TipAmountSelector(props: Props) {
   const options = props.options.map((item) => {
     const amount = item.amount || String(item.value)
     return {
       value: item.value,
-      content: item.currency
-        ? <><strong>{amount}</strong> {item.currency}</>
-        : <><strong>{amount}</strong></>,
+      content: item.currency ? (
+        <>
+          <strong>{amount}</strong> {item.currency}
+        </>
+      ) : (
+        <>
+          <strong>{amount}</strong>
+        </>
+      ),
       caption: item.exchangeAmount || undefined
     }
   })
 
   return (
     <style.root>
-      <style.amounts data-test-id='tip-amount-options'>
+      <style.amounts data-test-id="tip-amount-options">
         <ButtonSwitch<number>
           options={options}
           selectedValue={props.selectedValue}

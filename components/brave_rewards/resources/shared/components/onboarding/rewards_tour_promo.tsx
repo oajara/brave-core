@@ -14,19 +14,17 @@ interface Props {
   onTakeTour: () => void
 }
 
-export function RewardsTourPromo (props: Props) {
+export function RewardsTourPromo(props: Props) {
   const { getString } = React.useContext(LocaleContext)
   return (
     <style.root>
       <style.close>
-        <button onClick={props.onClose}><CloseIcon /></button>
+        <button onClick={props.onClose}>
+          <CloseIcon />
+        </button>
       </style.close>
-      <style.header>
-        {getString('onboardingPromoHeader')}
-      </style.header>
-      <style.text>
-        {getString('onboardingPromoText')}
-      </style.text>
+      <style.header>{getString('onboardingPromoHeader')}</style.header>
+      <style.text>{getString('onboardingPromoText')}</style.text>
       <style.action>
         <button onClick={props.onTakeTour}>
           {getString('onboardingTakeTour')}

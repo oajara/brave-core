@@ -9,7 +9,9 @@ import '../../../../components/brave_new_tab_ui/stories/default/data/mockBraveNe
 
 import { shallow } from 'enzyme'
 import { SettingsMenu } from '../../../../components/brave_new_tab_ui/components/default'
-import Settings, { Props } from '../../../../components/brave_new_tab_ui/containers/newTab/settings'
+import Settings, {
+  Props
+} from '../../../../components/brave_new_tab_ui/containers/newTab/settings'
 
 describe('settings component tests', () => {
   const mockProps: Props = {
@@ -56,7 +58,8 @@ describe('settings component tests', () => {
         showRewards={mockProps.showRewards}
         showBinance={mockProps.showBinance}
         binanceSupported={mockProps.binanceSupported}
-      />)
+      />
+    )
     expect(wrapper.find(SettingsMenu)).toHaveLength(0)
   })
 
@@ -82,7 +85,8 @@ describe('settings component tests', () => {
         showRewards={mockProps.showRewards}
         showBinance={mockProps.showBinance}
         binanceSupported={mockProps.binanceSupported}
-      />)
+      />
+    )
     expect(wrapper.find(SettingsMenu)).toHaveLength(1)
   })
 })

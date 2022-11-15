@@ -9,101 +9,123 @@ import * as statsAPI from './api/stats'
 import * as topSitesAPI from './api/topSites'
 import * as privateTabDataAPI from './api/privateTabData'
 import * as newTabAdsDataAPI from './api/newTabAdsData'
-import getNTPBrowserAPI, { Background, CustomBackground } from './api/background'
-import { getInitialData, getRewardsInitialData, getRewardsPreInitialData } from './api/initialData'
+import getNTPBrowserAPI, {
+  Background,
+  CustomBackground
+} from './api/background'
+import {
+  getInitialData,
+  getRewardsInitialData,
+  getRewardsPreInitialData
+} from './api/initialData'
 import * as backgroundData from './data/backgrounds'
 
-async function updatePreferences (prefData: NewTab.Preferences) {
+async function updatePreferences(prefData: NewTab.Preferences) {
   getActions().preferencesUpdated(prefData)
 }
 
-async function updateStats (statsData: statsAPI.Stats) {
+async function updateStats(statsData: statsAPI.Stats) {
   getActions().statsUpdated(statsData)
 }
 
-async function updatePrivateTabData (data: privateTabDataAPI.PrivateTabData) {
+async function updatePrivateTabData(data: privateTabDataAPI.PrivateTabData) {
   getActions().privateTabDataUpdated(data)
 }
 
-async function updateNewTabAdsData (data: newTabAdsDataAPI.NewTabAdsData) {
+async function updateNewTabAdsData(data: newTabAdsDataAPI.NewTabAdsData) {
   getActions().newTabAdsDataUpdated(data)
 }
 
-function onRewardsToggled (prefData: NewTab.Preferences): void {
+function onRewardsToggled(prefData: NewTab.Preferences): void {
   if (prefData.showRewards) {
     rewardsInitData()
   }
 }
 
-async function onMostVisitedInfoChanged (topSites: topSitesAPI.MostVisitedInfoChanged) {
+async function onMostVisitedInfoChanged(
+  topSites: topSitesAPI.MostVisitedInfoChanged
+) {
   getActions().tilesUpdated(topSites.tiles)
-  getActions().topSitesStateUpdated(topSites.visible, topSites.custom_links_enabled, topSites.custom_links_num)
+  getActions().topSitesStateUpdated(
+    topSites.visible,
+    topSites.custom_links_enabled,
+    topSites.custom_links_num
+  )
 }
 
-async function onBackgroundUpdated (background: Background) {
+async function onBackgroundUpdated(background: Background) {
   getActions().customBackgroundUpdated(background)
 }
 
-async function onCustomImageBackgroundsUpdated (backgrounds: CustomBackground[]) {
+async function onCustomImageBackgroundsUpdated(
+  backgrounds: CustomBackground[]
+) {
   getActions().customImageBackgroundsUpdated(backgrounds)
 }
 
 // Not marked as async so we don't return a promise
 // and confuse callers
-export function wireApiEventsToStore () {
+export function wireApiEventsToStore() {
   // Get initial data and dispatch to store
   getInitialData()
-  .then((initialData) => {
-    if (initialData.preferences.showRewards) {
-      rewardsInitData()
-    }
-    getActions().setInitialData(initialData)
-    // Listen for API changes and dispatch to store
-    topSitesAPI.addMostVistedInfoChangedListener(onMostVisitedInfoChanged)
-    topSitesAPI.updateMostVisitedInfo()
-    statsAPI.addChangeListener(updateStats)
-    preferencesAPI.addChangeListener(updatePreferences)
-    preferencesAPI.addChangeListener(onRewardsToggled)
-    privateTabDataAPI.addChangeListener(updatePrivateTabData)
-    newTabAdsDataAPI.addChangeListener(updateNewTabAdsData)
-    backgroundData.updateImages(initialData.braveBackgrounds)
+    .then((initialData) => {
+      if (initialData.preferences.showRewards) {
+        rewardsInitData()
+      }
+      getActions().setInitialData(initialData)
+      // Listen for API changes and dispatch to store
+      topSitesAPI.addMostVistedInfoChangedListener(onMostVisitedInfoChanged)
+      topSitesAPI.updateMostVisitedInfo()
+      statsAPI.addChangeListener(updateStats)
+      preferencesAPI.addChangeListener(updatePreferences)
+      preferencesAPI.addChangeListener(onRewardsToggled)
+      privateTabDataAPI.addChangeListener(updatePrivateTabData)
+      newTabAdsDataAPI.addChangeListener(updateNewTabAdsData)
+      backgroundData.updateImages(initialData.braveBackgrounds)
 
-    getNTPBrowserAPI().addBackgroundUpdatedListener(onBackgroundUpdated)
-    getNTPBrowserAPI().addCustomImageBackgroundsUpdatedListener(onCustomImageBackgroundsUpdated)
-    getNTPBrowserAPI().addSearchPromotionDisabledListener(() => getActions().searchPromotionDisabled())
-  })
-  .catch(e => {
-    console.error('New Tab Page fatal error:', e)
-  })
+      getNTPBrowserAPI().addBackgroundUpdatedListener(onBackgroundUpdated)
+      getNTPBrowserAPI().addCustomImageBackgroundsUpdatedListener(
+        onCustomImageBackgroundsUpdated
+      )
+      getNTPBrowserAPI().addSearchPromotionDisabledListener(() =>
+        getActions().searchPromotionDisabled()
+      )
+    })
+    .catch((e) => {
+      console.error('New Tab Page fatal error:', e)
+    })
 }
 
-export function rewardsInitData () {
-  getRewardsPreInitialData().then((preInitialRewardsData) => {
-    getActions().setPreInitialRewardsData(preInitialRewardsData)
+export function rewardsInitData() {
+  getRewardsPreInitialData()
+    .then((preInitialRewardsData) => {
+      getActions().setPreInitialRewardsData(preInitialRewardsData)
 
-    chrome.braveRewards.isInitialized((isInitialized) => {
-      if (isInitialized) {
-        getRewardsInitialData().then((data) => {
-          getActions().setInitialRewardsData(data)
-        })
-      }
+      chrome.braveRewards.isInitialized((isInitialized) => {
+        if (isInitialized) {
+          getRewardsInitialData().then((data) => {
+            getActions().setInitialRewardsData(data)
+          })
+        }
+      })
+
+      setRewardsFetchInterval()
     })
-
-    setRewardsFetchInterval()
-  })
-  .catch(e => {
-    console.error('Error fetching pre-initial rewards data: ', e)
-  })
+    .catch((e) => {
+      console.error('Error fetching pre-initial rewards data: ', e)
+    })
 }
 
 let intervalId = 0
-function setRewardsFetchInterval () {
+function setRewardsFetchInterval() {
   if (!intervalId) {
-    intervalId = window.setInterval(() => { fetchRewardsData() }, 30000)
+    intervalId = window.setInterval(() => {
+      fetchRewardsData()
+    }, 30000)
   }
 }
 
-function fetchRewardsData () {
+function fetchRewardsData() {
   chrome.braveRewards.isInitialized((isInitialized) => {
     if (!isInitialized) {
       return
@@ -113,7 +135,8 @@ function fetchRewardsData () {
       ([preInitialData, initialData]) => {
         getActions().setPreInitialRewardsData(preInitialData)
         getActions().setInitialRewardsData(initialData)
-      })
+      }
+    )
   })
 }
 
@@ -125,14 +148,20 @@ chrome.braveRewards.onAdsEnabled.addListener((enabled: boolean) => {
   getActions().onAdsEnabled(enabled)
 })
 
-chrome.braveRewards.onPromotions.addListener((result: number, promotions: NewTab.Promotion[]) => {
-  getActions().onPromotions(result, promotions)
-})
+chrome.braveRewards.onPromotions.addListener(
+  (result: number, promotions: NewTab.Promotion[]) => {
+    getActions().onPromotions(result, promotions)
+  }
+)
 
-chrome.braveRewards.onPromotionFinish.addListener((result: number, promotion: NewTab.Promotion) => {
-  getActions().onPromotionFinish(result, promotion)
-})
+chrome.braveRewards.onPromotionFinish.addListener(
+  (result: number, promotion: NewTab.Promotion) => {
+    getActions().onPromotionFinish(result, promotion)
+  }
+)
 
-chrome.braveRewards.onCompleteReset.addListener((properties: { success: boolean }) => {
-  getActions().onCompleteReset(properties.success)
-})
+chrome.braveRewards.onCompleteReset.addListener(
+  (properties: { success: boolean }) => {
+    getActions().onCompleteReset(properties.success)
+  }
+)

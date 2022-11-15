@@ -18,7 +18,7 @@ export const bar = styled.div`
   right: 0;
   background: var(--brave-palette-white);
   border-radius: 21px;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 `
 
 export const rail = styled.div`

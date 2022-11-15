@@ -40,14 +40,16 @@ export const TransactionSubmitted = (props: Props) => {
   const onClickViewOnBlockExplorer = useExplorer(selectedNetwork)
 
   return (
-    <Panel navAction={onClose} title={headerTitle} headerStyle='slim'>
+    <Panel navAction={onClose} title={headerTitle} headerStyle="slim">
       <SubmittedIcon />
       <Title>{getLocale('braveWalletTransactionSubmittedTitle')}</Title>
       <TransactionStatusDescription>
         {getLocale('braveWalletTransactionSubmittedDescription')}
       </TransactionStatusDescription>
       <ButtonRow>
-        <DetailButton onClick={onClickViewOnBlockExplorer('tx', transaction.txHash)}>
+        <DetailButton
+          onClick={onClickViewOnBlockExplorer('tx', transaction.txHash)}
+        >
           {getLocale('braveWalletTransactionExplorer')}
         </DetailButton>
         <LinkIcon />

@@ -12,27 +12,33 @@ interface Props {
 }
 
 export class GeneralInfo extends React.Component<Props, {}> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
   }
 
-  render () {
+  render() {
     return (
       <div>
         <div>
-          {getLocale('torVersion') + ': '} {this.props.state.generalInfo.torVersion}
+          {getLocale('torVersion') + ': '}{' '}
+          {this.props.state.generalInfo.torVersion}
         </div>
         <div>
           {getLocale('torPid') + ': '} {this.props.state.generalInfo.torPid}
         </div>
         <div>
-          {getLocale('torProxyURI') + ': '} {this.props.state.generalInfo.torProxyURI}
+          {getLocale('torProxyURI') + ': '}{' '}
+          {this.props.state.generalInfo.torProxyURI}
         </div>
         <div>
-          {getLocale('torConnectionStatus') + ': '} {this.props.state.generalInfo.isTorConnected ? 'Connected' : 'Disconnected'}
+          {getLocale('torConnectionStatus') + ': '}{' '}
+          {this.props.state.generalInfo.isTorConnected
+            ? 'Connected'
+            : 'Disconnected'}
         </div>
         <div>
-          {getLocale('torInitProgress') + ': '} {this.props.state.generalInfo.torInitPercentage}
+          {getLocale('torInitProgress') + ': '}{' '}
+          {this.props.state.generalInfo.torInitPercentage}
           {this.props.state.generalInfo.torInitPercentage ? '%' : ''}
         </div>
       </div>

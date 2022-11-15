@@ -4,8 +4,9 @@
 
 import { DefaultCardIcon } from './style'
 
-export function getCreditCardIcon (type: string) {
+export function getCreditCardIcon(type: string) {
   switch (type) {
-    default: return DefaultCardIcon
+    default:
+      return DefaultCardIcon
   }
 }

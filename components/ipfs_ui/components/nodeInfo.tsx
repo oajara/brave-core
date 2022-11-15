@@ -1,4 +1,3 @@
-
 /* Copyright (c) 2021 The Brave Authors. All rights reserved.
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
@@ -15,26 +14,26 @@ interface Props {
 }
 
 export class NodeInfo extends React.Component<Props, {}> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
   }
 
-  render () {
+  render() {
     return (
       <Section>
-        <Title>
-          {getLocale('nodeInfoTitle')}
-        </Title>
+        <Title>{getLocale('nodeInfoTitle')}</Title>
         <div>
           {getLocale('id')}: {this.props.nodeInfo.id}
         </div>
         <div>
           {getLocale('version')}: {this.props.nodeInfo.version}
         </div>
-        {this.props.nodeInfo.component_version &&
-        <div>
-          {getLocale('componentVersion')}: {this.props.nodeInfo.component_version}
-        </div>}
+        {this.props.nodeInfo.component_version && (
+          <div>
+            {getLocale('componentVersion')}:{' '}
+            {this.props.nodeInfo.component_version}
+          </div>
+        )}
       </Section>
     )
   }

@@ -11,11 +11,11 @@ export const root = styled.div`
   text-align: left;
 
   > div {
-    background: #E8F4FF;
+    background: #e8f4ff;
     padding: 9px 24px;
 
     .brave-theme-dark & {
-      background: #DFF0FE;
+      background: #dff0fe;
     }
   }
 
@@ -46,14 +46,14 @@ export const root = styled.div`
   }
 
   .rewards-payment-completed {
-    background: #E7FDEA;
+    background: #e7fdea;
     padding: 9px 15px;
     display: flex;
     align-items: center;
     gap: 13px;
 
     .brave-theme-dark & {
-      background: #CBF1D1;
+      background: #cbf1d1;
     }
 
     .icon {

@@ -17,8 +17,12 @@ export type Props = {
 
 const darkModeMediaMatcher = window.matchMedia('(prefers-color-scheme: dark)')
 
-export default function LightDarkThemeProvider (props: React.PropsWithChildren<Props>) {
-  const [isDarkMode, setIsDarkMode] = React.useState(darkModeMediaMatcher.matches)
+export default function LightDarkThemeProvider(
+  props: React.PropsWithChildren<Props>
+) {
+  const [isDarkMode, setIsDarkMode] = React.useState(
+    darkModeMediaMatcher.matches
+  )
 
   React.useEffect(() => {
     const handleDarkModeChange = (e: MediaQueryListEvent) => {

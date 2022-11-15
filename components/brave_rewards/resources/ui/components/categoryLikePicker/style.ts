@@ -13,7 +13,7 @@ export const StyledCategoryActionOptoutLogo = styled('div')<{}>`
 `
 
 export const StyledCategoryActionOptinButton = styled('div')<{}>`
-margin: auto;
+  margin: auto;
   border: none;
   height: 32px;
   width: 32px;
@@ -30,10 +30,14 @@ export const StyledCategoryActionOptoutButton = styled('div')<{}>`
   cursor: pointer;
 `
 
-export const StyledCategoryActionOptinFilledButton = styled(StyledCategoryActionOptinButton)`
-  color: ${p => p.theme.palette.red500};
+export const StyledCategoryActionOptinFilledButton = styled(
+  StyledCategoryActionOptinButton
+)`
+  color: ${(p) => p.theme.palette.red500};
 `
 
-export const StyledCategoryActionOptoutFilledButton = styled(StyledCategoryActionOptoutButton)`
-  color: ${p => p.theme.palette.red500};
+export const StyledCategoryActionOptoutFilledButton = styled(
+  StyledCategoryActionOptoutButton
+)`
+  color: ${(p) => p.theme.palette.red500};
 `

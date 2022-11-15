@@ -3,9 +3,7 @@
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import * as React from 'react'
-import {
-  StyledLink
-} from './style'
+import { StyledLink } from './style'
 import Table, { Cell, Row } from 'brave-ui/components/dataTables/table/index'
 import Profile, { Provider } from '../profile/index'
 import Tokens from '../tokens/index'
@@ -36,7 +34,7 @@ export interface Props {
 }
 
 export default class TableActivity extends React.PureComponent<Props, {}> {
-  getRows (rows?: DetailRow[]): Row[] | undefined {
+  getRows(rows?: DetailRow[]): Row[] | undefined {
     if (!rows) {
       return
     }
@@ -61,10 +59,12 @@ export default class TableActivity extends React.PureComponent<Props, {}> {
         content.push({
           content: (
             <>
-              {row.date ? new Intl.DateTimeFormat('default', {
-                month: 'short',
-                day: 'numeric'
-              }).format(row.date * 1000) : null}
+              {row.date
+                ? new Intl.DateTimeFormat('default', {
+                    month: 'short',
+                    day: 'numeric'
+                  }).format(row.date * 1000)
+                : null}
             </>
           )
         })
@@ -90,7 +90,7 @@ export default class TableActivity extends React.PureComponent<Props, {}> {
     })
   }
 
-  get headers (): Cell[] {
+  get headers(): Cell[] {
     let cells = []
     cells.push({
       content: getLocale('site')
@@ -113,7 +113,7 @@ export default class TableActivity extends React.PureComponent<Props, {}> {
     return cells
   }
 
-  render () {
+  render() {
     const { id, children, rows } = this.props
     return (
       <div id={id}>

@@ -7,7 +7,7 @@ import { createLocalStorageScope } from '../../shared/lib/local_storage_scope'
 
 const storageScope = createLocalStorageScope<'state'>('rewards')
 
-function readCachedState (state: Rewards.State) {
+function readCachedState(state: Rewards.State) {
   // This is tricky. We assert that the stored state is a valid instance of
   // the page state even though it might not be, so that TypeScript can check
   // the property accesses for us. However, the state may have been stored by an
@@ -43,17 +43,20 @@ function readCachedState (state: Rewards.State) {
       promosDismissed: Object.fromEntries(
         Object.entries(cached.ui.promosDismissed).map(([key, value]) => {
           return [key, Boolean(value)]
-        }))
+        })
+      )
     },
     adsData: {
       ...state.adsData,
       adsEnabled: Boolean(cached.adsData.adsEnabled),
       adsPerHour: Number(cached.adsData.adsPerHour) || 0,
       adsSubdivisionTargeting: String(cached.adsData.adsSubdivisionTargeting),
-      automaticallyDetectedAdsSubdivisionTargeting:
-        String(cached.adsData.automaticallyDetectedAdsSubdivisionTargeting),
-      shouldAllowAdsSubdivisionTargeting:
-        Boolean(cached.adsData.shouldAllowAdsSubdivisionTargeting)
+      automaticallyDetectedAdsSubdivisionTargeting: String(
+        cached.adsData.automaticallyDetectedAdsSubdivisionTargeting
+      ),
+      shouldAllowAdsSubdivisionTargeting: Boolean(
+        cached.adsData.shouldAllowAdsSubdivisionTargeting
+      )
     },
     balance: {
       ...state.balance,
@@ -68,7 +71,7 @@ function readCachedState (state: Rewards.State) {
   }
 }
 
-export function loadState (): Rewards.State {
+export function loadState(): Rewards.State {
   let state = defaultState()
 
   try {
@@ -80,6 +83,6 @@ export function loadState (): Rewards.State {
   return state
 }
 
-export function saveState (state: Rewards.State) {
+export function saveState(state: Rewards.State) {
   storageScope.writeJSON('state', state)
 }

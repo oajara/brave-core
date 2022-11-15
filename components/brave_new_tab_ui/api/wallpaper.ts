@@ -5,14 +5,16 @@
 
 import { sendWithPromise } from 'chrome://resources/js/cr.m'
 
-export function getWallpaper (): Promise<undefined | NewTab.Wallpaper> {
+export function getWallpaper(): Promise<undefined | NewTab.Wallpaper> {
   return sendWithPromise('getWallpaperData')
 }
 
-export function registerViewCount (): Promise<void> {
+export function registerViewCount(): Promise<void> {
   return sendWithPromise('registerNewTabPageView')
 }
 
-export function brandedWallpaperLogoClicked (data: NewTab.BrandedWallpaper | undefined) {
+export function brandedWallpaperLogoClicked(
+  data: NewTab.BrandedWallpaper | undefined
+) {
   chrome.send('brandedWallpaperLogoClicked', [data])
 }

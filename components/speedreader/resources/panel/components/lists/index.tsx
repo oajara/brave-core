@@ -56,7 +56,7 @@ type OptionType = {
   ariaLabel?: string
 }
 
-function ListBox (props: React.PropsWithChildren<{}>) {
+function ListBox(props: React.PropsWithChildren<{}>) {
   return (
     <S.Box role="listbox" aria-orientation="horizontal">
       {props.children}
@@ -64,7 +64,7 @@ function ListBox (props: React.PropsWithChildren<{}>) {
   )
 }
 
-function Option (props: OptionType) {
+function Option(props: OptionType) {
   const handleClick = () => {
     props.onClick?.()
   }
@@ -87,14 +87,14 @@ interface FontStyleListProps {
   onClick?: Function
 }
 
-export function FontStyleList (props: FontStyleListProps) {
+export function FontStyleList(props: FontStyleListProps) {
   const handleClick = (fontFamily: FontFamily) => {
     props.onClick?.(fontFamily)
   }
 
   return (
     <ListBox>
-      {fontStyleOptions.map(entry => {
+      {fontStyleOptions.map((entry) => {
         return (
           <Option
             key={entry.title}
@@ -117,14 +117,14 @@ interface ContentStyleProps {
   onClick?: Function
 }
 
-export function ContentList (props: ContentStyleProps) {
+export function ContentList(props: ContentStyleProps) {
   const handleClick = (contentStyle: ContentStyle) => {
     props.onClick?.(contentStyle)
   }
 
   return (
     <ListBox>
-      {contentStyleOptions.map(entry => {
+      {contentStyleOptions.map((entry) => {
         return (
           <Option
             key={entry.title}

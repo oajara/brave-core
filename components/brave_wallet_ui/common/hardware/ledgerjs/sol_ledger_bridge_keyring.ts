@@ -26,8 +26,11 @@ import {
 import { hardwareDeviceIdFromAddress } from '../hardwareDeviceIdFromAddress'
 import LedgerBridgeKeyring from './ledger_bridge_keyring'
 
-export default class SolanaLedgerBridgeKeyring extends LedgerBridgeKeyring implements LedgerSolanaKeyring {
-  constructor (onAuthorized?: () => void) {
+export default class SolanaLedgerBridgeKeyring
+  extends LedgerBridgeKeyring
+  implements LedgerSolanaKeyring
+{
+  constructor(onAuthorized?: () => void) {
     super(onAuthorized)
   }
 
@@ -35,14 +38,18 @@ export default class SolanaLedgerBridgeKeyring extends LedgerBridgeKeyring imple
     return BraveWallet.CoinType.SOL
   }
 
-  getAccounts = async (from: number, to: number, scheme: SolDerivationPaths): Promise<GetAccountsHardwareOperationResult> => {
+  getAccounts = async (
+    from: number,
+    to: number,
+    scheme: SolDerivationPaths
+  ): Promise<GetAccountsHardwareOperationResult> => {
     const result = await this.unlock()
     if (!result.success) {
       return result
     }
-    from = (from >= 0) ? from : 0
+    from = from >= 0 ? from : 0
     const paths = []
-    const addZeroPath = (from > 0 || to < 0)
+    const addZeroPath = from > 0 || to < 0
     if (addZeroPath) {
       // Add zero address to calculate device id.
       paths.push(this.getPathForIndex(0, scheme))
@@ -53,7 +60,10 @@ export default class SolanaLedgerBridgeKeyring extends LedgerBridgeKeyring imple
     return this.getAccountsFromDevice(paths, addZeroPath, scheme)
   }
 
-  signTransaction = async (path: string, rawTxBytes: Buffer): Promise<SignHardwareOperationResult> => {
+  signTransaction = async (
+    path: string,
+    rawTxBytes: Buffer
+  ): Promise<SignHardwareOperationResult> => {
     const result = await this.unlock()
     if (!result.success) {
       return result
@@ -66,8 +76,10 @@ export default class SolanaLedgerBridgeKeyring extends LedgerBridgeKeyring imple
       rawTxBytes: rawTxBytes,
       origin: window.origin
     })
-    if (data === LedgerBridgeErrorCodes.BridgeNotReady ||
-        data === LedgerBridgeErrorCodes.CommandInProgress) {
+    if (
+      data === LedgerBridgeErrorCodes.BridgeNotReady ||
+      data === LedgerBridgeErrorCodes.CommandInProgress
+    ) {
       return this.createErrorFromCode(data)
     }
     if (!data.payload.success) {
@@ -76,13 +88,21 @@ export default class SolanaLedgerBridgeKeyring extends LedgerBridgeKeyring imple
       // to UI only for getAccounts to make statusCode available, but don't do the same here
       // for signTransaction.
       const ledgerError = data.payload as LedgerError
-      return { success: false, error: ledgerError.message, code: ledgerError.statusCode }
+      return {
+        success: false,
+        error: ledgerError.message,
+        code: ledgerError.statusCode
+      }
     }
     const responsePayload = data.payload as SolSignTransactionResponsePayload
     return { success: true, payload: responsePayload.signature }
   }
 
-  private readonly getAccountsFromDevice = async (paths: string[], skipZeroPath: boolean, scheme: SolDerivationPaths): Promise<GetAccountsHardwareOperationResult> => {
+  private readonly getAccountsFromDevice = async (
+    paths: string[],
+    skipZeroPath: boolean,
+    scheme: SolDerivationPaths
+  ): Promise<GetAccountsHardwareOperationResult> => {
     let accounts = []
     const zeroPath = this.getPathForIndex(0, scheme)
     for (const path of paths) {
@@ -92,19 +112,27 @@ export default class SolanaLedgerBridgeKeyring extends LedgerBridgeKeyring imple
         path: path,
         origin: window.origin
       })
-      if (data === LedgerBridgeErrorCodes.BridgeNotReady ||
-          data === LedgerBridgeErrorCodes.CommandInProgress) {
+      if (
+        data === LedgerBridgeErrorCodes.BridgeNotReady ||
+        data === LedgerBridgeErrorCodes.CommandInProgress
+      ) {
         return this.createErrorFromCode(data)
       }
 
       if (!data.payload.success) {
         const ledgerError = data.payload as LedgerError
-        return { success: false, error: ledgerError, code: ledgerError.statusCode }
+        return {
+          success: false,
+          error: ledgerError,
+          code: ledgerError.statusCode
+        }
       }
       const responsePayload = data.payload as SolGetAccountResponsePayload
 
       if (path === zeroPath) {
-        this.deviceId = await hardwareDeviceIdFromAddress(responsePayload.address)
+        this.deviceId = await hardwareDeviceIdFromAddress(
+          responsePayload.address
+        )
         if (skipZeroPath) {
           // If requested addresses do not have zero indexed adress we add it
           // intentionally to calculate device id and should not add it to
@@ -127,7 +155,10 @@ export default class SolanaLedgerBridgeKeyring extends LedgerBridgeKeyring imple
     return { success: true, payload: accounts }
   }
 
-  private readonly getPathForIndex = (index: number, scheme: SolDerivationPaths): string => {
+  private readonly getPathForIndex = (
+    index: number,
+    scheme: SolDerivationPaths
+  ): string => {
     if (scheme === SolDerivationPaths.LedgerLive) {
       return `44'/501'/${index}'`
     }

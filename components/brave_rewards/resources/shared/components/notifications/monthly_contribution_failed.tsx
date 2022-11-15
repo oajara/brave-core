@@ -8,7 +8,7 @@ import { LocaleContext } from '../../lib/locale_context'
 import { MonthlyContributionFailedNotification } from './notification'
 import { NotificationViewProps } from './notification_view'
 
-export function MonthlyContributionFailed (props: NotificationViewProps) {
+export function MonthlyContributionFailed(props: NotificationViewProps) {
   const { getString } = React.useContext(LocaleContext)
   const { Title, Body, Action } = props
   const { reason } = props.notification as MonthlyContributionFailedNotification
@@ -22,7 +22,7 @@ export function MonthlyContributionFailed (props: NotificationViewProps) {
 
   return (
     <div>
-      <Title style='error'>
+      <Title style="error">
         {getString('notificationMonthlyContributionFailedTitle')}
       </Title>
       <Body>{getString(message)}</Body>

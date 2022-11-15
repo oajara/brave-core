@@ -10,7 +10,7 @@ import { BatCrossedIcon } from './icons/bat_crossed_icon'
 
 import * as style from './unsupported_region_notice.style'
 
-export function UnsupportedRegionNotice () {
+export function UnsupportedRegionNotice() {
   const { getString } = React.useContext(LocaleContext)
 
   return (
@@ -20,29 +20,24 @@ export function UnsupportedRegionNotice () {
         {getString('unsupportedRegionNoticeHeader')}
       </style.heading>
       <style.content>
+        <style.text>{getString('unsupportedRegionNoticeSubheader')}</style.text>
         <style.text>
-          {getString('unsupportedRegionNoticeSubheader')}
-        </style.text>
-        <style.text>
-          {
-            formatMessage(getString('unsupportedRegionNoticeLearnMore'), {
-              tags: {
-                $1: (content) => (
-                  <NewTabLink key='learn' href='https://support.brave.com/hc/en-us/articles/9053832354957'>
-                    {content}
-                  </NewTabLink>
-                )
-              }
-            })
-          }
+          {formatMessage(getString('unsupportedRegionNoticeLearnMore'), {
+            tags: {
+              $1: (content) => (
+                <NewTabLink
+                  key="learn"
+                  href="https://support.brave.com/hc/en-us/articles/9053832354957"
+                >
+                  {content}
+                </NewTabLink>
+              )
+            }
+          })}
         </style.text>
         <style.spacing />
-        <style.text>
-          {getString('unsupportedRegionNoticeText1')}
-        </style.text>
-        <style.text>
-          {getString('unsupportedRegionNoticeText2')}
-        </style.text>
+        <style.text>{getString('unsupportedRegionNoticeText1')}</style.text>
+        <style.text>{getString('unsupportedRegionNoticeText2')}</style.text>
       </style.content>
     </style.root>
   )

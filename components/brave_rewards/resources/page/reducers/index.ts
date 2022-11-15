@@ -12,7 +12,7 @@ import walletReducer from './wallet_reducer'
 import promotionReducer from './promotion_reducer'
 import publishersReducer from './publishers_reducer'
 
-function mergeReducers (state: Rewards.State|undefined, action: any) {
+function mergeReducers(state: Rewards.State | undefined, action: any) {
   if (!state) {
     state = loadState()
   }
@@ -35,7 +35,7 @@ function mergeReducers (state: Rewards.State|undefined, action: any) {
   return state
 }
 
-export function createReducer () {
+export function createReducer() {
   return combineReducers<Rewards.ApplicationState>({
     rewardsData: mergeReducers
   })

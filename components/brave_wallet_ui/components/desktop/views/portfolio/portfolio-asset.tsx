@@ -57,7 +57,11 @@ import AccountsAndTransactionsList from './components/accounts-and-transctions-l
 import { BridgeToAuroraModal } from '../../popup-modals/bridge-to-aurora-modal/bridge-to-aurora-modal'
 
 // Hooks
-import { usePricing, useTransactionParser, useMultiChainBuyAssets } from '../../../../common/hooks'
+import {
+  usePricing,
+  useTransactionParser,
+  useMultiChainBuyAssets
+} from '../../../../common/hooks'
 import {
   useSafePageSelector,
   useSafeWalletSelector,
@@ -98,7 +102,11 @@ import { HideTokenModal } from './components/hide-token-modal/hide-token-modal'
 import { NftModal } from './components/nft-modal/nft-modal'
 import { ChartControlBar } from '../../chart-control-bar/chart-control-bar'
 
-const AssetIconWithPlaceholder = withPlaceholderIcon(AssetIcon, { size: 'big', marginLeft: 0, marginRight: 12 })
+const AssetIconWithPlaceholder = withPlaceholderIcon(AssetIcon, {
+  size: 'big',
+  marginLeft: 0,
+  marginRight: 12
+})
 const rainbowbridgeLink = 'https://rainbowbridge.app'
 const bridgeToAuroraDontShowAgainKey = 'bridgeToAuroraDontShowAgain'
 
@@ -109,97 +117,150 @@ interface Props {
 export const PortfolioAsset = (props: Props) => {
   const { isShowingMarketData } = props
   // state
-  const [showBridgeToAuroraModal, setShowBridgeToAuroraModal] = React.useState<boolean>(false)
-  const [dontShowAuroraWarning, setDontShowAuroraWarning] = React.useState<boolean>(false)
+  const [showBridgeToAuroraModal, setShowBridgeToAuroraModal] =
+    React.useState<boolean>(false)
+  const [dontShowAuroraWarning, setDontShowAuroraWarning] =
+    React.useState<boolean>(false)
   const [isTokenSupported, setIsTokenSupported] = React.useState<boolean>()
   const [showMore, setShowMore] = React.useState<boolean>(false)
-  const [showTokenDetailsModal, setShowTokenDetailsModal] = React.useState<boolean>(false)
-  const [showHideTokenModel, setShowHideTokenModal] = React.useState<boolean>(false)
+  const [showTokenDetailsModal, setShowTokenDetailsModal] =
+    React.useState<boolean>(false)
+  const [showHideTokenModel, setShowHideTokenModal] =
+    React.useState<boolean>(false)
   const [showNftModal, setshowNftModal] = React.useState<boolean>(false)
 
   // routing
   const history = useHistory()
-  const { id: assetId, tokenId } = useParams<{ id?: string, tokenId?: string }>()
+  const { id: assetId, tokenId } = useParams<{
+    id?: string
+    tokenId?: string
+  }>()
   const nftDetailsRef = React.useRef<HTMLIFrameElement>(null)
   const [nftIframeLoaded, setNftIframeLoaded] = React.useState(false)
   // redux
   const dispatch = useDispatch()
 
-  const defaultCurrencies = useUnsafeWalletSelector(WalletSelectors.defaultCurrencies)
-  const userVisibleTokensInfo = useUnsafeWalletSelector(WalletSelectors.userVisibleTokensInfo)
-  const selectedNetwork = useUnsafeWalletSelector(WalletSelectors.selectedNetwork)
-  const portfolioPriceHistory = useUnsafeWalletSelector(WalletSelectors.portfolioPriceHistory)
-  const selectedPortfolioTimeline = useSafeWalletSelector(WalletSelectors.selectedPortfolioTimeline)
+  const defaultCurrencies = useUnsafeWalletSelector(
+    WalletSelectors.defaultCurrencies
+  )
+  const userVisibleTokensInfo = useUnsafeWalletSelector(
+    WalletSelectors.userVisibleTokensInfo
+  )
+  const selectedNetwork = useUnsafeWalletSelector(
+    WalletSelectors.selectedNetwork
+  )
+  const portfolioPriceHistory = useUnsafeWalletSelector(
+    WalletSelectors.portfolioPriceHistory
+  )
+  const selectedPortfolioTimeline = useSafeWalletSelector(
+    WalletSelectors.selectedPortfolioTimeline
+  )
   const accounts = useUnsafeWalletSelector(WalletSelectors.accounts)
   const networkList = useUnsafeWalletSelector(WalletSelectors.networkList)
   const transactions = useUnsafeWalletSelector(WalletSelectors.transactions)
-  const isFetchingPortfolioPriceHistory = useSafeWalletSelector(WalletSelectors.isFetchingPortfolioPriceHistory)
-  const transactionSpotPrices = useUnsafeWalletSelector(WalletSelectors.transactionSpotPrices)
-  const selectedNetworkFilter = useUnsafeWalletSelector(WalletSelectors.selectedNetworkFilter)
+  const isFetchingPortfolioPriceHistory = useSafeWalletSelector(
+    WalletSelectors.isFetchingPortfolioPriceHistory
+  )
+  const transactionSpotPrices = useUnsafeWalletSelector(
+    WalletSelectors.transactionSpotPrices
+  )
+  const selectedNetworkFilter = useUnsafeWalletSelector(
+    WalletSelectors.selectedNetworkFilter
+  )
   const coinMarketData = useUnsafeWalletSelector(WalletSelectors.coinMarketData)
   const fullTokenList = useUnsafeWalletSelector(WalletSelectors.fullTokenList)
 
   const isLoading = useSafePageSelector(PageSelectors.isFetchingPriceHistory)
   const selectedAsset = useUnsafePageSelector(PageSelectors.selectedAsset)
-  const selectedAssetCryptoPrice = useUnsafePageSelector(PageSelectors.selectedAssetCryptoPrice)
-  const selectedAssetFiatPrice = useUnsafePageSelector(PageSelectors.selectedAssetFiatPrice)
-  const selectedAssetPriceHistory = useUnsafePageSelector(PageSelectors.selectedAssetPriceHistory)
+  const selectedAssetCryptoPrice = useUnsafePageSelector(
+    PageSelectors.selectedAssetCryptoPrice
+  )
+  const selectedAssetFiatPrice = useUnsafePageSelector(
+    PageSelectors.selectedAssetFiatPrice
+  )
+  const selectedAssetPriceHistory = useUnsafePageSelector(
+    PageSelectors.selectedAssetPriceHistory
+  )
   const selectedTimeline = useSafePageSelector(PageSelectors.selectedTimeline)
-  const isFetchingNFTMetadata = useSafePageSelector(PageSelectors.isFetchingNFTMetadata)
+  const isFetchingNFTMetadata = useSafePageSelector(
+    PageSelectors.isFetchingNFTMetadata
+  )
   const nftMetadata = useUnsafePageSelector(PageSelectors.nftMetadata)
-  const selectedCoinMarket = useUnsafePageSelector(PageSelectors.selectedCoinMarket)
+  const selectedCoinMarket = useUnsafePageSelector(
+    PageSelectors.selectedCoinMarket
+  )
   const nftMetadataError = useSafePageSelector(PageSelectors.nftMetadataError)
 
   // custom hooks
-  const { allAssetOptions, isReduxSelectedAssetBuySupported, getAllBuyOptionsAllChains } = useMultiChainBuyAssets()
+  const {
+    allAssetOptions,
+    isReduxSelectedAssetBuySupported,
+    getAllBuyOptionsAllChains
+  } = useMultiChainBuyAssets()
 
   // memos
   // This will scrape all the user's accounts and combine the asset balances for a single asset
-  const fullAssetBalance = React.useCallback((asset: BraveWallet.BlockchainToken) => {
-    const amounts = accounts.filter((account) => account.coin === asset.coin).map((account) =>
-      getBalance(account, asset))
+  const fullAssetBalance = React.useCallback(
+    (asset: BraveWallet.BlockchainToken) => {
+      const amounts = accounts
+        .filter((account) => account.coin === asset.coin)
+        .map((account) => getBalance(account, asset))
 
-    // If a user has not yet created a FIL or SOL account,
-    // we return 0 until they create an account
-    if (amounts.length === 0) {
-      return '0'
-    }
+      // If a user has not yet created a FIL or SOL account,
+      // we return 0 until they create an account
+      if (amounts.length === 0) {
+        return '0'
+      }
 
-    return amounts.reduce(function (a, b) {
-      return a !== '' && b !== ''
-        ? new Amount(a).plus(b).format()
-        : ''
-    })
-  }, [accounts])
+      return amounts.reduce(function (a, b) {
+        return a !== '' && b !== '' ? new Amount(a).plus(b).format() : ''
+      })
+    },
+    [accounts]
+  )
 
   const tokensWithCoingeckoId = React.useMemo(() => {
-    return fullTokenList.filter(token => token.coingeckoId !== '')
+    return fullTokenList.filter((token) => token.coingeckoId !== '')
   }, [fullTokenList])
 
   // This looks at the users asset list and returns the full balance for each asset
   const userAssetList = React.useMemo(() => {
-    const allAssets = userVisibleTokensInfo.map((asset) => ({
-      asset: asset,
-      assetBalance: fullAssetBalance(asset)
-    }) as UserAssetInfoType)
+    const allAssets = userVisibleTokensInfo.map(
+      (asset) =>
+        ({
+          asset: asset,
+          assetBalance: fullAssetBalance(asset)
+        } as UserAssetInfoType)
+    )
     // By default we dont show any testnetwork assets
     if (selectedNetworkFilter.chainId === AllNetworksOption.chainId) {
-      return allAssets.filter((asset) => !SupportedTestNetworks.includes(asset.asset.chainId))
+      return allAssets.filter(
+        (asset) => !SupportedTestNetworks.includes(asset.asset.chainId)
+      )
     }
     // If chainId is Localhost we also do a check for coinType to return
     // the correct asset
     if (selectedNetworkFilter.chainId === BraveWallet.LOCALHOST_CHAIN_ID) {
-      return allAssets.filter((asset) =>
-        asset.asset.chainId === selectedNetworkFilter.chainId &&
-        asset.asset.coin === selectedNetworkFilter.coin
+      return allAssets.filter(
+        (asset) =>
+          asset.asset.chainId === selectedNetworkFilter.chainId &&
+          asset.asset.coin === selectedNetworkFilter.coin
       )
     }
     // Filter by all other assets by chainId's
-    return allAssets.filter((asset) => asset.asset.chainId === selectedNetworkFilter.chainId)
-  }, [userVisibleTokensInfo, selectedNetworkFilter, fullAssetBalance, networkList])
+    return allAssets.filter(
+      (asset) => asset.asset.chainId === selectedNetworkFilter.chainId
+    )
+  }, [
+    userVisibleTokensInfo,
+    selectedNetworkFilter,
+    fullAssetBalance,
+    networkList
+  ])
 
   // state
-  const [filteredAssetList, setfilteredAssetList] = React.useState<UserAssetInfoType[]>(userAssetList)
+  const [filteredAssetList, setfilteredAssetList] =
+    React.useState<UserAssetInfoType[]>(userAssetList)
   const [hoverPrice, setHoverPrice] = React.useState<string>()
 
   const selectedAssetsNetwork = React.useMemo(() => {
@@ -221,12 +282,21 @@ export const PortfolioAsset = (props: Props) => {
     }
 
     // If the id length is greater than 15 assumes it's a contractAddress
-    let token = assetId.length > 15
-      ? userVisibleTokensInfo.find((token) => tokenId ? token.contractAddress === assetId && token.tokenId === tokenId : token.contractAddress === assetId)
-      : userVisibleTokensInfo.find((token) => token.symbol.toLowerCase() === assetId?.toLowerCase())
+    let token =
+      assetId.length > 15
+        ? userVisibleTokensInfo.find((token) =>
+            tokenId
+              ? token.contractAddress === assetId && token.tokenId === tokenId
+              : token.contractAddress === assetId
+          )
+        : userVisibleTokensInfo.find(
+            (token) => token.symbol.toLowerCase() === assetId?.toLowerCase()
+          )
 
     if (!token && assetId.length < 15) {
-      const coinMarket = coinMarketData.find(token => token.symbol.toLowerCase() === assetId?.toLowerCase())
+      const coinMarket = coinMarketData.find(
+        (token) => token.symbol.toLowerCase() === assetId?.toLowerCase()
+      )
       if (coinMarket) {
         token = new BraveWallet.BlockchainToken()
         token.coingeckoId = coinMarket.id
@@ -235,7 +305,10 @@ export const PortfolioAsset = (props: Props) => {
         token.symbol = coinMarket.symbol.toUpperCase()
         token.logo = coinMarket.image
       }
-      const foundToken = tokensWithCoingeckoId?.find(token => token.coingeckoId.toLowerCase() === coinMarket?.id?.toLowerCase())
+      const foundToken = tokensWithCoingeckoId?.find(
+        (token) =>
+          token.coingeckoId.toLowerCase() === coinMarket?.id?.toLowerCase()
+      )
       setIsTokenSupported(foundToken !== undefined)
     } else {
       setIsTokenSupported(true)
@@ -246,28 +319,34 @@ export const PortfolioAsset = (props: Props) => {
 
   const isSelectedAssetBridgeSupported = React.useMemo(() => {
     if (!selectedAssetFromParams) return false
-    const isBridgeAddress = auroraSupportedContractAddresses.includes(selectedAssetFromParams.contractAddress.toLowerCase())
+    const isBridgeAddress = auroraSupportedContractAddresses.includes(
+      selectedAssetFromParams.contractAddress.toLowerCase()
+    )
     const isNativeAsset = selectedAssetFromParams.contractAddress === ''
 
-    return (isBridgeAddress || isNativeAsset) && selectedAssetFromParams.chainId === BraveWallet.MAINNET_CHAIN_ID
+    return (
+      (isBridgeAddress || isNativeAsset) &&
+      selectedAssetFromParams.chainId === BraveWallet.MAINNET_CHAIN_ID
+    )
   }, [selectedAssetFromParams])
 
   // This will scrape all of the user's accounts and combine the fiat value for every asset
   const fullPortfolioFiatBalance = React.useMemo(() => {
-    const visibleAssetOptions = userAssetList
-      .filter((token) =>
-        token.asset.visible &&
-        !token.asset.isErc721
-      )
+    const visibleAssetOptions = userAssetList.filter(
+      (token) => token.asset.visible && !token.asset.isErc721
+    )
 
     if (visibleAssetOptions.length === 0) {
       return ''
     }
 
-    const visibleAssetFiatBalances = visibleAssetOptions
-      .map((item) => {
-        return computeFiatAmount(item.assetBalance, item.asset.symbol, item.asset.decimals)
-      })
+    const visibleAssetFiatBalances = visibleAssetOptions.map((item) => {
+      return computeFiatAmount(
+        item.assetBalance,
+        item.asset.symbol,
+        item.asset.decimals
+      )
+    })
 
     const grandTotal = visibleAssetFiatBalances.reduce(function (a, b) {
       return a.plus(b)
@@ -296,51 +375,62 @@ export const PortfolioAsset = (props: Props) => {
     if (!selectedAssetsNetwork) {
       return []
     }
-    const accountsByNetwork = accounts.filter((account) => account.coin === selectedAssetsNetwork.coin)
-    return accountsByNetwork.map((account) => {
-      return transactions[account.address]
-    }).flat(1)
+    const accountsByNetwork = accounts.filter(
+      (account) => account.coin === selectedAssetsNetwork.coin
+    )
+    return accountsByNetwork
+      .map((account) => {
+        return transactions[account.address]
+      })
+      .flat(1)
   }, [accounts, transactions, selectedAssetsNetwork])
 
-  const selectedAssetTransactions = React.useMemo((): BraveWallet.TransactionInfo[] => {
-    if (selectedAsset) {
-      const filteredTransactions = transactionsByNetwork.filter((tx) => {
-        return tx && parseTransaction(tx).symbol === selectedAsset?.symbol
-      })
-      return sortTransactionByDate(filteredTransactions, 'descending')
-    }
-    return []
-  }, [selectedAsset, transactionsByNetwork, parseTransaction])
+  const selectedAssetTransactions =
+    React.useMemo((): BraveWallet.TransactionInfo[] => {
+      if (selectedAsset) {
+        const filteredTransactions = transactionsByNetwork.filter((tx) => {
+          return tx && parseTransaction(tx).symbol === selectedAsset?.symbol
+        })
+        return sortTransactionByDate(filteredTransactions, 'descending')
+      }
+      return []
+    }, [selectedAsset, transactionsByNetwork, parseTransaction])
 
   const fullAssetBalances = React.useMemo(() => {
     if (selectedAsset?.contractAddress === '') {
       return filteredAssetList.find(
         (asset) =>
-          asset.asset.symbol.toLowerCase() === selectedAsset?.symbol.toLowerCase() &&
+          asset.asset.symbol.toLowerCase() ===
+            selectedAsset?.symbol.toLowerCase() &&
           asset.asset.chainId === selectedAsset?.chainId
       )
     }
     return filteredAssetList.find(
       (asset) =>
-        asset.asset.contractAddress.toLowerCase() === selectedAsset?.contractAddress.toLowerCase() &&
+        asset.asset.contractAddress.toLowerCase() ===
+          selectedAsset?.contractAddress.toLowerCase() &&
         asset.asset.chainId === selectedAsset?.chainId
     )
   }, [filteredAssetList, selectedAsset])
 
-  const fullAssetFiatBalance = React.useMemo(() => fullAssetBalances?.assetBalance
-    ? computeFiatAmount(
-      fullAssetBalances.assetBalance,
-      fullAssetBalances.asset.symbol,
-      fullAssetBalances.asset.decimals
-    )
-    : Amount.empty(),
+  const fullAssetFiatBalance = React.useMemo(
+    () =>
+      fullAssetBalances?.assetBalance
+        ? computeFiatAmount(
+            fullAssetBalances.assetBalance,
+            fullAssetBalances.asset.symbol,
+            fullAssetBalances.asset.decimals
+          )
+        : Amount.empty(),
     [fullAssetBalances]
   )
 
   const formattedFullAssetBalance = fullAssetBalances?.assetBalance
-    ? '(' + new Amount(fullAssetBalances?.assetBalance ?? '')
-      .divideByDecimals(selectedAsset?.decimals ?? 18)
-      .formatAsAsset(6, selectedAsset?.symbol ?? '') + ')'
+    ? '(' +
+      new Amount(fullAssetBalances?.assetBalance ?? '')
+        .divideByDecimals(selectedAsset?.decimals ?? 18)
+        .formatAsAsset(6, selectedAsset?.symbol ?? '') +
+      ')'
     : ''
 
   const formattedAssetBalance = React.useMemo(() => {
@@ -351,39 +441,60 @@ export const PortfolioAsset = (props: Props) => {
       .formatAsAsset(8)
   }, [fullAssetBalances, selectedAsset])
 
-  const isNftAsset = selectedAssetFromParams?.isErc721 || selectedAssetFromParams?.isNft
+  const isNftAsset =
+    selectedAssetFromParams?.isErc721 || selectedAssetFromParams?.isNft
 
   const isSelectedAssetDepositSupported = React.useMemo(() => {
-    return fullTokenList.some((asset) => asset.symbol.toLowerCase() === selectedAsset?.symbol.toLowerCase())
+    return fullTokenList.some(
+      (asset) =>
+        asset.symbol.toLowerCase() === selectedAsset?.symbol.toLowerCase()
+    )
   }, [fullTokenList, selectedAsset?.symbol])
 
   // methods
-  const onClickAddAccount = React.useCallback((tabId: AddAccountNavTypes) => () => {
-    history.push(WalletRoutes.AddAccountModal)
-  }, [])
+  const onClickAddAccount = React.useCallback(
+    (tabId: AddAccountNavTypes) => () => {
+      history.push(WalletRoutes.AddAccountModal)
+    },
+    []
+  )
 
-  const onChangeTimeline = React.useCallback((timeline: BraveWallet.AssetPriceTimeframe) => {
-    dispatch(WalletPageActions.selectAsset({
-      asset: selectedAsset,
-      timeFrame: timeline
-    }))
-  }, [selectedAsset])
+  const onChangeTimeline = React.useCallback(
+    (timeline: BraveWallet.AssetPriceTimeframe) => {
+      dispatch(
+        WalletPageActions.selectAsset({
+          asset: selectedAsset,
+          timeFrame: timeline
+        })
+      )
+    },
+    [selectedAsset]
+  )
 
   const goBack = React.useCallback(() => {
-    dispatch(WalletPageActions.selectAsset({ asset: undefined, timeFrame: selectedTimeline }))
+    dispatch(
+      WalletPageActions.selectAsset({
+        asset: undefined,
+        timeFrame: selectedTimeline
+      })
+    )
     dispatch(WalletPageActions.selectCoinMarket(undefined))
     dispatch(WalletPageActions.updateNFTMetadata(undefined))
     dispatch(WalletPageActions.updateNftMetadataError(undefined))
     setfilteredAssetList(userAssetList)
     history.goBack()
-  }, [
-    userAssetList,
-    selectedTimeline
-  ])
+  }, [userAssetList, selectedTimeline])
 
-  const onUpdateBalance = React.useCallback((value: number | undefined) => {
-    setHoverPrice(value ? new Amount(value).formatAsFiat(defaultCurrencies.fiat) : undefined)
-  }, [defaultCurrencies.fiat])
+  const onUpdateBalance = React.useCallback(
+    (value: number | undefined) => {
+      setHoverPrice(
+        value
+          ? new Amount(value).formatAsFiat(defaultCurrencies.fiat)
+          : undefined
+      )
+    },
+    [defaultCurrencies.fiat]
+  )
 
   const onNftDetailsLoad = React.useCallback(() => {
     setNftIframeLoaded(true)
@@ -408,39 +519,67 @@ export const PortfolioAsset = (props: Props) => {
 
   const onDontShowAgain = React.useCallback((selected: boolean) => {
     setDontShowAuroraWarning(selected)
-    localStorage.setItem(bridgeToAuroraDontShowAgainKey, JSON.stringify(selected))
+    localStorage.setItem(
+      bridgeToAuroraDontShowAgainKey,
+      JSON.stringify(selected)
+    )
   }, [])
 
   const onCloseAuroraModal = React.useCallback(() => {
     setShowBridgeToAuroraModal(false)
   }, [])
 
-  const onShowMore = React.useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation()
-    setShowMore(true)
-  }, [])
+  const onShowMore = React.useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation()
+      setShowMore(true)
+    },
+    []
+  )
 
-  const onHideMore = React.useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation()
-    setShowMore(false)
-  }, [])
+  const onHideMore = React.useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation()
+      setShowMore(false)
+    },
+    []
+  )
 
-  const onShowTokenDetailsModal = React.useCallback(() => setShowTokenDetailsModal(true), [])
+  const onShowTokenDetailsModal = React.useCallback(
+    () => setShowTokenDetailsModal(true),
+    []
+  )
 
-  const onCloseTokenDetailsModal = React.useCallback(() => setShowTokenDetailsModal(false), [])
+  const onCloseTokenDetailsModal = React.useCallback(
+    () => setShowTokenDetailsModal(false),
+    []
+  )
 
-  const onShowHideTokenModal = React.useCallback(() => setShowHideTokenModal(true), [])
+  const onShowHideTokenModal = React.useCallback(
+    () => setShowHideTokenModal(true),
+    []
+  )
 
-  const onCloseHideTokenModal = React.useCallback(() => setShowHideTokenModal(false), [])
+  const onCloseHideTokenModal = React.useCallback(
+    () => setShowHideTokenModal(false),
+    []
+  )
 
   const onHideAsset = React.useCallback(() => {
     if (!selectedAsset) return
-    dispatch(WalletActions.setUserAssetVisible({ token: selectedAsset, isVisible: false }))
+    dispatch(
+      WalletActions.setUserAssetVisible({
+        token: selectedAsset,
+        isVisible: false
+      })
+    )
     dispatch(WalletActions.refreshBalancesAndPriceHistory())
-    dispatch(WalletPageActions.selectAsset({
-      asset: undefined,
-      timeFrame: BraveWallet.AssetPriceTimeframe.OneDay
-    }))
+    dispatch(
+      WalletPageActions.selectAsset({
+        asset: undefined,
+        timeFrame: BraveWallet.AssetPriceTimeframe.OneDay
+      })
+    )
     if (showHideTokenModel) setShowHideTokenModal(false)
     if (showTokenDetailsModal) setShowTokenDetailsModal(false)
     history.push(WalletRoutes.Portfolio)
@@ -456,23 +595,28 @@ export const PortfolioAsset = (props: Props) => {
     setshowNftModal(false)
   }, [])
 
-  const onMessageEventListener = React.useCallback((event: MessageEvent<CommandMessage>) => {
-    // validate message origin
-    if (event.origin !== braveNftDisplayOrigin) return
+  const onMessageEventListener = React.useCallback(
+    (event: MessageEvent<CommandMessage>) => {
+      // validate message origin
+      if (event.origin !== braveNftDisplayOrigin) return
 
-    const message = event.data
-    if (message.command === NftUiCommand.ToggleNftModal) {
-      const { payload } = message as ToggleNftModal
-      setshowNftModal(payload)
-    }
-  }, [])
+      const message = event.data
+      if (message.command === NftUiCommand.ToggleNftModal) {
+        const { payload } = message as ToggleNftModal
+        setshowNftModal(payload)
+      }
+    },
+    []
+  )
 
   const onSelectBuy = React.useCallback(() => {
     history.push(`${WalletRoutes.FundWalletPageStart}/${selectedAsset?.symbol}`)
   }, [selectedAsset?.symbol])
 
   const onSelectDeposit = React.useCallback(() => {
-    history.push(`${WalletRoutes.DepositFundsPageStart}/${selectedAsset?.symbol}`)
+    history.push(
+      `${WalletRoutes.DepositFundsPageStart}/${selectedAsset?.symbol}`
+    )
   }, [selectedAsset?.symbol])
 
   // effects
@@ -483,7 +627,12 @@ export const PortfolioAsset = (props: Props) => {
   React.useEffect(() => {
     if (selectedAssetFromParams) {
       // load token data
-      dispatch(WalletPageActions.selectAsset({ asset: selectedAssetFromParams, timeFrame: selectedTimeline }))
+      dispatch(
+        WalletPageActions.selectAsset({
+          asset: selectedAssetFromParams,
+          timeFrame: selectedTimeline
+        })
+      )
     }
   }, [selectedAssetFromParams])
 
@@ -542,14 +691,34 @@ export const PortfolioAsset = (props: Props) => {
     }
 
     // check if selectedAsset has an icon
-    if (selectedAsset && nftMetadata?.imageURL && stripERC20TokenImageURL(selectedAsset.logo) === '') {
+    if (
+      selectedAsset &&
+      nftMetadata?.imageURL &&
+      stripERC20TokenImageURL(selectedAsset.logo) === ''
+    ) {
       // update asset logo
-      dispatch(WalletActions.updateUserAsset({ ...selectedAsset, logo: nftMetadata?.imageURL || '' }))
+      dispatch(
+        WalletActions.updateUserAsset({
+          ...selectedAsset,
+          logo: nftMetadata?.imageURL || ''
+        })
+      )
     }
-  }, [nftIframeLoaded, nftDetailsRef, selectedAsset, nftMetadata, networkList, nftMetadataError])
+  }, [
+    nftIframeLoaded,
+    nftDetailsRef,
+    selectedAsset,
+    nftMetadata,
+    networkList,
+    nftMetadataError
+  ])
 
   React.useEffect(() => {
-    setDontShowAuroraWarning(JSON.parse(localStorage.getItem(bridgeToAuroraDontShowAgainKey) || 'false'))
+    setDontShowAuroraWarning(
+      JSON.parse(
+        localStorage.getItem(bridgeToAuroraDontShowAgainKey) || 'false'
+      )
+    )
   })
 
   // Receive postMessage from chrome-untrusted://nft-display
@@ -582,162 +751,205 @@ export const PortfolioAsset = (props: Props) => {
           <BackButton onSubmit={goBack} />
         </BalanceRow>
         <BalanceRow>
-          {!isNftAsset &&
+          {!isNftAsset && (
             <ChartControlBar
               onSelectTimeframe={onChangeTimeline}
-              selectedTimeline={selectedAsset ? selectedTimeline : selectedPortfolioTimeline}
+              selectedTimeline={
+                selectedAsset ? selectedTimeline : selectedPortfolioTimeline
+              }
               timelineOptions={ChartTimelineOptions}
             />
-          }
-          {selectedAsset?.contractAddress && !selectedAsset?.isErc721 && !selectedAsset.isNft &&
-            <MoreButton onClick={onShowMore} />
-          }
-          {showMore && selectedAsset &&
+          )}
+          {selectedAsset?.contractAddress &&
+            !selectedAsset?.isErc721 &&
+            !selectedAsset.isNft && <MoreButton onClick={onShowMore} />}
+          {showMore && selectedAsset && (
             <AssetMorePopup
               assetSymbol={selectedAsset.symbol}
               onClickTokenDetails={onShowTokenDetailsModal}
               onClickViewOnExplorer={onViewOnExplorer}
               onClickHideToken={onShowHideTokenModal}
             />
-          }
+          )}
         </BalanceRow>
       </TopRow>
 
-      {!isNftAsset &&
+      {!isNftAsset && (
         <InfoColumn>
-
           <AssetRow>
-            <AssetIconWithPlaceholder asset={selectedAsset} network={selectedAssetsNetwork} />
+            <AssetIconWithPlaceholder
+              asset={selectedAsset}
+              network={selectedAssetsNetwork}
+            />
             <AssetColumn>
               <AssetNameText>{selectedAssetFromParams.name}</AssetNameText>
-              <NetworkDescription>{selectedAssetFromParams.symbol} {selectedAssetsNetwork?.chainName && `on ${selectedAssetsNetwork?.chainName}`}</NetworkDescription>
+              <NetworkDescription>
+                {selectedAssetFromParams.symbol}{' '}
+                {selectedAssetsNetwork?.chainName &&
+                  `on ${selectedAssetsNetwork?.chainName}`}
+              </NetworkDescription>
             </AssetColumn>
           </AssetRow>
 
           <PriceRow>
-            <PriceText>{hoverPrice || (selectedAssetFiatPrice ? new Amount(selectedAssetFiatPrice.price).formatAsFiat(defaultCurrencies.fiat) : 0.00)}</PriceText>
-            <PercentBubble isDown={selectedAssetFiatPrice ? Number(selectedAssetFiatPrice.assetTimeframeChange) < 0 : false}>
-              <ArrowIcon isDown={selectedAssetFiatPrice ? Number(selectedAssetFiatPrice.assetTimeframeChange) < 0 : false} />
-              <PercentText>{selectedAssetFiatPrice ? Number(selectedAssetFiatPrice.assetTimeframeChange).toFixed(2) : 0.00}%</PercentText>
+            <PriceText>
+              {hoverPrice ||
+                (selectedAssetFiatPrice
+                  ? new Amount(selectedAssetFiatPrice.price).formatAsFiat(
+                      defaultCurrencies.fiat
+                    )
+                  : 0.0)}
+            </PriceText>
+            <PercentBubble
+              isDown={
+                selectedAssetFiatPrice
+                  ? Number(selectedAssetFiatPrice.assetTimeframeChange) < 0
+                  : false
+              }
+            >
+              <ArrowIcon
+                isDown={
+                  selectedAssetFiatPrice
+                    ? Number(selectedAssetFiatPrice.assetTimeframeChange) < 0
+                    : false
+                }
+              />
+              <PercentText>
+                {selectedAssetFiatPrice
+                  ? Number(selectedAssetFiatPrice.assetTimeframeChange).toFixed(
+                      2
+                    )
+                  : 0.0}
+                %
+              </PercentText>
             </PercentBubble>
           </PriceRow>
 
           <DetailText>
-            {
-              selectedAssetCryptoPrice
-                ? new Amount(selectedAssetCryptoPrice.price)
-                  .formatAsAsset(undefined, defaultCurrencies.crypto)
-                : ''
-            }
+            {selectedAssetCryptoPrice
+              ? new Amount(selectedAssetCryptoPrice.price).formatAsAsset(
+                  undefined,
+                  defaultCurrencies.crypto
+                )
+              : ''}
           </DetailText>
-
         </InfoColumn>
-      }
+      )}
 
-      {!isNftAsset &&
+      {!isNftAsset && (
         <LineChart
-          isDown={selectedAsset && selectedAssetFiatPrice ? Number(selectedAssetFiatPrice.assetTimeframeChange) < 0 : false}
-          isAsset={!!selectedAsset}
-          priceData={
-            selectedAsset
-              ? formattedPriceHistory
-              : priceHistory
+          isDown={
+            selectedAsset && selectedAssetFiatPrice
+              ? Number(selectedAssetFiatPrice.assetTimeframeChange) < 0
+              : false
           }
+          isAsset={!!selectedAsset}
+          priceData={selectedAsset ? formattedPriceHistory : priceHistory}
           onUpdateBalance={onUpdateBalance}
-          isLoading={selectedAsset ? isLoading : parseFloat(fullPortfolioFiatBalance) === 0 ? false : isFetchingPortfolioPriceHistory}
-          isDisabled={selectedAsset ? false : parseFloat(fullPortfolioFiatBalance) === 0}
+          isLoading={
+            selectedAsset
+              ? isLoading
+              : parseFloat(fullPortfolioFiatBalance) === 0
+              ? false
+              : isFetchingPortfolioPriceHistory
+          }
+          isDisabled={
+            selectedAsset ? false : parseFloat(fullPortfolioFiatBalance) === 0
+          }
         />
-      }
-      {!isNftAsset &&
+      )}
+      {!isNftAsset && (
         <ButtonRow noMargin={true}>
-          {isReduxSelectedAssetBuySupported &&
-            <BridgeToAuroraButton
-              onClick={onSelectBuy}
-            >
+          {isReduxSelectedAssetBuySupported && (
+            <BridgeToAuroraButton onClick={onSelectBuy}>
               {getLocale('braveWalletBuy')}
             </BridgeToAuroraButton>
-          }
-          {isSelectedAssetDepositSupported &&
-            <BridgeToAuroraButton
-              onClick={onSelectDeposit}
-            >
+          )}
+          {isSelectedAssetDepositSupported && (
+            <BridgeToAuroraButton onClick={onSelectDeposit}>
               {getLocale('braveWalletAccountsDeposit')}
             </BridgeToAuroraButton>
-          }
-          {isSelectedAssetBridgeSupported &&
-            <BridgeToAuroraButton
-              onClick={onBridgeToAuroraButton}
-            >
+          )}
+          {isSelectedAssetBridgeSupported && (
+            <BridgeToAuroraButton onClick={onBridgeToAuroraButton}>
               {getLocale('braveWalletBridgeToAuroraButton')}
             </BridgeToAuroraButton>
-          }
+          )}
         </ButtonRow>
-      }
+      )}
 
-      {showBridgeToAuroraModal &&
+      {showBridgeToAuroraModal && (
         <BridgeToAuroraModal
           dontShowWarningAgain={dontShowAuroraWarning}
           onClose={onCloseAuroraModal}
           onOpenRainbowAppClick={onOpenRainbowAppClick}
           onDontShowAgain={onDontShowAgain}
         />
-      }
+      )}
 
-      {showTokenDetailsModal && selectedAsset && selectedAssetsNetwork &&
+      {showTokenDetailsModal && selectedAsset && selectedAssetsNetwork && (
         <TokenDetailsModal
           onClose={onCloseTokenDetailsModal}
           selectedAsset={selectedAsset}
           selectedAssetNetwork={selectedAssetsNetwork}
           assetBalance={formattedAssetBalance}
-          formattedFiatBalance={fullAssetFiatBalance.formatAsFiat(defaultCurrencies.fiat)}
+          formattedFiatBalance={fullAssetFiatBalance.formatAsFiat(
+            defaultCurrencies.fiat
+          )}
           onShowHideTokenModal={onShowHideTokenModal}
         />
-      }
+      )}
 
-      {showHideTokenModel && selectedAsset && selectedAssetsNetwork &&
+      {showHideTokenModel && selectedAsset && selectedAssetsNetwork && (
         <HideTokenModal
           selectedAsset={selectedAsset}
           selectedAssetNetwork={selectedAssetsNetwork}
           onClose={onCloseHideTokenModal}
           onHideAsset={onHideAsset}
         />
-      }
+      )}
 
       <NftDetails
         onLoad={onNftDetailsLoad}
         visible={selectedAsset?.isErc721}
         ref={nftDetailsRef}
         sandbox="allow-scripts allow-popups allow-same-origin"
-        src='chrome-untrusted://nft-display'
+        src="chrome-untrusted://nft-display"
         allowFullScreen
       />
 
-      {showNftModal && nftMetadata?.imageURL &&
-        <NftModal nftImageUrl={nftMetadata.imageURL} onClose={onCloseNftModal} />
-      }
+      {showNftModal && nftMetadata?.imageURL && (
+        <NftModal
+          nftImageUrl={nftMetadata.imageURL}
+          onClose={onCloseNftModal}
+        />
+      )}
 
-      {isTokenSupported
-        ? <AccountsAndTransactionsList
-            formattedFullAssetBalance={formattedFullAssetBalance}
-            fullAssetFiatBalance={fullAssetFiatBalance}
-            selectedAsset={selectedAsset}
-            selectedAssetTransactions={selectedAssetTransactions}
-            onClickAddAccount={onClickAddAccount}
-            networkList={networkList}
-          />
-        : <>
-            <SubDivider />
-            <NotSupportedText>{getLocale('braveWalletMarketDataCoinNotSupported')}</NotSupportedText>
-          </>
-      }
+      {isTokenSupported ? (
+        <AccountsAndTransactionsList
+          formattedFullAssetBalance={formattedFullAssetBalance}
+          fullAssetFiatBalance={fullAssetFiatBalance}
+          selectedAsset={selectedAsset}
+          selectedAssetTransactions={selectedAssetTransactions}
+          onClickAddAccount={onClickAddAccount}
+          networkList={networkList}
+        />
+      ) : (
+        <>
+          <SubDivider />
+          <NotSupportedText>
+            {getLocale('braveWalletMarketDataCoinNotSupported')}
+          </NotSupportedText>
+        </>
+      )}
 
-      {isShowingMarketData && selectedCoinMarket &&
+      {isShowingMarketData && selectedCoinMarket && (
         <CoinStats
           marketCapRank={selectedCoinMarket.marketCapRank}
           volume={selectedCoinMarket.totalVolume}
           marketCap={selectedCoinMarket.marketCap}
         />
-      }
+      )}
     </StyledWrapper>
   )
 }

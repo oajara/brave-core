@@ -14,7 +14,7 @@ interface Props {
 
 const MILLISECONDS_PER_ITEM = 50
 
-export default function Stats (props: Props) {
+export default function Stats(props: Props) {
   const adblockCount = props.stats.adsBlockedStat || 0
   const timeSaved = React.useMemo(() => {
     const estimatedMillisecondsSaved = adblockCount * MILLISECONDS_PER_ITEM || 0
@@ -33,11 +33,11 @@ export default function Stats (props: Props) {
     } else if (hours) {
       // Refer to http://stackoverflow.com/a/12830454/2950032 for the detailed reasoning behind the + after
       // toFixed is applied. In a nutshell, + is used to discard unnecessary trailing 0s after calling toFixed
-      counter = +((estimatedMillisecondsSaved / 1000 / 60 / 60).toFixed(1))
+      counter = +(estimatedMillisecondsSaved / 1000 / 60 / 60).toFixed(1)
       id = counter === 1 ? 'hour' : 'hours'
     } else {
       // Otherwise the output is in days
-      counter = +((estimatedMillisecondsSaved / 1000 / 60 / 60 / 24).toFixed(2))
+      counter = +(estimatedMillisecondsSaved / 1000 / 60 / 60 / 24).toFixed(2)
       id = counter === 1 ? 'day' : 'days'
     }
 
@@ -85,19 +85,24 @@ export default function Stats (props: Props) {
     }
   }, [props.stats.bandwidthSavedStat])
 
-  return <StatsContainer>
-    <StatsItem
-      description={getLocale('adsTrackersBlocked')}
-      counter={adblockCount.toLocaleString()} />
-    {bandwidthSaved &&
+  return (
+    <StatsContainer>
       <StatsItem
-        counter={bandwidthSaved.value}
-        text={getLocale(bandwidthSaved.id)}
-        description={getLocale('estimatedBandwidthSaved')} />
-    }
-    <StatsItem
-      counter={timeSaved.value}
-      text={getLocale(timeSaved.id)}
-      description={getLocale('estimatedTimeSaved')} />
-  </StatsContainer>
+        description={getLocale('adsTrackersBlocked')}
+        counter={adblockCount.toLocaleString()}
+      />
+      {bandwidthSaved && (
+        <StatsItem
+          counter={bandwidthSaved.value}
+          text={getLocale(bandwidthSaved.id)}
+          description={getLocale('estimatedBandwidthSaved')}
+        />
+      )}
+      <StatsItem
+        counter={timeSaved.value}
+        text={getLocale(timeSaved.id)}
+        description={getLocale('estimatedTimeSaved')}
+      />
+    </StatsContainer>
+  )
 }

@@ -9,7 +9,11 @@ import Fuse from 'fuse.js'
 import { useHistory } from 'react-router-dom'
 
 // types
-import { BraveWallet, WalletRoutes, WalletState } from '../../../constants/types'
+import {
+  BraveWallet,
+  WalletRoutes,
+  WalletState
+} from '../../../constants/types'
 
 // actions
 import { WalletActions } from '../../../common/actions'
@@ -38,21 +42,16 @@ export interface Props {
   onBack: () => void
 }
 
-function SelectAsset (props: Props) {
-  const {
-    assets,
-    onBack,
-    onSelectAsset
-  } = props
+function SelectAsset(props: Props) {
+  const { assets, onBack, onSelectAsset } = props
 
   // routing
   const history = useHistory()
 
   // redux
-  const {
-    fullTokenList,
-    selectedNetwork
-  } = useSelector((state: { wallet: WalletState }) => state.wallet)
+  const { fullTokenList, selectedNetwork } = useSelector(
+    (state: { wallet: WalletState }) => state.wallet
+  )
   const dispatch = useDispatch()
 
   // methods
@@ -69,31 +68,47 @@ function SelectAsset (props: Props) {
     }
   }
 
-  const fuse = React.useMemo(() => new Fuse(assets, {
-    shouldSort: true,
-    threshold: 0.45,
-    location: 0,
-    distance: 100,
-    minMatchCharLength: 1,
-    keys: [
-      { name: 'name', weight: 0.5 },
-      { name: 'symbol', weight: 0.5 }
-    ]
-  }), [assets])
+  const fuse = React.useMemo(
+    () =>
+      new Fuse(assets, {
+        shouldSort: true,
+        threshold: 0.45,
+        location: 0,
+        distance: 100,
+        minMatchCharLength: 1,
+        keys: [
+          { name: 'name', weight: 0.5 },
+          { name: 'symbol', weight: 0.5 }
+        ]
+      }),
+    [assets]
+  )
 
-  const [filteredAssetList, setFilteredAssetList] = React.useState<BraveWallet.BlockchainToken[]>(assets)
+  const [filteredAssetList, setFilteredAssetList] =
+    React.useState<BraveWallet.BlockchainToken[]>(assets)
 
-  const filterAssetList = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    const search = event.target.value
-    if (search === '') {
-      setFilteredAssetList(assets)
-    } else {
-      const filteredList = fuse.search(search).map((result: Fuse.FuseResult<BraveWallet.BlockchainToken>) => result.item)
-      setFilteredAssetList(filteredList)
-    }
-  }, [fuse, assets])
+  const filterAssetList = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const search = event.target.value
+      if (search === '') {
+        setFilteredAssetList(assets)
+      } else {
+        const filteredList = fuse
+          .search(search)
+          .map(
+            (result: Fuse.FuseResult<BraveWallet.BlockchainToken>) =>
+              result.item
+          )
+        setFilteredAssetList(filteredList)
+      }
+    },
+    [fuse, assets]
+  )
 
-  const nonFungibleTokens = React.useMemo(() => filteredAssetList.filter((token) => (token.isErc721 || token.isNft)), [filteredAssetList])
+  const nonFungibleTokens = React.useMemo(
+    () => filteredAssetList.filter((token) => token.isErc721 || token.isNft),
+    [filteredAssetList]
+  )
 
   return (
     <SelectWrapper>
@@ -103,35 +118,40 @@ function SelectAsset (props: Props) {
         hasAddButton={true}
         onClickAdd={showVisibleAssetsModal}
       />
-      <SearchBar placeholder={getLocale('braveWalletSearchAsset')} action={filterAssetList} autoFocus={true} />
+      <SearchBar
+        placeholder={getLocale('braveWalletSearchAsset')}
+        action={filterAssetList}
+        autoFocus={true}
+      />
       <SelectScrollSearchContainer>
         {
           // Temp filtering out erc721 tokens, sending will be handled in a different PR
-          filteredAssetList.filter((token) => !token.isErc721 && !token.isNft).map((asset: BraveWallet.BlockchainToken) =>
-            <SelectAssetItem
-              key={getAssetIdKey(asset)}
-              asset={asset}
-              selectedNetwork={selectedNetwork}
-              onSelectAsset={onSelectAsset(asset)}
-            />
-          )
-        }
-        {nonFungibleTokens.length > 0 &&
-          <>
-            <DivderTextWrapper>
-              <DividerText>{getLocale('braveWalletTopNavNFTS')}</DividerText>
-            </DivderTextWrapper>
-            {nonFungibleTokens.map((asset: BraveWallet.BlockchainToken) =>
+          filteredAssetList
+            .filter((token) => !token.isErc721 && !token.isNft)
+            .map((asset: BraveWallet.BlockchainToken) => (
               <SelectAssetItem
                 key={getAssetIdKey(asset)}
                 asset={asset}
                 selectedNetwork={selectedNetwork}
                 onSelectAsset={onSelectAsset(asset)}
               />
-            )
-            }
-          </>
+            ))
         }
+        {nonFungibleTokens.length > 0 && (
+          <>
+            <DivderTextWrapper>
+              <DividerText>{getLocale('braveWalletTopNavNFTS')}</DividerText>
+            </DivderTextWrapper>
+            {nonFungibleTokens.map((asset: BraveWallet.BlockchainToken) => (
+              <SelectAssetItem
+                key={getAssetIdKey(asset)}
+                asset={asset}
+                selectedNetwork={selectedNetwork}
+                onSelectAsset={onSelectAsset(asset)}
+              />
+            ))}
+          </>
+        )}
       </SelectScrollSearchContainer>
     </SelectWrapper>
   )

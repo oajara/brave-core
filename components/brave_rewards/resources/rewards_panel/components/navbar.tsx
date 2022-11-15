@@ -21,10 +21,10 @@ interface Props {
   onSettingsClick: () => void
 }
 
-export function NavBar (props: Props) {
+export function NavBar(props: Props) {
   const { getString } = React.useContext(LocaleContext)
 
-  function clickHandler (view: ActiveView) {
+  function clickHandler(view: ActiveView) {
     return () => {
       if (view !== props.activeView) {
         props.onActiveViewChange(view)
@@ -32,7 +32,7 @@ export function NavBar (props: Props) {
     }
   }
 
-  function selectedClass (view: ActiveView) {
+  function selectedClass(view: ActiveView) {
     return props.activeView === view ? 'selected' : ''
   }
 

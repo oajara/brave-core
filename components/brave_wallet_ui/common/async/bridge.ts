@@ -7,9 +7,10 @@ import WalletApiProxy from '../wallet_api_proxy'
 import getWalletPanelApiProxy from '../../panel/wallet_panel_api_proxy'
 import getWalletPageApiProxy from '../../page/wallet_page_api_proxy'
 
-export function getAPIProxy (): WalletApiProxy {
+export function getAPIProxy(): WalletApiProxy {
   return window.location.hostname === 'wallet-panel.top-chrome'
-    ? getWalletPanelApiProxy() : getWalletPageApiProxy()
+    ? getWalletPanelApiProxy()
+    : getWalletPageApiProxy()
 }
 
 export default getAPIProxy

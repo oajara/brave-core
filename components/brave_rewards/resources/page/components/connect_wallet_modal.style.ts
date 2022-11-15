@@ -222,13 +222,13 @@ export const grid = styled.div`
   display: grid;
   width: 100%;
 
-  grid-template-areas: "icon name caret";
+  grid-template-areas: 'icon name caret';
   grid-template-columns: auto 1fr auto;
 
   .disabled & {
     grid-template-areas:
-      "icon name"
-      "icon message";
+      'icon name'
+      'icon message';
     grid-template-columns: auto 1fr;
     grid-template-rows: auto;
   }

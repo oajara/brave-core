@@ -15,7 +15,7 @@ export type Channels = Record<string, BraveNews.Channel>
 // Create singleton connection to browser interface
 let braveNewsControllerInstance: BraveNews.BraveNewsControllerRemote
 
-export default function getBraveNewsController () {
+export default function getBraveNewsController() {
   // Make connection on first call (not in module root, so that storybook
   // doesn't try to connect, or pages which use exported types
   // but ultimately don't fetch any data.
@@ -23,7 +23,9 @@ export default function getBraveNewsController () {
     // In Storybook, we have a mocked BraveNewsController because none of the
     // mojo apis are available.
     // @ts-expect-error
-    braveNewsControllerInstance = window.storybookBraveNewsController || BraveNews.BraveNewsController.getRemote()
+    braveNewsControllerInstance =
+      window.storybookBraveNewsController ||
+      BraveNews.BraveNewsController.getRemote()
   }
   return braveNewsControllerInstance
 }

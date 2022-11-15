@@ -18,12 +18,12 @@ interface Props {
   onClose: () => void
 }
 
-export function SponsoredImageTooltip (props: Props) {
+export function SponsoredImageTooltip(props: Props) {
   const { getString } = React.useContext(LocaleContext)
 
-  function renderLearnMore () {
+  function renderLearnMore() {
     return (
-      <NewTabLink href='https://brave.com/brave-rewards/'>
+      <NewTabLink href="https://brave.com/brave-rewards/">
         {getString('rewardsLearnMore')}
       </NewTabLink>
     )
@@ -32,31 +32,35 @@ export function SponsoredImageTooltip (props: Props) {
   return (
     <style.root>
       <style.close>
-        <button onClick={props.onClose}><CloseIcon /></button>
+        <button onClick={props.onClose}>
+          <CloseIcon />
+        </button>
       </style.close>
       <style.body>
         <style.title>
-          <BatIcon />{getString('rewardsBraveRewards')}
+          <BatIcon />
+          {getString('rewardsBraveRewards')}
         </style.title>
-        {
-          props.adsEnabled
-            ? <div>
-                {getString('rewardsSponsoredImageEarningText')}&nbsp;
-                {renderLearnMore()}
-              </div>
-            : <div>
-                {getString('rewardsSponsoredImageOptInText')}
-                <style.action>
-                  <button onClick={props.onEnableAds}>
-                    {getString('rewardsStartUsingRewards')}
-                  </button>
-                </style.action>
-                <div>
-                  <TermsOfService text={getString('rewardsOptInTerms')} />&nbsp;
-                  {renderLearnMore()}
-                </div>
-              </div>
-        }
+        {props.adsEnabled ? (
+          <div>
+            {getString('rewardsSponsoredImageEarningText')}&nbsp;
+            {renderLearnMore()}
+          </div>
+        ) : (
+          <div>
+            {getString('rewardsSponsoredImageOptInText')}
+            <style.action>
+              <button onClick={props.onEnableAds}>
+                {getString('rewardsStartUsingRewards')}
+              </button>
+            </style.action>
+            <div>
+              <TermsOfService text={getString('rewardsOptInTerms')} />
+              &nbsp;
+              {renderLearnMore()}
+            </div>
+          </div>
+        )}
       </style.body>
     </style.root>
   )

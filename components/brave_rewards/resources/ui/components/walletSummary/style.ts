@@ -15,8 +15,9 @@ const getGradientRule = (gradient: string) => {
 
 export const StyledWrapper = styled('div')<StyleProps>`
   min-height: 315px;
-  padding: ${p => p.compact ? '0px 7px 0px' : '0px'};
-  background: ${p => p.compact ? getGradientRule('233, 235, 255') : 'inherit'};
+  padding: ${(p) => (p.compact ? '0px 7px 0px' : '0px')};
+  background: ${(p) =>
+    p.compact ? getGradientRule('233, 235, 255') : 'inherit'};
 `
 
 export const StyledInner = styled('div')<StyleProps>`
@@ -37,7 +38,7 @@ export const StyledTitle = styled('div')<{}>`
   font-weight: 300;
   line-height: 0.79;
   letter-spacing: 0.4px;
-  color: #4C54D2;
+  color: #4c54d2;
   margin: 4px 0 26px;
   text-transform: uppercase;
 `
@@ -59,19 +60,19 @@ export const StyledActivityIcon = styled('span')<{}>`
   margin-right: 11px;
   width: 22px;
   height: 24px;
-  color: #A1A8F2;
+  color: #a1a8f2;
   display: inline-block;
 `
 
 export const StyledNoActivityWrapper = styled('div')<StyleProps>`
   width: 100%;
-  margin-top: ${p => p.compact ? '80px' : '30px'};
+  margin-top: ${(p) => (p.compact ? '80px' : '30px')};
   text-align: center;
 `
 
 export const StyledNoActivity = styled('span')<{}>`
   font-weight: 400;
-  color: #B8B9C4;
+  color: #b8b9c4;
   font-size: 18px;
 `
 
@@ -79,7 +80,7 @@ export const StyledReservedWrapper = styled('div')<{}>`
   background: rgba(0, 0, 0, 0.04);
   color: #676283;
   font-size: 12px;
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   font-weight: normal;
   letter-spacing: 0;
   line-height: 16px;

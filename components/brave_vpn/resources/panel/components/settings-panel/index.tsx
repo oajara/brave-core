@@ -14,12 +14,17 @@ interface Props {
   showContactSupport: () => void
 }
 
-function SettingsPanel (props: Props) {
+function SettingsPanel(props: Props) {
   const handleClick = (entry: string) => {
     getPanelBrowserAPI().panelHandler.openVpnUI(entry)
   }
-  const handleKeyDown = (entry: string, event: React.KeyboardEvent<HTMLAnchorElement>) => {
-    if (event.keyCode !== 32) { return }
+  const handleKeyDown = (
+    entry: string,
+    event: React.KeyboardEvent<HTMLAnchorElement>
+  ) => {
+    if (event.keyCode !== 32) {
+      return
+    }
     if (entry === 'support') {
       props.showContactSupport()
       return
@@ -31,30 +36,42 @@ function SettingsPanel (props: Props) {
       <S.PanelContent>
         <S.PanelHeader>
           <S.BackButton
-            type='button'
+            type="button"
             onClick={props.closeSettingsPanel}
-            aria-label='Close settings'
+            aria-label="Close settings"
           >
-            <i><CaratStrongLeftIcon /></i>
+            <i>
+              <CaratStrongLeftIcon />
+            </i>
             <span>{getLocale('braveVpnSettingsPanelHeader')}</span>
           </S.BackButton>
         </S.PanelHeader>
         <S.List>
           <li>
-            <a href="#" onClick={handleClick.bind(this, 'manage')} onKeyDown={handleKeyDown.bind(this, 'manage')}>
+            <a
+              href="#"
+              onClick={handleClick.bind(this, 'manage')}
+              onKeyDown={handleKeyDown.bind(this, 'manage')}
+            >
               {getLocale('braveVpnManageSubscription')}
             </a>
           </li>
           <li>
-            <a href="#" onClick={props.showContactSupport} onKeyDown={handleKeyDown.bind(this, 'support')}>
+            <a
+              href="#"
+              onClick={props.showContactSupport}
+              onKeyDown={handleKeyDown.bind(this, 'support')}
+            >
               {getLocale('braveVpnContactSupport')}
             </a>
           </li>
           <li>
-            <a href="#" onClick={handleClick.bind(this, 'about')} onKeyDown={handleKeyDown.bind(this, 'about')}>
-              {getLocale('braveVpnAbout')}
-              {' '}
-              {getLocale('braveVpn')}
+            <a
+              href="#"
+              onClick={handleClick.bind(this, 'about')}
+              onKeyDown={handleKeyDown.bind(this, 'about')}
+            >
+              {getLocale('braveVpnAbout')} {getLocale('braveVpn')}
             </a>
           </li>
         </S.List>

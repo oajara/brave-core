@@ -5,7 +5,13 @@
 import * as React from 'react'
 
 // Feature-specific components
-import { Content, Title, Paragraph, TermsOfService, PrimaryButton } from '../../../components'
+import {
+  Content,
+  Title,
+  Paragraph,
+  TermsOfService,
+  PrimaryButton
+} from '../../../components'
 
 // Utils
 import locale from '../fakeLocale'
@@ -20,7 +26,7 @@ interface Props {
 }
 
 export default class PaymentsBox extends React.PureComponent<Props, {}> {
-  render () {
+  render() {
     const { index, currentScreen, onClick } = this.props
     return (
       <Content
@@ -36,14 +42,15 @@ export default class PaymentsBox extends React.PureComponent<Props, {}> {
           content creators automatically.
         </Paragraph>
         <TermsOfService>
-          By clicking, you agree to the <a href='javascript:void 0'>Terms of Service</a>&nbsp;
-          and <a href='javascript:void 0'>Privacy Policy</a>.<br />
+          By clicking, you agree to the{' '}
+          <a href="javascript:void 0">Terms of Service</a>&nbsp; and{' '}
+          <a href="javascript:void 0">Privacy Policy</a>.<br />
           You can turn this off at any time in settings.
         </TermsOfService>
         <PrimaryButton
-          level='primary'
-          type='accent'
-          size='large'
+          level="primary"
+          type="accent"
+          size="large"
           text={locale.getStarted}
           onClick={onClick}
         />

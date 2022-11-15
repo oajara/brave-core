@@ -11,15 +11,10 @@ import {
   sendMessageToWalletUi,
   ToggleNftModal
 } from '../../nft-ui-messages'
-import {
-  getMediaType,
-  MultimediaType
-} from '../../nft-utils'
+import { getMediaType, MultimediaType } from '../../nft-utils'
 
 // styles
-import {
-  MultiMediaWrapper
-} from './nft-multimedia.styles'
+import { MultiMediaWrapper } from './nft-multimedia.styles'
 import { NftImage } from '../nft-image/nft-image'
 import placeholderImage from '../../../assets/svg-icons/placeholdr-image.svg'
 
@@ -30,9 +25,7 @@ interface Props {
 }
 
 export const NftMultimedia = (props: Props) => {
-  const {
-    nftMetadata
-  } = props
+  const { nftMetadata } = props
 
   // state
   const [mediaUrl, setMediaUrl] = React.useState<string>('')
@@ -86,9 +79,5 @@ export const NftMultimedia = (props: Props) => {
     )
   }, [mediaUrl, mediaType])
 
-  return (
-    <MultiMediaWrapper>
-      {renderMedia()}
-    </MultiMediaWrapper>
-  )
+  return <MultiMediaWrapper>{renderMedia()}</MultiMediaWrapper>
 }

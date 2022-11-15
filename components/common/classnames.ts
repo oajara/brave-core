@@ -22,7 +22,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-type Value = string | number | boolean | undefined | null | { toString: () => string }
+type Value =
+  | string
+  | number
+  | boolean
+  | undefined
+  | null
+  | { toString: () => string }
 type Mapping = Record<string, unknown>
 interface ArgumentArray extends Array<Argument> {}
 type Argument = Value | Mapping | ArgumentArray
@@ -32,7 +38,7 @@ const hasOwn = {}.hasOwnProperty
 /**
  * Converts a list of arguments with truthy values or object with truthy properties to a CSS string.
  */
-export default function classnames (...args: Argument[]): string {
+export default function classnames(...args: Argument[]): string {
   const classes: string[] = []
 
   for (const arg of args) {

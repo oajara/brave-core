@@ -6,10 +6,15 @@
 import { BraveWallet } from '../constants/types'
 import Amount from './amount'
 
-export const findAssetPrice = (spotPrices: BraveWallet.AssetPrice[], symbol: string) => {
-  return spotPrices.find(
-    (token) => token.fromAsset.toLowerCase() === symbol.toLowerCase()
-  )?.price ?? ''
+export const findAssetPrice = (
+  spotPrices: BraveWallet.AssetPrice[],
+  symbol: string
+) => {
+  return (
+    spotPrices.find(
+      (token) => token.fromAsset.toLowerCase() === symbol.toLowerCase()
+    )?.price ?? ''
+  )
 }
 
 export const computeFiatAmount = (

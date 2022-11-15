@@ -9,7 +9,7 @@ import { NewTabLink } from '../new_tab_link'
 
 import * as style from './unsupported_region_card.style'
 
-export function UnsupportedRegionCard () {
+export function UnsupportedRegionCard() {
   const { getString } = React.useContext(LocaleContext)
 
   return (
@@ -21,17 +21,21 @@ export function UnsupportedRegionCard () {
         <span>
           {getString('rewardsUnsupportedRegionNoticeSubheader')}&nbsp;
           <style.link>
-            {
-              formatMessage(getString('rewardsUnsupportedRegionNoticeLearnMore'), {
+            {formatMessage(
+              getString('rewardsUnsupportedRegionNoticeLearnMore'),
+              {
                 tags: {
                   $1: (content) => (
-                    <NewTabLink key='learn' href='https://support.brave.com/hc/en-us/articles/9053832354957'>
+                    <NewTabLink
+                      key="learn"
+                      href="https://support.brave.com/hc/en-us/articles/9053832354957"
+                    >
                       {content}
                     </NewTabLink>
                   )
                 }
-              })
-            }
+              }
+            )}
           </style.link>
         </span>
         <style.spacing />

@@ -9,7 +9,11 @@ import BoxMobile from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('Box tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><BoxMobile id='box' title={'test'} {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <BoxMobile id="box" title={'test'} {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

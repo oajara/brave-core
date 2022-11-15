@@ -7,7 +7,10 @@ import { types } from '../constants/binance_types'
 import { isValidClientURL } from '../binance-utils'
 import * as storage from '../storage/new_tab_storage'
 
-const binanceReducer: Reducer<NewTab.State | undefined> = (state: NewTab.State, action) => {
+const binanceReducer: Reducer<NewTab.State | undefined> = (
+  state: NewTab.State,
+  action
+) => {
   const payload = action.payload
 
   switch (action.type) {
@@ -134,8 +137,8 @@ const binanceReducer: Reducer<NewTab.State | undefined> = (state: NewTab.State, 
         state.binanceState.assetUSDValues = {}
       }
 
-      let totalBtcValue = 0.00
-      let totalUSDValue = 0.00
+      let totalBtcValue = 0.0
+      let totalUSDValue = 0.0
 
       for (let ticker in balances) {
         const balance = balances[ticker].balance

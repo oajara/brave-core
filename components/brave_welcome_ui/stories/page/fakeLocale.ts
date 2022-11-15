@@ -5,11 +5,13 @@
 const locale = {
   // first screen
   welcome: 'Brave the new Internet',
-  whatIsBrave: 'Get ready to enjoy a faster and more secure browsing experience with a browser built to protect your privacy.',
-  letsGo: 'Let\'s go',
+  whatIsBrave:
+    'Get ready to enjoy a faster and more secure browsing experience with a browser built to protect your privacy.',
+  letsGo: "Let's go",
   // second screen
   importFromAnotherBrowser: 'Import bookmarks & settings',
-  setupImport: 'Set up your usual browsing environment by importing bookmarks and settings from your old browser. Advanced import options can be found in Settings.',
+  setupImport:
+    'Set up your usual browsing environment by importing bookmarks and settings from your old browser. Advanced import options can be found in Settings.',
   import: 'Import',
   importFrom: 'Import from...',
   fakeBrowser1: 'Chrome',
@@ -18,7 +20,8 @@ const locale = {
   // third screen
   setDefault: 'Set default',
   setDefaultSearchEngine: 'Set default search engine',
-  chooseSearchEngine: 'Choose the search engine you would like to use by default when searching the web from the address bar.',
+  chooseSearchEngine:
+    'Choose the search engine you would like to use by default when searching the web from the address bar.',
   privateExperience: 'For a more private search experience, try DuckDuckGo.',
   selectSearchEngine: 'Select a search engine',
   fakeSearchProvider1: 'DuckDuckGo',
@@ -28,7 +31,8 @@ const locale = {
   // adjustProtectionLevel: 'Protect against privacy-invading ads and trackers while browsing with Brave Shields. Set Shields to "down" if a site doesn’t seem to be working properly.',
   // showMeWhere: 'Show Shields',
   p3aHead: 'Browse safe and sound',
-  p3aBody: 'Brave Shields blocks the creepy stuff that tries to track you across the web — including most ads. Brave uses completely private product analytics to estimate the overall usage of certain features. Turn this off in ',
+  p3aBody:
+    'Brave Shields blocks the creepy stuff that tries to track you across the web — including most ads. Brave uses completely private product analytics to estimate the overall usage of certain features. Turn this off in ',
   p3aSettings: 'Settings',
   p3aLink1: '#',
   p3aLink2: '#',

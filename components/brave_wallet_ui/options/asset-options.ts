@@ -22,22 +22,36 @@ import { AllNetworksOption } from './network-filter-options'
 
 export const getNetworkLogo = (network: BraveWallet.NetworkInfo): string => {
   switch (true) {
-    case network.chainId === BraveWallet.AURORA_MAINNET_CHAIN_ID: return AuroraIcon
-    case network.chainId === BraveWallet.OPTIMISM_MAINNET_CHAIN_ID: return OptimismIcon
-    case network.chainId === BraveWallet.POLYGON_MAINNET_CHAIN_ID: return MATICIconUrl
-    case network.chainId === BraveWallet.BINANCE_SMART_CHAIN_MAINNET_CHAIN_ID: return BNBIconUrl
-    case network.chainId === BraveWallet.AVALANCHE_MAINNET_CHAIN_ID: return AVAXIconUrl
-    case network.chainId === BraveWallet.FANTOM_MAINNET_CHAIN_ID: return FantomIcon
-    case network.chainId === BraveWallet.CELO_MAINNET_CHAIN_ID: return CeloIcon
-    case network.chainId === AllNetworksOption.chainId: return AllNetworksOption.iconUrls[0]
-    case network.symbol.toUpperCase() === 'SOL': return SOLIconUrl
-    case network.symbol.toUpperCase() === 'FIL': return FILECOINIconUrl
-    case network.symbol.toUpperCase() === 'ETH': return ETHIconUrl
-    default: return ''
+    case network.chainId === BraveWallet.AURORA_MAINNET_CHAIN_ID:
+      return AuroraIcon
+    case network.chainId === BraveWallet.OPTIMISM_MAINNET_CHAIN_ID:
+      return OptimismIcon
+    case network.chainId === BraveWallet.POLYGON_MAINNET_CHAIN_ID:
+      return MATICIconUrl
+    case network.chainId === BraveWallet.BINANCE_SMART_CHAIN_MAINNET_CHAIN_ID:
+      return BNBIconUrl
+    case network.chainId === BraveWallet.AVALANCHE_MAINNET_CHAIN_ID:
+      return AVAXIconUrl
+    case network.chainId === BraveWallet.FANTOM_MAINNET_CHAIN_ID:
+      return FantomIcon
+    case network.chainId === BraveWallet.CELO_MAINNET_CHAIN_ID:
+      return CeloIcon
+    case network.chainId === AllNetworksOption.chainId:
+      return AllNetworksOption.iconUrls[0]
+    case network.symbol.toUpperCase() === 'SOL':
+      return SOLIconUrl
+    case network.symbol.toUpperCase() === 'FIL':
+      return FILECOINIconUrl
+    case network.symbol.toUpperCase() === 'ETH':
+      return ETHIconUrl
+    default:
+      return ''
   }
 }
 
-export const makeNetworkAsset = (network: BraveWallet.NetworkInfo): BraveWallet.BlockchainToken => {
+export const makeNetworkAsset = (
+  network: BraveWallet.NetworkInfo
+): BraveWallet.BlockchainToken => {
   return {
     contractAddress: '',
     name: network.symbolName,

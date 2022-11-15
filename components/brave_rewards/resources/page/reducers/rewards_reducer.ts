@@ -6,7 +6,10 @@ import { Reducer } from 'redux'
 
 import { types } from '../actions/rewards_types'
 
-const rewardsReducer: Reducer<Rewards.State | undefined> = (state: Rewards.State, action) => {
+const rewardsReducer: Reducer<Rewards.State | undefined> = (
+  state: Rewards.State,
+  action
+) => {
   if (!state) {
     return
   }
@@ -36,7 +39,10 @@ const rewardsReducer: Reducer<Rewards.State | undefined> = (state: Rewards.State
       }
 
       Object.keys(properties).map((property: string) => {
-        if (properties[property] !== undefined && properties[property] !== 'ui') {
+        if (
+          properties[property] !== undefined &&
+          properties[property] !== 'ui'
+        ) {
           state[property] = properties[property]
         } else if (properties[property] === 'ui') {
           ui = Object.assign(ui, properties[property])
@@ -124,13 +130,17 @@ const rewardsReducer: Reducer<Rewards.State | undefined> = (state: Rewards.State
       state = { ...state }
       state.adsData.adsEnabled = action.payload.adsData.adsEnabled
       state.adsData.adsPerHour = action.payload.adsData.adsPerHour
-      state.adsData.adsSubdivisionTargeting = action.payload.adsData.adsSubdivisionTargeting
-      state.adsData.automaticallyDetectedAdsSubdivisionTargeting = action.payload.adsData.automaticallyDetectedAdsSubdivisionTargeting
-      state.adsData.shouldAllowAdsSubdivisionTargeting = action.payload.adsData.shouldAllowAdsSubdivisionTargeting
+      state.adsData.adsSubdivisionTargeting =
+        action.payload.adsData.adsSubdivisionTargeting
+      state.adsData.automaticallyDetectedAdsSubdivisionTargeting =
+        action.payload.adsData.automaticallyDetectedAdsSubdivisionTargeting
+      state.adsData.shouldAllowAdsSubdivisionTargeting =
+        action.payload.adsData.shouldAllowAdsSubdivisionTargeting
       state.adsData.subdivisions = action.payload.adsData.subdivisions
       state.adsData.adsUIEnabled = action.payload.adsData.adsUIEnabled
       state.adsData.adsIsSupported = action.payload.adsData.adsIsSupported
-      state.adsData.needsBrowserUpgradeToServeAds = action.payload.adsData.needsBrowserUpgradeToServeAds
+      state.adsData.needsBrowserUpgradeToServeAds =
+        action.payload.adsData.needsBrowserUpgradeToServeAds
       break
     }
     case types.GET_ADS_HISTORY: {
@@ -163,8 +173,10 @@ const rewardsReducer: Reducer<Rewards.State | undefined> = (state: Rewards.State
       break
     }
     case types.TOGGLE_AD_OPT_IN: {
-      chrome.send('brave_rewards.toggleAdOptIn',
-                  [action.payload.category, action.payload.optAction])
+      chrome.send('brave_rewards.toggleAdOptIn', [
+        action.payload.category,
+        action.payload.optAction
+      ])
       break
     }
     case types.ON_TOGGLE_AD_OPT_IN: {
@@ -172,8 +184,10 @@ const rewardsReducer: Reducer<Rewards.State | undefined> = (state: Rewards.State
       break
     }
     case types.TOGGLE_AD_OPT_OUT: {
-      chrome.send('brave_rewards.toggleAdOptOut',
-                  [action.payload.category, action.payload.optAction])
+      chrome.send('brave_rewards.toggleAdOptOut', [
+        action.payload.category,
+        action.payload.optAction
+      ])
       break
     }
     case types.ON_TOGGLE_AD_OPT_OUT: {
@@ -281,7 +295,10 @@ const rewardsReducer: Reducer<Rewards.State | undefined> = (state: Rewards.State
       let inlineTip = state.inlineTip
 
       inlineTip[key] = value
-      chrome.send('brave_rewards.setInlineTippingPlatformEnabled', [key, value.toString()])
+      chrome.send('brave_rewards.setInlineTippingPlatformEnabled', [
+        key,
+        value.toString()
+      ])
 
       state = {
         ...state,

@@ -5,10 +5,7 @@
 
 import * as React from 'react'
 import { useHistory, useParams } from 'react-router'
-import {
-  useDispatch,
-  useSelector
-} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 // utils
 import { getLocale } from '../../../../common/locale'
@@ -38,8 +35,20 @@ import { useMultiChainBuyAssets } from '../../../common/hooks/use-multi-chain-bu
 import { useScrollIntoView } from '../../../common/hooks/use-scroll-into-view'
 
 // style
-import { Column, Flex, LoadingIcon, Row, VerticalSpace } from '../../../components/shared/style'
-import { Description, MainWrapper, NextButtonRow, StyledWrapper, Title } from '../onboarding/onboarding.style'
+import {
+  Column,
+  Flex,
+  LoadingIcon,
+  Row,
+  VerticalSpace
+} from '../../../components/shared/style'
+import {
+  Description,
+  MainWrapper,
+  NextButtonRow,
+  StyledWrapper,
+  Title
+} from '../onboarding/onboarding.style'
 import {
   ScrollContainer,
   SearchWrapper,
@@ -67,10 +76,18 @@ export const FundWalletScreen = () => {
 
   // redux
   const dispatch = useDispatch()
-  const accounts = useSelector(({ wallet }: { wallet: WalletState }) => wallet.accounts)
-  const defaultCurrencies = useSelector(({ wallet }: { wallet: WalletState }) => wallet.defaultCurrencies)
-  const selectedNetworkFilter = useSelector(({ wallet }: { wallet: WalletState }) => wallet.selectedNetworkFilter)
-  const selectedAccount = useSelector(({ wallet }: { wallet: WalletState }) => wallet.selectedAccount)
+  const accounts = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.accounts
+  )
+  const defaultCurrencies = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.defaultCurrencies
+  )
+  const selectedNetworkFilter = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.selectedNetworkFilter
+  )
+  const selectedAccount = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.selectedAccount
+  )
 
   // custom hooks
   const { prevNetwork } = usePrevNetwork()
@@ -90,29 +107,38 @@ export const FundWalletScreen = () => {
 
   // state
   const [showBuyOptions, setShowBuyOptions] = React.useState<boolean>(false)
-  const [showFiatSelection, setShowFiatSelection] = React.useState<boolean>(false)
-  const [showAccountSearch, setShowAccountSearch] = React.useState<boolean>(false)
+  const [showFiatSelection, setShowFiatSelection] =
+    React.useState<boolean>(false)
+  const [showAccountSearch, setShowAccountSearch] =
+    React.useState<boolean>(false)
   const [accountSearchText, setAccountSearchText] = React.useState<string>('')
-  const [selectedCurrency, setSelectedCurrency] = React.useState<string>(defaultCurrencies.fiat || 'usd')
+  const [selectedCurrency, setSelectedCurrency] = React.useState<string>(
+    defaultCurrencies.fiat || 'usd'
+  )
 
   // memos
-  const isNextStepEnabled = React.useMemo(() => !!selectedAsset, [selectedAsset])
+  const isNextStepEnabled = React.useMemo(
+    () => !!selectedAsset,
+    [selectedAsset]
+  )
 
   const assetsForFilteredNetwork: UserAssetInfoType[] = React.useMemo(() => {
-    const assets = selectedNetworkFilter.chainId === AllNetworksOption.chainId
-      ? allBuyAssetOptions
-      : allBuyAssetOptions.filter(({ chainId }) =>
-          selectedNetworkFilter.chainId === chainId
-        )
+    const assets =
+      selectedNetworkFilter.chainId === AllNetworksOption.chainId
+        ? allBuyAssetOptions
+        : allBuyAssetOptions.filter(
+            ({ chainId }) => selectedNetworkFilter.chainId === chainId
+          )
 
-    return assets.map(asset => ({ asset, assetBalance: '1' }))
+    return assets.map((asset) => ({ asset, assetBalance: '1' }))
   }, [selectedNetworkFilter.chainId, allBuyAssetOptions])
 
-  const accountsForSelectedAssetNetwork: WalletAccountType[] = React.useMemo(() => {
-    return selectedAssetNetwork
-      ? accounts.filter(a => a.coin === selectedAssetNetwork.coin)
-      : []
-  }, [selectedAssetNetwork, accounts])
+  const accountsForSelectedAssetNetwork: WalletAccountType[] =
+    React.useMemo(() => {
+      return selectedAssetNetwork
+        ? accounts.filter((a) => a.coin === selectedAssetNetwork.coin)
+        : []
+    }, [selectedAssetNetwork, accounts])
 
   const needsAccount: boolean = React.useMemo(() => {
     return !!selectedAsset && accountsForSelectedAssetNetwork.length < 1
@@ -133,9 +159,19 @@ export const FundWalletScreen = () => {
   }, [buyAssetNetworks])
 
   // methods
-  const openAccountSearch = React.useCallback(() => setShowAccountSearch(true), [])
-  const closeAccountSearch = React.useCallback(() => setShowAccountSearch(false), [])
-  const onSearchTextChanged = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => setAccountSearchText(e.target.value), [])
+  const openAccountSearch = React.useCallback(
+    () => setShowAccountSearch(true),
+    []
+  )
+  const closeAccountSearch = React.useCallback(
+    () => setShowAccountSearch(false),
+    []
+  )
+  const onSearchTextChanged = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) =>
+      setAccountSearchText(e.target.value),
+    []
+  )
 
   const goToPortfolio = React.useCallback(() => {
     if (tokenId !== undefined) {
@@ -145,10 +181,13 @@ export const FundWalletScreen = () => {
     history.push(WalletRoutes.Portfolio)
   }, [history, tokenId])
 
-  const onSelectAccountFromSearch = React.useCallback((account: WalletAccountType) => () => {
-    closeAccountSearch()
-    dispatch(WalletActions.selectAccount(account))
-  }, [closeAccountSearch])
+  const onSelectAccountFromSearch = React.useCallback(
+    (account: WalletAccountType) => () => {
+      closeAccountSearch()
+      dispatch(WalletActions.selectAccount(account))
+    },
+    [closeAccountSearch]
+  )
 
   const onBack = React.useCallback(() => {
     if (!showBuyOptions && history.length) {
@@ -170,48 +209,60 @@ export const FundWalletScreen = () => {
     setShowBuyOptions(true)
   }, [isNextStepEnabled, selectedAssetNetwork])
 
-  const onSubmitBuy = React.useCallback((buyOption: BraveWallet.OnRampProvider) => {
-    if (!selectedAsset || !selectedAssetNetwork || !selectedAccount) {
-      return
-    }
-    openBuyAssetLink({
-      buyOption,
-      depositAddress: selectedAccount.address
-    })
-  }, [selectedAsset, selectedAssetNetwork, buyAmount, selectedAccount])
+  const onSubmitBuy = React.useCallback(
+    (buyOption: BraveWallet.OnRampProvider) => {
+      if (!selectedAsset || !selectedAssetNetwork || !selectedAccount) {
+        return
+      }
+      openBuyAssetLink({
+        buyOption,
+        depositAddress: selectedAccount.address
+      })
+    },
+    [selectedAsset, selectedAssetNetwork, buyAmount, selectedAccount]
+  )
 
   const goBackToSelectAssets = React.useCallback(() => {
     setShowBuyOptions(false)
     setSelectedAsset(undefined)
   }, [])
 
-  const checkIsBuyAssetSelected = React.useCallback((asset: BraveWallet.BlockchainToken) => {
-    if (selectedAsset) {
-      return (
-        selectedAsset.contractAddress.toLowerCase() === asset.contractAddress.toLowerCase() &&
-        selectedAsset.symbol.toLowerCase() === asset.symbol.toLowerCase() &&
-        selectedAsset.chainId === asset.chainId
-      )
-    }
-    return false
-  }, [selectedAsset])
+  const checkIsBuyAssetSelected = React.useCallback(
+    (asset: BraveWallet.BlockchainToken) => {
+      if (selectedAsset) {
+        return (
+          selectedAsset.contractAddress.toLowerCase() ===
+            asset.contractAddress.toLowerCase() &&
+          selectedAsset.symbol.toLowerCase() === asset.symbol.toLowerCase() &&
+          selectedAsset.chainId === asset.chainId
+        )
+      }
+      return false
+    },
+    [selectedAsset]
+  )
 
-  const handleScrollIntoView = React.useCallback((asset: BraveWallet.BlockchainToken, ref: HTMLButtonElement | null) => {
-    if (checkIsBuyAssetSelected(asset)) {
-      scrollIntoView(ref)
-    }
-  }, [checkIsBuyAssetSelected, scrollIntoView])
+  const handleScrollIntoView = React.useCallback(
+    (asset: BraveWallet.BlockchainToken, ref: HTMLButtonElement | null) => {
+      if (checkIsBuyAssetSelected(asset)) {
+        scrollIntoView(ref)
+      }
+    },
+    [checkIsBuyAssetSelected, scrollIntoView]
+  )
 
-  const renderToken: RenderTokenFunc = React.useCallback(({ item: { asset } }) =>
-    <BuyAssetOptionItem
-      selectedCurrency={selectedCurrency}
-      isSelected={checkIsBuyAssetSelected(asset)}
-      key={getAssetIdKey(asset)}
-      token={asset}
-      tokenNetwork={getTokensNetwork(buyAssetNetworks, asset)}
-      onClick={setSelectedAsset}
-      ref={(ref) => handleScrollIntoView(asset, ref)}
-    />,
+  const renderToken: RenderTokenFunc = React.useCallback(
+    ({ item: { asset } }) => (
+      <BuyAssetOptionItem
+        selectedCurrency={selectedCurrency}
+        isSelected={checkIsBuyAssetSelected(asset)}
+        key={getAssetIdKey(asset)}
+        token={asset}
+        tokenNetwork={getTokensNetwork(buyAssetNetworks, asset)}
+        onClick={setSelectedAsset}
+        ref={(ref) => handleScrollIntoView(asset, ref)}
+      />
+    ),
     [
       selectedCurrency,
       checkIsBuyAssetSelected,
@@ -260,7 +311,9 @@ export const FundWalletScreen = () => {
 
   React.useEffect(() => {
     if (tokenId !== undefined) {
-      const foundBuyAsset = allBuyAssetOptions.find((asset) => asset.symbol.toLowerCase() === tokenId.toLowerCase())
+      const foundBuyAsset = allBuyAssetOptions.find(
+        (asset) => asset.symbol.toLowerCase() === tokenId.toLowerCase()
+      )
       if (foundBuyAsset) {
         setSelectedAsset(foundBuyAsset)
       }
@@ -272,22 +325,21 @@ export const FundWalletScreen = () => {
     <CenteredPageLayout>
       <MainWrapper>
         <StyledWrapper>
-
           {/* Hide nav when creating or searching accounts */}
-          {!showAccountSearch && !showFiatSelection && !(
-            needsAccount && showBuyOptions
-          ) &&
-            <StepsNavigation
-              goBack={onBack}
-              onSkip={goToPortfolio}
-              skipButtonText={getLocale('braveWalletButtonDone')}
-              steps={[]}
-              currentStep=''
-            />
-          }
+          {!showAccountSearch &&
+            !showFiatSelection &&
+            !(needsAccount && showBuyOptions) && (
+              <StepsNavigation
+                goBack={onBack}
+                onSkip={goToPortfolio}
+                skipButtonText={getLocale('braveWalletButtonDone')}
+                steps={[]}
+                currentStep=""
+              />
+            )}
 
           {/* Fiat Selection */}
-          {showFiatSelection &&
+          {showFiatSelection && (
             <SelectCurrency
               onSelectCurrency={
                 // this internally sets the currency via redux, so just hide the UI when selected
@@ -298,52 +350,54 @@ export const FundWalletScreen = () => {
               }
               onBack={() => setShowFiatSelection(false)}
             />
-          }
+          )}
 
           {/* Asset Selection */}
-          {!showBuyOptions && !showFiatSelection &&
+          {!showBuyOptions && !showFiatSelection && (
             <>
               <SelectAssetWrapper>
                 <SwapInputComponent
                   defaultCurrencies={defaultCurrencies}
-                  componentType='buyAmount'
+                  componentType="buyAmount"
                   onInputChange={setBuyAmount}
                   selectedAssetInputAmount={buyAmount}
-                  inputName='buy'
+                  inputName="buy"
                   selectedAsset={selectedAsset}
-                  selectedNetwork={selectedAssetNetwork || selectedNetworkFilter}
+                  selectedNetwork={
+                    selectedAssetNetwork || selectedNetworkFilter
+                  }
                   autoFocus={true}
                   onShowCurrencySelection={() => setShowFiatSelection(true)}
                 />
 
-                {assetsForFilteredNetwork.length
-                  ? <TokenLists
-                      enableScroll
-                      maxListHeight='38vh'
-                      userAssetList={assetsForFilteredNetwork}
-                      networks={networksFilterOptions}
-                      hideAddButton
-                      hideAssetFilter
-                      hideAccountFilter
-                      estimatedItemSize={100}
-                      renderToken={renderToken}
+                {assetsForFilteredNetwork.length ? (
+                  <TokenLists
+                    enableScroll
+                    maxListHeight="38vh"
+                    userAssetList={assetsForFilteredNetwork}
+                    networks={networksFilterOptions}
+                    hideAddButton
+                    hideAssetFilter
+                    hideAccountFilter
+                    estimatedItemSize={100}
+                    renderToken={renderToken}
+                  />
+                ) : (
+                  <Column>
+                    <LoadingIcon
+                      opacity={1}
+                      size="100px"
+                      color="interactive05"
                     />
-                  : <Column>
-                      <LoadingIcon
-                        opacity={1}
-                        size='100px'
-                        color='interactive05'
-                      />
-                    </Column>
-                }
+                  </Column>
+                )}
 
-                <VerticalSpace space='12px' />
-
+                <VerticalSpace space="12px" />
               </SelectAssetWrapper>
 
               <NextButtonRow>
                 <NavButton
-                  buttonType='primary'
+                  buttonType="primary"
                   text={
                     selectedAsset
                       ? getLocale('braveWalletBuyContinueButton')
@@ -354,38 +408,34 @@ export const FundWalletScreen = () => {
                 />
               </NextButtonRow>
             </>
-          }
+          )}
 
           {/* Creates wallet Account if needed */}
-          {needsAccount && showBuyOptions &&
+          {needsAccount && showBuyOptions && (
             <CreateAccountTab
               network={selectedAssetNetwork}
               prevNetwork={prevNetwork}
               onCancel={goBackToSelectAssets}
             />
-          }
+          )}
 
           {/* Buy Option selection & Account selection/search */}
-          {!needsAccount && showBuyOptions &&
+          {!needsAccount && showBuyOptions && (
             <>
-              {!showAccountSearch &&
+              {!showAccountSearch && (
                 <>
-
                   <Title>
-                    {
-                      getLocale('braveWalletFundWalletTitle')
-                        .replace('$1', selectedAsset?.symbol ?? '')
-                    }
+                    {getLocale('braveWalletFundWalletTitle').replace(
+                      '$1',
+                      selectedAsset?.symbol ?? ''
+                    )}
                   </Title>
 
                   <Description>
                     {getLocale('braveWalletFundWalletDescription')}
                   </Description>
 
-                  <Row
-                    justifyContent='space-around'
-                    alignItems='center'
-                  >
+                  <Row justifyContent="space-around" alignItems="center">
                     <Flex>
                       <SelectAccountItem
                         selectedNetwork={selectedAssetNetwork}
@@ -399,15 +449,15 @@ export const FundWalletScreen = () => {
                   </Row>
 
                   <SelectBuyOption
-                    layoutType='loose'
+                    layoutType="loose"
                     buyOptions={selectedAssetBuyOptions}
                     onSelect={onSubmitBuy}
                     selectedOption={undefined}
                   />
                 </>
-              }
+              )}
 
-              {showAccountSearch &&
+              {showAccountSearch && (
                 <SearchWrapper>
                   <SelectHeader
                     title={getLocale('braveWalletSelectAccount')}
@@ -426,10 +476,9 @@ export const FundWalletScreen = () => {
                     />
                   </ScrollContainer>
                 </SearchWrapper>
-              }
+              )}
             </>
-          }
-
+          )}
         </StyledWrapper>
       </MainWrapper>
     </CenteredPageLayout>

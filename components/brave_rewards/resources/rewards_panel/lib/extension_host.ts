@@ -22,7 +22,7 @@ import { RewardsPanelProxy } from './rewards_panel_proxy'
 
 type LocalStorageKey = 'catcha-grant-id' | 'load-adaptive-captcha'
 
-function getCurrentTabInfo () {
+function getCurrentTabInfo() {
   interface TabInfo {
     id: number
   }
@@ -41,7 +41,7 @@ function getCurrentTabInfo () {
   })
 }
 
-function openTab (url: string) {
+function openTab(url: string) {
   if (!url) {
     console.error(new Error('Cannot open a tab with an empty URL'))
     return
@@ -49,22 +49,22 @@ function openTab (url: string) {
   chrome.tabs.create({ url })
 }
 
-function getString (key: string) {
+function getString(key: string) {
   return String((window as any).loadTimeData.getString(key) || '')
 }
 
-export function createHost (): Host {
+export function createHost(): Host {
   const stateManager = createStateManager(getInitialState())
   const storage = createLocalStorageScope<LocalStorageKey>('rewards-panel')
   const grants = new Map<string, GrantInfo>()
 
   const proxy = RewardsPanelProxy.getInstance()
 
-  function closePanel () {
+  function closePanel() {
     proxy.handler.closeUI()
   }
 
-  async function updatePublisherInfo () {
+  async function updatePublisherInfo() {
     const tabInfo = await getCurrentTabInfo()
     if (tabInfo) {
       stateManager.update({
@@ -73,12 +73,12 @@ export function createHost (): Host {
     }
   }
 
-  function clearGrantCaptcha () {
+  function clearGrantCaptcha() {
     stateManager.update({ grantCaptchaInfo: null })
     storage.writeJSON('catcha-grant-id', '')
   }
 
-  function loadGrantCaptcha (grantId: string, status: GrantCaptchaStatus) {
+  function loadGrantCaptcha(grantId: string, status: GrantCaptchaStatus) {
     const grantInfo = grants.get(grantId)
     if (!grantInfo) {
       clearGrantCaptcha()
@@ -114,12 +114,12 @@ export function createHost (): Host {
     })
   }
 
-  function clearAdaptiveCaptcha () {
+  function clearAdaptiveCaptcha() {
     stateManager.update({ adaptiveCaptchaInfo: null })
     storage.writeJSON('load-adaptive-captcha', false)
   }
 
-  function loadAdaptiveCaptcha () {
+  function loadAdaptiveCaptcha() {
     chrome.braveRewards.getScheduledCaptchaInfo((scheduledCaptchaInfo) => {
       if (!scheduledCaptchaInfo.url) {
         clearAdaptiveCaptcha()
@@ -140,7 +140,7 @@ export function createHost (): Host {
     })
   }
 
-  function getExternalWalletActionURL (action: ExternalWalletAction) {
+  function getExternalWalletActionURL(action: ExternalWalletAction) {
     const verifyURL = 'chrome://rewards#verify'
 
     const { externalWallet } = stateManager.getState()
@@ -163,7 +163,7 @@ export function createHost (): Host {
     }
   }
 
-  function handleExternalWalletAction (action: ExternalWalletAction) {
+  function handleExternalWalletAction(action: ExternalWalletAction) {
     const { externalWallet } = stateManager.getState()
 
     if (action === 'disconnect') {
@@ -183,7 +183,7 @@ export function createHost (): Host {
     openTab(url)
   }
 
-  function loadPersistedState () {
+  function loadPersistedState() {
     const shouldLoadAdaptiveCaptcha = storage.readJSON('load-adaptive-captcha')
     if (shouldLoadAdaptiveCaptcha) {
       loadAdaptiveCaptcha()
@@ -199,7 +199,7 @@ export function createHost (): Host {
     return false
   }
 
-  function handleRewardsPanelArgs (args: mojom.RewardsPanelArgs) {
+  function handleRewardsPanelArgs(args: mojom.RewardsPanelArgs) {
     switch (args.view) {
       case mojom.RewardsPanelView.kRewardsTour:
         stateManager.update({ requestedView: 'rewards-tour' })
@@ -215,52 +215,64 @@ export function createHost (): Host {
     }
   }
 
-  function updateGrants (list: GrantInfo[]) {
+  function updateGrants(list: GrantInfo[]) {
     grants.clear()
     for (const grant of list) {
       grants.set(grant.id, grant)
     }
   }
 
-  function updateBalance () {
-    apiAdapter.getRewardsBalance().then((balance) => {
-      stateManager.update({ balance })
-    }).catch(console.error)
-
-    apiAdapter.getRewardsSummaryData().then((summaryData) => {
-      stateManager.update({ summaryData })
-    }).catch(console.error)
-  }
-
-  function updateNotifications () {
-    apiAdapter.getNotifications().then((notifications) => {
-      // We do not want to display any "grant available" notifications if there
-      // is no corresponding grant information available. (This can occur if the
-      // grant is deleted on the server.) For any "grant available" notification
-      // that does not have a matching ID in the current grant map, filter it out
-      // of the list that is displayed to the user. Note that grant data must be
-      // loaded prior to this operation.
-      notifications = notifications.filter((notification) => {
-        if (notification.type === 'grant-available') {
-          const { id } = (notification as GrantAvailableNotification).grantInfo
-          return grants.has(id)
-        }
-        return true
+  function updateBalance() {
+    apiAdapter
+      .getRewardsBalance()
+      .then((balance) => {
+        stateManager.update({ balance })
       })
+      .catch(console.error)
 
-      stateManager.update({ notifications })
-    }).catch(console.error)
+    apiAdapter
+      .getRewardsSummaryData()
+      .then((summaryData) => {
+        stateManager.update({ summaryData })
+      })
+      .catch(console.error)
   }
 
-  function setLoadingTimer () {
+  function updateNotifications() {
+    apiAdapter
+      .getNotifications()
+      .then((notifications) => {
+        // We do not want to display any "grant available" notifications if there
+        // is no corresponding grant information available. (This can occur if the
+        // grant is deleted on the server.) For any "grant available" notification
+        // that does not have a matching ID in the current grant map, filter it out
+        // of the list that is displayed to the user. Note that grant data must be
+        // loaded prior to this operation.
+        notifications = notifications.filter((notification) => {
+          if (notification.type === 'grant-available') {
+            const { id } = (notification as GrantAvailableNotification)
+              .grantInfo
+            return grants.has(id)
+          }
+          return true
+        })
+
+        stateManager.update({ notifications })
+      })
+      .catch(console.error)
+  }
+
+  function setLoadingTimer() {
     // Set a maximum time to display the loading indicator. Several calls to
     // the `braveRewards` extension API can block on network requests. If the
     // network is unavailable or an endpoint is unresponsive, we want to display
     // the data that we have, rather than a stalled loading indicator.
-    setTimeout(() => { stateManager.update({ loading: false }) }, 3000)
+    setTimeout(() => {
+      stateManager.update({ loading: false })
+    }, 3000)
   }
 
-  function startRevealTimer () {
+  function startRevealTimer() {
     let called = false
 
     // When the panel is displayed using a cached `window`, we need to "reveal"
@@ -280,25 +292,28 @@ export function createHost (): Host {
     }
   }
 
-  function addListeners () {
+  function addListeners() {
     // If a Rewards panel request occurs when we are still open or cached,
     // reload data and re-render the app.
     proxy.callbackRouter.onRewardsPanelRequested.addListener(
       (panelArgs: mojom.RewardsPanelArgs) => {
         let cancelRevealTimer = startRevealTimer()
 
-        loadPanelData().then(() => {
-          cancelRevealTimer()
+        loadPanelData()
+          .then(() => {
+            cancelRevealTimer()
 
-          stateManager.update({
-            openTime: Date.now(),
-            requestedView: null,
-            loading: false
+            stateManager.update({
+              openTime: Date.now(),
+              requestedView: null,
+              loading: false
+            })
+
+            handleRewardsPanelArgs(panelArgs)
           })
-
-          handleRewardsPanelArgs(panelArgs)
-        }).catch(console.error)
-      })
+          .catch(console.error)
+      }
+    )
 
     apiAdapter.onPublisherDataUpdated(() => {
       updatePublisherInfo().catch(console.error)
@@ -319,14 +334,17 @@ export function createHost (): Host {
 
     // Update the notification list when notifications are added or removed.
     chrome.rewardsNotifications.onAllNotificationsDeleted.addListener(
-      updateNotifications)
+      updateNotifications
+    )
     chrome.rewardsNotifications.onNotificationAdded.addListener(
-      updateNotifications)
+      updateNotifications
+    )
     chrome.rewardsNotifications.onNotificationDeleted.addListener(
-      updateNotifications)
+      updateNotifications
+    )
   }
 
-  async function loadPanelData () {
+  async function loadPanelData() {
     await Promise.all([
       apiAdapter.getGrants().then((list) => {
         updateGrants(list)
@@ -370,7 +388,7 @@ export function createHost (): Host {
     updateNotifications()
   }
 
-  async function initialize () {
+  async function initialize() {
     // Expose the state manager for debugging purposes.
     Object.assign(window, {
       braveRewardsPanel: { stateManager }
@@ -390,26 +408,27 @@ export function createHost (): Host {
   initialize().catch(console.error)
 
   return {
-
-    get state () { return stateManager.getState() },
+    get state() {
+      return stateManager.getState()
+    },
 
     addListener: stateManager.addListener,
 
     getString,
 
-    enableRewards (country: string) {
+    enableRewards(country: string) {
       return apiAdapter.createRewardsWallet(country)
     },
 
-    openAdaptiveCaptchaSupport () {
+    openAdaptiveCaptchaSupport() {
       openTab('https://support.brave.com/')
     },
 
-    openRewardsSettings () {
+    openRewardsSettings() {
       openTab('chrome://rewards')
     },
 
-    refreshPublisherStatus () {
+    refreshPublisherStatus() {
       const { publisherInfo } = stateManager.getState()
       if (!publisherInfo) {
         return
@@ -418,13 +437,15 @@ export function createHost (): Host {
       stateManager.update({ publisherRefreshing: true })
 
       chrome.braveRewards.refreshPublisher(publisherInfo.id, () => {
-        updatePublisherInfo().then(() => {
-          stateManager.update({ publisherRefreshing: false })
-        }).catch(console.error)
+        updatePublisherInfo()
+          .then(() => {
+            stateManager.update({ publisherRefreshing: false })
+          })
+          .catch(console.error)
       })
     },
 
-    setIncludeInAutoContribute (include) {
+    setIncludeInAutoContribute(include) {
       const { publisherInfo } = stateManager.getState()
       if (!publisherInfo) {
         return
@@ -441,7 +462,7 @@ export function createHost (): Host {
       })
     },
 
-    setAutoContributeAmount (amount) {
+    setAutoContributeAmount(amount) {
       chrome.braveRewards.updatePrefs({ autoContributeAmount: amount })
 
       stateManager.update({
@@ -452,7 +473,7 @@ export function createHost (): Host {
       })
     },
 
-    setAdsPerHour (adsPerHour) {
+    setAdsPerHour(adsPerHour) {
       chrome.braveRewards.updatePrefs({ adsPerHour })
 
       stateManager.update({
@@ -463,49 +484,57 @@ export function createHost (): Host {
       })
     },
 
-    sendTip () {
-      getCurrentTabInfo().then((tabInfo) => {
-        if (!tabInfo) {
-          return
-        }
-        const { publisherInfo } = stateManager.getState()
-        if (publisherInfo) {
-          chrome.braveRewards.tipSite(tabInfo.id, publisherInfo.id, 'one-time')
-          closePanel()
-        }
-      }).catch(console.error)
+    sendTip() {
+      getCurrentTabInfo()
+        .then((tabInfo) => {
+          if (!tabInfo) {
+            return
+          }
+          const { publisherInfo } = stateManager.getState()
+          if (publisherInfo) {
+            chrome.braveRewards.tipSite(
+              tabInfo.id,
+              publisherInfo.id,
+              'one-time'
+            )
+            closePanel()
+          }
+        })
+        .catch(console.error)
     },
 
-    handleMonthlyTipAction (action) {
-      getCurrentTabInfo().then((tabInfo) => {
-        if (!tabInfo) {
-          return
-        }
+    handleMonthlyTipAction(action) {
+      getCurrentTabInfo()
+        .then((tabInfo) => {
+          if (!tabInfo) {
+            return
+          }
 
-        const { publisherInfo } = stateManager.getState()
-        if (!publisherInfo) {
-          return
-        }
+          const { publisherInfo } = stateManager.getState()
+          if (!publisherInfo) {
+            return
+          }
 
-        const tabId = tabInfo.id
-        const publisherId = publisherInfo.id
+          const tabId = tabInfo.id
+          const publisherId = publisherInfo.id
 
-        switch (action) {
-          case 'update':
-            chrome.braveRewards.tipSite(tabId, publisherId, 'set-monthly')
-            break
-          case 'cancel':
-            chrome.braveRewards.tipSite(tabId, publisherId, 'clear-monthly')
-            break
-        }
+          switch (action) {
+            case 'update':
+              chrome.braveRewards.tipSite(tabId, publisherId, 'set-monthly')
+              break
+            case 'cancel':
+              chrome.braveRewards.tipSite(tabId, publisherId, 'clear-monthly')
+              break
+          }
 
-        closePanel()
-      }).catch(console.error)
+          closePanel()
+        })
+        .catch(console.error)
     },
 
     handleExternalWalletAction,
 
-    handleNotificationAction (action) {
+    handleNotificationAction(action) {
       switch (action.type) {
         case 'open-link':
           openTab((action as OpenLinkAction).url)
@@ -522,15 +551,15 @@ export function createHost (): Host {
       }
     },
 
-    dismissNotification (notification) {
+    dismissNotification(notification) {
       chrome.rewardsNotifications.deleteNotification(notification.id)
       const { notifications } = stateManager.getState()
       stateManager.update({
-        notifications: notifications.filter(n => n.id !== notification.id)
+        notifications: notifications.filter((n) => n.id !== notification.id)
       })
     },
 
-    solveGrantCaptcha (solution) {
+    solveGrantCaptcha(solution) {
       const { grantCaptchaInfo } = stateManager.getState()
       if (!grantCaptchaInfo) {
         return
@@ -540,11 +569,14 @@ export function createHost (): Host {
         grantCaptchaInfo: { ...grantCaptchaInfo, verifying: true }
       })
 
-      function mapResult (result: number): GrantCaptchaStatus {
+      function mapResult(result: number): GrantCaptchaStatus {
         switch (result) {
-          case 0: return 'passed'
-          case 6: return 'failed'
-          default: return 'error'
+          case 0:
+            return 'passed'
+          case 6:
+            return 'failed'
+          default:
+            return 'error'
         }
       }
 
@@ -579,7 +611,7 @@ export function createHost (): Host {
 
     clearAdaptiveCaptcha,
 
-    handleAdaptiveCaptchaResult (result) {
+    handleAdaptiveCaptchaResult(result) {
       const { adaptiveCaptchaInfo } = stateManager.getState()
       if (!adaptiveCaptchaInfo) {
         return
@@ -600,7 +632,7 @@ export function createHost (): Host {
       }
     },
 
-    onAppRendered () {
+    onAppRendered() {
       proxy.handler.showUI()
     }
   }

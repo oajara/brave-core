@@ -33,7 +33,12 @@ const getWalletName = (walletKey: string) => {
 const getWalletBalance = (wallets: Record<string, number>) => {
   let items = []
   for (const key in wallets) {
-    items.push(<div key={'wallet-' + key}> {getWalletName(key)}: {wallets[key]} {getLocale('bat')} </div>)
+    items.push(
+      <div key={'wallet-' + key}>
+        {' '}
+        {getWalletName(key)}: {wallets[key]} {getLocale('bat')}{' '}
+      </div>
+    )
   }
 
   return items
@@ -51,5 +56,6 @@ export const Balance = (props: Props) => {
         {getLocale('totalBalance')} {props.info.total} {getLocale('bat')}
       </div>
       {getWalletBalance(props.info.wallets)}
-    </>)
+    </>
+  )
 }

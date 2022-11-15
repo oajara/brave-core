@@ -6,7 +6,8 @@
 // Used to get a random but deterministic distribution of colors.
 const stringHashCode = (str: string) => {
   let hash = 0
-  for (let i = 0; i < str.length; ++i) hash = Math.imul(31, hash) + str.charCodeAt(i)
+  for (let i = 0; i < str.length; ++i)
+    hash = Math.imul(31, hash) + str.charCodeAt(i)
   return (hash | 0) + 2147483647 + 1
 }
 

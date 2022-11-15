@@ -22,8 +22,12 @@ export const root = styled.div`
   animation-fill-mode: both;
 
   @keyframes dim-background {
-    from { background: rgba(0, 0, 0, 0) }
-    to { background: rgba(0, 0, 0, 0.15) }
+    from {
+      background: rgba(0, 0, 0, 0);
+    }
+    to {
+      background: rgba(0, 0, 0, 0.15);
+    }
   }
 `
 
@@ -39,15 +43,19 @@ export const card = styled.div`
   animation-fill-mode: both;
 
   @keyframes slide-in {
-    from { transform: translate(0, calc(100% + 20px)); }
-    to { transform: translate(0, 0); }
+    from {
+      transform: translate(0, calc(100% + 20px));
+    }
+    to {
+      transform: translate(0, 0);
+    }
   }
 `
 
 export const peek = styled.div`
   position: absolute;
   background: var(--brave-palette-neutral000);
-  opacity: .72;
+  opacity: 0.72;
   border-radius: 8px;
   height: 20px;
   bottom: -5px;

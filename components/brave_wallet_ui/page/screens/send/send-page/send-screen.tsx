@@ -21,8 +21,10 @@ import { SelectTokenModal } from '../components/select-token-modal/select-token-
 
 export const SendScreen = () => {
   // State
-  const [showSelectTokenModal, setShowSelectTokenModal] = React.useState<boolean>(false)
-  const [selectedSendOption, setSelectedSendOption] = React.useState<SendOptionTypes>('token')
+  const [showSelectTokenModal, setShowSelectTokenModal] =
+    React.useState<boolean>(false)
+  const [selectedSendOption, setSelectedSendOption] =
+    React.useState<SendOptionTypes>('token')
 
   // Refs
   const selectTokenModalRef = React.useRef<HTMLDivElement>(null)
@@ -43,13 +45,13 @@ export const SendScreen = () => {
         selectedSendOption={selectedSendOption}
         setSelectedSendOption={setSelectedSendOption}
       />
-      {showSelectTokenModal &&
+      {showSelectTokenModal && (
         <SelectTokenModal
           onClose={() => setShowSelectTokenModal(false)}
           selectedSendOption={selectedSendOption}
           ref={selectTokenModalRef}
         />
-      }
+      )}
     </SendScreenWrapper>
   )
 }

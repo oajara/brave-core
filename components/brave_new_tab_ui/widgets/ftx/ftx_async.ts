@@ -15,23 +15,37 @@ type Store = MiddlewareAPI<Dispatch<AnyAction>, any>
 let attemptCountForInitRetry = 5
 let expectingNewAuth = document.location.search.includes('ftxAuthSuccess')
 
-function getAccountBalancesAsync (): Promise<{ balances: chrome.ftx.Balances, authInvalid: boolean }> {
-  return new Promise(resolve => chrome.ftx.getAccountBalances((balances, authInvalid) => {
-    const results = { balances, authInvalid }
-    resolve(results)
-  }))
+function getAccountBalancesAsync(): Promise<{
+  balances: chrome.ftx.Balances
+  authInvalid: boolean
+}> {
+  return new Promise((resolve) =>
+    chrome.ftx.getAccountBalances((balances, authInvalid) => {
+      const results = { balances, authInvalid }
+      resolve(results)
+    })
+  )
 }
 
-function get7DayHistoryForCurrency (currencyName: string) {
+function get7DayHistoryForCurrency(currencyName: string) {
   const conversionSymbol = currencyName.toUpperCase() + '-PERP'
-  const startTimeS = Math.floor((new Date().getTime() - (24 * 7 * 3600000)) / 1000)
-  return new Promise<chrome.ftx.ChartData>(resolve => {
-    chrome.ftx.getChartData(conversionSymbol, startTimeS.toString(), '', resolve)
+  const startTimeS = Math.floor(
+    (new Date().getTime() - 24 * 7 * 3600000) / 1000
+  )
+  return new Promise<chrome.ftx.ChartData>((resolve) => {
+    chrome.ftx.getChartData(
+      conversionSymbol,
+      startTimeS.toString(),
+      '',
+      resolve
+    )
   })
 }
 
-async function getMarketDataAsync (): Promise<chrome.ftx.TokenPriceData[]> {
-  const futures: chrome.ftx.TokenPriceData[] = await new Promise(resolve => chrome.ftx.getFuturesData(data => resolve(data)))
+async function getMarketDataAsync(): Promise<chrome.ftx.TokenPriceData[]> {
+  const futures: chrome.ftx.TokenPriceData[] = await new Promise((resolve) =>
+    chrome.ftx.getFuturesData((data) => resolve(data))
+  )
   for (const future of futures) {
     // Clean up symbol
     future.symbol = future.symbol.replace('-PERP', '')
@@ -41,23 +55,23 @@ async function getMarketDataAsync (): Promise<chrome.ftx.TokenPriceData[]> {
   return futures
 }
 
-function getState (store: Store): FTXState {
+function getState(store: Store): FTXState {
   // TODO(petemill): if we want this reducer to be portable to different UIs,
   // then we should have this `getState` provided as a function parameter.
   return (store.getState() as ApplicationState).ftx
 }
 
-function getIsWidgetVisible (store: Store): boolean {
+function getIsWidgetVisible(store: Store): boolean {
   const appState = store.getState() as ApplicationState
-  const isWidgetShowing = (appState.newTabData?.showFTX) || false
-  const isWindowVisile = (document.visibilityState === 'visible')
-  return (isWidgetShowing && isWindowVisile)
+  const isWidgetShowing = appState.newTabData?.showFTX || false
+  const isWindowVisile = document.visibilityState === 'visible'
+  return isWidgetShowing && isWindowVisile
 }
 
 const handler = new AsyncActionHandler()
 let refreshTimeout: number | null = null
 
-function beginRefresh (dispatch: Dispatch<AnyAction>) {
+function beginRefresh(dispatch: Dispatch<AnyAction>) {
   if (!refreshTimeout) {
     refreshTimeout = window.setTimeout(() => {
       // Check we should still do the job
@@ -71,20 +85,23 @@ function beginRefresh (dispatch: Dispatch<AnyAction>) {
   }
 }
 
-function stopRefresh () {
+function stopRefresh() {
   if (refreshTimeout) {
     clearTimeout(refreshTimeout)
     refreshTimeout = null
   }
 }
 
-handler.on<Actions.StartConnectPayload>(Actions.startConnect.getType(), async (store, payload) => {
-  const host = payload.isUS ? 'ftx.us' : 'ftx.com'
-  chrome.ftx.setOauthHost(host)
-  chrome.ftx.getClientUrl(url => {
-    window.open(url, '_self', 'noopener')
-  })
-})
+handler.on<Actions.StartConnectPayload>(
+  Actions.startConnect.getType(),
+  async (store, payload) => {
+    const host = payload.isUS ? 'ftx.us' : 'ftx.com'
+    chrome.ftx.setOauthHost(host)
+    chrome.ftx.getClientUrl((url) => {
+      window.open(url, '_self', 'noopener')
+    })
+  }
+)
 
 handler.on(Actions.initialize.getType(), async (store) => {
   const state = getState(store)
@@ -93,15 +110,19 @@ handler.on(Actions.initialize.getType(), async (store) => {
     const [{ balances, authInvalid }, marketData, ftxHost] = await Promise.all([
       getAccountBalancesAsync(),
       getMarketDataAsync(),
-      new Promise<chrome.ftx.FTXOauthHost>(resolve => chrome.ftx.getOauthHost(resolve))
+      new Promise<chrome.ftx.FTXOauthHost>((resolve) =>
+        chrome.ftx.getOauthHost(resolve)
+      )
     ])
     // Handle when auth is pending since we haven't completed the auth token network
     // request yet. Re-check until connected state is there, or we've tried too many times.
     // Don't show "disconnected" UI, prefer "loading" UI.
     // TODO(petemill): Have ftx service be observable and our page handler fire JS events.
-    const authPending = (expectingNewAuth && authInvalid)
+    const authPending = expectingNewAuth && authInvalid
     if (authPending && attemptCountForInitRetry > 0) {
-      console.debug('FTX: expecting connected, but state doesn\'t represent that yet, so re-requesting in a few seconds')
+      console.debug(
+        "FTX: expecting connected, but state doesn't represent that yet, so re-requesting in a few seconds"
+      )
       attemptCountForInitRetry--
       setTimeout(function () {
         // Recursive for the current action
@@ -113,12 +134,14 @@ handler.on(Actions.initialize.getType(), async (store) => {
     // disconnect then we won't incorrectly be expecting to be
     // authenticated.
     expectingNewAuth = false
-    store.dispatch(Actions.initialized({
-      isConnected: !authInvalid,
-      marketData,
-      balances,
-      ftxHost
-    }))
+    store.dispatch(
+      Actions.initialized({
+        isConnected: !authInvalid,
+        marketData,
+        balances,
+        ftxHost
+      })
+    )
     if (!authInvalid) {
       beginRefresh(store.dispatch)
     }
@@ -142,54 +165,69 @@ handler.on(Actions.refresh.getType(), async (store) => {
       getAccountBalancesAsync(),
       getMarketDataAsync()
     ])
-    store.dispatch(Actions.dataUpdated({
-      marketData,
-      balances
-    }))
+    store.dispatch(
+      Actions.dataUpdated({
+        marketData,
+        balances
+      })
+    )
   }
   // Refresh again
   beginRefresh(store.dispatch)
 })
 
-handler.on<Actions.ShowAssetDetailPayload>(Actions.showAssetDetail.getType(), async (store, payload) => {
-  const chartData = await get7DayHistoryForCurrency(payload.symbol)
-  // Convert chart data
-  const chartDataPoints: ChartDataPoint[] = chartData.map(p => ({
-    c: p.close,
-    h: p.high,
-    l: p.low
-  }))
-  store.dispatch(Actions.assetChartDataUpdated({
-    currencyName: payload.symbol,
-    chartData: chartDataPoints
-  }))
-})
+handler.on<Actions.ShowAssetDetailPayload>(
+  Actions.showAssetDetail.getType(),
+  async (store, payload) => {
+    const chartData = await get7DayHistoryForCurrency(payload.symbol)
+    // Convert chart data
+    const chartDataPoints: ChartDataPoint[] = chartData.map((p) => ({
+      c: p.close,
+      h: p.high,
+      l: p.low
+    }))
+    store.dispatch(
+      Actions.assetChartDataUpdated({
+        currencyName: payload.symbol,
+        chartData: chartDataPoints
+      })
+    )
+  }
+)
 
-handler.on<Actions.PreviewConversionPayload>(Actions.previewConversion.getType(), async (store, payload) => {
-  // Get quote
-  const quoteId = await new Promise<string>(resolve => {
-    chrome.ftx.getConvertQuote(payload.from, payload.to, payload.quantity.toString(), resolve)
-  })
-  // Validate
-  if (!quoteId) {
-    console.error('FTX: did not get quoteId from API, stopping conversion')
-    // TODO(petemill): Probably better to show user the error, rathern than cancel
-    store.dispatch(Actions.cancelConversion())
-    return
+handler.on<Actions.PreviewConversionPayload>(
+  Actions.previewConversion.getType(),
+  async (store, payload) => {
+    // Get quote
+    const quoteId = await new Promise<string>((resolve) => {
+      chrome.ftx.getConvertQuote(
+        payload.from,
+        payload.to,
+        payload.quantity.toString(),
+        resolve
+      )
+    })
+    // Validate
+    if (!quoteId) {
+      console.error('FTX: did not get quoteId from API, stopping conversion')
+      // TODO(petemill): Probably better to show user the error, rathern than cancel
+      store.dispatch(Actions.cancelConversion())
+      return
+    }
+    // Get quote detail
+    const quoteInfo = await new Promise<chrome.ftx.QuoteInfo>((resolve) => {
+      chrome.ftx.getConvertQuoteInfo(quoteId, resolve)
+    })
+    // Validate
+    if (!quoteInfo || !quoteInfo.price || !quoteInfo.proceeds) {
+      console.error('FTX: did not get valid quote info', { quoteId, quoteInfo })
+      // TODO(petemill): Probably better to show user the error, rathern than cancel
+      store.dispatch(Actions.cancelConversion())
+      return
+    }
+    store.dispatch(Actions.conversionQuoteAvailable({ ...quoteInfo, quoteId }))
   }
-  // Get quote detail
-  const quoteInfo = await new Promise<chrome.ftx.QuoteInfo>(resolve => {
-    chrome.ftx.getConvertQuoteInfo(quoteId, resolve)
-  })
-  // Validate
-  if (!quoteInfo || !quoteInfo.price || !quoteInfo.proceeds) {
-    console.error('FTX: did not get valid quote info', { quoteId, quoteInfo })
-    // TODO(petemill): Probably better to show user the error, rathern than cancel
-    store.dispatch(Actions.cancelConversion())
-    return
-  }
-  store.dispatch(Actions.conversionQuoteAvailable({ ...quoteInfo, quoteId }))
-})
+)
 
 handler.on(Actions.submitConversion.getType(), async (store) => {
   // Collect data
@@ -202,7 +240,7 @@ handler.on(Actions.submitConversion.getType(), async (store) => {
     return
   }
   // Send API
-  const success = await new Promise<boolean>(resolve => {
+  const success = await new Promise<boolean>((resolve) => {
     chrome.ftx.executeConvertQuote(quoteId, resolve)
   })
   // Inform

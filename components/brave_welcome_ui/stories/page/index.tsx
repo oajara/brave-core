@@ -31,7 +31,7 @@ export interface Props {
 }
 
 export default class WelcomePage extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       currentScreen: 1,
@@ -42,7 +42,7 @@ export default class WelcomePage extends React.PureComponent<Props, State> {
     }
   }
 
-  get totalScreensSize () {
+  get totalScreensSize() {
     return 5
   }
 
@@ -77,7 +77,9 @@ export default class WelcomePage extends React.PureComponent<Props, State> {
   }
 
   onChangeDefaultSearchEngine = () => {
-    this.setState({ fakeChangedSearchEngine: !this.state.fakeChangedSearchEngine })
+    this.setState({
+      fakeChangedSearchEngine: !this.state.fakeChangedSearchEngine
+    })
     console.log('CHANGED DEFAULT SEARCH ENGINE!')
   }
 
@@ -90,7 +92,7 @@ export default class WelcomePage extends React.PureComponent<Props, State> {
     console.log('SENT TO REWARDS PAGE')
   }
 
-  get backgroundPosition () {
+  get backgroundPosition() {
     switch (this.state.currentScreen) {
       case 1:
         return '100%'
@@ -113,7 +115,7 @@ export default class WelcomePage extends React.PureComponent<Props, State> {
     this.setState({ shouldUpdateElementOverflow: true })
   }
 
-  render () {
+  render() {
     const { currentScreen, shouldUpdateElementOverflow } = this.state
     const { isDefaultSearchGoogle } = this.props
     return (
@@ -124,11 +126,29 @@ export default class WelcomePage extends React.PureComponent<Props, State> {
         >
           <Panel>
             <SlideContent>
-              <WelcomeBox index={1} currentScreen={currentScreen} onClick={this.onClickLetsGo} />
-              <ImportBox index={2} currentScreen={currentScreen} onClick={this.onClickImport} />
+              <WelcomeBox
+                index={1}
+                currentScreen={currentScreen}
+                onClick={this.onClickLetsGo}
+              />
+              <ImportBox
+                index={2}
+                currentScreen={currentScreen}
+                onClick={this.onClickImport}
+              />
               <ShieldsBox index={3} currentScreen={currentScreen} />
-              <SearchBox index={4} currentScreen={currentScreen} onClick={this.onClickConfirmDefaultSearchEngine} fakeOnChange={this.onChangeDefaultSearchEngine} isDefaultSearchGoogle={isDefaultSearchGoogle}/>
-              <RewardsBox index={5} currentScreen={currentScreen} onClick={this.onClickRewardsGetStarted} />
+              <SearchBox
+                index={4}
+                currentScreen={currentScreen}
+                onClick={this.onClickConfirmDefaultSearchEngine}
+                fakeOnChange={this.onChangeDefaultSearchEngine}
+                isDefaultSearchGoogle={isDefaultSearchGoogle}
+              />
+              <RewardsBox
+                index={5}
+                currentScreen={currentScreen}
+                onClick={this.onClickRewardsGetStarted}
+              />
             </SlideContent>
             <FooterBox
               totalScreensSize={this.totalScreensSize}

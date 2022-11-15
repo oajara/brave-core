@@ -17,14 +17,14 @@ import { MonthlyTipForm } from './monthly_tip_form'
 
 import * as style from './tip_form.style'
 
-function getTipKindOptions (locale: Locale): Array<SliderSwitchOption<TipKind>> {
+function getTipKindOptions(locale: Locale): Array<SliderSwitchOption<TipKind>> {
   return [
     { value: 'one-time', content: locale.getString('oneTimeTip') },
     { value: 'monthly', content: locale.getString('monthlyText') }
   ]
 }
 
-function getHeaderSubtitle (locale: Locale, mediaMetaData: MediaMetaData) {
+function getHeaderSubtitle(locale: Locale, mediaMetaData: MediaMetaData) {
   if (mediaMetaData.mediaType === 'twitter') {
     return (
       <style.headerSubtitle>
@@ -40,7 +40,9 @@ function getHeaderSubtitle (locale: Locale, mediaMetaData: MediaMetaData) {
     return (
       <style.headerSubtitle>
         {locale.getString('tipPostSubtitle')}&nbsp;
-        <style.socialIcon><RedditColorIcon /></style.socialIcon>
+        <style.socialIcon>
+          <RedditColorIcon />
+        </style.socialIcon>
       </style.headerSubtitle>
     )
   }
@@ -48,21 +50,24 @@ function getHeaderSubtitle (locale: Locale, mediaMetaData: MediaMetaData) {
   return ''
 }
 
-export function TipForm () {
+export function TipForm() {
   const host = React.useContext(HostContext)
   const locale = React.useContext(LocaleContext)
   const { getString } = locale
 
-  const [balanceInfo, setBalanceInfo] = React.useState(
-    host.state.balanceInfo)
+  const [balanceInfo, setBalanceInfo] = React.useState(host.state.balanceInfo)
   const [publisherInfo, setPublisherInfo] = React.useState(
-    host.state.publisherInfo)
+    host.state.publisherInfo
+  )
   const [rewardsParameters, setRewardsParameters] = React.useState(
-    host.state.rewardsParameters)
+    host.state.rewardsParameters
+  )
   const [currentMonthlyTip, setCurrentMonthlyTip] = React.useState(
-    host.state.currentMonthlyTip || 0)
+    host.state.currentMonthlyTip || 0
+  )
   const [walletInfo, setWalletInfo] = React.useState(
-    host.state.externalWalletInfo)
+    host.state.externalWalletInfo
+  )
 
   const [tipAmount, setTipAmount] = React.useState(0)
   const [tipProcessed, setTipProcessed] = React.useState(false)
@@ -103,12 +108,12 @@ export function TipForm () {
 
   const { mediaMetaData } = host.getDialogArgs()
 
-  function onTipKindSelect (value: TipKind) {
+  function onTipKindSelect(value: TipKind) {
     setWasMonthlySelected(value === 'monthly')
     setTipKind(value)
   }
 
-  function getTipKindSelector () {
+  function getTipKindSelector() {
     const { mediaType } = mediaMetaData
     if (mediaType === 'twitter' || mediaType === 'reddit') {
       return null
@@ -121,12 +126,11 @@ export function TipForm () {
 
     return (
       <>
-        {
-          showMonthlyIndicator &&
-            <style.monthlyIndicator>
-              {getString('currentlySupporting')}
-            </style.monthlyIndicator>
-        }
+        {showMonthlyIndicator && (
+          <style.monthlyIndicator>
+            {getString('currentlySupporting')}
+          </style.monthlyIndicator>
+        )}
         <SliderSwitch<TipKind>
           options={getTipKindOptions(locale)}
           selectedValue={tipKind}
@@ -142,9 +146,7 @@ export function TipForm () {
         {getString('supportThisCreator')}
         {getHeaderSubtitle(locale, mediaMetaData)}
       </style.header>
-      <style.tipKind>
-        {getTipKindSelector()}
-      </style.tipKind>
+      <style.tipKind>{getTipKindSelector()}</style.tipKind>
       <style.main>
         {tipKind === 'one-time' ? <OneTimeTipForm /> : <MonthlyTipForm />}
       </style.main>

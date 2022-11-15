@@ -4,7 +4,11 @@
 
 import * as React from 'react'
 
-import { GrantInfo, formatGrantMonth, formatGrantDaysToClaim } from '../../shared/lib/grant_info'
+import {
+  GrantInfo,
+  formatGrantMonth,
+  formatGrantDaysToClaim
+} from '../../shared/lib/grant_info'
 import { LocaleContext, formatMessage } from '../../shared/lib/locale_context'
 import { TokenAmount } from '../../shared/components/token_amount'
 import { MoneyBagIcon } from '../../shared/components/icons/money_bag_icon'
@@ -18,44 +22,38 @@ interface Props {
   onClaim: () => void
 }
 
-export function ClaimGrantView (props: Props) {
+export function ClaimGrantView(props: Props) {
   const { getString } = React.useContext(LocaleContext)
   const { grantInfo } = props
 
   const daysToClaim = formatGrantDaysToClaim(grantInfo)
 
-  const title = grantInfo.type === 'ads'
-    ? 'rewardsAdGrantTitle'
-    : 'rewardsTokenGrantTitle'
+  const title =
+    grantInfo.type === 'ads' ? 'rewardsAdGrantTitle' : 'rewardsTokenGrantTitle'
 
   return (
     <style.root>
       <style.amount>
-        <style.graphic><MoneyBagIcon /></style.graphic>
-        {
-          grantInfo.amount > 0 &&
-            <div>
-              <TokenAmount
-                amount={grantInfo.amount}
-                minimumFractionDigits={2}
-              />
-            </div>
-        }
+        <style.graphic>
+          <MoneyBagIcon />
+        </style.graphic>
+        {grantInfo.amount > 0 && (
+          <div>
+            <TokenAmount amount={grantInfo.amount} minimumFractionDigits={2} />
+          </div>
+        )}
       </style.amount>
       <style.text>
         <style.title>
           {formatMessage(getString(title), [formatGrantMonth(grantInfo)])}
         </style.title>
-        {
-          daysToClaim &&
-            <div>
-              {
-                formatMessage(getString('rewardsGrantDaysRemaining'), [
-                  <style.days key='days'>{daysToClaim}</style.days>
-                ])
-              }
-            </div>
-        }
+        {daysToClaim && (
+          <div>
+            {formatMessage(getString('rewardsGrantDaysRemaining'), [
+              <style.days key="days">{daysToClaim}</style.days>
+            ])}
+          </div>
+        )}
       </style.text>
       <style.action>
         <button onClick={props.onClaim} disabled={props.showSpinner}>

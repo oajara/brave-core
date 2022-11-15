@@ -8,9 +8,7 @@ import * as React from 'react'
 import { PanelHeader, PanelHeaderSlim } from '../'
 
 // Styled Components
-import {
-  StyledWrapper
-} from './style'
+import { StyledWrapper } from './style'
 
 // Utils
 import { PanelTypes, PanelHeaderSizes } from '../../../constants/types'
@@ -24,30 +22,22 @@ export interface Props {
 }
 
 export default class Panel extends React.PureComponent<Props> {
-  render () {
-    const {
-      title,
-      headerStyle,
-      navAction,
-      children,
-      searchAction,
-      useSearch
-    } = this.props
+  render() {
+    const { title, headerStyle, navAction, children, searchAction, useSearch } =
+      this.props
 
     return (
       <StyledWrapper>
-        {headerStyle === 'slim'
-          ? <PanelHeaderSlim
-              action={navAction}
-              title={title}
-            />
-          : <PanelHeader
-              action={navAction}
-              title={title}
-              searchAction={searchAction}
-              useSearch={useSearch}
-            />
-        }
+        {headerStyle === 'slim' ? (
+          <PanelHeaderSlim action={navAction} title={title} />
+        ) : (
+          <PanelHeader
+            action={navAction}
+            title={title}
+            searchAction={searchAction}
+            useSearch={useSearch}
+          />
+        )}
         {children}
       </StyledWrapper>
     )

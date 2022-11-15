@@ -6,15 +6,17 @@
 import * as React from 'react'
 import { useCallback, useMemo, useState } from 'react'
 import { useNewTabPref } from '../../../../hooks/usePref'
-import { Channels, Publisher, Publishers, PublisherType } from '../../../../api/brave_news'
+import {
+  Channels,
+  Publisher,
+  Publishers,
+  PublisherType
+} from '../../../../api/brave_news'
 import { api, isPublisherEnabled } from '../../../../api/brave_news/news'
 import Modal from './Modal'
 
 // Leave possibility for more pages open.
-type NewsPage = null
-  | 'news'
-  | 'suggestions'
-  | 'popular'
+type NewsPage = null | 'news' | 'suggestions' | 'popular'
 
 interface BraveNewsContext {
   customizePage: NewsPage
@@ -37,7 +39,7 @@ interface BraveNewsContext {
 
 export const BraveNewsContext = React.createContext<BraveNewsContext>({
   customizePage: null,
-  setCustomizePage: () => { },
+  setCustomizePage: () => {},
   publishers: {},
   sortedPublishers: [],
   filteredPublisherIds: [],
@@ -50,16 +52,21 @@ export const BraveNewsContext = React.createContext<BraveNewsContext>({
   toggleBraveNewsOnNTP: (enabled: boolean) => {}
 })
 
-export function BraveNewsContextProvider (props: { children: React.ReactNode }) {
+export function BraveNewsContextProvider(props: { children: React.ReactNode }) {
   const [customizePage, setCustomizePage] = useState<NewsPage>(null)
   const [channels, setChannels] = useState<Channels>({})
   const [publishers, setPublishers] = useState<Publishers>({})
-  const [suggestedPublisherIds, setSuggestedPublisherIds] = useState<string[]>([])
+  const [suggestedPublisherIds, setSuggestedPublisherIds] = useState<string[]>(
+    []
+  )
   // TODO(petemill): Pref should come from the API since it isn't NTP-related. We should
   // not use useNewTabPref here so that we can move Brave News to a shared component.
   // But for now we're tied to NTP.
-  const [isOptInPrefEnabled, setOptInPrefEnabled] = useNewTabPref('isBraveTodayOptedIn')
-  const [isShowOnNTPPrefEnabled, setShowOnNTPPrefEnabled] = useNewTabPref('showToday')
+  const [isOptInPrefEnabled, setOptInPrefEnabled] = useNewTabPref(
+    'isBraveTodayOptedIn'
+  )
+  const [isShowOnNTPPrefEnabled, setShowOnNTPPrefEnabled] =
+    useNewTabPref('showToday')
 
   // Update initially and when opt-in / enabled changes
   React.useEffect(() => {
@@ -76,7 +83,8 @@ export function BraveNewsContextProvider (props: { children: React.ReactNode }) 
 
   const updateSuggestedPublisherIds = useCallback(async () => {
     setSuggestedPublisherIds([])
-    const { suggestedPublisherIds } = await api.controller.getSuggestedPublisherIds()
+    const { suggestedPublisherIds } =
+      await api.controller.getSuggestedPublisherIds()
     setSuggestedPublisherIds(suggestedPublisherIds)
   }, [])
 
@@ -88,21 +96,30 @@ export function BraveNewsContextProvider (props: { children: React.ReactNode }) 
     return () => api.removePublishersListener(handler)
   }, [])
 
-  const sortedPublishers = useMemo(() =>
-    Object.values(publishers)
-      .sort((a, b) => a.publisherName.localeCompare(b.publisherName)),
-    [publishers])
+  const sortedPublishers = useMemo(
+    () =>
+      Object.values(publishers).sort((a, b) =>
+        a.publisherName.localeCompare(b.publisherName)
+      ),
+    [publishers]
+  )
 
-  const filteredPublisherIds = useMemo(() =>
-    sortedPublishers
-      .filter(p => p.type === PublisherType.DIRECT_SOURCE ||
-        p.locales.some(l => l.locale === api.locale))
-      .map(p => p.publisherId),
-    [sortedPublishers])
+  const filteredPublisherIds = useMemo(
+    () =>
+      sortedPublishers
+        .filter(
+          (p) =>
+            p.type === PublisherType.DIRECT_SOURCE ||
+            p.locales.some((l) => l.locale === api.locale)
+        )
+        .map((p) => p.publisherId),
+    [sortedPublishers]
+  )
 
-  const subscribedPublisherIds = useMemo(() =>
-    sortedPublishers.filter(isPublisherEnabled).map(p => p.publisherId),
-    [sortedPublishers])
+  const subscribedPublisherIds = useMemo(
+    () => sortedPublishers.filter(isPublisherEnabled).map((p) => p.publisherId),
+    [sortedPublishers]
+  )
 
   const toggleBraveNewsOnNTP = (shouldEnable: boolean) => {
     if (shouldEnable) {
@@ -113,35 +130,56 @@ export function BraveNewsContextProvider (props: { children: React.ReactNode }) 
     setShowOnNTPPrefEnabled(false)
   }
 
-  const context = useMemo<BraveNewsContext>(() => ({
-    customizePage,
-    setCustomizePage,
-    channels,
-    publishers,
-    suggestedPublisherIds,
-    sortedPublishers,
-    filteredPublisherIds,
-    subscribedPublisherIds,
-    updateSuggestedPublisherIds,
-    isOptInPrefEnabled,
-    isShowOnNTPPrefEnabled,
-    toggleBraveNewsOnNTP
-  }), [customizePage, channels, publishers, suggestedPublisherIds, updateSuggestedPublisherIds, isOptInPrefEnabled, isShowOnNTPPrefEnabled, toggleBraveNewsOnNTP])
+  const context = useMemo<BraveNewsContext>(
+    () => ({
+      customizePage,
+      setCustomizePage,
+      channels,
+      publishers,
+      suggestedPublisherIds,
+      sortedPublishers,
+      filteredPublisherIds,
+      subscribedPublisherIds,
+      updateSuggestedPublisherIds,
+      isOptInPrefEnabled,
+      isShowOnNTPPrefEnabled,
+      toggleBraveNewsOnNTP
+    }),
+    [
+      customizePage,
+      channels,
+      publishers,
+      suggestedPublisherIds,
+      updateSuggestedPublisherIds,
+      isOptInPrefEnabled,
+      isShowOnNTPPrefEnabled,
+      toggleBraveNewsOnNTP
+    ]
+  )
 
-  return <BraveNewsContext.Provider value={context}>
-    {props.children}
-    <Modal />
-  </BraveNewsContext.Provider>
+  return (
+    <BraveNewsContext.Provider value={context}>
+      {props.children}
+      <Modal />
+    </BraveNewsContext.Provider>
+  )
 }
 
 export const useBraveNews = () => {
   return React.useContext(BraveNewsContext)
 }
 
-export const useChannels = (options: { subscribedOnly: boolean } = { subscribedOnly: false }) => {
+export const useChannels = (
+  options: { subscribedOnly: boolean } = { subscribedOnly: false }
+) => {
   const { channels } = useBraveNews()
-  return useMemo(() => Object.values(channels)
-    .filter(c => c.subscribedLocales.length || !options.subscribedOnly), [channels, options.subscribedOnly])
+  return useMemo(
+    () =>
+      Object.values(channels).filter(
+        (c) => c.subscribedLocales.length || !options.subscribedOnly
+      ),
+    [channels, options.subscribedOnly]
+  )
 }
 
 /**
@@ -151,10 +189,17 @@ export const useChannels = (options: { subscribedOnly: boolean } = { subscribedO
  */
 export const useChannelSubscribed = (channelName: string) => {
   const { channels } = useBraveNews()
-  const subscribed = useMemo(() => channels[channelName]?.subscribedLocales.includes(api.locale) ?? false, [channels[channelName]])
-  const setSubscribed = React.useCallback((subscribed: boolean) => {
-    api.setChannelSubscribed(channelName, subscribed)
-  }, [channelName])
+  const subscribed = useMemo(
+    () =>
+      channels[channelName]?.subscribedLocales.includes(api.locale) ?? false,
+    [channels[channelName]]
+  )
+  const setSubscribed = React.useCallback(
+    (subscribed: boolean) => {
+      api.setChannelSubscribed(channelName, subscribed)
+    },
+    [channelName]
+  )
 
   return {
     subscribed,
@@ -171,7 +216,10 @@ export const usePublisherFollowed = (publisherId: string) => {
   const publisher = usePublisher(publisherId)
 
   const followed = isPublisherEnabled(publisher)
-  const setFollowed = useCallback((followed: boolean) => api.setPublisherFollowed(publisherId, followed), [publisherId])
+  const setFollowed = useCallback(
+    (followed: boolean) => api.setPublisherFollowed(publisherId, followed),
+    [publisherId]
+  )
 
   return {
     followed,

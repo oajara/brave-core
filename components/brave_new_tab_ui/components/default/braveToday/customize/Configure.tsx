@@ -31,9 +31,9 @@ const Grid = styled.div`
   grid-template-rows: 64px 2px auto;
 
   grid-template-areas:
-    "back-button header"
-    "separator separator"
-    "sidebar content";
+    'back-button header'
+    'separator separator'
+    'sidebar content';
 `
 
 const Header = styled(Flex)`
@@ -47,7 +47,7 @@ const HeaderText = styled.span`
 `
 
 const CloseButtonContainer = styled.div`
-  &> button {
+  & > button {
     --inner-border-size: 0;
     --outer-border-size: 0;
     padding: 12px;
@@ -62,7 +62,7 @@ const BackButtonContainer = styled.div`
   display: flex;
   padding: 12px;
 
-  &> button {
+  & > button {
     --inner-border-size: 0;
     --outer-border-size: 0;
   }
@@ -107,7 +107,7 @@ const Content = styled.div`
   padding: 20px 64px;
 `
 
-export default function Configure () {
+export default function Configure() {
   const {
     setCustomizePage,
     customizePage,
@@ -123,9 +123,11 @@ export default function Configure () {
 
   let content: JSX.Element
   if (!isBraveNewsFullyEnabled) {
-    content = <DisabledPlaceholder enableBraveNews={() => toggleBraveNewsOnNTP(true)} />
+    content = (
+      <DisabledPlaceholder enableBraveNews={() => toggleBraveNewsOnNTP(true)} />
+    )
   } else if (customizePage === 'suggestions') {
-    content = <SuggestionsPage/>
+    content = <SuggestionsPage />
   } else if (customizePage === 'popular') {
     content = <PopularPage />
   } else {
@@ -133,36 +135,41 @@ export default function Configure () {
   }
 
   return (
-    <Grid id='brave-news-configure'>
+    <Grid id="brave-news-configure">
       <BackButtonContainer>
         <Button onClick={() => setCustomizePage(null)}>
           {BackArrow}
           <BackButtonText>
             {formatMessage(getLocale('braveNewsBackToDashboard'), {
               tags: {
-                $1: content => <strong key="$1">{content}</strong>
+                $1: (content) => <strong key="$1">{content}</strong>
               }
             })}
           </BackButtonText>
         </Button>
       </BackButtonContainer>
-      <Header direction="row-reverse" gap={12} align="center" justify="space-between">
+      <Header
+        direction="row-reverse"
+        gap={12}
+        align="center"
+        justify="space-between"
+      >
         <CloseButtonContainer>
           <Button onClick={() => setCustomizePage(null)}>{Cross}</Button>
         </CloseButtonContainer>
-        {isBraveNewsFullyEnabled && <Flex direction="row" align="center" gap={8}>
-          <HeaderText>{getLocale('braveTodayTitle')}</HeaderText>
-          <Toggle isOn={true} onChange={toggleBraveNewsOnNTP} />
-        </Flex>}
+        {isBraveNewsFullyEnabled && (
+          <Flex direction="row" align="center" gap={8}>
+            <HeaderText>{getLocale('braveTodayTitle')}</HeaderText>
+            <Toggle isOn={true} onChange={toggleBraveNewsOnNTP} />
+          </Flex>
+        )}
       </Header>
       <Hr />
       <Sidebar>
         <SourcesList />
         {!isBraveNewsFullyEnabled && <SidebarOverlay />}
       </Sidebar>
-      <Content>
-        {content}
-      </Content>
+      <Content>{content}</Content>
     </Grid>
   )
 }

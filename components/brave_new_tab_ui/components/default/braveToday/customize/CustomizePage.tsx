@@ -15,7 +15,7 @@ const BackButtonContainer = styled.div`
   all: unset;
   flex: 1;
 
-  &> button {
+  & > button {
     --inner-border-size: 0;
     --outer-border-size: 0;
     padding: 0;
@@ -35,24 +35,28 @@ const Header = styled.span`
   text-align: center;
 `
 
-const Spacer = styled.div`flex: 1;`
+const Spacer = styled.div`
+  flex: 1;
+`
 
-export default function CustomizePage (props: {
+export default function CustomizePage(props: {
   title: string
   children: React.ReactNode
 }) {
   const { setCustomizePage } = useBraveNews()
-  return <Flex direction="column">
-    <Flex align="center">
-      <BackButtonContainer>
-        <Button onClick={() => setCustomizePage('news')}>
-          {BackArrow}
-          {getLocale('braveNewsBackButton')}
-        </Button>
-      </BackButtonContainer>
-      <Header>{props.title}</Header>
-      <Spacer />
+  return (
+    <Flex direction="column">
+      <Flex align="center">
+        <BackButtonContainer>
+          <Button onClick={() => setCustomizePage('news')}>
+            {BackArrow}
+            {getLocale('braveNewsBackButton')}
+          </Button>
+        </BackButtonContainer>
+        <Header>{props.title}</Header>
+        <Spacer />
+      </Flex>
+      {props.children}
     </Flex>
-    {props.children}
-  </Flex>
+  )
 }

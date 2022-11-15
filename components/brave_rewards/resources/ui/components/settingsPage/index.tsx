@@ -11,14 +11,12 @@ export interface Props {
 }
 
 export default class SettingsPage extends React.PureComponent<Props, {}> {
-  render () {
+  render() {
     const { id, children } = this.props
 
     return (
       <StyledWrapper id={id}>
-        <StyledContent>
-          {children}
-        </StyledContent>
+        <StyledContent>{children}</StyledContent>
       </StyledWrapper>
     )
   }

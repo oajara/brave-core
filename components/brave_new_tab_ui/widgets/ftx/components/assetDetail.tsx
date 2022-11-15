@@ -20,7 +20,7 @@ type Props = {
   actions: typeof FTXActions
 }
 
-export default function AssetDetail (props: Props) {
+export default function AssetDetail(props: Props) {
   const assetDetail = props.ftx.assetDetail
   // Sanity check
   if (!assetDetail) {
@@ -60,51 +60,41 @@ export default function AssetDetail (props: Props) {
         </S.FlexItem>
         <S.FlexItem flex={1}>
           <S.Text>{currency}</S.Text>
-          <S.Text small={true} textColor='light'>
+          <S.Text small={true} textColor="light">
             {currencyNames[currency]}
           </S.Text>
         </S.FlexItem>
       </S.FlexItem>
-      <S.FlexItem
-        hasPadding={true}
-        isFullWidth={true}
-        hasBorder={true}
-      >
-        {(formattedPrice) && <S.Text
-          inline={true}
-          large={true}
-          weight={500}
-          $mr='0.5rem'
-        >
-          {formattedPrice} USDT
-        </S.Text>}
-        {(percentChange) && <S.Text inline={true} textColor={percentChange > 0 ? 'green' : 'red'}>{percentChange}%</S.Text>}
+      <S.FlexItem hasPadding={true} isFullWidth={true} hasBorder={true}>
+        {formattedPrice && (
+          <S.Text inline={true} large={true} weight={500} $mr="0.5rem">
+            {formattedPrice} USDT
+          </S.Text>
+        )}
+        {percentChange && (
+          <S.Text inline={true} textColor={percentChange > 0 ? 'green' : 'red'}>
+            {percentChange}%
+          </S.Text>
+        )}
         <S.BasicBox $h={chartHeight}>
-          {chartData && typeof chartData !== 'string' &&
-          <Chart width={chartWidth} height={chartHeight} data={chartData} />
-          }
-          {waitingForChartData &&
-          <Loading />
-          }
-          {chartDataError &&
-          <EmoteSadIcon />
-          }
+          {chartData && typeof chartData !== 'string' && (
+            <Chart width={chartWidth} height={chartHeight} data={chartData} />
+          )}
+          {waitingForChartData && <Loading />}
+          {chartDataError && <EmoteSadIcon />}
         </S.BasicBox>
-        <S.Text small={true} textColor='xlight'>
+        <S.Text small={true} textColor="xlight">
           {getLocale('ftxGraphLabel')}
         </S.Text>
       </S.FlexItem>
-      <S.FlexItem
-        hasPadding={true}
-        isFullWidth={true}
-      >
-        <S.BasicBox $mt='0.2em'>
-          <S.Text small={true} textColor='light' $pb='0.2rem'>
-            <S.UpperCaseText>
-              {getLocale('ftxVolumeLabel')}
-            </S.UpperCaseText>
+      <S.FlexItem hasPadding={true} isFullWidth={true}>
+        <S.BasicBox $mt="0.2em">
+          <S.Text small={true} textColor="light" $pb="0.2rem">
+            <S.UpperCaseText>{getLocale('ftxVolumeLabel')}</S.UpperCaseText>
           </S.Text>
-          {formattedVolume && <S.Text weight={500}>{formattedVolume} USDT</S.Text>}
+          {formattedVolume && (
+            <S.Text weight={500}>{formattedVolume} USDT</S.Text>
+          )}
         </S.BasicBox>
       </S.FlexItem>
     </S.Box>

@@ -7,7 +7,9 @@ import * as tabActions from '../../../../brave_webtorrent/extension/actions/tab_
 import { torrentObjMap } from '../../testData'
 
 // this import seems to trigger createStore and get an undefined reducer
-jest.mock('../../../../brave_webtorrent/extension/background/events/torrentEvents')
+jest.mock(
+  '../../../../brave_webtorrent/extension/background/events/torrentEvents'
+)
 
 const defaultState = { torrentStateMap: {}, torrentObjMap: {} }
 describe('webtorrent reducer test', () => {
@@ -38,14 +40,18 @@ describe('webtorrent reducer test', () => {
       const setupTorrentsState: TorrentsState = {
         torrentStateMap: {
           0: {
-            tabId: 0, torrentId: 'testTorrentId', infoHash: 'infoHash'
+            tabId: 0,
+            torrentId: 'testTorrentId',
+            infoHash: 'infoHash'
           }
         },
         torrentObjMap
       }
 
-      const state = webtorrentReducer(setupTorrentsState,
-        tabActions.tabRemoved(tab.id))
+      const state = webtorrentReducer(
+        setupTorrentsState,
+        tabActions.tabRemoved(tab.id)
+      )
       expect(state).toEqual(defaultState)
     })
   })

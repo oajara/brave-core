@@ -16,7 +16,10 @@ import {
 import Amount from '../../utils/amount'
 
 // Options
-import { BuyButtonOption, DepositButtonOption } from '../../options/account-list-button-options'
+import {
+  BuyButtonOption,
+  DepositButtonOption
+} from '../../options/account-list-button-options'
 
 // Styled components
 import {
@@ -72,8 +75,13 @@ const renderCells = (
   } = coinMarkDataItem
 
   const formattedPrice = new Amount(currentPrice).formatAsFiat(fiatCurrency)
-  const formattedPercentageChange = new Amount(priceChangePercentage24h).value?.absoluteValue().toFixed(2) + '%'
-  const formattedMarketCap = new Amount(marketCap).abbreviate(1, fiatCurrency, 'billion')
+  const formattedPercentageChange =
+    new Amount(priceChangePercentage24h).value?.absoluteValue().toFixed(2) + '%'
+  const formattedMarketCap = new Amount(marketCap).abbreviate(
+    1,
+    fiatCurrency,
+    'billion'
+  )
   const formattedVolume = new Amount(totalVolume).abbreviate(1, fiatCurrency)
   const isDown = priceChange24h < 0
 
@@ -86,11 +94,7 @@ const renderCells = (
       <AssetsColumnItemSpacer>
         <TextWrapper alignment="center">{marketCapRank}</TextWrapper>
       </AssetsColumnItemSpacer>
-      <AssetNameAndIcon
-        assetName={name}
-        symbol={symbol}
-        assetLogo={image}
-      />
+      <AssetNameAndIcon assetName={name} symbol={symbol} assetLogo={image} />
     </AssetsColumnWrapper>,
 
     // Price Column
@@ -111,16 +115,18 @@ const renderCells = (
     <TextWrapper alignment="right">{formattedVolume}</TextWrapper>,
 
     <ButtonsRow>
-      {buttonOptions.map((option) =>
+      {buttonOptions.map((option) => (
         <AccountListItemOptionButton
           key={option.id}
-          onClick={option.id === 'buy'
-            ? () => onClickBuy(coinMarkDataItem)
-            : () => onClickDeposit(coinMarkDataItem)}
+          onClick={
+            option.id === 'buy'
+              ? () => onClickBuy(coinMarkDataItem)
+              : () => onClickDeposit(coinMarkDataItem)
+          }
           option={option}
           hideIcon={true}
         />
-      )}
+      ))}
     </ButtonsRow>
 
     // Line Chart Column
@@ -145,7 +151,7 @@ const renderCells = (
     // </LineChartWrapper>
   ]
 
-  const cells: Cell[] = cellsContent.map(cellContent => {
+  const cells: Cell[] = cellsContent.map((cellContent) => {
     return {
       content: cellContent
     }
@@ -173,15 +179,31 @@ export const MarketDataTable = (props: Props) => {
     return coinMarketData.map((coinMarketItem: BraveWallet.CoinMarket) => {
       const buySupported = isBuySupported(coinMarketItem)
       const depositSupported = isDepositSupported(coinMarketItem)
-      const buttonOptions = buySupported ? [BuyButtonOption, DepositButtonOption] : depositSupported ? [DepositButtonOption] : []
+      const buttonOptions = buySupported
+        ? [BuyButtonOption, DepositButtonOption]
+        : depositSupported
+        ? [DepositButtonOption]
+        : []
       return {
         id: `coin-row-${coinMarketItem.symbol}-${coinMarketItem.marketCapRank}`,
-        content: renderCells(coinMarketItem, buttonOptions, fiatCurrency, onClickBuy, onClickDeposit),
+        content: renderCells(
+          coinMarketItem,
+          buttonOptions,
+          fiatCurrency,
+          onClickBuy,
+          onClickDeposit
+        ),
         data: coinMarketItem,
         onClick: onSelectCoinMarket
       }
     })
-  }, [coinMarketData, isBuySupported, isDepositSupported, onClickBuy, onClickDeposit])
+  }, [
+    coinMarketData,
+    isBuySupported,
+    isDepositSupported,
+    onClickBuy,
+    onClickDeposit
+  ])
 
   return (
     <StyledWrapper>
@@ -196,7 +218,9 @@ export const MarketDataTable = (props: Props) => {
           {showEmptyState && getLocale('braveWalletMarketDataNoAssetsFound')}
         </Table>
       </TableWrapper>
-      <CoinGeckoText>{getLocale('braveWalletPoweredByCoinGecko')}</CoinGeckoText>
+      <CoinGeckoText>
+        {getLocale('braveWalletPoweredByCoinGecko')}
+      </CoinGeckoText>
     </StyledWrapper>
   )
 }

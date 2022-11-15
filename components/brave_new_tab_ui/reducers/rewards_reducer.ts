@@ -7,7 +7,10 @@ import { types } from '../constants/rewards_types'
 import { getTotalContributions } from '../rewards-utils'
 import { InitialRewardsData, PreInitialRewardsData } from '../api/initialData'
 
-const rewardsReducer: Reducer<NewTab.State | undefined> = (state: NewTab.State, action) => {
+const rewardsReducer: Reducer<NewTab.State | undefined> = (
+  state: NewTab.State,
+  action
+) => {
   const payload = action.payload
 
   switch (action.type) {
@@ -33,9 +36,11 @@ const rewardsReducer: Reducer<NewTab.State | undefined> = (state: NewTab.State, 
       dismissedNotifications.push(payload.id)
       state.rewardsState.dismissedNotifications = dismissedNotifications
 
-      state.rewardsState.promotions = state.rewardsState.promotions.filter((promotion) => {
-        return promotion.promotionId !== payload.id
-      })
+      state.rewardsState.promotions = state.rewardsState.promotions.filter(
+        (promotion) => {
+          return promotion.promotionId !== payload.id
+        }
+      )
       break
 
     case types.ON_PROMOTIONS: {
@@ -69,9 +74,11 @@ const rewardsReducer: Reducer<NewTab.State | undefined> = (state: NewTab.State, 
       oldNotifications.push(payload.promotion.promotionId)
       state.rewardsState.dismissedNotifications = oldNotifications
 
-      state.rewardsState.promotions = state.rewardsState.promotions.filter((promotion: NewTab.Promotion) => {
-        return promotion.promotionId !== payload.promotion.promotionId
-      })
+      state.rewardsState.promotions = state.rewardsState.promotions.filter(
+        (promotion: NewTab.Promotion) => {
+          return promotion.promotionId !== payload.promotion.promotionId
+        }
+      )
       break
 
     case types.ON_BALANCE:
@@ -90,7 +97,8 @@ const rewardsReducer: Reducer<NewTab.State | undefined> = (state: NewTab.State, 
           declaredCountry: preInitialRewardsDataPayload.declaredCountry,
           enabledAds: preInitialRewardsDataPayload.enabledAds,
           adsSupported: preInitialRewardsDataPayload.adsSupported,
-          needsBrowserUpgradeToServeAds: preInitialRewardsDataPayload.needsBrowserUpgradeToServeAds
+          needsBrowserUpgradeToServeAds:
+            preInitialRewardsDataPayload.needsBrowserUpgradeToServeAds
         }
       }
       break
@@ -101,7 +109,9 @@ const rewardsReducer: Reducer<NewTab.State | undefined> = (state: NewTab.State, 
         balance: initialRewardsDataPayload.balance,
         externalWallet: initialRewardsDataPayload.externalWallet,
         report: initialRewardsDataPayload.report,
-        totalContribution: getTotalContributions(initialRewardsDataPayload.report),
+        totalContribution: getTotalContributions(
+          initialRewardsDataPayload.report
+        ),
         parameters: initialRewardsDataPayload.parameters
       } as any
 

@@ -15,13 +15,15 @@ interface Props {
   customNetwork?: BraveWallet.NetworkInfo
 }
 
-function SelectNetwork ({
+function SelectNetwork({
   onSelectCustomNetwork,
   selectedNetwork,
   customNetwork
 }: Props) {
   // redux
-  const networks = useSelector(({ wallet }: { wallet: WalletState }) => wallet.networkList)
+  const networks = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.networkList
+  )
 
   const networksList = React.useMemo(() => {
     if (customNetwork) {
@@ -32,14 +34,14 @@ function SelectNetwork ({
 
   return (
     <>
-      {networksList.map((network) =>
+      {networksList.map((network) => (
         <SelectNetworkItem
           selectedNetwork={selectedNetwork}
           key={`${network.chainId}-${network.coin}`}
           network={network}
           onSelectCustomNetwork={onSelectCustomNetwork}
         />
-      )}
+      ))}
     </>
   )
 }

@@ -24,7 +24,9 @@ describe('welcome_actions', () => {
   })
 
   it('goToTabRequested', () => {
-    expect(actions.goToTabRequested('https://rossmoody.design', '_blank')).toEqual({
+    expect(
+      actions.goToTabRequested('https://rossmoody.design', '_blank')
+    ).toEqual({
       type: types.GO_TO_TAB_REQUESTED,
       meta: undefined,
       payload: { url: 'https://rossmoody.design', target: '_blank' }

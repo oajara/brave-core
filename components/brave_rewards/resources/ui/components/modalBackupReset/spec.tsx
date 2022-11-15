@@ -9,11 +9,13 @@ import ModalBackupReset from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('ModalBackupReset tests', () => {
-  const doNothing = () => { console.log('nothing') }
+  const doNothing = () => {
+    console.log('nothing')
+  }
   const baseComponent = (props?: object) => (
     <TestThemeProvider>
       <ModalBackupReset
-        id='modal'
+        id="modal"
         activeTabId={0}
         recoveryKey={''}
         onClose={doNothing}

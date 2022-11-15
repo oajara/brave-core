@@ -9,7 +9,11 @@ import { TestThemeProvider } from 'brave-ui/theme'
 import DropMenu from './index'
 
 describe('Drop Menu tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><DropMenu id={'dropMenu'} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <DropMenu id={'dropMenu'} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

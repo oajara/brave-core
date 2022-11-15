@@ -16,7 +16,7 @@ export const StyledWrapper = styled('div')`
   justify-content: center;
   background-color: ${(p) => p.theme.color.background01};
   overflow-y: auto;
- `
+`
 
 export const StyledContent = styled('div')`
   width: 456px;
@@ -26,4 +26,4 @@ export const StyledContent = styled('div')`
   justify-content: flex-start;
   padding-top: 32px;
   padding-bottom: 0px;
- `
+`

@@ -5,11 +5,7 @@
 import * as React from 'react'
 
 // styles
-import {
-  StyledWrapper,
-  Modal,
-  modalSize
-} from './nft-modal.styles'
+import { StyledWrapper, Modal, modalSize } from './nft-modal.styles'
 import { NftIcon } from '../../../../../shared/nft-icon/nft-icon'
 
 interface Props {
@@ -22,15 +18,21 @@ const ESC_KEY = 'Escape'
 export const NftModal = (props: Props) => {
   const { nftImageUrl, onClose } = props
 
-  const onClickModal = React.useCallback((event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault()
-  }, [])
+  const onClickModal = React.useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      event.preventDefault()
+    },
+    []
+  )
 
-  const handleKeyDown = React.useCallback((event: KeyboardEvent) => {
-    if (event.key === ESC_KEY) {
-      onClose()
-    }
-  }, [onClose])
+  const handleKeyDown = React.useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === ESC_KEY) {
+        onClose()
+      }
+    },
+    [onClose]
+  )
 
   // effects
   React.useEffect(() => {
@@ -42,14 +44,8 @@ export const NftModal = (props: Props) => {
   }, [handleKeyDown])
 
   return (
-    <StyledWrapper
-      onClick={onClose}
-    >
-      <Modal
-        width={modalSize}
-        height={modalSize}
-        onClick={onClickModal}
-      >
+    <StyledWrapper onClick={onClose}>
+      <Modal width={modalSize} height={modalSize} onClick={onClickModal}>
         <NftIcon
           iconStyles={{ borderRadius: '10px' }}
           icon={nftImageUrl}

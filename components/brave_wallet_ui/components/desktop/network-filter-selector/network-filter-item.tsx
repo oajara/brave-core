@@ -33,8 +33,9 @@ export interface Props {
   onSelectNetwork: (network?: BraveWallet.NetworkInfo) => void
 }
 
-function NetworkFilterItem (props: Props) {
-  const { network, onSelectNetwork, children, selectedNetwork, isSubItem } = props
+function NetworkFilterItem(props: Props) {
+  const { network, onSelectNetwork, children, selectedNetwork, isSubItem } =
+    props
   const [showSubMenu, setShowSubMenu] = React.useState<boolean>(false)
 
   const showTip = () => {
@@ -55,31 +56,24 @@ function NetworkFilterItem (props: Props) {
   }
 
   return (
-    <NetworkItemWrapper
-      onMouseEnter={showTip}
-      onMouseLeave={hideTip}
-    >
+    <NetworkItemWrapper onMouseEnter={showTip} onMouseLeave={hideTip}>
       <NetworkItemButton onClick={onClickSelectNetwork}>
         <LeftSide>
-          {network.chainId !== AllNetworksOption.chainId &&
-            <CreateNetworkIcon network={network} marginRight={14} size='big' />
-          }
+          {network.chainId !== AllNetworksOption.chainId && (
+            <CreateNetworkIcon network={network} marginRight={14} size="big" />
+          )}
           <NetworkName>
             {isSubItem
               ? network.chainName
-              : reduceNetworkDisplayName(network.chainName)
-            }
+              : reduceNetworkDisplayName(network.chainName)}
           </NetworkName>
         </LeftSide>
         {network.chainId === selectedNetwork.chainId &&
-          network.symbol.toLowerCase() === selectedNetwork.symbol.toLowerCase() &&
-          isSubItem &&
-          <BigCheckMark />
-        }
+          network.symbol.toLowerCase() ===
+            selectedNetwork.symbol.toLowerCase() &&
+          isSubItem && <BigCheckMark />}
       </NetworkItemButton>
-      {showSubMenu && !isSubItem &&
-        <>{children}</>
-      }
+      {showSubMenu && !isSubItem && <>{children}</>}
     </NetworkItemWrapper>
   )
 }

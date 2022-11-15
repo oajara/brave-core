@@ -22,11 +22,7 @@ import { getLocale } from '../../../../common/locale'
 import { suggestNewAccountName } from '../../../utils/address-utils'
 
 // Styled Components
-import {
-  StyledWrapper,
-  Description,
-  ButtonRow
-} from './style'
+import { StyledWrapper, Description, ButtonRow } from './style'
 
 export interface Props {
   isPanel?: boolean
@@ -42,12 +38,8 @@ export const CreateAccountTab = ({
   onCancel
 }: Props) => {
   // redux
-  const {
-    networkList,
-    selectedNetwork,
-    accounts,
-    isWalletLocked
-  } = useSelector((state: { wallet: WalletState }) => state.wallet)
+  const { networkList, selectedNetwork, accounts, isWalletLocked } =
+    useSelector((state: { wallet: WalletState }) => state.wallet)
 
   const dispatch = useDispatch()
 
@@ -60,9 +52,7 @@ export const CreateAccountTab = ({
   }, [network, selectedNetwork])
 
   const suggestedAccountName = React.useMemo((): string => {
-    return accountNetwork
-      ? suggestNewAccountName(accounts, accountNetwork)
-      : ''
+    return accountNetwork ? suggestNewAccountName(accounts, accountNetwork) : ''
   }, [accounts, accountNetwork])
 
   // methods
@@ -88,15 +78,22 @@ export const CreateAccountTab = ({
     }
 
     if (accountNetwork.coin === BraveWallet.CoinType.FIL) {
-      dispatch(WalletActions.addFilecoinAccount({
-        accountName: suggestedAccountName,
-        network: accountNetwork.chainId === BraveWallet.FILECOIN_TESTNET ? BraveWallet.FILECOIN_TESTNET : BraveWallet.FILECOIN_MAINNET
-      }))
+      dispatch(
+        WalletActions.addFilecoinAccount({
+          accountName: suggestedAccountName,
+          network:
+            accountNetwork.chainId === BraveWallet.FILECOIN_TESTNET
+              ? BraveWallet.FILECOIN_TESTNET
+              : BraveWallet.FILECOIN_MAINNET
+        })
+      )
     } else {
-      dispatch(WalletActions.addAccount({
-        accountName: suggestedAccountName,
-        coin: accountNetwork.coin
-      }))
+      dispatch(
+        WalletActions.addAccount({
+          accountName: suggestedAccountName,
+          coin: accountNetwork.coin
+        })
+      )
     }
 
     if (isPanel) {
@@ -110,10 +107,13 @@ export const CreateAccountTab = ({
     isPanel
   ])
 
-  const handleUnlockAttempt = React.useCallback((password: string): void => {
-    dispatch(WalletActions.unlockWallet({ password }))
-    onCreateAccount()
-  }, [onCreateAccount])
+  const handleUnlockAttempt = React.useCallback(
+    (password: string): void => {
+      dispatch(WalletActions.unlockWallet({ password }))
+      onCreateAccount()
+    },
+    [onCreateAccount]
+  )
 
   // effects
   React.useEffect(() => {
@@ -125,34 +125,35 @@ export const CreateAccountTab = ({
 
   // render
   if (isWalletLocked && showUnlock) {
-    return <StyledWrapper>
-      <Description style={{ fontSize: 16 }}>
-        {getLocale('braveWalletUnlockNeededToCreateAccount')}
-      </Description>
-      <LockPanel
-        hideBackground
-        onSubmit={handleUnlockAttempt}
-      />
-    </StyledWrapper>
+    return (
+      <StyledWrapper>
+        <Description style={{ fontSize: 16 }}>
+          {getLocale('braveWalletUnlockNeededToCreateAccount')}
+        </Description>
+        <LockPanel hideBackground onSubmit={handleUnlockAttempt} />
+      </StyledWrapper>
+    )
   }
 
   return (
     <StyledWrapper>
       <Description>
         {accountNetwork
-          ? getLocale('braveWalletCreateAccountDescription').replace('$1', accountNetwork.symbolName)
-          : ''
-        }
+          ? getLocale('braveWalletCreateAccountDescription').replace(
+              '$1',
+              accountNetwork.symbolName
+            )
+          : ''}
       </Description>
 
       <ButtonRow>
         <NavButton
-          buttonType='secondary'
+          buttonType="secondary"
           onSubmit={onCancelCreateAccount}
           text={getLocale('braveWalletCreateAccountNo')}
         />
         <NavButton
-          buttonType='primary'
+          buttonType="primary"
           onSubmit={onCreateAccount}
           text={getLocale('braveWalletCreateAccountYes')}
         />

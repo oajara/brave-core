@@ -24,10 +24,19 @@ import { Toggle } from '../../../components/toggle'
 import { getLocale } from '../../../../common/locale'
 
 import BackgroundChooser from './backgroundChooser'
-import { defaultSolidBackgroundColor, solidColorsForBackground, gradientColorsForBackground, defaultGradientColor } from '../../../data/backgrounds'
+import {
+  defaultSolidBackgroundColor,
+  solidColorsForBackground,
+  gradientColorsForBackground,
+  defaultGradientColor
+} from '../../../data/backgrounds'
 import SponsoredImageToggle from './sponsoredImagesToggle'
 
-import { RANDOM_SOLID_COLOR_VALUE, RANDOM_GRADIENT_COLOR_VALUE, MAX_CUSTOM_IMAGE_BACKGROUNDS } from 'gen/brave/components/brave_new_tab_ui/brave_new_tab_page.mojom.m.js'
+import {
+  RANDOM_SOLID_COLOR_VALUE,
+  RANDOM_GRADIENT_COLOR_VALUE,
+  MAX_CUSTOM_IMAGE_BACKGROUNDS
+} from 'gen/brave/components/brave_new_tab_ui/brave_new_tab_page.mojom.m.js'
 import BackgroundImageTiles from './backgroundImageTiles'
 
 interface Props {
@@ -58,7 +67,7 @@ interface State {
 }
 
 class BackgroundImageSettings extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       location: Location.LIST
@@ -89,18 +98,27 @@ class BackgroundImageSettings extends React.PureComponent<Props, State> {
     this.setState({ location: Location.GRADIENT_COLORS })
   }
 
-  renderUploadButton = (onClick: () => void, checked: boolean, showTitle: boolean, sampleImages?: NewTab.ImageBackground[]) => {
+  renderUploadButton = (
+    onClick: () => void,
+    checked: boolean,
+    showTitle: boolean,
+    sampleImages?: NewTab.ImageBackground[]
+  ) => {
     return (
       <StyledCustomBackgroundOption onClick={onClick}>
         <StyledSelectionBorder selected={checked}>
           <StyledUploadIconContainer selected={checked}>
-            { sampleImages?.length
-              ? <BackgroundImageTiles images={sampleImages}/>
-              : (<>
-                  <UploadIcon />
-                  <StyledUploadLabel> {getLocale('customBackgroundImageOptionUploadLabel')} </StyledUploadLabel>
-                </>)
-            }
+            {sampleImages?.length ? (
+              <BackgroundImageTiles images={sampleImages} />
+            ) : (
+              <>
+                <UploadIcon />
+                <StyledUploadLabel>
+                  {' '}
+                  {getLocale('customBackgroundImageOptionUploadLabel')}{' '}
+                </StyledUploadLabel>
+              </>
+            )}
           </StyledUploadIconContainer>
         </StyledSelectionBorder>
         {showTitle && (
@@ -112,7 +130,7 @@ class BackgroundImageSettings extends React.PureComponent<Props, State> {
     )
   }
 
-  render () {
+  render() {
     const {
       newTabData,
       toggleShowBackgroundImage,
@@ -124,16 +142,36 @@ class BackgroundImageSettings extends React.PureComponent<Props, State> {
       braveRewardsSupported
     } = this.props
 
-    const usingCustomImageBackground = newTabData.backgroundWallpaper?.type === 'image'
-    const selectedBackgroundColor = newTabData.backgroundWallpaper?.type === 'color' ? newTabData.backgroundWallpaper.wallpaperColor : undefined
-    const usingBraveBackground = !usingCustomImageBackground && !selectedBackgroundColor
-    const usingSolidColorBackground = !!selectedBackgroundColor && !!solidColorsForBackground.find(element => element.wallpaperColor === selectedBackgroundColor)
-    const usingGradientBackground = !!selectedBackgroundColor && !!gradientColorsForBackground.find(element => element.wallpaperColor === selectedBackgroundColor)
+    const usingCustomImageBackground =
+      newTabData.backgroundWallpaper?.type === 'image'
+    const selectedBackgroundColor =
+      newTabData.backgroundWallpaper?.type === 'color'
+        ? newTabData.backgroundWallpaper.wallpaperColor
+        : undefined
+    const usingBraveBackground =
+      !usingCustomImageBackground && !selectedBackgroundColor
+    const usingSolidColorBackground =
+      !!selectedBackgroundColor &&
+      !!solidColorsForBackground.find(
+        (element) => element.wallpaperColor === selectedBackgroundColor
+      )
+    const usingGradientBackground =
+      !!selectedBackgroundColor &&
+      !!gradientColorsForBackground.find(
+        (element) => element.wallpaperColor === selectedBackgroundColor
+      )
 
-    const usingRandomColor = newTabData.backgroundWallpaper?.type === 'color' && !!newTabData.backgroundWallpaper?.random
+    const usingRandomColor =
+      newTabData.backgroundWallpaper?.type === 'color' &&
+      !!newTabData.backgroundWallpaper?.random
 
-    const usingRandomCustomImageBackground = newTabData.backgroundWallpaper?.type === 'image' && !!newTabData.backgroundWallpaper.random
-    const selectedCustomImageBackground = newTabData.backgroundWallpaper?.type === 'image' ? newTabData.backgroundWallpaper.wallpaperImageUrl : undefined
+    const usingRandomCustomImageBackground =
+      newTabData.backgroundWallpaper?.type === 'image' &&
+      !!newTabData.backgroundWallpaper.random
+    const selectedCustomImageBackground =
+      newTabData.backgroundWallpaper?.type === 'image'
+        ? newTabData.backgroundWallpaper.wallpaperImageUrl
+        : undefined
 
     return (
       <>
@@ -144,17 +182,25 @@ class BackgroundImageSettings extends React.PureComponent<Props, State> {
               <Toggle
                 onChange={toggleShowBackgroundImage}
                 checked={showBackgroundImage}
-                size='large'
+                size="large"
               />
             </SettingsRow>
             {showBackgroundImage && featureCustomBackgroundEnabled && (
               <StyledCustomBackgroundSettings>
-                {this.renderUploadButton(this.onClickCustomBackground, usingCustomImageBackground, /* showTitle= */ true, this.props.newTabData.customImageBackgrounds)}
+                {this.renderUploadButton(
+                  this.onClickCustomBackground,
+                  usingCustomImageBackground,
+                  /* showTitle= */ true,
+                  this.props.newTabData.customImageBackgrounds
+                )}
                 <StyledCustomBackgroundOption
                   onClick={this.onClickBraveBackground}
                 >
                   <StyledSelectionBorder selected={usingBraveBackground}>
-                    <StyledCustomBackgroundOptionImage image={braveBackground} selected={usingBraveBackground}/>
+                    <StyledCustomBackgroundOptionImage
+                      image={braveBackground}
+                      selected={usingBraveBackground}
+                    />
                   </StyledSelectionBorder>
                   <StyledCustomBackgroundOptionLabel>
                     {getLocale('braveBackgroundImageOptionTitle')}
@@ -165,7 +211,11 @@ class BackgroundImageSettings extends React.PureComponent<Props, State> {
                 >
                   <StyledSelectionBorder selected={usingSolidColorBackground}>
                     <StyledCustomBackgroundOptionColor
-                      colorValue={usingSolidColorBackground ? selectedBackgroundColor : defaultSolidBackgroundColor }
+                      colorValue={
+                        usingSolidColorBackground
+                          ? selectedBackgroundColor
+                          : defaultSolidBackgroundColor
+                      }
                       selected={usingSolidColorBackground}
                     />
                   </StyledSelectionBorder>
@@ -178,7 +228,11 @@ class BackgroundImageSettings extends React.PureComponent<Props, State> {
                 >
                   <StyledSelectionBorder selected={usingGradientBackground}>
                     <StyledCustomBackgroundOptionColor
-                      colorValue={usingGradientBackground ? selectedBackgroundColor : defaultGradientColor}
+                      colorValue={
+                        usingGradientBackground
+                          ? selectedBackgroundColor
+                          : defaultGradientColor
+                      }
                       selected={usingGradientBackground}
                     />
                   </StyledSelectionBorder>
@@ -188,58 +242,94 @@ class BackgroundImageSettings extends React.PureComponent<Props, State> {
                 </StyledCustomBackgroundOption>
               </StyledCustomBackgroundSettings>
             )}
-            <div style={{ height: '16px' }}/>
+            <div style={{ height: '16px' }} />
             {braveRewardsSupported && (
               <SettingsRow>
                 <SponsoredImageToggle
                   onChange={toggleBrandedWallpaperOptIn}
                   onEnableRewards={onEnableRewards}
                   checked={showBackgroundImage && brandedWallpaperOptIn}
-                  disabled={!showBackgroundImage /* This option can only be enabled if users opt in for background images */}
-                  rewardsEnabled={this.props.newTabData.rewardsState.rewardsEnabled}
+                  disabled={
+                    !showBackgroundImage /* This option can only be enabled if users opt in for background images */
+                  }
+                  rewardsEnabled={
+                    this.props.newTabData.rewardsState.rewardsEnabled
+                  }
                   adsEnabled={this.props.newTabData.rewardsState.enabledAds}
-                  canSupportAds={!!this.props.newTabData.rewardsState.adsSupported}/>
+                  canSupportAds={
+                    !!this.props.newTabData.rewardsState.adsSupported
+                  }
+                />
               </SettingsRow>
             )}
           </div>
         )}
-        {this.state.location === Location.SOLID_COLORS &&
+        {this.state.location === Location.SOLID_COLORS && (
           <BackgroundChooser
             title={getLocale('solidColorTitle')}
             backgrounds={solidColorsForBackground}
             currentValue={selectedBackgroundColor}
             usingRandomColor={usingSolidColorBackground && usingRandomColor}
-            onToggleRandomColor={on => this.props.setColorBackground(on ? RANDOM_SOLID_COLOR_VALUE : (selectedBackgroundColor ?? defaultSolidBackgroundColor), on)}
+            onToggleRandomColor={(on) =>
+              this.props.setColorBackground(
+                on
+                  ? RANDOM_SOLID_COLOR_VALUE
+                  : selectedBackgroundColor ?? defaultSolidBackgroundColor,
+                on
+              )
+            }
             onSelectValue={this.props.setColorBackground}
             onBack={() => this.setLocation(Location.LIST)}
           />
-        }
-        {this.state.location === Location.GRADIENT_COLORS &&
+        )}
+        {this.state.location === Location.GRADIENT_COLORS && (
           <BackgroundChooser
             title={getLocale('gradientColorTitle')}
             backgrounds={gradientColorsForBackground}
             currentValue={selectedBackgroundColor}
             usingRandomColor={usingGradientBackground && usingRandomColor}
-            onToggleRandomColor={on => this.props.setColorBackground(on ? RANDOM_GRADIENT_COLOR_VALUE : (selectedBackgroundColor ?? defaultGradientColor), on)}
+            onToggleRandomColor={(on) =>
+              this.props.setColorBackground(
+                on
+                  ? RANDOM_GRADIENT_COLOR_VALUE
+                  : selectedBackgroundColor ?? defaultGradientColor,
+                on
+              )
+            }
             onSelectValue={this.props.setColorBackground}
             onBack={() => this.setLocation(Location.LIST)}
           />
-        }
-        {this.state.location === Location.CUSTOM_IMAGES &&
+        )}
+        {this.state.location === Location.CUSTOM_IMAGES && (
           <BackgroundChooser
             title={getLocale('customBackgroundImageOptionTitle')}
             backgrounds={this.props.newTabData.customImageBackgrounds}
             currentValue={selectedCustomImageBackground}
             usingRandomColor={usingRandomCustomImageBackground}
-            onToggleRandomColor={on => this.props.setCustomImageBackground(on ? '' : this.props.newTabData.customImageBackgrounds[0].wallpaperImageUrl)}
+            onToggleRandomColor={(on) =>
+              this.props.setCustomImageBackground(
+                on
+                  ? ''
+                  : this.props.newTabData.customImageBackgrounds[0]
+                      .wallpaperImageUrl
+              )
+            }
             onSelectValue={this.props.setCustomImageBackground}
             onBack={() => this.setLocation(Location.LIST)}
-            renderExtraButton={ this.props.newTabData.customImageBackgrounds?.length < MAX_CUSTOM_IMAGE_BACKGROUNDS
-                ? () => this.renderUploadButton(this.props.chooseNewCustomImageBackground, /* checked= */false, /* showTitle= */ false)
-                : undefined}
+            renderExtraButton={
+              this.props.newTabData.customImageBackgrounds?.length <
+              MAX_CUSTOM_IMAGE_BACKGROUNDS
+                ? () =>
+                    this.renderUploadButton(
+                      this.props.chooseNewCustomImageBackground,
+                      /* checked= */ false,
+                      /* showTitle= */ false
+                    )
+                : undefined
+            }
             onRemoveValue={this.props.removeCustomImageBackground}
           />
-        }
+        )}
       </>
     )
   }

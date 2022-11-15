@@ -18,8 +18,8 @@ export const Menu = styled('ul')`
   border-radius: 4px;
   box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.3);
   padding: 8px 0;
-  background-color: ${p => p.theme.color.contextMenuBackground};
-  color:  ${p => p.theme.color.contextMenuForeground};
+  background-color: ${(p) => p.theme.color.contextMenuBackground};
+  color: ${(p) => p.theme.color.contextMenuForeground};
 `
 
 export const MenuItem = styled('li')`
@@ -30,18 +30,18 @@ export const MenuItem = styled('li')`
 
   &:hover,
   &:focus {
-    background-color: ${p => p.theme.color.contextMenuHoverBackground};
-    color: ${p => p.theme.color.contextMenuHoverForeground};
+    background-color: ${(p) => p.theme.color.contextMenuHoverBackground};
+    color: ${(p) => p.theme.color.contextMenuHoverForeground};
   }
 
   &:active {
     // TODO(petemill): Theme doesn't have a context menu interactive color,
     // make one and don't make entire element opaque.
-    opacity: .8;
+    opacity: 0.8;
   }
 
   &:focus-visible {
-    outline: solid 1px ${p => p.theme.color.brandBrave};
+    outline: solid 1px ${(p) => p.theme.color.brandBrave};
   }
 `
 
@@ -67,19 +67,20 @@ export const IconButton = styled('button')<ButtonProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${p => p.theme.color.text02};
+  color: ${(p) => p.theme.color.text02};
 
   &:hover {
-    color: ${p => p.theme.color.interactive02};
+    color: ${(p) => p.theme.color.interactive02};
     background: rgba(160, 165, 235, 0.16);
-
   }
   &:focus-visible {
     box-shadow: 0 0 0 2px rgb(160, 165, 235);
   }
-  ${p => p.isActive && css`
-    color: rgba(76, 84, 210, 0.7);
-  `}
+  ${(p) =>
+    p.isActive &&
+    css`
+      color: rgba(76, 84, 210, 0.7);
+    `}
   &:active {
     color: rgba(76, 84, 210, 0.7);
   }

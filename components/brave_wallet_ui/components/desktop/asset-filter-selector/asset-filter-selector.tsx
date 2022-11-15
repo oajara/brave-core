@@ -4,10 +4,7 @@
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 
 import * as React from 'react'
-import {
-  useSelector,
-  useDispatch
-} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { WalletActions } from '../../../common/actions'
 
 // Types
@@ -30,7 +27,9 @@ import {
 export const AssetFilterSelector = () => {
   const [showAssetFilter, setShowAssetFilter] = React.useState<boolean>(false)
 
-  const selectedAssetFilter = useSelector(({ wallet }: { wallet: WalletState }) => wallet.selectedAssetFilter)
+  const selectedAssetFilter = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.selectedAssetFilter
+  )
 
   const dispatch = useDispatch()
 
@@ -49,30 +48,24 @@ export const AssetFilterSelector = () => {
 
   return (
     <StyledWrapper>
-
-      <DropDownButton
-        onClick={toggleShowAssetFilter}>
-        <SelectorLeftSide>
-          {selectedAssetFilter.name}
-        </SelectorLeftSide>
+      <DropDownButton onClick={toggleShowAssetFilter}>
+        <SelectorLeftSide>{selectedAssetFilter.name}</SelectorLeftSide>
         <DropDownIcon />
       </DropDownButton>
 
-      {showAssetFilter &&
+      {showAssetFilter && (
         <DropDown>
-          {AssetFilterOptions.map((assetFilterItem: AssetFilterOption) =>
+          {AssetFilterOptions.map((assetFilterItem: AssetFilterOption) => (
             <AssetFilterItem
               key={assetFilterItem.id}
               assetFilterItem={assetFilterItem}
               onSelectAssetFilterItem={onSelectAndClose}
               selectedAssetFilterItem={selectedAssetFilter}
             />
-          )}
+          ))}
         </DropDown>
-      }
-      {showAssetFilter &&
-        <ClickAwayArea onClick={hideAssetFilter} />
-      }
-    </StyledWrapper >
+      )}
+      {showAssetFilter && <ClickAwayArea onClick={hideAssetFilter} />}
+    </StyledWrapper>
   )
 }

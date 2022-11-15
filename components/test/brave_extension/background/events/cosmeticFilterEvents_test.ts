@@ -14,10 +14,12 @@ describe('cosmeticFilterEvents events', () => {
   describe('when runtime.onMessage is received', () => {
     describe('contextMenuOpened', () => {
       it('assigns the base URI', () => {
-        chrome.runtime.sendMessage({ type: 'contextMenuOpened', baseURI: 'brave.com' },
-        () => {
-          expect(cosmeticFilterEvents.rule.host).toBe('brave.com')
-        })
+        chrome.runtime.sendMessage(
+          { type: 'contextMenuOpened', baseURI: 'brave.com' },
+          () => {
+            expect(cosmeticFilterEvents.rule.host).toBe('brave.com')
+          }
+        )
       })
     })
   })
@@ -28,14 +30,19 @@ describe('cosmeticFilterEvents events', () => {
     let chromeTabsSendMessageSpy: jest.SpyInstance
     let chromeBraveShieldsAddSiteCosmeticFilterSpy: jest.SpyInstance
     chrome.braveShields = {
-      addSiteCosmeticFilter: () => { /* stub */ }
+      addSiteCosmeticFilter: () => {
+        /* stub */
+      }
     }
     beforeEach(() => {
       contextMenuOnClickedSpy = jest.spyOn(chrome.tabs, 'create')
       chromeTabsQuerySpy = jest.spyOn(chrome.tabs, 'query')
       chromeTabsSendMessageSpy = jest.spyOn(chrome.tabs, 'sendMessage')
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      chromeBraveShieldsAddSiteCosmeticFilterSpy = jest.spyOn(chrome.braveShields, 'addSiteCosmeticFilter')
+      chromeBraveShieldsAddSiteCosmeticFilterSpy = jest.spyOn(
+        chrome.braveShields,
+        'addSiteCosmeticFilter'
+      )
     })
     afterEach(() => {
       contextMenuOnClickedSpy.mockRestore()
@@ -44,7 +51,11 @@ describe('cosmeticFilterEvents events', () => {
 
     describe('addBlockElement', function () {
       it('triggers addBlockElement action (query call)', function () {
-        const info: chrome.contextMenus.OnClickData = { menuItemId: 'elementPickerMode', editable: false, pageUrl: 'brave.com' }
+        const info: chrome.contextMenus.OnClickData = {
+          menuItemId: 'elementPickerMode',
+          editable: false,
+          pageUrl: 'brave.com'
+        }
         // calls query
         const tab: chrome.tabs.Tab = {
           id: 3,
@@ -73,7 +84,10 @@ describe('cosmeticFilterEvents events', () => {
         })
         it('calls `chrome.tabs.insertCSS` with cosmetic filter rule', function () {
           selectorToReturn = '#test_selector'
-          cosmeticFilterEvents.applyCosmeticFilter('brave.com', selectorToReturn)
+          cosmeticFilterEvents.applyCosmeticFilter(
+            'brave.com',
+            selectorToReturn
+          )
           let returnObj = {
             'code': '#test_selector {display: none !important;}',
             'cssOrigin': 'user'

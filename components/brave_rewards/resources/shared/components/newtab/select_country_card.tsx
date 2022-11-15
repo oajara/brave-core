@@ -16,24 +16,24 @@ interface Props {
   onContinue: () => void
 }
 
-export function SelectCountryCard (props: Props) {
+export function SelectCountryCard(props: Props) {
   const { getString } = React.useContext(LocaleContext)
   return (
     <style.root>
       <style.header>
-        <GeoPinIcon />{getString('rewardsSelectCountryHeader')}
+        <GeoPinIcon />
+        {getString('rewardsSelectCountryHeader')}
       </style.header>
       <style.text>
-        {
-          formatMessage(getString('rewardsSelectCountryText'), {
-            tags: {
-              $1: (content) =>
-                <NewTabLink key='link' href={privacyPolicyURL}>
-                  {content}
-                </NewTabLink>
-            }
-          })
-        }
+        {formatMessage(getString('rewardsSelectCountryText'), {
+          tags: {
+            $1: (content) => (
+              <NewTabLink key="link" href={privacyPolicyURL}>
+                {content}
+              </NewTabLink>
+            )
+          }
+        })}
       </style.text>
       <style.enable>
         <button onClick={props.onContinue}>

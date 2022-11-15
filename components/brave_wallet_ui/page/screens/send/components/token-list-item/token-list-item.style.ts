@@ -31,7 +31,7 @@ export const NetworkIconWrapper = styled.div`
   padding: 2px;
 `
 
-export const Button = styled(StyledButton) <{ morePadding?: boolean }>`
+export const Button = styled(StyledButton)<{ morePadding?: boolean }>`
   --button-background-hover: ${(p) => p.theme.palette.white};
   --button-shadow-hover: 0px 0px 16px rgba(99, 105, 110, 0.18);
   @media (prefers-color-scheme: dark) {

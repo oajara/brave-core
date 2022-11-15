@@ -5,7 +5,13 @@
 
 import * as React from 'react'
 import { useDispatch } from 'react-redux'
-import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom'
+import {
+  Redirect,
+  Route,
+  Switch,
+  useHistory,
+  useLocation
+} from 'react-router-dom'
 
 // utils
 import { getLocale } from '$web-common/locale'
@@ -27,7 +33,10 @@ import {
 } from '../constants/types'
 
 // hooks
-import { useSafePageSelector, useSafeWalletSelector } from '../common/hooks/use-safe-selector'
+import {
+  useSafePageSelector,
+  useSafeWalletSelector
+} from '../common/hooks/use-safe-selector'
 
 // style
 import 'emptykit.css'
@@ -40,7 +49,12 @@ import {
 } from './screens/page-screen.styles'
 
 // components
-import { CryptoView, LockScreen, WalletPageLayout, WalletSubViewLayout } from '../components/desktop'
+import {
+  CryptoView,
+  LockScreen,
+  WalletPageLayout,
+  WalletSubViewLayout
+} from '../components/desktop'
 import { Skeleton } from '../components/shared/loading-skeleton/styles'
 import BuySendSwap from '../stories/screens/buy-send-swap'
 import { OnboardingRoutes } from './screens/onboarding/onboarding.routes'
@@ -53,7 +67,8 @@ import { RestoreWallet } from './screens/restore-wallet/restore-wallet'
 import { Swap } from './screens/swap/swap'
 import { SendScreen } from './screens/send/send-page/send-screen'
 
-const featureRequestUrl = 'https://community.brave.com/tags/c/wallet/131/feature-request'
+const featureRequestUrl =
+  'https://community.brave.com/tags/c/wallet/131/feature-request'
 
 export const Container = () => {
   // routing
@@ -66,20 +81,35 @@ export const Container = () => {
   // wallet selectors (safe)
   const isWalletCreated = useSafeWalletSelector(WalletSelectors.isWalletCreated)
   const isWalletLocked = useSafeWalletSelector(WalletSelectors.isWalletLocked)
-  const isWalletBackedUp = useSafeWalletSelector(WalletSelectors.isWalletBackedUp)
-  const hasIncorrectPassword = useSafeWalletSelector(WalletSelectors.hasIncorrectPassword)
+  const isWalletBackedUp = useSafeWalletSelector(
+    WalletSelectors.isWalletBackedUp
+  )
+  const hasIncorrectPassword = useSafeWalletSelector(
+    WalletSelectors.hasIncorrectPassword
+  )
   const hasInitialized = useSafeWalletSelector(WalletSelectors.hasInitialized)
-  const defaultEthereumWallet = useSafeWalletSelector(WalletSelectors.defaultEthereumWallet)
-  const defaultSolanaWallet = useSafeWalletSelector(WalletSelectors.defaultSolanaWallet)
-  const isMetaMaskInstalled = useSafeWalletSelector(WalletSelectors.isMetaMaskInstalled)
+  const defaultEthereumWallet = useSafeWalletSelector(
+    WalletSelectors.defaultEthereumWallet
+  )
+  const defaultSolanaWallet = useSafeWalletSelector(
+    WalletSelectors.defaultSolanaWallet
+  )
+  const isMetaMaskInstalled = useSafeWalletSelector(
+    WalletSelectors.isMetaMaskInstalled
+  )
 
   // page selectors (safe)
-  const setupStillInProgress = useSafePageSelector(PageSelectors.setupStillInProgress)
+  const setupStillInProgress = useSafePageSelector(
+    PageSelectors.setupStillInProgress
+  )
 
   // state
-  const [sessionRoute, setSessionRoute] = React.useState<string | undefined>(undefined)
+  const [sessionRoute, setSessionRoute] = React.useState<string | undefined>(
+    undefined
+  )
   const [inputValue, setInputValue] = React.useState<string>('')
-  const [selectedWidgetTab, setSelectedWidgetTab] = React.useState<BuySendSwapTypes>('buy')
+  const [selectedWidgetTab, setSelectedWidgetTab] =
+    React.useState<BuySendSwapTypes>('buy')
 
   // methods
   const onToggleShowRestore = React.useCallback(() => {
@@ -114,12 +144,15 @@ export const Container = () => {
     }
   }, [inputValue, sessionRoute])
 
-  const handlePasswordChanged = React.useCallback((value: string) => {
-    setInputValue(value)
-    if (hasIncorrectPassword) {
-      dispatch(WalletActions.hasIncorrectPassword(false))
-    }
-  }, [hasIncorrectPassword])
+  const handlePasswordChanged = React.useCallback(
+    (value: string) => {
+      setInputValue(value)
+      if (hasIncorrectPassword) {
+        dispatch(WalletActions.hasIncorrectPassword(false))
+      }
+    },
+    [hasIncorrectPassword]
+  )
 
   const onOpenWalletSettings = React.useCallback(() => {
     dispatch(WalletPageActions.openWalletSettings())
@@ -134,16 +167,15 @@ export const Container = () => {
   }, [])
 
   // computed
-  const walletNotYetCreated = (!isWalletCreated || setupStillInProgress)
+  const walletNotYetCreated = !isWalletCreated || setupStillInProgress
 
   const showBuySendSwapSidebar =
-    isWalletCreated && !isWalletLocked &&
-    (
-      walletLocation.includes(WalletRoutes.Portfolio) ||
+    isWalletCreated &&
+    !isWalletLocked &&
+    (walletLocation.includes(WalletRoutes.Portfolio) ||
       walletLocation.includes(WalletRoutes.Accounts) ||
       walletLocation.includes(WalletRoutes.Market) ||
-      walletLocation.includes(WalletRoutes.Nfts)
-    )
+      walletLocation.includes(WalletRoutes.Nfts))
 
   // effects
   React.useEffect(() => {
@@ -212,15 +244,12 @@ export const Container = () => {
   return (
     <WalletPageLayout maintainWidth={walletLocation === WalletRoutes.Swap}>
       <WalletSubViewLayout noPadding={walletLocation === WalletRoutes.Swap}>
-
         <Switch>
-
-          {walletNotYetCreated
-            ? <OnboardingRoutes />
-
+          {walletNotYetCreated ? (
+            <OnboardingRoutes />
+          ) : (
             // Post-onboarding flows
-            : <Switch>
-
+            <Switch>
               <Route path={WalletRoutes.OnboardingComplete} exact>
                 <OnboardingSuccess />
               </Route>
@@ -239,7 +268,7 @@ export const Container = () => {
                 </SimplePageWrapper>
               </Route>
 
-              {isWalletLocked &&
+              {isWalletLocked && (
                 <Route path={WalletRoutes.Unlock} exact={true}>
                   <SimplePageWrapper>
                     <LockScreen
@@ -252,29 +281,29 @@ export const Container = () => {
                     />
                   </SimplePageWrapper>
                 </Route>
-              }
+              )}
 
-              {!isWalletLocked &&
+              {!isWalletLocked && (
                 <Route path={WalletRoutes.Swap} exact={true}>
                   <Swap />
                 </Route>
-              }
+              )}
 
-              {!isWalletLocked &&
+              {!isWalletLocked && (
                 <Route path={WalletRoutes.Send} exact={true}>
                   <SendScreen />
                 </Route>
-              }
+              )}
 
-              {!isWalletLocked &&
+              {!isWalletLocked && (
                 <Route path={WalletRoutes.Backup}>
                   <SimplePageWrapper>
                     <BackupWalletRoutes />
                   </SimplePageWrapper>
                 </Route>
-              }
+              )}
 
-              {!isWalletLocked &&
+              {!isWalletLocked && (
                 <Route path={WalletRoutes.CryptoPage}>
                   <CryptoView
                     needsBackup={!isWalletBackedUp}
@@ -285,17 +314,16 @@ export const Container = () => {
                     sessionRoute={sessionRoute}
                   />
                 </Route>
-              }
+              )}
 
               {isWalletLocked && <Redirect to={WalletRoutes.Unlock} />}
               {!isWalletLocked && <Redirect to={WalletRoutes.Portfolio} />}
-
             </Switch>
-          }
+          )}
         </Switch>
       </WalletSubViewLayout>
 
-      {showBuySendSwapSidebar &&
+      {showBuySendSwapSidebar && (
         <WalletWidgetStandIn>
           <BuySendSwap
             selectedTab={selectedWidgetTab}
@@ -304,14 +332,16 @@ export const Container = () => {
           />
           <SweepstakesBanner />
         </WalletWidgetStandIn>
-      }
+      )}
 
-      {!isWalletLocked && walletLocation !== WalletRoutes.Swap &&
+      {!isWalletLocked && walletLocation !== WalletRoutes.Swap && (
         <FeatureRequestButton onClick={onClickFeatureRequestButton}>
           <IdeaButtonIcon />
-          <ButtonText>{getLocale('braveWalletRequestFeatureButtonText')}</ButtonText>
+          <ButtonText>
+            {getLocale('braveWalletRequestFeatureButtonText')}
+          </ButtonText>
         </FeatureRequestButton>
-      }
+      )}
     </WalletPageLayout>
   )
 }

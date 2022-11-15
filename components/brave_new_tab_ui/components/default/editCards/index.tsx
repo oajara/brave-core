@@ -6,11 +6,7 @@ import * as React from 'react'
 import { getLocale } from '../../../../common/locale'
 
 // Components
-import {
-  StyledWrapper,
-  StyledTitle,
-  StyledEditIcon
-} from './style'
+import { StyledWrapper, StyledTitle, StyledEditIcon } from './style'
 import EditIcon from './assets/edit-icon.svg'
 
 interface Props {
@@ -18,14 +14,12 @@ interface Props {
 }
 
 export default class EditCards extends React.PureComponent<Props, {}> {
-  render () {
+  render() {
     return (
       <StyledWrapper onClick={this.props.onEditCards}>
         <StyledTitle>
           <StyledEditIcon src={EditIcon} />
-          <span>
-            {getLocale('editCardsTitle')}
-          </span>
+          <span>{getLocale('editCardsTitle')}</span>
         </StyledTitle>
       </StyledWrapper>
     )

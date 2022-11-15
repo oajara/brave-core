@@ -19,7 +19,7 @@ export const _TransactionConfirming = () => {
       <PanelWrapper isLonger={false}>
         <StyledExtensionWrapper>
           <TransactionConfirming
-            headerTitle='Swap 0.01 ETH to 32.2583 USDC'
+            headerTitle="Swap 0.01 ETH to 32.2583 USDC"
             confirmations={8}
             confirmationsNeeded={12}
             onClose={onClose}

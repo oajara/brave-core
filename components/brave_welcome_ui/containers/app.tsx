@@ -39,7 +39,7 @@ export interface State {
 }
 
 export class WelcomePage extends React.Component<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       currentScreen: 1,
@@ -49,11 +49,11 @@ export class WelcomePage extends React.Component<Props, State> {
     }
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     this.props.actions.recordP3A(this.state)
   }
 
-  get currentScreen () {
+  get currentScreen() {
     return this.state.currentScreen
   }
 
@@ -104,7 +104,7 @@ export class WelcomePage extends React.Component<Props, State> {
     this.setState({ shouldUpdateElementOverflow: true })
   }
 
-  render () {
+  render() {
     const { welcomeData, actions } = this.props
     const { shouldUpdateElementOverflow } = this.state
 
@@ -126,25 +126,34 @@ export class WelcomePage extends React.Component<Props, State> {
     return (
       <>
         <Page
-          id='welcomePage'
+          id="welcomePage"
           onAnimationEnd={this.resetStyleOverflow}
           shouldUpdateElementOverflow={shouldUpdateElementOverflow}
         >
           <Panel>
             <SlideContent>
-              <WelcomeBox index={welcomeBoxIndex} currentScreen={this.currentScreen} onClick={this.onClickLetsGo} />
+              <WelcomeBox
+                index={welcomeBoxIndex}
+                currentScreen={this.currentScreen}
+                onClick={this.onClickLetsGo}
+              />
               <ImportBox
                 index={importBoxIndex}
                 currentScreen={this.currentScreen}
                 onClick={this.onClickImport}
                 browserProfiles={welcomeData.browserProfiles}
               />
-              <ShieldsBox index={shieldsBoxIndex} currentScreen={this.currentScreen} />
+              <ShieldsBox
+                index={shieldsBoxIndex}
+                currentScreen={this.currentScreen}
+              />
               <SearchBox
                 index={searchBoxIndex}
                 currentScreen={this.currentScreen}
                 onClick={onNext}
-                changeDefaultSearchProvider={actions.changeDefaultSearchProvider}
+                changeDefaultSearchProvider={
+                  actions.changeDefaultSearchProvider
+                }
                 searchProviders={welcomeData.searchProviders}
               />
               <RewardsBox
@@ -163,7 +172,7 @@ export class WelcomePage extends React.Component<Props, State> {
             />
           </Panel>
           <BackgroundContainer>
-            <Background/>
+            <Background />
           </BackgroundContainer>
         </Page>
       </>
@@ -179,7 +188,4 @@ export const mapDispatchToProps = (dispatch: Dispatch) => ({
   actions: bindActionCreators(welcomeActions, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WelcomePage)
+export default connect(mapStateToProps, mapDispatchToProps)(WelcomePage)

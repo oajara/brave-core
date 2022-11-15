@@ -17,7 +17,7 @@ interface Props {
   onCancelClick: () => void
 }
 
-export function MonthlyTipView (props: Props) {
+export function MonthlyTipView(props: Props) {
   const { getString } = React.useContext(LocaleContext)
   const [showActions, setShowActions] = React.useState(false)
 
@@ -29,7 +29,7 @@ export function MonthlyTipView (props: Props) {
         <style.setBox>
           <button
             onClick={props.onUpdateClick}
-            data-test-id='set-monthly-tip-button'
+            data-test-id="set-monthly-tip-button"
           >
             {getString('set')}
           </button>
@@ -38,16 +38,16 @@ export function MonthlyTipView (props: Props) {
     )
   }
 
-  function toggleActionBubble () {
+  function toggleActionBubble() {
     setShowActions(!showActions)
   }
 
-  function onUpdateClick () {
+  function onUpdateClick() {
     setShowActions(false)
     props.onUpdateClick()
   }
 
-  function onCancelClick () {
+  function onCancelClick() {
     setShowActions(false)
     props.onCancelClick()
   }
@@ -58,38 +58,35 @@ export function MonthlyTipView (props: Props) {
         <style.amount>
           <button
             onClick={toggleActionBubble}
-            data-test-id='monthly-tip-actions-button'
+            data-test-id="monthly-tip-actions-button"
           >
-            <TokenAmount
-              amount={monthlyTip}
-              minimumFractionDigits={0}
-            /> <CaretIcon direction='down' />
+            <TokenAmount amount={monthlyTip} minimumFractionDigits={0} />{' '}
+            <CaretIcon direction="down" />
           </button>
         </style.amount>
-        {
-          showActions &&
-            <style.actionBubble>
-              <style.actionBubbleContent>
-                <style.action>
-                  <button
-                    onClick={onUpdateClick}
-                    data-test-id='change-monthly-tip-button'
-                  >
-                    {getString('changeAmount')}
-                  </button>
-                </style.action>
-                <style.action>
-                  <button
-                    onClick={onCancelClick}
-                    data-test-id='cancel-monthly-tip-button'
-                  >
-                    {getString('cancel')}
-                  </button>
-                </style.action>
-                <style.backdrop onClick={toggleActionBubble} />
-              </style.actionBubbleContent>
-            </style.actionBubble>
-        }
+        {showActions && (
+          <style.actionBubble>
+            <style.actionBubbleContent>
+              <style.action>
+                <button
+                  onClick={onUpdateClick}
+                  data-test-id="change-monthly-tip-button"
+                >
+                  {getString('changeAmount')}
+                </button>
+              </style.action>
+              <style.action>
+                <button
+                  onClick={onCancelClick}
+                  data-test-id="cancel-monthly-tip-button"
+                >
+                  {getString('cancel')}
+                </button>
+              </style.action>
+              <style.backdrop onClick={toggleActionBubble} />
+            </style.actionBubbleContent>
+          </style.actionBubble>
+        )}
       </style.amountBox>
     </style.root>
   )

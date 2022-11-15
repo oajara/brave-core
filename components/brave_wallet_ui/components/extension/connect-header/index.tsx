@@ -11,11 +11,7 @@ import { getLocale } from '../../../../common/locale'
 import { CreateSiteOrigin } from '../../shared'
 
 // Styled Components
-import {
-  StyledWrapper,
-  FavIcon,
-  PanelTitle
-} from './style'
+import { StyledWrapper, FavIcon, PanelTitle } from './style'
 
 import { URLText } from '../shared-panel-styles'
 import { BraveWallet } from '../../../constants/types'
@@ -25,7 +21,7 @@ export interface Props {
   hideTitle?: boolean
 }
 
-function ConnectHeader (props: Props) {
+function ConnectHeader(props: Props) {
   const { originInfo, hideTitle } = props
 
   return (
@@ -37,9 +33,11 @@ function ConnectHeader (props: Props) {
           eTldPlusOne={originInfo.eTldPlusOne}
         />
       </URLText>
-      {!hideTitle &&
-        <PanelTitle>{getLocale('braveWalletConnectWithSiteHeaderTitle')}</PanelTitle>
-      }
+      {!hideTitle && (
+        <PanelTitle>
+          {getLocale('braveWalletConnectWithSiteHeaderTitle')}
+        </PanelTitle>
+      )}
     </StyledWrapper>
   )
 }

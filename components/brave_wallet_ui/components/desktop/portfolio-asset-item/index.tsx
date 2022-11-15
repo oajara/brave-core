@@ -17,7 +17,11 @@ import { unbiasedRandom } from '../../../utils/random-utils'
 import { isDataURL } from '../../../utils/string-utils'
 
 // Components
-import { withPlaceholderIcon, CreateNetworkIcon, LoadingSkeleton } from '../../shared'
+import {
+  withPlaceholderIcon,
+  CreateNetworkIcon,
+  LoadingSkeleton
+} from '../../shared'
 import { WithHideBalancePlaceholder } from '../'
 import { NftIcon } from '../../shared/nft-icon/nft-icon'
 
@@ -53,29 +57,41 @@ export const PortfolioAssetItem = ({
   isPanel
 }: Props) => {
   // redux
-  const defaultCurrencies = useSelector(({ wallet }: { wallet: WalletState }) => wallet.defaultCurrencies)
-  const networks = useSelector(({ wallet }: { wallet: WalletState }) => wallet.networkList)
-  const spotPrices = useSelector(({ wallet }: { wallet: WalletState }) => wallet.transactionSpotPrices)
+  const defaultCurrencies = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.defaultCurrencies
+  )
+  const networks = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.networkList
+  )
+  const spotPrices = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.transactionSpotPrices
+  )
 
   // state
   const [assetNameSkeletonWidth, setAssetNameSkeletonWidth] = React.useState(0)
-  const [assetNetworkSkeletonWidth, setAssetNetworkSkeletonWidth] = React.useState(0)
+  const [assetNetworkSkeletonWidth, setAssetNetworkSkeletonWidth] =
+    React.useState(0)
 
   // memos & computed
   const AssetIconWithPlaceholder = React.useMemo(() => {
-    return withPlaceholderIcon(token.isErc721 && !isDataURL(token.logo) ? NftIcon : AssetIcon, { size: 'big', marginLeft: 0, marginRight: 8 })
+    return withPlaceholderIcon(
+      token.isErc721 && !isDataURL(token.logo) ? NftIcon : AssetIcon,
+      { size: 'big', marginLeft: 0, marginRight: 8 }
+    )
   }, [token.isErc721])
 
   const formattedAssetBalance = token.isErc721
-    ? new Amount(assetBalance)
-      .divideByDecimals(token.decimals)
-      .format()
+    ? new Amount(assetBalance).divideByDecimals(token.decimals).format()
     : new Amount(assetBalance)
-      .divideByDecimals(token.decimals)
-      .formatAsAsset(6, token.symbol)
+        .divideByDecimals(token.decimals)
+        .formatAsAsset(6, token.symbol)
 
   const fiatBalance = React.useMemo(() => {
-    return computeFiatAmount(spotPrices, { decimals: token.decimals, symbol: token.symbol, value: assetBalance })
+    return computeFiatAmount(spotPrices, {
+      decimals: token.decimals,
+      symbol: token.symbol,
+      value: assetBalance
+    })
   }, [spotPrices, assetBalance, token.symbol, token.decimals])
 
   const formattedFiatBalance = React.useMemo(() => {
@@ -115,55 +131,62 @@ export const PortfolioAssetItem = ({
   // render
   return (
     <>
-      {token.visible &&
+      {token.visible && (
         // Selecting an erc721 token is temp disabled until UI is ready for viewing NFTs
         // or when showing loading skeleton
         <StyledWrapper disabled={isLoading} onClick={action}>
           <NameAndIcon>
             <IconsWrapper>
-              {!token.logo
-                ? <LoadingSkeleton
-                  circle={true}
-                  width={40}
-                  height={40}
-                />
-                : <>
-                  <AssetIconWithPlaceholder asset={token} network={tokensNetwork} />
-                  {tokensNetwork && token.contractAddress !== '' && !isPanel &&
+              {!token.logo ? (
+                <LoadingSkeleton circle={true} width={40} height={40} />
+              ) : (
+                <>
+                  <AssetIconWithPlaceholder
+                    asset={token}
+                    network={tokensNetwork}
+                  />
+                  {tokensNetwork && token.contractAddress !== '' && !isPanel && (
                     <NetworkIconWrapper>
-                      <CreateNetworkIcon network={tokensNetwork} marginRight={0} />
+                      <CreateNetworkIcon
+                        network={tokensNetwork}
+                        marginRight={0}
+                      />
                     </NetworkIconWrapper>
-                  }
+                  )}
                 </>
-              }
+              )}
             </IconsWrapper>
             <NameColumn>
-              {!token.name && !token.symbol
-                ? <>
+              {!token.name && !token.symbol ? (
+                <>
                   <LoadingSkeleton width={assetNameSkeletonWidth} height={18} />
                   <Spacer />
-                  <LoadingSkeleton width={assetNetworkSkeletonWidth} height={18} />
+                  <LoadingSkeleton
+                    width={assetNetworkSkeletonWidth}
+                    height={18}
+                  />
                 </>
-                : <>
+              ) : (
+                <>
                   <AssetName>
-                    {token.name} {
-                      token.isErc721 && token.tokenId
-                        ? '#' + new Amount(token.tokenId).toNumber()
-                        : ''
-                    }
+                    {token.name}{' '}
+                    {token.isErc721 && token.tokenId
+                      ? '#' + new Amount(token.tokenId).toNumber()
+                      : ''}
                   </AssetName>
-                  <NetworkDescriptionText>{NetworkDescription}</NetworkDescriptionText>
+                  <NetworkDescriptionText>
+                    {NetworkDescription}
+                  </NetworkDescriptionText>
                 </>
-              }
+              )}
             </NameColumn>
           </NameAndIcon>
           <BalanceColumn>
             <WithHideBalancePlaceholder
-              size='small'
+              size="small"
               hideBalances={hideBalances ?? false}
             >
-
-              {!(token.isErc721 || token.isNft) &&
+              {!(token.isErc721 || token.isNft) && (
                 <>
                   {formattedFiatBalance ? (
                     <FiatBalanceText>{formattedFiatBalance}</FiatBalanceText>
@@ -174,7 +197,7 @@ export const PortfolioAssetItem = ({
                     </>
                   )}
                 </>
-              }
+              )}
               {formattedAssetBalance ? (
                 <AssetBalanceText>{formattedAssetBalance}</AssetBalanceText>
               ) : (
@@ -183,7 +206,7 @@ export const PortfolioAssetItem = ({
             </WithHideBalancePlaceholder>
           </BalanceColumn>
         </StyledWrapper>
-      }
+      )}
     </>
   )
 }

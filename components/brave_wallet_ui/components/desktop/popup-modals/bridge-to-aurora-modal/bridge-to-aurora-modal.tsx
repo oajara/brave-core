@@ -29,12 +29,14 @@ interface Props {
 const learnMoreLink = 'https://doc.aurora.dev/bridge/bridge-overview/'
 const learnMoreRiskMitigation = 'https://rainbowbridge.app/approvals'
 
-export const BridgeToAuroraModal = ({ dontShowWarningAgain, onClose, onOpenRainbowAppClick, onDontShowAgain }: Props) => {
+export const BridgeToAuroraModal = ({
+  dontShowWarningAgain,
+  onClose,
+  onOpenRainbowAppClick,
+  onDontShowAgain
+}: Props) => {
   return (
-    <PopupModal
-      title=''
-      onClose={onClose}
-    >
+    <PopupModal title="" onClose={onClose}>
       <StyledWrapper>
         <Title>{getLocale('braveWalletAuroraModalTitle')}</Title>
         <Description>
@@ -45,22 +47,22 @@ export const BridgeToAuroraModal = ({ dontShowWarningAgain, onClose, onOpenRainb
             {getLocale('braveWalletAuroraModalDontShowAgain')}
           </Checkbox>
         </CheckboxWrapper>
-        <OpenRainbowAppButton
-          onClick={onOpenRainbowAppClick}
-        >
+        <OpenRainbowAppButton onClick={onOpenRainbowAppClick}>
           <GlobeIcon />
-          <ButtonText>{getLocale('braveWalletAuroraModalOPenButtonText')}</ButtonText>
+          <ButtonText>
+            {getLocale('braveWalletAuroraModalOPenButtonText')}
+          </ButtonText>
         </OpenRainbowAppButton>
         <LearnMoreLink
-          rel='noopener noreferrer'
-          target='_blank'
+          rel="noopener noreferrer"
+          target="_blank"
           href={learnMoreLink}
         >
           {getLocale('braveWalletAuroraModalLearnMore')}
         </LearnMoreLink>
         <LearnMoreLink
-          rel='noopener noreferrer'
-          target='_blank'
+          rel="noopener noreferrer"
+          target="_blank"
           href={learnMoreRiskMitigation}
         >
           {getLocale('braveWalletAuroraModalLearnMoreAboutRisk')}

@@ -58,10 +58,7 @@ export const BackupRecoveryPhrase = () => {
   const [isPhraseShown, setIsPhraseShown] = React.useState(false)
 
   // custom hooks
-  const {
-    isCopied,
-    temporaryCopyToClipboard
-  } = useTemporaryCopyToClipboard()
+  const { isCopied, temporaryCopyToClipboard } = useTemporaryCopyToClipboard()
 
   // methods
   const revealPhrase = React.useCallback(() => {
@@ -69,7 +66,7 @@ export const BackupRecoveryPhrase = () => {
   }, [])
 
   const toggleShowPhrase = () => {
-    setIsPhraseShown(prev => !prev)
+    setIsPhraseShown((prev) => !prev)
   }
 
   const onCopyPhrase = async () => {
@@ -86,30 +83,29 @@ export const BackupRecoveryPhrase = () => {
     <CenteredPageLayout>
       <MainWrapper>
         <StyledWrapper>
-
-          {isOnboarding &&
+          {isOnboarding && (
             <OnboardingNewWalletStepsNavigation
               goBackUrl={WalletRoutes.OnboardingExplainRecoveryPhrase}
               currentStep={WalletRoutes.OnboardingBackupRecoveryPhrase}
             />
-          }
-          {!isOnboarding &&
+          )}
+          {!isOnboarding && (
             <StepsNavigation
               steps={WALLET_BACKUP_STEPS}
               goBackUrl={WalletRoutes.OnboardingExplainRecoveryPhrase}
               currentStep={WalletRoutes.BackupRecoveryPhrase}
             />
-          }
+          )}
 
           <TitleAndDescriptionContainer>
             <Title>{getLocale('braveWalletRecoveryPhraseBackupTitle')}</Title>
             <Description>
               {getLocale('braveWalletRecoveryPhraseBackupWarning')}
               <LinkText
-                href='https://brave.com/learn/wallet-recovery-phrase/#how-should-i-store-my-recovery-phrase'
-                target='_blank'
-                rel='noreferrer'
-                referrerPolicy='no-referrer'
+                href="https://brave.com/learn/wallet-recovery-phrase/#how-should-i-store-my-recovery-phrase"
+                target="_blank"
+                rel="noreferrer"
+                referrerPolicy="no-referrer"
               >
                 {getLocale('braveWalletLearnMore')}
               </LinkText>
@@ -133,30 +129,28 @@ export const BackupRecoveryPhrase = () => {
             </PhraseCardBody>
 
             <PhraseCardBottomRow>
-
               <CopyButton onClick={onCopyPhrase} />
 
-              {isCopied &&
+              {isCopied && (
                 <>
                   <CopiedToClipboardConfirmation />
-                  <HorizontalSpace space='52px' />
+                  <HorizontalSpace space="52px" />
                 </>
-              }
-
+              )}
             </PhraseCardBottomRow>
           </PhraseCard>
 
           <NextButtonRow>
             <NavButton
-              buttonType='primary'
+              buttonType="primary"
               text={getLocale('braveWalletButtonNext')}
-              url={isOnboarding
-                ? WalletRoutes.OnboardingVerifyRecoveryPhrase
-                : WalletRoutes.BackupVerifyRecoveryPhrase
+              url={
+                isOnboarding
+                  ? WalletRoutes.OnboardingVerifyRecoveryPhrase
+                  : WalletRoutes.BackupVerifyRecoveryPhrase
               }
             />
           </NextButtonRow>
-
         </StyledWrapper>
       </MainWrapper>
     </CenteredPageLayout>

@@ -24,7 +24,10 @@ const openURlInNewTab = (target: string, api: string) => {
   window.open(target.replace('{api-port}', port), '_blank')
 }
 
-const ipfsReducer: Reducer<IPFS.State | undefined> = (state: IPFS.State | undefined, action) => {
+const ipfsReducer: Reducer<IPFS.State | undefined> = (
+  state: IPFS.State | undefined,
+  action
+) => {
   if (state === undefined) {
     state = storage.load()
   }

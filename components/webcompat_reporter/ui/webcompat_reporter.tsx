@@ -21,16 +21,19 @@ import * as webcompatReporterActions from './actions/webcompatreporter_actions'
 
 let actions: any
 
-function getActions () {
+function getActions() {
   if (actions) {
     return actions
   }
 
-  actions = bindActionCreators(webcompatReporterActions, store.dispatch.bind(store))
+  actions = bindActionCreators(
+    webcompatReporterActions,
+    store.dispatch.bind(store)
+  )
   return actions
 }
 
-function loadDialogArgs () {
+function loadDialogArgs() {
   const dialogArgsRaw = chrome.getVariableValue('dialogArguments')
   let dialogArgs
   try {
@@ -42,27 +45,27 @@ function loadDialogArgs () {
   getActions().setSiteUrl(dialogArgs.siteUrl)
 }
 
-function initialize () {
+function initialize() {
   loadDialogArgs()
 
-  new Promise(resolve => chrome.braveTheme.getBraveThemeType(resolve))
-  .then((themeType: chrome.braveTheme.ThemeType) => {
-    render(
-      <Provider store={store}>
-        <BraveCoreThemeProvider
-          initialThemeType={themeType}
-          dark={DarkTheme}
-          light={Theme}
-        >
-          <App />
-        </BraveCoreThemeProvider>
-      </Provider>,
-      document.getElementById('root')
-    )
-  })
-  .catch(error => {
-    console.error('Problem mounting webcompat reporter modal', error)
-  })
+  new Promise((resolve) => chrome.braveTheme.getBraveThemeType(resolve))
+    .then((themeType: chrome.braveTheme.ThemeType) => {
+      render(
+        <Provider store={store}>
+          <BraveCoreThemeProvider
+            initialThemeType={themeType}
+            dark={DarkTheme}
+            light={Theme}
+          >
+            <App />
+          </BraveCoreThemeProvider>
+        </Provider>,
+        document.getElementById('root')
+      )
+    })
+    .catch((error) => {
+      console.error('Problem mounting webcompat reporter modal', error)
+    })
 }
 
 document.addEventListener('DOMContentLoaded', initialize)

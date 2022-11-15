@@ -6,7 +6,9 @@ import * as React from 'react'
 import { shallow } from 'enzyme'
 import { Content } from '../../../../components/brave_welcome_ui/components'
 import { WelcomeSearchImage } from '../../../../components/brave_welcome_ui/components/images'
-import SearchBox, { Props } from '../../../../components/brave_welcome_ui/containers/screens/searchBox'
+import SearchBox, {
+  Props
+} from '../../../../components/brave_welcome_ui/containers/screens/searchBox'
 import { mockSearchProviders } from '../../testData'
 
 describe('searchBox component tests', () => {
@@ -26,7 +28,8 @@ describe('searchBox component tests', () => {
           onClick={mockProps.onClick}
           changeDefaultSearchProvider={mockProps.changeDefaultSearchProvider}
           searchProviders={mockProps.searchProviders}
-        />)
+        />
+      )
 
       expect(wrapper.find(Content)).toHaveLength(1)
       expect(wrapper.contains(<WelcomeSearchImage />))
@@ -49,7 +52,8 @@ describe('searchBox component tests', () => {
             onClick={mockProps.onClick}
             changeDefaultSearchProvider={mockAction}
             searchProviders={mockProps.searchProviders}
-          />)
+          />
+        )
         wrapper.instance().onChangeDefaultSearchEngine(mockEvent)
         expect(mockAction.mock.calls.length).toBe(0)
       })
@@ -68,7 +72,8 @@ describe('searchBox component tests', () => {
             onClick={mockProps.onClick}
             changeDefaultSearchProvider={mockAction}
             searchProviders={mockProps.searchProviders}
-          />)
+          />
+        )
         wrapper.instance().onChangeDefaultSearchEngine(mockEvent)
         expect(mockAction.mock.calls.length).toBe(1)
       })
@@ -86,7 +91,8 @@ describe('searchBox component tests', () => {
             onClick={mockProps.onClick}
             changeDefaultSearchProvider={mockProps.changeDefaultSearchProvider}
             searchProviders={mockProps.searchProviders}
-          />)
+          />
+        )
         wrapper.instance().onChangeDefaultSearchEngine(mockEvent)
         expect(wrapper.state().searchEngineSelected).toEqual(true)
       })
@@ -104,7 +110,8 @@ describe('searchBox component tests', () => {
             onClick={mockProps.onClick}
             changeDefaultSearchProvider={mockProps.changeDefaultSearchProvider}
             searchProviders={mockProps.searchProviders}
-          />)
+          />
+        )
         wrapper.instance().onChangeDefaultSearchEngine(mockEvent)
         expect(wrapper.state().searchEngineSelected).toEqual(false)
       })
@@ -120,9 +127,12 @@ describe('searchBox component tests', () => {
           onClick={mockProps.onClick}
           changeDefaultSearchProvider={mockProps.changeDefaultSearchProvider}
           searchProviders={mockProps.searchProviders}
-        />)
+        />
+      )
       const expected = mockSearchProviders[0]
-      const result = wrapper.instance().getDefaultSearchProvider(mockSearchProviders)
+      const result = wrapper
+        .instance()
+        .getDefaultSearchProvider(mockSearchProviders)
       expect(result).toEqual(expected)
     })
   })
@@ -145,9 +155,12 @@ describe('searchBox component tests', () => {
           onClick={mockProps.onClick}
           changeDefaultSearchProvider={mockProps.changeDefaultSearchProvider}
           searchProviders={mockProps.searchProviders}
-        />)
+        />
+      )
       const expected = 'MockSearchEngine (default)'
-      const result = wrapper.instance().getProviderDisplayName(mockCurrentProvider, mockDefaultProvider)
+      const result = wrapper
+        .instance()
+        .getProviderDisplayName(mockCurrentProvider, mockDefaultProvider)
 
       expect(result).toEqual(expected)
     })
@@ -169,9 +182,12 @@ describe('searchBox component tests', () => {
           onClick={mockProps.onClick}
           changeDefaultSearchProvider={mockProps.changeDefaultSearchProvider}
           searchProviders={mockProps.searchProviders}
-        />)
+        />
+      )
       const expected = 'MockSearchEngine'
-      const result = wrapper.instance().getProviderDisplayName(mockCurrentProvider, mockDefaultProvider)
+      const result = wrapper
+        .instance()
+        .getProviderDisplayName(mockCurrentProvider, mockDefaultProvider)
 
       expect(result).toEqual(expected)
     })

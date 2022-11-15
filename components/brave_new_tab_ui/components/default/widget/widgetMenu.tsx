@@ -5,7 +5,15 @@
 
 import * as React from 'react'
 
-import { StyledWidgetMenuContainer, StyledWidgetMenu, StyledWidgetButton, StyledWidgetIcon, StyledSpan, StyledWidgetLink, StyledEllipsis } from './styles'
+import {
+  StyledWidgetMenuContainer,
+  StyledWidgetMenu,
+  StyledWidgetButton,
+  StyledWidgetIcon,
+  StyledSpan,
+  StyledWidgetLink,
+  StyledEllipsis
+} from './styles'
 import { IconButton } from '../../default'
 import EllipsisIcon from '../../popupMenu/ellipsisIcon'
 import HideIcon from './assets/hide'
@@ -41,7 +49,7 @@ interface State {
 
 export default class WidgetMenu extends React.PureComponent<Props, State> {
   settingsMenuRef: React.RefObject<any>
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.settingsMenuRef = React.createRef()
     this.state = {
@@ -50,17 +58,20 @@ export default class WidgetMenu extends React.PureComponent<Props, State> {
   }
 
   handleClickOutsideMenu = (event: Event) => {
-    if (this.settingsMenuRef && !this.settingsMenuRef.current.contains(event.target)) {
+    if (
+      this.settingsMenuRef &&
+      !this.settingsMenuRef.current.contains(event.target)
+    ) {
       this.props.unpersistWidget()
       this.closeMenu()
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     document.addEventListener('mousedown', this.handleClickOutsideMenu)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClickOutsideMenu)
   }
 
@@ -92,7 +103,7 @@ export default class WidgetMenu extends React.PureComponent<Props, State> {
     this.closeMenu()
   }
 
-  render () {
+  render() {
     const {
       menuPosition,
       textDirection,
@@ -108,82 +119,96 @@ export default class WidgetMenu extends React.PureComponent<Props, State> {
       customLinksEnabled
     } = this.props
     const { showMenu } = this.state
-    const hideString = widgetTitle ? `${getLocale('hide')} ${widgetTitle}` : getLocale('hide')
+    const hideString = widgetTitle
+      ? `${getLocale('hide')} ${widgetTitle}`
+      : getLocale('hide')
 
     return (
-      <StyledWidgetMenuContainer ref={this.settingsMenuRef} paddingType={paddingType}>
-        <StyledEllipsis widgetMenuPersist={widgetMenuPersist} isForeground={isForeground}>
+      <StyledWidgetMenuContainer
+        ref={this.settingsMenuRef}
+        paddingType={paddingType}
+      >
+        <StyledEllipsis
+          widgetMenuPersist={widgetMenuPersist}
+          isForeground={isForeground}
+        >
           <IconButton isClickMenu={true} onClick={this.toggleMenu}>
             <EllipsisIcon />
           </IconButton>
         </StyledEllipsis>
-        {showMenu && <StyledWidgetMenu
-          textDirection={textDirection}
-          menuPosition={menuPosition}
-          widgetMenuPersist={widgetMenuPersist}
-        >
-          {
-            onLearnMore
-            ? <StyledWidgetLink
+        {showMenu && (
+          <StyledWidgetMenu
+            textDirection={textDirection}
+            menuPosition={menuPosition}
+            widgetMenuPersist={widgetMenuPersist}
+          >
+            {onLearnMore ? (
+              <StyledWidgetLink
                 onClick={this.closeMenuBinance.bind(this, onLearnMore)}
-            >
-              <StyledWidgetIcon><LearnMoreIcon/></StyledWidgetIcon>
-              <StyledSpan>{getLocale('learnMore')}</StyledSpan>
-            </StyledWidgetLink>
-            : null
-          }
-          {
-            onRefreshData
-            ? <StyledWidgetButton onClick={this.closeMenuBinance.bind(this, onRefreshData)}>
-                <StyledWidgetIcon isBinance={true} isRefresh={true}>
-                  <RefreshIcon/>
+              >
+                <StyledWidgetIcon>
+                  <LearnMoreIcon />
                 </StyledWidgetIcon>
-                <StyledSpan>
-                  {getLocale('binanceWidgetRefreshData')}
-                </StyledSpan>
+                <StyledSpan>{getLocale('learnMore')}</StyledSpan>
+              </StyledWidgetLink>
+            ) : null}
+            {onRefreshData ? (
+              <StyledWidgetButton
+                onClick={this.closeMenuBinance.bind(this, onRefreshData)}
+              >
+                <StyledWidgetIcon isBinance={true} isRefresh={true}>
+                  <RefreshIcon />
+                </StyledWidgetIcon>
+                <StyledSpan>{getLocale('binanceWidgetRefreshData')}</StyledSpan>
               </StyledWidgetButton>
-            : null
-          }
-          {
-            onDisconnect
-            ? <StyledWidgetButton onClick={this.closeMenuBinance.bind(this, onDisconnect)}>
+            ) : null}
+            {onDisconnect ? (
+              <StyledWidgetButton
+                onClick={this.closeMenuBinance.bind(this, onDisconnect)}
+              >
                 <StyledWidgetIcon isBinance={true}>
-                  <DisconnectIcon/>
+                  <DisconnectIcon />
                 </StyledWidgetIcon>
                 <StyledSpan>
                   {getLocale('binanceWidgetDisconnectButton')}
                 </StyledSpan>
               </StyledWidgetButton>
-            : null
-          }
-          {
-            onAddSite
-            ? <StyledWidgetButton onClick={this.doTopSiteAction.bind(this, onAddSite)}>
-                <StyledWidgetIcon><AddSiteIcon/></StyledWidgetIcon>
+            ) : null}
+            {onAddSite ? (
+              <StyledWidgetButton
+                onClick={this.doTopSiteAction.bind(this, onAddSite)}
+              >
+                <StyledWidgetIcon>
+                  <AddSiteIcon />
+                </StyledWidgetIcon>
                 <StyledSpan>{getLocale('addSiteMenuLabel')}</StyledSpan>
               </StyledWidgetButton>
-            : null
-          }
-          {
-            onToggleCustomLinksEnabled
-            ? <StyledWidgetButton onClick={this.doTopSiteAction.bind(this, onToggleCustomLinksEnabled)}>
+            ) : null}
+            {onToggleCustomLinksEnabled ? (
+              <StyledWidgetButton
+                onClick={this.doTopSiteAction.bind(
+                  this,
+                  onToggleCustomLinksEnabled
+                )}
+              >
                 <StyledWidgetIcon>
-                  {customLinksEnabled ? <FrecencyIcon/> : <FavoritesIcon/>}
+                  {customLinksEnabled ? <FrecencyIcon /> : <FavoritesIcon />}
                 </StyledWidgetIcon>
                 <StyledSpan>
-                  {customLinksEnabled ? getLocale('showFrecencyMenuLabel')
-                                      : getLocale('showFavoritesMenuLabel')}
+                  {customLinksEnabled
+                    ? getLocale('showFrecencyMenuLabel')
+                    : getLocale('showFavoritesMenuLabel')}
                 </StyledSpan>
               </StyledWidgetButton>
-            : null
-          }
-          <StyledWidgetButton
-            onClick={this.unmountWidget}
-          >
-            <StyledWidgetIcon><HideIcon/></StyledWidgetIcon>
-            <StyledSpan>{hideString}</StyledSpan>
-          </StyledWidgetButton>
-        </StyledWidgetMenu>}
+            ) : null}
+            <StyledWidgetButton onClick={this.unmountWidget}>
+              <StyledWidgetIcon>
+                <HideIcon />
+              </StyledWidgetIcon>
+              <StyledSpan>{hideString}</StyledSpan>
+            </StyledWidgetButton>
+          </StyledWidgetMenu>
+        )}
       </StyledWidgetMenuContainer>
     )
   }

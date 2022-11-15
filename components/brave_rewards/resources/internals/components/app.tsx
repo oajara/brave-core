@@ -30,18 +30,18 @@ interface State {
 }
 
 export class RewardsInternalsPage extends React.Component<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       currentTabId: 'generalInfo'
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.getGeneralInfo()
   }
 
-  get actions () {
+  get actions() {
     return this.props.actions
   }
 
@@ -111,7 +111,7 @@ export class RewardsInternalsPage extends React.Component<Props, State> {
     this.actions.getAdDiagnostics()
   }
 
-  render () {
+  render() {
     const {
       contributions,
       promotions,
@@ -122,7 +122,7 @@ export class RewardsInternalsPage extends React.Component<Props, State> {
     } = this.props.rewardsInternalsData
 
     return (
-      <Wrapper id='rewardsInternalsPage'>
+      <Wrapper id="rewardsInternalsPage">
         <MainTitle level={2}>{getLocale('mainTitle')}</MainTitle>
         <Disclaimer>{getLocale('mainDisclaimer')}</Disclaimer>
         <Tabs
@@ -130,10 +130,13 @@ export class RewardsInternalsPage extends React.Component<Props, State> {
           activeTabId={this.state.currentTabId}
           onChange={this.onTabChange}
         >
-          <div data-key='generalInfo' data-title={getLocale('tabGeneralInfo')}>
-            <General data={this.props.rewardsInternalsData} onGet={this.getGeneralInfo} />
+          <div data-key="generalInfo" data-title={getLocale('tabGeneralInfo')}>
+            <General
+              data={this.props.rewardsInternalsData}
+              onGet={this.getGeneralInfo}
+            />
           </div>
-          <div data-key='logs' data-title={getLocale('tabLogs')}>
+          <div data-key="logs" data-title={getLocale('tabLogs')}>
             <Log
               log={log}
               fullLog={fullLog}
@@ -143,20 +146,33 @@ export class RewardsInternalsPage extends React.Component<Props, State> {
               onDownloadCompleted={this.downloadCompleted}
             />
           </div>
-          <div data-key='promotions' data-title={getLocale('tabPromotions')}>
+          <div data-key="promotions" data-title={getLocale('tabPromotions')}>
             <Promotions items={promotions} onGet={this.getPromotions} />
           </div>
-          <div data-key='contributions' data-title={getLocale('tabContributions')}>
-            <Contributions items={contributions} onGet={this.getContributions} />
+          <div
+            data-key="contributions"
+            data-title={getLocale('tabContributions')}
+          >
+            <Contributions
+              items={contributions}
+              onGet={this.getContributions}
+            />
           </div>
-          <div data-key='eventLogs' data-title={getLocale('tabEventLogs')}>
+          <div data-key="eventLogs" data-title={getLocale('tabEventLogs')}>
             <EventLogs items={eventLogs} />
           </div>
-          <div data-key='adDiagnostics' data-title={getLocale('tabAdDiagnostics')}>
-            <AdDiagnostics entries={adDiagnostics} onGet={this.getAdDiagnostics}/>
+          <div
+            data-key="adDiagnostics"
+            data-title={getLocale('tabAdDiagnostics')}
+          >
+            <AdDiagnostics
+              entries={adDiagnostics}
+              onGet={this.getAdDiagnostics}
+            />
           </div>
         </Tabs>
-      </Wrapper>)
+      </Wrapper>
+    )
   }
 }
 

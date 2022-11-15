@@ -14,7 +14,7 @@ interface Props {
   onReset: () => void
 }
 
-export function CustomTipAmount (props: Props) {
+export function CustomTipAmount(props: Props) {
   return (
     <style.root>
       <style.text>{props.text}</style.text>
@@ -23,13 +23,11 @@ export function CustomTipAmount (props: Props) {
         <style.currency>{props.currency}</style.currency>
         <style.reset>
           <button onClick={props.onReset}>
-            <div className='icon'>+</div>
+            <div className="icon">+</div>
           </button>
         </style.reset>
       </style.amount>
-      <style.exchange>
-        {props.exchangeAmount}
-      </style.exchange>
+      <style.exchange>{props.exchangeAmount}</style.exchange>
     </style.root>
   )
 }

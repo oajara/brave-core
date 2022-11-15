@@ -35,12 +35,8 @@ class TopSitesSettings extends React.PureComponent<Props, {}> {
     this.props.setMostVisitedSettings(true, false)
   }
 
-  render () {
-    const {
-      toggleShowTopSites,
-      showTopSites,
-      customLinksEnabled
-    } = this.props
+  render() {
+    const { toggleShowTopSites, showTopSites, customLinksEnabled } = this.props
 
     const favoritesSelected = showTopSites && customLinksEnabled
     const frecencySelected = showTopSites && !customLinksEnabled
@@ -51,7 +47,7 @@ class TopSitesSettings extends React.PureComponent<Props, {}> {
           <Toggle
             onChange={toggleShowTopSites}
             checked={showTopSites}
-            size='large'
+            size="large"
           />
         </SettingsRow>
         <StyledTopSitesCustomizationSettings>
@@ -76,9 +72,7 @@ class TopSitesSettings extends React.PureComponent<Props, {}> {
           <StyledTopSitesCustomizationSettingsOption
             onClick={this.onClickFrecency}
           >
-            <StyledTopSitesCustomizationImageBorder
-              selected={frecencySelected}
-            >
+            <StyledTopSitesCustomizationImageBorder selected={frecencySelected}>
               <StyledTopSitesCustomizationImage
                 isFavorites={false}
                 selected={frecencySelected}

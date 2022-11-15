@@ -4,7 +4,9 @@
 
 import styled from 'styled-components'
 import { CaratStrongRightIcon } from 'brave-ui/components/icons'
-import Button, { Props as ButtonProps } from 'brave-ui/components/buttonsIndicators/button'
+import Button, {
+  Props as ButtonProps
+} from 'brave-ui/components/buttonsIndicators/button'
 import { ComponentType } from 'react'
 
 export const ContinueBox = styled.div`
@@ -36,7 +38,7 @@ export const ConfirmButtonRow = styled.div<{ showBackLink?: boolean }>`
   margin: 30px 0 0;
   display: flex;
   align-items: center;
-  justify-content: ${p => p.showBackLink ? 'space-between' : 'center'};
+  justify-content: ${(p) => (p.showBackLink ? 'space-between' : 'center')};
 }
 `
 
@@ -44,18 +46,20 @@ interface ConfirmButtonProps extends ButtonProps {
   showBackLink?: boolean
 }
 
-export const ConfirmButton = styled(Button as ComponentType<ConfirmButtonProps>)`
-  min-width: ${p => p.showBackLink ? '231px' : '322px'};
+export const ConfirmButton = styled(
+  Button as ComponentType<ConfirmButtonProps>
+)`
+  min-width: ${(p) => (p.showBackLink ? '231px' : '322px')};
 `
 
 export const TermsOfSale = styled.div`
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   font-size: 12px;
   text-align: center;
   padding-top: 12px;
 
   a {
     font-weight: bold;
-    color: ${p => p.theme.palette.black};
+    color: ${(p) => p.theme.palette.black};
   }
 `

@@ -5,21 +5,34 @@
 
 import * as React from 'react'
 
-import { panelDataHandler, SiteSettings, Theme, FontSize, ContentStyle, FontFamily } from './api/browser'
+import {
+  panelDataHandler,
+  SiteSettings,
+  Theme,
+  FontSize,
+  ContentStyle,
+  FontFamily
+} from './api/browser'
 import MainPanel from './components/main-panel'
 
-function Container () {
-  const [siteSettings, setSiteSettings] = React.useState<SiteSettings | undefined>()
+function Container() {
+  const [siteSettings, setSiteSettings] = React.useState<
+    SiteSettings | undefined
+  >()
 
   React.useEffect(() => {
     const onVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
-        panelDataHandler.getSiteSettings().then(res => setSiteSettings(res.siteSettings))
+        panelDataHandler
+          .getSiteSettings()
+          .then((res) => setSiteSettings(res.siteSettings))
       }
     }
 
     document.addEventListener('visibilitychange', onVisibilityChange)
-    panelDataHandler.getSiteSettings().then(res => setSiteSettings(res.siteSettings))
+    panelDataHandler
+      .getSiteSettings()
+      .then((res) => setSiteSettings(res.siteSettings))
 
     return () => {
       document.removeEventListener('visibilitychange', onVisibilityChange)
@@ -52,18 +65,20 @@ function Container () {
 
   const handleToggleChange = (isOn: boolean) => {
     panelDataHandler.setEnabled(isOn)
-    panelDataHandler.getSiteSettings().then(res => setSiteSettings(res.siteSettings))
+    panelDataHandler
+      .getSiteSettings()
+      .then((res) => setSiteSettings(res.siteSettings))
   }
 
   return (
-   <MainPanel
+    <MainPanel
       siteSettings={siteSettings}
       onThemeChange={handleThemeChange}
       onFontSizeChange={handleFontSizeChange}
       onContentStyleChange={handleContentStyleChange}
       onFontFamilyChange={handleFontFamilyChange}
       onToggleChange={handleToggleChange}
-   />
+    />
   )
 }
 

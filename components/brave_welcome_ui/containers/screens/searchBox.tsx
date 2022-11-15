@@ -1,4 +1,3 @@
-
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
@@ -6,7 +5,14 @@
 import * as React from 'react'
 
 // Feature-specific components
-import { Content, Title, Paragraph, PrimaryButton, SelectGrid, SelectBox } from '../../components'
+import {
+  Content,
+  Title,
+  Paragraph,
+  PrimaryButton,
+  SelectGrid,
+  SelectBox
+} from '../../components'
 
 // Images
 import { WelcomeSearchImage } from '../../components/images'
@@ -28,7 +34,7 @@ interface State {
 }
 
 export default class SearchEngineBox extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       searchEngineSelected: false,
@@ -36,7 +42,9 @@ export default class SearchEngineBox extends React.PureComponent<Props, State> {
     }
   }
 
-  onChangeDefaultSearchEngine = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  onChangeDefaultSearchEngine = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     if (event.target.value === '') {
       this.setState({ searchEngineSelected: false })
       return
@@ -45,18 +53,24 @@ export default class SearchEngineBox extends React.PureComponent<Props, State> {
     this.setState({ searchEngineSelected: true })
   }
 
-  getDefaultSearchProvider = (searchEngineEntries: Welcome.SearchEngineEntry[]): Welcome.SearchEngineEntry => {
-    const defaultSearchProvider = searchEngineEntries
-      .filter((searchEngine: Welcome.SearchEngineEntry) => searchEngine.default)
+  getDefaultSearchProvider = (
+    searchEngineEntries: Welcome.SearchEngineEntry[]
+  ): Welcome.SearchEngineEntry => {
+    const defaultSearchProvider = searchEngineEntries.filter(
+      (searchEngine: Welcome.SearchEngineEntry) => searchEngine.default
+    )
     return defaultSearchProvider[0]
   }
 
-  getProviderDisplayName = (searchProvider: Welcome.SearchEngineEntry, defaultSearchProvider: Welcome.SearchEngineEntry): string =>
+  getProviderDisplayName = (
+    searchProvider: Welcome.SearchEngineEntry,
+    defaultSearchProvider: Welcome.SearchEngineEntry
+  ): string =>
     searchProvider.name === defaultSearchProvider.name
-    ? `${searchProvider.name} (${getLocale('default')})`
-    : searchProvider.name
+      ? `${searchProvider.name} (${getLocale('default')})`
+      : searchProvider.name
 
-  render () {
+  render() {
     const { index, currentScreen, onClick, searchProviders } = this.props
     const { searchEngineSelected } = this.state
     const defaultProvider = this.getDefaultSearchProvider(searchProviders)
@@ -74,33 +88,33 @@ export default class SearchEngineBox extends React.PureComponent<Props, State> {
         <WelcomeSearchImage />
         <Title>{getLocale('setDefaultSearchEngine')}</Title>
         <Paragraph>{bodyText}</Paragraph>
-          <SelectGrid>
-            <SelectBox
-              onChange={this.onChangeDefaultSearchEngine}
-            >
-              <option key={0} value=''>{getLocale('selectSearchEngine')}</option>
-              {
-                (searchProviders && Array.isArray(searchProviders) && searchProviders.length > 0)
-                ? searchProviders.map((provider, index) =>
+        <SelectGrid>
+          <SelectBox onChange={this.onChangeDefaultSearchEngine}>
+            <option key={0} value="">
+              {getLocale('selectSearchEngine')}
+            </option>
+            {searchProviders &&
+            Array.isArray(searchProviders) &&
+            searchProviders.length > 0
+              ? searchProviders.map((provider, index) => (
                   <option
                     key={index + 1}
                     value={provider.modelIndex.toString()}
                   >
                     {this.getProviderDisplayName(provider, defaultProvider)}
                   </option>
-                )
-                : null
-              }
-            </SelectBox>
-            <PrimaryButton
-              level='primary'
-              type='accent'
-              size='large'
-              text={getLocale('setDefault')}
-              disabled={!searchEngineSelected}
-              onClick={onClick}
-            />
-          </SelectGrid>
+                ))
+              : null}
+          </SelectBox>
+          <PrimaryButton
+            level="primary"
+            type="accent"
+            size="large"
+            text={getLocale('setDefault')}
+            disabled={!searchEngineSelected}
+            onClick={onClick}
+          />
+        </SelectGrid>
       </Content>
     )
   }

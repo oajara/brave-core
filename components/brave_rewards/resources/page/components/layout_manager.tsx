@@ -8,7 +8,7 @@ import { LayoutContext, LayoutKind } from '../lib/layout_context'
 
 const layoutBreakpoint = 880
 
-export function getPreferredLayout (): LayoutKind {
+export function getPreferredLayout(): LayoutKind {
   return window.innerWidth > layoutBreakpoint ? 'wide' : 'narrow'
 }
 
@@ -17,21 +17,23 @@ interface Props {
   children: React.ReactNode
 }
 
-export function LayoutManager (props: Props) {
+export function LayoutManager(props: Props) {
   const [defaultLayout, setDefaultLayout] = React.useState(getPreferredLayout())
   const layoutKind = props.layout || defaultLayout
 
   React.useEffect(() => {
-    const onResize = () => { setDefaultLayout(getPreferredLayout()) }
+    const onResize = () => {
+      setDefaultLayout(getPreferredLayout())
+    }
     window.addEventListener('resize', onResize)
-    return () => { window.removeEventListener('resize', onResize) }
+    return () => {
+      window.removeEventListener('resize', onResize)
+    }
   }, [])
 
   return (
     <LayoutContext.Provider value={layoutKind}>
-      <div className={`layout-${layoutKind}`}>
-        {props.children}
-      </div>
+      <div className={`layout-${layoutKind}`}>{props.children}</div>
     </LayoutContext.Provider>
   )
 }

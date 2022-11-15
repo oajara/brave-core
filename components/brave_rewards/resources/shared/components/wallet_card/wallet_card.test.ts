@@ -4,7 +4,7 @@
 
 import { getCurrentMonthRange } from './wallet_card'
 
-function mockNow (timeString: string) {
+function mockNow(timeString: string) {
   jest.spyOn(Date, 'now').mockImplementation(() => Date.parse(timeString))
 }
 

@@ -92,7 +92,7 @@ export default class WalletSummary extends React.PureComponent<Props, {}> {
       const data = (this.props.report as Record<string, Token>)[item.key]
       if (data) {
         current++
-        result.push((
+        result.push(
           <ListToken
             testId={`summary-${item.key}`}
             key={`summary-${tokenSize}-${index}-${data.tokens}`}
@@ -104,16 +104,14 @@ export default class WalletSummary extends React.PureComponent<Props, {}> {
             isNegative={item.negative}
             border={all === current ? 'last' : undefined}
           />
-        ))
+        )
       }
     })
 
     if (result.length === 0) {
       return (
         <StyledNoActivityWrapper compact={compact}>
-          <StyledNoActivity>
-            {getLocale('noActivity')}
-          </StyledNoActivity>
+          <StyledNoActivity>{getLocale('noActivity')}</StyledNoActivity>
         </StyledNoActivityWrapper>
       )
     }
@@ -122,11 +120,7 @@ export default class WalletSummary extends React.PureComponent<Props, {}> {
   }
 
   generateInfo = () => {
-    const {
-      reservedAmount,
-      onSeeAllReserved,
-      reservedMoreLink
-    } = this.props
+    const { reservedAmount, onSeeAllReserved, reservedMoreLink } = this.props
     const showReserved = reservedAmount && reservedAmount > 0
     if (!showReserved) {
       return null
@@ -139,58 +133,59 @@ export default class WalletSummary extends React.PureComponent<Props, {}> {
 
     return (
       <StyledReservedWrapper data-test-id={'pending-contribution-box'}>
-        {
-          showReserved
-          ? <>
-              {getLocale('reservedAmountText', { reservedAmount: amount, currency: batFormatString })} <StyledReservedLink href={reservedMoreLink} target={'_blank'}>
-                {getLocale('reservedMoreLink')}
-              </StyledReservedLink>
-              {
-                onSeeAllReserved
-                ? <StyledAllReserved onClick={onSeeAllReserved} data-test-id={'reservedAllLink'}>
-                  {getLocale('reservedAllLink')}
-                </StyledAllReserved>
-                : null
-              }
-            </>
-          : null
-        }
+        {showReserved ? (
+          <>
+            {getLocale('reservedAmountText', {
+              reservedAmount: amount,
+              currency: batFormatString
+            })}{' '}
+            <StyledReservedLink href={reservedMoreLink} target={'_blank'}>
+              {getLocale('reservedMoreLink')}
+            </StyledReservedLink>
+            {onSeeAllReserved ? (
+              <StyledAllReserved
+                onClick={onSeeAllReserved}
+                data-test-id={'reservedAllLink'}
+              >
+                {getLocale('reservedAllLink')}
+              </StyledAllReserved>
+            ) : null}
+          </>
+        ) : null}
       </StyledReservedWrapper>
     )
   }
 
-  render () {
-    const {
-      id,
-      onActivity,
-      compact
-    } = this.props
+  render() {
+    const { id, onActivity, compact } = this.props
     const date = new Date()
-    const month = getLocale(`month${date.toLocaleString('en-us', { month: 'short' })}`)
+    const month = getLocale(
+      `month${date.toLocaleString('en-us', { month: 'short' })}`
+    )
     const year = date.getFullYear()
 
     return (
-      <StyledWrapper
-        id={id}
-        compact={compact}
-      >
+      <StyledWrapper id={id} compact={compact}>
         <StyledInner>
           <StyledSummary>{getLocale('rewardsSummary')}</StyledSummary>
-          <StyledTitle>{month} {year}</StyledTitle>
+          <StyledTitle>
+            {month} {year}
+          </StyledTitle>
           <div>
             {this.generateList()}
             {this.generateInfo()}
           </div>
-          {
-            onActivity
-            ? <StyledActivity onClick={onActivity} data-test-id={'showMonthlyReport'}>
+          {onActivity ? (
+            <StyledActivity
+              onClick={onActivity}
+              data-test-id={'showMonthlyReport'}
+            >
               <StyledActivityIcon>
                 <WalletInfoIcon />
               </StyledActivityIcon>
               {getLocale('viewMonthly')}
             </StyledActivity>
-            : null
-          }
+          ) : null}
         </StyledInner>
       </StyledWrapper>
     )

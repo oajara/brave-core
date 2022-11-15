@@ -30,5 +30,5 @@ export const StyledTitleTab = styled('div')<StyleProps>`
   margin-bottom: -8px;
   backdrop-filter: blur(23px);
   border-radius: 8px 8px 0 0;
-  background: ${p => getBackgroundRule(p.stackPosition)};
+  background: ${(p) => getBackgroundRule(p.stackPosition)};
 `

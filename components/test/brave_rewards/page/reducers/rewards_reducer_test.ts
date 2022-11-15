@@ -11,8 +11,8 @@ describe('rewards reducer', () => {
   const constantDate = new Date('2018-01-01T12:00:00')
 
   beforeAll(() => {
-    (global as any).Date = class extends Date {
-      constructor () {
+    ;(global as any).Date = class extends Date {
+      constructor() {
         super()
         return constantDate
       }
@@ -63,18 +63,21 @@ describe('rewards reducer', () => {
 
         const expectedState: Rewards.State = defaultState()
 
-        const assertion = reducers({
-          rewardsData: initState
-        }, {
-          type: types.ON_AUTO_CONTRIBUTE_PROPERTIES,
-          payload: {
-            properties: {
-              ui: {
-                emptyWallet: true
+        const assertion = reducers(
+          {
+            rewardsData: initState
+          },
+          {
+            type: types.ON_AUTO_CONTRIBUTE_PROPERTIES,
+            payload: {
+              properties: {
+                ui: {
+                  emptyWallet: true
+                }
               }
             }
           }
-        })
+        )
 
         expect(assertion).toEqual({
           rewardsData: expectedState
@@ -118,23 +121,26 @@ describe('rewards reducer', () => {
           adsReceivedThisMonth: 0
         }
 
-        const assertion = reducers({
-          rewardsData: initState
-        }, {
-          type: types.ON_ADS_DATA,
-          payload: {
-            adsData: {
-              adsEnabled: true,
-              adsPerHour: 5,
-              adsSubdivisionTargeting: 'US-CA',
-              automaticallyDetectedAdsSubdivisionTargeting: 'US-FL',
-              shouldAllowAdsSubdivisionTargeting: true,
-              subdivisions: [],
-              adsUIEnabled: true,
-              adsIsSupported: true
+        const assertion = reducers(
+          {
+            rewardsData: initState
+          },
+          {
+            type: types.ON_ADS_DATA,
+            payload: {
+              adsData: {
+                adsEnabled: true,
+                adsPerHour: 5,
+                adsSubdivisionTargeting: 'US-CA',
+                automaticallyDetectedAdsSubdivisionTargeting: 'US-FL',
+                shouldAllowAdsSubdivisionTargeting: true,
+                subdivisions: [],
+                adsUIEnabled: true,
+                adsIsSupported: true
+              }
             }
           }
-        })
+        )
         expect(assertion).toEqual({
           rewardsData: expectedState
         })
@@ -153,15 +159,18 @@ describe('rewards reducer', () => {
         }
       }
 
-      const assertion = reducers({
-        rewardsData: defaultState()
-      }, {
-        type: types.ON_INLINE_TIP_SETTINGS_CHANGE,
-        payload: {
-          key: 'twitter',
-          value: true
+      const assertion = reducers(
+        {
+          rewardsData: defaultState()
+        },
+        {
+          type: types.ON_INLINE_TIP_SETTINGS_CHANGE,
+          payload: {
+            key: 'twitter',
+            value: true
+          }
         }
-      })
+      )
       expect(assertion).toEqual({
         rewardsData: expectedState
       })
@@ -177,15 +186,18 @@ describe('rewards reducer', () => {
         github: true
       }
 
-      const assertion = reducers({
-        rewardsData: initState
-      }, {
-        type: types.ON_INLINE_TIP_SETTINGS_CHANGE,
-        payload: {
-          key: 'twitter',
-          value: null
+      const assertion = reducers(
+        {
+          rewardsData: initState
+        },
+        {
+          type: types.ON_INLINE_TIP_SETTINGS_CHANGE,
+          payload: {
+            key: 'twitter',
+            value: null
+          }
         }
-      })
+      )
       expect(assertion).toEqual({
         rewardsData: expectedState
       })
@@ -201,15 +213,18 @@ describe('rewards reducer', () => {
         github: true
       }
 
-      const assertion = reducers({
-        rewardsData: initState
-      }, {
-        type: types.ON_INLINE_TIP_SETTINGS_CHANGE,
-        payload: {
-          key: '',
-          value: true
+      const assertion = reducers(
+        {
+          rewardsData: initState
+        },
+        {
+          type: types.ON_INLINE_TIP_SETTINGS_CHANGE,
+          payload: {
+            key: '',
+            value: true
+          }
         }
-      })
+      )
       expect(assertion).toEqual({
         rewardsData: expectedState
       })
@@ -225,15 +240,18 @@ describe('rewards reducer', () => {
         github: true
       }
 
-      const assertion = reducers({
-        rewardsData: initState
-      }, {
-        type: types.ON_INLINE_TIP_SETTINGS_CHANGE,
-        payload: {
-          key: 'twitter',
-          value: false
+      const assertion = reducers(
+        {
+          rewardsData: initState
+        },
+        {
+          type: types.ON_INLINE_TIP_SETTINGS_CHANGE,
+          payload: {
+            key: 'twitter',
+            value: false
+          }
         }
-      })
+      )
       expect(assertion).toEqual({
         rewardsData: expectedState
       })
@@ -249,15 +267,18 @@ describe('rewards reducer', () => {
         github: true
       }
 
-      const assertion = reducers({
-        rewardsData: initState
-      }, {
-        type: types.ON_INLINE_TIP_SETTINGS_CHANGE,
-        payload: {
-          key: 'reddit',
-          value: false
+      const assertion = reducers(
+        {
+          rewardsData: initState
+        },
+        {
+          type: types.ON_INLINE_TIP_SETTINGS_CHANGE,
+          payload: {
+            key: 'reddit',
+            value: false
+          }
         }
-      })
+      )
       expect(assertion).toEqual({
         rewardsData: expectedState
       })
@@ -273,15 +294,18 @@ describe('rewards reducer', () => {
         github: false
       }
 
-      const assertion = reducers({
-        rewardsData: initState
-      }, {
-        type: types.ON_INLINE_TIP_SETTINGS_CHANGE,
-        payload: {
-          key: 'github',
-          value: false
+      const assertion = reducers(
+        {
+          rewardsData: initState
+        },
+        {
+          type: types.ON_INLINE_TIP_SETTINGS_CHANGE,
+          payload: {
+            key: 'github',
+            value: false
+          }
         }
-      })
+      )
       expect(assertion).toEqual({
         rewardsData: expectedState
       })

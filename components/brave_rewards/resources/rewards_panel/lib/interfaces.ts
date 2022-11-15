@@ -2,13 +2,22 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import { ExternalWallet, ExternalWalletProvider } from '../../shared/lib/external_wallet'
+import {
+  ExternalWallet,
+  ExternalWalletProvider
+} from '../../shared/lib/external_wallet'
 import { GrantInfo } from '../../shared/lib/grant_info'
 import { ProviderPayoutStatus } from '../../shared/lib/provider_payout_status'
 import { PublisherPlatform } from '../../shared/lib/publisher_platform'
 import { OnboardingResult } from '../../shared/components/onboarding'
-import { ExternalWalletAction, RewardsSummaryData } from '../../shared/components/wallet_card'
-import { Notification, NotificationAction } from '../../shared/components/notifications'
+import {
+  ExternalWalletAction,
+  RewardsSummaryData
+} from '../../shared/components/wallet_card'
+import {
+  Notification,
+  NotificationAction
+} from '../../shared/components/notifications'
 
 export interface ExchangeInfo {
   currency: string
@@ -45,9 +54,9 @@ export interface GrantCaptchaInfo {
 }
 
 export type AdaptiveCaptchaStatus =
-  'pending' |
-  'success' |
-  'max-attempts-exceeded'
+  | 'pending'
+  | 'success'
+  | 'max-attempts-exceeded'
 
 export type AdaptiveCaptchaResult = 'success' | 'failure' | 'error'
 
@@ -111,7 +120,7 @@ export interface Host {
   handleExternalWalletAction: (action: ExternalWalletAction) => void
   handleNotificationAction: (action: NotificationAction) => void
   dismissNotification: (notification: Notification) => void
-  solveGrantCaptcha: (solution: { x: number, y: number }) => void
+  solveGrantCaptcha: (solution: { x: number; y: number }) => void
   clearGrantCaptcha: () => void
   clearAdaptiveCaptcha: () => void
   handleAdaptiveCaptchaResult: (result: AdaptiveCaptchaResult) => void

@@ -3,11 +3,7 @@
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import * as React from 'react'
-import {
-  StyledContent,
-  StyledTwoColumn,
-  StyledIcon
-} from './style'
+import { StyledContent, StyledTwoColumn, StyledIcon } from './style'
 import {
   AdsTokensIcon,
   AutoContributeIcon,
@@ -42,23 +38,17 @@ export default class DisabledContent extends React.PureComponent<Props, {}> {
         break
     }
 
-    return (
-      <StyledIcon>
-        {icon}
-      </StyledIcon>
-    )
+    return <StyledIcon>{icon}</StyledIcon>
   }
 
-  render () {
+  render() {
     const { id, children, type } = this.props
 
     return (
       <div id={id}>
         <StyledTwoColumn>
           {this.getIcon(type)}
-          <StyledContent type={type}>
-            {children}
-          </StyledContent>
+          <StyledContent type={type}>{children}</StyledContent>
         </StyledTwoColumn>
       </div>
     )

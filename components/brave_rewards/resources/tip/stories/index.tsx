@@ -13,7 +13,7 @@ import { localeStrings } from './locale_strings'
 
 type MediaType = 'none' | 'twitter' | 'reddit' | 'github'
 
-function getMediaMetaData (type: MediaType): MediaMetaData {
+function getMediaMetaData(type: MediaType): MediaMetaData {
   switch (type) {
     case 'twitter':
       return {
@@ -21,7 +21,7 @@ function getMediaMetaData (type: MediaType): MediaMetaData {
         publisherName: 'brave',
         postId: '1234',
         postTimestamp: new Date(Date.now() - 6000000).toString(),
-        postText: 'It\'s all bravey baby'
+        postText: "It's all bravey baby"
       }
     case 'github':
       return {
@@ -34,7 +34,7 @@ function getMediaMetaData (type: MediaType): MediaMetaData {
         mediaType: 'reddit',
         publisherName: 'brave',
         postTimestamp: new Date().toISOString(),
-        postText: 'It\'s all bravey baby'
+        postText: "It's all bravey baby"
       }
     default:
       return {
@@ -43,7 +43,7 @@ function getMediaMetaData (type: MediaType): MediaMetaData {
   }
 }
 
-function createDialogArgs (): DialogArgs {
+function createDialogArgs(): DialogArgs {
   return {
     publisherKey: 'test-publisher',
     url: '',
@@ -52,13 +52,14 @@ function createDialogArgs (): DialogArgs {
   }
 }
 
-function createHostState (): HostState {
+function createHostState(): HostState {
   return {
     publisherInfo: {
       publisherKey: 'brave.com',
       name: 'brave.com',
       title: 'Brave Software',
-      description: 'Thanks for stopping by. Brave is on a mission to fix ' +
+      description:
+        'Thanks for stopping by. Brave is on a mission to fix ' +
         'the web by giving users a safer, faster and better browsing experience ' +
         'while growing support for content creators through a new attention-based ' +
         'ecosystem of rewards. Join us. It’s time to fix the web together!',
@@ -91,30 +92,30 @@ function createHostState (): HostState {
   }
 }
 
-function createHost (): Host {
+function createHost(): Host {
   const hostState = createHostState()
   const dialogArgs = createDialogArgs()
 
   return {
-    get state () {
+    get state() {
       return hostState
     },
-    getString (key) {
+    getString(key) {
       return localeStrings[key] || 'MISSING'
     },
-    getDialogArgs () {
+    getDialogArgs() {
       return dialogArgs
     },
-    closeDialog () {
+    closeDialog() {
       console.log('closeDialog')
     },
-    processTip (amount, kind) {
+    processTip(amount, kind) {
       console.log('processTip', amount, kind)
     },
-    shareTip (target) {
+    shareTip(target) {
       console.log('shareTip', target)
     },
-    addListener (callback) {
+    addListener(callback) {
       callback(hostState)
       return () => {
         // No-op
@@ -127,7 +128,7 @@ export default {
   title: 'Rewards'
 }
 
-export function TipDialog () {
+export function TipDialog() {
   const host = createHost()
   return (
     <HostContext.Provider value={host}>

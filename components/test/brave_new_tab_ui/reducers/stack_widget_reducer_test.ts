@@ -3,7 +3,10 @@
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 // Reducer
-import { stackWidgetReducer, handleWidgetPrefsChange } from '../../../brave_new_tab_ui/reducers/stack_widget_reducer'
+import {
+  stackWidgetReducer,
+  handleWidgetPrefsChange
+} from '../../../brave_new_tab_ui/reducers/stack_widget_reducer'
 
 // API
 import * as storage from '../../../brave_new_tab_ui/storage/new_tab_storage'
@@ -12,15 +15,18 @@ import { types } from '../../../brave_new_tab_ui/constants/stack_widget_types'
 describe('stackWidgetReducer', () => {
   describe('SET_FOREGROUND_STACK_WIDGET', () => {
     it('adds widget if it is not in the stack and sets it to the foreground', () => {
-      const assertion = stackWidgetReducer({
-        ...storage.defaultState,
-        widgetStackOrder: ['rewards']
-      }, {
-        type: types.SET_FOREGROUND_STACK_WIDGET,
-        payload: {
-          widget: 'binance'
+      const assertion = stackWidgetReducer(
+        {
+          ...storage.defaultState,
+          widgetStackOrder: ['rewards']
+        },
+        {
+          type: types.SET_FOREGROUND_STACK_WIDGET,
+          payload: {
+            widget: 'binance'
+          }
         }
-      })
+      )
       const expectedState = {
         ...storage.defaultState,
         widgetStackOrder: ['rewards', 'binance']
@@ -29,15 +35,18 @@ describe('stackWidgetReducer', () => {
     })
 
     it('sets a widget to the foreground if it is in the stack', () => {
-      const assertion = stackWidgetReducer({
-        ...storage.defaultState,
-        widgetStackOrder: ['binance', 'rewards']
-      }, {
-        type: types.SET_FOREGROUND_STACK_WIDGET,
-        payload: {
-          widget: 'binance'
+      const assertion = stackWidgetReducer(
+        {
+          ...storage.defaultState,
+          widgetStackOrder: ['binance', 'rewards']
+        },
+        {
+          type: types.SET_FOREGROUND_STACK_WIDGET,
+          payload: {
+            widget: 'binance'
+          }
         }
-      })
+      )
       const expectedState = {
         ...storage.defaultState,
         widgetStackOrder: ['rewards', 'binance']
@@ -46,15 +55,18 @@ describe('stackWidgetReducer', () => {
     })
 
     it('does not re-add a widget', () => {
-      const assertion = stackWidgetReducer({
-        ...storage.defaultState,
-        widgetStackOrder: ['binance', 'rewards']
-      }, {
-        type: types.SET_FOREGROUND_STACK_WIDGET,
-        payload: {
-          widget: 'rewards'
+      const assertion = stackWidgetReducer(
+        {
+          ...storage.defaultState,
+          widgetStackOrder: ['binance', 'rewards']
+        },
+        {
+          type: types.SET_FOREGROUND_STACK_WIDGET,
+          payload: {
+            widget: 'rewards'
+          }
         }
-      })
+      )
       const expectedState = {
         ...storage.defaultState,
         widgetStackOrder: ['binance', 'rewards']
@@ -76,7 +88,13 @@ describe('stackWidgetReducer', () => {
       const expectedState = {
         ...storage.defaultState,
         showBinance: true,
-        widgetStackOrder: ['ftx', 'cryptoDotCom', 'gemini', 'rewards', 'binance']
+        widgetStackOrder: [
+          'ftx',
+          'cryptoDotCom',
+          'gemini',
+          'rewards',
+          'binance'
+        ]
       }
       const assertion = handleWidgetPrefsChange(newState, oldState)
       expect(assertion).toEqual(expectedState)

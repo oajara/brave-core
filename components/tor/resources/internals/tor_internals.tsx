@@ -17,38 +17,56 @@ import Theme from 'brave-ui/theme/brave-default'
 import store from './store'
 import * as torInternalsActions from './actions/tor_internals_actions'
 
-function getTorGeneralInfo () {
-  const actions = bindActionCreators(torInternalsActions, store.dispatch.bind(store))
+function getTorGeneralInfo() {
+  const actions = bindActionCreators(
+    torInternalsActions,
+    store.dispatch.bind(store)
+  )
   actions.getTorGeneralInfo()
 }
 
-function onGetTorGeneralInfo (generalInfo: TorInternals.GeneralInfo) {
-  const actions = bindActionCreators(torInternalsActions, store.dispatch.bind(store))
+function onGetTorGeneralInfo(generalInfo: TorInternals.GeneralInfo) {
+  const actions = bindActionCreators(
+    torInternalsActions,
+    store.dispatch.bind(store)
+  )
   actions.onGetTorGeneralInfo(generalInfo)
 }
 
-function onGetTorLog (log: string) {
-  const actions = bindActionCreators(torInternalsActions, store.dispatch.bind(store))
+function onGetTorLog(log: string) {
+  const actions = bindActionCreators(
+    torInternalsActions,
+    store.dispatch.bind(store)
+  )
   actions.onGetTorLog(log)
 }
 
-function onGetTorInitPercentage (percentage: string) {
-  const actions = bindActionCreators(torInternalsActions, store.dispatch.bind(store))
+function onGetTorInitPercentage(percentage: string) {
+  const actions = bindActionCreators(
+    torInternalsActions,
+    store.dispatch.bind(store)
+  )
   actions.onGetTorInitPercentage(percentage)
 }
 
-function onGetTorCircuitEstablished (success: boolean) {
-  const actions = bindActionCreators(torInternalsActions, store.dispatch.bind(store))
+function onGetTorCircuitEstablished(success: boolean) {
+  const actions = bindActionCreators(
+    torInternalsActions,
+    store.dispatch.bind(store)
+  )
   actions.onGetTorCircuitEstablished(success)
   getTorGeneralInfo()
 }
 
-function onGetTorControlEvent (event: string) {
-  const actions = bindActionCreators(torInternalsActions, store.dispatch.bind(store))
+function onGetTorControlEvent(event: string) {
+  const actions = bindActionCreators(
+    torInternalsActions,
+    store.dispatch.bind(store)
+  )
   actions.onGetTorControlEvent(event)
 }
 
-function initialize () {
+function initialize() {
   getTorGeneralInfo()
   render(
     <Provider store={store}>
@@ -56,7 +74,8 @@ function initialize () {
         <App />
       </ThemeProvider>
     </Provider>,
-    document.getElementById('root'))
+    document.getElementById('root')
+  )
 }
 
 // Expose functions to Page Handlers.

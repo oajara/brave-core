@@ -13,9 +13,7 @@ import { Table, Header, Row } from '../components/shared/datatable'
 storiesOf('Wallet/Desktop/Components', module)
   .addDecorator(withKnobs)
   .add('DataTable', () => {
-    const rowTheme = {
-
-    }
+    const rowTheme = {}
 
     const rows: Row[] = [
       {
@@ -75,10 +73,7 @@ storiesOf('Wallet/Desktop/Components', module)
 
     return (
       <div>
-        <Table
-          headers={object('Header', header)}
-          rows={object('Rows', rows)}
-        >
+        <Table headers={object('Header', header)} rows={object('Rows', rows)}>
           404: Publishers not found :)
         </Table>
         <br />

@@ -7,9 +7,9 @@ declare namespace IPFS {
     connectedPeers: ConnectedPeers
     addressesConfig: AddressesConfig
     daemonStatus: DaemonStatus
-    repoStats: RepoStats,
-    nodeInfo: NodeInfo,
-    garbageCollectionStatus: GarbageCollectionStatus,
+    repoStats: RepoStats
+    nodeInfo: NodeInfo
+    garbageCollectionStatus: GarbageCollectionStatus
     installationProgress: InstallationProgress
   }
 
@@ -55,5 +55,4 @@ declare namespace IPFS {
     total_bytes: number
     downloaded_bytes: number
   }
-
 }

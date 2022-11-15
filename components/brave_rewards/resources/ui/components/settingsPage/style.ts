@@ -8,11 +8,11 @@ export const StyledWrapper = styled('div')<{}>`
   background: #f2f4f7;
   min-height: 100vh;
   min-width: 1024px;
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
 `
 
 export const StyledContent = styled('div')<{}>`
- max-width: 1024px;
- margin: 0 auto;
- padding: 48px 0;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 48px 0;
 `

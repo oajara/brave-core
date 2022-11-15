@@ -20,7 +20,7 @@ export interface Props {
 }
 
 export default class MainToggle extends React.PureComponent<Props, {}> {
-  render () {
+  render() {
     const { testId } = this.props
 
     return (
@@ -30,9 +30,7 @@ export default class MainToggle extends React.PureComponent<Props, {}> {
             <StyledLogoWrapper>
               <BatColorIcon />
             </StyledLogoWrapper>
-            <StyledTitle>
-              {getLocale('braveRewards')}
-            </StyledTitle>
+            <StyledTitle>{getLocale('braveRewards')}</StyledTitle>
           </StyledLogotypeWrapper>
         </ToggleHeading>
       </MainToggleWrapper>

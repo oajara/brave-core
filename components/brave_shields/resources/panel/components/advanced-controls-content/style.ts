@@ -27,7 +27,7 @@ export const FooterActionBox = styled.div`
     background-color: transparent;
     padding: 0;
     margin: 0;
-    border:0;
+    border: 0;
     color: var(--text-color);
     font-size: 13px;
     font-weight: 500;
@@ -45,7 +45,7 @@ export const FooterActionBox = styled.div`
       --svg-color: ${(p) => p.theme.color.interactive08};
     }
   }
-  
+
   i {
     display: block;
     width: 17px;
@@ -75,7 +75,7 @@ export const ControlGroup = styled.div`
   grid-gap: 10px;
   align-items: center;
   margin-bottom: 8px;
-  
+
   .col-2,
   label {
     grid-column: 2;
@@ -134,5 +134,4 @@ export const CountButton = styled.button`
       background-color: unset;
     }
   }
-
 `

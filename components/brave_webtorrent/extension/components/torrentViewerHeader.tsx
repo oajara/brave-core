@@ -38,10 +38,15 @@ const ButtonsContainer = styled.div`
   --button-main-color: var(--interactive2);
 `
 
-export default function TorrentHeaderViewer ({ torrent, torrentId, name, tabId, onStartTorrent, onStopDownload }: Props) {
-  name = typeof name === 'object'
-      ? name[0]
-      : name
+export default function TorrentHeaderViewer({
+  torrent,
+  torrentId,
+  name,
+  tabId,
+  onStartTorrent,
+  onStopDownload
+}: Props) {
+  name = typeof name === 'object' ? name[0] : name
   const title = name || 'Loading torrent information...'
   const mainButtonText = torrent ? 'Stop Torrent' : 'Start Torrent'
   const copyButtonText = torrentId.startsWith('magnet:')
@@ -65,8 +70,11 @@ export default function TorrentHeaderViewer ({ torrent, torrentId, name, tabId, 
           return
         }
         const url = new URL(item.finalUrl || item.url)
-        if (!url || !remoteProtocols.includes(url.protocol) ||
-            url.hostname === '127.0.0.1') {
+        if (
+          !url ||
+          !remoteProtocols.includes(url.protocol) ||
+          url.hostname === '127.0.0.1'
+        ) {
           // Non-remote files are trusted.
           return
         }
@@ -76,23 +84,33 @@ export default function TorrentHeaderViewer ({ torrent, torrentId, name, tabId, 
               const msg = 'Error: file is not a .torrent.'
               // By default, alert() shows up on every tab that has loaded webtorrent.
               // We only want it to show on the current tab.
-              chrome.tabs.query({
-                active: true,
-                lastFocusedWindow: true
-              }, (tabs) => {
-                const tab = tabs[0]
-                if (tab && typeof tab.id === 'number') {
-                  chrome.tabs.executeScript(tab.id, {
-                    code: `alert('${msg}')`
-                  }, () => {
-                    if (chrome.runtime.lastError) {
-                      console.error('tabs.executeScript failed: ' + chrome.runtime.lastError.message)
-                    }
-                  })
-                  return
+              chrome.tabs.query(
+                {
+                  active: true,
+                  lastFocusedWindow: true
+                },
+                (tabs) => {
+                  const tab = tabs[0]
+                  if (tab && typeof tab.id === 'number') {
+                    chrome.tabs.executeScript(
+                      tab.id,
+                      {
+                        code: `alert('${msg}')`
+                      },
+                      () => {
+                        if (chrome.runtime.lastError) {
+                          console.error(
+                            'tabs.executeScript failed: ' +
+                              chrome.runtime.lastError.message
+                          )
+                        }
+                      }
+                    )
+                    return
+                  }
+                  alert(msg)
                 }
-                alert(msg)
-              })
+              )
             })
           } catch (e) {
             console.error(e)
@@ -109,19 +127,25 @@ export default function TorrentHeaderViewer ({ torrent, torrentId, name, tabId, 
     }
   }
 
-  return <HeaderRow>
-    <HeaderText>{title}</HeaderText>
-    <ButtonsContainer>
-      <Button
-        type='accent'
-        level={!torrent ? 'primary' : 'secondary'}
-        text={mainButtonText}
-        onClick={() => torrent ? onStopDownload(tabId) : onStartTorrent(torrentId, tabId)} />
-      <Button
-        type='accent'
-        level='secondary'
-        text={copyButtonText}
-        onClick={onCopyClick} />
-    </ButtonsContainer>
-  </HeaderRow>
+  return (
+    <HeaderRow>
+      <HeaderText>{title}</HeaderText>
+      <ButtonsContainer>
+        <Button
+          type="accent"
+          level={!torrent ? 'primary' : 'secondary'}
+          text={mainButtonText}
+          onClick={() =>
+            torrent ? onStopDownload(tabId) : onStartTorrent(torrentId, tabId)
+          }
+        />
+        <Button
+          type="accent"
+          level="secondary"
+          text={copyButtonText}
+          onClick={onCopyClick}
+        />
+      </ButtonsContainer>
+    </HeaderRow>
+  )
 }

@@ -20,6 +20,6 @@ export const SendScreenWrapper = styled.div`
   padding: 100px 0px;
   @media (prefers-color-scheme: dark) {
     /* #17171F does not exist in design system */
-    background-color: #17171F;
+    background-color: #17171f;
   }
 `

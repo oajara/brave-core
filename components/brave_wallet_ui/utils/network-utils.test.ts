@@ -51,7 +51,9 @@ describe('reduceNetworkDisplayName', () => {
 
 describe('getNetworksByCoinType', () => {
   it('CoinType ETH, should return all ETH networks', () => {
-    expect(getNetworksByCoinType(mockNetworks, BraveWallet.CoinType.ETH)).toEqual(mockNetworks)
+    expect(
+      getNetworksByCoinType(mockNetworks, BraveWallet.CoinType.ETH)
+    ).toEqual(mockNetworks)
   })
   it('CoinType random number, should return an empty array', () => {
     expect(getNetworksByCoinType(mockNetworks, 3000)).toEqual([])
@@ -69,50 +71,78 @@ describe('getTokensNetwork', () => {
 
 describe('getCoinFromTxDataUnion', () => {
   it('Filecoin transaction', () => {
-    expect(getCoinFromTxDataUnion({
-      filTxData: {} as BraveWallet.FilTxData,
-      ethTxData: undefined,
-      ethTxData1559: undefined,
-      solanaTxData: undefined
-    })).toEqual(BraveWallet.CoinType.FIL)
+    expect(
+      getCoinFromTxDataUnion({
+        filTxData: {} as BraveWallet.FilTxData,
+        ethTxData: undefined,
+        ethTxData1559: undefined,
+        solanaTxData: undefined
+      })
+    ).toEqual(BraveWallet.CoinType.FIL)
   })
   it('Ethereum transaction', () => {
-    expect(getCoinFromTxDataUnion({
-      filTxData: undefined,
-      ethTxData: {} as BraveWallet.TxData,
-      ethTxData1559: undefined,
-      solanaTxData: undefined
-    })).toEqual(BraveWallet.CoinType.ETH)
+    expect(
+      getCoinFromTxDataUnion({
+        filTxData: undefined,
+        ethTxData: {} as BraveWallet.TxData,
+        ethTxData1559: undefined,
+        solanaTxData: undefined
+      })
+    ).toEqual(BraveWallet.CoinType.ETH)
   })
   it('Ethereum1559 transaction', () => {
-    expect(getCoinFromTxDataUnion({
-      filTxData: undefined,
-      ethTxData: undefined,
-      ethTxData1559: {} as BraveWallet.TxData1559,
-      solanaTxData: undefined
-    })).toEqual(BraveWallet.CoinType.ETH)
+    expect(
+      getCoinFromTxDataUnion({
+        filTxData: undefined,
+        ethTxData: undefined,
+        ethTxData1559: {} as BraveWallet.TxData1559,
+        solanaTxData: undefined
+      })
+    ).toEqual(BraveWallet.CoinType.ETH)
   })
   it('Solana transaction', () => {
-    expect(getCoinFromTxDataUnion({
-      filTxData: undefined,
-      ethTxData: undefined,
-      ethTxData1559: undefined,
-      solanaTxData: {} as BraveWallet.SolanaTxData
-    })).toEqual(BraveWallet.CoinType.SOL)
+    expect(
+      getCoinFromTxDataUnion({
+        filTxData: undefined,
+        ethTxData: undefined,
+        ethTxData1559: undefined,
+        solanaTxData: {} as BraveWallet.SolanaTxData
+      })
+    ).toEqual(BraveWallet.CoinType.SOL)
   })
 })
 
 describe('getFilecoinKeyringIdFromNetwork', () => {
   it('Filecoin testnet', () => {
-    expect(getFilecoinKeyringIdFromNetwork({ chainId: BraveWallet.FILECOIN_TESTNET, coin: BraveWallet.CoinType.FIL } as BraveWallet.NetworkInfo)).toEqual(BraveWallet.FILECOIN_TESTNET_KEYRING_ID)
+    expect(
+      getFilecoinKeyringIdFromNetwork({
+        chainId: BraveWallet.FILECOIN_TESTNET,
+        coin: BraveWallet.CoinType.FIL
+      } as BraveWallet.NetworkInfo)
+    ).toEqual(BraveWallet.FILECOIN_TESTNET_KEYRING_ID)
   })
   it('Filecoin localhost', () => {
-    expect(getFilecoinKeyringIdFromNetwork({ chainId: BraveWallet.LOCALHOST_CHAIN_ID, coin: BraveWallet.CoinType.FIL } as BraveWallet.NetworkInfo)).toEqual(BraveWallet.FILECOIN_TESTNET_KEYRING_ID)
+    expect(
+      getFilecoinKeyringIdFromNetwork({
+        chainId: BraveWallet.LOCALHOST_CHAIN_ID,
+        coin: BraveWallet.CoinType.FIL
+      } as BraveWallet.NetworkInfo)
+    ).toEqual(BraveWallet.FILECOIN_TESTNET_KEYRING_ID)
   })
   it('Filecoin mainnet', () => {
-    expect(getFilecoinKeyringIdFromNetwork({ chainId: BraveWallet.FILECOIN_MAINNET, coin: BraveWallet.CoinType.FIL } as BraveWallet.NetworkInfo)).toEqual(BraveWallet.FILECOIN_KEYRING_ID)
+    expect(
+      getFilecoinKeyringIdFromNetwork({
+        chainId: BraveWallet.FILECOIN_MAINNET,
+        coin: BraveWallet.CoinType.FIL
+      } as BraveWallet.NetworkInfo)
+    ).toEqual(BraveWallet.FILECOIN_KEYRING_ID)
   })
   it('Non filecoin', () => {
-    expect(getFilecoinKeyringIdFromNetwork({ chainId: BraveWallet.GOERLI_CHAIN_ID, coin: BraveWallet.CoinType.ETH } as BraveWallet.NetworkInfo)).toEqual(undefined)
+    expect(
+      getFilecoinKeyringIdFromNetwork({
+        chainId: BraveWallet.GOERLI_CHAIN_ID,
+        coin: BraveWallet.CoinType.ETH
+      } as BraveWallet.NetworkInfo)
+    ).toEqual(undefined)
   })
 })

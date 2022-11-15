@@ -28,7 +28,7 @@ interface Props {
 }
 
 export default class Notification extends React.Component<Props, {}> {
-  componentDidMount () {
+  componentDidMount() {
     // After 3s, auto-close this notification
     window.setTimeout(() => this.onHideSiteRemovalNotification(), 3000)
   }
@@ -45,29 +45,26 @@ export default class Notification extends React.Component<Props, {}> {
     this.props.actions.showTilesRemovedNotice(false)
   }
 
-  render () {
+  render() {
     return (
-       <SiteRemovalNotification>
-          <SiteRemovalText>{getLocale('thumbRemoved')}</SiteRemovalText>
-          <SiteRemovalAction
-            onClick={this.onUndoRemoveTopSite}
-          >
-            {getLocale('undoRemoved')}
+      <SiteRemovalNotification>
+        <SiteRemovalText>{getLocale('thumbRemoved')}</SiteRemovalText>
+        <SiteRemovalAction onClick={this.onUndoRemoveTopSite}>
+          {getLocale('undoRemoved')}
+        </SiteRemovalAction>
+        {this.props.showRestoreAll ? (
+          <SiteRemovalAction onClick={this.onUndoRemoveAllTopSites}>
+            {getLocale('restoreAll')}
           </SiteRemovalAction>
-          { this.props.showRestoreAll
-            ? <SiteRemovalAction onClick={this.onUndoRemoveAllTopSites}>
-              {getLocale('restoreAll')}
-            </SiteRemovalAction>
-            : null
-          }
-          <SiteRemovalAction
-            onClick={this.onHideSiteRemovalNotification}
-            iconOnly={true}
-            title={getLocale('close')}
-          >
-            <CloseStrokeIcon />
-          </SiteRemovalAction>
-       </SiteRemovalNotification>
+        ) : null}
+        <SiteRemovalAction
+          onClick={this.onHideSiteRemovalNotification}
+          iconOnly={true}
+          title={getLocale('close')}
+        >
+          <CloseStrokeIcon />
+        </SiteRemovalAction>
+      </SiteRemovalNotification>
     )
   }
 }

@@ -3,14 +3,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 
-const SUPPORTED_VIDEO_EXTENSIONS = [
-  'm4v',
-  'mkv',
-  'mov',
-  'mp4',
-  'ogv',
-  'webm'
-]
+const SUPPORTED_VIDEO_EXTENSIONS = ['m4v', 'mkv', 'mov', 'mp4', 'ogv', 'webm']
 
 const SUPPORTED_AUDIO_EXTENSIONS = [
   'aac',
@@ -24,28 +17,19 @@ const SUPPORTED_AUDIO_EXTENSIONS = [
   'wav'
 ]
 
-const SUPPORTED_IMAGE_EXTENSIONS = [
-  'bmp',
-  'gif',
-  'jpeg',
-  'jpg',
-  'png',
-  'svg'
-]
+const SUPPORTED_IMAGE_EXTENSIONS = ['bmp', 'gif', 'jpeg', 'jpg', 'png', 'svg']
 
-const SUPPORTED_PDF_EXTENSIONS = [
-  'pdf'
-]
+const SUPPORTED_PDF_EXTENSIONS = ['pdf']
 
-const SUPPORTED_IFRAME_EXTENSIONS = [
-  'css',
-  'html',
-  'js',
-  'md',
-  'txt'
-]
+const SUPPORTED_IFRAME_EXTENSIONS = ['css', 'html', 'js', 'md', 'txt']
 
-export type FileType = 'video' | 'audio' | 'image' | 'pdf' | 'iframe' | 'unknown'
+export type FileType =
+  | 'video'
+  | 'audio'
+  | 'image'
+  | 'pdf'
+  | 'iframe'
+  | 'unknown'
 export const mediaTypes: FileType[] = ['video', 'audio', 'image']
 export const isMedia = (fileType: FileType) => mediaTypes.includes(fileType)
 // Given 'foo.txt', returns 'txt'

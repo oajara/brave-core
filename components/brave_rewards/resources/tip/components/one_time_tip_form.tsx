@@ -4,11 +4,7 @@
 
 import * as React from 'react'
 
-import {
-  PaymentKind,
-  RewardsParameters,
-  BalanceInfo
-} from '../lib/interfaces'
+import { PaymentKind, RewardsParameters, BalanceInfo } from '../lib/interfaces'
 
 import { HostContext } from '../lib/host_context'
 
@@ -18,7 +14,7 @@ import { ExchangeAmount } from '../../shared/components/exchange_amount'
 
 import * as style from './one_time_tip_form.style'
 
-function generateTipOptions (rewardsParameters: RewardsParameters) {
+function generateTipOptions(rewardsParameters: RewardsParameters) {
   const { tipChoices } = rewardsParameters
   if (tipChoices.length > 0) {
     return tipChoices
@@ -26,7 +22,7 @@ function generateTipOptions (rewardsParameters: RewardsParameters) {
   return [1, 5, 10]
 }
 
-function getDefaultTipAmount (
+function getDefaultTipAmount(
   rewardsParameters: RewardsParameters | undefined,
   balanceInfo: BalanceInfo | undefined
 ) {
@@ -46,13 +42,13 @@ function getDefaultTipAmount (
   return 0
 }
 
-export function OneTimeTipForm () {
+export function OneTimeTipForm() {
   const host = React.useContext(HostContext)
 
-  const [balanceInfo, setBalanceInfo] = React.useState(
-    host.state.balanceInfo)
+  const [balanceInfo, setBalanceInfo] = React.useState(host.state.balanceInfo)
   const [rewardsParameters, setRewardsParameters] = React.useState(
-    host.state.rewardsParameters)
+    host.state.rewardsParameters
+  )
 
   const [paymentKind, setPaymentKind] = React.useState<PaymentKind>('bat')
 
@@ -96,7 +92,7 @@ export function OneTimeTipForm () {
       </style.kind>
       <style.form>
         <BatTipForm
-          tipKind='one-time'
+          tipKind="one-time"
           userBalance={balanceInfo.total}
           tipAmountOptions={tipAmountOptions}
           defaultTipAmount={defaultTipAmount}

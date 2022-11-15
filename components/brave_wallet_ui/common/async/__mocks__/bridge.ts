@@ -17,9 +17,11 @@ import { mockWalletState } from '../../../stories/mock-data/mock-wallet-state'
 import { mockedMnemonic } from '../../../stories/mock-data/user-accounts'
 
 export const makeMockedStoreWithSpy = () => {
-  const store = createStore(combineReducers({
-    wallet: createWalletReducer(mockWalletState)
-  }))
+  const store = createStore(
+    combineReducers({
+      wallet: createWalletReducer(mockWalletState)
+    })
+  )
 
   const areWeTestingWithJest = process.env.JEST_WORKER_ID !== undefined
 
@@ -79,37 +81,42 @@ export class MockedWalletApiProxy {
     buyTokenToEthRate: '1'
   }
 
-  swapService: Partial<InstanceType<typeof BraveWallet.SwapServiceInterface>> = {
-    getTransactionPayload: async ({
-      buyAmount,
-      buyToken,
-      sellAmount,
-      sellToken
-    }: BraveWallet.SwapParams): Promise<{
-      success: boolean
-      errorResponse: any
-      response: BraveWallet.SwapResponse
-    }> => ({
-      success: true,
-      errorResponse: {},
-      response: {
-        ...this.mockQuote,
-        buyTokenAddress: buyToken,
-        sellTokenAddress: sellToken,
-        buyAmount: buyAmount || '',
-        sellAmount: sellAmount || '',
-        price: '1'
-      }
-    }),
-    getPriceQuote: async () => ({
-      success: true,
-      errorResponse: null,
-      response: this.mockTransaction
-    })
-  }
+  swapService: Partial<InstanceType<typeof BraveWallet.SwapServiceInterface>> =
+    {
+      getTransactionPayload: async ({
+        buyAmount,
+        buyToken,
+        sellAmount,
+        sellToken
+      }: BraveWallet.SwapParams): Promise<{
+        success: boolean
+        errorResponse: any
+        response: BraveWallet.SwapResponse
+      }> => ({
+        success: true,
+        errorResponse: {},
+        response: {
+          ...this.mockQuote,
+          buyTokenAddress: buyToken,
+          sellTokenAddress: sellToken,
+          buyAmount: buyAmount || '',
+          sellAmount: sellAmount || '',
+          price: '1'
+        }
+      }),
+      getPriceQuote: async () => ({
+        success: true,
+        errorResponse: null,
+        response: this.mockTransaction
+      })
+    }
 
-  keyringService: Partial<InstanceType<typeof BraveWallet.KeyringServiceInterface>> = {
-    validatePassword: async (password: string) => ({ result: password === 'password' }),
+  keyringService: Partial<
+    InstanceType<typeof BraveWallet.KeyringServiceInterface>
+  > = {
+    validatePassword: async (password: string) => ({
+      result: password === 'password'
+    }),
     lock: () => {
       this.store.dispatch(WalletActions.locked())
       alert('wallet locked')
@@ -118,16 +125,20 @@ export class MockedWalletApiProxy {
       address: string,
       password: string,
       coin: number
-    ) => (password === 'password'
-      ? { privateKey: 'secret-private-key', success: true }
-      : { privateKey: '', success: false }
-    ),
-    async getMnemonicForDefaultKeyring (password) {
-      return password === 'password' ? { mnemonic: mockedMnemonic } : { mnemonic: '' }
+    ) =>
+      password === 'password'
+        ? { privateKey: 'secret-private-key', success: true }
+        : { privateKey: '', success: false },
+    async getMnemonicForDefaultKeyring(password) {
+      return password === 'password'
+        ? { mnemonic: mockedMnemonic }
+        : { mnemonic: '' }
     }
   }
 
-  ethTxManagerProxy: Partial<InstanceType<typeof BraveWallet.EthTxManagerProxyInterface>> = {
+  ethTxManagerProxy: Partial<
+    InstanceType<typeof BraveWallet.EthTxManagerProxyInterface>
+  > = {
     getGasEstimation1559: async () => {
       return {
         estimation: {
@@ -143,32 +154,36 @@ export class MockedWalletApiProxy {
     }
   }
 
-  braveWalletP3A: Partial<InstanceType<typeof BraveWallet.BraveWalletP3AInterface>> = {
+  braveWalletP3A: Partial<
+    InstanceType<typeof BraveWallet.BraveWalletP3AInterface>
+  > = {
     reportOnboardingAction: () => {},
     reportEthereumProvider: () => {}
   }
 
-  assetRatioService: Partial<InstanceType<typeof BraveWallet.AssetRatioServiceInterface>> = {
-    async getPrice (fromAssets, toAssets, timeframe) {
-        return {
-          success: true,
-          values: [
-            {
-              assetTimeframeChange: '1',
-              fromAsset: fromAssets[0],
-              toAsset: toAssets[0],
-              price: '1234.56'
-            }
-          ]
-        }
+  assetRatioService: Partial<
+    InstanceType<typeof BraveWallet.AssetRatioServiceInterface>
+  > = {
+    async getPrice(fromAssets, toAssets, timeframe) {
+      return {
+        success: true,
+        values: [
+          {
+            assetTimeframeChange: '1',
+            fromAsset: fromAssets[0],
+            toAsset: toAssets[0],
+            price: '1234.56'
+          }
+        ]
+      }
     }
   }
 
-  setMockedQuote (newQuote: typeof this.mockQuote) {
+  setMockedQuote(newQuote: typeof this.mockQuote) {
     this.mockQuote = newQuote
   }
 
-  setMockedTransactionPayload (newTx: typeof this.mockQuote) {
+  setMockedTransactionPayload(newTx: typeof this.mockQuote) {
     this.mockTransaction = newTx
   }
 
@@ -177,12 +192,14 @@ export class MockedWalletApiProxy {
   }
 }
 
-export function getAPIProxy (): Partial<WalletApiProxy> {
-  return new MockedWalletApiProxy() as unknown as Partial<WalletApiProxy> & MockedWalletApiProxy
+export function getAPIProxy(): Partial<WalletApiProxy> {
+  return new MockedWalletApiProxy() as unknown as Partial<WalletApiProxy> &
+    MockedWalletApiProxy
 }
 
-export function getMockedAPIProxy (): WalletApiProxy & MockedWalletApiProxy {
-  return new MockedWalletApiProxy() as unknown as WalletApiProxy & MockedWalletApiProxy
+export function getMockedAPIProxy(): WalletApiProxy & MockedWalletApiProxy {
+  return new MockedWalletApiProxy() as unknown as WalletApiProxy &
+    MockedWalletApiProxy
 }
 
 export default getAPIProxy

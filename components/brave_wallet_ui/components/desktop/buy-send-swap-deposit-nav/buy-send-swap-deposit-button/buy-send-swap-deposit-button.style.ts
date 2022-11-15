@@ -28,12 +28,12 @@ export const StyledButton = styled(WalletButton)`
   font-weight: 600;
   font-size: 16px;
   font-family: 'Poppins';
-  &:last-child { 
+  &:last-child {
     border-bottom: none;
   }
 `
 
-export const ButtonIcon = styled.div <{ icon: string }>`
+export const ButtonIcon = styled.div<{ icon: string }>`
   -webkit-mask-image: url(${(p) => p.icon});
   mask-image: url(${(p) => p.icon});
   mask-size: contain;

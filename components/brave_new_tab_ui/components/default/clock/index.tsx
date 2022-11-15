@@ -9,14 +9,17 @@ import { StyledClock, StyledTime } from './style'
 
 // Tick once every two seconds.
 const TICK_RATE = 2000
-export function Clock () {
+export function Clock() {
   const [now, setNow] = React.useState<Date>()
   const [clockFormat, setClockFormat] = useNewTabPref('clockFormat')
   const toggleClockFormat = () => {
     switch (clockFormat) {
-      case '': return setClockFormat('12')
-      case '12': return setClockFormat('24')
-      case '24': return setClockFormat('')
+      case '':
+        return setClockFormat('12')
+      case '12':
+        return setClockFormat('24')
+      case '24':
+        return setClockFormat('')
     }
   }
 
@@ -25,24 +28,34 @@ export function Clock () {
     return () => clearInterval(interval)
   }, [])
 
-  const formatter = React.useMemo(() => new Intl.DateTimeFormat(undefined, {
-    hour: 'numeric',
-    minute: 'numeric',
-    hourCycle: clockFormat === '12'
-      ? 'h12'
-      : clockFormat === '24'
-        ? 'h23'
-        // If clock format is not set, let Intl decide (use the system pref).
-        : undefined
-  }), [clockFormat])
+  const formatter = React.useMemo(
+    () =>
+      new Intl.DateTimeFormat(undefined, {
+        hour: 'numeric',
+        minute: 'numeric',
+        hourCycle:
+          clockFormat === '12'
+            ? 'h12'
+            : clockFormat === '24'
+            ? 'h23'
+            : // If clock format is not set, let Intl decide (use the system pref).
+              undefined
+      }),
+    [clockFormat]
+  )
 
   // Don't render AM/PM
-  const formattedTime = React.useMemo(() => formatter.formatToParts(now)
-    .map(t => t.type === 'dayPeriod'
-      ? null
-      : t.value), [formatter, now])
+  const formattedTime = React.useMemo(
+    () =>
+      formatter
+        .formatToParts(now)
+        .map((t) => (t.type === 'dayPeriod' ? null : t.value)),
+    [formatter, now]
+  )
 
-  return <StyledClock onDoubleClick={toggleClockFormat}>
-    <StyledTime>{formattedTime}</StyledTime>
-  </StyledClock>
+  return (
+    <StyledClock onDoubleClick={toggleClockFormat}>
+      <StyledTime>{formattedTime}</StyledTime>
+    </StyledClock>
+  )
 }

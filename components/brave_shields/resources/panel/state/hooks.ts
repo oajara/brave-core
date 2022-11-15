@@ -3,10 +3,14 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 import * as React from 'react'
-import getPanelBrowserAPI, { UIHandlerReceiver, SiteBlockInfo, SiteSettings } from '../api/panel_browser_api'
+import getPanelBrowserAPI, {
+  UIHandlerReceiver,
+  SiteBlockInfo,
+  SiteSettings
+} from '../api/panel_browser_api'
 import { loadTimeData } from '../../../../common/loadTimeData'
 
-export function useSiteBlockInfoData () {
+export function useSiteBlockInfoData() {
   const [siteBlockInfo, setSiteBlockInfo] = React.useState<SiteBlockInfo>()
 
   React.useEffect(() => {
@@ -17,13 +21,14 @@ export function useSiteBlockInfoData () {
     })
 
     getPanelBrowserAPI().dataHandler.registerUIHandler(
-      uiHandlerReceiver.$.bindNewPipeAndPassRemote())
+      uiHandlerReceiver.$.bindNewPipeAndPassRemote()
+    )
   }, [])
 
   return { siteBlockInfo }
 }
 
-export function useSiteSettingsData () {
+export function useSiteSettingsData() {
   const [siteSettings, setSiteSettings] = React.useState<SiteSettings>()
 
   const getSiteSettings = async () => {
@@ -49,8 +54,10 @@ export function useSiteSettingsData () {
   return { siteSettings, getSiteSettings }
 }
 
-export function useIsExpanded () {
-  const [isExpanded, setIsExpanded] = React.useState<boolean | null>(loadTimeData.getBoolean('isAdvancedViewEnabled'))
+export function useIsExpanded() {
+  const [isExpanded, setIsExpanded] = React.useState<boolean | null>(
+    loadTimeData.getBoolean('isAdvancedViewEnabled')
+  )
 
   const toggleIsExpanded = () => {
     const newValue = !isExpanded
@@ -61,7 +68,9 @@ export function useIsExpanded () {
   React.useEffect(() => {
     const onVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
-        getPanelBrowserAPI().panelHandler.getAdvancedViewEnabled().then(res => setIsExpanded(res.isEnabled))
+        getPanelBrowserAPI()
+          .panelHandler.getAdvancedViewEnabled()
+          .then((res) => setIsExpanded(res.isEnabled))
       }
     }
 

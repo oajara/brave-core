@@ -27,36 +27,37 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
   day: 'numeric'
 })
 
-function Title (props: NotificationTitleProps) {
-  function renderIcon () {
+function Title(props: NotificationTitleProps) {
+  function renderIcon() {
     switch (props.style) {
-      case 'funding': return <MoneyBagIcon />
-      case 'error': return <NotificationErrorIcon />
-      case 'custom': return null
-      default: return <NotificationInfoIcon />
+      case 'funding':
+        return <MoneyBagIcon />
+      case 'error':
+        return <NotificationErrorIcon />
+      case 'custom':
+        return null
+      default:
+        return <NotificationInfoIcon />
     }
   }
 
   return (
     <style.title className={props.style || 'information'}>
-      {renderIcon()}{props.children}
+      {renderIcon()}
+      {props.children}
     </style.title>
   )
 }
 
-function Body (props: NotificationBodyProps) {
-  return (
-    <style.body>
-      {props.children}
-    </style.body>
-  )
+function Body(props: NotificationBodyProps) {
+  return <style.body>{props.children}</style.body>
 }
 
-function Action (props: NotificationActionViewProps) {
+function Action(props: NotificationActionViewProps) {
   const host = React.useContext(HostContext)
   const { getString } = React.useContext(LocaleContext)
 
-  function onActionClick () {
+  function onActionClick() {
     if (props.action) {
       host.handleNotificationAction(props.action)
     }
@@ -65,7 +66,7 @@ function Action (props: NotificationActionViewProps) {
 
   return (
     <style.action>
-      <button onClick={onActionClick} data-test-id='notification-action-button'>
+      <button onClick={onActionClick} data-test-id="notification-action-button">
         {props.label || getString('ok')}
       </button>
     </style.action>
@@ -76,11 +77,11 @@ interface Props {
   notification: Notification
 }
 
-export function NotificationCard (props: Props) {
+export function NotificationCard(props: Props) {
   const host = React.useContext(HostContext)
   const View = getNotificationView(props.notification)
 
-  function dismissNotification () {
+  function dismissNotification() {
     host.dismissNotification(props.notification)
   }
 

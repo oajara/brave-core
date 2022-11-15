@@ -37,7 +37,7 @@ import { makePaddingMixin } from '../../utils/style.utils'
 // Spacers
 export const VerticalSpacer = styled.div<{ space: number | string }>`
   display: flex;
-  height: ${p => typeof p.space === 'number' ? `${p.space}px` : p.space};
+  height: ${(p) => (typeof p.space === 'number' ? `${p.space}px` : p.space)};
 `
 
 // Text
@@ -65,18 +65,15 @@ export const ErrorText = styled.span`
   margin-bottom: 10px;
 `
 
-type FlexProps = Partial<Pick<CSSProperties,
-  | 'flex'
-  | 'alignItems'
-  | 'justifyContent'
-  | 'gap'
->>
+type FlexProps = Partial<
+  Pick<CSSProperties, 'flex' | 'alignItems' | 'justifyContent' | 'gap'>
+>
 
 // Mixins
 export const walletButtonFocusMixin = css`
   &:focus-visible {
     outline-style: solid;
-    outline-color: ${p => p.theme.palette.blurple300};
+    outline-color: ${(p) => p.theme.palette.blurple300};
     outline-width: 2px;
   }
 `
@@ -84,15 +81,18 @@ export const walletButtonFocusMixin = css`
 export const backgroundColorMixin = css<{
   color?: ThemeColor
 }>`
-  background-color: ${(p) => p?.color
-    ? p.theme.color?.[p.color] || p.theme.palette?.[p.color] || p.color
-    : p.theme.palette.white};
+  background-color: ${(p) =>
+    p?.color
+      ? p.theme.color?.[p.color] || p.theme.palette?.[p.color] || p.color
+      : p.theme.palette.white};
 `
 
 // Containers
-export const Row = styled.div<FlexProps & {
-  maxWidth?: CSSProperties['maxWidth']
-}>`
+export const Row = styled.div<
+  FlexProps & {
+    maxWidth?: CSSProperties['maxWidth']
+  }
+>`
   display: flex;
   flex-direction: row;
   flex: ${(p) => p.flex ?? 'unset'};
@@ -103,14 +103,16 @@ export const Row = styled.div<FlexProps & {
   max-width: ${(p) => p.maxWidth ?? 'unset'};
 `
 
-export const Column = styled.div<FlexProps & {
-  fullWidth?: boolean
-  fullHeight?: boolean
-  color?: ThemeColor
-  padding?: number | string
-}>`
-  height: ${(p) => p.fullHeight ? '100%' : 'unset'};
-  width: ${(p) => p.fullWidth ? '100%' : 'unset'};
+export const Column = styled.div<
+  FlexProps & {
+    fullWidth?: boolean
+    fullHeight?: boolean
+    color?: ThemeColor
+    padding?: number | string
+  }
+>`
+  height: ${(p) => (p.fullHeight ? '100%' : 'unset')};
+  width: ${(p) => (p.fullWidth ? '100%' : 'unset')};
   flex: ${(p) => p.flex ?? 'unset'};
   display: flex;
   flex-direction: column;
@@ -128,7 +130,7 @@ export const ScrollableColumn = styled(Column)<{
 }>`
   justify-content: flex-start;
   max-height: ${(p) => p.maxHeight || '100%'};
-  overflow-y: ${(p) => p.scrollDisabled ? 'unset' : 'auto'};
+  overflow-y: ${(p) => (p.scrollDisabled ? 'unset' : 'auto')};
   margin-bottom: ${(p) => p.marginBottom || 'unset'};
 `
 
@@ -136,24 +138,32 @@ export const Flex = styled.div`
   flex: 1;
 `
 
-export const StatusBubble = styled.div<{ status: BraveWallet.TransactionStatus }>`
+export const StatusBubble = styled.div<{
+  status: BraveWallet.TransactionStatus
+}>`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 10px;
   height: 10px;
   border-radius: 100%;
-  opacity: ${(p) => p.status === BraveWallet.TransactionStatus.Submitted ||
+  opacity: ${(p) =>
+    p.status === BraveWallet.TransactionStatus.Submitted ||
     p.status === BraveWallet.TransactionStatus.Approved ||
     p.status === BraveWallet.TransactionStatus.Unapproved
-    ? 0.4
-    : 1
-  };
-  background-color: ${(p) => p.status === BraveWallet.TransactionStatus.Confirmed || p.status === BraveWallet.TransactionStatus.Approved
-    ? p.theme.color.successBorder
-    : p.status === BraveWallet.TransactionStatus.Rejected || p.status === BraveWallet.TransactionStatus.Error || p.status === BraveWallet.TransactionStatus.Dropped ? p.theme.color.errorBorder
-      : p.status === BraveWallet.TransactionStatus.Unapproved ? p.theme.color.interactive08 : p.theme.color.warningIcon
-  };
+      ? 0.4
+      : 1};
+  background-color: ${(p) =>
+    p.status === BraveWallet.TransactionStatus.Confirmed ||
+    p.status === BraveWallet.TransactionStatus.Approved
+      ? p.theme.color.successBorder
+      : p.status === BraveWallet.TransactionStatus.Rejected ||
+        p.status === BraveWallet.TransactionStatus.Error ||
+        p.status === BraveWallet.TransactionStatus.Dropped
+      ? p.theme.color.errorBorder
+      : p.status === BraveWallet.TransactionStatus.Unapproved
+      ? p.theme.color.interactive08
+      : p.theme.color.warningIcon};
   margin-right: 6px;
 `
 
@@ -178,7 +188,7 @@ export const WalletLink = styled(Link)`
   &:hover {
     cursor: pointer;
   }
-  
+
   &:active {
     opacity: 0.5;
   }
@@ -203,17 +213,17 @@ export const ToggleVisibilityButton = styled.button<{
   width: 18px;
   height: 18px;
   background-color: ${(p) => p.theme.color.text02};
-  -webkit-mask-image: url(${(p) => p.isVisible ? EyeOnIcon : EyeOffIcon});
-  mask-image: url(${(p) => p.isVisible ? EyeOnIcon : EyeOffIcon});
+  -webkit-mask-image: url(${(p) => (p.isVisible ? EyeOnIcon : EyeOffIcon)});
+  mask-image: url(${(p) => (p.isVisible ? EyeOnIcon : EyeOffIcon)});
   mask-size: contain;
   mask-position: center;
   mask-repeat: no-repeat;
   &:focus-visible {
     outline: auto;
     outline-style: solid;
-    outline-color: ${p => p.theme.palette.blurple300};
+    outline-color: ${(p) => p.theme.palette.blurple300};
     outline-width: 2px;
-  } 
+  }
 `
 
 export const CopyButton = styled(WalletButton)<{
@@ -249,13 +259,12 @@ export interface AssetIconProps {
   icon?: string
 }
 
-export const AssetIconFactory = styled.img.attrs<AssetIconProps>(props => ({
+export const AssetIconFactory = styled.img.attrs<AssetIconProps>((props) => ({
   src: stripERC20TokenImageURL(props.icon)
     ? props.icon
-
-    // Display theme background (using a transparent image) if no icon to
-    // render.
-    : transparent40x40Image,
+    : // Display theme background (using a transparent image) if no icon to
+      // render.
+      transparent40x40Image,
 
   // Defer loading the image until it reaches a calculated distance from the
   // viewport, as defined by the browser.
@@ -321,7 +330,7 @@ export const LoadingIcon = styled(LoaderIcon as FC<{}>)<{
   color: keyof IThemeProps['color']
   opacity: number
 }>`
-  color: ${p => p.theme.color[p.color]};
+  color: ${(p) => p.theme.color[p.color]};
   height: ${(p) => p.size};
   width: ${(p) => p.size};
   opacity: ${(p) => p.opacity};
@@ -375,10 +384,10 @@ export const CircleIconWrapper = styled.div<{
   position: relative;
   ${makePaddingMixin('12px')}
   box-shadow: 0px 0px 1px rgba(66, 69, 82, 0.08), 0px 0.5px 1.5px rgba(66, 69, 82, 0.1);
-  
-  background-color: ${p => p.theme.color.background01};
+
+  background-color: ${(p) => p.theme.color.background01};
   @media (prefers-color-scheme: dark) {
-    background-color: ${p => p.theme.color.background02};
+    background-color: ${(p) => p.theme.color.background02};
   }
 `
 
@@ -396,7 +405,9 @@ export const NetworkIconWrapper = styled.div`
 `
 
 // Graphics
-export const WalletWelcomeGraphic = styled.div<{scale?: CSSProperties['scale']}>`
+export const WalletWelcomeGraphic = styled.div<{
+  scale?: CSSProperties['scale']
+}>`
   width: 350px;
   height: 264px;
   background: url(${BraveWalletWithCoins});

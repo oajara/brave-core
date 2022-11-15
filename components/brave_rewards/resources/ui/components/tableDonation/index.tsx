@@ -51,7 +51,7 @@ export interface Props {
 }
 
 export default class TableDonation extends React.PureComponent<Props, {}> {
-  getTypeContent (row: DetailRow): Cell {
+  getTypeContent(row: DetailRow): Cell {
     switch (row.type) {
       case 'recurring':
         return {
@@ -59,7 +59,10 @@ export default class TableDonation extends React.PureComponent<Props, {}> {
             <>
               <StyledType>{getLocale('recurring')}</StyledType>
               <StyledRemove onClick={row.onRemove}>
-                <StyledRemoveIcon><TrashIcon /></StyledRemoveIcon>{getLocale('remove')}
+                <StyledRemoveIcon>
+                  <TrashIcon />
+                </StyledRemoveIcon>
+                {getLocale('remove')}
               </StyledRemove>
             </>
           )
@@ -84,7 +87,7 @@ export default class TableDonation extends React.PureComponent<Props, {}> {
     }
   }
 
-  getRows (rows?: DetailRow[]): Row[] | undefined {
+  getRows(rows?: DetailRow[]): Row[] | undefined {
     if (!rows) {
       return
     }
@@ -124,7 +127,7 @@ export default class TableDonation extends React.PureComponent<Props, {}> {
     })
   }
 
-  get headers (): Cell[] {
+  get headers(): Cell[] {
     const { headerColor } = this.props
 
     let customStyle = {}
@@ -149,15 +152,18 @@ export default class TableDonation extends React.PureComponent<Props, {}> {
       },
       {
         content: getLocale('tokens'),
-        customStyle: Object.assign({
-          'text-align': 'right',
-          'padding-right': '7px'
-        }, customStyle)
+        customStyle: Object.assign(
+          {
+            'text-align': 'right',
+            'padding-right': '7px'
+          },
+          customStyle
+        )
       }
     ]
   }
 
-  render () {
+  render() {
     const { id, children, rows, allItems, onShowAll } = this.props
     const numItems = this.props.numItems || 0
 
@@ -168,15 +174,13 @@ export default class TableDonation extends React.PureComponent<Props, {}> {
           rows={this.getRows(rows)}
           header={this.headers}
         />
-        {
-          !allItems && numItems > 0
-            ? <StyledToggleWrap>
-              <StyledToggle onClick={onShowAll}>
-                {getLocale('seeAllItems', { numItems })}
-              </StyledToggle>
-            </StyledToggleWrap>
-            : null
-        }
+        {!allItems && numItems > 0 ? (
+          <StyledToggleWrap>
+            <StyledToggle onClick={onShowAll}>
+              {getLocale('seeAllItems', { numItems })}
+            </StyledToggle>
+          </StyledToggleWrap>
+        ) : null}
       </div>
     )
   }

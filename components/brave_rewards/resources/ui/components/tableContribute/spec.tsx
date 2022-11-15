@@ -9,7 +9,11 @@ import TableContribute from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('TableContribute tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><TableContribute id='table' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <TableContribute id="table" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

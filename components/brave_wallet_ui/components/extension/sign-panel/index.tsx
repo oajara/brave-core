@@ -62,13 +62,16 @@ enum SignDataSteps {
 }
 
 const onClickLearnMore = () => {
-  chrome.tabs.create({
-    url: 'https://support.brave.com/hc/en-us/articles/4409513799693'
-  }, () => {
-    if (chrome.runtime.lastError) {
-      console.error('tabs.create failed: ' + chrome.runtime.lastError.message)
+  chrome.tabs.create(
+    {
+      url: 'https://support.brave.com/hc/en-us/articles/4409513799693'
+    },
+    () => {
+      if (chrome.runtime.lastError) {
+        console.error('tabs.create failed: ' + chrome.runtime.lastError.message)
+      }
     }
-  })
+  )
 }
 
 export const SignPanel = (props: Props) => {
@@ -83,35 +86,50 @@ export const SignPanel = (props: Props) => {
   } = props
 
   // state
-  const [signStep, setSignStep] = React.useState<SignDataSteps>(SignDataSteps.SignData)
-  const [selectedQueueData, setSelectedQueueData] = React.useState<BraveWallet.SignMessageRequest>(signMessageData[0])
+  const [signStep, setSignStep] = React.useState<SignDataSteps>(
+    SignDataSteps.SignData
+  )
+  const [selectedQueueData, setSelectedQueueData] =
+    React.useState<BraveWallet.SignMessageRequest>(signMessageData[0])
   const [renderUnicode, setRenderUnicode] = React.useState<boolean>(true)
 
   // memos
   const orb = React.useMemo(() => {
-    return create({ seed: selectedQueueData.address.toLowerCase(), size: 8, scale: 16 }).toDataURL()
+    return create({
+      seed: selectedQueueData.address.toLowerCase(),
+      size: 8,
+      scale: 16
+    }).toDataURL()
   }, [selectedQueueData.address])
 
   const signMessageQueueInfo = React.useMemo(() => {
     return {
       queueLength: signMessageData.length,
-      queueNumber: signMessageData.findIndex((data) => data.id === selectedQueueData.id) + 1
+      queueNumber:
+        signMessageData.findIndex((data) => data.id === selectedQueueData.id) +
+        1
     }
   }, [signMessageData, selectedQueueData])
 
-  const isDisabled = React.useMemo((): boolean => signMessageData.findIndex(
-    (data) =>
-      data.id === selectedQueueData.id) !== 0
-    , [signMessageData, selectedQueueData]
+  const isDisabled = React.useMemo(
+    (): boolean =>
+      signMessageData.findIndex((data) => data.id === selectedQueueData.id) !==
+      0,
+    [signMessageData, selectedQueueData]
   )
 
   const network = React.useMemo(() => {
-    return defaultNetworks.find((n) => n.coin === signMessageData[0].coin) ?? selectedNetwork
+    return (
+      defaultNetworks.find((n) => n.coin === signMessageData[0].coin) ??
+      selectedNetwork
+    )
   }, [defaultNetworks, selectedNetwork, signMessageData])
 
   // methods
   const findAccountName = (address: string) => {
-    return accounts.find((account) => account.address.toLowerCase() === address.toLowerCase())?.name
+    return accounts.find(
+      (account) => account.address.toLowerCase() === address.toLowerCase()
+    )?.name
   }
 
   const onContinueSigning = () => {
@@ -142,19 +160,21 @@ export const SignPanel = (props: Props) => {
     <StyledWrapper>
       <TopRow>
         <NetworkText>{network?.chainName ?? ''}</NetworkText>
-        {signMessageQueueInfo.queueLength > 1 &&
+        {signMessageQueueInfo.queueLength > 1 && (
           <QueueStepRow>
-            <QueueStepText>{signMessageQueueInfo.queueNumber} {getLocale('braveWalletQueueOf')} {signMessageQueueInfo.queueLength}</QueueStepText>
-            <QueueStepButton
-              onClick={onQueueNextSignMessage}
-            >
-              {signMessageQueueInfo.queueNumber === signMessageQueueInfo.queueLength
+            <QueueStepText>
+              {signMessageQueueInfo.queueNumber}{' '}
+              {getLocale('braveWalletQueueOf')}{' '}
+              {signMessageQueueInfo.queueLength}
+            </QueueStepText>
+            <QueueStepButton onClick={onQueueNextSignMessage}>
+              {signMessageQueueInfo.queueNumber ===
+              signMessageQueueInfo.queueLength
                 ? getLocale('braveWalletQueueFirst')
-                : getLocale('braveWalletQueueNext')
-              }
+                : getLocale('braveWalletQueueNext')}
             </QueueStepButton>
           </QueueStepRow>
-        }
+        )}
       </TopRow>
       <AccountCircle orb={orb} />
       <URLText>
@@ -163,19 +183,25 @@ export const SignPanel = (props: Props) => {
           eTldPlusOne={selectedQueueData.originInfo.eTldPlusOne}
         />
       </URLText>
-      <AccountNameText>{findAccountName(selectedQueueData.address) ?? ''}</AccountNameText>
+      <AccountNameText>
+        {findAccountName(selectedQueueData.address) ?? ''}
+      </AccountNameText>
       <PanelTitle>{getLocale('braveWalletSignTransactionTitle')}</PanelTitle>
-      {signStep === SignDataSteps.SignRisk &&
-        <WarningBox warningType='danger'>
+      {signStep === SignDataSteps.SignRisk && (
+        <WarningBox warningType="danger">
           <WarningTitleRow>
             <WarningIcon />
-            <WarningTitle warningType='danger'>{getLocale('braveWalletSignWarningTitle')}</WarningTitle>
+            <WarningTitle warningType="danger">
+              {getLocale('braveWalletSignWarningTitle')}
+            </WarningTitle>
           </WarningTitleRow>
           <WarningText>{getLocale('braveWalletSignWarning')}</WarningText>
-          <LearnMoreButton onClick={onClickLearnMore}>{getLocale('braveWalletAllowAddNetworkLearnMoreButton')}</LearnMoreButton>
+          <LearnMoreButton onClick={onClickLearnMore}>
+            {getLocale('braveWalletAllowAddNetworkLearnMoreButton')}
+          </LearnMoreButton>
         </WarningBox>
-      }
-      {signStep === SignDataSteps.SignData &&
+      )}
+      {signStep === SignDataSteps.SignData && (
         <>
           <TabRow>
             <PanelTab
@@ -184,50 +210,50 @@ export const SignPanel = (props: Props) => {
             />
           </TabRow>
 
-          {hasUnicode(selectedQueueData.message) &&
-            <WarningBox warningType='warning'>
+          {hasUnicode(selectedQueueData.message) && (
+            <WarningBox warningType="warning">
               <WarningTitleRow>
                 <WarningIcon color={'warningIcon'} />
-                <WarningTitle warningType='warning'>
-                  {
-                    getLocale('braveWalletNonAsciiCharactersInMessageWarning')
-                  }
+                <WarningTitle warningType="warning">
+                  {getLocale('braveWalletNonAsciiCharactersInMessageWarning')}
                 </WarningTitle>
               </WarningTitleRow>
               <LearnMoreButton
-                onClick={() => setRenderUnicode(prev => !prev)}
+                onClick={() => setRenderUnicode((prev) => !prev)}
               >
-                {
-                 renderUnicode
+                {renderUnicode
                   ? getLocale('braveWalletViewDecodedMessage')
-                  : getLocale('braveWalletViewEncodedMessage')
-                }
+                  : getLocale('braveWalletViewEncodedMessage')}
               </LearnMoreButton>
             </WarningBox>
-          }
+          )}
 
           <MessageBox>
             <MessageText>
-              {
-                renderUnicode
-                  ? selectedQueueData.message
-                  : unicodeEscape(selectedQueueData.message)
-              }
+              {renderUnicode
+                ? selectedQueueData.message
+                : unicodeEscape(selectedQueueData.message)}
             </MessageText>
           </MessageBox>
         </>
-      }
+      )}
       <ButtonRow>
         <NavButton
-          buttonType='secondary'
+          buttonType="secondary"
           text={getLocale('braveWalletButtonCancel')}
           onSubmit={onCancel}
           disabled={isDisabled}
         />
         <NavButton
           buttonType={signStep === SignDataSteps.SignData ? 'sign' : 'danger'}
-          text={signStep === SignDataSteps.SignData ? getLocale('braveWalletSignTransactionButton') : getLocale('braveWalletButtonContinue')}
-          onSubmit={signStep === SignDataSteps.SignRisk ? onContinueSigning : onSign}
+          text={
+            signStep === SignDataSteps.SignData
+              ? getLocale('braveWalletSignTransactionButton')
+              : getLocale('braveWalletButtonContinue')
+          }
+          onSubmit={
+            signStep === SignDataSteps.SignRisk ? onContinueSigning : onSign
+          }
           disabled={isDisabled}
         />
       </ButtonRow>

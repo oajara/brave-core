@@ -7,12 +7,7 @@ import { useDispatch } from 'react-redux'
 import { BraveWallet } from '../../../constants/types'
 import { CreateNetworkIcon } from '../'
 // Styled Components
-import {
-  StyledWrapper,
-  NetworkName,
-  LeftSide,
-  BigCheckMark
-} from './style'
+import { StyledWrapper, NetworkName, LeftSide, BigCheckMark } from './style'
 import { WalletActions } from '../../../common/actions'
 import { PanelActions } from '../../../panel/actions'
 import { AllNetworksOption } from '../../../options/network-filter-options'
@@ -23,7 +18,7 @@ export interface Props {
   onSelectCustomNetwork?: (network: BraveWallet.NetworkInfo) => void
 }
 
-function SelectNetworkItem (props: Props) {
+function SelectNetworkItem(props: Props) {
   const { network, selectedNetwork, onSelectCustomNetwork } = props
 
   // redux
@@ -41,18 +36,18 @@ function SelectNetworkItem (props: Props) {
 
   // render
   return (
-    <StyledWrapper onClick={onSelectNetwork} data-test-chain-id={'chain-' + network.chainId}>
+    <StyledWrapper
+      onClick={onSelectNetwork}
+      data-test-chain-id={'chain-' + network.chainId}
+    >
       <LeftSide>
-        {network.chainId !== AllNetworksOption.chainId &&
+        {network.chainId !== AllNetworksOption.chainId && (
           <CreateNetworkIcon network={network} marginRight={14} />
-        }
+        )}
         <NetworkName>{network.chainName}</NetworkName>
       </LeftSide>
-      {
-        selectedNetwork?.chainId === network.chainId &&
-        selectedNetwork?.coin === network.coin &&
-        <BigCheckMark />
-      }
+      {selectedNetwork?.chainId === network.chainId &&
+        selectedNetwork?.coin === network.coin && <BigCheckMark />}
     </StyledWrapper>
   )
 }

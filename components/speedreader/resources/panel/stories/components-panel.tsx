@@ -9,7 +9,13 @@ import { withKnobs } from '@storybook/addon-knobs'
 import './locale'
 import MainPanel from '../components/main-panel'
 import ThemeProvider from '$web-common/BraveCoreThemeProvider'
-import { ContentStyle, FontFamily, FontSize, SiteSettings, Theme } from '../api/browser'
+import {
+  ContentStyle,
+  FontFamily,
+  FontSize,
+  SiteSettings,
+  Theme
+} from '../api/browser'
 
 export default {
   title: 'Speedreader/Panels',

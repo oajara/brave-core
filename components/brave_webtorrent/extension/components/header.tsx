@@ -6,8 +6,8 @@
 import styled from 'styled-components'
 
 export const Header = styled.h2`
-    all: unset;
-    font-weight: 600;
-    font-size: 24px;
-    color: var(--text2);
+  all: unset;
+  font-weight: 600;
+  font-size: 24px;
+  color: var(--text2);
 `

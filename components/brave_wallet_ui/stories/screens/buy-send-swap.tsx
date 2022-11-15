@@ -36,8 +36,12 @@ export const BuySendSwap = ({
   onSelectTab
 }: Props) => {
   // redux
-  const selectedNetwork = useSelector(({ wallet }: { wallet: WalletState }) => wallet.selectedNetwork)
-  const defaultCurrencies = useSelector(({ wallet }: { wallet: WalletState }) => wallet.defaultCurrencies)
+  const selectedNetwork = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.selectedNetwork
+  )
+  const defaultCurrencies = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.defaultCurrencies
+  )
 
   // custom hooks
   const { isSwapSupported } = useSwap({})
@@ -53,18 +57,16 @@ export const BuySendSwap = ({
       return
     }
 
-    if (selectedTab === 'buy' && !BuySupportedChains.includes(selectedNetwork.chainId)) {
+    if (
+      selectedTab === 'buy' &&
+      !BuySupportedChains.includes(selectedNetwork.chainId)
+    ) {
       onSelectTab('send')
     }
     if (selectedTab === 'swap' && !isSwapSupported) {
       onSelectTab('send')
     }
-  }, [
-    selectedNetwork,
-    selectedTab,
-    isSwapSupported,
-    onSelectTab
-  ])
+  }, [selectedNetwork, selectedTab, isSwapSupported, onSelectTab])
 
   const isBuyDisabled = React.useMemo(() => {
     if (!selectedNetwork) {
@@ -86,26 +88,18 @@ export const BuySendSwap = ({
       onChangeTab={changeTab}
     >
       {needsAccount ? (
-        <CreateAccountTab
-          prevNetwork={prevNetwork}
-        />
+        <CreateAccountTab prevNetwork={prevNetwork} />
       ) : (
         <>
-          {selectedTab === 'swap' &&
-            <SwapTab />
-          }
-          {selectedTab === 'send' &&
-            <SendTab
-              showHeader={true}
-            />
-          }
-          {selectedTab === 'buy' &&
+          {selectedTab === 'swap' && <SwapTab />}
+          {selectedTab === 'send' && <SendTab showHeader={true} />}
+          {selectedTab === 'buy' && (
             <Buy
               defaultCurrencies={defaultCurrencies}
               onSelectAccount={onSelectAccount}
               showHeader={true}
             />
-          }
+          )}
         </>
       )}
     </BuySendSwapLayout>

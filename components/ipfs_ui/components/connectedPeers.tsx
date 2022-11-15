@@ -16,21 +16,19 @@ interface Props {
 }
 
 export class ConnectedPeers extends React.Component<Props, {}> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
   }
 
-  render () {
+  render() {
     return (
       <Section>
         <div>
-          {getLocale('connectedPeersTitle')} {this.props.connectedPeers.peerCount}
+          {getLocale('connectedPeersTitle')}{' '}
+          {this.props.connectedPeers.peerCount}
           <span>&#8195;</span>
           {this.props.addressesConfig.api && (
-            <a
-              style={BlueLink}
-              onClick={this.props.onOpenPeersWebUI}
-            >
+            <a style={BlueLink} onClick={this.props.onOpenPeersWebUI}>
               {getLocale('peerDetailsLink')}
             </a>
           )}

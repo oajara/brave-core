@@ -15,39 +15,40 @@ export default class VisibilityTimer {
   private readonly onTimerExpired: Function
   private readonly intersectionObserver?: IntersectionObserver
 
-  constructor (onTimerExpired: Function, viewTimeMs: number, elementToObserve?: HTMLElement) {
+  constructor(
+    onTimerExpired: Function,
+    viewTimeMs: number,
+    elementToObserve?: HTMLElement
+  ) {
     this.element = elementToObserve
     this.onTimerExpired = onTimerExpired
     this.viewTimeMs = viewTimeMs
     this.isIntersecting = !elementToObserve
     if (elementToObserve) {
-      this.intersectionObserver = new IntersectionObserver(entries => {
-        this.isIntersecting = entries.some(entry => entry.isIntersecting)
-        this.handleVisibility()
-      }, {
-        threshold: 0.5
-      })
+      this.intersectionObserver = new IntersectionObserver(
+        (entries) => {
+          this.isIntersecting = entries.some((entry) => entry.isIntersecting)
+          this.handleVisibility()
+        },
+        {
+          threshold: 0.5
+        }
+      )
     }
   }
 
-  startTracking () {
-    document.addEventListener(
-      'visiblitychange',
-      this.handleVisibility
-    )
+  startTracking() {
+    document.addEventListener('visiblitychange', this.handleVisibility)
     if (this.intersectionObserver && this.element) {
       this.intersectionObserver.observe(this.element)
     }
     this.handleVisibility()
   }
 
-  stopTracking () {
+  stopTracking() {
     this.resetTimer()
     // Stop tracking visibility.
-    document.removeEventListener(
-      'visiblitychange',
-      this.handleVisibility
-    )
+    document.removeEventListener('visiblitychange', this.handleVisibility)
     if (this.intersectionObserver && this.element) {
       this.intersectionObserver.unobserve(this.element)
     }
@@ -65,7 +66,7 @@ export default class VisibilityTimer {
     }
   }
 
-  private startWaiting () {
+  private startWaiting() {
     if (this.timerId) {
       return
     }
@@ -77,7 +78,7 @@ export default class VisibilityTimer {
     }, this.viewTimeMs)
   }
 
-  private resetTimer () {
+  private resetTimer() {
     window.clearTimeout(this.timerId)
     this.timerId = undefined
   }

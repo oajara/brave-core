@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 
-  function Root () {
+  function Root() {
     return (
       <HostContext.Provider value={host}>
         <LocaleContext.Provider value={host}>

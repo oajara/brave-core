@@ -12,7 +12,7 @@ type Listener<T> = (arg: T) => any
 export default class Events {
   private handlers: EventsStorage = {}
 
-  addEventListener<T> (eventName: string, listener: Listener<T>) {
+  addEventListener<T>(eventName: string, listener: Listener<T>) {
     let listeners = this.handlers[eventName]
     if (!listeners) {
       listeners = this.handlers[eventName] = []
@@ -20,19 +20,19 @@ export default class Events {
     this.handlers[eventName].push(listener)
   }
 
-  removeEventListener (eventName: string, listener: Function) {
+  removeEventListener(eventName: string, listener: Function) {
     const listeners = this.handlers[eventName]
     if (!listeners) {
       return
     }
-    const index = listeners.findIndex(i => i === listener)
+    const index = listeners.findIndex((i) => i === listener)
     if (index < 0) {
       return
     }
     listeners.splice(index, 1)
   }
 
-  dispatchEvent<T> (eventName: string, args: T) {
+  dispatchEvent<T>(eventName: string, args: T) {
     const listeners = this.handlers[eventName]
     if (!listeners) {
       return

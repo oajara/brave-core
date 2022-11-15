@@ -28,17 +28,14 @@ export interface Props {
 }
 
 const AdvancedTransactionSettings = (props: Props) => {
-  const {
-    onCancel,
-    nonce,
-    txMetaId,
-    updateUnapprovedTransactionNonce
-  } = props
+  const { onCancel, nonce, txMetaId, updateUnapprovedTransactionNonce } = props
   const [customNonce, setCustomNonce] = React.useState<string>(
     nonce && parseInt(nonce).toString()
   )
 
-  const handleNonceInputChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNonceInputChanged = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setCustomNonce(event.target.value)
   }
 
@@ -59,22 +56,26 @@ const AdvancedTransactionSettings = (props: Props) => {
         <FormColumn>
           <InputLabel>{getLocale('braveWalletEditNonce')}</InputLabel>
           <Input
-            placeholder={getLocale('braveWalletAdvancedTransactionSettingsPlaceholder')}
-            type='number'
+            placeholder={getLocale(
+              'braveWalletAdvancedTransactionSettingsPlaceholder'
+            )}
+            type="number"
             value={customNonce}
             onChange={handleNonceInputChanged}
           />
-          <InfoText>{getLocale('braveWalletEditGasZeroGasPriceWarning')}</InfoText>
+          <InfoText>
+            {getLocale('braveWalletEditGasZeroGasPriceWarning')}
+          </InfoText>
         </FormColumn>
         <ButtonRow>
           <NavButton
-            buttonType='secondary'
+            buttonType="secondary"
             needsTopMargin={true}
             text={getLocale('braveWalletButtonCancel')}
             onSubmit={onCancel}
           />
           <NavButton
-            buttonType='primary'
+            buttonType="primary"
             text={getLocale('braveWalletAccountSettingsSave')}
             onSubmit={onSave}
           />

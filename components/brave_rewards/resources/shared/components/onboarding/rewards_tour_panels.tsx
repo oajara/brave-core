@@ -23,7 +23,7 @@ interface TourPanel {
 
 type TourPanelFunction = (locale: Locale, props: RewardsTourProps) => TourPanel
 
-function panelWelcome (locale: Locale) {
+function panelWelcome(locale: Locale) {
   const { getString } = locale
   return {
     id: 'welcome',
@@ -32,7 +32,7 @@ function panelWelcome (locale: Locale) {
   }
 }
 
-function panelAds (locale: Locale) {
+function panelAds(locale: Locale) {
   const { getString } = locale
   return {
     id: 'ads',
@@ -41,7 +41,7 @@ function panelAds (locale: Locale) {
   }
 }
 
-function panelSchedule (locale: Locale) {
+function panelSchedule(locale: Locale) {
   const { getString } = locale
   return {
     id: 'schedule',
@@ -50,7 +50,7 @@ function panelSchedule (locale: Locale) {
   }
 }
 
-function panelAC (locale: Locale) {
+function panelAC(locale: Locale) {
   const { getString } = locale
   return {
     id: 'ac',
@@ -59,7 +59,7 @@ function panelAC (locale: Locale) {
   }
 }
 
-function panelTipping (locale: Locale) {
+function panelTipping(locale: Locale) {
   const { getString } = locale
   return {
     id: 'tipping',
@@ -68,7 +68,7 @@ function panelTipping (locale: Locale) {
   }
 }
 
-function panelRedeem (locale: Locale) {
+function panelRedeem(locale: Locale) {
   const { getString } = locale
   return {
     id: 'redeem',
@@ -77,7 +77,7 @@ function panelRedeem (locale: Locale) {
   }
 }
 
-function panelSetup (locale: Locale, props: RewardsTourProps) {
+function panelSetup(locale: Locale, props: RewardsTourProps) {
   const { getString } = locale
   return {
     id: 'setup',
@@ -89,7 +89,7 @@ function panelSetup (locale: Locale, props: RewardsTourProps) {
   }
 }
 
-function panelComplete (locale: Locale) {
+function panelComplete(locale: Locale) {
   const { getString } = locale
   return {
     id: 'complete',
@@ -98,10 +98,10 @@ function panelComplete (locale: Locale) {
   }
 }
 
-export function getTourPanels (props: RewardsTourProps): TourPanelFunction[] {
-  const canAutoContribute = (
+export function getTourPanels(props: RewardsTourProps): TourPanelFunction[] {
+  const canAutoContribute =
     props.autoContributeAmountOptions.length > 0 &&
-    props.externalWalletProvider !== 'bitflyer')
+    props.externalWalletProvider !== 'bitflyer'
 
   return [
     panelWelcome,
@@ -115,7 +115,7 @@ export function getTourPanels (props: RewardsTourProps): TourPanelFunction[] {
   ]
 }
 
-export function getVerifyWalletPanel (
+export function getVerifyWalletPanel(
   locale: Locale,
   props: RewardsTourProps
 ): TourPanel | null {
@@ -142,24 +142,23 @@ export function getVerifyWalletPanel (
 
       learnMore = (
         <style.verifyLearnMore>
-          {
-            formatMessage(getString('onboardingPanelBitflyerLearnMore'), {
-              tags: {
-                $1: (content) => (
-                  <NewTabLink
-                    key='learn-more'
-                    href='https://brave.com/ja/users-bitflyer/'>
-                    {content}
-                  </NewTabLink>
-                )
-              }
-            })
-          }
+          {formatMessage(getString('onboardingPanelBitflyerLearnMore'), {
+            tags: {
+              $1: (content) => (
+                <NewTabLink
+                  key="learn-more"
+                  href="https://brave.com/ja/users-bitflyer/"
+                >
+                  {content}
+                </NewTabLink>
+              )
+            }
+          })}
         </style.verifyLearnMore>
       )
 
       content = (
-        <NewTabLink href='https://twitter.com/bravesoftwarejp'>
+        <NewTabLink href="https://twitter.com/bravesoftwarejp">
           <img src={bitflyerPromoImage} />
         </NewTabLink>
       )
@@ -186,10 +185,10 @@ export function getVerifyWalletPanel (
     content,
     actions: (
       <style.verifyActions>
-        <button className='verify-later' onClick={props.onDone}>
+        <button className="verify-later" onClick={props.onDone}>
           {getString('onboardingPanelVerifyLater')}
         </button>
-        <button className='verify-now' onClick={props.onVerifyWalletClick}>
+        <button className="verify-now" onClick={props.onVerifyWalletClick}>
           {getString('onboardingPanelVerifyNow')}
         </button>
       </style.verifyActions>

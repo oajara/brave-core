@@ -11,21 +11,22 @@ interface SupportedPair {
   quote: string
 }
 
-function performSideEffect (fn: () => void): void {
+function performSideEffect(fn: () => void): void {
   window.setTimeout(() => fn(), 0)
 }
 
-function reducePairs (rawPairs: SupportedPair[]) {
+function reducePairs(rawPairs: SupportedPair[]) {
   return rawPairs.reduce((pairs: object, currPair: SupportedPair) => {
     const { base, pair } = currPair
-    pairs[base] = pairs[base]
-      ? [...pairs[base], pair]
-      : [pair]
+    pairs[base] = pairs[base] ? [...pairs[base], pair] : [pair]
     return pairs
   }, {})
 }
 
-const cryptoDotComReducer: Reducer<NewTab.State | undefined> = (state: NewTab.State, action) => {
+const cryptoDotComReducer: Reducer<NewTab.State | undefined> = (
+  state: NewTab.State,
+  action
+) => {
   const payload = action.payload
 
   switch (action.type) {

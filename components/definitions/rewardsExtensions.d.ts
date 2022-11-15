@@ -52,7 +52,12 @@ declare namespace RewardsExtension {
     status?: PublisherStatus
   }
 
-  export type CaptchaStatus = 'start' | 'wrongPosition' | 'generalError' | 'finished' | null
+  export type CaptchaStatus =
+    | 'start'
+    | 'wrongPosition'
+    | 'generalError'
+    | 'finished'
+    | null
 
   export enum PromotionTypes {
     UGP = 0,
@@ -89,7 +94,7 @@ declare namespace RewardsExtension {
   }
 
   export interface PromotionFinish {
-    result: Result,
+    result: Result
     promotion: Promotion
   }
 
@@ -153,7 +158,7 @@ declare namespace RewardsExtension {
   }
 
   interface RecurringTips {
-    recurringTips: ({ publisherKey: string, amount: number })[]
+    recurringTips: { publisherKey: string; amount: number }[]
   }
 
   interface PublisherBanner {
@@ -163,7 +168,7 @@ declare namespace RewardsExtension {
     description: string
     background: string
     logo: string
-    amounts: number[],
+    amounts: number[]
     provider: string
     social: Record<string, string>
     status: PublisherStatus
@@ -176,7 +181,8 @@ declare namespace RewardsExtension {
     wallets: Record<string, number>
   }
 
-  type WalletStatus = import('gen/brave/vendor/bat-native-ledger/include/bat/ledger/public/interfaces/ledger_types.mojom.m.js').WalletStatus
+  type WalletStatus =
+    import('gen/brave/vendor/bat-native-ledger/include/bat/ledger/public/interfaces/ledger_types.mojom.m.js').WalletStatus
 
   export type WalletType = 'uphold' | 'bitflyer' | 'gemini'
 

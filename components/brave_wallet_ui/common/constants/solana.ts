@@ -39,7 +39,8 @@ export const SOLANA_STAKE_PROGRAM_INSTRUCTION_DECODERS = {
 export const SolanaTransactionTypes = [
   BraveWallet.TransactionType.SolanaSystemTransfer,
   BraveWallet.TransactionType.SolanaSPLTokenTransfer,
-  BraveWallet.TransactionType.SolanaSPLTokenTransferWithAssociatedTokenAccountCreation,
+  BraveWallet.TransactionType
+    .SolanaSPLTokenTransferWithAssociatedTokenAccountCreation,
   BraveWallet.TransactionType.SolanaDappSignTransaction,
   BraveWallet.TransactionType.SolanaDappSignAndSendTransaction,
   BraveWallet.TransactionType.SolanaSwap

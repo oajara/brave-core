@@ -12,7 +12,9 @@ interface StyleProps {
   orb: string
 }
 
-export const PortfolioTransactionItemWrapper = styled.div<{ isFocused?: boolean }>`
+export const PortfolioTransactionItemWrapper = styled.div<{
+  isFocused?: boolean
+}>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -20,7 +22,8 @@ export const PortfolioTransactionItemWrapper = styled.div<{ isFocused?: boolean 
   width: 100%;
   margin: 14px 0px;
   position: relative;
-  background-color: ${(p) => p.isFocused ? `${p.theme.color.text01}10` : 'none'};
+  background-color: ${(p) =>
+    p.isFocused ? `${p.theme.color.text01}10` : 'none'};
   padding: 10px;
   border-radius: 10px;
 `
@@ -60,7 +63,7 @@ export const FromCircle = styled.div<Partial<StyleProps>>`
   background-size: cover;
   margin-right: 30px;
   @media screen and (max-width: 600px) {
-    display: none
+    display: none;
   }
 `
 
@@ -73,7 +76,7 @@ export const ToCircle = styled.div<Partial<StyleProps>>`
   position: absolute;
   left: 26px;
   @media screen and (max-width: 600px) {
-    display: none
+    display: none;
   }
 `
 
@@ -190,7 +193,7 @@ export const AddressOrAsset = styled(WalletButton)`
   outline: none;
   background: none;
   border: none;
-  color: #4D54D2;
+  color: #4d54d2;
   padding: 0;
 `
 

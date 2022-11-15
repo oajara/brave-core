@@ -14,9 +14,12 @@ import { QueueStepButton, QueueStepRow, QueueStepText } from './style'
 // Hooks
 import { usePendingTransactions } from '../../../../common/hooks/use-pending-transaction'
 
-export function TransactionQueueStep () {
-  const { transactionsQueueLength, transactionQueueNumber, queueNextTransaction } =
-    usePendingTransactions()
+export function TransactionQueueStep() {
+  const {
+    transactionsQueueLength,
+    transactionQueueNumber,
+    queueNextTransaction
+  } = usePendingTransactions()
 
   if (transactionsQueueLength <= 1) {
     return null
@@ -25,7 +28,8 @@ export function TransactionQueueStep () {
   return (
     <QueueStepRow>
       <QueueStepText>
-        {transactionQueueNumber} {getLocale('braveWalletQueueOf')} {transactionsQueueLength}
+        {transactionQueueNumber} {getLocale('braveWalletQueueOf')}{' '}
+        {transactionsQueueLength}
       </QueueStepText>
       <QueueStepButton onClick={queueNextTransaction}>
         {transactionQueueNumber === transactionsQueueLength

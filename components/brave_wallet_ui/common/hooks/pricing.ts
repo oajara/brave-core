@@ -12,14 +12,20 @@ import { BraveWallet } from '../../constants/types'
 import Amount from '../../utils/amount'
 import { findAssetPrice, computeFiatAmount } from '../../utils/pricing-utils'
 
-export default function usePricing (spotPrices: BraveWallet.AssetPrice[]) {
-  const _findAssetPrice = React.useCallback((symbol: string) => {
-    return findAssetPrice(spotPrices, symbol)
-  }, [spotPrices])
+export default function usePricing(spotPrices: BraveWallet.AssetPrice[]) {
+  const _findAssetPrice = React.useCallback(
+    (symbol: string) => {
+      return findAssetPrice(spotPrices, symbol)
+    },
+    [spotPrices]
+  )
 
-  const _computeFiatAmount = React.useCallback((value: string, symbol: string, decimals: number): Amount => {
-    return computeFiatAmount(spotPrices, { decimals, symbol, value })
-  }, [spotPrices])
+  const _computeFiatAmount = React.useCallback(
+    (value: string, symbol: string, decimals: number): Amount => {
+      return computeFiatAmount(spotPrices, { decimals, symbol, value })
+    },
+    [spotPrices]
+  )
 
   return {
     computeFiatAmount: _computeFiatAmount,

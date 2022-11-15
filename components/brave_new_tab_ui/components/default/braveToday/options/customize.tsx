@@ -17,15 +17,15 @@ type Props = StyleProps & {
 }
 
 const Hideable = styled('div')<StyleProps>`
-  pointer-events: ${p => p.show ? 'auto' : 'none'};
+  pointer-events: ${(p) => (p.show ? 'auto' : 'none')};
   position: fixed;
   right: 20px;
   bottom: 20px;
-  opacity: ${p => p.show ? 1 : 0};
+  opacity: ${(p) => (p.show ? 1 : 0)};
   transition: opacity 1s ease-in-out;
 `
 
-export default function Customize (props: Props) {
+export default function Customize(props: Props) {
   return (
     <Hideable show={props.show}>
       <Button

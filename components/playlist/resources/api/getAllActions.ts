@@ -12,11 +12,11 @@ type Action = typeof PlaylistActions
 let actions: Action
 
 // returns actions bound to dispatch.
-export function getAllActions () {
-   actions = actions || getActionsForDispatch(store.dispatch.bind(store))
-   return actions
+export function getAllActions() {
+  actions = actions || getActionsForDispatch(store.dispatch.bind(store))
+  return actions
 }
 
-export function getActionsForDispatch (dispatch: Dispatch) {
-    return bindActionCreators(PlaylistActions, dispatch)
+export function getActionsForDispatch(dispatch: Dispatch) {
+  return bindActionCreators(PlaylistActions, dispatch)
 }

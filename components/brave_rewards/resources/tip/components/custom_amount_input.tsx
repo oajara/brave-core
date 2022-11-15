@@ -29,26 +29,31 @@ interface Props {
   onHideInput: () => void
 }
 
-export function CustomAmountInput (props: Props) {
+export function CustomAmountInput(props: Props) {
   const { getString } = React.useContext(LocaleContext)
 
   const [controlValue, setControlValue] = React.useState(
-    amountFormat.format(props.amount))
+    amountFormat.format(props.amount)
+  )
 
   const [inputMode, setInputMode] = React.useState<InputMode>('bat')
 
-  const onInputMounted = React.useCallback((input: HTMLInputElement | null) => {
-    if (input) {
-      input.focus()
-      input.select()
-    }
-  }, [inputMode])
+  const onInputMounted = React.useCallback(
+    (input: HTMLInputElement | null) => {
+      if (input) {
+        input.focus()
+        input.select()
+      }
+    },
+    [inputMode]
+  )
 
   const getBatValue = (inputValue: number) => {
     inputValue = inputValue || 0
-    return Math.min(props.maximumAmount, inputMode === 'bat'
-      ? inputValue
-      : inputValue / props.exchangeRate)
+    return Math.min(
+      props.maximumAmount,
+      inputMode === 'bat' ? inputValue : inputValue / props.exchangeRate
+    )
   }
 
   const roundExchangeUp = (value: number) => {
@@ -57,17 +62,22 @@ export function CustomAmountInput (props: Props) {
 
   const onBlur = (evt: React.FocusEvent<HTMLInputElement>) => {
     const rawValue = getBatValue(parseFloat(evt.target.value))
-    const value = props.amountStep > 0
-      ? Math.floor(rawValue / props.amountStep) * props.amountStep
-      : rawValue
+    const value =
+      props.amountStep > 0
+        ? Math.floor(rawValue / props.amountStep) * props.amountStep
+        : rawValue
 
     if (isNaN(value) || value < props.amountStep) {
       return
     }
 
-    setControlValue(amountFormat.format(inputMode === 'bat'
-      ? value
-      : roundExchangeUp(value * props.exchangeRate)))
+    setControlValue(
+      amountFormat.format(
+        inputMode === 'bat'
+          ? value
+          : roundExchangeUp(value * props.exchangeRate)
+      )
+    )
 
     if (props.amount !== value) {
       props.onAmountChange(value)
@@ -88,9 +98,10 @@ export function CustomAmountInput (props: Props) {
     }
   }
 
-  const dependentAmount = inputMode === 'bat'
-    ? roundExchangeUp(props.amount * props.exchangeRate)
-    : props.amount
+  const dependentAmount =
+    inputMode === 'bat'
+      ? roundExchangeUp(props.amount * props.exchangeRate)
+      : props.amount
 
   const toggleMode = () => {
     setControlValue(amountFormat.format(dependentAmount))
@@ -102,7 +113,7 @@ export function CustomAmountInput (props: Props) {
       <style.header>
         {getString('customAmount')}
         <button onClick={props.onHideInput}>
-          <CaretIcon direction='left' />
+          <CaretIcon direction="left" />
         </button>
       </style.header>
       <style.form>
@@ -110,22 +121,21 @@ export function CustomAmountInput (props: Props) {
           <style.amountBox>
             <input
               ref={onInputMounted}
-              type='text'
+              type="text"
               value={controlValue}
               onChange={onChange}
               onBlur={onBlur}
-              data-test-id='custom-amount-input'
+              data-test-id="custom-amount-input"
             />
-            <span className='currency'>
+            <span className="currency">
               {inputMode === 'bat' ? 'BAT' : exchangeCurrency}
             </span>
           </style.amountBox>
-          {
-            inputMode === 'bat' &&
-              <style.example>
-                {formatMessage(getString('exampleTipAmount'), ['12.75'])} BAT
-              </style.example>
-          }
+          {inputMode === 'bat' && (
+            <style.example>
+              {formatMessage(getString('exampleTipAmount'), ['12.75'])} BAT
+            </style.example>
+          )}
         </style.amountSection>
         <style.swap>
           <button onClick={toggleMode}>
@@ -134,7 +144,7 @@ export function CustomAmountInput (props: Props) {
         </style.swap>
         <style.exhangeBox>
           <span>{amountFormat.format(dependentAmount)}</span>
-          <span className='currency'>
+          <span className="currency">
             {inputMode === 'exchange' ? 'BAT' : exchangeCurrency}
           </span>
         </style.exhangeBox>

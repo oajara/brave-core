@@ -5,14 +5,17 @@
 import styled from 'styled-components'
 
 import ConfirmingSvg from '../../../../assets/svg-icons/confirming-circle-icon.svg'
-import { TransactionStatusIcon, TransactionStatusText } from '../common/common.style'
+import {
+  TransactionStatusIcon,
+  TransactionStatusText
+} from '../common/common.style'
 
 export const ConfirmingIcon = styled(TransactionStatusIcon)`
   background: url(${ConfirmingSvg});
 `
 
 export const Title = styled(TransactionStatusText)`
-  color: ${p => p.theme.color.text01};
+  color: ${(p) => p.theme.color.text01};
 `
 
 export const ConfirmingText = styled.div`
@@ -28,7 +31,7 @@ export const ConfirmingText = styled.div`
   text-align: center;
   letter-spacing: 0.02em;
 
-  color: ${p => p.theme.color.text02};
+  color: ${(p) => p.theme.color.text02};
 `
 
 export const ConfirmationsNumber = styled.div`
@@ -44,5 +47,5 @@ export const ConfirmationsNumber = styled.div`
   text-align: center;
   letter-spacing: 0.02em;
 
-  color: ${p => p.theme.color.text01};
+  color: ${(p) => p.theme.color.text01};
 `

@@ -4,7 +4,11 @@
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 import styled from 'styled-components'
 import TrashIcon from '../../../assets/svg-icons/trash-icon.svg'
-import { AssetIconProps, AssetIconFactory, WalletButton } from '../../shared/style'
+import {
+  AssetIconProps,
+  AssetIconFactory,
+  WalletButton
+} from '../../shared/style'
 
 export const assetWatchListItemHeight = 58
 

@@ -9,23 +9,32 @@ type State = Omit<WalletPageState, 'page'>
 
 // safe selectors (primitive return types only)
 export const addUserAssetError = ({ wallet }: State) => wallet.addUserAssetError
-export const defaultEthereumWallet = ({ wallet }: State) => wallet.defaultEthereumWallet
-export const defaultSolanaWallet = ({ wallet }: State) => wallet.defaultSolanaWallet
-export const defaultCryptocurrency = ({ wallet }: State) => wallet.defaultCurrencies.crypto
-export const defaultFiatCurrency = ({ wallet }: State) => wallet.defaultCurrencies.fiat
-export const hasIncorrectPassword = ({ wallet }: State) => wallet.hasIncorrectPassword
+export const defaultEthereumWallet = ({ wallet }: State) =>
+  wallet.defaultEthereumWallet
+export const defaultSolanaWallet = ({ wallet }: State) =>
+  wallet.defaultSolanaWallet
+export const defaultCryptocurrency = ({ wallet }: State) =>
+  wallet.defaultCurrencies.crypto
+export const defaultFiatCurrency = ({ wallet }: State) =>
+  wallet.defaultCurrencies.fiat
+export const hasIncorrectPassword = ({ wallet }: State) =>
+  wallet.hasIncorrectPassword
 export const hasInitialized = ({ wallet }: State) => wallet.hasInitialized
-export const isFetchingPortfolioPriceHistory = ({ wallet }: State) => wallet.isFetchingPortfolioPriceHistory
+export const isFetchingPortfolioPriceHistory = ({ wallet }: State) =>
+  wallet.isFetchingPortfolioPriceHistory
 export const isFilecoinEnabled = ({ wallet }: State) => wallet.isFilecoinEnabled
-export const isLoadingCoinMarketData = ({ wallet }: State) => wallet.isLoadingCoinMarketData
-export const isMetaMaskInstalled = ({ wallet }: State) => wallet.isMetaMaskInstalled
+export const isLoadingCoinMarketData = ({ wallet }: State) =>
+  wallet.isLoadingCoinMarketData
+export const isMetaMaskInstalled = ({ wallet }: State) =>
+  wallet.isMetaMaskInstalled
 export const isSolanaEnabled = ({ wallet }: State) => wallet.isSolanaEnabled
 export const isWalletBackedUp = ({ wallet }: State) => wallet.isWalletBackedUp
 export const isWalletCreated = ({ wallet }: State) => wallet.isWalletCreated
 export const isWalletLocked = ({ wallet }: State) => wallet.isWalletLocked
 export const passwordAttempts = ({ wallet }: State) => wallet.passwordAttempts
 export const selectedCoin = ({ wallet }: State) => wallet.selectedCoin
-export const selectedPortfolioTimeline = ({ wallet }: State) => wallet.selectedPortfolioTimeline
+export const selectedPortfolioTimeline = ({ wallet }: State) =>
+  wallet.selectedPortfolioTimeline
 
 // unsafe selectors (will cause re-render if not strictly equal "===") (objects and lists)
 export const accounts = ({ wallet }: State) => wallet.accounts
@@ -41,17 +50,26 @@ export const gasEstimates = ({ wallet }: State) => wallet.gasEstimates
 export const knownTransactions = ({ wallet }: State) => wallet.knownTransactions
 export const networkList = ({ wallet }: State) => wallet.networkList
 export const onRampCurrencies = ({ wallet }: State) => wallet.onRampCurrencies
-export const pendingTransactions = ({ wallet }: State) => wallet.pendingTransactions
-export const portfolioPriceHistory = ({ wallet }: State) => wallet.portfolioPriceHistory
+export const pendingTransactions = ({ wallet }: State) =>
+  wallet.pendingTransactions
+export const portfolioPriceHistory = ({ wallet }: State) =>
+  wallet.portfolioPriceHistory
 export const selectedAccount = ({ wallet }: State) => wallet.selectedAccount
-export const selectedAssetFilter = ({ wallet }: State) => wallet.selectedAssetFilter
+export const selectedAssetFilter = ({ wallet }: State) =>
+  wallet.selectedAssetFilter
 export const selectedCurrency = ({ wallet }: State) => wallet.selectedCurrency
 export const selectedNetwork = ({ wallet }: State) => wallet.selectedNetwork
-export const selectedNetworkFilter = ({ wallet }: State) => wallet.selectedNetworkFilter
-export const selectedPendingTransaction = ({ wallet }: State) => wallet.selectedPendingTransaction
+export const selectedNetworkFilter = ({ wallet }: State) =>
+  wallet.selectedNetworkFilter
+export const selectedPendingTransaction = ({ wallet }: State) =>
+  wallet.selectedPendingTransaction
 export const solFeeEstimates = ({ wallet }: State) => wallet.solFeeEstimates
-export const transactionProviderErrorRegistry = ({ wallet }: State) => wallet.transactionProviderErrorRegistry
-export const transactionSpotPrices = ({ wallet }: State) => wallet.transactionSpotPrices
+export const transactionProviderErrorRegistry = ({ wallet }: State) =>
+  wallet.transactionProviderErrorRegistry
+export const transactionSpotPrices = ({ wallet }: State) =>
+  wallet.transactionSpotPrices
 export const transactions = ({ wallet }: State) => wallet.transactions
-export const userVisibleTokensInfo = ({ wallet }: State) => wallet.userVisibleTokensInfo
-export const selectedAccountFilter = ({ wallet }: State) => wallet.selectedAccountFilter
+export const userVisibleTokensInfo = ({ wallet }: State) =>
+  wallet.userVisibleTokensInfo
+export const selectedAccountFilter = ({ wallet }: State) =>
+  wallet.selectedAccountFilter

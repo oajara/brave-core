@@ -13,7 +13,7 @@ interface Props {
   children: React.ReactNode
 }
 
-export function MediaCard (props: Props) {
+export function MediaCard(props: Props) {
   return (
     <style.root>
       <style.header>

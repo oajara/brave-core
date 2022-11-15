@@ -16,7 +16,7 @@ interface Props {
   onDismiss: () => void
 }
 
-export function BitflyerPromotion (props: Props) {
+export function BitflyerPromotion(props: Props) {
   const { getString } = React.useContext(LocaleContext)
   return (
     <style.root>
@@ -26,21 +26,15 @@ export function BitflyerPromotion (props: Props) {
         </button>
       </style.close>
       <style.content>
-        <style.title>
-          {getString('bitflyerVerificationPromoTitle')}
-        </style.title>
-        <style.text>
-          {getString('bitflyerVerificationPromoInfo')}
-        </style.text>
+        <style.title>{getString('bitflyerVerificationPromoTitle')}</style.title>
+        <style.text>{getString('bitflyerVerificationPromoInfo')}</style.text>
         <style.learnMore>
           <button onClick={props.onLearnMore}>
             {getString('promoLearnMore')}
           </button>
         </style.learnMore>
         <style.dismiss>
-          <button onClick={props.onDismiss}>
-            {getString('promoDismiss')}
-          </button>
+          <button onClick={props.onDismiss}>{getString('promoDismiss')}</button>
         </style.dismiss>
       </style.content>
       <style.image>

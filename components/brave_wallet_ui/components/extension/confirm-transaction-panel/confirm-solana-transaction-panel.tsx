@@ -65,11 +65,14 @@ interface Props {
 }
 
 const onClickLearnMore = () => {
-  chrome.tabs.create({ url: 'https://support.brave.com/hc/en-us/articles/5546517853325' }, () => {
-    if (chrome.runtime.lastError) {
-      console.error('tabs.create failed: ' + chrome.runtime.lastError.message)
+  chrome.tabs.create(
+    { url: 'https://support.brave.com/hc/en-us/articles/5546517853325' },
+    () => {
+      if (chrome.runtime.lastError) {
+        console.error('tabs.create failed: ' + chrome.runtime.lastError.message)
+      }
     }
-  })
+  )
 }
 
 export const ConfirmSolanaTransactionPanel = ({
@@ -102,23 +105,26 @@ export const ConfirmSolanaTransactionPanel = ({
   } = pendingTxInfo
 
   // state
-  const [selectedTab, setSelectedTab] = React.useState<confirmPanelTabs>('transaction')
+  const [selectedTab, setSelectedTab] =
+    React.useState<confirmPanelTabs>('transaction')
 
   // methods
   const onSelectTab = React.useCallback(
     (tab: confirmPanelTabs) => () => setSelectedTab(tab),
-  [])
+    []
+  )
 
   // render
   if (!transactionDetails || !transactionInfo || !transactionsNetwork) {
-    return <StyledWrapper>
-      <Skeleton width={'100%'} height={'100%'} enableAnimation />
-    </StyledWrapper>
+    return (
+      <StyledWrapper>
+        <Skeleton width={'100%'} height={'100%'} enableAnimation />
+      </StyledWrapper>
+    )
   }
 
   return (
     <StyledWrapper>
-
       <TopRow>
         <NetworkText>{transactionsNetwork.chainName}</NetworkText>
         <TransactionQueueStep />
@@ -135,119 +141,122 @@ export const ConfirmSolanaTransactionPanel = ({
         />
       </URLText>
       <FromToRow>
-        <Tooltip
-          text={fromAddress}
-          isAddress={true}
-          position='left'
-        >
+        <Tooltip text={fromAddress} isAddress={true} position="left">
           <AccountNameText>{fromAccountName}</AccountNameText>
         </Tooltip>
 
-        {transactionDetails.recipient && transactionDetails.recipient !== fromAddress &&
-          <>
-            <ArrowIcon />
-            <Tooltip
-              text={transactionDetails.recipient}
-              isAddress={true}
-              position='right'
-            >
-              <AccountNameText>{transactionDetails.recipientLabel}</AccountNameText>
-            </Tooltip>
-          </>
-        }
+        {transactionDetails.recipient &&
+          transactionDetails.recipient !== fromAddress && (
+            <>
+              <ArrowIcon />
+              <Tooltip
+                text={transactionDetails.recipient}
+                isAddress={true}
+                position="right"
+              >
+                <AccountNameText>
+                  {transactionDetails.recipientLabel}
+                </AccountNameText>
+              </Tooltip>
+            </>
+          )}
       </FromToRow>
 
       <TransactionTypeText>{transactionTitle}</TransactionTypeText>
 
-      {!isSolanaDappTransaction &&
+      {!isSolanaDappTransaction && (
         <>
           <TransactionAmountBig>
-            {new Amount(transactionDetails.valueExact)
-                .formatAsAsset(undefined, transactionDetails.symbol)
-            }
+            {new Amount(transactionDetails.valueExact).formatAsAsset(
+              undefined,
+              transactionDetails.symbol
+            )}
           </TransactionAmountBig>
 
           <TransactionFiatAmountBig>
-            {
-              transactionDetails.fiatValue.formatAsFiat(defaultCurrencies.fiat)
-            }
+            {transactionDetails.fiatValue.formatAsFiat(defaultCurrencies.fiat)}
           </TransactionFiatAmountBig>
         </>
-      }
+      )}
 
-      {isAssociatedTokenAccountCreation &&
-        <WarningBox warningType='warning'>
+      {isAssociatedTokenAccountCreation && (
+        <WarningBox warningType="warning">
           <WarningBoxTitleRow>
-            <WarningTitle warningType='warning'>
+            <WarningTitle warningType="warning">
               {getLocale('braveWalletConfirmTransactionAccountCreationFee')}
-              <LearnMoreButton
-                onClick={onClickLearnMore}
-              >
+              <LearnMoreButton onClick={onClickLearnMore}>
                 {getLocale('braveWalletAllowAddNetworkLearnMoreButton')}
               </LearnMoreButton>
             </WarningTitle>
           </WarningBoxTitleRow>
         </WarningBox>
-      }
+      )}
 
-      {groupTransactions.length > 0 && selectedPendingTransactionGroupIndex >= 0 && transactionInfo &&
-        <GroupBox>
-          <GroupBoxColumn>
-            <GroupBoxTitle>
-              Transaction group
-            </GroupBoxTitle>
-            {
-              groupTransactions.map((txn, idx) =>
-                <GroupBoxText dark={selectedPendingTransactionGroupIndex === idx} key={idx}>
+      {groupTransactions.length > 0 &&
+        selectedPendingTransactionGroupIndex >= 0 &&
+        transactionInfo && (
+          <GroupBox>
+            <GroupBoxColumn>
+              <GroupBoxTitle>Transaction group</GroupBoxTitle>
+              {groupTransactions.map((txn, idx) => (
+                <GroupBoxText
+                  dark={selectedPendingTransactionGroupIndex === idx}
+                  key={idx}
+                >
                   <GroupEnumeration>
                     [{idx + 1}/{groupTransactions.length}]
                   </GroupEnumeration>
 
                   <StatusBubble status={txn.txStatus} />
 
-                  {txn.txStatus === BraveWallet.TransactionStatus.Unapproved && getLocale('braveWalletTransactionStatusUnapproved')}
-                  {txn.txStatus === BraveWallet.TransactionStatus.Approved && getLocale('braveWalletTransactionStatusApproved')}
-                  {txn.txStatus === BraveWallet.TransactionStatus.Rejected && getLocale('braveWalletTransactionStatusRejected')}
-                  {txn.txStatus === BraveWallet.TransactionStatus.Submitted && getLocale('braveWalletTransactionStatusSubmitted')}
-                  {txn.txStatus === BraveWallet.TransactionStatus.Confirmed && getLocale('braveWalletTransactionStatusConfirmed')}
-                  {txn.txStatus === BraveWallet.TransactionStatus.Error && getLocale('braveWalletTransactionStatusError')}
-                  {txn.txStatus === BraveWallet.TransactionStatus.Dropped && getLocale('braveWalletTransactionStatusDropped')}
+                  {txn.txStatus === BraveWallet.TransactionStatus.Unapproved &&
+                    getLocale('braveWalletTransactionStatusUnapproved')}
+                  {txn.txStatus === BraveWallet.TransactionStatus.Approved &&
+                    getLocale('braveWalletTransactionStatusApproved')}
+                  {txn.txStatus === BraveWallet.TransactionStatus.Rejected &&
+                    getLocale('braveWalletTransactionStatusRejected')}
+                  {txn.txStatus === BraveWallet.TransactionStatus.Submitted &&
+                    getLocale('braveWalletTransactionStatusSubmitted')}
+                  {txn.txStatus === BraveWallet.TransactionStatus.Confirmed &&
+                    getLocale('braveWalletTransactionStatusConfirmed')}
+                  {txn.txStatus === BraveWallet.TransactionStatus.Error &&
+                    getLocale('braveWalletTransactionStatusError')}
+                  {txn.txStatus === BraveWallet.TransactionStatus.Dropped &&
+                    getLocale('braveWalletTransactionStatusDropped')}
 
-                  {[BraveWallet.TransactionStatus.Approved, BraveWallet.TransactionStatus.Submitted]
-                    .includes(txn.txStatus) && <SmallLoadIcon />}
+                  {[
+                    BraveWallet.TransactionStatus.Approved,
+                    BraveWallet.TransactionStatus.Submitted
+                  ].includes(txn.txStatus) && <SmallLoadIcon />}
                 </GroupBoxText>
-              )
-            }
-          </GroupBoxColumn>
-        </GroupBox>
-      }
+              ))}
+            </GroupBoxColumn>
+          </GroupBox>
+        )}
 
       <TabRow>
         <PanelTab
           isSelected={selectedTab === 'transaction'}
           onSubmit={onSelectTab('transaction')}
-          text='Transaction'
+          text="Transaction"
         />
         <PanelTab
           isSelected={selectedTab === 'details'}
           onSubmit={onSelectTab('details')}
-          text='Details'
+          text="Details"
         />
       </TabRow>
 
-      <MessageBox
-        isDetails={selectedTab === 'details'}
-        isApprove={false}
-      >
-
-        {selectedTab === 'transaction'
-          ? <TransactionInfo />
-          : <SolanaTransactionDetailBox
-              data={transactionInfo?.txDataUnion?.solanaTxData}
-              instructions={transactionDetails.instructions}
-              txType={transactionInfo.txType}
-            />
-        }
+      <MessageBox isDetails={selectedTab === 'details'} isApprove={false}>
+        {selectedTab === 'transaction' ? (
+          <TransactionInfo />
+        ) : (
+          <SolanaTransactionDetailBox
+            data={transactionInfo?.txDataUnion?.solanaTxData}
+            instructions={transactionDetails.instructions}
+            txType={transactionInfo.txType}
+          />
+        )}
       </MessageBox>
       <Footer onConfirm={onConfirm} onReject={onReject} />
     </StyledWrapper>

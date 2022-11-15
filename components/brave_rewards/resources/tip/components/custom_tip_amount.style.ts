@@ -38,7 +38,7 @@ export const currency = styled.span`
 export const reset = styled.div`
   button {
     border: 0;
-    background: rgba(174, 177, 194, .24);
+    background: rgba(174, 177, 194, 0.24);
     width: 32px;
     height: 32px;
     position: absolute;
@@ -49,7 +49,7 @@ export const reset = styled.div`
 
     .icon {
       color: var(--brave-palette-white);
-      opacity: .8;
+      opacity: 0.8;
       transform: rotate(45deg);
       font-size: 28px;
       line-height: 32px;

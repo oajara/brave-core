@@ -17,9 +17,9 @@ import { Wrapper } from './buy-send-swap-deposit-nav.style'
 export const BuySendSwapDepositNav = () => {
   return (
     <Wrapper>
-      {BuySendSwapDepositOptions.map((option) =>
+      {BuySendSwapDepositOptions.map((option) => (
         <BuySendSwapDepositButton option={option} key={option.id} />
-      )}
+      ))}
     </Wrapper>
   )
 }

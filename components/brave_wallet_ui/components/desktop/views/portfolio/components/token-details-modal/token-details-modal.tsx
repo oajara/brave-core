@@ -63,9 +63,14 @@ export const TokenDetailsModal = (props: Props) => {
         <StyledWrapper>
           <TokenBalanceRow>
             <CryptoBalance>{assetBalance}</CryptoBalance>
-            <AssetIconWithPlaceholder asset={selectedAsset} network={selectedAssetNetwork} />
+            <AssetIconWithPlaceholder
+              asset={selectedAsset}
+              network={selectedAssetNetwork}
+            />
           </TokenBalanceRow>
-          <FiatBalance>{formattedFiatBalance || <Skeleton width='20%' /> }</FiatBalance>
+          <FiatBalance>
+            {formattedFiatBalance || <Skeleton width="20%" />}
+          </FiatBalance>
           <DetailColumn>
             <TokenDetailLabel>Token Contract Address</TokenDetailLabel>
             <CopyTooltip text={selectedAsset.contractAddress}>
@@ -78,9 +83,13 @@ export const TokenDetailsModal = (props: Props) => {
           </DetailColumn>
           <DetailColumn>
             <TokenDetailLabel>Network</TokenDetailLabel>
-            <TokenDetailValue>{selectedAssetNetwork.chainName}</TokenDetailValue>
+            <TokenDetailValue>
+              {selectedAssetNetwork.chainName}
+            </TokenDetailValue>
           </DetailColumn>
-          <HideTokenButton onClick={onShowHideTokenModal}>Hide token</HideTokenButton>
+          <HideTokenButton onClick={onShowHideTokenModal}>
+            Hide token
+          </HideTokenButton>
         </StyledWrapper>
       </PopupModal>
     </>

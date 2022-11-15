@@ -3,7 +3,13 @@
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import * as React from 'react'
-import { StyledWrapper, StyledSlider, StyledBullet, StyleToggle, StyledCheckbox } from './style'
+import {
+  StyledWrapper,
+  StyledSlider,
+  StyledBullet,
+  StyleToggle,
+  StyledCheckbox
+} from './style'
 
 export interface Props {
   testId?: string
@@ -29,19 +35,19 @@ export class Toggle extends React.PureComponent<Props, ToggleState> {
     disabled: false
   }
 
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = { checked: props.checked }
     this.handleChange = this.handleChange.bind(this)
   }
 
-  componentWillReceiveProps (nextProps: Props) {
+  componentWillReceiveProps(nextProps: Props) {
     if ('checked' in nextProps) {
       this.setState({ checked: nextProps.checked })
     }
   }
 
-  handleChange (event: any) {
+  handleChange(event: any) {
     const { props } = this
     if (props.disabled) {
       return
@@ -55,26 +61,38 @@ export class Toggle extends React.PureComponent<Props, ToggleState> {
     }
   }
 
-  render () {
-    const { id, testId, readOnly, disabled, autoFocus, size, colorType } = this.props
+  render() {
+    const { id, testId, readOnly, disabled, autoFocus, size, colorType } =
+      this.props
     const { checked } = this.state
 
     return (
-        <StyledWrapper checked={checked} data-test-id={testId} size={size}>
-          <StyledCheckbox
-            type='checkbox'
-            id={id}
-            readOnly={readOnly}
-            disabled={disabled}
+      <StyledWrapper checked={checked} data-test-id={testId} size={size}>
+        <StyledCheckbox
+          type="checkbox"
+          id={id}
+          readOnly={readOnly}
+          disabled={disabled}
+          checked={checked}
+          onChange={this.handleChange}
+          autoFocus={autoFocus}
+        />
+        <StyleToggle size={size}>
+          <StyledSlider
+            htmlFor={id}
             checked={checked}
-            onChange={this.handleChange}
-            autoFocus={autoFocus}
+            size={size}
+            disabled={disabled}
           />
-          <StyleToggle size={size}>
-            <StyledSlider htmlFor={id} checked={checked} size={size} disabled={disabled} />
-            <StyledBullet htmlFor={id} checked={checked} size={size} disabled={disabled} colorType={colorType} />
-          </StyleToggle>
-        </StyledWrapper>
+          <StyledBullet
+            htmlFor={id}
+            checked={checked}
+            size={size}
+            disabled={disabled}
+            colorType={colorType}
+          />
+        </StyleToggle>
+      </StyledWrapper>
     )
   }
 }

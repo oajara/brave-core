@@ -35,11 +35,11 @@ interface Props {
   ftx: FTXState
 }
 
-const getBraveNewsDisplayAd = function GetBraveNewsDisplayAd () {
+const getBraveNewsDisplayAd = function GetBraveNewsDisplayAd() {
   return getBraveNewsController().getDisplayAd()
 }
 
-function DefaultPage (props: Props) {
+function DefaultPage(props: Props) {
   const { newTabData, braveTodayData, gridSitesData, actions } = props
 
   // don't render if user prefers an empty page
@@ -66,11 +66,21 @@ function DefaultPage (props: Props) {
       saveBrandedWallpaperOptIn={PreferencesAPI.saveBrandedWallpaperOptIn}
       saveSetAllStackWidgets={PreferencesAPI.saveSetAllStackWidgets}
       getBraveNewsDisplayAd={getBraveNewsDisplayAd}
-      chooseNewCustomBackgroundImage={() => getNTPBrowserAPI().pageHandler.chooseLocalCustomBackground() }
-      setCustomImageBackground={background => getNTPBrowserAPI().pageHandler.useCustomImageBackground(background) }
-      removeCustomImageBackground={background => getNTPBrowserAPI().pageHandler.removeCustomImageBackground(background) }
-      setBraveBackground={selectedBackground => getNTPBrowserAPI().pageHandler.useBraveBackground(selectedBackground)}
-      setColorBackground={(color, useRandomColor) => getNTPBrowserAPI().pageHandler.useColorBackground(color, useRandomColor) }
+      chooseNewCustomBackgroundImage={() =>
+        getNTPBrowserAPI().pageHandler.chooseLocalCustomBackground()
+      }
+      setCustomImageBackground={(background) =>
+        getNTPBrowserAPI().pageHandler.useCustomImageBackground(background)
+      }
+      removeCustomImageBackground={(background) =>
+        getNTPBrowserAPI().pageHandler.removeCustomImageBackground(background)
+      }
+      setBraveBackground={(selectedBackground) =>
+        getNTPBrowserAPI().pageHandler.useBraveBackground(selectedBackground)
+      }
+      setColorBackground={(color, useRandomColor) =>
+        getNTPBrowserAPI().pageHandler.useColorBackground(color, useRandomColor)
+      }
     />
   )
 }
@@ -88,7 +98,4 @@ const mapDispatchToProps = (dispatch: Dispatch): Partial<Props> => {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DefaultPage)
+export default connect(mapStateToProps, mapDispatchToProps)(DefaultPage)

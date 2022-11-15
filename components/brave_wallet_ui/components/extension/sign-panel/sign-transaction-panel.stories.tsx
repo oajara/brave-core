@@ -17,20 +17,20 @@ import { WalletPanelStory } from '../../../stories/wrappers/wallet-panel-story-w
 import { SignTransactionPanel } from './sign-transaction-panel'
 
 export const _SignAllSolanaTxPanel = () => {
-  return <WalletPanelStory
-    walletStateOverride={{
-      selectedPendingTransaction: mockSolDappSignAndSendTransactionRequest
-    }}
-    panelStateOverride={{
-      selectedPanel: 'signTransaction',
-      signTransactionRequests: [mockSolDappSignTransactionRequest],
-      signAllTransactionsRequests: [mockSolDappSignAllTransactionsRequest]
-    }}
-  >
-    <SignTransactionPanel
-      signMode='signAllTxs'
-    />
-  </WalletPanelStory>
+  return (
+    <WalletPanelStory
+      walletStateOverride={{
+        selectedPendingTransaction: mockSolDappSignAndSendTransactionRequest
+      }}
+      panelStateOverride={{
+        selectedPanel: 'signTransaction',
+        signTransactionRequests: [mockSolDappSignTransactionRequest],
+        signAllTransactionsRequests: [mockSolDappSignAllTransactionsRequest]
+      }}
+    >
+      <SignTransactionPanel signMode="signAllTxs" />
+    </WalletPanelStory>
+  )
 }
 
 _SignAllSolanaTxPanel.story = {
@@ -38,20 +38,20 @@ _SignAllSolanaTxPanel.story = {
 }
 
 export const _SignSolanaTxPanel = () => {
-  return <WalletPanelStory
-    walletStateOverride={{
-      selectedPendingTransaction: mockSolDappSignAndSendTransactionRequest
-    }}
-    panelStateOverride={{
-      selectedPanel: 'signTransaction',
-      signTransactionRequests: [mockSolDappSignTransactionRequest],
-      signAllTransactionsRequests: [mockSolDappSignAllTransactionsRequest]
-    }}
-  >
-    <SignTransactionPanel
-      signMode='signTx'
-    />
-  </WalletPanelStory>
+  return (
+    <WalletPanelStory
+      walletStateOverride={{
+        selectedPendingTransaction: mockSolDappSignAndSendTransactionRequest
+      }}
+      panelStateOverride={{
+        selectedPanel: 'signTransaction',
+        signTransactionRequests: [mockSolDappSignTransactionRequest],
+        signAllTransactionsRequests: [mockSolDappSignAllTransactionsRequest]
+      }}
+    >
+      <SignTransactionPanel signMode="signTx" />
+    </WalletPanelStory>
+  )
 }
 
 _SignSolanaTxPanel.story = {

@@ -5,25 +5,24 @@
 
 import * as React from 'react'
 
-import {
-  SettingsRow,
-  SettingsText
-} from '../../../components/default'
+import { SettingsRow, SettingsText } from '../../../components/default'
 import { Toggle } from '../../../components/toggle'
 
 import { getLocale } from '../../../../common/locale'
 import { useNewTabPref } from '../../../hooks/usePref'
 
-export default function BraveStatsSettings () {
+export default function BraveStatsSettings() {
   const [showStats, setShowStats] = useNewTabPref('showStats')
-  return <div>
-    <SettingsRow>
-      <SettingsText>{getLocale('showBraveStats')}</SettingsText>
-      <Toggle
-        onChange={() => setShowStats(!showStats)}
-        checked={showStats}
-        size='large'
-      />
-    </SettingsRow>
-  </div>
+  return (
+    <div>
+      <SettingsRow>
+        <SettingsText>{getLocale('showBraveStats')}</SettingsText>
+        <Toggle
+          onChange={() => setShowStats(!showStats)}
+          checked={showStats}
+          size="large"
+        />
+      </SettingsRow>
+    </div>
+  )
 }

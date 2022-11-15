@@ -80,35 +80,56 @@ const buildTabIdSenderIdKey = (tabId: number, senderId: string) => {
   return `${tabId}:${senderId}`
 }
 
-const handleGreaselionError = (tabId: number, mediaType: string, data: GreaselionError) => {
+const handleGreaselionError = (
+  tabId: number,
+  mediaType: string,
+  data: GreaselionError
+) => {
   console.error(`Greaselion error: ${data.errorMessage}`)
 }
 
-const handleOnAPIRequest = (data: OnAPIRequest, onSuccess: (response: any) => void, onFailure: (error: any) => void) => {
+const handleOnAPIRequest = (
+  data: OnAPIRequest,
+  onSuccess: (response: any) => void,
+  onFailure: (error: any) => void
+) => {
   if (!data || !data.url || !data.init || !onSuccess || !onFailure) {
     return
   }
 
   fetch(data.url, data.init)
-    .then(response => {
+    .then((response) => {
       if (!response.ok) {
-        throw new Error(`API request failed: ${response.statusText} (${response.status})`)
+        throw new Error(
+          `API request failed: ${response.statusText} (${response.status})`
+        )
       }
 
       return response.json()
     })
-    .then(responseData => onSuccess(responseData))
-    .catch(error => onFailure(error))
+    .then((responseData) => onSuccess(responseData))
+    .catch((error) => onFailure(error))
 }
 
-const handleMediaDurationMetadata = (tabId: number, mediaType: string, data: MediaDurationMetadata) => {
+const handleMediaDurationMetadata = (
+  tabId: number,
+  mediaType: string,
+  data: MediaDurationMetadata
+) => {
   const publisherKey = publisherKeysByMediaKey.get(data.mediaKey)
   if (!publisherKey) {
-    console.error(`Failed to handle media duration metadata: missing publisher key for media key ${data.mediaKey}`)
+    console.error(
+      `Failed to handle media duration metadata: missing publisher key for media key ${data.mediaKey}`
+    )
     return
   }
 
-  chrome.braveRewards.updateMediaDuration(tabId, publisherKey, data.duration, data.firstVisit)
+  chrome.braveRewards.updateMediaDuration(
+    tabId,
+    publisherKey,
+    data.duration,
+    data.firstVisit
+  )
 }
 
 const onCompletedWebRequest = (
@@ -144,14 +165,10 @@ const handleRegisterOnCompletedWebRequest = (
     listener,
     // Filters
     {
-      types: [
-        'image',
-        'media',
-        'script',
-        'xmlhttprequest'
-      ],
+      types: ['image', 'media', 'script', 'xmlhttprequest'],
       urls: data.urlPatterns
-    })
+    }
+  )
 
   connectionState.onCompletedWebRequestListener = listener
 }
@@ -174,15 +191,22 @@ const onSendHeadersWebRequest = (
   })
 }
 
-const handleRegisterOnSendHeadersWebRequest = (registrationKey: string, mediaType: string, data: RegisterOnSendHeadersWebRequest) => {
+const handleRegisterOnSendHeadersWebRequest = (
+  registrationKey: string,
+  mediaType: string,
+  data: RegisterOnSendHeadersWebRequest
+) => {
   const connectionState = connectionsByTabIdSenderId.get(registrationKey)
   if (!connectionState || connectionState.onSendHeadersWebRequestListener) {
     return
   }
 
   // Create and install the listener
-  const listener =
-    onSendHeadersWebRequest.bind(null, registrationKey, mediaType)
+  const listener = onSendHeadersWebRequest.bind(
+    null,
+    registrationKey,
+    mediaType
+  )
   chrome.webRequest.onSendHeaders.addListener(
     // Listener
     listener,
@@ -219,7 +243,10 @@ const onUpdatedTab = (
   })
 }
 
-const handleRegisterOnUpdatedTab = (registrationKey: string, mediaType: string) => {
+const handleRegisterOnUpdatedTab = (
+  registrationKey: string,
+  mediaType: string
+) => {
   const connectionState = connectionsByTabIdSenderId.get(registrationKey)
   if (!connectionState || connectionState.onUpdatedTabListener) {
     return
@@ -234,17 +261,17 @@ const handleRegisterOnUpdatedTab = (registrationKey: string, mediaType: string) 
 
 const getPublisherPanelInfo = (tabId: number, publisherKey: string) => {
   chrome.braveRewards.getPublisherPanelInfo(
-    publisherKey, (result: RewardsExtension.Result, info?: RewardsExtension.Publisher) => {
+    publisherKey,
+    (result: RewardsExtension.Result, info?: RewardsExtension.Publisher) => {
       if (result === 0 && info) {
-        chrome.runtime.sendMessage(
-          braveRewardsExtensionId,
-          {
-            type: 'OnPublisherData',
-            tabId,
-            info
-          })
+        chrome.runtime.sendMessage(braveRewardsExtensionId, {
+          type: 'OnPublisherData',
+          tabId,
+          info
+        })
       }
-    })
+    }
+  )
 }
 
 const getPublisherPanelInfoByTabId = (tabId: number) => {
@@ -260,7 +287,14 @@ const getPublisherPanelInfoByTabId = (tabId: number) => {
   getPublisherPanelInfo(tabId, publisherKey)
 }
 
-const savePublisherInfo = (tabId: number, mediaType: string, url: string, publisherKey: string, publisherName: string, favIconUrl: string) => {
+const savePublisherInfo = (
+  tabId: number,
+  mediaType: string,
+  url: string,
+  publisherKey: string,
+  publisherName: string,
+  favIconUrl: string
+) => {
   chrome.braveRewards.savePublisherInfo(
     tabId,
     mediaType,
@@ -270,12 +304,19 @@ const savePublisherInfo = (tabId: number, mediaType: string, url: string, publis
     favIconUrl,
     (result: RewardsExtension.Result) => {
       if (result !== 0) {
-        console.error(`Failed to save publisher info for ${publisherKey}, result is ${result}`)
+        console.error(
+          `Failed to save publisher info for ${publisherKey}, result is ${result}`
+        )
       }
-    })
+    }
+  )
 }
 
-const handleSavePublisherVisit = (tabId: number, mediaType: string, data: SavePublisherVisit) => {
+const handleSavePublisherVisit = (
+  tabId: number,
+  mediaType: string,
+  data: SavePublisherVisit
+) => {
   if (!data.publisherKey || !data.publisherName) {
     console.error('Invalid parameter')
     return
@@ -290,10 +331,11 @@ const handleSavePublisherVisit = (tabId: number, mediaType: string, data: SavePu
   }
 
   chrome.braveRewards.getPublisherInfo(
-    data.publisherKey, (result: RewardsExtension.Result, info?: RewardsExtension.Publisher) => {
+    data.publisherKey,
+    (result: RewardsExtension.Result, info?: RewardsExtension.Publisher) => {
       let shouldUpdate = false
       if (result === 0 && info) {
-        shouldUpdate = (info.name !== data.publisherName || info.url !== data.url)
+        shouldUpdate = info.name !== data.publisherName || info.url !== data.url
         if (!shouldUpdate) {
           getPublisherPanelInfo(tabId, data.publisherKey)
           return
@@ -309,9 +351,11 @@ const handleSavePublisherVisit = (tabId: number, mediaType: string, data: SavePu
           data.url,
           data.publisherKey,
           data.publisherName,
-          data.favIconUrl || '')
+          data.favIconUrl || ''
+        )
       }
-    })
+    }
+  )
 }
 
 const handleTipUser = (tabId: number, mediaType: string, data: TipUser) => {
@@ -325,7 +369,8 @@ const handleTipUser = (tabId: number, mediaType: string, data: TipUser) => {
     data.favIconUrl,
     data.postId,
     data.postTimestamp,
-    data.postText)
+    data.postText
+  )
 }
 
 const onMessageListener = (msg: any, port: chrome.runtime.Port) => {
@@ -393,7 +438,8 @@ const onMessageListener = (msg: any, port: chrome.runtime.Port) => {
                 }
               })
             }
-          })
+          }
+        )
         break
       }
       case 'RegisterOnCompletedWebRequest': {
@@ -433,23 +479,33 @@ chrome.runtime.onConnectExternal.addListener((port: chrome.runtime.Port) => {
 
   port.onDisconnect.addListener((port: chrome.runtime.Port) => {
     if (chrome.runtime.lastError) {
-      console.error(`Greaselion port disconnected due to error: ${chrome.runtime.lastError}`)
+      console.error(
+        `Greaselion port disconnected due to error: ${chrome.runtime.lastError}`
+      )
     }
-    if (port.sender && port.sender.id && port.sender.tab && port.sender.tab.id) {
+    if (
+      port.sender &&
+      port.sender.id &&
+      port.sender.tab &&
+      port.sender.tab.id
+    ) {
       const key = buildTabIdSenderIdKey(port.sender.tab.id, port.sender.id)
       const connectionState = connectionsByTabIdSenderId.get(key)
       if (connectionState) {
         if (connectionState.onCompletedWebRequestListener) {
           chrome.webRequest.onCompleted.removeListener(
-            connectionState.onCompletedWebRequestListener)
+            connectionState.onCompletedWebRequestListener
+          )
         }
         if (connectionState.onSendHeadersWebRequestListener) {
           chrome.webRequest.onSendHeaders.removeListener(
-            connectionState.onSendHeadersWebRequestListener)
+            connectionState.onSendHeadersWebRequestListener
+          )
         }
         if (connectionState.onUpdatedTabListener) {
           chrome.tabs.onUpdated.removeListener(
-            connectionState.onUpdatedTabListener)
+            connectionState.onUpdatedTabListener
+          )
         }
       }
 
@@ -461,22 +517,25 @@ chrome.runtime.onConnectExternal.addListener((port: chrome.runtime.Port) => {
   })
 })
 
-chrome.runtime.onMessageExternal.addListener(
-  function (msg: any, sender: chrome.runtime.MessageSender, sendResponse: any) {
-    if (!msg || !msg.type || !sender || !sender.id) {
+chrome.runtime.onMessageExternal.addListener(function (
+  msg: any,
+  sender: chrome.runtime.MessageSender,
+  sendResponse: any
+) {
+  if (!msg || !msg.type || !sender || !sender.id) {
+    return
+  }
+  chrome.greaselion.isGreaselionExtension(sender.id, (valid: boolean) => {
+    if (!valid && sender.id !== braveRewardsExtensionId) {
       return
     }
-    chrome.greaselion.isGreaselionExtension(sender.id, (valid: boolean) => {
-      if (!valid && sender.id !== braveRewardsExtensionId) {
-        return
-      }
-      switch (msg.type) {
-        case 'GetPublisherPanelInfo':
-          getPublisherPanelInfoByTabId(msg.tabId)
-          break
-        case 'SupportsGreaselion':
-          sendResponse({ supported: true })
-          break
-      }
-    })
+    switch (msg.type) {
+      case 'GetPublisherPanelInfo':
+        getPublisherPanelInfoByTabId(msg.tabId)
+        break
+      case 'SupportsGreaselion':
+        sendResponse({ supported: true })
+        break
+    }
   })
+})

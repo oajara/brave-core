@@ -17,7 +17,7 @@ interface Options {
 }
 
 const cache: { [url: string]: string } = {}
-function useFavicon (publisherId: string | undefined) {
+function useFavicon(publisherId: string | undefined) {
   const [url, setUrl] = React.useState<string>(cache[publisherId!])
   React.useEffect(() => {
     if (!publisherId) {
@@ -30,15 +30,17 @@ function useFavicon (publisherId: string | undefined) {
     }
 
     let cancelled = false
-    getBraveNewsController().getFavIconData(publisherId).then(({ imageData }) => {
-      if (cancelled) return
-      if (!imageData) return
+    getBraveNewsController()
+      .getFavIconData(publisherId)
+      .then(({ imageData }) => {
+        if (cancelled) return
+        if (!imageData) return
 
-      const blob = new Blob([new Uint8Array(imageData)], { type: 'image/*' })
-      const url = URL.createObjectURL(blob)
-      cache[publisherId] = url
-      setUrl(url)
-    })
+        const blob = new Blob([new Uint8Array(imageData)], { type: 'image/*' })
+        const url = URL.createObjectURL(blob)
+        cache[publisherId] = url
+        setUrl(url)
+      })
 
     return () => {
       cancelled = true
@@ -48,7 +50,7 @@ function useFavicon (publisherId: string | undefined) {
   return url
 }
 
-export function useLazyFavicon (publisherId: string, options: VisibleOptions) {
+export function useLazyFavicon(publisherId: string, options: VisibleOptions) {
   const { visible, setElementRef } = useVisible(options)
   const url = useFavicon(visible ? publisherId : undefined)
   return {
@@ -57,7 +59,11 @@ export function useLazyFavicon (publisherId: string, options: VisibleOptions) {
   }
 }
 
-export function useUnpaddedImageUrl (paddedUrl: string | undefined, onLoaded?: () => any, useCache?: boolean) {
+export function useUnpaddedImageUrl(
+  paddedUrl: string | undefined,
+  onLoaded?: () => any,
+  useCache?: boolean
+) {
   const [unpaddedUrl, setUnpaddedUrl] = React.useState('')
 
   React.useEffect(() => {
@@ -72,8 +78,7 @@ export function useUnpaddedImageUrl (paddedUrl: string | undefined, onLoaded?: (
     // @ts-expect-error
     if (window.braveStorybookUnpadUrl) {
       // @ts-expect-error
-      window.braveStorybookUnpadUrl(paddedUrl)
-        .then(onReceiveUnpaddedUrl)
+      window.braveStorybookUnpadUrl(paddedUrl).then(onReceiveUnpaddedUrl)
       return
     }
 
@@ -85,33 +90,44 @@ export function useUnpaddedImageUrl (paddedUrl: string | undefined, onLoaded?: (
     }
 
     let blobUrl: string
-    getBraveNewsController().getImageData({ url: paddedUrl })
+    getBraveNewsController()
+      .getImageData({ url: paddedUrl })
       .then(async (result) => {
         if (!result.imageData) {
           return
         }
 
-        const blob = new Blob([new Uint8Array(result.imageData)], { type: 'image/*' })
+        const blob = new Blob([new Uint8Array(result.imageData)], {
+          type: 'image/*'
+        })
         blobUrl = URL.createObjectURL(blob)
         onReceiveUnpaddedUrl(blobUrl)
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(`Error getting image for ${paddedUrl}.`, err)
       })
 
-      // Only revoke the URL if we aren't using the cache.
-      return () => {
-        if (!useCache) URL.revokeObjectURL(blobUrl)
-      }
+    // Only revoke the URL if we aren't using the cache.
+    return () => {
+      if (!useCache) URL.revokeObjectURL(blobUrl)
+    }
   }, [paddedUrl])
   return unpaddedUrl
 }
 
-export function useLazyUnpaddedImageUrl (paddedUrl: string | undefined, options: Options) {
+export function useLazyUnpaddedImageUrl(
+  paddedUrl: string | undefined,
+  options: Options
+) {
   const { visible, setElementRef } = useVisible(options)
 
   return {
-    url: useUnpaddedImageUrl(visible ? paddedUrl : undefined, options.onLoaded, options.useCache) || cache[paddedUrl!],
+    url:
+      useUnpaddedImageUrl(
+        visible ? paddedUrl : undefined,
+        options.onLoaded,
+        options.useCache
+      ) || cache[paddedUrl!],
     setElementRef
   }
 }

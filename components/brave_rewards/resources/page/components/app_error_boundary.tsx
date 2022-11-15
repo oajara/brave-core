@@ -11,22 +11,24 @@ interface Props {
 }
 
 interface State {
-  error: Error|null
+  error: Error | null
 }
 
 export class AppErrorBoundary extends React.Component<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = { error: null }
   }
 
-  static getDerivedStateFromError (error: unknown) {
+  static getDerivedStateFromError(error: unknown) {
     return { error: error instanceof Error ? error : new Error(String(error)) }
   }
 
-  render () {
-    return this.state.error
-      ? <AppError error={this.state.error} />
-      : this.props.children
+  render() {
+    return this.state.error ? (
+      <AppError error={this.state.error} />
+    ) : (
+      this.props.children
+    )
   }
 }

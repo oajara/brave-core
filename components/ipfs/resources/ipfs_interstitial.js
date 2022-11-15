@@ -4,21 +4,21 @@
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 
 function setupEvents() {
-  $('body').classList.add('ipfs');
-  $('icon').classList.add('icon');
+  $('body').classList.add('ipfs')
+  $('icon').classList.add('icon')
 
-  $('primary-button').addEventListener('click', function() {
-    sendCommand(SecurityInterstitialCommandId.CMD_PROCEED);
-  });
+  $('primary-button').addEventListener('click', function () {
+    sendCommand(SecurityInterstitialCommandId.CMD_PROCEED)
+  })
 
-  $('main-content').classList.remove(HIDDEN_CLASS);
+  $('main-content').classList.remove(HIDDEN_CLASS)
 
-  $('details-button').addEventListener('click', function(event) {
-    const hiddenDetails = $('details').classList.toggle(HIDDEN_CLASS);
-    $('details-button').innerText = hiddenDetails ?
-        loadTimeData.getString('openDetails') :
-        loadTimeData.getString('closeDetails');
-  });
+  $('details-button').addEventListener('click', function (event) {
+    const hiddenDetails = $('details').classList.toggle(HIDDEN_CLASS)
+    $('details-button').innerText = hiddenDetails
+      ? loadTimeData.getString('openDetails')
+      : loadTimeData.getString('closeDetails')
+  })
 }
 
-document.addEventListener('DOMContentLoaded', setupEvents);
+document.addEventListener('DOMContentLoaded', setupEvents)

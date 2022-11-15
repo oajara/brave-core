@@ -74,7 +74,7 @@ export const Image = styled('img')`
 
 export const Text = styled('div')<{}>`
   box-sizing: border-box;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
   font-weight: normal;
   font-size: 14px;
   line-height: 19px;
@@ -83,7 +83,7 @@ export const Text = styled('div')<{}>`
 `
 
 export const Heading = styled(Text.withComponent('h2'))`
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
   font-weight: 600;
   font-size: 22px;
   line-height: 32px;
@@ -92,10 +92,10 @@ export const Heading = styled(Text.withComponent('h2'))`
 export const Time = styled(Text.withComponent('time'))`
   box-sizing: border-box;
   display: block;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
   font-size: 13px;
   margin-top: 4px;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255, 255, 255, 0.7);
 `
 
 export const PublisherLogo = styled('img')<{}>`
@@ -103,7 +103,7 @@ export const PublisherLogo = styled('img')<{}>`
   max-width: 100%;
   height: 30px;
   min-width: 80px;
-  background-color: rgba(188,188,188,0.2);
+  background-color: rgba(188, 188, 188, 0.2);
   margin-top: 12px;
   display: inline-block;
 `
@@ -119,19 +119,19 @@ export const Button = styled('button')<{}>`
   border: none;
   font-weight: 800;
   cursor: pointer;
-  background: rgba(33, 37, 41, .8);
+  background: rgba(33, 37, 41, 0.8);
   backdrop-filter: blur(8px);
   outline: none;
   border: none;
-  transition: opacity 1s ease-in-out, background .124s ease-in-out;
+  transition: opacity 1s ease-in-out, background 0.124s ease-in-out;
   &:hover {
-    background: rgba(255, 255, 255, .2);
+    background: rgba(255, 255, 255, 0.2);
   }
   &:active {
-    background: rgba(255, 255, 255, .4);
+    background: rgba(255, 255, 255, 0.4);
   }
   &:focus-visible {
-    box-shadow: 0 0 0 1px ${p => p.theme.color.brandBrave};
+    box-shadow: 0 0 0 1px ${(p) => p.theme.color.brandBrave};
   }
 `
 
@@ -140,11 +140,13 @@ type CardButtonProps = {
 }
 export const CardButton = styled(Button)<CardButtonProps>`
   backdrop-filter: none;
-  background: rgba(255, 255, 255, .24);
-  ${p => p.isMainFocus && css`
-    display: block;
-    width: 100%;
-  `}
+  background: rgba(255, 255, 255, 0.24);
+  ${(p) =>
+    p.isMainFocus &&
+    css`
+      display: block;
+      width: 100%;
+    `}
 `
 
 export const TertiaryButton = styled('button')<{}>`
@@ -163,9 +165,9 @@ export const TertiaryButton = styled('button')<{}>`
     color: #ddd;
   }
   &:active {
-    transform: translate(1px, 1px)
+    transform: translate(1px, 1px);
   }
   &:focus-visible {
-    box-shadow: 0 0 0 1px ${p => p.theme.color.brandBrave};
+    box-shadow: 0 0 0 1px ${(p) => p.theme.color.brandBrave};
   }
 `

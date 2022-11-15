@@ -4,8 +4,22 @@
 
 import { StatsContainer, StatsItem } from './stats'
 export * from './settings'
-import { AddSiteTile, AddSiteTileImage, Tile, TileActionsContainer, TileAction, TileFavicon, TileMenu, TileMenuItem, TileTitle } from './gridSites'
-import { SiteRemovalNotification, SiteRemovalText, SiteRemovalAction } from './notification'
+import {
+  AddSiteTile,
+  AddSiteTileImage,
+  Tile,
+  TileActionsContainer,
+  TileAction,
+  TileFavicon,
+  TileMenu,
+  TileMenuItem,
+  TileTitle
+} from './gridSites'
+import {
+  SiteRemovalNotification,
+  SiteRemovalText,
+  SiteRemovalAction
+} from './notification'
 import { Clock } from './clock'
 import { RewardsWidget } from './rewards'
 import { BinanceWidget } from './binance'

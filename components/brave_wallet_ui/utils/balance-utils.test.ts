@@ -8,7 +8,10 @@ import { getBalance } from './balance-utils'
 // mocks
 import { mockAccount } from '../common/constants/mocks'
 import { WalletAccountType } from '../constants/types'
-import { mockBasicAttentionToken, mockBinanceCoinErc20Token } from '../stories/mock-data/mock-asset-options'
+import {
+  mockBasicAttentionToken,
+  mockBinanceCoinErc20Token
+} from '../stories/mock-data/mock-asset-options'
 
 const accountWithBalances: WalletAccountType = {
   ...mockAccount,

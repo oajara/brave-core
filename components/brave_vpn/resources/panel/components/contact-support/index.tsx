@@ -32,7 +32,7 @@ interface ContactSupportToggleFields {
 }
 
 type ContactSupportState = ContactSupportInputFields &
-                            ContactSupportToggleFields
+  ContactSupportToggleFields
 
 const defaultSupportState: ContactSupportState = {
   contactEmail: '',
@@ -46,39 +46,45 @@ const defaultSupportState: ContactSupportState = {
 type FormElement = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
 type BaseType = string | number | React.FormEvent<FormElement>
 
-function ContactSupport (props: Props) {
+function ContactSupport(props: Props) {
   const [supportData, setSupportData] = React.useState<BraveVPN.SupportData>()
-  const [formData, setFormData] = React.useState<ContactSupportState>(defaultSupportState)
+  const [formData, setFormData] =
+    React.useState<ContactSupportState>(defaultSupportState)
   const [showErrors, setShowErrors] = React.useState(false)
   // Undefined for never sent, true for is sending, false for has completed
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>()
-  const [isRemoteSubmissionError, setRemoteSubmissionError] = React.useState<boolean>(false)
+  const [isRemoteSubmissionError, setRemoteSubmissionError] =
+    React.useState<boolean>(false)
 
   // Get possible values to submit
   React.useEffect(() => {
-    getPanelBrowserAPI().serviceHandler.getSupportData()
-      .then(setSupportData)
+    getPanelBrowserAPI().serviceHandler.getSupportData().then(setSupportData)
   }, [])
 
-  function getOnChangeField<T extends BaseType = BaseType> (key: keyof ContactSupportInputFields) {
+  function getOnChangeField<T extends BaseType = BaseType>(
+    key: keyof ContactSupportInputFields
+  ) {
     return function (e: T) {
-      const value = (typeof e === 'string' || typeof e === 'number') ? e : e.currentTarget.value
+      const value =
+        typeof e === 'string' || typeof e === 'number'
+          ? e
+          : e.currentTarget.value
       if (formData[key] === value) {
         return
       }
-      setFormData(data => ({
+      setFormData((data) => ({
         ...data,
         [key]: value
       }))
     }
   }
 
-  function getOnChangeToggle (key: keyof ContactSupportToggleFields) {
+  function getOnChangeToggle(key: keyof ContactSupportToggleFields) {
     return function (isOn: boolean) {
       if (formData[key] === isOn) {
         return
       }
-      setFormData(data => ({
+      setFormData((data) => ({
         ...data,
         [key]: isOn
       }))
@@ -115,16 +121,20 @@ function ContactSupport (props: Props) {
     }
     // Handle is valid, submit data
     setIsSubmitting(true)
-    const fullIssueBody = `Message: \n${formData.problemBody}\n\n` +
+    const fullIssueBody =
+      `Message: \n${formData.problemBody}\n\n` +
       (formData.shareOsVersion ? `OS: ${supportData?.osVersion}\n` : '') +
-      (formData.shareAppVersion ? `App version: ${supportData?.appVersion}\n` : '') +
+      (formData.shareAppVersion
+        ? `App version: ${supportData?.appVersion}\n`
+        : '') +
       (formData.shareHostname ? `Hostname: ${supportData?.hostname}\n` : '')
 
-    const { success } = await getPanelBrowserAPI().serviceHandler.createSupportTicket(
-      formData.contactEmail,
-      formData.problemSubject,
-      fullIssueBody
-    )
+    const { success } =
+      await getPanelBrowserAPI().serviceHandler.createSupportTicket(
+        formData.contactEmail,
+        formData.problemSubject,
+        fullIssueBody
+      )
 
     setIsSubmitting(false)
     setRemoteSubmissionError(!success)
@@ -140,25 +150,32 @@ function ContactSupport (props: Props) {
 
   // Setup any individual field error message. Inputs handle 'required'
   // internally automatically.
-  const emailAddressErrorMessage = (showErrors && formData.contactEmail && !emailAddressIsValid)
-    ? getLocale('braveVpnSupportEmailNotValid')
-    : undefined
+  const emailAddressErrorMessage =
+    showErrors && formData.contactEmail && !emailAddressIsValid
+      ? getLocale('braveVpnSupportEmailNotValid')
+      : undefined
 
   return (
     <S.Box>
       <S.PanelContent>
         <S.PanelHeader>
           <S.BackButton
-            type='button'
+            type="button"
             onClick={props.onCloseContactSupport}
-            aria-label='Close support form'
+            aria-label="Close support form"
           >
-            <i><CaratStrongLeftIcon /></i>
+            <i>
+              <CaratStrongLeftIcon />
+            </i>
             <span>{getLocale('braveVpnContactSupport')}</span>
           </S.BackButton>
         </S.PanelHeader>
 
-        <S.Form onSubmit={e => { e.preventDefault() }}>
+        <S.Form
+          onSubmit={(e) => {
+            e.preventDefault()
+          }}
+        >
           <TextInput
             label={getLocale('braveVpnSupportEmail')}
             isRequired={true}
@@ -174,18 +191,30 @@ function ContactSupport (props: Props) {
               value={formData.problemSubject ?? ''}
               onChange={getOnChangeField('problemSubject')}
             >
-              <option value="" disabled>{getLocale('braveVpnSupportSubjectNotSet')}</option>
-              <option value="otherConnectionProblems">{getLocale('braveVpnSupportSubjectOtherConnectionProblem')}</option>
-              <option value="noInternet">{getLocale('braveVpnSupportSubjectNoInternet')}</option>
-              <option value="slowConnection">{getLocale('braveVpnSupportSubjectSlowConnection')}</option>
-              <option value="websiteProblems">{getLocale('braveVpnSupportSubjectWebsiteDoesntWork')}</option>
-              <option value="other">{getLocale('braveVpnSupportSubjectOther')}</option>
+              <option value="" disabled>
+                {getLocale('braveVpnSupportSubjectNotSet')}
+              </option>
+              <option value="otherConnectionProblems">
+                {getLocale('braveVpnSupportSubjectOtherConnectionProblem')}
+              </option>
+              <option value="noInternet">
+                {getLocale('braveVpnSupportSubjectNoInternet')}
+              </option>
+              <option value="slowConnection">
+                {getLocale('braveVpnSupportSubjectSlowConnection')}
+              </option>
+              <option value="websiteProblems">
+                {getLocale('braveVpnSupportSubjectWebsiteDoesntWork')}
+              </option>
+              <option value="other">
+                {getLocale('braveVpnSupportSubjectOther')}
+              </option>
             </Select>
-            {showErrors && formData.problemSubject?.length === 0 &&
-            <ErrorLabel>
-              {getLocale('braveVpnSupportSubjectNotSet')}
-            </ErrorLabel>
-            }
+            {showErrors && formData.problemSubject?.length === 0 && (
+              <ErrorLabel>
+                {getLocale('braveVpnSupportSubjectNotSet')}
+              </ErrorLabel>
+            )}
           </label>
           <Textarea
             value={formData.problemBody}
@@ -200,18 +229,19 @@ function ContactSupport (props: Props) {
             </S.SectionDescription>
             <S.Notes>
               <p>
-                {getLocale('braveVpnSupportOptionalNotes')}
-                { ' ' }
+                {getLocale('braveVpnSupportOptionalNotes')}{' '}
                 <a href="#" onClick={handlePrivacyPolicyClick}>
                   {getLocale('braveVpnSupportOptionalNotesPrivacyPolicy')}
-                </a>.
+                </a>
+                .
               </p>
             </S.Notes>
             <S.OptionalValueLabel>
               <div className={'optionalValueTitle'}>
                 <span className={'optionalValueTitleKey'}>
                   {getLocale('braveVpnSupportOptionalVpnHostname')}
-                </span> {supportData?.hostname}
+                </span>{' '}
+                {supportData?.hostname}
               </div>
               <Toggle
                 isOn={formData.shareHostname}
@@ -223,7 +253,8 @@ function ContactSupport (props: Props) {
               <div className={'optionalValueTitle'}>
                 <span className={'optionalValueTitleKey'}>
                   {getLocale('braveVpnSupportOptionalAppVersion')}
-                </span> {supportData?.appVersion}
+                </span>{' '}
+                {supportData?.appVersion}
               </div>
               <Toggle
                 isOn={formData.shareAppVersion}
@@ -235,7 +266,8 @@ function ContactSupport (props: Props) {
               <div className={'optionalValueTitle'}>
                 <span className={'optionalValueTitleKey'}>
                   {getLocale('braveVpnSupportOptionalOsVersion')}
-                </span> {supportData?.osVersion}
+                </span>{' '}
+                {supportData?.osVersion}
               </div>
               <Toggle
                 isOn={formData.shareOsVersion}
@@ -247,11 +279,9 @@ function ContactSupport (props: Props) {
           <S.Notes>
             <p>{getLocale('braveVpnSupportNotes')}</p>
           </S.Notes>
-          {isRemoteSubmissionError &&
-          <ErrorLabel>
-            {getLocale('braveVpnSupportTicketFailed')}
-          </ErrorLabel>
-          }
+          {isRemoteSubmissionError && (
+            <ErrorLabel>{getLocale('braveVpnSupportTicketFailed')}</ErrorLabel>
+          )}
           <Button
             type={'submit'}
             isPrimary

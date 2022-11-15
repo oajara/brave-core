@@ -3,11 +3,7 @@
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import * as React from 'react'
-import {
-  StyledWrapper,
-  StyledTitle,
-  StyledLogoWrapper
-} from './style'
+import { StyledWrapper, StyledTitle, StyledLogoWrapper } from './style'
 import { getLocale } from 'brave-ui/helpers'
 import { BatColorIcon } from 'brave-ui/components/icons'
 
@@ -16,17 +12,15 @@ export interface Props {
 }
 
 export default class MainToggleMobile extends React.PureComponent<Props, {}> {
-  render () {
+  render() {
     const { testId } = this.props
 
     return (
       <StyledWrapper data-test-id={testId}>
-          <StyledLogoWrapper>
-            <BatColorIcon />
-          </StyledLogoWrapper>
-          <StyledTitle>
-            {getLocale('braveRewards')}
-          </StyledTitle>
+        <StyledLogoWrapper>
+          <BatColorIcon />
+        </StyledLogoWrapper>
+        <StyledTitle>{getLocale('braveRewards')}</StyledTitle>
       </StyledWrapper>
     )
   }

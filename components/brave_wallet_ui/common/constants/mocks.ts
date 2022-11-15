@@ -252,58 +252,59 @@ export const mockAppsList: AppsListType[] = [
   }
 ]
 
-export const mockSolDappSignTransactionRequest: BraveWallet.SignTransactionRequest = {
-  'originInfo': {
-    'origin': {
-      'scheme': 'https',
-      'host': 'f40y4d.csb.app',
-      'port': 443,
-      'nonceIfOpaque': undefined
+export const mockSolDappSignTransactionRequest: BraveWallet.SignTransactionRequest =
+  {
+    'originInfo': {
+      'origin': {
+        'scheme': 'https',
+        'host': 'f40y4d.csb.app',
+        'port': 443,
+        'nonceIfOpaque': undefined
+      },
+      'originSpec': 'https://f40y4d.csb.app',
+      'eTldPlusOne': 'csb.app'
     },
-    'originSpec': 'https://f40y4d.csb.app',
-    'eTldPlusOne': 'csb.app'
-  },
-  'id': 0,
-  'fromAddress': mockSolanaAccount.address,
-  'txData': {
-    'ethTxData': undefined,
-    'ethTxData1559': undefined,
-    'filTxData': undefined,
-    'solanaTxData': {
-      'recentBlockhash': 'B7Kg79jDm48LMdB4JB2hu82Yfsuz5xYm2cQDBYmKdDSn',
-      'lastValidBlockHeight': 0 as unknown as bigint,
-      'feePayer': mockSolanaAccount.address,
-      'toWalletAddress': '',
-      'splTokenMintAddress': '',
-      'lamports': 0 as unknown as bigint,
-      'amount': 0 as unknown as bigint,
-      'txType': 12,
-      'instructions': [
-        {
-          'programId': '11111111111111111111111111111111',
-          'accountMetas': [
-            {
-              'pubkey': mockSolanaAccount.address,
-              'isSigner': true,
-              'isWritable': true
-            },
-            {
-              'pubkey': mockSolanaAccount.address,
-              'isSigner': true,
-              'isWritable': true
-            }
-          ],
-          'data': [2, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0],
-          'decodedData': undefined
-        }
-      ],
-      'sendOptions': undefined,
-      'signTransactionParam': undefined
-    }
-  },
-  'rawMessage': { bytes: [1], str: undefined },
-  'coin': BraveWallet.CoinType.SOL
-}
+    'id': 0,
+    'fromAddress': mockSolanaAccount.address,
+    'txData': {
+      'ethTxData': undefined,
+      'ethTxData1559': undefined,
+      'filTxData': undefined,
+      'solanaTxData': {
+        'recentBlockhash': 'B7Kg79jDm48LMdB4JB2hu82Yfsuz5xYm2cQDBYmKdDSn',
+        'lastValidBlockHeight': 0 as unknown as bigint,
+        'feePayer': mockSolanaAccount.address,
+        'toWalletAddress': '',
+        'splTokenMintAddress': '',
+        'lamports': 0 as unknown as bigint,
+        'amount': 0 as unknown as bigint,
+        'txType': 12,
+        'instructions': [
+          {
+            'programId': '11111111111111111111111111111111',
+            'accountMetas': [
+              {
+                'pubkey': mockSolanaAccount.address,
+                'isSigner': true,
+                'isWritable': true
+              },
+              {
+                'pubkey': mockSolanaAccount.address,
+                'isSigner': true,
+                'isWritable': true
+              }
+            ],
+            'data': [2, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0],
+            'decodedData': undefined
+          }
+        ],
+        'sendOptions': undefined,
+        'signTransactionParam': undefined
+      }
+    },
+    'rawMessage': { bytes: [1], str: undefined },
+    'coin': BraveWallet.CoinType.SOL
+  }
 
 // BraveWallet.TransactionInfo (selectedPendingTransaction)
 export const mockSolDappSignAndSendTransactionRequest = {
@@ -366,91 +367,94 @@ export const mockSolDappSignAndSendTransactionRequest = {
   'groupId': undefined
 } as BraveWallet.TransactionInfo
 
-export const mockSolDappSignAllTransactionsRequest: BraveWallet.SignAllTransactionsRequest = {
-  'originInfo': {
-    'origin': {
-      'scheme': 'https',
-      'host': 'f40y4d.csb.app',
-      'port': 443,
-      'nonceIfOpaque': undefined
+export const mockSolDappSignAllTransactionsRequest: BraveWallet.SignAllTransactionsRequest =
+  {
+    'originInfo': {
+      'origin': {
+        'scheme': 'https',
+        'host': 'f40y4d.csb.app',
+        'port': 443,
+        'nonceIfOpaque': undefined
+      },
+      'originSpec': 'https://f40y4d.csb.app',
+      'eTldPlusOne': 'csb.app'
     },
-    'originSpec': 'https://f40y4d.csb.app',
-    'eTldPlusOne': 'csb.app'
-  },
-  'id': 3,
-  'fromAddress': mockSolanaAccount.address,
-  'txDatas': [
-    {
-      'ethTxData': undefined,
-      'ethTxData1559': undefined,
-      'filTxData': undefined,
-      'solanaTxData': {
-        'recentBlockhash': '8Yq6DGZBh9oEJsCVhUjTqN9kPiLoeYJ7J4n9TnpPYjqW',
-        'lastValidBlockHeight': 0 as unknown as bigint,
-        'feePayer': mockSolanaAccount.address,
-        'toWalletAddress': '',
-        'splTokenMintAddress': '',
-        'lamports': 0 as unknown as bigint,
-        'amount': 0 as unknown as bigint,
-        'txType': 12,
-        'instructions': [{
-          'programId': '11111111111111111111111111111111',
-          'accountMetas': [
+    'id': 3,
+    'fromAddress': mockSolanaAccount.address,
+    'txDatas': [
+      {
+        'ethTxData': undefined,
+        'ethTxData1559': undefined,
+        'filTxData': undefined,
+        'solanaTxData': {
+          'recentBlockhash': '8Yq6DGZBh9oEJsCVhUjTqN9kPiLoeYJ7J4n9TnpPYjqW',
+          'lastValidBlockHeight': 0 as unknown as bigint,
+          'feePayer': mockSolanaAccount.address,
+          'toWalletAddress': '',
+          'splTokenMintAddress': '',
+          'lamports': 0 as unknown as bigint,
+          'amount': 0 as unknown as bigint,
+          'txType': 12,
+          'instructions': [
             {
-              'pubkey': mockSolanaAccount.address,
-              'isSigner': true,
-              'isWritable': true
-            },
-            {
-              'pubkey': mockSolanaAccount.address,
-              'isSigner': true,
-              'isWritable': true
+              'programId': '11111111111111111111111111111111',
+              'accountMetas': [
+                {
+                  'pubkey': mockSolanaAccount.address,
+                  'isSigner': true,
+                  'isWritable': true
+                },
+                {
+                  'pubkey': mockSolanaAccount.address,
+                  'isSigner': true,
+                  'isWritable': true
+                }
+              ],
+              'data': [2, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0],
+              'decodedData': undefined
             }
           ],
-          'data': [2, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0],
-          'decodedData': undefined
-        }],
-        'sendOptions': undefined,
-        'signTransactionParam': undefined
+          'sendOptions': undefined,
+          'signTransactionParam': undefined
+        }
+      },
+      {
+        'ethTxData': undefined,
+        'ethTxData1559': undefined,
+        'filTxData': undefined,
+        'solanaTxData': {
+          'recentBlockhash': '8Yq6DGZBh9oEJsCVhUjTqN9kPiLoeYJ7J4n9TnpPYjqW',
+          'lastValidBlockHeight': 0 as unknown as bigint,
+          'feePayer': mockSolanaAccount.address,
+          'toWalletAddress': '',
+          'splTokenMintAddress': '',
+          'lamports': 0 as unknown as bigint,
+          'amount': 0 as unknown as bigint,
+          'txType': 12,
+          'instructions': [
+            {
+              'programId': '11111111111111111111111111111111',
+              'accountMetas': [
+                {
+                  'pubkey': mockSolanaAccount.address,
+                  'isSigner': true,
+                  'isWritable': true
+                },
+                {
+                  'pubkey': mockSolanaAccount.address,
+                  'isSigner': true,
+                  'isWritable': true
+                }
+              ],
+              'data': [2, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0],
+              'decodedData': undefined
+            }
+          ],
+          'sendOptions': undefined,
+          'signTransactionParam': undefined
+        }
       }
-    },
-    {
-      'ethTxData': undefined,
-      'ethTxData1559': undefined,
-      'filTxData': undefined,
-      'solanaTxData': {
-        'recentBlockhash': '8Yq6DGZBh9oEJsCVhUjTqN9kPiLoeYJ7J4n9TnpPYjqW',
-        'lastValidBlockHeight': 0 as unknown as bigint,
-        'feePayer': mockSolanaAccount.address,
-        'toWalletAddress': '',
-        'splTokenMintAddress': '',
-        'lamports': 0 as unknown as bigint,
-        'amount': 0 as unknown as bigint,
-        'txType': 12,
-        'instructions': [
-          {
-            'programId': '11111111111111111111111111111111',
-            'accountMetas': [
-              {
-                'pubkey': mockSolanaAccount.address,
-                'isSigner': true,
-                'isWritable': true
-              },
-              {
-                'pubkey': mockSolanaAccount.address,
-                'isSigner': true,
-                'isWritable': true
-              }
-            ],
-            'data': [2, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0],
-            'decodedData': undefined
-          }
-        ],
-        'sendOptions': undefined,
-        'signTransactionParam': undefined
-      }
-    }
-  ],
-  'rawMessages': [{ bytes: [1], str: undefined }],
-  'coin': BraveWallet.CoinType.SOL
-}
+    ],
+    'rawMessages': [{ bytes: [1], str: undefined }],
+    'coin': BraveWallet.CoinType.SOL
+  }

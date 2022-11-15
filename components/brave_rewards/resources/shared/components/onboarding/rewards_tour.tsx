@@ -13,14 +13,14 @@ import { getTourPanels, getVerifyWalletPanel } from './rewards_tour_panels'
 
 import * as style from './rewards_tour.style'
 
-export function RewardsTour (props: RewardsTourProps) {
+export function RewardsTour(props: RewardsTourProps) {
   const locale = React.useContext(LocaleContext)
   const [currentStep, setCurrentStep] = React.useState(0)
   const [showVerifyPanel, setShowVerifyPanel] = React.useState(false)
   const stepPanels = getTourPanels(props)
   const verifyPanel = getVerifyWalletPanel(locale, props)
 
-  function getPanelNav () {
+  function getPanelNav() {
     const stepLinks = (
       <style.stepLinks>
         <TourStepLinks
@@ -62,12 +62,20 @@ export function RewardsTour (props: RewardsTourProps) {
       </style.nav>
     )
 
-    return props.layout === 'wide'
-      ? <>{tourNav}{stepLinks}</>
-      : <>{stepLinks}{tourNav}</>
+    return props.layout === 'wide' ? (
+      <>
+        {tourNav}
+        {stepLinks}
+      </>
+    ) : (
+      <>
+        {stepLinks}
+        {tourNav}
+      </>
+    )
   }
 
-  function getPanel () {
+  function getPanel() {
     if (showVerifyPanel) {
       return verifyPanel
     }
@@ -91,11 +99,7 @@ export function RewardsTour (props: RewardsTourProps) {
           {panel.content}
         </style.stepGraphic>
       </style.stepContent>
-      {
-        panel.actions
-          ? <style.nav>{panel.actions}</style.nav>
-          : getPanelNav()
-      }
+      {panel.actions ? <style.nav>{panel.actions}</style.nav> : getPanelNav()}
     </style.root>
   )
 }

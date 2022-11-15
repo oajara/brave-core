@@ -13,22 +13,16 @@ const torrentId = 'id'
 describe('torrentFileList component', () => {
   describe('torrentFileList dumb component', () => {
     it('renders the start torrent message if no torrent', () => {
-      const wrapper = shallow(
-        <TorrentFileList
-          torrentId={torrentId}
-        />
-      )
+      const wrapper = shallow(<TorrentFileList torrentId={torrentId} />)
 
-      expect(wrapper.find(Table).dive().text())
-        .toEqual(expect.stringContaining('Start Torrent'))
+      expect(wrapper.find(Table).dive().text()).toEqual(
+        expect.stringContaining('Start Torrent')
+      )
     })
 
     it('renders the spinner while loading files', () => {
       const wrapper = shallow(
-        <TorrentFileList
-          torrentId={torrentId}
-          torrent={torrentObj}
-        />
+        <TorrentFileList torrentId={torrentId} torrent={torrentObj} />
       )
       const assertion = wrapper.find(Spinner)
       expect(assertion.length).toBe(1)

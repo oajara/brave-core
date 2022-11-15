@@ -14,7 +14,7 @@ export interface Props {
 }
 
 export default class TopTabNavButton extends React.PureComponent<Props, {}> {
-  render () {
+  render() {
     const { onSubmit, text, isSelected } = this.props
     return (
       <StyledButton isSelected={isSelected} onClick={onSubmit}>

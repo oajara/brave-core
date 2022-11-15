@@ -13,7 +13,11 @@ import { getLocale } from '$web-common/locale'
 import { CreateAccountOptions } from '../../../../../options/create-account-options'
 
 // types
-import { BraveWallet, CreateAccountOptionsType, WalletState } from '../../../../../constants/types'
+import {
+  BraveWallet,
+  CreateAccountOptionsType,
+  WalletState
+} from '../../../../../constants/types'
 
 // components
 import { DividerLine } from '../../../../extension'
@@ -31,34 +35,39 @@ interface Props {
   buttonText: string
 }
 
-export const SelectAccountType = ({ buttonText, onSelectAccountType }: Props) => {
+export const SelectAccountType = ({
+  buttonText,
+  onSelectAccountType
+}: Props) => {
   // redux
-  const { isSolanaEnabled, isFilecoinEnabled } = useSelector(({ wallet }: { wallet: WalletState }) => wallet)
+  const { isSolanaEnabled, isFilecoinEnabled } = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet
+  )
 
   // render
   return (
     <SelectAccountTypeWrapper>
-
-      <SelectAccountTitle>{getLocale('braveWalletCreateAccountTitle')}</SelectAccountTitle>
+      <SelectAccountTitle>
+        {getLocale('braveWalletCreateAccountTitle')}
+      </SelectAccountTitle>
 
       <DividerLine />
 
-      {CreateAccountOptions(isFilecoinEnabled, isSolanaEnabled).map((network) => (
-        <SelectAccountItemWrapper key={network.coin}>
+      {CreateAccountOptions(isFilecoinEnabled, isSolanaEnabled).map(
+        (network) => (
+          <SelectAccountItemWrapper key={network.coin}>
+            <AccountTypeItem
+              onClickCreate={onSelectAccountType(network)}
+              icon={network.icon}
+              description={network.description}
+              title={network.name}
+              buttonText={buttonText}
+            />
 
-          <AccountTypeItem
-            onClickCreate={onSelectAccountType(network)}
-            icon={network.icon}
-            description={network.description}
-            title={network.name}
-            buttonText={buttonText}
-          />
-
-          {network.coin !== BraveWallet.CoinType.FIL && <DividerLine />}
-
-        </SelectAccountItemWrapper>
-      ))}
-
+            {network.coin !== BraveWallet.CoinType.FIL && <DividerLine />}
+          </SelectAccountItemWrapper>
+        )
+      )}
     </SelectAccountTypeWrapper>
   )
 }

@@ -104,7 +104,7 @@ export const ControlBox = styled.div`
 `
 
 export const ShieldsIcon = styled.i<ShieldsIconProps>`
-  --fill-color: #5E6175;
+  --fill-color: #5e6175;
   width: 100%;
   height: auto;
   grid-column: 1;
@@ -113,9 +113,11 @@ export const ShieldsIcon = styled.i<ShieldsIconProps>`
     fill: var(--fill-color);
   }
 
-  ${p => p.isActive && css`
-    --fill-color: ${(p) => p.theme.color.interactive02};
-  `}
+  ${(p) =>
+    p.isActive &&
+    css`
+      --fill-color: ${(p) => p.theme.color.interactive02};
+    `}
 `
 
 export const StatusText = styled.div`
@@ -211,11 +213,11 @@ export const AdvancedControlsButton = styled.button`
   text-align: left;
   cursor: pointer;
 
-  i { 
+  i {
     grid-column: 1;
   }
-  
-  span { 
+
+  span {
     grid-column: 2;
   }
 
@@ -242,9 +244,11 @@ export const CaratIcon = styled(CaratStrongDownIcon)<CaratIconProps>`
   height: 16px;
   transform: var(--rotate);
 
-  ${p => p.isExpanded && css`
-    --rotate: rotate(180deg);
-  `}
+  ${(p) =>
+    p.isExpanded &&
+    css`
+      --rotate: rotate(180deg);
+    `}
 `
 
 export const GlobeIcon = styled.i`
@@ -284,7 +288,7 @@ export const ManagedText = styled.div`
   text-align: center;
 
   /* Light Theme/Brand/interactive06 */
-  color: #737ADE;
+  color: #737ade;
 
   /* Inside auto layout */
   flex: none;

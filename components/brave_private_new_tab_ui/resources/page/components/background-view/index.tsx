@@ -10,13 +10,13 @@ interface BoxProps {
 }
 
 const Box = styled.div<BoxProps>`
-  --bg-gr: linear-gradient(180deg, #0C041E -8.41%, #4E21B7 98.85%);
+  --bg-gr: linear-gradient(180deg, #0c041e -8.41%, #4e21b7 98.85%);
 
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
   font-weight: 400;
   color: white;
   width: 100%;
@@ -25,9 +25,11 @@ const Box = styled.div<BoxProps>`
   background: var(--bg-gr);
   position: relative;
 
-  ${p => p.isTor && css`
-    --bg-gr: linear-gradient(180deg, #0C041E -9.18%, #5F0D89 98.85%);
-  `}
+  ${(p) =>
+    p.isTor &&
+    css`
+      --bg-gr: linear-gradient(180deg, #0c041e -9.18%, #5f0d89 98.85%);
+    `}
 `
 
 const SVGBoxTop = styled.div`
@@ -53,7 +55,7 @@ interface Props {
   isTor?: boolean
 }
 
-function BackgroundView (props: Props) {
+function BackgroundView(props: Props) {
   return (
     <Box isTor={props.isTor}>
       <SVGBoxTop />

@@ -21,16 +21,18 @@ export const NewWidgetTooltip = ({ widgetInfo }: Props) => {
   const { title, icon, description, bannerImage } = widgetInfo
 
   return (
-      <Tooltip.Wrapper>
-          <Tooltip.CornerLabel>New Card</Tooltip.CornerLabel>
-          <Tooltip.Content>
-              <Tooltip.Heading><Tooltip.Icon src={icon} /> {title}</Tooltip.Heading>
-              <Tooltip.Body>{description}</Tooltip.Body>
-              <Tooltip.Banner>
-                  <img src={bannerImage} />
-              </Tooltip.Banner>
-              <Tooltip.Button>Add {title}</Tooltip.Button>
-          </Tooltip.Content>
-      </Tooltip.Wrapper>
+    <Tooltip.Wrapper>
+      <Tooltip.CornerLabel>New Card</Tooltip.CornerLabel>
+      <Tooltip.Content>
+        <Tooltip.Heading>
+          <Tooltip.Icon src={icon} /> {title}
+        </Tooltip.Heading>
+        <Tooltip.Body>{description}</Tooltip.Body>
+        <Tooltip.Banner>
+          <img src={bannerImage} />
+        </Tooltip.Banner>
+        <Tooltip.Button>Add {title}</Tooltip.Button>
+      </Tooltip.Content>
+    </Tooltip.Wrapper>
   )
 }

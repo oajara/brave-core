@@ -4,7 +4,11 @@
 
 import * as React from 'react'
 
-import { Locale, LocaleContext, formatMessage } from '../../shared/lib/locale_context'
+import {
+  Locale,
+  LocaleContext,
+  formatMessage
+} from '../../shared/lib/locale_context'
 import { TipKind } from '../lib/interfaces'
 import { HostContext } from '../lib/host_context'
 
@@ -27,22 +31,20 @@ const minimumTip = 0.25
 const maximumTip = 100
 const tipAmountStep = 0.25
 
-function getInsufficientFundsMessage (locale: Locale) {
+function getInsufficientFundsMessage(locale: Locale) {
   const { getString } = locale
 
   return (
     <>
-      {
-        formatMessage(getString('notEnoughTokens'), {
-          tags: {
-            $1: (content) => (
-              <NewTabLink key='add' href='chrome://rewards/#add-funds'>
-                {content}
-              </NewTabLink>
-            )
-          }
-        })
-      }
+      {formatMessage(getString('notEnoughTokens'), {
+        tags: {
+          $1: (content) => (
+            <NewTabLink key="add" href="chrome://rewards/#add-funds">
+              {content}
+            </NewTabLink>
+          )
+        }
+      })}
     </>
   )
 }
@@ -55,13 +57,14 @@ interface Props {
   onSubmitTip: (tipAmount: number) => void
 }
 
-export function BatTipForm (props: Props) {
+export function BatTipForm(props: Props) {
   const host = React.useContext(HostContext)
   const locale = React.useContext(LocaleContext)
   const { getString } = locale
 
   const [rewardsParameters, setRewardsParameters] = React.useState(
-    host.state.rewardsParameters)
+    host.state.rewardsParameters
+  )
 
   const [tipAmount, setTipAmount] = React.useState(props.defaultTipAmount)
   const [tipProcessing, setTipProcessing] = React.useState(false)
@@ -112,92 +115,95 @@ export function BatTipForm (props: Props) {
   return (
     <style.root>
       <style.main>
-        {
-          showCustomInput
-            ? <style.customInput>
-              <CustomAmountInput
-                amount={tipAmount}
-                exchangeRate={rewardsParameters.rate}
-                amountStep={tipAmountStep}
-                maximumAmount={maximumTip}
-                onAmountChange={setTipAmount}
-                onHideInput={hideCustomInput}
-              />
-            </style.customInput>
-          : hasCustomAmount
-            ? <style.customAmount>
-              <CustomTipAmount
-                text={
-                  getString(props.tipKind === 'one-time'
-                    ? 'customTipText'
-                    : 'customMonthlyTipText')
-                }
-                amount={tipAmount}
-                currency={'BAT'}
-                exchangeAmount={
-                  <ExchangeAmount
-                    amount={tipAmount}
-                    rate={rewardsParameters.rate}
-                  />
-                }
-                onReset={onResetCustomAmount}
-              />
-            </style.customAmount>
-          : <style.amounts>
-              <TipAmountSelector
-                options={props.tipAmountOptions}
-                selectedValue={tipAmount}
-                onSelect={setTipAmount}
-              />
-              <style.customAmountButton>
-                <button
-                  data-test-id='custom-tip-button'
-                  onClick={onShowCustomInputClick}
-                >
-                  {getString('customTipAmount')}
-                </button>
-              </style.customAmountButton>
-            </style.amounts>
-        }
+        {showCustomInput ? (
+          <style.customInput>
+            <CustomAmountInput
+              amount={tipAmount}
+              exchangeRate={rewardsParameters.rate}
+              amountStep={tipAmountStep}
+              maximumAmount={maximumTip}
+              onAmountChange={setTipAmount}
+              onHideInput={hideCustomInput}
+            />
+          </style.customInput>
+        ) : hasCustomAmount ? (
+          <style.customAmount>
+            <CustomTipAmount
+              text={getString(
+                props.tipKind === 'one-time'
+                  ? 'customTipText'
+                  : 'customMonthlyTipText'
+              )}
+              amount={tipAmount}
+              currency={'BAT'}
+              exchangeAmount={
+                <ExchangeAmount
+                  amount={tipAmount}
+                  rate={rewardsParameters.rate}
+                />
+              }
+              onReset={onResetCustomAmount}
+            />
+          </style.customAmount>
+        ) : (
+          <style.amounts>
+            <TipAmountSelector
+              options={props.tipAmountOptions}
+              selectedValue={tipAmount}
+              onSelect={setTipAmount}
+            />
+            <style.customAmountButton>
+              <button
+                data-test-id="custom-tip-button"
+                onClick={onShowCustomInputClick}
+              >
+                {getString('customTipAmount')}
+              </button>
+            </style.customAmountButton>
+          </style.amounts>
+        )}
       </style.main>
       <style.footer>
         <style.terms>
           <div>{getString('tippingFeeNote')}</div>
           <TermsOfService />
         </style.terms>
-        {
-          tipAmount < minimumTip
-            ? <style.minimumAmount>
-              <SadFaceIcon />&nbsp;
-              {
-                formatMessage(getString('minimumTipAmount'), [
-                  minimumTip.toFixed(2),
-                  'BAT'
-                ])
-              }
-            </style.minimumAmount>
-          : props.tipKind === 'one-time' && tipAmount > props.userBalance
-            ? <style.notEnoughFunds>
-              <SadFaceIcon /> {getInsufficientFundsMessage(locale)}
-            </style.notEnoughFunds>
-          : showCustomInput
-            ? <FormSubmitButton onClick={onSubmitCustomTip}>
-              {getString('continue')}
-            </FormSubmitButton>
-          : <FormSubmitButton onClick={onSubmitTip}>
-              {
-                tipProcessing
-                  ? <LoadingIcon />
-                  : <span className={`submit-${props.tipKind}`}>
-                      {
-                        props.tipKind === 'monthly'
-                          ? <><CalendarIcon /> {getString('doMonthly')}</>
-                          : <><PaperAirplaneIcon /> {getString('sendDonation')}</>
-                      }
-                    </span>
-              }
-            </FormSubmitButton>
-        }
+        {tipAmount < minimumTip ? (
+          <style.minimumAmount>
+            <SadFaceIcon />
+            &nbsp;
+            {formatMessage(getString('minimumTipAmount'), [
+              minimumTip.toFixed(2),
+              'BAT'
+            ])}
+          </style.minimumAmount>
+        ) : props.tipKind === 'one-time' && tipAmount > props.userBalance ? (
+          <style.notEnoughFunds>
+            <SadFaceIcon /> {getInsufficientFundsMessage(locale)}
+          </style.notEnoughFunds>
+        ) : showCustomInput ? (
+          <FormSubmitButton onClick={onSubmitCustomTip}>
+            {getString('continue')}
+          </FormSubmitButton>
+        ) : (
+          <FormSubmitButton onClick={onSubmitTip}>
+            {tipProcessing ? (
+              <LoadingIcon />
+            ) : (
+              <span className={`submit-${props.tipKind}`}>
+                {props.tipKind === 'monthly' ? (
+                  <>
+                    <CalendarIcon /> {getString('doMonthly')}
+                  </>
+                ) : (
+                  <>
+                    <PaperAirplaneIcon /> {getString('sendDonation')}
+                  </>
+                )}
+              </span>
+            )}
+          </FormSubmitButton>
+        )}
       </style.footer>
     </style.root>
   )

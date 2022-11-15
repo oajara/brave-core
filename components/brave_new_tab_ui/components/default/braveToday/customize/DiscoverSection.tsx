@@ -34,16 +34,16 @@ const ItemsContainer = styled.div`
   gap: 16px;
 `
 
-export default function DiscoverSection (props: Props) {
-  return <Container direction='column'>
-    {props.name && <Flex direction='row' gap={8} align='center'>
-      <Header>{props.name}</Header>
-    </Flex>}
-    {props.subtitle && <Subtitle>
-      {props.subtitle}
-    </Subtitle>}
-    <ItemsContainer>
-      {props.children}
-    </ItemsContainer>
-  </Container>
+export default function DiscoverSection(props: Props) {
+  return (
+    <Container direction="column">
+      {props.name && (
+        <Flex direction="row" gap={8} align="center">
+          <Header>{props.name}</Header>
+        </Flex>
+      )}
+      {props.subtitle && <Subtitle>{props.subtitle}</Subtitle>}
+      <ItemsContainer>{props.children}</ItemsContainer>
+    </Container>
+  )
 }

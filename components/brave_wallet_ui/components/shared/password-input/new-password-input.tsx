@@ -16,10 +16,7 @@ import { PasswordStrengthBar } from './password-strength-bar'
 import { PasswordInput } from './index'
 
 // style
-import {
-  Column,
-  VerticalSpace
-} from '../style'
+import { Column, VerticalSpace } from '../style'
 import {
   PasswordMatchRow,
   PasswordMatchText,
@@ -46,7 +43,8 @@ export const NewPasswordInput = ({
 }: Props) => {
   // state
   const [showPassword, setShowPassword] = React.useState(false)
-  const [isPasswordFieldFocused, setIsPasswordFieldFocused] = React.useState(false)
+  const [isPasswordFieldFocused, setIsPasswordFieldFocused] =
+    React.useState(false)
 
   // custom hooks
   const {
@@ -63,16 +61,19 @@ export const NewPasswordInput = ({
 
   // methods
   const onTogglePasswordVisibility = React.useCallback(() => {
-    setShowPassword(prevShowPassword => !prevShowPassword)
+    setShowPassword((prevShowPassword) => !prevShowPassword)
   }, [])
 
-  const handleKeyDown = React.useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      if (!hasConfirmedPasswordError) {
-        onSubmit({ isValid, password })
+  const handleKeyDown = React.useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        if (!hasConfirmedPasswordError) {
+          onSubmit({ isValid, password })
+        }
       }
-    }
-  }, [hasConfirmedPasswordError, onSubmit, isValid, password])
+    },
+    [hasConfirmedPasswordError, onSubmit, isValid, password]
+  )
 
   // effect
   React.useEffect(() => {
@@ -89,7 +90,7 @@ export const NewPasswordInput = ({
           hasError={hasPasswordError}
           key={'password'}
           label={getLocale('braveWalletCreatePasswordInput')}
-          name='password'
+          name="password"
           onBlur={() => setIsPasswordFieldFocused(false)}
           onChange={onPasswordChanged}
           onFocus={() => setIsPasswordFieldFocused(true)}
@@ -99,8 +100,9 @@ export const NewPasswordInput = ({
           showToggleButton={true}
           value={password}
         >
-          {({ value }) => value
-            ? <PasswordStrengthBar
+          {({ value }) =>
+            value ? (
+              <PasswordStrengthBar
                 criteria={[
                   passwordStrength.isLongEnough, // weak
                   password.length >= 12, // medium
@@ -109,7 +111,9 @@ export const NewPasswordInput = ({
                 isVisible={isPasswordFieldFocused}
                 passwordStrength={passwordStrength}
               />
-            : <VerticalSpace space={'44px'} />
+            ) : (
+              <VerticalSpace space={'44px'} />
+            )
           }
         </PasswordInput>
 
@@ -119,7 +123,7 @@ export const NewPasswordInput = ({
           hasError={hasConfirmedPasswordError}
           key={'password-confirmation'}
           label={getLocale('braveWalletConfirmPasswordInput')}
-          name='password-confirmation'
+          name="password-confirmation"
           onChange={setConfirmedPassword}
           onKeyDown={handleKeyDown}
           onVisibilityToggled={onTogglePasswordVisibility}
@@ -129,15 +133,16 @@ export const NewPasswordInput = ({
           revealValue={showPassword}
         >
           <PasswordMatchRow>
-            {passwordsMatch
-              ? <>
-                  <PasswordMatchCheckmark />
-                  <PasswordMatchText>
-                    {getLocale('braveWalletPasswordMatch')}
-                  </PasswordMatchText>
-                </>
-              : <VerticalSpace space='44px' />
-            }
+            {passwordsMatch ? (
+              <>
+                <PasswordMatchCheckmark />
+                <PasswordMatchText>
+                  {getLocale('braveWalletPasswordMatch')}
+                </PasswordMatchText>
+              </>
+            ) : (
+              <VerticalSpace space="44px" />
+            )}
           </PasswordMatchRow>
         </PasswordInput>
       </Column>

@@ -14,8 +14,8 @@ interface Props {
   onClose: () => void
 }
 
-export function NotificationOverlay (props: Props) {
-  function onBackgroundClick (evt: React.UIEvent) {
+export function NotificationOverlay(props: Props) {
+  function onBackgroundClick(evt: React.UIEvent) {
     if (evt.target === evt.currentTarget) {
       props.onClose()
     }

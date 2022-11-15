@@ -88,7 +88,7 @@ export const disconnected = styled.div`
   padding: 16px;
   font-size: 14px;
   line-height: 20px;
-  background: linear-gradient(137.04deg, #346FE1 33.4%, #5844C3 82.8%);
+  background: linear-gradient(137.04deg, #346fe1 33.4%, #5844c3 82.8%);
   border-radius: 8px;
   cursor: pointer;
 
@@ -154,7 +154,7 @@ export const pendingRewards = styled.div`
 
   > div {
     margin-top: 8px;
-    background: #E8F4FF;
+    background: #e8f4ff;
     box-shadow: 0px 0px 24px rgba(99, 105, 110, 0.36);
     padding: 6px 12px;
     border-radius: 6px;
@@ -179,7 +179,7 @@ export const pendingRewards = styled.div`
   }
 
   .rewards-payment-completed {
-    background: #E7FDEA;
+    background: #e7fdea;
   }
 
   .rewards-payment-check-status {
@@ -194,7 +194,7 @@ export const needsBrowserUpdateView = styled.div`
   display: block;
   align-items: center;
   justify-content: start;
-  background: #FDF1F2;
+  background: #fdf1f2;
   padding: 5px;
   border-radius: 6px;
 `
@@ -264,8 +264,7 @@ export const primaryAction = styled.div`
     }
 
     &:active {
-      background:
-        linear-gradient(rgba(15, 28, 45, .05), rgba(15, 28, 45, .1)),
+      background: linear-gradient(rgba(15, 28, 45, 0.05), rgba(15, 28, 45, 0.1)),
         var(--brave-palette-blurple500);
     }
   }
@@ -308,7 +307,7 @@ export const earningInfo = styled.span`
 export const earningTooltip = styled.div`
   ${tooltipMixin}
   padding: 12px 16px;
-  color: #F6F6FA;
+  color: #f6f6fa;
   font-weight: 500;
   font-size: 13px;
   line-height: 20px;

@@ -11,7 +11,8 @@ provideStrings({
   ftxMarkets: 'Markets',
   ftxConvert: 'Convert',
   ftxSummary: 'Summary',
-  ftxIntro: 'Connect FTX account to view account balance, explore futures markets, & convert crypto.',
+  ftxIntro:
+    'Connect FTX account to view account balance, explore futures markets, & convert crypto.',
   ftxViewMarkets: 'View Future Markets',
   ftxConnect: 'Connect Account',
   ftxGraphLabel: '24 hour price history',
@@ -26,9 +27,11 @@ provideStrings({
   ftxConversionCancelLabel: 'Cancel',
   ftxConversionSuccessTitle: 'Conversion Successful!',
   ftxConversionDoneLabel: 'Done',
-  ftxConversionBalanceNeeded: 'You need a balance in at least one currency in order to perform a conversion.',
+  ftxConversionBalanceNeeded:
+    'You need a balance in at least one currency in order to perform a conversion.',
   ftxConversionAmountAvailable: 'Available $1 $2',
   ftxSummaryBlurLabel: 'Hide your balances from display',
   ftxSummaryRevealLabel: 'Reveal your balances on screen',
-  ftxSummaryNoBalance: 'You do not have any balances in your account. Visit FTX to purchase some.'
+  ftxSummaryNoBalance:
+    'You do not have any balances in your account. Visit FTX to purchase some.'
 })

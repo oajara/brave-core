@@ -9,12 +9,11 @@ import WalletPanelStory from '../../../stories/wrappers/wallet-panel-story-wrapp
 import { ConfirmTransactionPanel } from './confirm-transaction-panel'
 
 export const _ConfirmTransactionPanel = () => {
-  return <WalletPanelStory>
-    <ConfirmTransactionPanel
-      onConfirm={() => ''}
-      onReject={() => ''}
-    />
-  </WalletPanelStory>
+  return (
+    <WalletPanelStory>
+      <ConfirmTransactionPanel onConfirm={() => ''} onReject={() => ''} />
+    </WalletPanelStory>
+  )
 }
 
 _ConfirmTransactionPanel.storyName = 'Confirm Transaction Panel'

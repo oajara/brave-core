@@ -23,46 +23,44 @@ interface Props<T> {
   onSelect: (value: T) => void
 }
 
-export function SliderSwitch<T> (props: Props<T>) {
+export function SliderSwitch<T>(props: Props<T>) {
   const optionCount = props.options.length
   const selectedIndex = props.options.findIndex(
-    (option) => option.value === props.selectedValue)
+    (option) => option.value === props.selectedValue
+  )
 
   return (
     <style.root>
-      {
-        selectedIndex >= 0
-          ? <style.bar
-            style={{
-              left: `${selectedIndex * 100 / optionCount}%`,
-              right: `${(optionCount - selectedIndex - 1) * 100 / optionCount}%`
-            }}
-          /> : null
-      }
+      {selectedIndex >= 0 ? (
+        <style.bar
+          style={{
+            left: `${(selectedIndex * 100) / optionCount}%`,
+            right: `${((optionCount - selectedIndex - 1) * 100) / optionCount}%`
+          }}
+        />
+      ) : null}
       <style.rail>
-        {
-          props.options.map((opt, index) => {
-            const key = String(opt.value)
-            const selected = opt.value === props.selectedValue
-            const onClick = () => {
-              if (!selected) {
-                props.onSelect(opt.value)
-              }
+        {props.options.map((opt, index) => {
+          const key = String(opt.value)
+          const selected = opt.value === props.selectedValue
+          const onClick = () => {
+            if (!selected) {
+              props.onSelect(opt.value)
             }
-            return (
-              <style.option
-                key={key}
-                className={selected ? 'selected' : ''}
-                data-option-value={key}
-                data-option-index={index}
-              >
-                <button onClick={onClick}>
-                  <span>{opt.content}</span>
-                </button>
-              </style.option>
-            )
-          })
-        }
+          }
+          return (
+            <style.option
+              key={key}
+              className={selected ? 'selected' : ''}
+              data-option-value={key}
+              data-option-index={index}
+            >
+              <button onClick={onClick}>
+                <span>{opt.content}</span>
+              </button>
+            </style.option>
+          )
+        })}
       </style.rail>
     </style.root>
   )

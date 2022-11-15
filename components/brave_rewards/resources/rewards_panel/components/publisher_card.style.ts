@@ -14,7 +14,7 @@ export const root = styled.div`
   padding: 18px 35px 26px;
 
   .brave-theme-dark & {
-    background: #1E2029;
+    background: #1e2029;
   }
 `
 
@@ -77,7 +77,7 @@ export const statusIndicator = styled.div`
     margin-bottom: 1px;
 
     .brave-theme-dark & {
-      color: #343A40;
+      color: #343a40;
     }
   }
 

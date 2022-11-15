@@ -13,27 +13,25 @@ interface Props {
   text?: string
 }
 
-export function TermsOfService (props: Props) {
+export function TermsOfService(props: Props) {
   const { getString } = React.useContext(LocaleContext)
   const message = props.text || getString('onboardingTerms')
   return (
     <span>
-      {
-        formatMessage(message, {
-          tags: {
-            $1: (content) => (
-              <NewTabLink key='terms' href={urls.termsOfServiceURL}>
-                {content}
-              </NewTabLink>
-            ),
-            $3: (content) => (
-              <NewTabLink key='privacy' href={urls.privacyPolicyURL}>
-                {content}
-              </NewTabLink>
-            )
-          }
-        })
-      }
+      {formatMessage(message, {
+        tags: {
+          $1: (content) => (
+            <NewTabLink key="terms" href={urls.termsOfServiceURL}>
+              {content}
+            </NewTabLink>
+          ),
+          $3: (content) => (
+            <NewTabLink key="privacy" href={urls.privacyPolicyURL}>
+              {content}
+            </NewTabLink>
+          )
+        }
+      })}
     </span>
   )
 }

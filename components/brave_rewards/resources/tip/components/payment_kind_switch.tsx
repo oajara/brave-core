@@ -20,7 +20,7 @@ interface Props {
   onChange: (paymentKind: PaymentKind) => void
 }
 
-export function PaymentKindSwitch (props: Props) {
+export function PaymentKindSwitch(props: Props) {
   const { getString } = React.useContext(LocaleContext)
 
   const options: Array<ButtonSwitchOption<PaymentKind>> = [
@@ -28,7 +28,10 @@ export function PaymentKindSwitch (props: Props) {
       value: 'bat',
       content: (
         <>
-          <style.icon><BatColorIcon /></style.icon> {getString('batFunds')}
+          <style.icon>
+            <BatColorIcon />
+          </style.icon>{' '}
+          {getString('batFunds')}
         </>
       ),
       caption: <TokenAmount amount={props.userBalance} />

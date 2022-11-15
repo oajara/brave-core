@@ -17,32 +17,31 @@ interface Props {
   onTakeTour: () => void
 }
 
-export function SettingsOptInForm (props: Props) {
+export function SettingsOptInForm(props: Props) {
   const { getString } = React.useContext(LocaleContext)
   return (
     <style.root>
       <style.heading>
-        <BatIcon />{getString('onboardingBraveRewards')}
+        <BatIcon />
+        {getString('onboardingBraveRewards')}
       </style.heading>
-      <style.subHeading>
-        {getString('onboardingEarnHeader')}
-      </style.subHeading>
+      <style.subHeading>{getString('onboardingEarnHeader')}</style.subHeading>
       <style.text>
         {getString('onboardingEarnText')}&nbsp;
-        {
-          formatMessage(getString('onboardingDetailLinks'), {
-            tags: {
-              $1: (content) => (
-                <a key='tour' href='#' onClick={props.onTakeTour}>{content}</a>
-              ),
-              $3: (content) => (
-                <NewTabLink key='learn' href='https://basicattentiontoken.org'>
-                  {content}
-                </NewTabLink>
-              )
-            }
-          })
-        }
+        {formatMessage(getString('onboardingDetailLinks'), {
+          tags: {
+            $1: (content) => (
+              <a key="tour" href="#" onClick={props.onTakeTour}>
+                {content}
+              </a>
+            ),
+            $3: (content) => (
+              <NewTabLink key="learn" href="https://basicattentiontoken.org">
+                {content}
+              </NewTabLink>
+            )
+          }
+        })}
       </style.text>
       <style.enable>
         <MainButton onClick={props.onEnable}>

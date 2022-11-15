@@ -13,9 +13,10 @@ import {
   StyledHRDiv,
   StyledInnerStartTD,
   StyledSpaceDiv
-  } from './style'
+} from './style'
 import {
-  CaratTriangleDownSIcon, CaratTriangleRightSIcon
+  CaratTriangleDownSIcon,
+  CaratTriangleRightSIcon
 } from 'brave-ui/components/icons'
 import { DetailRow } from '../tableAdsHistory'
 import { Row, Cell } from 'brave-ui/components/dataTables/table'
@@ -32,7 +33,7 @@ interface State {
 }
 
 export default class AdRowsDetails extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       innerDetailVisible: true
@@ -45,7 +46,7 @@ export default class AdRowsDetails extends React.PureComponent<Props, State> {
     })
   }
 
-  render () {
+  render() {
     const { row, rowIndex, detailRows } = this.props
     return (
       <>
@@ -54,17 +55,13 @@ export default class AdRowsDetails extends React.PureComponent<Props, State> {
             <StyledAdsDetailRow>
               <StyledAdsDateRow onClick={this.setInnerVisible}>
                 <StyledCaratIcon>
-                {
-                  this.state.innerDetailVisible
-                  ? <CaratTriangleDownSIcon />
-                  : <CaratTriangleRightSIcon />
-                }
+                  {this.state.innerDetailVisible ? (
+                    <CaratTriangleDownSIcon />
+                  ) : (
+                    <CaratTriangleRightSIcon />
+                  )}
                 </StyledCaratIcon>
-                <StyledDateText>
-                  {
-                    row ? row.date : ''
-                  }
-                </StyledDateText>
+                <StyledDateText>{row ? row.date : ''}</StyledDateText>
                 <StyledHRDiv>
                   <StyledHR />
                 </StyledHRDiv>
@@ -72,27 +69,25 @@ export default class AdRowsDetails extends React.PureComponent<Props, State> {
             </StyledAdsDetailRow>
           </td>
         </tr>
-        {
-          detailRows && this.state.innerDetailVisible
+        {detailRows && this.state.innerDetailVisible
           ? detailRows.map((detailRow: Row, j: number) => {
-            return (
-            <tr key={j}>
-            {
-              detailRow.content.map((detailCell: Cell, k: number) => {
-                return k === 0
-                  ? <StyledInnerStartTD key={k}>
-                    <StyledSpaceDiv />
-                  </StyledInnerStartTD>
-                : <StyledAdPortionTD key={k}>
-                    {detailCell.content}
-                  </StyledAdPortionTD>
-              })
-            }
-            </tr>
-            )
-          })
-          : null
-        }
+              return (
+                <tr key={j}>
+                  {detailRow.content.map((detailCell: Cell, k: number) => {
+                    return k === 0 ? (
+                      <StyledInnerStartTD key={k}>
+                        <StyledSpaceDiv />
+                      </StyledInnerStartTD>
+                    ) : (
+                      <StyledAdPortionTD key={k}>
+                        {detailCell.content}
+                      </StyledAdPortionTD>
+                    )
+                  })}
+                </tr>
+              )
+            })
+          : null}
       </>
     )
   }

@@ -11,13 +11,9 @@ export interface Props {
 }
 
 export default class NextContribution extends React.PureComponent<Props, {}> {
-  render () {
+  render() {
     const { id, children } = this.props
 
-    return (
-      <StyledWrapper id={id}>
-        {children}
-      </StyledWrapper>
-    )
+    return <StyledWrapper id={id}>{children}</StyledWrapper>
   }
 }

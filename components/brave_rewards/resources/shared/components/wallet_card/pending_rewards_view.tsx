@@ -15,7 +15,7 @@ interface Props {
   providerPayoutStatus: ProviderPayoutStatus
 }
 
-export function PendingRewardsView (props: Props) {
+export function PendingRewardsView(props: Props) {
   return (
     <style.root>
       <PaymentStatusView

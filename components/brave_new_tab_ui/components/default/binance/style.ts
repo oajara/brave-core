@@ -31,11 +31,11 @@ export const WidgetWrapper = styled('div')<StyleProps>`
   padding: 6px 20px 12px 20px;
   border-radius: 6px;
   position: relative;
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   overflow: hidden;
   min-width: 284px;
-  min-height: ${p => p.userAuthed ? '360px' : 'initial'};
-  background-image: linear-gradient(140deg, #1F2327 0%, #000000 85%);
+  min-height: ${(p) => (p.userAuthed ? '360px' : 'initial')};
+  background-image: linear-gradient(140deg, #1f2327 0%, #000000 85%);
 `
 
 export const Header = styled('div')<{}>`
@@ -67,12 +67,12 @@ export const GenButton = styled('button')<{}>`
   border: 0;
   padding: 5px 10px;
   cursor: pointer;
-  background: #2C2C2B;
+  background: #2c2c2b;
   color: rgba(255, 255, 255, 0.7);
 `
 
 export const DisconnectButton = styled(GenButton)`
-  background: #AA1212;
+  background: #aa1212;
   color: #fff;
   padding: 5px 20px;
 `
@@ -89,9 +89,9 @@ export const FiatInputWrapper = styled('div')<{}>`
 
 export const FiatDropdown = styled('div')<StyleProps>`
   float: right;
-  width: ${p => p.isFiat ? 25 : 35}%;
+  width: ${(p) => (p.isFiat ? 25 : 35)}%;
   padding: 7px 5px 0px 7px;
-  cursor: ${p => p.disabled ? 'auto' : 'pointer'};
+  cursor: ${(p) => (p.disabled ? 'auto' : 'pointer')};
 `
 
 export const CaratDropdown = styled('div')<StyleProps>`
@@ -99,7 +99,7 @@ export const CaratDropdown = styled('div')<StyleProps>`
   height: 14px;
   float: right;
   color: #fff;
-  visibility: ${p => p.hide ? 'hidden' : 'visible'};
+  visibility: ${(p) => (p.hide ? 'hidden' : 'visible')};
 `
 
 export const InputField = styled('input')<StyleProps>`
@@ -124,7 +124,7 @@ export const FiatInputField = styled(InputField)`
   border-top: none;
   border-left: none;
   border-right: 1px solid rgb(70, 70, 70);
-  width: ${p => p.isFiat ? 75 : 65}%;
+  width: ${(p) => (p.isFiat ? 75 : 65)}%;
   min-width: unset;
   border-left: none;
   padding-left: 10px;
@@ -139,7 +139,8 @@ export const AssetDropdown = styled('div')<StyleProps>`
   border: 1px solid rgb(70, 70, 70);
   padding: 7px 3px 0px 8px;
   cursor: pointer;
-  border-bottom: ${p => p.itemsShowing ? 'none' : '1px solid rgb(70, 70, 70)'};
+  border-bottom: ${(p) =>
+    p.itemsShowing ? 'none' : '1px solid rgb(70, 70, 70)'};
 `
 
 export const AssetDropdownLabel = styled('span')<{}>`
@@ -156,18 +157,18 @@ export const AssetItems = styled('div')<StyleProps>`
   border: 1px solid rgb(70, 70, 70);
   border-top: none;
   height: 95px;
-  left: ${p => p.isFiat ? '20px' : 'auto'};
+  left: ${(p) => (p.isFiat ? '20px' : 'auto')};
 `
 
 export const AssetItem = styled('div')<StyleProps>`
   padding: 5px 0 5px 5px;
   font-weight: bold;
   cursor: pointer;
-  border-bottom: ${p => !p.isLast ? '1px solid rgb(70, 70, 70)' : ''};
+  border-bottom: ${(p) => (!p.isLast ? '1px solid rgb(70, 70, 70)' : '')};
 `
 
 export const ActionsWrapper = styled('div')<StyleProps>`
-  margin-bottom: ${p => p.isFirstView ? 25 : 5}px;
+  margin-bottom: ${(p) => (p.isFirstView ? 25 : 5)}px;
   text-align: center;
 `
 
@@ -175,8 +176,8 @@ export const ConnectButton = styled.a<StyleProps>`
   font-size: 13px;
   font-weight: bold;
   border-radius: 20px;
-  width: ${p => p.isSmall ? 50 : 100}%;
-  background: #D9B227;
+  width: ${(p) => (p.isSmall ? 50 : 100)}%;
+  background: #d9b227;
   border: 0;
   padding: 10px 70px;
   cursor: pointer;
@@ -194,7 +195,7 @@ export const ActionButton = styled.button<{}>`
   font-weight: bold;
   border-radius: 20px;
   width: 100%;
-  background: #D9B227;
+  background: #d9b227;
   border: 0;
   padding: 10px 55px;
   cursor: pointer;
@@ -217,7 +218,7 @@ export const StyledTitle = styled('div')<{}>`
   font-size: 18px;
   font-weight: 600;
   color: #fff;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
 `
 
 export const StyledTitleText = styled('div')<{}>`
@@ -235,7 +236,7 @@ export const TLDSwitch = styled('div')<StyleProps>`
   display: inline-block;
   margin-left: 10px;
   cursor: pointer;
-  color: ${p => p.isActive ? '#F2C101' : '#9D7B01'};
+  color: ${(p) => (p.isActive ? '#F2C101' : '#9D7B01')};
 `
 
 export const NavigationBar = styled('div')<{}>`
@@ -256,9 +257,9 @@ export const NavigationItem = styled('button')<StyleProps>`
   text-align: center;
   background: inherit;
   border: none;
-  color: ${p => p.isActive ? '#F2C101' : '#9D7B01'};
-  margin-right: ${p => p.isLeading ? 12 : 0}px
-  margin-left: ${p => {
+  color: ${(p) => (p.isActive ? '#F2C101' : '#9D7B01')};
+  margin-right: ${(p) => (p.isLeading ? 12 : 0)}px
+  margin-left: ${(p) => {
     if (p.isBuy) {
       return -12
     } else {
@@ -273,7 +274,7 @@ export const NavigationItem = styled('button')<StyleProps>`
 
 export const SelectedView = styled('div')<StyleProps>`
   border: 1px solid rgb(70, 70, 70);
-  overflow-y: ${p => p.hideOverflow ? 'hidden' : 'scroll'};
+  overflow-y: ${(p) => (p.hideOverflow ? 'hidden' : 'scroll')};
   height: 260px;
   width: 240px;
   margin-left: 4px;
@@ -294,7 +295,7 @@ export const ListIcon = styled('div')<{}>`
 `
 
 export const AssetIcon = styled('span')<StyleProps>`
-  margin-top: ${p => p.isDetail ? 5 : 0}px;
+  margin-top: ${(p) => (p.isDetail ? 5 : 0)}px;
 `
 
 export const ListImg = styled('img')<{}>`
@@ -311,7 +312,7 @@ export const QRImage = styled('img')<{}>`
 
 export const ListLabel = styled('div')<StyleProps>`
   color: #fff;
-  cursor: ${p => p.clickable ? 'pointer' : 'initial'};
+  cursor: ${(p) => (p.clickable ? 'pointer' : 'initial')};
   margin-top: 5px;
 `
 
@@ -402,12 +403,12 @@ export const BackArrow = styled('div')<{}>`
 `
 
 export const ListInfo = styled('div')<StyleProps>`
-  float: ${p => `${p.position}`};
-  min-width: ${p => p.isBTC ? 60 : 83}px;
-  font-size: ${p => p.isAsset ? '16px' : 'inherit'};
-  margin-top: ${p => p.isAsset ? '4' : '0'}px;
+  float: ${(p) => `${p.position}`};
+  min-width: ${(p) => (p.isBTC ? 60 : 83)}px;
+  font-size: ${(p) => (p.isAsset ? '16px' : 'inherit')};
+  margin-top: ${(p) => (p.isAsset ? '4' : '0')}px;
 
-  ${p => {
+  ${(p) => {
     if (p.position === 'right') {
       const width = p.isBTC ? 25 : 40
       return `
@@ -429,7 +430,7 @@ export const TradeLabel = styled('span')<{}>`
 `
 
 export const BTCValueLabel = styled(TradeLabel)`
-  color: #6DD401;
+  color: #6dd401;
 `
 
 export const OtherValueLabel = styled(TradeLabel)`
@@ -472,8 +473,8 @@ export const Switch = styled('div')<StyleProps>`
   font-weight: bold;
   display: inline-block;
   border-radius: 8px;
-  padding: ${p => p.active ? '7' : '6'}px 10px;
-  background: ${p => p.active ? '#D9B227' : '#000'};
+  padding: ${(p) => (p.active ? '7' : '6')}px 10px;
+  background: ${(p) => (p.active ? '#D9B227' : '#000')};
 `
 
 export const ActionLabel = styled('span')<{}>`
@@ -489,9 +490,7 @@ export const BuySellContent = styled('div')<{}>`
   min-width: 240px;
 `
 
-export const AmountInput = styled('div')<{}>`
-
-`
+export const AmountInput = styled('div')<{}>``
 
 export const AmountButton = styled('button')<{}>`
   font-size: 16px;
@@ -500,7 +499,7 @@ export const AmountButton = styled('button')<{}>`
   border: 0;
   padding: 5px;
   cursor: pointer;
-  background: #2C2C2B;
+  background: #2c2c2b;
   color: #fff;
   width: 13%;
   height: 30px;
@@ -533,7 +532,7 @@ export const Percent = styled('div')<{}>`
 export const BuySellButton = styled(ConnectButton)`
   padding: 5px;
   margin: 5px 0px;
-  background: ${p => p.isBuy ? '#3BB260' : '#DD5353'};
+  background: ${(p) => (p.isBuy ? '#3BB260' : '#DD5353')};
 `
 
 export const ConvertLabel = styled('span')<{}>`
@@ -559,7 +558,7 @@ export const ConvertInfoWrapper = styled('div')<StyleProps>`
 export const ConvertInfoItem = styled('div')<StyleProps>`
   margin: 5px 0;
   overflow-y: hidden;
-  margin-top: ${p => p.isLast ? '15' : '5'}px;
+  margin-top: ${(p) => (p.isLast ? '15' : '5')}px;
 `
 
 export const StyledEmoji = styled('div')<{}>`
@@ -616,21 +615,21 @@ export const ConnectAction = styled(DismissAction)`
 
 export const Balance = styled('span')<StyleProps>`
   display: block;
-  font-size: ${p => p.isBTC ? '25' : '14'}px;
+  font-size: ${(p) => (p.isBTC ? '25' : '14')}px;
   font-weight bold;
   margin: 5px 0;
   color: #fff;
-  text-align: ${p => p.isBTC ? 'unset' : 'right'};
-  margin-right: ${p => p.isBTC ? '0' : '7px'};
-  -webkit-filter: blur(${p => p.hideBalance ? 10 : 0}px);
+  text-align: ${(p) => (p.isBTC ? 'unset' : 'right')};
+  margin-right: ${(p) => (p.isBTC ? '0' : '7px')};
+  -webkit-filter: blur(${(p) => (p.hideBalance ? 10 : 0)}px);
 `
 
 export const Converted = styled('span')<StyleProps>`
   display: block;
-  font-size: ${p => p.isBTC ? '16' : '14'}px;
+  font-size: ${(p) => (p.isBTC ? '16' : '14')}px;
   color: rgb(95, 95, 95);
-  margin-left: ${p => p.isBTC ? 0 : 10}px;
-  -webkit-filter: blur(${p => p.hideBalance ? 10 : 0}px);
+  margin-left: ${(p) => (p.isBTC ? 0 : 10)}px;
+  -webkit-filter: blur(${(p) => (p.hideBalance ? 10 : 0)}px);
 `
 
 export const BlurIcon = styled('div')<{}>`

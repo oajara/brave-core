@@ -17,7 +17,7 @@ interface BaseSelectProps {
 
 type SelectProps = React.PropsWithChildren<BaseSelectProps>
 
-function Select (props: SelectProps) {
+function Select(props: SelectProps) {
   const handleChange = (e: React.FormEvent<HTMLSelectElement>) => {
     const target = e.target as HTMLSelectElement
     props.onChange?.(target.value)
@@ -33,7 +33,14 @@ function Select (props: SelectProps) {
       >
         {props.children}
       </S.Select>
-      <svg width="13" height="7" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M6.718 4.781 11.624.693a.667.667 0 1 1 .854 1.024L7.145 6.161a.667.667 0 0 1-.854 0L.958 1.717A.667.667 0 0 1 1.81.693L6.718 4.78Z"/></svg>
+      <svg
+        width="13"
+        height="7"
+        fill="currentColor"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M6.718 4.781 11.624.693a.667.667 0 1 1 .854 1.024L7.145 6.161a.667.667 0 0 1-.854 0L.958 1.717A.667.667 0 0 1 1.81.693L6.718 4.78Z" />
+      </svg>
     </S.SelectBox>
   )
 }

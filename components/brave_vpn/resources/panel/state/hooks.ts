@@ -4,7 +4,7 @@
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 
 import {
- TypedUseSelectorHook,
+  TypedUseSelectorHook,
   useSelector as useReduxSelector,
   useDispatch as useReduxDispatch
 } from 'react-redux'

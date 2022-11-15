@@ -6,7 +6,13 @@ import * as React from 'react'
 import { useSelector } from 'react-redux'
 
 import { getLocale, splitStringForTag } from '../../../../common/locale'
-import { AmountPresetTypes, BraveWallet, BuySendSwapViewTypes, ToOrFromType, WalletState } from '../../../constants/types'
+import {
+  AmountPresetTypes,
+  BraveWallet,
+  BuySendSwapViewTypes,
+  ToOrFromType,
+  WalletState
+} from '../../../constants/types'
 import SwapInputComponent from '../swap-input-component'
 import { SwapTooltip } from '../../desktop'
 
@@ -42,10 +48,14 @@ export interface Props {
   fromAmount: ReturnType<typeof useSwap>['fromAmount']
   fromAssetBalance: ReturnType<typeof useSwap>['fromAssetBalance']
   isSwapButtonDisabled: ReturnType<typeof useSwap>['isSwapButtonDisabled']
-  onCustomSlippageToleranceChange: ReturnType<typeof useSwap>['onCustomSlippageToleranceChange']
+  onCustomSlippageToleranceChange: ReturnType<
+    typeof useSwap
+  >['onCustomSlippageToleranceChange']
   setOrderExpiration: ReturnType<typeof useSwap>['setOrderExpiration']
   onSelectPresetAmount: ReturnType<typeof useSwap>['onSelectPresetAmount']
-  onSelectSlippageTolerance: ReturnType<typeof useSwap>['onSelectSlippageTolerance']
+  onSelectSlippageTolerance: ReturnType<
+    typeof useSwap
+  >['onSelectSlippageTolerance']
   onSubmitSwap: ReturnType<typeof useSwap>['onSubmitSwap']
   onSwapInputChange: ReturnType<typeof useSwap>['onSwapInputChange']
   onSwapQuoteRefresh: ReturnType<typeof useSwap>['onSwapQuoteRefresh']
@@ -61,7 +71,7 @@ export interface Props {
   swapProvider: SwapProvider
 }
 
-function Swap (props: Props) {
+function Swap(props: Props) {
   const {
     customSlippageTolerance,
     exchangeRate,
@@ -94,15 +104,15 @@ function Swap (props: Props) {
   } = props
 
   // redux
-  const {
-    selectedNetwork
-  } = useSelector((state: { wallet: WalletState }) => state.wallet)
+  const { selectedNetwork } = useSelector(
+    (state: { wallet: WalletState }) => state.wallet
+  )
 
   const [hasFees, setHasFees] = React.useState<boolean>(true)
   const { hasJupiterFeesForMint } = useLib()
 
   React.useEffect(() => {
-    (async () => {
+    ;(async () => {
       if (swapProvider === SwapProvider.ZeroEx) {
         setHasFees(true)
         return
@@ -137,8 +147,10 @@ function Swap (props: Props) {
     }
 
     if (validationError === 'insufficientAllowance' && fromAsset) {
-      return getLocale('braveWalletSwapInsufficientAllowance')
-        .replace('$1', fromAsset.symbol)
+      return getLocale('braveWalletSwapInsufficientAllowance').replace(
+        '$1',
+        fromAsset.symbol
+      )
     }
 
     if (validationError === 'insufficientLiquidity') {
@@ -152,16 +164,17 @@ function Swap (props: Props) {
     return getLocale('braveWalletSwap')
   }, [validationError, fromAsset])
 
-  const disclaimerText = getLocale('braveWalletSwapDisclaimer')
-    .replace('$3', swapProvider === SwapProvider.Jupiter
-      ? 'Jupiter'
-      : '0x')
+  const disclaimerText = getLocale('braveWalletSwapDisclaimer').replace(
+    '$3',
+    swapProvider === SwapProvider.Jupiter ? 'Jupiter' : '0x'
+  )
   const { beforeTag, duringTag, afterTag } = splitStringForTag(disclaimerText)
 
   const onClickSwapProvider = () => {
-    const url = swapProvider === SwapProvider.Jupiter
-      ? 'https://jup.ag'
-      : 'https://0x.org'
+    const url =
+      swapProvider === SwapProvider.Jupiter
+        ? 'https://jup.ag'
+        : 'https://0x.org'
     chrome.tabs.create({ url }, () => {
       if (chrome.runtime.lastError) {
         console.error('tabs.create failed: ' + chrome.runtime.lastError.message)
@@ -192,11 +205,11 @@ function Swap (props: Props) {
   return (
     <StyledWrapper>
       <SwapInputComponent
-        componentType='fromAmount'
+        componentType="fromAmount"
         onSelectPresetAmount={setPresetAmountValue}
         onInputChange={handleOnInputChange}
         selectedAssetInputAmount={fromAmount}
-        inputName='from'
+        inputName="from"
         selectedAssetBalance={fromAssetBalance}
         selectedAsset={fromAsset}
         selectedNetwork={selectedNetwork}
@@ -209,11 +222,11 @@ function Swap (props: Props) {
         <ArrowDownIcon />
       </ArrowButton>
       <SwapInputComponent
-        componentType='toAmount'
+        componentType="toAmount"
         orderType={orderType}
         onInputChange={onInputChange}
         selectedAssetInputAmount={toAmount}
-        inputName='to'
+        inputName="to"
         selectedAssetBalance={toAssetBalance}
         selectedAsset={toAsset}
         selectedNetwork={selectedNetwork}
@@ -221,17 +234,17 @@ function Swap (props: Props) {
         validationError={validationError}
       />
       <SwapInputComponent
-        componentType='exchange'
+        componentType="exchange"
         orderType={orderType}
         onToggleOrderType={onToggleOrderType}
         onInputChange={onInputChange}
         selectedAssetInputAmount={exchangeRate}
-        inputName='rate'
+        inputName="rate"
         selectedAsset={fromAsset}
         onRefresh={onSwapQuoteRefresh}
       />
       <SwapInputComponent
-        componentType='selector'
+        componentType="selector"
         orderType={orderType}
         onSelectSlippageTolerance={onSelectSlippageTolerance}
         onSelectExpiration={setOrderExpiration}
@@ -242,38 +255,43 @@ function Swap (props: Props) {
       />
       <SwapNavButton
         disabled={isSwapButtonDisabled}
-        buttonType='primary'
+        buttonType="primary"
         onClick={onSubmitSwap}
       >
-        {
-          isFetchingSwapQuote
-            ? <SwapButtonLoader><LoaderIcon /></SwapButtonLoader>
-            : <SwapButtonText>{submitText}</SwapButtonText>
-        }
+        {isFetchingSwapQuote ? (
+          <SwapButtonLoader>
+            <LoaderIcon />
+          </SwapButtonLoader>
+        ) : (
+          <SwapButtonText>{submitText}</SwapButtonText>
+        )}
       </SwapNavButton>
-      <ResetButton
-        onClick={onReset}
-        >
-          {getLocale('braveWalletReset')}
+      <ResetButton onClick={onReset}>
+        {getLocale('braveWalletReset')}
       </ResetButton>
       <SwapFeesNoticeRow>
         <SwapFeesNoticeText>
-          {hasFees && getLocale('braveWalletSwapFeesNotice')
-            .replace('$1', swapProvider === SwapProvider.Jupiter
-              ? '0.85%'
-              : '0.875%')}
+          {hasFees &&
+            getLocale('braveWalletSwapFeesNotice').replace(
+              '$1',
+              swapProvider === SwapProvider.Jupiter ? '0.85%' : '0.875%'
+            )}
         </SwapFeesNoticeText>
       </SwapFeesNoticeRow>
       <SwapDisclaimerRow>
         <SwapDisclaimerText>
           {beforeTag}
-          <SwapDisclaimerButton onClick={onClickSwapProvider}>{duringTag}</SwapDisclaimerButton>
+          <SwapDisclaimerButton onClick={onClickSwapProvider}>
+            {duringTag}
+          </SwapDisclaimerButton>
           {afterTag}
         </SwapDisclaimerText>
         <SwapTooltip
-          text={swapProvider === SwapProvider.Jupiter
-            ? getLocale('braveWalletJupiterSwapDisclaimerDescription')
-            : getLocale('braveWalletSwapDisclaimerDescription')}
+          text={
+            swapProvider === SwapProvider.Jupiter
+              ? getLocale('braveWalletJupiterSwapDisclaimerDescription')
+              : getLocale('braveWalletSwapDisclaimerDescription')
+          }
         >
           <AlertIcon />
         </SwapTooltip>

@@ -4,7 +4,9 @@
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 
 import styled from 'styled-components'
-import Button, { Props as ButtonProps } from 'brave-ui/components/buttonsIndicators/button'
+import Button, {
+  Props as ButtonProps
+} from 'brave-ui/components/buttonsIndicators/button'
 
 interface StyledDialogWrapperProps {
   textDirection: string
@@ -30,7 +32,7 @@ export const StyledDialog = styled('div')<StyledDialogProps>`
   position: relative;
   width: 437px;
   top: -50px;
-  background-color: ${p => p.theme.color.contextMenuBackground};
+  background-color: ${(p) => p.theme.color.contextMenuBackground};
   border-radius: 4px;
   padding: 32px 24px 24px 24px;
   display: flex;
@@ -46,7 +48,7 @@ export const DialogTitle = styled('div')<{}>`
   color: #212529;
 
   @media (prefers-color-scheme: dark) {
-    color: #F0F2FF;
+    color: #f0f2ff;
   }
 `
 
@@ -65,21 +67,22 @@ export const CloseButton = styled('button')`
   cursor: pointer;
   border-radius: 100%;
   outline: none;
-  transition: background .12s ease-in-out, box-shadow .12s ease-in-out;
-  [dir=rtl] & {
+  transition: background 0.12s ease-in-out, box-shadow 0.12s ease-in-out;
+  [dir='rtl'] & {
     right: unset;
     left: 16px;
   }
-  :hover, :focus-visible {
-    background: rgba(255, 255, 255, .3);
+  :hover,
+  :focus-visible {
+    background: rgba(255, 255, 255, 0.3);
   }
   :active {
-    box-shadow: 0 0 0 4px rgba(255, 255, 255, .6);
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.6);
   }
 
   color: #495057;
   @media (prefers-color-scheme: dark) {
-    color: #C2C4CF;
+    color: #c2c4cf;
   }
 `
 
@@ -90,7 +93,7 @@ export const StyledInputLabel = styled('div')<{}>`
   line-height: 16px;
   color: #495057;
   @media (prefers-color-scheme: dark) {
-    color: #C2C4CF;
+    color: #c2c4cf;
   }
 `
 
@@ -110,21 +113,22 @@ export const StyledInput = styled('input')<{}>`
   text-align: left;
 
   background: white;
-  border: 1px solid #AEB1C2;
+  border: 1px solid #aeb1c2;
   color: #495057;
   @media (prefers-color-scheme: dark) {
-    background: #1E2029;
-    border: 1px solid #5E6175;
-    color: #C2C4CF;
+    background: #1e2029;
+    border: 1px solid #5e6175;
+    color: #c2c4cf;
   }
 
-  &:focus, :hover {
-    border: 4px solid #A0A5EB;
+  &:focus,
+  :hover {
+    border: 4px solid #a0a5eb;
     padding: 7px 15px;
   }
 
   &::placeholder {
-    color: #84889C;
+    color: #84889c;
   }
 `
 
@@ -141,7 +145,7 @@ export const StyledButtonsContainer = styled('div')<{}>`
 export const StyledButton = styled(Button as React.ComponentType<ButtonProps>)`
   &:focus {
     outline-offset: 2px;
-    outline-color: ${p => p.theme.color.brandBrave};
+    outline-color: ${(p) => p.theme.color.brandBrave};
     outline-width: 2px;
   }
 

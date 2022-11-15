@@ -36,17 +36,13 @@ interface State {
 }
 
 export default class ReportView extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = { details: '', contact: '' }
   }
 
-  render () {
-    const {
-      siteUrl,
-      onSubmitReport,
-      onClose
-    } = this.props
+  render() {
+    const { siteUrl, onSubmitReport, onClose } = this.props
     const { details, contact } = this.state
     return (
       <ModalLayout>
@@ -66,16 +62,16 @@ export default class ReportView extends React.PureComponent<Props, State> {
           />
         </FieldCtr>
         <FieldCtr>
-          <InputLabel htmlFor='contact-info'>
+          <InputLabel htmlFor="contact-info">
             {getLocale('reportContactLabel')}
           </InputLabel>
           <Input
             placeholder={getLocale('reportContactPlaceholder')}
             onChange={(ev) => this.setState({ contact: ev.target.value })}
-            type='text'
+            type="text"
             maxLength={2000}
             value={contact}
-            id='contact-info'
+            id="contact-info"
           />
         </FieldCtr>
         <SideBySideButtons>

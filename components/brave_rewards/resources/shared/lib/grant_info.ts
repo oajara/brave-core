@@ -24,13 +24,13 @@ const monthFormatter = new Intl.DateTimeFormat(undefined, {
   month: 'long'
 })
 
-export function formatGrantMonth (grantInfo: GrantInfo) {
+export function formatGrantMonth(grantInfo: GrantInfo) {
   const created = new Date(grantInfo.createdAt || Date.now())
   const grantMonth = new Date(created.getFullYear(), created.getMonth() - 1)
   return monthFormatter.format(grantMonth)
 }
 
-export function formatGrantDaysToClaim (grantInfo: GrantInfo) {
+export function formatGrantDaysToClaim(grantInfo: GrantInfo) {
   const { claimableUntil } = grantInfo
   if (!claimableUntil) {
     return ''

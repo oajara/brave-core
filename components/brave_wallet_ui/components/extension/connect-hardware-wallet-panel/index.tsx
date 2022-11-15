@@ -40,7 +40,7 @@ export interface Props {
   onClickInstructions: () => void
 }
 
-function getAppName (coinType: BraveWallet.CoinType): string {
+function getAppName(coinType: BraveWallet.CoinType): string {
   switch (coinType) {
     case BraveWallet.CoinType.SOL:
       return 'Solana'
@@ -62,7 +62,10 @@ export const ConnectHardwareWalletPanel = ({
 }: Props) => {
   // memos
   const isConnected = React.useMemo((): boolean => {
-    return hardwareWalletCode !== 'deviceNotConnected' && hardwareWalletCode !== 'unauthorized'
+    return (
+      hardwareWalletCode !== 'deviceNotConnected' &&
+      hardwareWalletCode !== 'unauthorized'
+    )
   }, [hardwareWalletCode])
 
   const title = React.useMemo(() => {
@@ -71,8 +74,14 @@ export const ConnectHardwareWalletPanel = ({
     }
 
     // Not connected
-    if (hardwareWalletCode === 'deviceNotConnected' || hardwareWalletCode === 'unauthorized') {
-      return getLocale('braveWalletConnectHardwarePanelConnect').replace('$1', walletName)
+    if (
+      hardwareWalletCode === 'deviceNotConnected' ||
+      hardwareWalletCode === 'unauthorized'
+    ) {
+      return getLocale('braveWalletConnectHardwarePanelConnect').replace(
+        '$1',
+        walletName
+      )
     }
 
     const network = getAppName(coinType)
@@ -95,28 +104,34 @@ export const ConnectHardwareWalletPanel = ({
       <ConnectionRow>
         <Indicator isConnected={isConnected} />
         <Description>
-          {
-            isConnected
-              ? getLocale('braveWalletConnectHardwarePanelConnected').replace('$1', walletName)
-              : getLocale('braveWalletConnectHardwarePanelDisconnected').replace('$1', walletName)
-          }
+          {isConnected
+            ? getLocale('braveWalletConnectHardwarePanelConnected').replace(
+                '$1',
+                walletName
+              )
+            : getLocale('braveWalletConnectHardwarePanelDisconnected').replace(
+                '$1',
+                walletName
+              )}
         </Description>
       </ConnectionRow>
       <Title>{title}</Title>
-      <InstructionsButton onClick={onClickInstructions}>{getLocale('braveWalletConnectHardwarePanelInstructions')}</InstructionsButton>
+      <InstructionsButton onClick={onClickInstructions}>
+        {getLocale('braveWalletConnectHardwarePanelInstructions')}
+      </InstructionsButton>
       <PageIcon />
-      {
-        hardwareWalletCode !== 'deviceBusy' && (hardwareWalletCode === 'unauthorized'
-          ? <AuthorizeHardwareDeviceIFrame coinType={coinType}/>
-          : <ButtonWrapper>
-              <NavButton
-                buttonType='secondary'
-                text={getLocale('braveWalletButtonCancel')}
-                onSubmit={onCancelConnect}
-              />
-            </ButtonWrapper>
-        )
-      }
+      {hardwareWalletCode !== 'deviceBusy' &&
+        (hardwareWalletCode === 'unauthorized' ? (
+          <AuthorizeHardwareDeviceIFrame coinType={coinType} />
+        ) : (
+          <ButtonWrapper>
+            <NavButton
+              buttonType="secondary"
+              text={getLocale('braveWalletButtonCancel')}
+              onSubmit={onCancelConnect}
+            />
+          </ButtonWrapper>
+        ))}
     </StyledWrapper>
   )
 }

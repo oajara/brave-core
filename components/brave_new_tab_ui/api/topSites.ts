@@ -12,41 +12,47 @@ export type MostVisitedInfoChanged = {
   visible: boolean
 }
 
-export type MostVisitedInfoChangedHandler = (data: MostVisitedInfoChanged) => any
+export type MostVisitedInfoChangedHandler = (
+  data: MostVisitedInfoChanged
+) => any
 
-export function updateMostVisitedInfo () {
+export function updateMostVisitedInfo() {
   chrome.send('updateMostVisitedInfo')
 }
 
-export function addMostVistedInfoChangedListener (listener: MostVisitedInfoChangedHandler): void {
+export function addMostVistedInfoChangedListener(
+  listener: MostVisitedInfoChangedHandler
+): void {
   addWebUIListener('most-visited-info-changed', listener)
 }
 
-export function deleteMostVisitedTile (url: string): void {
+export function deleteMostVisitedTile(url: string): void {
   chrome.send('deleteMostVisitedTile', [url])
 }
 
-export function addNewTopSite (title: string, url: string): void {
+export function addNewTopSite(title: string, url: string): void {
   chrome.send('addNewTopSite', [url, title])
 }
 
-export function editTopSite (title: string, url: string, newUrl: string): void {
+export function editTopSite(title: string, url: string, newUrl: string): void {
   chrome.send('editTopSite', [url, newUrl, title])
 }
 
-export function reorderMostVisitedTile (url: string, newPos: number): void {
+export function reorderMostVisitedTile(url: string, newPos: number): void {
   chrome.send('reorderMostVisitedTile', [url, newPos])
 }
 
-export function restoreMostVisitedDefaults (): void {
+export function restoreMostVisitedDefaults(): void {
   chrome.send('restoreMostVisitedDefaults', [])
 }
 
-export function undoMostVisitedTileAction (): void {
+export function undoMostVisitedTileAction(): void {
   chrome.send('undoMostVisitedTileAction', [])
 }
 
-export function setMostVisitedSettings (customLinksEnabled: boolean,
-    visible: boolean): void {
+export function setMostVisitedSettings(
+  customLinksEnabled: boolean,
+  visible: boolean
+): void {
   chrome.send('setMostVisitedSettings', [customLinksEnabled, visible])
 }

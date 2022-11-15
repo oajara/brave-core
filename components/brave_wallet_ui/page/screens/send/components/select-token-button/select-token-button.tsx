@@ -67,14 +67,24 @@ export const SelectTokenButton = (props: Props) => {
 
   const buttonText = React.useMemo(() => {
     if (selectedSendOption === 'nft') {
-      const id = token?.tokenId ? `#${new Amount(token?.tokenId).toNumber()}` : ''
-      return token !== undefined ? `${token.name} ${id}` : getLocale('braveWalletSelectNFT')
+      const id = token?.tokenId
+        ? `#${new Amount(token?.tokenId).toNumber()}`
+        : ''
+      return token !== undefined
+        ? `${token.name} ${id}`
+        : getLocale('braveWalletSelectNFT')
     }
-    return token !== undefined ? token.symbol : getLocale('braveWalletSelectToken')
+    return token !== undefined
+      ? token.symbol
+      : getLocale('braveWalletSelectToken')
   }, [selectedSendOption, token])
 
   return (
-    <Button onClick={onClick} morePadding={token !== undefined} isNFT={selectedSendOption === 'nft'}>
+    <Button
+      onClick={onClick}
+      morePadding={token !== undefined}
+      isNFT={selectedSendOption === 'nft'}
+    >
       <Row>
         {token && (
           <IconsWrapper>

@@ -40,10 +40,11 @@ export const SecondaryListContainer = styled.div<Partial<StyleProps>>`
   align-items: flex-start;
   justify-content: flex-start;
   width: 100%;
-  background-color: ${(p) => p.isHardwareWallet ? p.theme.color.divider01 : 'transparent'};
+  background-color: ${(p) =>
+    p.isHardwareWallet ? p.theme.color.divider01 : 'transparent'};
   border-radius: 16px;
   padding: 8px;
-  margin-bottom: ${(p) => p.isHardwareWallet ? '15px' : '0px'};
+  margin-bottom: ${(p) => (p.isHardwareWallet ? '15px' : '0px')};
 `
 
 export const SectionTitle = styled.span`

@@ -85,8 +85,8 @@ export const actionBubble = styled.div`
   top: 25px;
   right: -4px;
   overflow: hidden;
-  box-shadow: 1px 1px 6px 0px rgba(0, 0, 0, .1);
-  border: solid 1px rgba(0, 0, 0, .2);
+  box-shadow: 1px 1px 6px 0px rgba(0, 0, 0, 0.1);
+  border: solid 1px rgba(0, 0, 0, 0.2);
   border-radius: 6px;
   z-index: 1;
 

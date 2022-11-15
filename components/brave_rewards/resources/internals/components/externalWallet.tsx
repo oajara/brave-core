@@ -37,26 +37,26 @@ export const ExternalWallet = (props: Props) => {
       <div>
         {getLocale('walletStatus')} {getWalletStatus(props.info.status)}
       </div>
-      {
-        props.info.address && props.info.address.length > 0
-        ? <div>
+      {props.info.address && props.info.address.length > 0 ? (
+        <div>
           {getLocale('walletAddress')} {props.info.address}
         </div>
-        : null
-      }
-      {
-        props.info.status !== 0 && props.info.type && props.info.type.length > 0
-        ? <div>
-          {getLocale('custodian')} {lookupExternalWalletProviderName(props.info.type)}
+      ) : null}
+      {props.info.status !== 0 &&
+      props.info.type &&
+      props.info.type.length > 0 ? (
+        <div>
+          {getLocale('custodian')}{' '}
+          {lookupExternalWalletProviderName(props.info.type)}
         </div>
-        : null
-      }
-      {
-        props.info.status !== 0 && props.info.memberId && props.info.memberId.length > 0
-        ? <div>
+      ) : null}
+      {props.info.status !== 0 &&
+      props.info.memberId &&
+      props.info.memberId.length > 0 ? (
+        <div>
           {getLocale('custodianMemberId')} {props.info.memberId}
         </div>
-        : null
-      }
-    </>)
+      ) : null}
+    </>
+  )
 }

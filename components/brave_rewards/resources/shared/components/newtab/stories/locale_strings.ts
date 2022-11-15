@@ -10,25 +10,32 @@ export const localeStrings = {
   rewardsClaimTokens: 'Claim Tokens',
   rewardsContinue: 'Continue',
   rewardsEarning: 'Earning',
-  rewardsEarningInfoText: 'The tokens you earn this month will begin processing on $1.',
+  rewardsEarningInfoText:
+    'The tokens you earn this month will begin processing on $1.',
   rewardsExchangeValueNote: 'This may vary based on market volatility.',
   rewardsGiving: 'Giving',
   rewardsGrantDaysRemaining: 'You have $1 left to claim',
   rewardsLearnMore: 'Learn more',
   rewardsLogInToSeeBalance: '$1Log in to $2$3 to see your balance',
   rewardsOptInHeader: 'Earn tokens and give back',
-  rewardsOptInTerms: 'By proceeding, you agree to the $1Terms of Service$2 and $3Privacy Policy$4.',
-  rewardsOptInText: 'Earn tokens by viewing Brave Private Ads and support content creators automatically.',
+  rewardsOptInTerms:
+    'By proceeding, you agree to the $1Terms of Service$2 and $3Privacy Policy$4.',
+  rewardsOptInText:
+    'Earn tokens by viewing Brave Private Ads and support content creators automatically.',
   rewardsPaymentCheckStatus: 'Check status',
   rewardsPaymentCompleted: 'Congrats! Your $1 rewards have arrived!',
   rewardsPaymentPending: 'Your $1 $2 rewards will arrive in $3',
-  rewardsPaymentProcessing: 'Your $1 $2 rewards are on the way. Keep an eye out!',
+  rewardsPaymentProcessing:
+    'Your $1 $2 rewards are on the way. Keep an eye out!',
   rewardsProgress: 'Progress',
   rewardsSelectCountryHeader: 'Select your country',
-  rewardsSelectCountryText: 'To continue using Brave Rewards, select your country so we can show you the right options and ads for your region. $1Privacy Policy$2',
+  rewardsSelectCountryText:
+    'To continue using Brave Rewards, select your country so we can show you the right options and ads for your region. $1Privacy Policy$2',
   rewardsSettings: 'Rewards settings',
-  rewardsSponsoredImageEarningText: 'You’re earning tokens for viewing this sponsored image.',
-  rewardsSponsoredImageOptInText: 'Earn tokens for viewing this image and support content creators.',
+  rewardsSponsoredImageEarningText:
+    'You’re earning tokens for viewing this sponsored image.',
+  rewardsSponsoredImageOptInText:
+    'Earn tokens for viewing this image and support content creators.',
   rewardsStartUsingRewards: 'Start using Rewards',
   rewardsTokenBalance: 'Token Balance',
   rewardsTokenGrantTitle: 'A token grant is available!'

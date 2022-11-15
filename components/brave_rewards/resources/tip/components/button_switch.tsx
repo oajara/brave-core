@@ -24,31 +24,29 @@ interface Props<T> {
   onSelect: (value: T) => void
 }
 
-export function ButtonSwitch<T> (props: Props<T>) {
+export function ButtonSwitch<T>(props: Props<T>) {
   return (
     <style.root>
-      {
-        props.options.map((opt, index) => {
-          const key = String(opt.value)
-          const selected = opt.value === props.selectedValue
-          const onClick = () => {
-            if (!selected) {
-              props.onSelect(opt.value)
-            }
+      {props.options.map((opt, index) => {
+        const key = String(opt.value)
+        const selected = opt.value === props.selectedValue
+        const onClick = () => {
+          if (!selected) {
+            props.onSelect(opt.value)
           }
-          return (
-            <style.option
-              key={key}
-              className={selected ? 'selected' : ''}
-              data-option-value={key}
-              data-option-index={index}
-            >
-              <button onClick={onClick}>{opt.content}</button>
-              {opt.caption ? <style.caption>{opt.caption}</style.caption> : null}
-            </style.option>
-          )
-        })
-      }
+        }
+        return (
+          <style.option
+            key={key}
+            className={selected ? 'selected' : ''}
+            data-option-value={key}
+            data-option-index={index}
+          >
+            <button onClick={onClick}>{opt.content}</button>
+            {opt.caption ? <style.caption>{opt.caption}</style.caption> : null}
+          </style.option>
+        )
+      })}
     </style.root>
   )
 }

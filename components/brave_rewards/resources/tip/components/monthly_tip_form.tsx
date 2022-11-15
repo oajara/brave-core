@@ -14,7 +14,7 @@ import { ExchangeAmount } from '../../shared/components/exchange_amount'
 
 import * as style from './monthly_tip_form.style'
 
-function generateTipOptions (rewardsParameters: RewardsParameters) {
+function generateTipOptions(rewardsParameters: RewardsParameters) {
   const { monthlyTipChoices } = rewardsParameters
   if (monthlyTipChoices.length > 0) {
     return monthlyTipChoices
@@ -22,7 +22,7 @@ function generateTipOptions (rewardsParameters: RewardsParameters) {
   return [1, 5, 10]
 }
 
-function getDefaultTipAmount (
+function getDefaultTipAmount(
   rewardsParameters: RewardsParameters | undefined,
   currentAmount: number
 ) {
@@ -45,22 +45,25 @@ function getDefaultTipAmount (
   return options[middle]
 }
 
-export function MonthlyTipForm () {
+export function MonthlyTipForm() {
   const host = React.useContext(HostContext)
 
-  const [balanceInfo, setBalanceInfo] = React.useState(
-    host.state.balanceInfo)
+  const [balanceInfo, setBalanceInfo] = React.useState(host.state.balanceInfo)
   const [rewardsParameters, setRewardsParameters] = React.useState(
-    host.state.rewardsParameters)
+    host.state.rewardsParameters
+  )
   const [currentMonthlyTip, setCurrentMonthlyTip] = React.useState(
-    host.state.currentMonthlyTip || 0)
+    host.state.currentMonthlyTip || 0
+  )
   const [nextReconcileDate, setNextReconcileDate] = React.useState(
-    host.state.nextReconcileDate)
+    host.state.nextReconcileDate
+  )
 
   const [paymentKind, setPaymentKind] = React.useState<PaymentKind>('bat')
 
   const [changeAmountSelected, setChangeAmountSelected] = React.useState(
-    host.getDialogArgs().entryPoint === 'set-monthly')
+    host.getDialogArgs().entryPoint === 'set-monthly'
+  )
 
   React.useEffect(() => {
     return host.addListener((state) => {
@@ -76,8 +79,12 @@ export function MonthlyTipForm () {
   }
 
   if (currentMonthlyTip > 0 && !changeAmountSelected) {
-    const onCancel = () => { host.processTip(0, 'monthly') }
-    const onChange = () => { setChangeAmountSelected(true) }
+    const onCancel = () => {
+      host.processTip(0, 'monthly')
+    }
+    const onChange = () => {
+      setChangeAmountSelected(true)
+    }
     return (
       <CurrentMonthlyForm
         currentMonthlyTip={currentMonthlyTip}
@@ -98,7 +105,10 @@ export function MonthlyTipForm () {
     )
   }))
 
-  const defaultTipAmount = getDefaultTipAmount(rewardsParameters, currentMonthlyTip)
+  const defaultTipAmount = getDefaultTipAmount(
+    rewardsParameters,
+    currentMonthlyTip
+  )
 
   const onSubmitTip = (tipAmount: number) => {
     if (tipAmount > 0) {
@@ -117,7 +127,7 @@ export function MonthlyTipForm () {
       </style.kind>
       <style.form>
         <BatTipForm
-          tipKind='monthly'
+          tipKind="monthly"
           userBalance={balanceInfo.total}
           tipAmountOptions={tipAmountOptions}
           defaultTipAmount={defaultTipAmount}

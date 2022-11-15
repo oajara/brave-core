@@ -5,17 +5,14 @@
 import * as React from 'react'
 import { TooltipProps } from 'recharts'
 
-import {
-  LabelWrapper,
-  ChartLabel
-} from '../style'
+import { LabelWrapper, ChartLabel } from '../style'
 
 type Props = TooltipProps<number, number> & {
   onUpdateBalance: (value: number | undefined) => void
   onUpdatePosition: (value: number) => void
 }
 
-function CustomTooltip ({
+function CustomTooltip({
   active,
   coordinate,
   label,
@@ -25,8 +22,16 @@ function CustomTooltip ({
   viewBox
 }: Props) {
   const parseDate = (date: Date) => {
-    const formatedDate = new Date(date).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' })
-    const formatedTime = new Date(date).toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+    const formatedDate = new Date(date).toLocaleDateString('en-US', {
+      month: 'numeric',
+      day: 'numeric',
+      year: 'numeric'
+    })
+    const formatedTime = new Date(date).toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true
+    })
     return `${formatedDate} ${formatedTime}`
   }
 
@@ -43,11 +48,14 @@ function CustomTooltip ({
     const xRightCoordinate = xLeftCoordinate - viewBoxWidth
     const isEndOrMiddle = xRightCoordinate >= -46 ? 'end' : 'middle'
     const labelPosition = xLeftCoordinate <= 62 ? 'start' : isEndOrMiddle
-    const middleEndTranslate = xRightCoordinate >= 8 ? 0 : Math.abs(xRightCoordinate) + 8
+    const middleEndTranslate =
+      xRightCoordinate >= 8 ? 0 : Math.abs(xRightCoordinate) + 8
 
     return (
       <LabelWrapper
-        labelTranslate={labelPosition === 'start' ? xLeftCoordinate : middleEndTranslate}
+        labelTranslate={
+          labelPosition === 'start' ? xLeftCoordinate : middleEndTranslate
+        }
         labelPosition={labelPosition}
       >
         <ChartLabel>{parseDate(label)}</ChartLabel>

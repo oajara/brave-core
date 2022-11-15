@@ -22,55 +22,60 @@ type Props = {
   onToggleBalanceVisibility: () => unknown
 }
 
-export default function Summary (props: Props) {
+export default function Summary(props: Props) {
   const total = props.ftx.balanceTotal || 0
   const balanceKeys = Object.keys(props.ftx.balances)
   return (
     <S.Box $mt={10}>
-      <S.FlexItem isFlex={true} $p={15} hasPadding={true} >
+      <S.FlexItem isFlex={true} $p={15} hasPadding={true}>
         <S.FlexItem>
           <S.Balance hideBalance={props.hideBalance}>
-            <S.Text lineHeight={1.15} $fontSize={21}>{getFormattedPrice(total)}</S.Text>
+            <S.Text lineHeight={1.15} $fontSize={21}>
+              {getFormattedPrice(total)}
+            </S.Text>
           </S.Balance>
         </S.FlexItem>
         <S.FlexItem>
           <S.BlurIcon
             onClick={props.onToggleBalanceVisibility}
-            aria-label={getLocale(props.hideBalance ? 'ftxSummaryRevealLabel' : 'ftxSummaryBlurLabel')}
-          >
-            {
+            aria-label={getLocale(
               props.hideBalance
-              ? <ShowIcon />
-              : <HideIcon />
-            }
+                ? 'ftxSummaryRevealLabel'
+                : 'ftxSummaryBlurLabel'
+            )}
+          >
+            {props.hideBalance ? <ShowIcon /> : <HideIcon />}
           </S.BlurIcon>
         </S.FlexItem>
       </S.FlexItem>
-      {balanceKeys.length !== 0
-      ? <S.List hasBorder={false}>
-        {balanceKeys.map(currencyKey => {
-          const balance = props.ftx.balances[currencyKey]
-          return (
-            <S.ListItem key={currencyKey} isFlex={true} $height={40}>
-              <S.FlexItem $pl={5} $pr={5}>
-                <IconAsset iconKey={currencyKey.toLowerCase()} size={18} />
-              </S.FlexItem>
-              <S.FlexItem>
-                <S.Text>{currencyKey}</S.Text>
-              </S.FlexItem>
-              <S.FlexItem textAlign='right' flex={1}>
-                <S.Balance hideBalance={props.hideBalance}>
-                  <S.Text lineHeight={1.15}>{balance}</S.Text>
-                </S.Balance>
-              </S.FlexItem>
-            </S.ListItem>
-          )
-        })}
-      </S.List>
-      : <S.Balance hideBalance={props.hideBalance}>
-          <S.Text lineHeight={1.15} $p={12}>{getLocale('ftxSummaryNoBalance')}</S.Text>
+      {balanceKeys.length !== 0 ? (
+        <S.List hasBorder={false}>
+          {balanceKeys.map((currencyKey) => {
+            const balance = props.ftx.balances[currencyKey]
+            return (
+              <S.ListItem key={currencyKey} isFlex={true} $height={40}>
+                <S.FlexItem $pl={5} $pr={5}>
+                  <IconAsset iconKey={currencyKey.toLowerCase()} size={18} />
+                </S.FlexItem>
+                <S.FlexItem>
+                  <S.Text>{currencyKey}</S.Text>
+                </S.FlexItem>
+                <S.FlexItem textAlign="right" flex={1}>
+                  <S.Balance hideBalance={props.hideBalance}>
+                    <S.Text lineHeight={1.15}>{balance}</S.Text>
+                  </S.Balance>
+                </S.FlexItem>
+              </S.ListItem>
+            )
+          })}
+        </S.List>
+      ) : (
+        <S.Balance hideBalance={props.hideBalance}>
+          <S.Text lineHeight={1.15} $p={12}>
+            {getLocale('ftxSummaryNoBalance')}
+          </S.Text>
         </S.Balance>
-      }
+      )}
     </S.Box>
   )
 }

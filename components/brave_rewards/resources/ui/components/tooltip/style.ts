@@ -17,19 +17,20 @@ export const StyledWrapper = styled('div')<{}>`
 export const StyledTooltip = styled('div')<StyleProps>`
   left: 50%;
   top: calc(100% + 10px);
-  transform: ${p => p.rightEdge ? 'translateX(-80%);' : 'translateX(-50%);'};
+  transform: ${(p) =>
+    p.rightEdge ? 'translateX(-80%);' : 'translateX(-50%);'};
   white-space: nowrap;
   position: absolute;
-  background: #0C0D21;
+  background: #0c0d21;
   text-align: center;
   padding: 10px;
   z-index: 2;
   border-radius: 3px;
   box-shadow: 1px 1px 5px 0 rgba(34, 35, 38, 0.43);
-  display: ${p => p.displayed ? 'inline-block' : 'none'};
+  display: ${(p) => (p.displayed ? 'inline-block' : 'none')};
 `
 export const StyledTooltipText = styled('div')<{}>`
-  color: #FFFFFF;
+  color: #ffffff;
   font-family: Poppins, sans-serif;
   font-weight: 300;
   font-size: 14px;
@@ -41,9 +42,9 @@ export const StyledPointer = styled('div')<StyleProps>`
   border-style: solid;
   position: absolute;
   top: -7px;
-  left: ${p => p.rightEdge ? 'calc(80% - 10px)' : 'calc(50% - 7px)'};
+  left: ${(p) => (p.rightEdge ? 'calc(80% - 10px)' : 'calc(50% - 7px)')};
   border-width: 0 7px 8px 7px;
-  border-color: transparent transparent #0C0D21 transparent;
+  border-color: transparent transparent #0c0d21 transparent;
 `
 
 export const StyledChildWrapper = styled('div')<{}>`

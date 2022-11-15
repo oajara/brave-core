@@ -13,7 +13,11 @@ import NewTabPage from '../containers/newTab'
 import { getActionsForDispatch } from '../api/getActions'
 import store from '../store'
 import { useNewTabData, getGridSitesData } from './default/data/storybookState'
-import { onChangeColoredBackground, onUseBraveBackground, onShowBrandedImageChanged } from './default/data/backgroundWallpaper'
+import {
+  onChangeColoredBackground,
+  onUseBraveBackground,
+  onShowBrandedImageChanged
+} from './default/data/backgroundWallpaper'
 import getTodayState from './default/data/todayStorybookState'
 import getBraveNewsDisplayAd from './default/data/getBraveNewsDisplayAd'
 import { getDataUrl, getUnpaddedAsDataUrl } from '../../common/privateCDN'
@@ -22,12 +26,15 @@ import { images, updateImages } from '../data/backgrounds'
 
 const doNothingDispatch: Dispatch = (action: any) => action
 
-function getActions () {
+function getActions() {
   return getActionsForDispatch(doNothingDispatch)
 }
 
 // @ts-expect-error
-window.braveStorybookUnpadUrl = async function UnpadUrl (paddedUrl: string, mimeType = 'image/jpg'): Promise<string> {
+window.braveStorybookUnpadUrl = async function UnpadUrl(
+  paddedUrl: string,
+  mimeType = 'image/jpg'
+): Promise<string> {
   const response = await fetch(paddedUrl)
   const blob = await response.blob()
   const buffer = await blob.arrayBuffer()
@@ -39,26 +46,29 @@ window.braveStorybookUnpadUrl = async function UnpadUrl (paddedUrl: string, mime
 }
 
 const StoreProvider: React.FunctionComponent = ({ children }) => {
-  return (
-    <ReduxProvider store={store}>
-     {children}
-    </ReduxProvider>
-  )
+  return <ReduxProvider store={store}>{children}</ReduxProvider>
 }
 
 export default {
   title: 'New Tab',
   decorators: [
-    (Story: any) => <StoreProvider><Story /></StoreProvider>
+    (Story: any) => (
+      <StoreProvider>
+        <Story />
+      </StoreProvider>
+    )
   ]
 }
 
-updateImages(images.map((image): NewTab.BraveBackground => {
-  return {
-    ...image,
-    wallpaperImageUrl: require('../../img/newtab/backgrounds/' + image.wallpaperImageUrl)
-  }
-}))
+updateImages(
+  images.map((image): NewTab.BraveBackground => {
+    return {
+      ...image,
+      wallpaperImageUrl: require('../../img/newtab/backgrounds/' +
+        image.wallpaperImageUrl)
+    }
+  })
+)
 
 export const Regular = () => {
   const doNothing = (value?: any) => value

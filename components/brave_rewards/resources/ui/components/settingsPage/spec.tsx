@@ -9,7 +9,11 @@ import SettingsPage from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('SettingsPage tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><SettingsPage id='page' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <SettingsPage id="page" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

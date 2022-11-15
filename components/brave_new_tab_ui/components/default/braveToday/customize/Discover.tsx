@@ -27,41 +27,49 @@ const Header = styled.span`
 const SearchInput = styled(TextInput)`
   margin: 16px 0;
   border-radius: 4px;
-  --interactive8: #AEB1C2;
-  --focus-border: #737ADE;
+  --interactive8: #aeb1c2;
+  --focus-border: #737ade;
 `
 
-export default function Discover () {
+export default function Discover() {
   const [query, setQuery] = useState('')
 
-  return <Flex direction='column'>
-    <Header>Discover</Header>
-    <SearchInput type="search" placeholder={getLocale('braveNewsSearchPlaceholderLabel')} value={query} onChange={e => setQuery(e.currentTarget.value)} />
-    { query.length
-      ? <SearchResults query={query} />
-      : <Home />
-    }
-  </Flex>
+  return (
+    <Flex direction="column">
+      <Header>Discover</Header>
+      <SearchInput
+        type="search"
+        placeholder={getLocale('braveNewsSearchPlaceholderLabel')}
+        value={query}
+        onChange={(e) => setQuery(e.currentTarget.value)}
+      />
+      {query.length ? <SearchResults query={query} /> : <Home />}
+    </Flex>
+  )
 }
 
-function Home () {
+function Home() {
   const channels = useChannels()
   const { updateSuggestedPublisherIds } = useBraveNews()
 
-  const channelNames = React.useMemo(() => channels.map(c => c.channelName),
-    [channels])
+  const channelNames = React.useMemo(
+    () => channels.map((c) => c.channelName),
+    [channels]
+  )
 
   // When we mount this component, update the suggested publisher ids.
-  React.useEffect(() => { updateSuggestedPublisherIds() }, [])
+  React.useEffect(() => {
+    updateSuggestedPublisherIds()
+  }, [])
 
   return (
     <>
       <PopularCarousel />
       <SuggestionsCarousel />
       <DiscoverSection name={getLocale('braveNewsChannelsHeader')}>
-      {channelNames.map(channelName =>
-        <ChannelCard key={channelName} channelName={channelName} />
-      )}
+        {channelNames.map((channelName) => (
+          <ChannelCard key={channelName} channelName={channelName} />
+        ))}
       </DiscoverSection>
     </>
   )
@@ -70,42 +78,60 @@ function Home () {
 interface SearchResultsProps {
   query: string
 }
-function SearchResults (props: SearchResultsProps) {
+function SearchResults(props: SearchResultsProps) {
   const search = useSearch(props.query)
-  const isFetchable = (search.feedUrlQuery !== null)
-  const showFetchPermissionButton = (isFetchable && (!search.canFetchUrl || search.loading))
+  const isFetchable = search.feedUrlQuery !== null
+  const showFetchPermissionButton =
+    isFetchable && (!search.canFetchUrl || search.loading)
 
   const hasAnyChannels = search.filteredChannels.length > 0
-  const hasAnySources = (search.filteredSources.publisherIds.length > 0 || search.filteredSources.direct.length > 0)
+  const hasAnySources =
+    search.filteredSources.publisherIds.length > 0 ||
+    search.filteredSources.direct.length > 0
 
   return (
     <>
-      {hasAnyChannels &&
-      <DiscoverSection name={getLocale('braveNewsChannelsHeader')}>
-        {search.filteredChannels.map(c =>
-          <ChannelCard key={c.channelName} channelName={c.channelName} />
-        )}
-      </DiscoverSection>
-      }
+      {hasAnyChannels && (
+        <DiscoverSection name={getLocale('braveNewsChannelsHeader')}>
+          {search.filteredChannels.map((c) => (
+            <ChannelCard key={c.channelName} channelName={c.channelName} />
+          ))}
+        </DiscoverSection>
+      )}
       <DiscoverSection name={getLocale('braveNewsAllSourcesHeader')}>
-        {search.filteredSources.publisherIds.map(publisherId =>
+        {search.filteredSources.publisherIds.map((publisherId) => (
           <FeedCard key={publisherId} publisherId={publisherId} />
-        )}
-        {showFetchPermissionButton &&
+        ))}
+        {showFetchPermissionButton && (
           <div>
-            <Button scale='tiny' onClick={() => search.setCanFetchUrl(true)} isLoading={search.loading}>
-              {getLocale('braveNewsDirectSearchButton').replace('$1', search.feedUrlQuery ?? '')}
+            <Button
+              scale="tiny"
+              onClick={() => search.setCanFetchUrl(true)}
+              isLoading={search.loading}
+            >
+              {getLocale('braveNewsDirectSearchButton').replace(
+                '$1',
+                search.feedUrlQuery ?? ''
+              )}
             </Button>
           </div>
-        }
-        {search.filteredSources.direct.map(r =>
-          <DirectFeedCard key={r.feedUrl.url} feedUrl={r.feedUrl.url} title={r.feedTitle} />)}
+        )}
+        {search.filteredSources.direct.map((r) => (
+          <DirectFeedCard
+            key={r.feedUrl.url}
+            feedUrl={r.feedUrl.url}
+            title={r.feedTitle}
+          />
+        ))}
         {!search.canQueryFilterSources &&
-          getLocale('braveNewsSearchQueryTooShort')
-        }
-        {isFetchable && !hasAnySources && !showFetchPermissionButton &&
-          getLocale('braveNewsDirectSearchNoResults').replace('$1', search.feedUrlQuery ?? '')
-        }
+          getLocale('braveNewsSearchQueryTooShort')}
+        {isFetchable &&
+          !hasAnySources &&
+          !showFetchPermissionButton &&
+          getLocale('braveNewsDirectSearchNoResults').replace(
+            '$1',
+            search.feedUrlQuery ?? ''
+          )}
       </DiscoverSection>
     </>
   )

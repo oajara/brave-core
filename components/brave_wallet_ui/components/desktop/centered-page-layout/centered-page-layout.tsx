@@ -6,16 +6,14 @@
 import * as React from 'react'
 import { StyledWrapper, StyledContent } from './centered-page-layout.style'
 
-export const CenteredPageLayout = React.memo<React.PropsWithChildren<{}>>(({
-  children
-}) => {
-  return (
-    <StyledWrapper>
-      <StyledContent>
-        {children}
-      </StyledContent>
-    </StyledWrapper>
-  )
-})
+export const CenteredPageLayout = React.memo<React.PropsWithChildren<{}>>(
+  ({ children }) => {
+    return (
+      <StyledWrapper>
+        <StyledContent>{children}</StyledContent>
+      </StyledWrapper>
+    )
+  }
+)
 
 export default CenteredPageLayout

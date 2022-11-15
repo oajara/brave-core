@@ -12,12 +12,24 @@ export const keyName = 'new-tab-data'
 export const defaultState: NewTab.State = {
   initialDataLoaded: false,
   textDirection: loadTimeData.getString('textdirection'),
-  featureFlagBraveNTPSponsoredImagesWallpaper: loadTimeData.getBoolean('featureFlagBraveNTPSponsoredImagesWallpaper'),
-  featureFlagBraveNewsEnabled: loadTimeData.getBoolean('featureFlagBraveNewsEnabled'),
-  featureFlagBraveNewsV2Enabled: loadTimeData.getBoolean('featureFlagBraveNewsV2Enabled'),
-  featureFlagBraveNewsPromptEnabled: loadTimeData.getBoolean('featureFlagBraveNewsPromptEnabled'),
-  featureFlagBraveNewsSubscribeButtonEnabled: loadTimeData.getBoolean('featureFlagBraveNewsSubscribeButtonEnabled'),
-  featureCustomBackgroundEnabled: loadTimeData.getBoolean('featureCustomBackgroundEnabled'),
+  featureFlagBraveNTPSponsoredImagesWallpaper: loadTimeData.getBoolean(
+    'featureFlagBraveNTPSponsoredImagesWallpaper'
+  ),
+  featureFlagBraveNewsEnabled: loadTimeData.getBoolean(
+    'featureFlagBraveNewsEnabled'
+  ),
+  featureFlagBraveNewsV2Enabled: loadTimeData.getBoolean(
+    'featureFlagBraveNewsV2Enabled'
+  ),
+  featureFlagBraveNewsPromptEnabled: loadTimeData.getBoolean(
+    'featureFlagBraveNewsPromptEnabled'
+  ),
+  featureFlagBraveNewsSubscribeButtonEnabled: loadTimeData.getBoolean(
+    'featureFlagBraveNewsSubscribeButtonEnabled'
+  ),
+  featureCustomBackgroundEnabled: loadTimeData.getBoolean(
+    'featureCustomBackgroundEnabled'
+  ),
   searchPromotionEnabled: false,
   showBackgroundImage: false,
   showStats: false,
@@ -160,11 +172,7 @@ if (chrome.extension.inIncognitoContext) {
 // a list in the current format will need to be generated based on their
 // previous configuration.
 const getMigratedWidgetOrder = (state: NewTab.State) => {
-  const {
-    showRewards,
-    showBinance,
-    currentStackWidget
-  } = state
+  const { showRewards, showBinance, currentStackWidget } = state
 
   if (!showRewards && !showBinance) {
     return {
@@ -188,9 +196,8 @@ const getMigratedWidgetOrder = (state: NewTab.State) => {
   }
 
   const widgetStackOrder = []
-  const nonCurrentWidget = currentStackWidget === 'rewards'
-    ? 'binance'
-    : 'rewards'
+  const nonCurrentWidget =
+    currentStackWidget === 'rewards' ? 'binance' : 'rewards'
 
   widgetStackOrder.push(currentStackWidget)
   widgetStackOrder.unshift(nonCurrentWidget)
@@ -203,7 +210,8 @@ const getMigratedWidgetOrder = (state: NewTab.State) => {
 
 export const migrateStackWidgetSettings = (state: NewTab.State) => {
   // Migrating to the new stack widget data format
-  const { widgetStackOrder, removedStackWidgets } = getMigratedWidgetOrder(state)
+  const { widgetStackOrder, removedStackWidgets } =
+    getMigratedWidgetOrder(state)
   state.widgetStackOrder = widgetStackOrder as NewTab.StackWidget[]
   state.removedStackWidgets = removedStackWidgets as NewTab.StackWidget[]
   state.currentStackWidget = ''
@@ -215,8 +223,10 @@ export const migrateStackWidgetSettings = (state: NewTab.State) => {
 // at one point.
 export const addNewStackWidget = (state: NewTab.State) => {
   defaultState.widgetStackOrder.map((widget: NewTab.StackWidget) => {
-    if (!state.widgetStackOrder.includes(widget) &&
-        !state.removedStackWidgets.includes(widget)) {
+    if (
+      !state.widgetStackOrder.includes(widget) &&
+      !state.removedStackWidgets.includes(widget)
+    ) {
       state.widgetStackOrder.unshift(widget)
     }
   })
@@ -247,8 +257,10 @@ export const replaceStackWidgets = (state: NewTab.State) => {
   }
   for (const key in displayLookup) {
     const widget = key as NewTab.StackWidget
-    if (!state.widgetStackOrder.includes(widget) &&
-        displayLookup[widget].display) {
+    if (
+      !state.widgetStackOrder.includes(widget) &&
+      displayLookup[widget].display
+    ) {
       state.widgetStackOrder.unshift(widget)
     }
   }
@@ -264,8 +276,10 @@ const cleanData = (state: NewTab.State) => {
 
   // nextPaymentDate updated from seconds-since-epoch-string to ms-since-epoch
   const { adsAccountStatement } = rewardsState
-  if (adsAccountStatement &&
-      typeof (adsAccountStatement.nextPaymentDate as any) === 'string') {
+  if (
+    adsAccountStatement &&
+    typeof (adsAccountStatement.nextPaymentDate as any) === 'string'
+  ) {
     adsAccountStatement.nextPaymentDate =
       Number(adsAccountStatement.nextPaymentDate) * 1000 || 0
   }

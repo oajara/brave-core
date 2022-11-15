@@ -11,7 +11,10 @@ import { types } from '../constants/welcome_types'
 // Utils
 import * as storage from '../storage'
 
-const welcomeReducer: Reducer<Welcome.State | undefined> = (state: Welcome.State | undefined, action: any) => {
+const welcomeReducer: Reducer<Welcome.State | undefined> = (
+  state: Welcome.State | undefined,
+  action: any
+) => {
   if (state === undefined) {
     state = storage.load()
   }
@@ -44,8 +47,18 @@ const welcomeReducer: Reducer<Welcome.State | undefined> = (state: Welcome.State
     case types.IMPORT_DEFAULT_SEARCH_PROVIDERS_SUCCESS:
       // Regions approved for Brave Search will skip search welcome card
       // Regions not approved show the card- but without Brave Search
-      const braveSearchApprovedRegion: boolean =
-          ['AR', 'BR', 'AT', 'ES', 'MX', 'US', 'CA', 'DE', 'FR', 'GB'].includes(loadTimeData.getString('countryString'))
+      const braveSearchApprovedRegion: boolean = [
+        'AR',
+        'BR',
+        'AT',
+        'ES',
+        'MX',
+        'US',
+        'CA',
+        'DE',
+        'FR',
+        'GB'
+      ].includes(loadTimeData.getString('countryString'))
       state = {
         ...state,
         searchProviders: payload,

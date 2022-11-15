@@ -5,7 +5,9 @@
 
 import * as React from 'react'
 
-export default function useScrollIntoView<T extends HTMLElement = HTMLAnchorElement> (shouldScrollIntoView: boolean) {
+export default function useScrollIntoView<
+  T extends HTMLElement = HTMLAnchorElement
+>(shouldScrollIntoView: boolean) {
   // If we need to scroll the article in to view after render,
   // do so after the element has been mounted.
   const cardRef = React.useRef<T>(null)
@@ -13,7 +15,9 @@ export default function useScrollIntoView<T extends HTMLElement = HTMLAnchorElem
     if (shouldScrollIntoView && cardRef.current) {
       cardRef.current.scrollIntoView({ block: 'center' })
     } else if (shouldScrollIntoView) {
-      console.warn('Brave News: attempted to scroll to a card that was not rendered')
+      console.warn(
+        'Brave News: attempted to scroll to a card that was not rendered'
+      )
     }
   }, [cardRef.current]) // only re-run if the ref element changesa
   return [cardRef]
@@ -21,7 +25,9 @@ export default function useScrollIntoView<T extends HTMLElement = HTMLAnchorElem
 
 type useScrollIntoViewReturn = [React.RefObject<HTMLElement>, () => any]
 
-export function userScrollIntoViewAfterImagesLoaded (shouldScrollIntoView: boolean): useScrollIntoViewReturn {
+export function userScrollIntoViewAfterImagesLoaded(
+  shouldScrollIntoView: boolean
+): useScrollIntoViewReturn {
   // If we need to scroll the article in to view after render,
   // do so after the image has been loaded. Assume that all the other
   // previous images are loaded and the articles are occupying
@@ -30,7 +36,12 @@ export function userScrollIntoViewAfterImagesLoaded (shouldScrollIntoView: boole
   const hasScrolled = React.useRef<boolean>(false)
   const hasImageLoaded = React.useRef<boolean>(false)
   const scrollIntoViewConditionally = function () {
-    if (shouldScrollIntoView && !hasScrolled.current && hasImageLoaded.current && cardRef.current) {
+    if (
+      shouldScrollIntoView &&
+      !hasScrolled.current &&
+      hasImageLoaded.current &&
+      cardRef.current
+    ) {
       hasScrolled.current = true
       cardRef.current.scrollIntoView({ block: 'center' })
     }

@@ -5,7 +5,7 @@
 import styled, { css } from 'styled-components'
 import { Props, Size, Type } from './index'
 
-const sizes: Record<Size, { token: string, tokenNum: string, text: string }> = {
+const sizes: Record<Size, { token: string; tokenNum: string; text: string }> = {
   mini: {
     text: '14px',
     token: '14px',
@@ -55,10 +55,10 @@ export const StyledTokenValue = styled('span')<{}>`
 `
 
 export const StyledContent = styled('span')<Partial<Props>>`
-  color: #9E9FAB;
+  color: #9e9fab;
   font-size: var(--tokens-text-size);
   display: inline-block;
-  margin-left: ${p => p.showApproxSign ? '4px' : '8px'};
+  margin-left: ${(p) => (p.showApproxSign ? '4px' : '8px')};
 `
 
 export const StyledTokenCurrency = styled('span')<{}>`

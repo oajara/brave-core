@@ -37,7 +37,7 @@ interface State {
 }
 
 export default class BoxMobile extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       detailView: false,
@@ -45,7 +45,7 @@ export default class BoxMobile extends React.PureComponent<Props, State> {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.handleUrl()
     window.addEventListener('popstate', (e) => {
       this.handleUrl()
@@ -144,51 +144,35 @@ export default class BoxMobile extends React.PureComponent<Props, State> {
   }
 
   getToggleHeader = (props: Props) => {
-    const {
-      title,
-      type,
-      checked,
-      toggle
-    } = props
+    const { title, type, checked, toggle } = props
     const isDetailView = checked && this.state.detailView
 
     return (
       <Styled.ToggleRow detailView={isDetailView}>
         <Styled.ToggleHeader detailView={isDetailView}>
           <Styled.Left>
-            {
-              isDetailView
-                ? <Styled.BackArrow onClick={this.setView.bind(this, 'index')}>
-                  <ArrowLeftIcon />
-                </Styled.BackArrow>
-                : null
-            }
-            <Styled.Title
-              type={type}
-              detailView={isDetailView}
-            >
+            {isDetailView ? (
+              <Styled.BackArrow onClick={this.setView.bind(this, 'index')}>
+                <ArrowLeftIcon />
+              </Styled.BackArrow>
+            ) : null}
+            <Styled.Title type={type} detailView={isDetailView}>
               {title}
             </Styled.Title>
           </Styled.Left>
           <Styled.Right>
-            {
-              toggle
-                ? <Styled.ToggleWrapper detailView={isDetailView}>
-                  <Toggle
-                    size={'small'}
-                    onToggle={this.onToggle}
-                    checked={checked}
-                  />
-                </Styled.ToggleWrapper>
-                : null
-            }
+            {toggle ? (
+              <Styled.ToggleWrapper detailView={isDetailView}>
+                <Toggle
+                  size={'small'}
+                  onToggle={this.onToggle}
+                  checked={checked}
+                />
+              </Styled.ToggleWrapper>
+            ) : null}
           </Styled.Right>
         </Styled.ToggleHeader>
-        {
-          !checked && toggle
-            ? <Styled.TOS title={title} />
-            : null
-        }
+        {!checked && toggle ? <Styled.TOS title={title} /> : null}
       </Styled.ToggleRow>
     )
   }
@@ -216,9 +200,7 @@ export default class BoxMobile extends React.PureComponent<Props, State> {
     return (
       <Styled.MobileListWrapper>
         <Styled.SettingsListTitle onClick={this.setView.bind(this, 'settings')}>
-          <Styled.SettingsText>
-            {getLocale('settings')}
-          </Styled.SettingsText>
+          <Styled.SettingsText>{getLocale('settings')}</Styled.SettingsText>
           <Styled.SettingsIcon>
             <SettingsIcon />
           </Styled.SettingsIcon>
@@ -247,9 +229,7 @@ export default class BoxMobile extends React.PureComponent<Props, State> {
             <CloseStrokeIcon />
           </Styled.SettingsClose>
         </Styled.SettingsHeader>
-        <Styled.SettingsContent>
-          {settingsChild}
-        </Styled.SettingsContent>
+        <Styled.SettingsContent>{settingsChild}</Styled.SettingsContent>
       </Styled.FullSizeWrapper>
     )
   }
@@ -271,11 +251,9 @@ export default class BoxMobile extends React.PureComponent<Props, State> {
             </Styled.Description>
           </Styled.DetailInfo>
           <Styled.ChildContent>
-            {
-              settingsChild
-                ? <List title={this.getSettingsListTitle()} />
-                : null
-            }
+            {settingsChild ? (
+              <List title={this.getSettingsListTitle()} />
+            ) : null}
             {children}
           </Styled.ChildContent>
         </Styled.DetailContent>
@@ -283,40 +261,28 @@ export default class BoxMobile extends React.PureComponent<Props, State> {
     )
   }
 
-  renderDescription (isInitialView: boolean) {
-    const {
-      description,
-      extraDescriptionChild
-    } = this.props
+  renderDescription(isInitialView: boolean) {
+    const { description, extraDescriptionChild } = this.props
 
-    const descriptionExtra = isInitialView && extraDescriptionChild
-                           ? extraDescriptionChild
-                           : null
+    const descriptionExtra =
+      isInitialView && extraDescriptionChild ? extraDescriptionChild : null
 
     return (
       <>
-        <Styled.Description>
-          {description}
-        </Styled.Description>
+        <Styled.Description>{description}</Styled.Description>
         {descriptionExtra}
       </>
     )
   }
 
-  render () {
-    const {
-      id,
-      checked,
-      headerAlertContent
-    } = this.props
+  render() {
+    const { id, checked, headerAlertContent } = this.props
 
     const showDetailView = checked && this.state.detailView
     const showSettingsView = checked && this.state.settings
 
     return (
-      <Styled.BoxCard
-        testId={id}
-      >
+      <Styled.BoxCard testId={id}>
         <Styled.Flip>
           <Styled.ContentWrapper open={!this.state.settings}>
             {headerAlertContent}
@@ -336,10 +302,8 @@ export default class BoxMobile extends React.PureComponent<Props, State> {
     )
   }
 
-  renderAlert () {
-    const {
-      alertContent
-    } = this.props
+  renderAlert() {
+    const { alertContent } = this.props
 
     if (!alertContent) {
       return null
@@ -347,9 +311,7 @@ export default class BoxMobile extends React.PureComponent<Props, State> {
     return (
       <Styled.Alert>
         <Styled.AlertIcon />
-        <Styled.AlertContent>
-          {alertContent}
-        </Styled.AlertContent>
+        <Styled.AlertContent>{alertContent}</Styled.AlertContent>
       </Styled.Alert>
     )
   }

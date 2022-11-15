@@ -96,7 +96,10 @@ export const TransactionFiatAmountBig = styled.span`
   margin-bottom: 10px;
 `
 
-export const MessageBox = styled.div<{ isApprove: boolean, isDetails: boolean }>`
+export const MessageBox = styled.div<{
+  isApprove: boolean
+  isDetails: boolean
+}>`
   display: flex;
   align-items: flex-start;
   justify-content: 'flex-start';
@@ -105,8 +108,8 @@ export const MessageBox = styled.div<{ isApprove: boolean, isDetails: boolean }>
   box-sizing: border-box;
   border-radius: 4px;
   width: 255px;
-  height: ${(p) => p.isApprove ? '120px' : '140px'};
-  padding: ${(p) => p.isDetails ? '14px' : '4px 14px'};
+  height: ${(p) => (p.isApprove ? '120px' : '140px')};
+  padding: ${(p) => (p.isDetails ? '14px' : '4px 14px')};
   margin-bottom: 14px;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -197,7 +200,8 @@ export const TransactionText = styled.span<{ hasError?: boolean }>`
   font-size: 12px;
   line-height: 18px;
   letter-spacing: 0.01em;
-  color: ${(p) => p.hasError ? p.theme.color.errorText : p.theme.color.text03};
+  color: ${(p) =>
+    p.hasError ? p.theme.color.errorText : p.theme.color.text03};
   text-align: left;
 `
 
@@ -213,10 +217,10 @@ export const WarningIcon = styled(WarningBoxIcon)`
 `
 
 export const LoadIcon = styled(LoaderIcon)`
-  color: ${p => p.theme.color.interactive08};
+  color: ${(p) => p.theme.color.interactive08};
   height: 25px;
   width: 24px;
-  opacity: .4;
+  opacity: 0.4;
 `
 
 export const GroupBox = styled.div`
@@ -234,7 +238,7 @@ export const GroupBox = styled.div`
   overflow-x: hidden;
   position: relative;
   margin-top: 10px;
-  background: ${p => p.theme.color.infoBackground};
+  background: ${(p) => p.theme.color.infoBackground};
 `
 
 export const GroupBoxColumn = styled.div`
@@ -258,10 +262,10 @@ export const GroupBoxTitle = styled.span`
 export const GroupBoxText = styled.div<{ dark: boolean }>`
   font-family: Poppins;
   font-size: 11px;
-  font-weight: ${(p) => p.dark ? 600 : 400};
+  font-weight: ${(p) => (p.dark ? 600 : 400)};
   line-height: 18px;
   letter-spacing: 0.01em;
-  color: ${(p) => p.dark ? p.theme.color.text02 : p.theme.color.text03};
+  color: ${(p) => (p.dark ? p.theme.color.text02 : p.theme.color.text03)};
   flex: 1;
   display: flex;
   align-items: center;
@@ -274,9 +278,9 @@ export const GroupEnumeration = styled.code`
 `
 
 export const SmallLoadIcon = styled(LoaderIcon)`
-  color: ${p => p.theme.color.interactive08};
+  color: ${(p) => p.theme.color.interactive08};
   height: 16px;
   width: 16px;
-  opacity: .4;
+  opacity: 0.4;
   padding-left: 5px;
 `

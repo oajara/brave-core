@@ -8,7 +8,8 @@ import * as React from 'react'
 // style
 import {
   ArticleLinkIcons,
-  Bubble, BubbleIcon,
+  Bubble,
+  BubbleIcon,
   BubbleIconBackground,
   BubbleText,
   IconBubbleColors
@@ -28,17 +29,9 @@ export const ArticleLinkBubble: React.FC<ArticleLinkBubbleProps> = ({
   url
 }) => {
   return (
-    <Bubble
-      href={url}
-      target='_blank'
-      rel='noreferrer'
-    >
-      <BubbleIconBackground
-        backgroundColor={iconBackgroundColor}
-      >
-        <BubbleIcon
-          icon={icon}
-        />
+    <Bubble href={url} target="_blank" rel="noreferrer">
+      <BubbleIconBackground backgroundColor={iconBackgroundColor}>
+        <BubbleIcon icon={icon} />
       </BubbleIconBackground>
       <BubbleText>{text}</BubbleText>
     </Bubble>

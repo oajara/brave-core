@@ -32,13 +32,13 @@ interface State {
 }
 
 export class PlaylistPage extends React.Component<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = { experimentalUrl: '' }
     this.onClickDownloadVideo = this.onClickDownloadVideo.bind(this)
   }
 
-  get actions () {
+  get actions() {
     return this.props.actions
   }
 
@@ -47,7 +47,9 @@ export class PlaylistPage extends React.Component<Props, State> {
   }
 
   findPlaylistWithId = (playlistId: string) => {
-    return this.props.playlistData.lists.find(playlist => playlist.id === playlistId)
+    return this.props.playlistData.lists.find(
+      (playlist) => playlist.id === playlistId
+    )
   }
 
   getImgSrc = (itemId: string) => {
@@ -58,7 +60,7 @@ export class PlaylistPage extends React.Component<Props, State> {
     return 'chrome-untrusted://playlist-data/' + itemId + '/media'
   }
 
-  get lazyButtonStyle () {
+  get lazyButtonStyle() {
     const lazyButtonStyle: any = {
       alignItems: 'center',
       WebkitAppearance: 'none',
@@ -70,7 +72,7 @@ export class PlaylistPage extends React.Component<Props, State> {
     return lazyButtonStyle
   }
 
-  get lazyTextButtonStyle () {
+  get lazyTextButtonStyle() {
     return {
       ...this.lazyButtonStyle,
       width: 'inherit'
@@ -91,30 +93,56 @@ export class PlaylistPage extends React.Component<Props, State> {
       return
     }
 
-    return playlist.items.map((item: PlaylistMojo.PlaylistItem, index: any): any => {
-      const cell: Row = {
-        content: [
-          {
-            content: (
-                <PlaylistItem id={item.id} name={item.name} onClick={this.onClickItem.bind(this)}
-                    thumbnailUrl={item.thumbnailPath.url.startsWith('http')
-                        ? '' // TODO(sko): currently, requesting for other host isn't allowed for this page
-                        : this.getImgSrc(item.id)}/>
-            )
-          },
-          { content: (<span>{item.cached ? 'Cached' : 'Not cached'}</span>) },
-          { content: (<button style={this.lazyTextButtonStyle} onClick={() => this.onClickDataButton(item.id)}>{item.cached ? 'Remove cache' : 'Cache'}</button>) },
-          { content: (<button style={this.lazyButtonStyle} onClick={() => this.onClickRemoveItemButton(item.id)}><CloseCircleOIcon /></button>) }
-        ]
+    return playlist.items.map(
+      (item: PlaylistMojo.PlaylistItem, index: any): any => {
+        const cell: Row = {
+          content: [
+            {
+              content: (
+                <PlaylistItem
+                  id={item.id}
+                  name={item.name}
+                  onClick={this.onClickItem.bind(this)}
+                  thumbnailUrl={
+                    item.thumbnailPath.url.startsWith('http')
+                      ? '' // TODO(sko): currently, requesting for other host isn't allowed for this page
+                      : this.getImgSrc(item.id)
+                  }
+                />
+              )
+            },
+            { content: <span>{item.cached ? 'Cached' : 'Not cached'}</span> },
+            {
+              content: (
+                <button
+                  style={this.lazyTextButtonStyle}
+                  onClick={() => this.onClickDataButton(item.id)}
+                >
+                  {item.cached ? 'Remove cache' : 'Cache'}
+                </button>
+              )
+            },
+            {
+              content: (
+                <button
+                  style={this.lazyButtonStyle}
+                  onClick={() => this.onClickRemoveItemButton(item.id)}
+                >
+                  <CloseCircleOIcon />
+                </button>
+              )
+            }
+          ]
+        }
+        return cell
       }
-      return cell
-    })
+    )
   }
 
   onClickRemoveItemButton = (playlistItemId: string) => {
     const currentList = this.getCurrentPlaylist()
     if (!currentList) {
-      console.error('There\'s no selected playlist.')
+      console.error("There's no selected playlist.")
       return
     }
 
@@ -124,11 +152,11 @@ export class PlaylistPage extends React.Component<Props, State> {
   onClickDataButton = (playlistItemId: string) => {
     const currentList = this.getCurrentPlaylist()
     if (!currentList) {
-      console.error('There\'s no selected playlist.')
+      console.error("There's no selected playlist.")
       return
     }
 
-    const item = currentList.items.find(item => item.id === playlistItemId)
+    const item = currentList.items.find((item) => item.id === playlistItemId)
     if (!item) {
       console.error(`There's item with id: ${playlistItemId}`)
       return
@@ -140,8 +168,10 @@ export class PlaylistPage extends React.Component<Props, State> {
     }
   }
 
-  get pageHasDownloadableVideo () {
-    return this.state.experimentalUrl.startsWith('https://www.youtube.com/watch')
+  get pageHasDownloadableVideo() {
+    return this.state.experimentalUrl.startsWith(
+      'https://www.youtube.com/watch'
+    )
   }
 
   onChangeExperimentalUrl = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -150,20 +180,25 @@ export class PlaylistPage extends React.Component<Props, State> {
 
   onClickDownloadVideo = () => {
     getPlaylistAPI().addMediaFilesFromPageToPlaylist(
-        this.props.playlistData.currentList?.id ?? '',
-        this.state.experimentalUrl)
+      this.props.playlistData.currentList?.id ?? '',
+      this.state.experimentalUrl
+    )
   }
 
   onClickItem = (itemId: string) => {
-    const item = this.getCurrentPlaylist()?.items.find((item: PlaylistMojo.PlaylistItem) => {
-      return item.id === itemId
-    })
+    const item = this.getCurrentPlaylist()?.items.find(
+      (item: PlaylistMojo.PlaylistItem) => {
+        return item.id === itemId
+      }
+    )
 
     if (!item || !item.cached) {
       return
     }
 
-    document.getElementById('player')?.setAttribute('src', this.getMediaSrc(itemId))
+    document
+      .getElementById('player')
+      ?.setAttribute('src', this.getMediaSrc(itemId))
   }
 
   createPlaylist = (playlist: PlaylistMojo.Playlist) => {
@@ -181,19 +216,26 @@ export class PlaylistPage extends React.Component<Props, State> {
   }
 
   onClickDownloadMediaFilesFromOpenTabs = () => {
-    getPlaylistAPI().addMediaFilesFromOpenTabsToPlaylist(this.props.playlistData.currentList?.id ?? '')
+    getPlaylistAPI().addMediaFilesFromOpenTabsToPlaylist(
+      this.props.playlistData.currentList?.id ?? ''
+    )
   }
 
-  render () {
+  render() {
     return (
-      <div id='playlistPage'>
-        <PlaylistSelect playlists={this.props.playlistData.lists}
-            selectedPlaylist={this.getCurrentPlaylist()}
-            onCreatePlaylist= {this.createPlaylist}
-            onSelectPlaylist={this.selectPlaylist}
-            onRemovePlaylist={this.removePlaylist} />
+      <div id="playlistPage">
+        <PlaylistSelect
+          playlists={this.props.playlistData.lists}
+          selectedPlaylist={this.getCurrentPlaylist()}
+          onCreatePlaylist={this.createPlaylist}
+          onSelectPlaylist={this.selectPlaylist}
+          onRemovePlaylist={this.removePlaylist}
+        />
         <div style={{ minHeight: '600px' }}>
-          <Table header={this.getPlaylistHeader()} rows={this.getPlaylistRows(this.getCurrentPlaylist())}>
+          <Table
+            header={this.getPlaylistHeader()}
+            rows={this.getPlaylistRows(this.getCurrentPlaylist())}
+          >
             YOUR PLAYLIST IS EMPTY
           </Table>
         </div>
@@ -202,8 +244,11 @@ export class PlaylistPage extends React.Component<Props, State> {
 
         <div>
           <h1>Experimental</h1>
-          <button onClick={this.onClickDownloadMediaFilesFromOpenTabs}>Download media files from open tabs</button>
-          <br /><br />
+          <button onClick={this.onClickDownloadMediaFilesFromOpenTabs}>
+            Download media files from open tabs
+          </button>
+          <br />
+          <br />
           <div>
             <div>URL input</div>
             <textarea
@@ -211,17 +256,19 @@ export class PlaylistPage extends React.Component<Props, State> {
               onChange={this.onChangeExperimentalUrl}
             />
             <div>
-            {
-              this.pageHasDownloadableVideo
-              ? (
+              {this.pageHasDownloadableVideo ? (
                 <div>
                   <h1>This page has a video you can download</h1>
-                  <button onClick={this.onClickDownloadVideo}>Click here to download</button>
+                  <button onClick={this.onClickDownloadVideo}>
+                    Click here to download
+                  </button>
                 </div>
               ) : (
-                <h1>Nothing to see here. Put a proper YouTube link to see the magic</h1>
-              )
-            }
+                <h1>
+                  Nothing to see here. Put a proper YouTube link to see the
+                  magic
+                </h1>
+              )}
             </div>
           </div>
         </div>
@@ -238,7 +285,4 @@ export const mapDispatchToProps = (dispatch: Dispatch) => ({
   actions: bindActionCreators(playlistActions, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PlaylistPage)
+export default connect(mapStateToProps, mapDispatchToProps)(PlaylistPage)

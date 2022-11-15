@@ -6,7 +6,10 @@
 import { Reducer } from 'redux'
 
 // Constants
-import { types, DismissBrandedWallpaperNotificationPayload } from '../constants/new_tab_types'
+import {
+  types,
+  DismissBrandedWallpaperNotificationPayload
+} from '../constants/new_tab_types'
 import { Stats } from '../api/stats'
 import { PrivateTabData } from '../api/privateTabData'
 import * as Actions from '../actions/new_tab_actions'
@@ -28,11 +31,14 @@ let sideEffectState: NewTab.State = storage.load()
 
 type SideEffectFunction = (currentState: NewTab.State) => void
 
-function performSideEffect (fn: SideEffectFunction): void {
+function performSideEffect(fn: SideEffectFunction): void {
   window.setTimeout(() => fn(sideEffectState), 0)
 }
 
-export const newTabReducer: Reducer<NewTab.State | undefined> = (state: NewTab.State, action) => {
+export const newTabReducer: Reducer<NewTab.State | undefined> = (
+  state: NewTab.State,
+  action
+) => {
   const payload = action.payload
 
   switch (action.type) {
@@ -54,18 +60,33 @@ export const newTabReducer: Reducer<NewTab.State | undefined> = (state: NewTab.S
         // Auto-dismiss of together prompt only
         // takes effect on the next page view and not the
         // page view that the action occurred on.
-        braveTalkPromptDismissed: state.braveTalkPromptDismissed || state.braveTalkPromptAutoDismissed,
+        braveTalkPromptDismissed:
+          state.braveTalkPromptDismissed || state.braveTalkPromptAutoDismissed,
         customImageBackgrounds: initialDataPayload.customImageBackgrounds
       }
 
       if (initialDataPayload.wallpaperData) {
-        let backgroundWallpaper = initialDataPayload.wallpaperData.backgroundWallpaper
-        if (backgroundWallpaper?.type === 'color' && backgroundWallpaper.random) {
-          backgroundWallpaper = backgroundAPI.randomColorBackground(backgroundWallpaper.wallpaperColor)
-        } else if (backgroundWallpaper?.type === 'image' && backgroundWallpaper.random) {
+        let backgroundWallpaper =
+          initialDataPayload.wallpaperData.backgroundWallpaper
+        if (
+          backgroundWallpaper?.type === 'color' &&
+          backgroundWallpaper.random
+        ) {
+          backgroundWallpaper = backgroundAPI.randomColorBackground(
+            backgroundWallpaper.wallpaperColor
+          )
+        } else if (
+          backgroundWallpaper?.type === 'image' &&
+          backgroundWallpaper.random
+        ) {
           const customBackgrounds = state.customImageBackgrounds
           if (customBackgrounds.length) {
-            backgroundWallpaper = { ...customBackgrounds[Math.floor(Math.random() * customBackgrounds.length)], random: true }
+            backgroundWallpaper = {
+              ...customBackgrounds[
+                Math.floor(Math.random() * customBackgrounds.length)
+              ],
+              random: true
+            }
           }
         }
 
@@ -140,7 +161,9 @@ export const newTabReducer: Reducer<NewTab.State | undefined> = (state: NewTab.S
         const color = background.custom.color
         const random = background.custom.useRandomItem
         if (color) {
-          state.backgroundWallpaper = random ? backgroundAPI.randomColorBackground(color) : { type: 'color', wallpaperColor: color, random }
+          state.backgroundWallpaper = random
+            ? backgroundAPI.randomColorBackground(color)
+            : { type: 'color', wallpaperColor: color, random }
         } else if (url) {
           // Custom Image was specified
           state.backgroundWallpaper = { type: 'image', wallpaperImageUrl: url }
@@ -148,7 +171,12 @@ export const newTabReducer: Reducer<NewTab.State | undefined> = (state: NewTab.S
           // Random custom image should be used.
           const customBackgrounds = state.customImageBackgrounds
           if (customBackgrounds.length) {
-            state.backgroundWallpaper = { ...customBackgrounds[Math.floor(Math.random() * customBackgrounds.length)], random: true }
+            state.backgroundWallpaper = {
+              ...customBackgrounds[
+                Math.floor(Math.random() * customBackgrounds.length)
+              ],
+              random: true
+            }
           }
         }
       }
@@ -172,7 +200,10 @@ export const newTabReducer: Reducer<NewTab.State | undefined> = (state: NewTab.S
       const customBackgrounds = payload as CustomBackground[]
       state = {
         ...state,
-        customImageBackgrounds: customBackgrounds.map(background => ({ type: 'image', wallpaperImageUrl: background.url.url }))
+        customImageBackgrounds: customBackgrounds.map((background) => ({
+          type: 'image',
+          wallpaperImageUrl: background.url.url
+        }))
       }
       break
 
@@ -180,18 +211,22 @@ export const newTabReducer: Reducer<NewTab.State | undefined> = (state: NewTab.S
       const privateTabData = payload as PrivateTabData
       state = {
         ...state,
-        useAlternativePrivateSearchEngine: privateTabData.useAlternativePrivateSearchEngine,
-        showAlternativePrivateSearchEngineToggle: privateTabData.showAlternativePrivateSearchEngineToggle
+        useAlternativePrivateSearchEngine:
+          privateTabData.useAlternativePrivateSearchEngine,
+        showAlternativePrivateSearchEngineToggle:
+          privateTabData.showAlternativePrivateSearchEngineToggle
       }
       break
 
     case types.NEW_TAB_ADS_DATA_UPDATED:
       const newTabAdsData = payload as NewTabAdsData
-      state.rewardsState.needsBrowserUpgradeToServeAds = newTabAdsData.needsBrowserUpgradeToServeAds
+      state.rewardsState.needsBrowserUpgradeToServeAds =
+        newTabAdsData.needsBrowserUpgradeToServeAds
       break
 
     case types.NEW_TAB_DISMISS_BRANDED_WALLPAPER_NOTIFICATION:
-      const { isUserAction } = payload as DismissBrandedWallpaperNotificationPayload
+      const { isUserAction } =
+        payload as DismissBrandedWallpaperNotificationPayload
       // Save persisted data.
       preferencesAPI.saveIsBrandedWallpaperNotificationDismissed(true)
       // Only change current data if user explicitly took an action (e.g. clicked
@@ -214,14 +249,21 @@ export const newTabReducer: Reducer<NewTab.State | undefined> = (state: NewTab.S
       // since this can happen automatically when the notification is counted as
       // 'viewed', but we want to keep showing it until the page is navigated away from
       // or refreshed.
-      newState.isBrandedWallpaperNotificationDismissed = state.isBrandedWallpaperNotificationDismissed
+      newState.isBrandedWallpaperNotificationDismissed =
+        state.isBrandedWallpaperNotificationDismissed
       // Remove branded wallpaper when opting out or turning wallpapers off
-      const hasTurnedBrandedWallpaperOff = !preferences.brandedWallpaperOptIn && state.brandedWallpaper
-      const hasTurnedWallpaperOff = !preferences.showBackgroundImage && state.showBackgroundImage
+      const hasTurnedBrandedWallpaperOff =
+        !preferences.brandedWallpaperOptIn && state.brandedWallpaper
+      const hasTurnedWallpaperOff =
+        !preferences.showBackgroundImage && state.showBackgroundImage
       // We always show SR images regardless of background options state.
-      const isSuperReferral = state.brandedWallpaper && !state.brandedWallpaper.isSponsored
-      if (!isSuperReferral &&
-          (hasTurnedBrandedWallpaperOff || (state.brandedWallpaper && hasTurnedWallpaperOff))) {
+      const isSuperReferral =
+        state.brandedWallpaper && !state.brandedWallpaper.isSponsored
+      if (
+        !isSuperReferral &&
+        (hasTurnedBrandedWallpaperOff ||
+          (state.brandedWallpaper && hasTurnedWallpaperOff))
+      ) {
         newState.brandedWallpaper = undefined
       }
       // Get a new wallpaper image if turning that feature on

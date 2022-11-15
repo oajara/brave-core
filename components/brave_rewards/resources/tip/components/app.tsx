@@ -14,7 +14,7 @@ import { CloseIcon } from '../../shared/components/icons/close_icon'
 
 import * as style from './app.style'
 
-export function App () {
+export function App() {
   const host = React.useContext(HostContext)
   const [hostError, setHostError] = React.useState(host.state.hostError)
 
@@ -32,7 +32,9 @@ export function App () {
         </style.banner>
         <style.form>
           <style.close>
-            <button onClick={host.closeDialog}><CloseIcon /></button>
+            <button onClick={host.closeDialog}>
+              <CloseIcon />
+            </button>
           </style.close>
           {hostError ? <AppError hostError={hostError} /> : <TipForm />}
         </style.form>

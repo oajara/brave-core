@@ -24,7 +24,7 @@ const style = {
       background: rgba(97, 195, 225, 0.15);
 
       .icon {
-        color: #61C3E1;
+        color: #61c3e1;
         height: 27px;
         width: auto;
         vertical-align: middle;
@@ -33,10 +33,12 @@ const style = {
   `
 }
 
-export function GrantAvailableGraphic () {
+export function GrantAvailableGraphic() {
   return (
     <style.graphic>
-      <div><MoneyBagIcon /></div>
+      <div>
+        <MoneyBagIcon />
+      </div>
     </style.graphic>
   )
 }

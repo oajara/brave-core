@@ -32,14 +32,14 @@ export interface Props {
 }
 
 export default class ThumbLikePicker extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       itemSelected: props.optAction
     }
   }
 
-  componentWillReceiveProps (nextProps: Props) {
+  componentWillReceiveProps(nextProps: Props) {
     if ('optAction' in nextProps) {
       this.setState({ itemSelected: nextProps.optAction })
     }
@@ -54,10 +54,7 @@ export default class ThumbLikePicker extends React.PureComponent<Props, State> {
           </StyledCategoryActionOptinFilledButton>
         </StyledCategoryActionOptinLogo>
         <StyledCategoryActionOptoutLogo>
-          <Tooltip
-            content={getLocale('optOutTooltip')}
-            rightEdge={true}
-          >
+          <Tooltip content={getLocale('optOutTooltip')} rightEdge={true}>
             <StyledCategoryActionOptoutButton onClick={this.props.onOptOut}>
               <BlockLIcon />
             </StyledCategoryActionOptoutButton>
@@ -76,11 +73,10 @@ export default class ThumbLikePicker extends React.PureComponent<Props, State> {
           </StyledCategoryActionOptinButton>
         </StyledCategoryActionOptinLogo>
         <StyledCategoryActionOptoutLogo>
-          <Tooltip
-            content={getLocale('optOutTooltip')}
-            rightEdge={true}
-          >
-            <StyledCategoryActionOptoutFilledButton onClick={this.props.onOptOut}>
+          <Tooltip content={getLocale('optOutTooltip')} rightEdge={true}>
+            <StyledCategoryActionOptoutFilledButton
+              onClick={this.props.onOptOut}
+            >
               <BlockSIcon />
             </StyledCategoryActionOptoutFilledButton>
           </Tooltip>
@@ -98,10 +94,7 @@ export default class ThumbLikePicker extends React.PureComponent<Props, State> {
           </StyledCategoryActionOptinButton>
         </StyledCategoryActionOptinLogo>
         <StyledCategoryActionOptoutLogo>
-          <Tooltip
-            content={getLocale('optOutTooltip')}
-            rightEdge={true}
-          >
+          <Tooltip content={getLocale('optOutTooltip')} rightEdge={true}>
             <StyledCategoryActionOptoutButton onClick={this.props.onOptOut}>
               <BlockLIcon />
             </StyledCategoryActionOptoutButton>
@@ -111,13 +104,11 @@ export default class ThumbLikePicker extends React.PureComponent<Props, State> {
     )
   }
 
-  render () {
-    return (
-      this.state.itemSelected === 1
-        ? this.showCategoryLike()
+  render() {
+    return this.state.itemSelected === 1
+      ? this.showCategoryLike()
       : this.state.itemSelected === 2
-          ? this.showCategoryBlock()
+      ? this.showCategoryBlock()
       : this.showCategoryUnselected()
-    )
   }
 }

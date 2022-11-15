@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import * as mixins from '../../shared/lib/css_mixins'
 
 export const root = styled.div`
-  background: linear-gradient(125.83deg, #392DD1 0%, #22B8CF 99.09%);
+  background: linear-gradient(125.83deg, #392dd1 0%, #22b8cf 99.09%);
   margin: 30px auto 0;
   border-radius: 8px;
   overflow: hidden;
@@ -66,7 +66,7 @@ export const learnMore = styled.div`
     font-size: 12px;
     line-height: 18px;
     letter-spacing: 0.01em;
-    color: #4C54D2;
+    color: #4c54d2;
     background: #fff;
     cursor: pointer;
   }

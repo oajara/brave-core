@@ -9,7 +9,11 @@ import BoxAlert from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('BoxAlert tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><BoxAlert id='box-alert' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <BoxAlert id="box-alert" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

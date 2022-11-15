@@ -39,8 +39,15 @@ import {
   SettingsIcon
 } from './swap.style'
 import { EditButton, NetworkText, StyledWrapper, TopRow } from './style'
-import { CreateNetworkIcon, LoadingSkeleton, withPlaceholderIcon } from '../../shared'
-import { IconsWrapper as SwapAssetIconWrapper, NetworkIconWrapper } from '../../shared/style'
+import {
+  CreateNetworkIcon,
+  LoadingSkeleton,
+  withPlaceholderIcon
+} from '../../shared'
+import {
+  IconsWrapper as SwapAssetIconWrapper,
+  NetworkIconWrapper
+} from '../../shared/style'
 import { NftIcon } from '../../shared/nft-icon/nft-icon'
 import { Origin } from './common/origin'
 import { EditPendingTransactionGas } from './common/gas'
@@ -61,7 +68,7 @@ interface Props {
   onReject: () => void
 }
 
-export function ConfirmSwapTransaction (props: Props) {
+export function ConfirmSwapTransaction(props: Props) {
   const { onConfirm, onReject } = props
 
   // redux
@@ -88,10 +95,16 @@ export function ConfirmSwapTransaction (props: Props) {
 
   // Memos
   const makerAssetNetwork = React.useMemo(() => {
-    return transactionDetails?.sellToken && getTokensNetwork(networks, transactionDetails.sellToken)
+    return (
+      transactionDetails?.sellToken &&
+      getTokensNetwork(networks, transactionDetails.sellToken)
+    )
   }, [networks, transactionDetails])
   const takerAssetNetwork = React.useMemo(() => {
-    return transactionDetails?.buyToken && getTokensNetwork(networks, transactionDetails.buyToken)
+    return (
+      transactionDetails?.buyToken &&
+      getTokensNetwork(networks, transactionDetails.buyToken)
+    )
   }, [networks, transactionDetails])
 
   const originInfo = transactionInfo?.originInfo ?? activeOrigin
@@ -101,7 +114,11 @@ export function ConfirmSwapTransaction (props: Props) {
   }
   const onToggleEditGas = () => setIsEditingGas(!isEditingGas)
 
-  if (showAdvancedTransactionSettings && transactionDetails && transactionInfo) {
+  if (
+    showAdvancedTransactionSettings &&
+    transactionDetails &&
+    transactionInfo
+  ) {
     return (
       <AdvancedTransactionSettings
         onCancel={onToggleAdvancedTransactionSettings}
@@ -133,13 +150,15 @@ export function ConfirmSwapTransaction (props: Props) {
         transactionDetails?.sellAmount && (
           <ExchangeRate>
             1 {transactionDetails.sellToken.symbol} ={' '}
-            {transactionDetails.minBuyAmount.div(transactionDetails.sellAmount).format(6)}{' '}
+            {transactionDetails.minBuyAmount
+              .div(transactionDetails.sellAmount)
+              .format(6)}{' '}
             {transactionDetails.buyToken.symbol}
           </ExchangeRate>
         )}
       <SwapDetails>
         <SwapAsset
-          type='maker'
+          type="maker"
           network={makerAssetNetwork}
           address={transactionDetails?.senderLabel}
           orb={fromOrb}
@@ -154,7 +173,7 @@ export function ConfirmSwapTransaction (props: Props) {
         </SwapDetailsArrowContainer>
 
         <SwapAsset
-          type='taker'
+          type="taker"
           network={takerAssetNetwork}
           address={transactionDetails?.recipientLabel}
           orb={toOrb}
@@ -170,7 +189,9 @@ export function ConfirmSwapTransaction (props: Props) {
           <NetworkFeeValue>
             <CreateNetworkIcon network={transactionsNetwork} marginRight={0} />
             {transactionDetails?.gasFeeFiat ? (
-              new Amount(transactionDetails.gasFeeFiat).formatAsFiat(defaultCurrencies.fiat)
+              new Amount(transactionDetails.gasFeeFiat).formatAsFiat(
+                defaultCurrencies.fiat
+              )
             ) : (
               <LoadingSkeleton width={38} />
             )}
@@ -185,7 +206,11 @@ export function ConfirmSwapTransaction (props: Props) {
         </Settings>
       </NetworkFeeAndSettingsContainer>
 
-      <Footer onConfirm={onConfirm} onReject={onReject} rejectButtonType='cancel' />
+      <Footer
+        onConfirm={onConfirm}
+        onReject={onReject}
+        rejectButtonType="cancel"
+      />
     </StyledWrapper>
   )
 }
@@ -200,7 +225,7 @@ interface SwapAssetProps {
   expectAddress?: boolean
 }
 
-function SwapAsset (props: SwapAssetProps) {
+function SwapAsset(props: SwapAssetProps) {
   const { type, address, orb, expectAddress, asset, amount, network } = props
 
   // Memos
@@ -275,8 +300,12 @@ function SwapAsset (props: SwapAssetProps) {
             </>
           ) : (
             <>
-              <SwapAssetAmountSymbol>{amount.formatAsAsset(6, asset.symbol)}</SwapAssetAmountSymbol>
-              <NetworkDescriptionText>{networkDescription}</NetworkDescriptionText>
+              <SwapAssetAmountSymbol>
+                {amount.formatAsAsset(6, asset.symbol)}
+              </SwapAssetAmountSymbol>
+              <NetworkDescriptionText>
+                {networkDescription}
+              </NetworkDescriptionText>
             </>
           )}
         </SwapAmountColumn>

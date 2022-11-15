@@ -94,10 +94,12 @@ export interface Props {
   onRefresh?: () => void
   onPaste?: () => void
   onShowCurrencySelection?: () => void
-  setEnsOffchainLookupOptions?: (options: BraveWallet.EnsOffchainLookupOptions) => void
+  setEnsOffchainLookupOptions?: (
+    options: BraveWallet.EnsOffchainLookupOptions
+  ) => void
 }
 
-function SwapInputComponent (props: Props) {
+function SwapInputComponent(props: Props) {
   const {
     autoFocus,
     selectedAsset,
@@ -131,8 +133,12 @@ function SwapInputComponent (props: Props) {
   } = props
   const [spin, setSpin] = React.useState<number>(0)
   const [expandSelector, setExpandSelector] = React.useState<boolean>(false)
-  const [showSlippageWarning, setShowSlippageWarning] = React.useState<boolean>(false)
-  const [ensOffchainOptionsRemember, setEnsOffchainOptionsRemember] = React.useState<boolean>(ensOffchainLookupOptions ? ensOffchainLookupOptions.remember : false)
+  const [showSlippageWarning, setShowSlippageWarning] =
+    React.useState<boolean>(false)
+  const [ensOffchainOptionsRemember, setEnsOffchainOptionsRemember] =
+    React.useState<boolean>(
+      ensOffchainLookupOptions ? ensOffchainLookupOptions.remember : false
+    )
 
   // redux
   const {
@@ -177,7 +183,9 @@ function SwapInputComponent (props: Props) {
         return getLocale('braveWalletSwapFrom')
       case 'toAmount':
         if (orderType === 'market') {
-          return `${getLocale('braveWalletSwapTo')} (${getLocale('braveWalletSwapEstimate')})`
+          return `${getLocale('braveWalletSwapTo')} (${getLocale(
+            'braveWalletSwapEstimate'
+          )})`
         } else {
           return getLocale('braveWalletSwapTo')
         }
@@ -185,9 +193,13 @@ function SwapInputComponent (props: Props) {
         return getLocale('braveWalletBuy')
       case 'exchange':
         if (orderType === 'market') {
-          return `${getLocale('braveWalletSwapMarket')} ${getLocale('braveWalletSwapPriceIn')} ${selectedAsset?.symbol}`
+          return `${getLocale('braveWalletSwapMarket')} ${getLocale(
+            'braveWalletSwapPriceIn'
+          )} ${selectedAsset?.symbol}`
         } else {
-          return `${getLocale('braveWalletSwapPriceIn')} ${selectedAsset?.symbol}`
+          return `${getLocale('braveWalletSwapPriceIn')} ${
+            selectedAsset?.symbol
+          }`
         }
       case 'selector':
         if (orderType === 'market') {
@@ -219,10 +231,14 @@ function SwapInputComponent (props: Props) {
     return reduxSelectedCurrency || currencies[0]
   }, [reduxSelectedCurrency, currencies])
 
-  const handleCustomSlippageToleranceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCustomSlippageToleranceChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (onCustomSlippageToleranceChange) {
       // This will only formate to only allow Numbers and remove multiple . decimals
-      const value = event.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1')
+      const value = event.target.value
+        .replace(/[^0-9.]/g, '')
+        .replace(/(\..*?)\..*/g, '$1')
       // Sets the value to not go higher than 100
       if (Number(value) > 100) {
         onCustomSlippageToleranceChange('100')
@@ -244,56 +260,79 @@ function SwapInputComponent (props: Props) {
   const getAssetSymbol = (symbol?: string) => {
     // Ramp assets have the format: ChainNativeTokenSymbol_AssetSymbol e.g MATIC_BSC
     // This returns just the AssetSymbol
-    return symbol && symbol.includes('_')
-      ? symbol.split('_')[1]
-      : symbol
+    return symbol && symbol.includes('_') ? symbol.split('_')[1] : symbol
   }
 
-  const fromAmountHasErrors = validationError && [
-    'insufficientBalance',
-    'insufficientFundsForGas',
-    'fromAmountDecimalsOverflow'
-  ].includes(validationError)
+  const fromAmountHasErrors =
+    validationError &&
+    [
+      'insufficientBalance',
+      'insufficientFundsForGas',
+      'fromAmountDecimalsOverflow'
+    ].includes(validationError)
 
-  const toAmountHasErrors = validationError && [
-    'toAmountDecimalsOverflow'
-  ].includes(validationError)
+  const toAmountHasErrors =
+    validationError && ['toAmountDecimalsOverflow'].includes(validationError)
 
   const AssetIconWithPlaceholder = React.useMemo(() => {
-    return withPlaceholderIcon(AssetIcon, { size: 'small', marginLeft: 4, marginRight: 8 })
+    return withPlaceholderIcon(AssetIcon, {
+      size: 'small',
+      marginLeft: 4,
+      marginRight: 8
+    })
   }, [])
 
   const formattedAssetBalance = selectedAssetBalance
-    ? getLocale('braveWalletBalance') + ': ' + new Amount(selectedAssetBalance)
-      .divideByDecimals(selectedAsset?.decimals ?? 18)
-      .format(6, true)
+    ? getLocale('braveWalletBalance') +
+      ': ' +
+      new Amount(selectedAssetBalance)
+        .divideByDecimals(selectedAsset?.decimals ?? 18)
+        .format(6, true)
     : ''
 
   const onClickLearnMore = () => {
-    chrome.tabs.create({ url: 'https://support.brave.com/hc/en-us/articles/4441999049101' }, () => {
-      if (chrome.runtime.lastError) {
-        console.error('tabs.create failed: ' + chrome.runtime.lastError.message)
+    chrome.tabs.create(
+      { url: 'https://support.brave.com/hc/en-us/articles/4441999049101' },
+      () => {
+        if (chrome.runtime.lastError) {
+          console.error(
+            'tabs.create failed: ' + chrome.runtime.lastError.message
+          )
+        }
       }
-    })
+    )
   }
 
   const onClickEnsOffchainLearnMore = () => {
-    chrome.tabs.create({ url: 'https://github.com/brave/brave-browser/wiki/ENS-offchain-lookup' }, () => {
-      if (chrome.runtime.lastError) {
-        console.error('tabs.create failed: ' + chrome.runtime.lastError.message)
+    chrome.tabs.create(
+      {
+        url: 'https://github.com/brave/brave-browser/wiki/ENS-offchain-lookup'
+      },
+      () => {
+        if (chrome.runtime.lastError) {
+          console.error(
+            'tabs.create failed: ' + chrome.runtime.lastError.message
+          )
+        }
       }
-    })
+    )
   }
 
   const onClickProceedEnsOffchainYes = () => {
     if (setEnsOffchainLookupOptions) {
-      setEnsOffchainLookupOptions({ remember: ensOffchainOptionsRemember, allow: true })
+      setEnsOffchainLookupOptions({
+        remember: ensOffchainOptionsRemember,
+        allow: true
+      })
     }
   }
 
   const onClickProceedEnsOffchainNo = () => {
     if (setEnsOffchainLookupOptions) {
-      setEnsOffchainLookupOptions({ remember: ensOffchainOptionsRemember, allow: false })
+      setEnsOffchainLookupOptions({
+        remember: ensOffchainOptionsRemember,
+        allow: false
+      })
     }
   }
 
@@ -307,41 +346,51 @@ function SwapInputComponent (props: Props) {
 
   return (
     <BubbleContainer>
-      {componentType !== 'selector' &&
+      {componentType !== 'selector' && (
         <>
-          {!(selectedAsset?.isErc721 || selectedAsset?.isNft) &&
+          {!(selectedAsset?.isErc721 || selectedAsset?.isNft) && (
             <Row>
-              <FromBalanceText componentType={componentType}>{getTitle()}</FromBalanceText>
+              <FromBalanceText componentType={componentType}>
+                {getTitle()}
+              </FromBalanceText>
 
               {/* Limit orders on Swap are currently disabled.
               componentType === 'exchange' &&
                 <MarketLimitButton onClick={onToggleOrderType}>{orderType === 'market' ? locale.swapLimit : locale.swapMarket}</MarketLimitButton>
             */}
 
-              {componentType !== 'exchange' && componentType !== 'toAddress' && componentType !== 'buyAmount' &&
-                <FromBalanceText>{formattedAssetBalance}</FromBalanceText>
-              }
-              {componentType === 'toAddress' &&
+              {componentType !== 'exchange' &&
+                componentType !== 'toAddress' &&
+                componentType !== 'buyAmount' && (
+                  <FromBalanceText>{formattedAssetBalance}</FromBalanceText>
+                )}
+              {componentType === 'toAddress' && (
                 <PasteButton onClick={onPaste}>
                   <PasteIcon />
                 </PasteButton>
-              }
+              )}
             </Row>
-          }
+          )}
           <Row componentType={componentType}>
-            {componentType === 'buyAmount' &&
+            {componentType === 'buyAmount' && (
               <AssetButton onClick={onShowCurrencySelection}>
-                <AssetTicker>{CurrencySymbols[selectedCurrency?.currencyCode]}</AssetTicker>
+                <AssetTicker>
+                  {CurrencySymbols[selectedCurrency?.currencyCode]}
+                </AssetTicker>
                 <CaratDownIcon />
                 <Spacer />
               </AssetButton>
-            }
-            {!(selectedAsset?.isErc721 || selectedAsset?.isNft) &&
+            )}
+            {!(selectedAsset?.isErc721 || selectedAsset?.isNft) && (
               <Input
                 componentType={componentType}
                 type={componentType === 'toAddress' ? 'text' : 'number'}
                 placeholder={placeholderText}
-                value={componentType === 'toAddress' ? toAddressOrUrl : selectedAssetInputAmount}
+                value={
+                  componentType === 'toAddress'
+                    ? toAddressOrUrl
+                    : selectedAssetInputAmount
+                }
                 name={inputName}
                 onChange={onInputChanged}
                 spellCheck={false}
@@ -352,77 +401,91 @@ function SwapInputComponent (props: Props) {
                 disabled={
                   (orderType === 'market' && componentType === 'exchange') ||
                   (orderType === 'limit' && componentType === 'toAmount') ||
-                  (selectedNetwork?.chainId === BraveWallet.SOLANA_MAINNET && componentType === 'toAmount')
+                  (selectedNetwork?.chainId === BraveWallet.SOLANA_MAINNET &&
+                    componentType === 'toAmount')
                 }
                 autoFocus={autoFocus}
               />
-            }
-            {componentType === 'exchange' && orderType === 'market' &&
+            )}
+            {componentType === 'exchange' && orderType === 'market' && (
               <RefreshButton onClick={refresh}>
-                <RefreshIcon
-                  onAnimationEnd={resetAnimation}
-                  spin={spin}
-                />
+                <RefreshIcon onAnimationEnd={resetAnimation} spin={spin} />
               </RefreshButton>
-            }
-            {componentType !== 'exchange' && componentType !== 'toAddress' &&
-              <AssetButton isERC721={(selectedAsset?.isErc721 || selectedAsset?.isNft)} onClick={onShowSelection}>
+            )}
+            {componentType !== 'exchange' && componentType !== 'toAddress' && (
+              <AssetButton
+                isERC721={selectedAsset?.isErc721 || selectedAsset?.isNft}
+                onClick={onShowSelection}
+              >
                 <ButtonLeftSide>
-                  <AssetIconWithPlaceholder asset={selectedAsset} network={selectedNetwork} />
+                  <AssetIconWithPlaceholder
+                    asset={selectedAsset}
+                    network={selectedNetwork}
+                  />
                   <AssetTicker>
-                    {getAssetSymbol(selectedAsset?.symbol)} {
-                      selectedAsset?.isErc721 && selectedAsset?.tokenId
-                        ? '#' + new Amount(selectedAsset.tokenId).toNumber()
-                        : ''
-                    }
+                    {getAssetSymbol(selectedAsset?.symbol)}{' '}
+                    {selectedAsset?.isErc721 && selectedAsset?.tokenId
+                      ? '#' + new Amount(selectedAsset.tokenId).toNumber()
+                      : ''}
                   </AssetTicker>
                 </ButtonLeftSide>
                 {onShowSelection && <CaratDownIcon />}
               </AssetButton>
-            }
+            )}
           </Row>
-          {componentType === 'fromAmount' && !(selectedAsset?.isErc721 || selectedAsset?.isNft) &&
-            <PresetRow>
-              {AmountPresetOptions().map((preset, idx) =>
-                <PresetButton
-                  isSelected={selectedPreset === preset.value}
-                  key={idx}
-                  onClick={setPresetAmountValue(preset.value)}
-                >
-                  {preset.name}
-                </PresetButton>
-              )}
-            </PresetRow>
-          }
+          {componentType === 'fromAmount' &&
+            !(selectedAsset?.isErc721 || selectedAsset?.isNft) && (
+              <PresetRow>
+                {AmountPresetOptions().map((preset, idx) => (
+                  <PresetButton
+                    isSelected={selectedPreset === preset.value}
+                    key={idx}
+                    onClick={setPresetAmountValue(preset.value)}
+                  >
+                    {preset.name}
+                  </PresetButton>
+                ))}
+              </PresetRow>
+            )}
         </>
-      }
-      {componentType === 'selector' &&
+      )}
+      {componentType === 'selector' && (
         <>
           <Row>
             <SelectText>{getTitle()}</SelectText>
             <AssetButton onClick={toggleExpandSelector}>
-              <SelectValueText>{orderType === 'market' ? customSlippageTolerance ? `${customSlippageTolerance}%` : `${slippageTolerance?.slippage}%` : `${orderExpiration?.expiration} days`}</SelectValueText>
+              <SelectValueText>
+                {orderType === 'market'
+                  ? customSlippageTolerance
+                    ? `${customSlippageTolerance}%`
+                    : `${slippageTolerance?.slippage}%`
+                  : `${orderExpiration?.expiration} days`}
+              </SelectValueText>
               <CaratDownIcon />
             </AssetButton>
           </Row>
-          {expandSelector &&
+          {expandSelector && (
             <PresetRow>
               {orderType === 'market' ? (
                 <>
-                  {SlippagePresetOptions.map((preset) =>
+                  {SlippagePresetOptions.map((preset) => (
                     <PresetButton
                       key={preset.id}
                       isSlippage={true}
-                      isSelected={customSlippageTolerance === '' ? slippageTolerance?.slippage === preset.slippage : false}
+                      isSelected={
+                        customSlippageTolerance === ''
+                          ? slippageTolerance?.slippage === preset.slippage
+                          : false
+                      }
                       onClick={setPresetSlippageValue(preset)}
                     >
                       {preset.slippage}%
                     </PresetButton>
-                  )}
+                  ))}
                   <SlippageInput
                     value={customSlippageTolerance}
-                    placeholder='%'
-                    type='text'
+                    placeholder="%"
+                    type="text"
                     isSelected={customSlippageTolerance !== ''}
                     onChange={handleCustomSlippageToleranceChange}
                     maxLength={4}
@@ -430,82 +493,96 @@ function SwapInputComponent (props: Props) {
                 </>
               ) : (
                 <>
-                  {ExpirationPresetOptions.map((preset) =>
+                  {ExpirationPresetOptions.map((preset) => (
                     <PresetButton
                       key={preset.id}
                       onClick={setExpirationValue(preset)}
                     >
                       {preset.name}
                     </PresetButton>
-                  )}
+                  ))}
                 </>
               )}
             </PresetRow>
-          }
+          )}
         </>
-      }
+      )}
 
-      {componentType === 'fromAmount' && validationError === 'fromAmountDecimalsOverflow' &&
-        <WarningText>{getLocale('braveWalletDecimalPlacesError')}</WarningText>
-      }
-      {componentType === 'toAmount' && validationError === 'toAmountDecimalsOverflow' &&
-        <WarningText>{getLocale('braveWalletDecimalPlacesError')}</WarningText>
-      }
-      {showSlippageWarning &&
-        <WarningText>{getLocale('braveWalletSlippageToleranceWarning')}</WarningText>
-      }
-      {componentType === 'toAddress' && addressError &&
+      {componentType === 'fromAmount' &&
+        validationError === 'fromAmountDecimalsOverflow' && (
+          <WarningText>
+            {getLocale('braveWalletDecimalPlacesError')}
+          </WarningText>
+        )}
+      {componentType === 'toAmount' &&
+        validationError === 'toAmountDecimalsOverflow' && (
+          <WarningText>
+            {getLocale('braveWalletDecimalPlacesError')}
+          </WarningText>
+        )}
+      {showSlippageWarning && (
+        <WarningText>
+          {getLocale('braveWalletSlippageToleranceWarning')}
+        </WarningText>
+      )}
+      {componentType === 'toAddress' && addressError && (
         <WarningRow>
           <WarningText>{addressError}</WarningText>
-          {addressError === getLocale('braveWalletNotValidChecksumAddressError') &&
+          {addressError ===
+            getLocale('braveWalletNotValidChecksumAddressError') && (
             <LearnMoreButton onClick={onClickLearnMore}>
               {getLocale('braveWalletAllowAddNetworkLearnMoreButton')}
             </LearnMoreButton>
-          }
+          )}
         </WarningRow>
-      }
-      {componentType === 'toAddress' && addressWarning &&
+      )}
+      {componentType === 'toAddress' && addressWarning && (
         <WarningRow>
           <WarningText isWarning={true}>{addressWarning}</WarningText>
           <LearnMoreButton onClick={onClickLearnMore}>
             {getLocale('braveWalletAllowAddNetworkLearnMoreButton')}
           </LearnMoreButton>
         </WarningRow>
-      }
-      {componentType === 'toAddress' && toAddress !== toAddressOrUrl && !addressError &&
-        <>
-          {showEnsOffchainLookupOptions
-            ? (
+      )}
+      {componentType === 'toAddress' &&
+        toAddress !== toAddressOrUrl &&
+        !addressError && (
+          <>
+            {showEnsOffchainLookupOptions ? (
               <>
-              <WarningRow>
-                  <WarningText>{getLocale('braveWalletEnsOffchainWarning')}</WarningText>
-              </WarningRow>
-              <span>
-                <EnsProceedButton onClick={onClickProceedEnsOffchainYes}>
-                  {getLocale('braveWalletEnsOffchainProceedWithYes')}
-                </EnsProceedButton>
-                <EnsProceedButton onClick={onClickProceedEnsOffchainNo}>
-                  {getLocale('braveWalletEnsOffchainProceedWithNo')}
-                </EnsProceedButton>
-                <LearnMoreButton onClick={onClickEnsOffchainLearnMore}>
-                  {getLocale('braveWalletAllowAddNetworkLearnMoreButton')}
-                </LearnMoreButton>
-              </span>
-              <Checkbox isChecked={ensOffchainOptionsRemember} onChange={setEnsOffchainOptionsRemember}>
-                {getLocale('braveWalletEnsOffchainDontShowAgain')}
-              </Checkbox>
+                <WarningRow>
+                  <WarningText>
+                    {getLocale('braveWalletEnsOffchainWarning')}
+                  </WarningText>
+                </WarningRow>
+                <span>
+                  <EnsProceedButton onClick={onClickProceedEnsOffchainYes}>
+                    {getLocale('braveWalletEnsOffchainProceedWithYes')}
+                  </EnsProceedButton>
+                  <EnsProceedButton onClick={onClickProceedEnsOffchainNo}>
+                    {getLocale('braveWalletEnsOffchainProceedWithNo')}
+                  </EnsProceedButton>
+                  <LearnMoreButton onClick={onClickEnsOffchainLearnMore}>
+                    {getLocale('braveWalletAllowAddNetworkLearnMoreButton')}
+                  </LearnMoreButton>
+                </span>
+                <Checkbox
+                  isChecked={ensOffchainOptionsRemember}
+                  onChange={setEnsOffchainOptionsRemember}
+                >
+                  {getLocale('braveWalletEnsOffchainDontShowAgain')}
+                </Checkbox>
               </>
-            )
-            : (<Tooltip
-              text={toAddress ?? ''}
-              isAddress={true}
-            >
-              <AddressConfirmationText>{reduceAddress(toAddress ?? '')}</AddressConfirmationText>
-            </Tooltip>)
-          }
-        </>
-      }
-    </BubbleContainer >
+            ) : (
+              <Tooltip text={toAddress ?? ''} isAddress={true}>
+                <AddressConfirmationText>
+                  {reduceAddress(toAddress ?? '')}
+                </AddressConfirmationText>
+              </Tooltip>
+            )}
+          </>
+        )}
+    </BubbleContainer>
   )
 }
 

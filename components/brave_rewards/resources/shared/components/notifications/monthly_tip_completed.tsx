@@ -7,18 +7,16 @@ import * as React from 'react'
 import { LocaleContext } from '../../lib/locale_context'
 import { NotificationViewProps } from './notification_view'
 
-export function MonthlyTipCompleted (props: NotificationViewProps) {
+export function MonthlyTipCompleted(props: NotificationViewProps) {
   const { getString } = React.useContext(LocaleContext)
   const { Title, Body, Action } = props
 
   return (
     <div>
-      <Title style='funding'>
+      <Title style="funding">
         {getString('notificationMonthlyTipCompletedTitle')}
       </Title>
-      <Body>
-        {getString('notificationMonthlyTipCompletedText')}
-      </Body>
+      <Body>{getString('notificationMonthlyTipCompletedText')}</Body>
       <Action notification={props.notification} />
     </div>
   )

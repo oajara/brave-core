@@ -21,7 +21,7 @@ import store from '../store'
  * by redux store.
  */
 let actions: NewTabActions
-export default function getActions () {
+export default function getActions() {
   if (actions) {
     return actions
   }
@@ -29,8 +29,17 @@ export default function getActions () {
   return actions
 }
 
-export function getActionsForDispatch (dispatch: Dispatch) {
-  const allActions = Object.assign({}, newTabActions, stackWidgetActions, gridSitesActions, binanceActions, rewardsActions, geminiActions, cryptoDotComActions)
+export function getActionsForDispatch(dispatch: Dispatch) {
+  const allActions = Object.assign(
+    {},
+    newTabActions,
+    stackWidgetActions,
+    gridSitesActions,
+    binanceActions,
+    rewardsActions,
+    geminiActions,
+    cryptoDotComActions
+  )
   return {
     ...bindActionCreators(allActions, dispatch),
     today: bindActionCreators(todayActions, dispatch),

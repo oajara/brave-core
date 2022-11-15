@@ -4,7 +4,11 @@
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import styled from 'styled-components'
-import { AssetIconProps, AssetIconFactory, WalletButton } from '../../shared/style'
+import {
+  AssetIconProps,
+  AssetIconFactory,
+  WalletButton
+} from '../../shared/style'
 
 export const StyledWrapper = styled(WalletButton)`
   display: flex;

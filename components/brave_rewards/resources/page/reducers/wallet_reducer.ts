@@ -6,7 +6,10 @@ import { Reducer } from 'redux'
 import { types } from '../actions/rewards_types'
 import * as mojom from '../../shared/lib/mojom'
 
-const walletReducer: Reducer<Rewards.State | undefined> = (state: Rewards.State, action) => {
+const walletReducer: Reducer<Rewards.State | undefined> = (
+  state: Rewards.State,
+  action
+) => {
   if (!state) {
     return
   }
@@ -61,10 +64,12 @@ const walletReducer: Reducer<Rewards.State | undefined> = (state: Rewards.State,
     case types.ON_PENDING_CONTRIBUTIONS: {
       state = { ...state }
       state.pendingContributions = action.payload.list
-      const total = state.pendingContributions
-        .reduce((accumulator: number, item: Rewards.PendingContribution) => {
+      const total = state.pendingContributions.reduce(
+        (accumulator: number, item: Rewards.PendingContribution) => {
           return accumulator + item.amount
-        }, 0)
+        },
+        0
+      )
       state.pendingContributionTotal = total
       break
     }
@@ -86,9 +91,11 @@ const walletReducer: Reducer<Rewards.State | undefined> = (state: Rewards.State,
       const status = action.payload.status
       let ui = state.ui
 
-      if (status === 0) { // on ledger::mojom::Result::LEDGER_OK
+      if (status === 0) {
+        // on ledger::mojom::Result::LEDGER_OK
         state.balance = action.payload.balance
-      } else if (status === 24) { // on ledger::type::Result::EXPIRED_TOKEN
+      } else if (status === 24) {
+        // on ledger::type::Result::EXPIRED_TOKEN
         chrome.send('brave_rewards.getExternalWallet')
         state.balance.total = action.payload.balance.total || 0
       }
@@ -104,7 +111,9 @@ const walletReducer: Reducer<Rewards.State | undefined> = (state: Rewards.State,
       break
     }
     case types.SET_EXTERNAL_WALLET_TYPE: {
-      chrome.send('brave_rewards.setExternalWalletType', [action.payload.provider])
+      chrome.send('brave_rewards.setExternalWalletType', [
+        action.payload.provider
+      ])
       break
     }
     case types.GET_EXTERNAL_WALLET: {
@@ -152,7 +161,10 @@ const walletReducer: Reducer<Rewards.State | undefined> = (state: Rewards.State,
         break
       }
 
-      state.monthlyReport = Object.assign(state.monthlyReport, action.payload.report)
+      state.monthlyReport = Object.assign(
+        state.monthlyReport,
+        action.payload.report
+      )
       break
     }
     case types.GET_MONTHLY_REPORT_IDS: {

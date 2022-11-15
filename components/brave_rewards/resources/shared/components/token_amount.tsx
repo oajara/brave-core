@@ -11,22 +11,23 @@ interface Props {
 
 const defaultMinimumFractionDigits = 3
 
-function getFormatter (props: Props) {
+function getFormatter(props: Props) {
   return new Intl.NumberFormat(undefined, {
     maximumFractionDigits: 3,
-    minimumFractionDigits: typeof props.minimumFractionDigits === 'number'
-      ? props.minimumFractionDigits
-      : defaultMinimumFractionDigits
+    minimumFractionDigits:
+      typeof props.minimumFractionDigits === 'number'
+        ? props.minimumFractionDigits
+        : defaultMinimumFractionDigits
   })
 }
 
-export function TokenAmount (props: Props) {
+export function TokenAmount(props: Props) {
   const formatter = getFormatter(props)
   return (
     <>
-      <span className='amount'>{formatter.format(props.amount || 0)}</span>
+      <span className="amount">{formatter.format(props.amount || 0)}</span>
       &nbsp;
-      <span className='currency'>BAT</span>
+      <span className="currency">BAT</span>
     </>
   )
 }

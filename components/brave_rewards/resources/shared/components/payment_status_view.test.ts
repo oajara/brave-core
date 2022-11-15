@@ -4,11 +4,11 @@
 
 import { getDaysUntilRewardsPayment } from './payment_status_view'
 
-function ms (timeString: string) {
+function ms(timeString: string) {
   return new Date(timeString).getTime()
 }
 
-function mockNow (timeString: string) {
+function mockNow(timeString: string) {
   jest.spyOn(Date, 'now').mockImplementation(() => ms(timeString))
 }
 
@@ -21,26 +21,30 @@ describe('pending_rewards', () => {
 
     it('rounds payment date down to midnight local time', () => {
       mockNow('2021-01-01T00:00:01')
-      expect(getDaysUntilRewardsPayment(ms('2021-01-04T12:00:00')))
-        .toStrictEqual('3 days')
+      expect(
+        getDaysUntilRewardsPayment(ms('2021-01-04T12:00:00'))
+      ).toStrictEqual('3 days')
     })
 
     it('returns empty if payment date is in the past', () => {
       mockNow('2021-01-06T09:00:00')
-      expect(getDaysUntilRewardsPayment(ms('2021-01-05T14:00:00')))
-        .toStrictEqual('')
+      expect(
+        getDaysUntilRewardsPayment(ms('2021-01-05T14:00:00'))
+      ).toStrictEqual('')
     })
 
     it('returns empty if payment date is later today', () => {
       mockNow('2021-01-05T09:00:00')
-      expect(getDaysUntilRewardsPayment(ms('2021-01-05T14:00:00')))
-        .toStrictEqual('')
+      expect(
+        getDaysUntilRewardsPayment(ms('2021-01-05T14:00:00'))
+      ).toStrictEqual('')
     })
 
     it('rounds days up', () => {
       mockNow('2021-01-04T22:00:00')
-      expect(getDaysUntilRewardsPayment(ms('2021-01-05T04:00:00')))
-        .toStrictEqual('1 day')
+      expect(
+        getDaysUntilRewardsPayment(ms('2021-01-05T04:00:00'))
+      ).toStrictEqual('1 day')
     })
   })
 })

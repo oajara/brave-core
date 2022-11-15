@@ -10,7 +10,7 @@ const IPFSOnboardingCommandId = {
   USE_PUBLIC_GATEWAY: 1,
   LEARN_MORE: 2,
   OPEN_SETTINGS: 3
-};
+}
 
 // Should match ipfs::IPFSOnboardingPage::IPFSOnboardingResponse
 /** @enum {number} */
@@ -22,10 +22,10 @@ const IPFSOnboardingResponse = {
   INSTALLATION_ERROR: 4,
   THEME_CHANGED_DARK: 5,
   THEME_CHANGED_LIGHT: 6
-};
+}
 
 const setTheme = (theme) => {
-  document.body.className = `${theme.toLowerCase()}`;
+  document.body.className = `${theme.toLowerCase()}`
 }
 
 function setup() {
@@ -35,27 +35,27 @@ function setup() {
     $('footer').style.display = 'none'
   }
 
-  $('local-node-button').addEventListener('click', function() {
+  $('local-node-button').addEventListener('click', function () {
     $('local-node-button').textContent = '$i18n{installationText}'
     $('error-container').className = 'error-container-hidden'
     $('local-node-button').className = 'button'
-    sendCommand(IPFSOnboardingCommandId.USE_LOCAL_NODE);
-  });
+    sendCommand(IPFSOnboardingCommandId.USE_LOCAL_NODE)
+  })
 
-  $('public-gateway-button').addEventListener('click', function() {
-    sendCommand(IPFSOnboardingCommandId.USE_PUBLIC_GATEWAY);
-  });
+  $('public-gateway-button').addEventListener('click', function () {
+    sendCommand(IPFSOnboardingCommandId.USE_PUBLIC_GATEWAY)
+  })
 
-  $('learn-more').addEventListener('click', function() {
-    sendCommand(IPFSOnboardingCommandId.LEARN_MORE);
-  });
+  $('learn-more').addEventListener('click', function () {
+    sendCommand(IPFSOnboardingCommandId.LEARN_MORE)
+  })
 
-  $('open-settings').addEventListener('click', function() {
-    sendCommand(IPFSOnboardingCommandId.OPEN_SETTINGS);
-  });
+  $('open-settings').addEventListener('click', function () {
+    sendCommand(IPFSOnboardingCommandId.OPEN_SETTINGS)
+  })
 }
 
-document.addEventListener('DOMContentLoaded', setup);
+document.addEventListener('DOMContentLoaded', setup)
 
 function showErrorMessage(text) {
   $('error-container').textContent = text
@@ -67,9 +67,9 @@ function handleCommand(code, text) {
     showErrorMessage('$i18n{localNodeError}')
     $('local-node-button').textContent = '$i18n{retryText}'
   } else if (code == IPFSOnboardingResponse.THEME_CHANGED_DARK) {
-    setTheme("dark")
+    setTheme('dark')
   } else if (code == IPFSOnboardingResponse.THEME_CHANGED_LIGHT) {
-    setTheme("light")
+    setTheme('light')
   } else if (code == IPFSOnboardingResponse.LOCAL_NODE_LAUNCHED) {
     $('local-node-button').textContent = '$i18n{watingPeersText}'
   } else if (code == IPFSOnboardingResponse.NO_PEERS_AVAILABLE) {
@@ -86,22 +86,23 @@ function handleCommand(code, text) {
   return true
 }
 
-function messageHandler (event) {
+function messageHandler(event) {
   if (event.type !== 'message' || event.origin !== document.location.origin) {
     return false
   }
-  
-  if (!event.data || event.data.command !== 'ipfs')
+
+  if (!event.data || event.data.command !== 'ipfs') return false
+
+  if (
+    isNaN(parseInt(event.data.code)) ||
+    (event.data.value !== '' && isNaN(parseInt(event.data.value)))
+  ) {
     return false
-    
-  if (isNaN(parseInt(event.data.code)) ||
-      (event.data.value !== '' && isNaN(parseInt(event.data.value)))) {
-    return false;
   }
-  return handleCommand(event.data.code, event.data.value);
+  return handleCommand(event.data.code, event.data.value)
 }
 
-window.addEventListener("message", messageHandler, false);
+window.addEventListener('message', messageHandler, false)
 
 // for testing purposes
 if (typeof module !== 'undefined') {

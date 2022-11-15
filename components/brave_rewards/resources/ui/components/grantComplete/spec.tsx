@@ -9,7 +9,11 @@ import GrantComplete from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('Grant complete tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><GrantComplete id='complete' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <GrantComplete id="complete" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

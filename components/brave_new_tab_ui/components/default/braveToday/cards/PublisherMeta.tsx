@@ -47,19 +47,19 @@ const Trigger = styled('button')`
   --ghost-padding-v: max(4.7%, 5px);
   --ghost-padding-h: max(9%, 12px);
   padding: var(--ghost-padding-v) var(--ghost-padding-h);
-  margin: calc(var(--ghost-padding-v) * -1 - 1px) calc(var(--ghost-padding-h) * -1 - 1px);
+  margin: calc(var(--ghost-padding-v) * -1 - 1px)
+    calc(var(--ghost-padding-h) * -1 - 1px);
   border: solid 1px transparent;
   overflow: visible;
 
-  &.${isOpenClassName},
-  &:focus-visible,
+  &.${isOpenClassName}, &:focus-visible,
   &:hover,
   &:active {
     border-color: inherit;
   }
 
   &:active {
-    background-color: rgba(255, 255, 255, .2);
+    background-color: rgba(255, 255, 255, 0.2);
   }
 `
 
@@ -67,7 +67,7 @@ const Text = styled('span')`
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
 `
 
 const Menu = styled('ul')`
@@ -82,8 +82,8 @@ const Menu = styled('ul')`
   border-radius: 4px;
   box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.3);
   padding: 8px 0;
-  background-color: ${p => p.theme.color.contextMenuBackground};
-  color:  ${p => p.theme.color.contextMenuForeground};
+  background-color: ${(p) => p.theme.color.contextMenuBackground};
+  color: ${(p) => p.theme.color.contextMenuForeground};
 `
 
 const MenuItem = styled('li')`
@@ -94,48 +94,57 @@ const MenuItem = styled('li')`
 
   &:hover,
   &:focus {
-    background-color: ${p => p.theme.color.contextMenuHoverBackground};
-    color: ${p => p.theme.color.contextMenuHoverForeground};
+    background-color: ${(p) => p.theme.color.contextMenuHoverBackground};
+    color: ${(p) => p.theme.color.contextMenuHoverForeground};
   }
 
   &:active {
     // TODO(petemill): Theme doesn't have a context menu interactive color,
     // make one and don't make entire element opaque.
-    opacity: .8;
+    opacity: 0.8;
   }
 
   &:focus-visible {
-    outline: solid 1px ${p => p.theme.color.brandBrave};
+    outline: solid 1px ${(p) => p.theme.color.brandBrave};
   }
 `
 
-export default function PublisherMetaComponent (props: Props) {
+export default function PublisherMetaComponent(props: Props) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
 
   const triggerElementRef = React.useRef<HTMLButtonElement>(null)
 
-  const onClickCloseMenu = React.useCallback((e: MouseEvent) => {
-    const triggerElement = triggerElementRef.current
-    if (!triggerElement || triggerElement.contains(e.target as Node)) {
-      return
-    }
-    setIsMenuOpen(false)
-  }, [setIsMenuOpen])
-
-  const onKeyDown = React.useCallback((e: KeyboardEvent) => {
-    if (e.defaultPrevented) {
-      return
-    }
-    if (e.key === 'Escape') {
+  const onClickCloseMenu = React.useCallback(
+    (e: MouseEvent) => {
+      const triggerElement = triggerElementRef.current
+      if (!triggerElement || triggerElement.contains(e.target as Node)) {
+        return
+      }
       setIsMenuOpen(false)
-    }
-  }, [setIsMenuOpen])
+    },
+    [setIsMenuOpen]
+  )
 
-  const toggleMenu = React.useCallback((e: React.MouseEvent) => {
-    e.stopPropagation()
-    e.preventDefault()
-    setIsMenuOpen((value) => !value)
-  }, [setIsMenuOpen])
+  const onKeyDown = React.useCallback(
+    (e: KeyboardEvent) => {
+      if (e.defaultPrevented) {
+        return
+      }
+      if (e.key === 'Escape') {
+        setIsMenuOpen(false)
+      }
+    },
+    [setIsMenuOpen]
+  )
+
+  const toggleMenu = React.useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation()
+      e.preventDefault()
+      setIsMenuOpen((value) => !value)
+    },
+    [setIsMenuOpen]
+  )
 
   // Setup or remote event listeners when opens or closes
   // or this element is removed.
@@ -155,22 +164,24 @@ export default function PublisherMetaComponent (props: Props) {
   }, [isMenuOpen])
 
   const onClickDisablePublisher = React.useCallback(() => {
-    props.onSetPublisherPref(
-      props.publisher.publisherId,
-      false
-    )
+    props.onSetPublisherPref(props.publisher.publisherId, false)
   }, [props.publisher, props.onSetPublisherPref])
 
   const commandText = React.useMemo<string>(() => {
     const raw = getLocale('braveTodayDisableSourceCommand')
     const publisherIndex = raw.indexOf('$1')
     if (publisherIndex === -1) {
-      console.warn('Locale string for braveTodayDisableSourceCommand did not have a $1 replacement area for publisher name.', raw)
+      console.warn(
+        'Locale string for braveTodayDisableSourceCommand did not have a $1 replacement area for publisher name.',
+        raw
+      )
       return `${raw} ${props.publisher.publisherName}`
     }
-    return raw.substr(0, publisherIndex) +
+    return (
+      raw.substr(0, publisherIndex) +
       props.publisher.publisherName +
       raw.substr(publisherIndex + 2)
+    )
   }, [props.publisher.publisherName])
 
   return (
@@ -179,25 +190,21 @@ export default function PublisherMetaComponent (props: Props) {
         className={isMenuOpen ? isOpenClassName : undefined}
         onClick={toggleMenu}
         ref={triggerElementRef}
-        aria-haspopup='true'
+        aria-haspopup="true"
         aria-expanded={isMenuOpen ? 'true' : 'false'}
       >
-        <Text>
-          {props.publisher.publisherName}
-        </Text>
-        {isMenuOpen &&
-          <Menu
-            role='menu'
-          >
+        <Text>{props.publisher.publisherName}</Text>
+        {isMenuOpen && (
+          <Menu role="menu">
             <MenuItem
-              role='menuitem'
+              role="menuitem"
               tabIndex={0}
               onClick={onClickDisablePublisher}
             >
               {commandText}
             </MenuItem>
           </Menu>
-        }
+        )}
       </Trigger>
     </PublisherMeta>
   )

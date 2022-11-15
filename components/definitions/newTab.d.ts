@@ -30,7 +30,10 @@ declare namespace NewTab {
     random?: boolean
   }
 
-  export type BackgroundWallpaper = ColorBackground | ImageBackground | BraveBackground
+  export type BackgroundWallpaper =
+    | ColorBackground
+    | ImageBackground
+    | BraveBackground
 
   export type BrandedWallpaperLogo = {
     image: string
@@ -84,7 +87,15 @@ declare namespace NewTab {
     url: string
   }
 
-  export type StackWidget = 'rewards' | 'binance' | 'braveTalk' | 'gemini' | 'bitcoinDotCom' | 'cryptoDotCom' | 'ftx' | ''
+  export type StackWidget =
+    | 'rewards'
+    | 'binance'
+    | 'braveTalk'
+    | 'gemini'
+    | 'bitcoinDotCom'
+    | 'cryptoDotCom'
+    | 'ftx'
+    | ''
 
   export interface GridSitesState {
     removedSites: Site[]
@@ -154,8 +165,8 @@ declare namespace NewTab {
     isIncognito: boolean
     useAlternativePrivateSearchEngine: boolean
     showAlternativePrivateSearchEngineToggle: boolean
-    torCircuitEstablished: boolean,
-    torInitProgress: string,
+    torCircuitEstablished: boolean
+    torInitProgress: string
     isTor: boolean
     isQwant: boolean
     gridLayoutSize?: 'small'
@@ -164,7 +175,7 @@ declare namespace NewTab {
     customLinksEnabled: boolean
     customLinksNum: number
     showBitcoinDotCom: boolean
-    stats: Stats,
+    stats: Stats
     braveTalkPromptAllowed: boolean
     brandedWallpaper?: BrandedWallpaper
     backgroundWallpaper?: BackgroundWallpaper

@@ -6,7 +6,12 @@
 import * as React from 'react'
 
 // components
-import { Image, LoadingOverlay, LoadIcon, ImageWrapper } from './nft-content-styles'
+import {
+  Image,
+  LoadingOverlay,
+  LoadIcon,
+  ImageWrapper
+} from './nft-content-styles'
 import { NftDetails } from '../nft-details/nft-details'
 
 // types
@@ -26,12 +31,7 @@ interface Props {
 }
 
 export const NftContent = (props: Props) => {
-  const {
-    isLoading,
-    selectedAsset,
-    imageUrl,
-    displayMode
-  } = props
+  const { isLoading, selectedAsset, imageUrl, displayMode } = props
 
   const url = React.useMemo(() => {
     return imageUrl ? imageUrl?.replace('chrome://image?', '') : Placeholder
@@ -47,19 +47,14 @@ export const NftContent = (props: Props) => {
 
   return (
     <>
-      {url && displayMode === 'icon' &&
+      {url && displayMode === 'icon' && (
         <ImageWrapper>
-          <Image
-            src={url}
-          />
+          <Image src={url} />
         </ImageWrapper>
-      }
-      {selectedAsset && displayMode === 'details' &&
-        <NftDetails
-          {...props}
-          selectedAsset={selectedAsset}
-        />
-      }
+      )}
+      {selectedAsset && displayMode === 'details' && (
+        <NftDetails {...props} selectedAsset={selectedAsset} />
+      )}
     </>
   )
 }

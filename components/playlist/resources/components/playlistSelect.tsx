@@ -13,37 +13,46 @@ interface Props {
   onSelectPlaylist: (playlistId: string) => void
   onCreatePlaylist: (playlist: PlaylistMojo.Playlist) => void
   onRemovePlaylist: (playlistId: string) => void
-};
+}
 
-export default function PlaylistSelect ({
-    playlists,
-    selectedPlaylist,
-    onSelectPlaylist,
-    onCreatePlaylist,
-    onRemovePlaylist
+export default function PlaylistSelect({
+  playlists,
+  selectedPlaylist,
+  onSelectPlaylist,
+  onCreatePlaylist,
+  onRemovePlaylist
 }: Props) {
-   const onClickCreateButton = React.useCallback((e) => {
-      const name = window.prompt('Enter a name for the new playlist', 'New Playlist')
+  const onClickCreateButton = React.useCallback(
+    (e) => {
+      const name = window.prompt(
+        'Enter a name for the new playlist',
+        'New Playlist'
+      )
       if (!name) return
       onCreatePlaylist({ id: undefined, name, items: [] })
-    }, [onCreatePlaylist])
+    },
+    [onCreatePlaylist]
+  )
 
-  const onClickRemoveButton = React.useCallback(_ => {
-    if (!selectedPlaylist?.id) return
-    onRemovePlaylist(selectedPlaylist.id)
-  }, [onRemovePlaylist, selectedPlaylist])
+  const onClickRemoveButton = React.useCallback(
+    (_) => {
+      if (!selectedPlaylist?.id) return
+      onRemovePlaylist(selectedPlaylist.id)
+    },
+    [onRemovePlaylist, selectedPlaylist]
+  )
 
-   return (
-     <div>
-        <select onChange={e => onSelectPlaylist(e.target.value)}>
-        {
-          playlists.map(playlist => (
-            <option key={playlist.id} value={playlist.id}>{playlist.name ? playlist.name : 'No Name'}</option>
-          ))
-        }
-        </select>
-        <button onClick={onClickCreateButton}>Create a new playlist</button>
-        <button onClick={onClickRemoveButton}>Remove this playlist</button>
-     </div>
-   )
- }
+  return (
+    <div>
+      <select onChange={(e) => onSelectPlaylist(e.target.value)}>
+        {playlists.map((playlist) => (
+          <option key={playlist.id} value={playlist.id}>
+            {playlist.name ? playlist.name : 'No Name'}
+          </option>
+        ))}
+      </select>
+      <button onClick={onClickCreateButton}>Create a new playlist</button>
+      <button onClick={onClickRemoveButton}>Remove this playlist</button>
+    </div>
+  )
+}

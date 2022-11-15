@@ -24,7 +24,7 @@ export const _TransactionSubmitted = () => {
           <TransactionSubmitted
             onClose={onClose}
             transaction={mockTransactionInfo}
-            headerTitle='Swap 0.01 ETH to 32.2583 USDC'
+            headerTitle="Swap 0.01 ETH to 32.2583 USDC"
           />
         </StyledExtensionWrapper>
       </PanelWrapper>

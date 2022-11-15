@@ -16,7 +16,10 @@ import {
 
 // utils
 import { getLocale } from '../../../../../common/locale'
-import { groupAccountsById, sortAccountsByName } from '../../../../utils/account-utils'
+import {
+  groupAccountsById,
+  sortAccountsByName
+} from '../../../../utils/account-utils'
 
 // Styled Components
 import {
@@ -34,33 +37,42 @@ import {
 } from './style'
 
 // Components
-import {
-  AccountListItem,
-  AddButton
-} from '../..'
+import { AccountListItem, AddButton } from '../..'
 
 export const Accounts = () => {
   // routing
   const history = useHistory()
 
   // wallet state
-  const accounts = useSelector(({ wallet }: { wallet: WalletState }) => wallet.accounts)
+  const accounts = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.accounts
+  )
 
   // methods
-  const onSelectAccount = React.useCallback((account: WalletAccountType | undefined) => {
-    if (account) {
-      history.push(`${WalletRoutes.Accounts}/${account.address}`)
-    }
-  }, [])
+  const onSelectAccount = React.useCallback(
+    (account: WalletAccountType | undefined) => {
+      if (account) {
+        history.push(`${WalletRoutes.Accounts}/${account.address}`)
+      }
+    },
+    []
+  )
 
-  const onClickAddAccount = React.useCallback((tabId: AddAccountNavTypes) => () => {
-    switch (tabId) {
-      case 'create': return history.push(WalletRoutes.CreateAccountModalStart)
-      case 'hardware': return history.push(WalletRoutes.AddHardwareAccountModalStart)
-      case 'import': return history.push(WalletRoutes.ImportAccountModalStart)
-      default: return history.push(WalletRoutes.AddAccountModal)
-    }
-  }, [])
+  const onClickAddAccount = React.useCallback(
+    (tabId: AddAccountNavTypes) => () => {
+      switch (tabId) {
+        case 'create':
+          return history.push(WalletRoutes.CreateAccountModalStart)
+        case 'hardware':
+          return history.push(WalletRoutes.AddHardwareAccountModalStart)
+        case 'import':
+          return history.push(WalletRoutes.ImportAccountModalStart)
+        default:
+          return history.push(WalletRoutes.AddAccountModal)
+      }
+    },
+    []
+  )
 
   // memos
   const primaryAccounts = React.useMemo(() => {
@@ -72,39 +84,44 @@ export const Accounts = () => {
   }, [accounts])
 
   const trezorAccounts = React.useMemo(() => {
-    const foundTrezorAccounts = accounts.filter((account) => account.accountType === 'Trezor')
+    const foundTrezorAccounts = accounts.filter(
+      (account) => account.accountType === 'Trezor'
+    )
     return groupAccountsById(foundTrezorAccounts, 'deviceId')
   }, [accounts])
 
   const ledgerAccounts = React.useMemo(() => {
-    const foundLedgerAccounts = accounts.filter((account) => account.accountType === 'Ledger')
+    const foundLedgerAccounts = accounts.filter(
+      (account) => account.accountType === 'Ledger'
+    )
     return groupAccountsById(foundLedgerAccounts, 'deviceId')
   }, [accounts])
 
   // render
   return (
     <StyledWrapper>
-
       <SectionTitle>{getLocale('braveWalletAccountsPrimary')}</SectionTitle>
 
-      <DisclaimerText>{getLocale('braveWalletAccountsPrimaryDisclaimer')}</DisclaimerText>
+      <DisclaimerText>
+        {getLocale('braveWalletAccountsPrimaryDisclaimer')}
+      </DisclaimerText>
 
       <SubDivider />
 
       <PrimaryListContainer>
-        {primaryAccounts.map((account) =>
+        {primaryAccounts.map((account) => (
           <AccountListItem
             key={account.id}
             isHardwareWallet={false}
             onClick={onSelectAccount}
             account={account}
           />
-        )}
+        ))}
       </PrimaryListContainer>
 
       <ButtonRow>
         <AddButton
-          buttonType='secondary'
+          buttonType="secondary"
           onSubmit={onClickAddAccount('create')}
           text={getLocale('braveWalletCreateAccountButton')}
         />
@@ -112,46 +129,52 @@ export const Accounts = () => {
 
       <SectionTitle>{getLocale('braveWalletAccountsSecondary')}</SectionTitle>
 
-      <DisclaimerText>{getLocale('braveWalletAccountsSecondaryDisclaimer')}</DisclaimerText>
+      <DisclaimerText>
+        {getLocale('braveWalletAccountsSecondaryDisclaimer')}
+      </DisclaimerText>
 
       <SubDivider />
 
       <SecondaryListContainer isHardwareWallet={false}>
-        {secondaryAccounts.map((account) =>
+        {secondaryAccounts.map((account) => (
           <AccountListItem
             key={account.id}
             isHardwareWallet={false}
             onClick={onSelectAccount}
             account={account}
           />
-        )}
+        ))}
       </SecondaryListContainer>
 
-      {Object.keys(trezorAccounts).map(key =>
+      {Object.keys(trezorAccounts).map((key) => (
         <SecondaryListContainer key={key} isHardwareWallet={true}>
-          {sortAccountsByName(trezorAccounts[key]).map((account: WalletAccountType) =>
-            <AccountListItem
-              key={account.id}
-              isHardwareWallet={true}
-              onClick={onSelectAccount}
-              account={account}
-            />
+          {sortAccountsByName(trezorAccounts[key]).map(
+            (account: WalletAccountType) => (
+              <AccountListItem
+                key={account.id}
+                isHardwareWallet={true}
+                onClick={onSelectAccount}
+                account={account}
+              />
+            )
           )}
         </SecondaryListContainer>
-      )}
+      ))}
 
-      {Object.keys(ledgerAccounts).map(key =>
+      {Object.keys(ledgerAccounts).map((key) => (
         <SecondaryListContainer key={key} isHardwareWallet={true}>
-          {sortAccountsByName(ledgerAccounts[key]).map((account: WalletAccountType) =>
-            <AccountListItem
-              key={account.id}
-              isHardwareWallet={true}
-              onClick={onSelectAccount}
-              account={account}
-            />
+          {sortAccountsByName(ledgerAccounts[key]).map(
+            (account: WalletAccountType) => (
+              <AccountListItem
+                key={account.id}
+                isHardwareWallet={true}
+                onClick={onSelectAccount}
+                account={account}
+              />
+            )
           )}
         </SecondaryListContainer>
-      )}
+      ))}
 
       <ButtonRow>
         <StyledButton onClick={onClickAddAccount('import')}>
@@ -160,7 +183,9 @@ export const Accounts = () => {
         </StyledButton>
         <StyledButton onClick={onClickAddAccount('hardware')}>
           <HardwareIcon />
-          <ButtonText>{getLocale('braveWalletAddAccountImportHardware')}</ButtonText>
+          <ButtonText>
+            {getLocale('braveWalletAddAccountImportHardware')}
+          </ButtonText>
         </StyledButton>
       </ButtonRow>
     </StyledWrapper>

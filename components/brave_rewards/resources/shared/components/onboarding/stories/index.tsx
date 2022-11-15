@@ -15,12 +15,12 @@ import { RewardsTourPromo } from '../rewards_tour_promo'
 import { localeStrings } from './locale_strings'
 
 const localeContext = {
-  getString (key: string) {
+  getString(key: string) {
     return localeStrings[key] || 'MISSING'
   }
 }
 
-function actionLogger (name: string) {
+function actionLogger(name: string) {
   return (...args: any[]) => {
     console.log(name, ...args)
   }
@@ -31,19 +31,17 @@ interface StoryWrapperProps {
   children: React.ReactNode
 }
 
-function StoryWrapper (props: StoryWrapperProps) {
+function StoryWrapper(props: StoryWrapperProps) {
   return (
     <LocaleContext.Provider value={localeContext}>
       <WithThemeVariables>
-        <div style={props.style || {}}>
-          {props.children}
-        </div>
+        <div style={props.style || {}}>{props.children}</div>
       </WithThemeVariables>
     </LocaleContext.Provider>
   )
 }
 
-function getRewardsTourProps () {
+function getRewardsTourProps() {
   return {
     firstTimeSetup: true,
     adsPerHour: 3,
@@ -61,7 +59,7 @@ export default {
   title: 'Rewards/Onboarding'
 }
 
-export function TourModal () {
+export function TourModal() {
   return (
     <StoryWrapper>
       <RewardsTourModal
@@ -72,12 +70,12 @@ export function TourModal () {
   )
 }
 
-export function TourModalWide () {
+export function TourModalWide() {
   return (
     <StoryWrapper>
       <RewardsTourModal
         {...getRewardsTourProps()}
-        layout='wide'
+        layout="wide"
         onClose={actionLogger('onClose')}
       />
     </StoryWrapper>
@@ -86,11 +84,11 @@ export function TourModalWide () {
 
 TourModalWide.storyName = 'Tour Modal (Wide)'
 
-export function OptInModal () {
+export function OptInModal() {
   return (
     <StoryWrapper>
       <RewardsOptInModal
-        initialView='declare-country'
+        initialView="declare-country"
         availableCountries={['US']}
         result={'success'}
         onEnable={actionLogger('onEnable')}
@@ -101,7 +99,7 @@ export function OptInModal () {
   )
 }
 
-export function SettingsOptIn () {
+export function SettingsOptIn() {
   return (
     <StoryWrapper style={{ width: '619px' }}>
       <SettingsOptInForm
@@ -112,7 +110,7 @@ export function SettingsOptIn () {
   )
 }
 
-export function TourPromo () {
+export function TourPromo() {
   return (
     <StoryWrapper style={{ width: '373px' }}>
       <RewardsTourPromo

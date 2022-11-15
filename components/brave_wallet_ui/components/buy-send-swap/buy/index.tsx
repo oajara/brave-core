@@ -18,7 +18,10 @@ import {
 
 // utils
 import { getLocale } from '../../../../common/locale'
-import { getRampAssetSymbol, isSelectedAssetInAssetOptions } from '../../../utils/asset-utils'
+import {
+  getRampAssetSymbol,
+  isSelectedAssetInAssetOptions
+} from '../../../utils/asset-utils'
 
 // options
 import { BuyOptions } from '../../../options/buy-with-options'
@@ -33,11 +36,7 @@ import { NavButton } from '../../extension'
 import SwapInputComponent from '../swap-input-component'
 
 // styles
-import {
-  StyledWrapper,
-  Spacer,
-  NetworkNotSupported
-} from './style'
+import { StyledWrapper, Spacer, NetworkNotSupported } from './style'
 
 export interface Props {
   selectedAsset: BraveWallet.BlockchainToken
@@ -53,7 +52,8 @@ export const Buy = ({
   // state
   const [buyAmount, setBuyAmount] = React.useState('')
   const [showBuyOptions, setShowBuyOptions] = React.useState<boolean>(false)
-  const [selectedOnRampProvider, setSelectedOnRampProvider] = React.useState<BraveWallet.OnRampProvider>()
+  const [selectedOnRampProvider, setSelectedOnRampProvider] =
+    React.useState<BraveWallet.OnRampProvider>()
 
   // Redux
   const {
@@ -64,7 +64,8 @@ export const Buy = ({
   } = useSelector(({ wallet }: { wallet: WalletState }) => wallet)
 
   // Custom Hooks
-  const { wyreAssetOptions, rampAssetOptions, sardineAssetOptions } = useAssets()
+  const { wyreAssetOptions, rampAssetOptions, sardineAssetOptions } =
+    useAssets()
   const { getBuyAssetUrl } = useLib()
 
   // memos
@@ -74,10 +75,12 @@ export const Buy = ({
       [BraveWallet.OnRampProvider.kRamp]: rampAssetOptions,
       [BraveWallet.OnRampProvider.kSardine]: sardineAssetOptions
     }
-    return BuyOptions.filter(buyOption => {
-      return isSelectedAssetInAssetOptions(selectedAsset, onRampAssetMap[buyOption.id])
-    })
-    .sort((optionA, optionB) => optionA.name.localeCompare(optionB.name))
+    return BuyOptions.filter((buyOption) => {
+      return isSelectedAssetInAssetOptions(
+        selectedAsset,
+        onRampAssetMap[buyOption.id]
+      )
+    }).sort((optionA, optionB) => optionA.name.localeCompare(optionB.name))
   }, [selectedAsset, wyreAssetOptions, rampAssetOptions, sardineAssetOptions])
 
   const isSelectedNetworkSupported = React.useMemo(() => {
@@ -91,49 +94,55 @@ export const Buy = ({
     }
 
     return [...rampAssetOptions, ...wyreAssetOptions, ...sardineAssetOptions]
-      .map(asset => asset.chainId.toLowerCase())
+      .map((asset) => asset.chainId.toLowerCase())
       .includes(selectedNetwork.chainId.toLowerCase())
   }, [selectedNetwork, rampAssetOptions, wyreAssetOptions, sardineAssetOptions])
 
   // methods
-  const onSubmitBuy = React.useCallback(async (buyOption: BraveWallet.OnRampProvider) => {
-    // Do nothing if selected network or selected account is not populated yet
-    if (!selectedNetwork || !selectedAccount) {
-      return
-    }
+  const onSubmitBuy = React.useCallback(
+    async (buyOption: BraveWallet.OnRampProvider) => {
+      // Do nothing if selected network or selected account is not populated yet
+      if (!selectedNetwork || !selectedAccount) {
+        return
+      }
 
-    const asset = buyOption === BraveWallet.OnRampProvider.kRamp
-      ? { ...selectedAsset, symbol: getRampAssetSymbol(selectedAsset) }
-      : selectedAsset
-    setSelectedOnRampProvider(buyOption)
+      const asset =
+        buyOption === BraveWallet.OnRampProvider.kRamp
+          ? { ...selectedAsset, symbol: getRampAssetSymbol(selectedAsset) }
+          : selectedAsset
+      setSelectedOnRampProvider(buyOption)
 
-    try {
-      const url = await getBuyAssetUrl({
-        asset,
-        onRampProvider: buyOption,
-        chainId: selectedNetwork.chainId,
-        address: selectedAccount.address,
-        amount: buyAmount,
-        currencyCode: selectedCurrency ? selectedCurrency.currencyCode : 'USD'
-      })
+      try {
+        const url = await getBuyAssetUrl({
+          asset,
+          onRampProvider: buyOption,
+          chainId: selectedNetwork.chainId,
+          address: selectedAccount.address,
+          amount: buyAmount,
+          currencyCode: selectedCurrency ? selectedCurrency.currencyCode : 'USD'
+        })
 
-      chrome.tabs.create({ url }, () => {
-        if (chrome.runtime.lastError) {
-          console.error('tabs.create failed: ' + chrome.runtime.lastError.message)
-        }
-      })
-    } catch (e) {
-      console.error(e)
-    }
-    setSelectedOnRampProvider(undefined)
-  }, [
-    getBuyAssetUrl,
-    selectedNetwork,
-    selectedAccount,
-    buyAmount,
-    selectedAsset,
-    selectedCurrency
-  ])
+        chrome.tabs.create({ url }, () => {
+          if (chrome.runtime.lastError) {
+            console.error(
+              'tabs.create failed: ' + chrome.runtime.lastError.message
+            )
+          }
+        })
+      } catch (e) {
+        console.error(e)
+      }
+      setSelectedOnRampProvider(undefined)
+    },
+    [
+      getBuyAssetUrl,
+      selectedNetwork,
+      selectedAccount,
+      buyAmount,
+      selectedAsset,
+      selectedCurrency
+    ]
+  )
   const onShowAssets = React.useCallback(() => {
     onChangeBuyView('assets', 'from')
   }, [onChangeBuyView])
@@ -149,22 +158,23 @@ export const Buy = ({
   // render
   return (
     <StyledWrapper>
-      {showBuyOptions
-        ? <SelectBuyOption
+      {showBuyOptions ? (
+        <SelectBuyOption
           buyOptions={supportedBuyOptions}
           selectedOption={selectedOnRampProvider}
           onSelect={onSubmitBuy}
           onBack={onBack}
         />
-        : <>
-          {isSelectedNetworkSupported
-            ? <>
+      ) : (
+        <>
+          {isSelectedNetworkSupported ? (
+            <>
               <SwapInputComponent
                 defaultCurrencies={defaultCurrencies}
-                componentType='buyAmount'
+                componentType="buyAmount"
                 onInputChange={setBuyAmount}
                 selectedAssetInputAmount={buyAmount}
-                inputName='buy'
+                inputName="buy"
                 selectedAsset={selectedAsset}
                 selectedNetwork={selectedNetwork}
                 onShowSelection={onShowAssets}
@@ -174,15 +184,18 @@ export const Buy = ({
               <Spacer />
               <NavButton
                 disabled={false}
-                buttonType='primary'
+                buttonType="primary"
                 text={getLocale('braveWalletBuyContinueButton')}
                 onSubmit={onContinue}
               />
             </>
-            : <NetworkNotSupported>{getLocale('braveWalletBuyTapBuyNotSupportedMessage')}</NetworkNotSupported>
-          }
+          ) : (
+            <NetworkNotSupported>
+              {getLocale('braveWalletBuyTapBuyNotSupportedMessage')}
+            </NetworkNotSupported>
+          )}
         </>
-      }
+      )}
     </StyledWrapper>
   )
 }

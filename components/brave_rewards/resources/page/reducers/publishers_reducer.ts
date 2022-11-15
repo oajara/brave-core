@@ -5,7 +5,10 @@
 import { Reducer } from 'redux'
 import { types } from '../actions/rewards_types'
 
-const publishersReducer: Reducer<Rewards.State | undefined> = (state: Rewards.State, action) => {
+const publishersReducer: Reducer<Rewards.State | undefined> = (
+  state: Rewards.State,
+  action
+) => {
   if (!state) {
     return
   }
@@ -54,7 +57,9 @@ const publishersReducer: Reducer<Rewards.State | undefined> = (state: Rewards.St
       if (!action.payload.publisherKey) {
         break
       }
-      chrome.send('brave_rewards.removeRecurringTip', [action.payload.publisherKey])
+      chrome.send('brave_rewards.removeRecurringTip', [
+        action.payload.publisherKey
+      ])
       break
     case types.ON_CURRENT_TIPS:
       state = { ...state }

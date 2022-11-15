@@ -17,35 +17,47 @@ type Props = {
   actions: typeof FTXActions
 }
 
-export default function Markets (props: Props) {
+export default function Markets(props: Props) {
   const moreMarketsTextParts = React.useMemo(() => {
     return getLocaleWithTag('ftxMoreMarketsLink')
   }, [])
 
-  const handleAssetDetailClick = React.useCallback((symbol) => {
-    props.actions.showAssetDetail({ symbol })
-  }, [props.actions.showAssetDetail])
+  const handleAssetDetailClick = React.useCallback(
+    (symbol) => {
+      props.actions.showAssetDetail({ symbol })
+    },
+    [props.actions.showAssetDetail]
+  )
 
   return (
     <>
       <S.List $mt={10}>
-        {props.ftx.marketData.map(market => {
+        {props.ftx.marketData.map((market) => {
           const { symbol, price, percentChangeDay } = market
           const currencyName = currencyNames[symbol]
           return (
-            <S.ListItem key={symbol} isFlex={true} onClick={handleAssetDetailClick.bind(undefined, symbol)} $height={48}>
+            <S.ListItem
+              key={symbol}
+              isFlex={true}
+              onClick={handleAssetDetailClick.bind(undefined, symbol)}
+              $height={48}
+            >
               <S.FlexItem $pl={5} $pr={5}>
                 <IconAsset iconKey={symbol.toLowerCase()} />
               </S.FlexItem>
               <S.FlexItem>
                 <S.Text>{symbol}</S.Text>
-                {currencyName &&
-                <S.Text small={true} textColor='light'>{currencyNames[symbol]}</S.Text>
-                }
+                {currencyName && (
+                  <S.Text small={true} textColor="light">
+                    {currencyNames[symbol]}
+                  </S.Text>
+                )}
               </S.FlexItem>
-              <S.FlexItem textAlign='right' flex={1}>
+              <S.FlexItem textAlign="right" flex={1}>
                 <S.Text>{getFormattedPrice(price)}</S.Text>
-                <S.Text textColor={percentChangeDay > 0 ? 'green' : 'red'}>{percentChangeDay}%</S.Text>
+                <S.Text textColor={percentChangeDay > 0 ? 'green' : 'red'}>
+                  {percentChangeDay}%
+                </S.Text>
               </S.FlexItem>
             </S.ListItem>
           )

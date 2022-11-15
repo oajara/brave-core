@@ -12,7 +12,7 @@ export const LocaleContext = React.createContext<Locale>({
   getString: () => ''
 })
 
-function splitMessage (message: string) {
+function splitMessage(message: string) {
   const parts: any[] = []
   const slots: Array<[string, number]> = []
 
@@ -58,10 +58,7 @@ interface FormatOptions {
 //       $2: (content) => <a key='profile' href='/profile'>{content}</a>
 //     }
 //   })
-export function formatMessage (
-  message: string,
-  options: FormatOptions | any[]
-) {
+export function formatMessage(message: string, options: FormatOptions | any[]) {
   const { parts, slots } = splitMessage(message)
 
   if (Array.isArray(options)) {
@@ -93,5 +90,5 @@ export function formatMessage (
     }
   }
 
-  return parts.filter(x => x != null)
+  return parts.filter((x) => x != null)
 }

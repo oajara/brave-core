@@ -23,11 +23,8 @@ interface Props {
 }
 
 export const AssetFilterItem = (props: Props) => {
-  const {
-    selectedAssetFilterItem,
-    assetFilterItem,
-    onSelectAssetFilterItem
-  } = props
+  const { selectedAssetFilterItem, assetFilterItem, onSelectAssetFilterItem } =
+    props
 
   const onClickSelectAssetFilterItem = () => {
     onSelectAssetFilterItem(assetFilterItem)
@@ -37,9 +34,7 @@ export const AssetFilterItem = (props: Props) => {
     <NetworkItemWrapper>
       <NetworkItemButton onClick={onClickSelectAssetFilterItem}>
         <NetworkName>{assetFilterItem.name}</NetworkName>
-        {assetFilterItem.id === selectedAssetFilterItem.id &&
-          <BigCheckMark />
-        }
+        {assetFilterItem.id === selectedAssetFilterItem.id && <BigCheckMark />}
       </NetworkItemButton>
     </NetworkItemWrapper>
   )

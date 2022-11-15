@@ -64,13 +64,15 @@ export type WalletCreatedPayloadType = {
   mnemonic: string
 }
 
-export type ShowRecoveryPhrasePayload = {
-  show: false
-  password?: string
-} | {
-  show: true
-  password: string
-}
+export type ShowRecoveryPhrasePayload =
+  | {
+      show: false
+      password?: string
+    }
+  | {
+      show: true
+      password: string
+    }
 
 export type RecoveryWordsAvailablePayloadType = {
   mnemonic: string

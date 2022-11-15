@@ -10,7 +10,11 @@ import { create } from 'ethereum-blockies'
 import { BraveWallet, SupportedTestNetworks } from '../../../constants/types'
 
 // Utils
-import { stripERC20TokenImageURL, isRemoteImageURL, isValidIconExtension } from '../../../utils/string-utils'
+import {
+  stripERC20TokenImageURL,
+  isRemoteImageURL,
+  isValidIconExtension
+} from '../../../utils/string-utils'
 
 // Styled components
 import { IconWrapper, Placeholder, NetworkIcon } from './style'
@@ -24,11 +28,7 @@ interface Props {
   size?: 'big' | 'small'
 }
 
-export const CreateNetworkIcon = ({
-  network,
-  marginRight,
-  size
-}: Props) => {
+export const CreateNetworkIcon = ({ network, marginRight, size }: Props) => {
   // memos
   const networkImageURL = React.useMemo(() => {
     return stripERC20TokenImageURL(network?.iconUrls[0])
@@ -43,7 +43,9 @@ export const CreateNetworkIcon = ({
   }, [network?.iconUrls[0]])
 
   const isStorybook = React.useMemo(() => {
-    return network?.iconUrls[0]?.startsWith('static/media/components/brave_wallet_ui/')
+    return network?.iconUrls[0]?.startsWith(
+      'static/media/components/brave_wallet_ui/'
+    )
   }, [network?.iconUrls[0]])
 
   const nativeAsset = React.useMemo(() => {
@@ -67,7 +69,10 @@ export const CreateNetworkIcon = ({
   }, [isRemoteURL, isDataURL, networkImageURL])
 
   const needsPlaceholder = React.useMemo(() => {
-    return !nativeAsset || (nativeAsset?.logo === '' && (networkImageURL === '' || !isValidIcon))
+    return (
+      !nativeAsset ||
+      (nativeAsset?.logo === '' && (networkImageURL === '' || !isValidIcon))
+    )
   }, [nativeAsset, networkImageURL, isValidIcon])
 
   const orb = React.useMemo(() => {
@@ -86,10 +91,7 @@ export const CreateNetworkIcon = ({
   // render
   if (needsPlaceholder) {
     return (
-      <IconWrapper
-        marginRight={marginRight ?? 0}
-        isTestnet={false}
-      >
+      <IconWrapper marginRight={marginRight ?? 0} isTestnet={false}>
         <Placeholder orb={orb} />
       </IconWrapper>
     )
@@ -98,7 +100,9 @@ export const CreateNetworkIcon = ({
   return (
     <IconWrapper
       marginRight={marginRight ?? 0}
-      isTestnet={network ? SupportedTestNetworks.includes(network.chainId) : false}
+      isTestnet={
+        network ? SupportedTestNetworks.includes(network.chainId) : false
+      }
     >
       <NetworkIcon
         size={size}
@@ -106,8 +110,10 @@ export const CreateNetworkIcon = ({
           isStorybook
             ? network?.iconUrls[0]
             : nativeAsset?.logo
-              ? nativeAsset.logo
-              : isRemoteURL ? remoteImage : network?.iconUrls[0]
+            ? nativeAsset.logo
+            : isRemoteURL
+            ? remoteImage
+            : network?.iconUrls[0]
         }
       />
     </IconWrapper>

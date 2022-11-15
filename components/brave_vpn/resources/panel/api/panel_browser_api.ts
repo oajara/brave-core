@@ -21,7 +21,7 @@ class PanelBrowserAPI implements API {
   panelHandler = new BraveVPN.PanelHandlerRemote()
   serviceHandler = new BraveVPN.ServiceHandlerRemote()
 
-  constructor () {
+  constructor() {
     const factory = BraveVPN.PanelHandlerFactory.getRemote()
     factory.createPanelHandler(
       this.pageCallbackRouter.$.bindNewPipeAndPassRemote(),
@@ -31,13 +31,13 @@ class PanelBrowserAPI implements API {
   }
 }
 
-export default function getPanelBrowserAPI () {
+export default function getPanelBrowserAPI() {
   if (!panelBrowserAPIInstance) {
     panelBrowserAPIInstance = new PanelBrowserAPI()
   }
   return panelBrowserAPIInstance
 }
 
-export function setPanelBrowserApiForTesting (api: API) {
+export function setPanelBrowserApiForTesting(api: API) {
   panelBrowserAPIInstance = api
 }

@@ -12,9 +12,16 @@ import {
 
 export const getUniqueAssets = (assets: BraveWallet.BlockchainToken[]) => {
   return assets.filter((asset, index) => {
-    return index === assets.findIndex(item => {
-      return item.contractAddress.toLowerCase() === asset.contractAddress.toLowerCase() && item.chainId === asset.chainId
-    })
+    return (
+      index ===
+      assets.findIndex((item) => {
+        return (
+          item.contractAddress.toLowerCase() ===
+            asset.contractAddress.toLowerCase() &&
+          item.chainId === asset.chainId
+        )
+      })
+    )
   })
 }
 
@@ -22,11 +29,16 @@ export const isSelectedAssetInAssetOptions = (
   selectedAsset: BraveWallet.BlockchainToken,
   assetOptions: BraveWallet.BlockchainToken[]
 ) => {
-  return assetOptions.findIndex(asset => {
-    return asset.contractAddress.toLowerCase() === selectedAsset?.contractAddress.toLowerCase() &&
-      asset.chainId === selectedAsset.chainId &&
-      asset.symbol.toLowerCase() === selectedAsset.symbol.toLowerCase()
-  }) !== -1
+  return (
+    assetOptions.findIndex((asset) => {
+      return (
+        asset.contractAddress.toLowerCase() ===
+          selectedAsset?.contractAddress.toLowerCase() &&
+        asset.chainId === selectedAsset.chainId &&
+        asset.symbol.toLowerCase() === selectedAsset.symbol.toLowerCase()
+      )
+    }) !== -1
+  )
 }
 
 export const getWyreAssetSymbol = (asset: BraveWallet.BlockchainToken) => {
@@ -43,17 +55,25 @@ export const getWyreAssetSymbol = (asset: BraveWallet.BlockchainToken) => {
 }
 
 export const getRampAssetSymbol = (asset: BraveWallet.BlockchainToken) => {
-  if (asset.symbol.toUpperCase() === 'BAT' && asset.chainId === BraveWallet.MAINNET_CHAIN_ID) {
+  if (
+    asset.symbol.toUpperCase() === 'BAT' &&
+    asset.chainId === BraveWallet.MAINNET_CHAIN_ID
+  ) {
     // BAT is the only token on Ethereum Mainnet with a prefix on Ramp.Network
     return 'ETH_BAT'
   }
 
-  if (asset.chainId === BraveWallet.AVALANCHE_MAINNET_CHAIN_ID && asset.contractAddress === '') {
+  if (
+    asset.chainId === BraveWallet.AVALANCHE_MAINNET_CHAIN_ID &&
+    asset.contractAddress === ''
+  ) {
     return asset.symbol // AVAX native token has no prefix
   }
 
   const rampNetworkPrefix = getRampNetworkPrefix(asset.chainId)
-  return rampNetworkPrefix !== '' ? `${rampNetworkPrefix}_${asset.symbol.toUpperCase()}` : asset.symbol
+  return rampNetworkPrefix !== ''
+    ? `${rampNetworkPrefix}_${asset.symbol.toUpperCase()}`
+    : asset.symbol
 }
 
 export const auroraSupportedContractAddresses = [
@@ -85,14 +105,14 @@ export const auroraSupportedContractAddresses = [
   '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599', // WBTC
   '0x4691937a7508860f876c9c0a2a617e7d9e945d4b', // WOO
   '0x0bc529c00c6401aef6d220be8c6ea1667f6ad93e' // YFI
-].map(contractAddress => contractAddress.toLowerCase())
+].map((contractAddress) => contractAddress.toLowerCase())
 
 export const addLogoToToken = (token: BraveWallet.BlockchainToken) => {
   const newLogo = token.logo?.startsWith('ipfs://')
     ? httpifyIpfsUrl(token.logo)
     : token.logo?.startsWith('data:image/')
-      ? token.logo
-      : `chrome://erc-token-images/${token.logo}`
+    ? token.logo
+    : `chrome://erc-token-images/${token.logo}`
 
   if (token.logo === newLogo) {
     // nothing to change
@@ -111,32 +131,48 @@ export const addLogoToToken = (token: BraveWallet.BlockchainToken) => {
   }
 }
 
-export const getNativeTokensFromList = (tokenList: BraveWallet.BlockchainToken[]) => {
+export const getNativeTokensFromList = (
+  tokenList: BraveWallet.BlockchainToken[]
+) => {
   // separate Native (gas) assets from other tokens
-  const { nativeAssets, tokens } = tokenList.reduce((acc, t) => {
-    if (
-      t.symbol.toLowerCase() === 'eth' && t.chainId === BraveWallet.MAINNET_CHAIN_ID ||
-      t.symbol.toLowerCase() === 'eth' && t.chainId === BraveWallet.OPTIMISM_MAINNET_CHAIN_ID ||
-      t.symbol.toLowerCase() === 'eth' && t.chainId === BraveWallet.AURORA_MAINNET_CHAIN_ID ||
-      t.symbol.toLowerCase() === 'matic' && t.chainId === BraveWallet.POLYGON_MAINNET_CHAIN_ID ||
-      t.symbol.toLowerCase() === 'ftm' && t.chainId === BraveWallet.FANTOM_MAINNET_CHAIN_ID ||
-      t.symbol.toLowerCase() === 'celo' && t.chainId === BraveWallet.CELO_MAINNET_CHAIN_ID ||
-      t.symbol.toLowerCase() === 'bnb' && t.chainId === BraveWallet.BINANCE_SMART_CHAIN_MAINNET_CHAIN_ID ||
-      t.symbol.toLowerCase() === 'sol' && t.chainId === BraveWallet.SOLANA_MAINNET ||
-      t.symbol.toLowerCase() === 'fil' && t.chainId === BraveWallet.FILECOIN_MAINNET ||
-      t.symbol.toLowerCase() === 'avax' && t.chainId === BraveWallet.AVALANCHE_MAINNET_CHAIN_ID ||
-      t.symbol.toLowerCase() === 'avaxc' && t.chainId === BraveWallet.AVALANCHE_MAINNET_CHAIN_ID
-    ) {
-      acc.nativeAssets.push(t)
-      return acc
-    }
+  const { nativeAssets, tokens } = tokenList.reduce(
+    (acc, t) => {
+      if (
+        (t.symbol.toLowerCase() === 'eth' &&
+          t.chainId === BraveWallet.MAINNET_CHAIN_ID) ||
+        (t.symbol.toLowerCase() === 'eth' &&
+          t.chainId === BraveWallet.OPTIMISM_MAINNET_CHAIN_ID) ||
+        (t.symbol.toLowerCase() === 'eth' &&
+          t.chainId === BraveWallet.AURORA_MAINNET_CHAIN_ID) ||
+        (t.symbol.toLowerCase() === 'matic' &&
+          t.chainId === BraveWallet.POLYGON_MAINNET_CHAIN_ID) ||
+        (t.symbol.toLowerCase() === 'ftm' &&
+          t.chainId === BraveWallet.FANTOM_MAINNET_CHAIN_ID) ||
+        (t.symbol.toLowerCase() === 'celo' &&
+          t.chainId === BraveWallet.CELO_MAINNET_CHAIN_ID) ||
+        (t.symbol.toLowerCase() === 'bnb' &&
+          t.chainId === BraveWallet.BINANCE_SMART_CHAIN_MAINNET_CHAIN_ID) ||
+        (t.symbol.toLowerCase() === 'sol' &&
+          t.chainId === BraveWallet.SOLANA_MAINNET) ||
+        (t.symbol.toLowerCase() === 'fil' &&
+          t.chainId === BraveWallet.FILECOIN_MAINNET) ||
+        (t.symbol.toLowerCase() === 'avax' &&
+          t.chainId === BraveWallet.AVALANCHE_MAINNET_CHAIN_ID) ||
+        (t.symbol.toLowerCase() === 'avaxc' &&
+          t.chainId === BraveWallet.AVALANCHE_MAINNET_CHAIN_ID)
+      ) {
+        acc.nativeAssets.push(t)
+        return acc
+      }
 
-    acc.tokens.push(t)
-    return acc
-  }, {
-    nativeAssets: [] as BraveWallet.BlockchainToken[],
-    tokens: [] as BraveWallet.BlockchainToken[]
-  })
+      acc.tokens.push(t)
+      return acc
+    },
+    {
+      nativeAssets: [] as BraveWallet.BlockchainToken[],
+      tokens: [] as BraveWallet.BlockchainToken[]
+    }
+  )
 
   return {
     nativeAssets,
@@ -144,23 +180,28 @@ export const getNativeTokensFromList = (tokenList: BraveWallet.BlockchainToken[]
   }
 }
 
-export const getBatTokensFromList = (tokenList: BraveWallet.BlockchainToken[]) => {
+export const getBatTokensFromList = (
+  tokenList: BraveWallet.BlockchainToken[]
+) => {
   // separate BAT from other tokens in the list so they can be placed higher in the list
-  const { bat, nonBat } = tokenList.reduce((acc, t) => {
-    if (
-      t.symbol.toLowerCase() === 'bat' ||
-      t.symbol.toLowerCase() === 'wbat' || // wormhole BAT
-      t.symbol.toLowerCase() === 'bat.e' // Avalanche C-Chain BAT
-    ) {
-      acc.bat.push(t)
+  const { bat, nonBat } = tokenList.reduce(
+    (acc, t) => {
+      if (
+        t.symbol.toLowerCase() === 'bat' ||
+        t.symbol.toLowerCase() === 'wbat' || // wormhole BAT
+        t.symbol.toLowerCase() === 'bat.e' // Avalanche C-Chain BAT
+      ) {
+        acc.bat.push(t)
+        return acc
+      }
+      acc.nonBat.push(t)
       return acc
+    },
+    {
+      bat: [] as BraveWallet.BlockchainToken[],
+      nonBat: [] as BraveWallet.BlockchainToken[]
     }
-    acc.nonBat.push(t)
-    return acc
-  }, {
-    bat: [] as BraveWallet.BlockchainToken[],
-    nonBat: [] as BraveWallet.BlockchainToken[]
-  })
+  )
 
   return {
     bat,
@@ -182,4 +223,5 @@ export const getAssetIdKey = (asset: BraveWallet.BlockchainToken) => {
  * Evaluates support for sardine
  * @returns Boolean indicating sardine support
  */
-export const isSardineSupported = () => navigator.language.toLowerCase() === 'en-us'
+export const isSardineSupported = () =>
+  navigator.language.toLowerCase() === 'en-us'

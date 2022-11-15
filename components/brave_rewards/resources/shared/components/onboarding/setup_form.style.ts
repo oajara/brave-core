@@ -11,8 +11,7 @@ export const panelText = styled.div`
   margin-top: -5px;
 `
 
-export const root = styled.div`
-`
+export const root = styled.div``
 
 export const section = styled.div`
   margin-top: 30px;

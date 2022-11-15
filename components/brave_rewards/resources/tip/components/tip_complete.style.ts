@@ -49,7 +49,7 @@ export const delayNote = styled.span`
   font-size: 11px;
   line-height: 17px;
   padding: 6px;
-  background-color: rgba(241, 243, 245, .6);
+  background-color: rgba(241, 243, 245, 0.6);
   border-radius: 4px;
 
   strong {
@@ -69,7 +69,7 @@ export const table = styled.div`
     margin: 0 auto;
   }
 
-  tr:nth-of-type(n+2) td {
+  tr:nth-of-type(n + 2) td {
     padding-top: 16px;
   }
 

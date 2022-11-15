@@ -9,7 +9,10 @@ import * as React from 'react'
 import { WalletRoutes } from '../../../../../constants/types'
 
 // components
-import { StepsNavigation, StepsNavigationProps } from '../../../../../components/desktop/steps-navigation/steps-navigation'
+import {
+  StepsNavigation,
+  StepsNavigationProps
+} from '../../../../../components/desktop/steps-navigation/steps-navigation'
 
 //
 // New wallet Steps
@@ -32,13 +35,11 @@ const NEW_WALLET_STEPS: OnboardingNewWalletSteps[] = [
   WalletRoutes.OnboardingComplete
 ]
 
-interface OnboardingNewWalletStepsNavigationProps extends Omit<StepsNavigationProps<OnboardingNewWalletSteps>, 'steps'> {}
+interface OnboardingNewWalletStepsNavigationProps
+  extends Omit<StepsNavigationProps<OnboardingNewWalletSteps>, 'steps'> {}
 
 export const OnboardingNewWalletStepsNavigation = (
   props: OnboardingNewWalletStepsNavigationProps
 ) => {
-  return <StepsNavigation
-    {...props}
-    steps={NEW_WALLET_STEPS}
-  />
+  return <StepsNavigation {...props} steps={NEW_WALLET_STEPS} />
 }

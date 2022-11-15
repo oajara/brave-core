@@ -20,7 +20,7 @@ export const StyledCheckbox = styled('input')<{}>`
 
   &:focus {
     outline-style: solid;
-    outline-color: ${p => p.theme.color.brandBrave};
+    outline-color: ${(p) => p.theme.color.brandBrave};
     outline-width: 1px;
     outline-offset: -1px;
   }
@@ -40,22 +40,23 @@ export const StyleToggle = styled('div')<Props>`
   position: relative;
   display: block;
   cursor: pointer;
-  height: ${(p) => p.size === 'small' ? '16px' : '24px'};
-  width: ${(p) => p.size === 'small' ? '28px' : '40px'};
+  height: ${(p) => (p.size === 'small' ? '16px' : '24px')};
+  width: ${(p) => (p.size === 'small' ? '28px' : '40px')};
 
-  ${(p) => p.disabled
-    ? css`
-      pointer-events: none;
-      animation: none;
-    ` : ''
-  };
+  ${(p) =>
+    p.disabled
+      ? css`
+          pointer-events: none;
+          animation: none;
+        `
+      : ''};
 `
 
 export const StyledSlider = styled('label')<Props>`
   box-sizing: border-box;
-  background: ${(p) => p.disabled ? 'rgba(246,246,250,0.1)' : '#C4C7C9'};
-  height: ${(p) => p.size === 'small' ? '6px' : '8px'};
-  margin-top: ${(p) => p.size === 'small' ? '5px' : '8px'};
+  background: ${(p) => (p.disabled ? 'rgba(246,246,250,0.1)' : '#C4C7C9')};
+  height: ${(p) => (p.size === 'small' ? '6px' : '8px')};
+  margin-top: ${(p) => (p.size === 'small' ? '5px' : '8px')};
   width: 100%;
   border-radius: 3px;
   display: block;
@@ -72,20 +73,21 @@ const transform = (p: Props) => {
   return { x, y }
 }
 
-const transformBullet = (p: Props) => `${transform(p).x}, calc(-50% - ${transform(p).y})`
+const transformBullet = (p: Props) =>
+  `${transform(p).x}, calc(-50% - ${transform(p).y})`
 
 export const StyledBullet = styled('label')<Props>`
-   box-sizing: border-box;
-   position: relative;
-   border-radius: 50%;
-   transition: all .4s ease;
-   transform: ${p => `translate(${transformBullet(p)})`};
-   width: ${p => p.size === 'small' ? '16px' : '20px'};
-   height: ${p => p.size === 'small' ? '16px' : '20px'};
-   background-color: ${p => {
+  box-sizing: border-box;
+  position: relative;
+  border-radius: 50%;
+  transition: all 0.4s ease;
+  transform: ${(p) => `translate(${transformBullet(p)})`};
+  width: ${(p) => (p.size === 'small' ? '16px' : '20px')};
+  height: ${(p) => (p.size === 'small' ? '16px' : '20px')};
+  background-color: ${(p) => {
     if (p.disabled) return 'rgba(235,236,240,0.8)'
     return p.checked ? '#fb542b' : '#ebecf0'
-   }};
-   display: block;
-   box-shadow: 0 3px 3px rgba(0,0,0,0.05);
- `
+  }};
+  display: block;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
+`

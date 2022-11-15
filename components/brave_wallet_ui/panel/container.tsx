@@ -38,11 +38,7 @@ import {
   LongWrapper,
   ConnectWithSiteWrapper
 } from '../stories/style'
-import {
-  SendWrapper,
-  PanelWrapper,
-  WelcomePanelWrapper
-} from './style'
+import { SendWrapper, PanelWrapper, WelcomePanelWrapper } from './style'
 
 import * as WalletPanelActions from './actions/wallet_panel_actions'
 import * as WalletActions from '../common/actions/wallet_actions'
@@ -59,7 +55,14 @@ import { AppsList } from '../options/apps-list-options'
 import LockPanel from '../components/extension/lock-panel'
 import { getNetworkInfo } from '../utils/network-utils'
 import { isHardwareAccount } from '../utils/address-utils'
-import { useAssets, useSwap, useSend, useHasAccount, usePrevNetwork, useBalanceUpdater } from '../common/hooks'
+import {
+  useAssets,
+  useSwap,
+  useSend,
+  useHasAccount,
+  usePrevNetwork,
+  useBalanceUpdater
+} from '../common/hooks'
 import { getUniqueAssets } from '../utils/asset-utils'
 import { isSolanaTransaction } from '../utils/tx-utils'
 import { ConfirmSolanaTransactionPanel } from '../components/extension/confirm-transaction-panel/confirm-solana-transaction-panel'
@@ -68,16 +71,21 @@ import { useDispatch } from 'react-redux'
 import { SelectCurrency } from '../components/buy-send-swap/select-currency/select-currency'
 import { ConfirmSwapTransaction } from '../components/extension/confirm-transaction-panel/swap'
 import { TransactionStatus } from '../components/extension/post-confirmation'
-import { useSafePanelSelector, useSafeWalletSelector, useUnsafePanelSelector, useUnsafeWalletSelector } from '../common/hooks/use-safe-selector'
+import {
+  useSafePanelSelector,
+  useSafeWalletSelector,
+  useUnsafePanelSelector,
+  useUnsafeWalletSelector
+} from '../common/hooks/use-safe-selector'
 import { WalletSelectors } from '../common/selectors'
 import { PanelSelectors } from './selectors'
 
 // Allow BigInts to be stringified
-(BigInt.prototype as any).toJSON = function () {
+;(BigInt.prototype as any).toJSON = function () {
   return this.toString()
 }
 
-function Container () {
+function Container() {
   // redux
   const dispatch = useDispatch()
 
@@ -89,46 +97,72 @@ function Container () {
   // wallet selectors (unsafe)
   const accounts = useUnsafeWalletSelector(WalletSelectors.accounts)
   const activeOrigin = useUnsafeWalletSelector(WalletSelectors.activeOrigin)
-  const defaultCurrencies = useUnsafeWalletSelector(WalletSelectors.defaultCurrencies)
-  const defaultNetworks = useUnsafeWalletSelector(WalletSelectors.defaultNetworks)
+  const defaultCurrencies = useUnsafeWalletSelector(
+    WalletSelectors.defaultCurrencies
+  )
+  const defaultNetworks = useUnsafeWalletSelector(
+    WalletSelectors.defaultNetworks
+  )
   const favoriteApps = useUnsafeWalletSelector(WalletSelectors.favoriteApps)
   const networkList = useUnsafeWalletSelector(WalletSelectors.networkList)
-  const selectedAccount = useUnsafeWalletSelector(WalletSelectors.selectedAccount)
-  const selectedNetwork = useUnsafeWalletSelector(WalletSelectors.selectedNetwork)
-  const selectedPendingTransaction = useUnsafeWalletSelector(WalletSelectors.selectedPendingTransaction)
-  const transactionSpotPrices = useUnsafeWalletSelector(WalletSelectors.transactionSpotPrices)
-  const userVisibleTokensInfo = useUnsafeWalletSelector(WalletSelectors.userVisibleTokensInfo)
+  const selectedAccount = useUnsafeWalletSelector(
+    WalletSelectors.selectedAccount
+  )
+  const selectedNetwork = useUnsafeWalletSelector(
+    WalletSelectors.selectedNetwork
+  )
+  const selectedPendingTransaction = useUnsafeWalletSelector(
+    WalletSelectors.selectedPendingTransaction
+  )
+  const transactionSpotPrices = useUnsafeWalletSelector(
+    WalletSelectors.transactionSpotPrices
+  )
+  const userVisibleTokensInfo = useUnsafeWalletSelector(
+    WalletSelectors.userVisibleTokensInfo
+  )
 
   // panel selectors (safe)
   const panelTitle = useSafePanelSelector(PanelSelectors.panelTitle)
   const selectedPanel = useSafePanelSelector(PanelSelectors.selectedPanel)
-  const hardwareWalletCode = useSafePanelSelector(PanelSelectors.hardwareWalletCode)
+  const hardwareWalletCode = useSafePanelSelector(
+    PanelSelectors.hardwareWalletCode
+  )
 
   // panel selectors (unsafe)
-  const connectToSiteOrigin = useUnsafePanelSelector(PanelSelectors.connectToSiteOrigin)
+  const connectToSiteOrigin = useUnsafePanelSelector(
+    PanelSelectors.connectToSiteOrigin
+  )
   const addChainRequest = useUnsafePanelSelector(PanelSelectors.addChainRequest)
   const signMessageData = useUnsafePanelSelector(PanelSelectors.signMessageData)
-  const switchChainRequest = useUnsafePanelSelector(PanelSelectors.switchChainRequest)
-  const suggestedTokenRequest = useUnsafePanelSelector(PanelSelectors.suggestedTokenRequest)
-  const getEncryptionPublicKeyRequest = useUnsafePanelSelector(PanelSelectors.getEncryptionPublicKeyRequest)
+  const switchChainRequest = useUnsafePanelSelector(
+    PanelSelectors.switchChainRequest
+  )
+  const suggestedTokenRequest = useUnsafePanelSelector(
+    PanelSelectors.suggestedTokenRequest
+  )
+  const getEncryptionPublicKeyRequest = useUnsafePanelSelector(
+    PanelSelectors.getEncryptionPublicKeyRequest
+  )
   const decryptRequest = useUnsafePanelSelector(PanelSelectors.decryptRequest)
-  const connectingAccounts = useUnsafePanelSelector(PanelSelectors.connectingAccounts)
-  const selectedTransaction = useUnsafePanelSelector(PanelSelectors.selectedTransaction)
+  const connectingAccounts = useUnsafePanelSelector(
+    PanelSelectors.connectingAccounts
+  )
+  const selectedTransaction = useUnsafePanelSelector(
+    PanelSelectors.selectedTransaction
+  )
 
   // TODO(petemill): If initial data or UI takes a noticeable amount of time to arrive
   // consider rendering a "loading" indicator when `hasInitialized === false`, and
   // also using `React.lazy` to put all the main UI in a separate JS bundle and display
   // that loading indicator ASAP.
-  const [filteredAppsList, setFilteredAppsList] = React.useState<AppsListType[]>(AppsList)
+  const [filteredAppsList, setFilteredAppsList] =
+    React.useState<AppsListType[]>(AppsList)
   const [showSelectAsset, setShowSelectAsset] = React.useState<boolean>(false)
 
-  const {
-    sendAssetOptions,
-    buyAssetOptions,
-    panelUserAssetList
-  } = useAssets()
+  const { sendAssetOptions, buyAssetOptions, panelUserAssetList } = useAssets()
 
-  const [selectedBuyAsset, setSelectedBuyAsset] = React.useState<BraveWallet.BlockchainToken>(buyAssetOptions[0])
+  const [selectedBuyAsset, setSelectedBuyAsset] =
+    React.useState<BraveWallet.BlockchainToken>(buyAssetOptions[0])
 
   // hooks
   useBalanceUpdater()
@@ -141,9 +175,7 @@ function Container () {
     onSelectTransactAsset
   } = swap
 
-  const {
-    selectSendAsset: onSelectSendAsset
-  } = useSend()
+  const { selectSendAsset: onSelectSendAsset } = useSend()
 
   const { needsAccount } = useHasAccount()
 
@@ -155,7 +187,10 @@ function Container () {
     }
   }
 
-  const onChangeSwapView = (view: BuySendSwapViewTypes, option?: ToOrFromType) => {
+  const onChangeSwapView = (
+    view: BuySendSwapViewTypes,
+    option?: ToOrFromType
+  ) => {
     if (view === 'assets') {
       setShowSelectAsset(true)
     }
@@ -228,37 +263,61 @@ function Container () {
   }
 
   const onCancelSigning = () => {
-    dispatch(WalletPanelActions.signMessageProcessed({
-      approved: false,
-      id: signMessageData[0].id
-    }))
+    dispatch(
+      WalletPanelActions.signMessageProcessed({
+        approved: false,
+        id: signMessageData[0].id
+      })
+    )
   }
 
   const onSignData = () => {
     if (isHardwareAccount(accounts, signMessageData[0].address)) {
       dispatch(WalletPanelActions.signMessageHardware(signMessageData[0]))
     } else {
-      dispatch(WalletPanelActions.signMessageProcessed({
-        approved: true,
-        id: signMessageData[0].id
-      }))
+      dispatch(
+        WalletPanelActions.signMessageProcessed({
+          approved: true,
+          id: signMessageData[0].id
+        })
+      )
     }
   }
 
   const onApproveAddNetwork = () => {
-    dispatch(WalletPanelActions.addEthereumChainRequestCompleted({ chainId: addChainRequest.networkInfo.chainId, approved: true }))
+    dispatch(
+      WalletPanelActions.addEthereumChainRequestCompleted({
+        chainId: addChainRequest.networkInfo.chainId,
+        approved: true
+      })
+    )
   }
 
   const onCancelAddNetwork = () => {
-    dispatch(WalletPanelActions.addEthereumChainRequestCompleted({ chainId: addChainRequest.networkInfo.chainId, approved: false }))
+    dispatch(
+      WalletPanelActions.addEthereumChainRequestCompleted({
+        chainId: addChainRequest.networkInfo.chainId,
+        approved: false
+      })
+    )
   }
 
   const onApproveChangeNetwork = () => {
-    dispatch(WalletPanelActions.switchEthereumChainProcessed({ approved: true, origin: switchChainRequest.originInfo.origin }))
+    dispatch(
+      WalletPanelActions.switchEthereumChainProcessed({
+        approved: true,
+        origin: switchChainRequest.originInfo.origin
+      })
+    )
   }
 
   const onCancelChangeNetwork = () => {
-    dispatch(WalletPanelActions.switchEthereumChainProcessed({ approved: false, origin: switchChainRequest.originInfo.origin }))
+    dispatch(
+      WalletPanelActions.switchEthereumChainProcessed({
+        approved: false,
+        origin: switchChainRequest.originInfo.origin
+      })
+    )
   }
 
   const onRejectTransaction = () => {
@@ -267,22 +326,32 @@ function Container () {
     }
   }
 
-  const viewTransactionDetail = React.useCallback((transaction: BraveWallet.TransactionInfo) => {
-    dispatch(WalletPanelActions.setSelectedTransaction(transaction))
-    dispatch(WalletPanelActions.navigateTo('transactionDetails'))
-  }, [])
+  const viewTransactionDetail = React.useCallback(
+    (transaction: BraveWallet.TransactionInfo) => {
+      dispatch(WalletPanelActions.setSelectedTransaction(transaction))
+      dispatch(WalletPanelActions.navigateTo('transactionDetails'))
+    },
+    []
+  )
 
-  const viewTransactionStatus = React.useCallback((transaction: BraveWallet.TransactionInfo) => {
-    dispatch(WalletPanelActions.setSelectedTransaction(transaction))
-    dispatch(WalletPanelActions.navigateTo('transactionStatus'))
-  }, [])
+  const viewTransactionStatus = React.useCallback(
+    (transaction: BraveWallet.TransactionInfo) => {
+      dispatch(WalletPanelActions.setSelectedTransaction(transaction))
+      dispatch(WalletPanelActions.navigateTo('transactionStatus'))
+    },
+    []
+  )
 
   const onConfirmTransaction = () => {
     if (!selectedPendingTransaction) {
       return
     }
     if (isHardwareAccount(accounts, selectedPendingTransaction.fromAddress)) {
-      dispatch(WalletPanelActions.approveHardwareTransaction(selectedPendingTransaction))
+      dispatch(
+        WalletPanelActions.approveHardwareTransaction(
+          selectedPendingTransaction
+        )
+      )
     } else {
       dispatch(WalletActions.approveTransaction(selectedPendingTransaction))
       viewTransactionStatus(selectedPendingTransaction)
@@ -291,7 +360,11 @@ function Container () {
 
   const retryHardwareOperation = () => {
     // signMessageData by default initialized as [{ id: -1, address: '', message: '' }]
-    if (signMessageData && signMessageData.length && signMessageData[0].id !== -1) {
+    if (
+      signMessageData &&
+      signMessageData.length &&
+      signMessageData[0].id !== -1
+    ) {
       onSignData()
     }
     if (selectedPendingTransaction) {
@@ -299,8 +372,16 @@ function Container () {
     }
   }
 
-  const onCancelConnectHardwareWallet = (accountAddress: string, coinType: BraveWallet.CoinType) => {
-    dispatch(WalletPanelActions.cancelConnectHardwareWallet({ accountAddress, coinType }))
+  const onCancelConnectHardwareWallet = (
+    accountAddress: string,
+    coinType: BraveWallet.CoinType
+  ) => {
+    dispatch(
+      WalletPanelActions.cancelConnectHardwareWallet({
+        accountAddress,
+        coinType
+      })
+    )
   }
 
   const onAddAccount = () => {
@@ -315,14 +396,24 @@ function Container () {
     if (!suggestedTokenRequest) {
       return
     }
-    dispatch(WalletPanelActions.addSuggestTokenProcessed({ approved: true, contractAddress: suggestedTokenRequest.token.contractAddress }))
+    dispatch(
+      WalletPanelActions.addSuggestTokenProcessed({
+        approved: true,
+        contractAddress: suggestedTokenRequest.token.contractAddress
+      })
+    )
   }
 
   const onCancelAddSuggestedToken = () => {
     if (!suggestedTokenRequest) {
       return
     }
-    dispatch(WalletPanelActions.addSuggestTokenProcessed({ approved: false, contractAddress: suggestedTokenRequest.token.contractAddress }))
+    dispatch(
+      WalletPanelActions.addSuggestTokenProcessed({
+        approved: false,
+        contractAddress: suggestedTokenRequest.token.contractAddress
+      })
+    )
   }
 
   const onAddNetwork = () => {
@@ -356,19 +447,39 @@ function Container () {
   }
 
   const onProvideEncryptionKey = () => {
-    dispatch(WalletPanelActions.getEncryptionPublicKeyProcessed({ approved: true, origin: getEncryptionPublicKeyRequest.originInfo.origin }))
+    dispatch(
+      WalletPanelActions.getEncryptionPublicKeyProcessed({
+        approved: true,
+        origin: getEncryptionPublicKeyRequest.originInfo.origin
+      })
+    )
   }
 
   const onCancelProvideEncryptionKey = () => {
-    dispatch(WalletPanelActions.getEncryptionPublicKeyProcessed({ approved: false, origin: getEncryptionPublicKeyRequest.originInfo.origin }))
+    dispatch(
+      WalletPanelActions.getEncryptionPublicKeyProcessed({
+        approved: false,
+        origin: getEncryptionPublicKeyRequest.originInfo.origin
+      })
+    )
   }
 
   const onAllowReadingEncryptedMessage = () => {
-    dispatch(WalletPanelActions.decryptProcessed({ approved: true, origin: decryptRequest.originInfo.origin }))
+    dispatch(
+      WalletPanelActions.decryptProcessed({
+        approved: true,
+        origin: decryptRequest.originInfo.origin
+      })
+    )
   }
 
   const onCancelAllowReadingEncryptedMessage = () => {
-    dispatch(WalletPanelActions.decryptProcessed({ approved: false, origin: decryptRequest.originInfo.origin }))
+    dispatch(
+      WalletPanelActions.decryptProcessed({
+        approved: false,
+        origin: decryptRequest.originInfo.origin
+      })
+    )
   }
 
   const onBack = React.useCallback(() => {
@@ -417,10 +528,7 @@ function Container () {
     return (
       <PanelWrapper isLonger={false}>
         <StyledExtensionWrapper>
-          <LockPanel
-            onSubmit={unlockWallet}
-            onClickRestore={onRestore}
-          />
+          <LockPanel onSubmit={unlockWallet} onClickRestore={onRestore} />
         </StyledExtensionWrapper>
       </PanelWrapper>
     )
@@ -430,16 +538,17 @@ function Container () {
     return (
       <PanelWrapper isLonger={false}>
         <StyledExtensionWrapper>
-          <TransactionStatus
-            transaction={selectedTransaction}
-          />
+          <TransactionStatus transaction={selectedTransaction} />
         </StyledExtensionWrapper>
       </PanelWrapper>
     )
   }
 
-  if (selectedAccount && (selectedPendingTransaction || signMessageData.length) &&
-    selectedPanel === 'connectHardwareWallet') {
+  if (
+    selectedAccount &&
+    (selectedPendingTransaction || signMessageData.length) &&
+    selectedPanel === 'connectHardwareWallet'
+  ) {
     return (
       <PanelWrapper isLonger={false}>
         <StyledExtensionWrapper>
@@ -457,7 +566,9 @@ function Container () {
     )
   }
 
-  if (selectedPendingTransaction?.txType === BraveWallet.TransactionType.ETHSwap) {
+  if (
+    selectedPendingTransaction?.txType === BraveWallet.TransactionType.ETHSwap
+  ) {
     return (
       <PanelWrapper isLonger={true}>
         <LongWrapper>
@@ -474,16 +585,17 @@ function Container () {
     return (
       <PanelWrapper isLonger={true}>
         <LongWrapper>
-          {isSolanaTransaction(selectedPendingTransaction)
-            ? <ConfirmSolanaTransactionPanel
+          {isSolanaTransaction(selectedPendingTransaction) ? (
+            <ConfirmSolanaTransactionPanel
               onConfirm={onConfirmTransaction}
               onReject={onRejectTransaction}
             />
-            : <ConfirmTransactionPanel
+          ) : (
+            <ConfirmTransactionPanel
               onConfirm={onConfirmTransaction}
               onReject={onRejectTransaction}
             />
-          }
+          )}
         </LongWrapper>
       </PanelWrapper>
     )
@@ -515,7 +627,7 @@ function Container () {
             onApproveChangeNetwork={onApproveChangeNetwork}
             onCancel={onCancelAddNetwork}
             networkPayload={addChainRequest.networkInfo}
-            panelType='add'
+            panelType="add"
           />
         </LongWrapper>
       </PanelWrapper>
@@ -533,8 +645,12 @@ function Container () {
             onCancel={onCancelChangeNetwork}
             // Passed BraveWallet.CoinType.ETH here since AllowAddChangeNetworkPanel
             // is only used for EVM networks and switchChainRequest doesn't return cointType.
-            networkPayload={getNetworkInfo(switchChainRequest.chainId, BraveWallet.CoinType.ETH, networkList)}
-            panelType='change'
+            networkPayload={getNetworkInfo(
+              switchChainRequest.chainId,
+              BraveWallet.CoinType.ETH,
+              networkList
+            )}
+            panelType="change"
           />
         </LongWrapper>
       </PanelWrapper>
@@ -560,12 +676,17 @@ function Container () {
     )
   }
 
-  if (selectedPanel === 'signTransaction' || selectedPanel === 'signAllTransactions') {
+  if (
+    selectedPanel === 'signTransaction' ||
+    selectedPanel === 'signAllTransactions'
+  ) {
     return (
       <PanelWrapper isLonger={true}>
         <LongWrapper>
           <SignTransactionPanel
-            signMode={selectedPanel === 'signAllTransactions' ? 'signAllTxs' : 'signTx'}
+            signMode={
+              selectedPanel === 'signAllTransactions' ? 'signAllTxs' : 'signTx'
+            }
           />
         </LongWrapper>
       </PanelWrapper>
@@ -581,9 +702,7 @@ function Container () {
         <LongWrapper>
           <EncryptionKeyPanel
             panelType={
-              selectedPanel === 'provideEncryptionKey'
-                ? 'request'
-                : 'read'
+              selectedPanel === 'provideEncryptionKey' ? 'request' : 'read'
             }
             encryptionKeyPayload={getEncryptionPublicKeyRequest}
             decryptPayload={decryptRequest}
@@ -612,7 +731,8 @@ function Container () {
       assets = filteredAssetOptions
     } else if (selectedPanel === 'send') {
       assets = sendAssetOptions
-    } else { // swap
+    } else {
+      // swap
       assets = filteredAssetList
     }
     return (
@@ -685,8 +805,8 @@ function Container () {
   }
 
   if (selectedPanel === 'connectWithSite') {
-    const accountsToConnect = accounts.filter(
-      (account) => connectingAccounts.includes(account.address.toLowerCase())
+    const accountsToConnect = accounts.filter((account) =>
+      connectingAccounts.includes(account.address.toLowerCase())
     )
     return (
       <PanelWrapper isLonger={true}>
@@ -704,15 +824,9 @@ function Container () {
     return (
       <PanelWrapper isLonger={false}>
         <StyledExtensionWrapper>
-          <Panel
-            navAction={navigateTo}
-            title={panelTitle}
-            useSearch={false}
-          >
+          <Panel navAction={navigateTo} title={panelTitle} useSearch={false}>
             <SendWrapper>
-              <Send
-                onChangeSendView={onChangeSendView}
-              />
+              <Send onChangeSendView={onChangeSendView} />
             </SendWrapper>
           </Panel>
         </StyledExtensionWrapper>
@@ -724,11 +838,7 @@ function Container () {
     return (
       <PanelWrapper isLonger={false}>
         <StyledExtensionWrapper>
-          <Panel
-            navAction={navigateTo}
-            title={panelTitle}
-            useSearch={false}
-          >
+          <Panel navAction={navigateTo} title={panelTitle} useSearch={false}>
             <SendWrapper>
               <Buy
                 onChangeBuyView={onChangeSendView}
@@ -746,16 +856,9 @@ function Container () {
     return (
       <PanelWrapper isLonger={false}>
         <StyledExtensionWrapper>
-          <Panel
-            navAction={navigateTo}
-            title={panelTitle}
-            useSearch={false}
-          >
+          <Panel navAction={navigateTo} title={panelTitle} useSearch={false}>
             <SendWrapper>
-              <Swap
-                {...swap}
-                onChangeSwapView={onChangeSwapView}
-              />
+              <Swap {...swap} onChangeSwapView={onChangeSwapView} />
             </SendWrapper>
           </Panel>
         </StyledExtensionWrapper>
@@ -788,11 +891,7 @@ function Container () {
     return (
       <PanelWrapper isLonger={false}>
         <StyledExtensionWrapper>
-          <Panel
-            navAction={navigateTo}
-            title={panelTitle}
-            useSearch={false}
-          >
+          <Panel navAction={navigateTo} title={panelTitle} useSearch={false}>
             <TransactionsPanel
               onSelectTransaction={viewTransactionDetail}
               selectedNetwork={selectedNetwork}
@@ -808,11 +907,7 @@ function Container () {
     return (
       <PanelWrapper isLonger={false}>
         <StyledExtensionWrapper>
-          <Panel
-            navAction={navigateTo}
-            title={panelTitle}
-            useSearch={false}
-          >
+          <Panel navAction={navigateTo} title={panelTitle} useSearch={false}>
             <ScrollContainer>
               <AssetsPanel
                 selectedAccount={selectedAccount}
@@ -830,11 +925,7 @@ function Container () {
     return (
       <PanelWrapper isLonger={true}>
         <LongWrapper>
-          <Panel
-            navAction={navigateTo}
-            title={panelTitle}
-            useSearch={false}
-          >
+          <Panel navAction={navigateTo} title={panelTitle} useSearch={false}>
             <SitePermissions />
           </Panel>
         </LongWrapper>
@@ -846,10 +937,7 @@ function Container () {
     return (
       <WelcomePanelWrapper>
         <LongWrapper>
-          <CreateAccountTab
-            prevNetwork={prevNetwork}
-            isPanel={true}
-          />
+          <CreateAccountTab prevNetwork={prevNetwork} isPanel={true} />
         </LongWrapper>
       </WelcomePanelWrapper>
     )
@@ -859,11 +947,7 @@ function Container () {
     return (
       <PanelWrapper isLonger={false}>
         <StyledExtensionWrapper>
-          <Panel
-            navAction={navigateTo}
-            title={panelTitle}
-            useSearch={false}
-          >
+          <Panel navAction={navigateTo} title={panelTitle} useSearch={false}>
             <ScrollContainer>
               <SelectCurrency
                 onBack={onBack}

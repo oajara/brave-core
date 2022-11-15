@@ -12,14 +12,21 @@ import { getLocale } from '../../../../../common/locale'
 import { useApiProxy } from '../../../../common/hooks/use-api-proxy'
 
 // routes
-import { OnboardingAction, WalletRoutes, WalletState } from '../../../../constants/types'
+import {
+  OnboardingAction,
+  WalletRoutes,
+  WalletState
+} from '../../../../constants/types'
 
 // actions
 import { WalletPageActions } from '../../../actions'
 
 // components
 import { NavButton } from '../../../../components/extension'
-import { NewPasswordInput, NewPasswordValues } from '../../../../components/shared/password-input/new-password-input'
+import {
+  NewPasswordInput,
+  NewPasswordValues
+} from '../../../../components/shared/password-input/new-password-input'
 import { OnboardingNewWalletStepsNavigation } from '../components/onboarding-steps-navigation/onboarding-steps-navigation'
 import { CenteredPageLayout } from '../../../../components/desktop/centered-page-layout/centered-page-layout'
 
@@ -39,7 +46,9 @@ export const OnboardingCreatePassword = () => {
 
   // redux
   const dispatch = useDispatch()
-  const isWalletCreated = useSelector(({ wallet }: { wallet: WalletState }) => wallet.isWalletCreated)
+  const isWalletCreated = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.isWalletCreated
+  )
 
   // state
   const [isValid, setIsValid] = React.useState(false)
@@ -52,10 +61,13 @@ export const OnboardingCreatePassword = () => {
     }
   }, [password, isValid])
 
-  const handlePasswordChange = React.useCallback(({ isValid, password }: NewPasswordValues) => {
-    setPassword(password)
-    setIsValid(isValid)
-  }, [])
+  const handlePasswordChange = React.useCallback(
+    ({ isValid, password }: NewPasswordValues) => {
+      setPassword(password)
+      setIsValid(isValid)
+    },
+    []
+  )
 
   // custom hooks
   const { braveWalletP3A } = useApiProxy()
@@ -73,7 +85,6 @@ export const OnboardingCreatePassword = () => {
     <CenteredPageLayout>
       <MainWrapper>
         <StyledWrapper>
-
           <OnboardingNewWalletStepsNavigation
             goBackUrl={WalletRoutes.OnboardingWelcome}
             currentStep={WalletRoutes.OnboardingCreatePassword}
@@ -82,7 +93,9 @@ export const OnboardingCreatePassword = () => {
 
           <TitleAndDescriptionContainer>
             <Title>{getLocale('braveWalletCreatePasswordTitle')}</Title>
-            <Description>{getLocale('braveWalletCreatePasswordDescription')}</Description>
+            <Description>
+              {getLocale('braveWalletCreatePasswordDescription')}
+            </Description>
           </TitleAndDescriptionContainer>
 
           <NewPasswordInput
@@ -93,13 +106,12 @@ export const OnboardingCreatePassword = () => {
 
           <NextButtonRow>
             <NavButton
-              buttonType='primary'
+              buttonType="primary"
               text={getLocale('braveWalletButtonNext')}
               onSubmit={nextStep}
               disabled={!isValid}
             />
           </NextButtonRow>
-
         </StyledWrapper>
       </MainWrapper>
     </CenteredPageLayout>

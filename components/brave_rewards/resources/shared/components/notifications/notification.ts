@@ -6,16 +6,16 @@ import { ExternalWalletProvider } from '../../lib/external_wallet'
 import { GrantInfo } from '../../lib/grant_info'
 
 export type NotificationType =
-  'add-funds' |
-  'auto-contribute-completed' |
-  'monthly-tip-completed' |
-  'monthly-contribution-failed' |
-  'grant-available' |
-  'pending-publisher-verified' |
-  'pending-tip-failed' |
-  'external-wallet-disconnected' |
-  'uphold-bat-not-allowed' |
-  'uphold-insufficient-capabilities'
+  | 'add-funds'
+  | 'auto-contribute-completed'
+  | 'monthly-tip-completed'
+  | 'monthly-contribution-failed'
+  | 'grant-available'
+  | 'pending-publisher-verified'
+  | 'pending-tip-failed'
+  | 'external-wallet-disconnected'
+  | 'uphold-bat-not-allowed'
+  | 'uphold-insufficient-capabilities'
 
 export interface Notification {
   type: NotificationType
@@ -58,16 +58,17 @@ export interface UpholdBATNotAllowedNotification extends Notification {
   provider: ExternalWalletProvider
 }
 
-export interface UpholdInsufficientCapabilitiesNotification extends Notification {
+export interface UpholdInsufficientCapabilitiesNotification
+  extends Notification {
   type: 'uphold-insufficient-capabilities'
   provider: ExternalWalletProvider
 }
 
 export type NotificationActionType =
-  'open-link' |
-  'claim-grant' |
-  'add-funds' |
-  'reconnect-external-wallet'
+  | 'open-link'
+  | 'claim-grant'
+  | 'add-funds'
+  | 'reconnect-external-wallet'
 
 export interface NotificationAction {
   type: NotificationActionType

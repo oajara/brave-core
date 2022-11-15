@@ -3,9 +3,7 @@
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import * as React from 'react'
-import {
-  StyledSelect
-} from './style'
+import { StyledSelect } from './style'
 import { getLocale } from 'brave-ui/helpers'
 
 export type Amount = {
@@ -43,10 +41,7 @@ export default class SelectMobile extends React.PureComponent<Props, {}> {
       <>
         {options.map((option: Option) => {
           return (
-            <option
-              value={option.value}
-              key={`k-${option.value}`}
-            >
+            <option value={option.value} key={`k-${option.value}`}>
               {option.text}
             </option>
           )
@@ -66,10 +61,7 @@ export default class SelectMobile extends React.PureComponent<Props, {}> {
       <>
         {amountOptions.map((amount: Amount) => {
           return (
-            <option
-              key={`k-${amount.value}`}
-              value={amount.dataValue}
-            >
+            <option key={`k-${amount.value}`} value={amount.dataValue}>
               {amount.value} {batFormatString} ({amount.converted} USD)
             </option>
           )
@@ -78,16 +70,14 @@ export default class SelectMobile extends React.PureComponent<Props, {}> {
     )
   }
 
-  render () {
+  render() {
     const { options, floating, amountOptions, value } = this.props
 
     return (
       <StyledSelect value={value} onChange={this.onChange} floating={floating}>
-        {
-          amountOptions
+        {amountOptions
           ? this.generateAmountOptions(amountOptions)
-          : this.generateOptions(options)
-        }
+          : this.generateOptions(options)}
       </StyledSelect>
     )
   }

@@ -26,7 +26,7 @@ export const SelectAccount = ({
 }: Props) => {
   return (
     <>
-      {accounts.map((account) =>
+      {accounts.map((account) => (
         <SelectAccountItem
           key={account.id}
           account={account}
@@ -34,7 +34,7 @@ export const SelectAccount = ({
           selectedAccount={selectedAccount}
           showTooltips={showTooltips}
         />
-      )}
+      ))}
     </>
   )
 }

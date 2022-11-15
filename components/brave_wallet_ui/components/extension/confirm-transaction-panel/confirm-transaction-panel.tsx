@@ -76,24 +76,34 @@ export interface Props {
   onReject: () => void
 }
 
-const AssetIconWithPlaceholder = withPlaceholderIcon(AssetIcon, { size: 'big', marginLeft: 0, marginRight: 0 })
+const AssetIconWithPlaceholder = withPlaceholderIcon(AssetIcon, {
+  size: 'big',
+  marginLeft: 0,
+  marginRight: 0
+})
 
 const onClickLearnMore = () => {
-  chrome.tabs.create({ url: 'https://support.brave.com/hc/en-us/articles/5546517853325' }, () => {
-    if (chrome.runtime.lastError) {
-      console.error('tabs.create failed: ' + chrome.runtime.lastError.message)
+  chrome.tabs.create(
+    { url: 'https://support.brave.com/hc/en-us/articles/5546517853325' },
+    () => {
+      if (chrome.runtime.lastError) {
+        console.error('tabs.create failed: ' + chrome.runtime.lastError.message)
+      }
     }
-  })
+  )
 }
 
-export const ConfirmTransactionPanel = ({
-  onConfirm,
-  onReject
-}: Props) => {
+export const ConfirmTransactionPanel = ({ onConfirm, onReject }: Props) => {
   // redux
-  const activeOrigin = useSelector(({ wallet }: { wallet: WalletState }) => wallet.activeOrigin)
-  const defaultCurrencies = useSelector(({ wallet }: { wallet: WalletState }) => wallet.defaultCurrencies)
-  const transactionInfo = useSelector(({ wallet }: { wallet: WalletState }) => wallet.selectedPendingTransaction)
+  const activeOrigin = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.activeOrigin
+  )
+  const defaultCurrencies = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.defaultCurrencies
+  )
+  const transactionInfo = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.selectedPendingTransaction
+  )
 
   const originInfo = transactionInfo?.originInfo ?? activeOrigin
 
@@ -118,33 +128,36 @@ export const ConfirmTransactionPanel = ({
   } = usePendingTransactions()
 
   // state
-  const [selectedTab, setSelectedTab] = React.useState<confirmPanelTabs>('transaction')
+  const [selectedTab, setSelectedTab] =
+    React.useState<confirmPanelTabs>('transaction')
   const [isEditing, setIsEditing] = React.useState<boolean>(false)
-  const [isEditingAllowance, setIsEditingAllowance] = React.useState<boolean>(false)
-  const [showAdvancedTransactionSettings, setShowAdvancedTransactionSettings] = React.useState<boolean>(false)
+  const [isEditingAllowance, setIsEditingAllowance] =
+    React.useState<boolean>(false)
+  const [showAdvancedTransactionSettings, setShowAdvancedTransactionSettings] =
+    React.useState<boolean>(false)
 
   // methods
   const onSelectTab = (tab: confirmPanelTabs) => () => setSelectedTab(tab)
 
-  const onToggleEditGas = () => setIsEditing(prev => !prev)
+  const onToggleEditGas = () => setIsEditing((prev) => !prev)
 
-  const onToggleEditAllowance = () => setIsEditingAllowance(prev => !prev)
+  const onToggleEditAllowance = () => setIsEditingAllowance((prev) => !prev)
 
   const onToggleAdvancedTransactionSettings = () => {
-    setShowAdvancedTransactionSettings(prev => !prev)
+    setShowAdvancedTransactionSettings((prev) => !prev)
   }
 
   // render
   if (!transactionDetails || !transactionInfo) {
-    return <StyledWrapper>
-      <Skeleton width={'100%'} height={'100%'} enableAnimation />
-    </StyledWrapper>
+    return (
+      <StyledWrapper>
+        <Skeleton width={'100%'} height={'100%'} enableAnimation />
+      </StyledWrapper>
+    )
   }
 
   if (isEditing) {
-    return (
-      <EditPendingTransactionGas onCancel={onToggleEditGas} />
-    )
+    return <EditPendingTransactionGas onCancel={onToggleEditGas} />
   }
 
   if (isEditingAllowance) {
@@ -175,18 +188,20 @@ export const ConfirmTransactionPanel = ({
     <StyledWrapper>
       <TopRow>
         <NetworkText>{transactionsNetwork?.chainName ?? ''}</NetworkText>
-        {isERC20Approve &&
+        {isERC20Approve && (
           <AddressAndOrb>
             <Tooltip
               text={transactionDetails.recipient}
               isAddress={true}
-              position='right'
+              position="right"
             >
-              <AddressText>{reduceAddress(transactionDetails.recipient)}</AddressText>
+              <AddressText>
+                {reduceAddress(transactionDetails.recipient)}
+              </AddressText>
             </Tooltip>
             <AccountCircle orb={toOrb} />
           </AddressAndOrb>
-        }
+        )}
 
         <TransactionQueueStep />
       </TopRow>
@@ -194,21 +209,33 @@ export const ConfirmTransactionPanel = ({
       {isERC20Approve ? (
         <>
           <Origin originInfo={originInfo} />
-          <PanelTitle>{getLocale('braveWalletAllowSpendTitle').replace('$1', foundTokenInfoByContractAddress?.symbol ?? '')}</PanelTitle>
-          <Description>{getLocale('braveWalletAllowSpendDescription').replace('$1', foundTokenInfoByContractAddress?.symbol ?? '')}</Description>
+          <PanelTitle>
+            {getLocale('braveWalletAllowSpendTitle').replace(
+              '$1',
+              foundTokenInfoByContractAddress?.symbol ?? ''
+            )}
+          </PanelTitle>
+          <Description>
+            {getLocale('braveWalletAllowSpendDescription').replace(
+              '$1',
+              foundTokenInfoByContractAddress?.symbol ?? ''
+            )}
+          </Description>
 
-          {transactionDetails.isApprovalUnlimited &&
-            <WarningBox warningType='danger'>
+          {transactionDetails.isApprovalUnlimited && (
+            <WarningBox warningType="danger">
               <WarningBoxTitleRow>
                 <WarningIcon />
-                <WarningTitle warningType='danger'>
+                <WarningTitle warningType="danger">
                   {getLocale('braveWalletAllowSpendUnlimitedWarningTitle')}
                 </WarningTitle>
               </WarningBoxTitleRow>
             </WarningBox>
-          }
+          )}
 
-          <EditButton onClick={onToggleEditAllowance}>{getLocale('braveWalletEditPermissionsButton')}</EditButton>
+          <EditButton onClick={onToggleEditAllowance}>
+            {getLocale('braveWalletEditPermissionsButton')}
+          </EditButton>
         </>
       ) : (
         <>
@@ -223,61 +250,60 @@ export const ConfirmTransactionPanel = ({
             />
           </URLText>
           <FromToRow>
-            <Tooltip
-              text={fromAddress}
-              isAddress={true}
-              position='left'
-            >
+            <Tooltip text={fromAddress} isAddress={true} position="left">
               <AccountNameText>{fromAccountName}</AccountNameText>
             </Tooltip>
             <ArrowIcon />
             <Tooltip
               text={transactionDetails.recipient}
               isAddress={true}
-              position='right'
+              position="right"
             >
-              <AccountNameText>{reduceAddress(transactionDetails.recipient)}</AccountNameText>
+              <AccountNameText>
+                {reduceAddress(transactionDetails.recipient)}
+              </AccountNameText>
             </Tooltip>
           </FromToRow>
 
           <TransactionTypeText>{transactionTitle}</TransactionTypeText>
 
-          {(isERC721TransferFrom || isERC721SafeTransferFrom) &&
+          {(isERC721TransferFrom || isERC721SafeTransferFrom) && (
             <AssetIconWithPlaceholder
               asset={transactionDetails.erc721BlockchainToken}
               network={transactionsNetwork}
             />
-          }
+          )}
 
           <TransactionAmountBig>
-            {(isERC721TransferFrom || isERC721SafeTransferFrom)
-              ? transactionDetails.erc721BlockchainToken?.name + ' ' + transactionDetails.erc721TokenId
-              : new Amount(transactionDetails.valueExact)
-                .formatAsAsset(undefined, transactionDetails.symbol)
-            }
+            {isERC721TransferFrom || isERC721SafeTransferFrom
+              ? transactionDetails.erc721BlockchainToken?.name +
+                ' ' +
+                transactionDetails.erc721TokenId
+              : new Amount(transactionDetails.valueExact).formatAsAsset(
+                  undefined,
+                  transactionDetails.symbol
+                )}
           </TransactionAmountBig>
 
-          {(!isERC721TransferFrom && !isERC721SafeTransferFrom) &&
+          {!isERC721TransferFrom && !isERC721SafeTransferFrom && (
             <TransactionFiatAmountBig>
-              {
-                transactionDetails.fiatValue.formatAsFiat(defaultCurrencies.fiat)
-              }
+              {transactionDetails.fiatValue.formatAsFiat(
+                defaultCurrencies.fiat
+              )}
             </TransactionFiatAmountBig>
-          }
-          {isAssociatedTokenAccountCreation &&
-            <WarningBox warningType='warning'>
+          )}
+          {isAssociatedTokenAccountCreation && (
+            <WarningBox warningType="warning">
               <WarningBoxTitleRow>
-                <WarningTitle warningType='warning'>
+                <WarningTitle warningType="warning">
                   {getLocale('braveWalletConfirmTransactionAccountCreationFee')}
-                  <LearnMoreButton
-                    onClick={onClickLearnMore}
-                  >
+                  <LearnMoreButton onClick={onClickLearnMore}>
                     {getLocale('braveWalletAllowAddNetworkLearnMoreButton')}
                   </LearnMoreButton>
                 </WarningTitle>
               </WarningBoxTitleRow>
             </WarningBox>
-          }
+          )}
         </>
       )}
 
@@ -285,18 +311,18 @@ export const ConfirmTransactionPanel = ({
         <PanelTab
           isSelected={selectedTab === 'transaction'}
           onSubmit={onSelectTab('transaction')}
-          text='Transaction'
+          text="Transaction"
         />
         <PanelTab
           isSelected={selectedTab === 'details'}
           onSubmit={onSelectTab('details')}
-          text='Details'
+          text="Details"
         />
-        {!isSolanaTransaction && !isFilecoinTransaction &&
+        {!isSolanaTransaction && !isFilecoinTransaction && (
           <AdvancedTransactionSettingsButton
             onSubmit={onToggleAdvancedTransactionSettings}
           />
-        }
+        )}
       </TabRow>
 
       <MessageBox
@@ -305,10 +331,16 @@ export const ConfirmTransactionPanel = ({
       >
         {selectedTab === 'transaction' ? (
           <>
-            {isERC20Approve && <Erc20ApproveTransactionInfo onToggleEditGas={onToggleEditGas} />}
-            {!isERC20Approve && <TransactionInfo onToggleEditGas={onToggleEditGas} />}
+            {isERC20Approve && (
+              <Erc20ApproveTransactionInfo onToggleEditGas={onToggleEditGas} />
+            )}
+            {!isERC20Approve && (
+              <TransactionInfo onToggleEditGas={onToggleEditGas} />
+            )}
           </>
-        ) : <TransactionDetailBox transactionInfo={transactionInfo} />}
+        ) : (
+          <TransactionDetailBox transactionInfo={transactionInfo} />
+        )}
       </MessageBox>
 
       <Footer onConfirm={onConfirm} onReject={onReject} />

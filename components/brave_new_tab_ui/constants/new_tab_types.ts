@@ -25,22 +25,20 @@ export const enum types {
   CUSTOMIZE_CLICKED = '@@newtab/CUSTOMIZE_CLICKED',
   BACKGROUND_UPDATED = '@@newtab/_BACKGROUND_UPDATED',
   CUSTOM_IMAGE_BACKGROUNDS_UPDATED = '@@newtab/CUSTOM_IMAGE_BACKGROUNDS_UPDATED',
-  SEARCH_PROMOTION_DISABLED = '@@newtab/SEARCH_PROMOTION_DISABLED',
+  SEARCH_PROMOTION_DISABLED = '@@newtab/SEARCH_PROMOTION_DISABLED'
 }
 
 export type DismissBrandedWallpaperNotificationPayload = {
   isUserAction: boolean
 }
 
-export type NewTabActions =
-  typeof newTabActions &
+export type NewTabActions = typeof newTabActions &
   typeof gridSitesActions &
   typeof binanceActions &
   typeof rewardsActions &
   typeof geminiActions &
   typeof cryptoDotComActions &
-  typeof stackWidgetActions &
-  {
+  typeof stackWidgetActions & {
     today: typeof todayActions
     ftx: typeof ftxActions
   }

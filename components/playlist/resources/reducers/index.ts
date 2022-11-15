@@ -9,5 +9,6 @@ import { Playlist } from 'components/definitions/playlist'
 // Utils
 import playlistReducer from './playlist_reducer'
 
-export default combineReducers<Playlist.ApplicationState>(
-    { playlistData: playlistReducer })
+export default combineReducers<Playlist.ApplicationState>({
+  playlistData: playlistReducer
+})

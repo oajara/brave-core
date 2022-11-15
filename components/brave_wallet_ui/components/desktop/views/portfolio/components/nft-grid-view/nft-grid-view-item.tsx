@@ -9,17 +9,15 @@ import * as React from 'react'
 import { UserAssetInfoType } from 'components/brave_wallet_ui/constants/types'
 
 // Utils
-import { stripERC20TokenImageURL, httpifyIpfsUrl } from '../../../../../../utils/string-utils'
+import {
+  stripERC20TokenImageURL,
+  httpifyIpfsUrl
+} from '../../../../../../utils/string-utils'
 import Amount from '../../../../../../utils/amount'
 import { NftIcon } from '../../../../../shared/nft-icon/nft-icon'
 
 // Styled Components
-import {
-  NFTButton,
-  NFTText,
-  IconWrapper,
-  DIVForClickableArea
-} from './style'
+import { NFTButton, NFTText, IconWrapper, DIVForClickableArea } from './style'
 
 interface Props {
   token: UserAssetInfoType
@@ -35,14 +33,17 @@ export const NFTGridViewItem = (props: Props) => {
   }, [tokenImageURL])
 
   return (
-    <NFTButton
-      onClick={onSelectAsset}
-    >
+    <NFTButton onClick={onSelectAsset}>
       <IconWrapper>
         <DIVForClickableArea />
         <NftIcon icon={remoteImage} responsive={true} />
       </IconWrapper>
-      <NFTText>{token.asset.name} {token.asset.tokenId ? '#' + new Amount(token.asset.tokenId).toNumber() : ''}</NFTText>
+      <NFTText>
+        {token.asset.name}{' '}
+        {token.asset.tokenId
+          ? '#' + new Amount(token.asset.tokenId).toNumber()
+          : ''}
+      </NFTText>
     </NFTButton>
   )
 }

@@ -3,16 +3,18 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 import * as React from 'react'
-import {
-  useDispatch,
-  useSelector
-} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 // Actions
 import { PanelActions } from '../../../panel/actions'
 
 // Types
-import { BraveWallet, WalletAccountType, PanelState, WalletState } from '../../../constants/types'
+import {
+  BraveWallet,
+  WalletAccountType,
+  PanelState,
+  WalletState
+} from '../../../constants/types'
 
 // Components
 import {
@@ -47,20 +49,23 @@ export interface Props {
   accountsToConnect: WalletAccountType[]
 }
 export const ConnectWithSite = (props: Props) => {
-  const {
-    originInfo,
-    accountsToConnect
-  } = props
+  const { originInfo, accountsToConnect } = props
 
   // Redux
   const dispatch = useDispatch()
 
   // Wallet State
-  const defaultAccounts = useSelector(({ wallet }: { wallet: WalletState }) => wallet.defaultAccounts)
-  const accounts = useSelector(({ wallet }: { wallet: WalletState }) => wallet.accounts)
+  const defaultAccounts = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.defaultAccounts
+  )
+  const accounts = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet.accounts
+  )
 
   // Panel State
-  const connectingAccounts = useSelector(({ panel }: { panel: PanelState }) => panel.connectingAccounts)
+  const connectingAccounts = useSelector(
+    ({ panel }: { panel: PanelState }) => panel.connectingAccounts
+  )
 
   // State
   const [selectedAccounts, setSelectedAccounts] = React.useState<
@@ -93,23 +98,29 @@ export const ConnectWithSite = (props: Props) => {
     }
   }, [readyToConnect, selectedAccounts, dispatch])
 
-  const checkIsSelected = React.useCallback((account: WalletAccountType) => {
-    return selectedAccounts?.some((a) => a.id === account.id) ?? false
-  }, [selectedAccounts])
+  const checkIsSelected = React.useCallback(
+    (account: WalletAccountType) => {
+      return selectedAccounts?.some((a) => a.id === account.id) ?? false
+    },
+    [selectedAccounts]
+  )
 
-  const toggleSelected = React.useCallback((account: WalletAccountType) => () => {
-    if (checkIsSelected(account)) {
-      const removedList = selectedAccounts?.filter(
-        (accounts) => accounts.id !== account.id
-      )
-      setSelectedAccounts(removedList)
-      return
-    }
-    if (selectedAccounts) {
-      const addedList = [...selectedAccounts, account]
-      setSelectedAccounts(addedList)
-    }
-  }, [selectedAccounts, checkIsSelected])
+  const toggleSelected = React.useCallback(
+    (account: WalletAccountType) => () => {
+      if (checkIsSelected(account)) {
+        const removedList = selectedAccounts?.filter(
+          (accounts) => accounts.id !== account.id
+        )
+        setSelectedAccounts(removedList)
+        return
+      }
+      if (selectedAccounts) {
+        const addedList = [...selectedAccounts, account]
+        setSelectedAccounts(addedList)
+      }
+    },
+    [selectedAccounts, checkIsSelected]
+  )
 
   // Memos
   const accountsToConnectList: string | undefined = React.useMemo(() => {
@@ -126,7 +137,7 @@ export const ConnectWithSite = (props: Props) => {
     return accounts.find(
       (account) =>
         account.address.toLowerCase() ===
-        foundDefaultAccountInfo?.address?.toLowerCase() ?? ''
+          foundDefaultAccountInfo?.address?.toLowerCase() ?? ''
     )
   }, [defaultAccounts, connectingAccounts, accounts])
 
@@ -171,13 +182,19 @@ export const ConnectWithSite = (props: Props) => {
         )}
         {!readyToConnect ? (
           <SelectAddressContainer>
-            <NewAccountTitle>{getLocale('braveWalletAccounts')}</NewAccountTitle>
+            <NewAccountTitle>
+              {getLocale('braveWalletAccounts')}
+            </NewAccountTitle>
             <DividerLine />
             <SelectAddressScrollContainer>
               {accountsToConnect.map((account, index) => (
                 <SelectAddressInnerContainer
                   key={account.id}
-                  ref={(ref) => refs.current[index] = (checkIsSelected(account) ? ref : null)}
+                  ref={(ref) =>
+                    (refs.current[index] = checkIsSelected(account)
+                      ? ref
+                      : null)
+                  }
                 >
                   <SelectAddress
                     action={toggleSelected(account)}
@@ -193,14 +210,24 @@ export const ConnectWithSite = (props: Props) => {
           <ConfirmTextRow>
             <ConfirmIcon />
             <ConfirmTextColumn>
-              <ConfirmText>{getLocale('braveWalletConnectWithSiteDescription')}</ConfirmText>
+              <ConfirmText>
+                {getLocale('braveWalletConnectWithSiteDescription')}
+              </ConfirmText>
             </ConfirmTextColumn>
           </ConfirmTextRow>
         )}
       </MiddleWrapper>
       <ConnectBottomNav
-        primaryText={readyToConnect ? getLocale('braveWalletAddAccountConnect') : getLocale('braveWalletConnectWithSiteNext')}
-        secondaryText={readyToConnect ? getLocale('braveWalletBack') : getLocale('braveWalletButtonCancel')}
+        primaryText={
+          readyToConnect
+            ? getLocale('braveWalletAddAccountConnect')
+            : getLocale('braveWalletConnectWithSiteNext')
+        }
+        secondaryText={
+          readyToConnect
+            ? getLocale('braveWalletBack')
+            : getLocale('braveWalletButtonCancel')
+        }
         primaryAction={onNext}
         secondaryAction={onBack}
         disabled={selectedAccounts?.length === 0}

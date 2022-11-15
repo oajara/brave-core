@@ -10,16 +10,19 @@ import * as S from './style'
 import Button from '$web-components/button'
 import getPanelBrowserAPI from '../../api/panel_browser_api'
 
-function SellPanel () {
-  const productUrls = useSelector(state => state.productUrls)
+function SellPanel() {
+  const productUrls = useSelector((state) => state.productUrls)
 
-  const featureList = React.useMemo(() => ([
-    getLocale('braveVpnFeature1'),
-    getLocale('braveVpnFeature2'),
-    getLocale('braveVpnFeature3'),
-    getLocale('braveVpnFeature4'),
-    getLocale('braveVpnFeature5')
-  ]), [])
+  const featureList = React.useMemo(
+    () => [
+      getLocale('braveVpnFeature1'),
+      getLocale('braveVpnFeature2'),
+      getLocale('braveVpnFeature3'),
+      getLocale('braveVpnFeature4'),
+      getLocale('braveVpnFeature5')
+    ],
+    []
+  )
 
   const handleClick = (intent: string) => {
     if (!productUrls) return
@@ -29,7 +32,7 @@ function SellPanel () {
   return (
     <S.Box>
       <S.PanelContent>
-        <S.PanelHeader role='banner'>
+        <S.PanelHeader role="banner">
           <S.MainLogo />
           <S.ProductTitle>{getLocale('braveVpn')}</S.ProductTitle>
           <S.PoweredBy>
@@ -39,9 +42,7 @@ function SellPanel () {
         </S.PanelHeader>
         <S.List>
           {featureList.map((entry, i) => (
-            <li key={i}>
-              {entry}
-            </li>
+            <li key={i}>{entry}</li>
           ))}
         </S.List>
         <S.ActionArea>

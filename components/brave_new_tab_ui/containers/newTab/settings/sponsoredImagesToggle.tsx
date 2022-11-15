@@ -54,7 +54,7 @@ const DescriptionRow = styled.div`
   grid-template-columns: 16px 1fr;
   padding: 0 8px;
   gap: 8px;
-  color: #339AF0;
+  color: #339af0;
   font-family: var(--brave-font-family-non-serif);
   letter-spacing: 0.01em;
   margin-bottom: 7px;
@@ -92,27 +92,46 @@ const EnableRewardsButton = styled.button`
   font-weight: 600;
 `
 
-export default function SponsoredImageToggle ({ onChange, onEnableRewards, checked, disabled, rewardsEnabled: rewardEnabled, adsEnabled, canSupportAds }: Props) {
-  const showRewardButton = checked && !disabled && (!rewardEnabled || (!adsEnabled && canSupportAds))
+export default function SponsoredImageToggle({
+  onChange,
+  onEnableRewards,
+  checked,
+  disabled,
+  rewardsEnabled: rewardEnabled,
+  adsEnabled,
+  canSupportAds
+}: Props) {
+  const showRewardButton =
+    checked && !disabled && (!rewardEnabled || (!adsEnabled && canSupportAds))
   return (
     <Container>
       <ToggleRow>
         <SettingsText>{getLocale('brandedWallpaperOptIn')}</SettingsText>
-        <Toggle onChange={onChange} checked={checked} disabled={disabled} size='small' />
+        <Toggle
+          onChange={onChange}
+          checked={checked}
+          disabled={disabled}
+          size="small"
+        />
       </ToggleRow>
       <DescriptionRow>
-        <DescriptionIcon/>
+        <DescriptionIcon />
         <DescriptionTitle>
-          {!checked || showRewardButton ? getLocale('sponsoredImageOn') : getLocale('sponsoredImageOff')}
+          {!checked || showRewardButton
+            ? getLocale('sponsoredImageOn')
+            : getLocale('sponsoredImageOff')}
         </DescriptionTitle>
         <DescriptionBody>
-          {!checked || showRewardButton ? getLocale('sponsoredImageOnDescription') : getLocale('sponsoredImageOffDescription')}
+          {!checked || showRewardButton
+            ? getLocale('sponsoredImageOnDescription')
+            : getLocale('sponsoredImageOffDescription')}
         </DescriptionBody>
       </DescriptionRow>
-      {showRewardButton &&
+      {showRewardButton && (
         <EnableRewardsButton onClick={onEnableRewards}>
-            {getLocale('rewardsStartUsingRewards')}
-        </EnableRewardsButton>}
+          {getLocale('rewardsStartUsingRewards')}
+        </EnableRewardsButton>
+      )}
     </Container>
   )
 }

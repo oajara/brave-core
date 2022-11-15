@@ -5,7 +5,11 @@
 
 import styled from 'styled-components'
 import { ArrowUpIcon } from 'brave-ui/components/icons'
-import { AssetIconProps, AssetIconFactory, WalletButton } from '../../../shared/style'
+import {
+  AssetIconProps,
+  AssetIconFactory,
+  WalletButton
+} from '../../../shared/style'
 import More from '../../../extension/assets/actions.svg'
 
 export const StyledWrapper = styled.div`
@@ -56,7 +60,7 @@ export const ButtonRow = styled.div<{ noMargin?: boolean }>`
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  margin: ${(p) => p.noMargin ? '0px' : '20px 0px'};
+  margin: ${(p) => (p.noMargin ? '0px' : '20px 0px')};
 `
 
 export const BalanceRow = styled.div`
@@ -150,14 +154,14 @@ export const DividerText = styled.span`
   color: ${(p) => p.theme.color.text03};
 `
 
-export const PercentBubble = styled.div<{ isDown?: boolean}>`
+export const PercentBubble = styled.div<{ isDown?: boolean }>`
   display: flex;
   align-items: center;
   justify-conent: center;
   flex-direction: row;
   padding: 4px 8px;
   border-radius: 8px;
-  background-color: ${(p) => p.isDown ? '#EE6374' : '#2AC194'};
+  background-color: ${(p) => (p.isDown ? '#EE6374' : '#2AC194')};
 `
 
 export const PercentText = styled.span`
@@ -168,11 +172,11 @@ export const PercentText = styled.span`
   color: ${(p) => p.theme.palette.white};
 `
 
-export const ArrowIcon = styled(ArrowUpIcon) <{ isDown?: boolean }>`
+export const ArrowIcon = styled(ArrowUpIcon)<{ isDown?: boolean }>`
   width: 12px;
   height: 12px;
   margin-right: 2px;
-  transform: ${(p) => p.isDown ? 'rotate(270deg)' : 'rotate(90deg)'};
+  transform: ${(p) => (p.isDown ? 'rotate(270deg)' : 'rotate(90deg)')};
   color: ${(p) => p.theme.palette.white};
 `
 
@@ -237,10 +241,10 @@ export const FilterTokenRow = styled.div`
 
 export const NftDetails = styled.iframe<{ visible?: boolean }>`
   width: 100%;
-  min-height: ${p => p.visible ? '440px' : '0px'};
-  height: ${p => p.visible ? 'auto' : '0px'};
+  min-height: ${(p) => (p.visible ? '440px' : '0px')};
+  height: ${(p) => (p.visible ? 'auto' : '0px')};
   border: none;
-  visibility: ${p => p.visible ? 'visible' : 'hidden'};
+  visibility: ${(p) => (p.visible ? 'visible' : 'hidden')};
   margin-bottom: 50px;
   margin-top: 16px;
 `

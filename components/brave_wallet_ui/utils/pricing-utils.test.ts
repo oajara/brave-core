@@ -8,20 +8,12 @@
 
 import { mockAssetPrices } from '../common/constants/mocks'
 import { mockBasicAttentionToken } from '../stories/mock-data/mock-asset-options'
-import {
-  computeFiatAmount,
-  findAssetPrice
-} from './pricing-utils'
+import { computeFiatAmount, findAssetPrice } from './pricing-utils'
 
 describe('findAssetPrice', () => {
   it('should find the price of a coin from within a list of asset prices', () => {
     const { symbol } = mockBasicAttentionToken
-    expect(
-      findAssetPrice(
-        mockAssetPrices,
-        symbol
-      )
-    ).toBe('0.88')
+    expect(findAssetPrice(mockAssetPrices, symbol)).toBe('0.88')
   })
 })
 
@@ -30,10 +22,11 @@ describe('computeFiatAmount', () => {
     const { symbol, decimals } = mockBasicAttentionToken
 
     expect(
-      computeFiatAmount(
-        mockAssetPrices,
-        { symbol, decimals, value: '20' }
-      ).format()
+      computeFiatAmount(mockAssetPrices, {
+        symbol,
+        decimals,
+        value: '20'
+      }).format()
     ).toBe('0.0000000000000000176')
   })
 })

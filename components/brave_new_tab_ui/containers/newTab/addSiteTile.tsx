@@ -5,7 +5,11 @@
 
 import * as React from 'react'
 import { getLocale } from '../../../common/locale'
-import { AddSiteTile, AddSiteTileImage, TileTitle } from '../../components/default'
+import {
+  AddSiteTile,
+  AddSiteTileImage,
+  TileTitle
+} from '../../components/default'
 // Icons
 import AddSiteTileIcon from '../../components/default/gridSites/assets/add-site-tile'
 
@@ -14,13 +18,13 @@ interface Props {
   isDragging: boolean
 }
 
-export default function AddSite ({ showEditTopSite, isDragging }: Props) {
-  return <AddSiteTile onClick={showEditTopSite} isDragging={isDragging}>
+export default function AddSite({ showEditTopSite, isDragging }: Props) {
+  return (
+    <AddSiteTile onClick={showEditTopSite} isDragging={isDragging}>
       <AddSiteTileImage>
         <AddSiteTileIcon />
       </AddSiteTileImage>
-      <TileTitle>
-        {getLocale('addTopSiteDialogTitle')}
-      </TileTitle>
+      <TileTitle>{getLocale('addTopSiteDialogTitle')}</TileTitle>
     </AddSiteTile>
+  )
 }

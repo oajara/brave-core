@@ -7,13 +7,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import * as rewardsActions from '../actions/rewards_actions'
 import { defaultState } from '../reducers/default_state'
 
-export function useActions () {
+export function useActions() {
   return bindActionCreators(rewardsActions, useDispatch())
 }
 
 type StateSelector<T> = (state: Rewards.State) => T
 
-export function useRewardsData<T> (fn: StateSelector<T>) {
+export function useRewardsData<T>(fn: StateSelector<T>) {
   return useSelector((state: Rewards.ApplicationState) => {
     return fn(state.rewardsData || defaultState())
   })

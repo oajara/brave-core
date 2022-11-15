@@ -15,7 +15,7 @@ type Props = {
   onLoaded?: () => any
 }
 
-export default function CardImage (props: Props) {
+export default function CardImage(props: Props) {
   const unpaddedUrl = useUnpaddedImageUrl(props.imageUrl, props.onLoaded)
   const [isImageLoaded, setIsImageLoaded] = React.useState(false)
   React.useEffect(() => {
@@ -28,10 +28,12 @@ export default function CardImage (props: Props) {
         }
       })
       img.src = unpaddedUrl
-      return () => { shouldCancel = true }
+      return () => {
+        shouldCancel = true
+      }
     }
 
-    return () => { }
+    return () => {}
   }, [unpaddedUrl])
   const Frame = props.list ? Card.ListImageFrame : Card.ImageFrame
   return (
@@ -45,7 +47,7 @@ type FromFeedItemProps = Omit<Props, 'imageUrl' | 'isUnpadded'> & {
   data: BraveNews.FeedItemMetadata
 }
 
-export function CardImageFromFeedItem (props: FromFeedItemProps) {
+export function CardImageFromFeedItem(props: FromFeedItemProps) {
   React.useEffect(() => {
     if (!props.data.image.imageUrl && !props.data.image.paddedImageUrl) {
       // Shouldn't happen since backend filters out items
@@ -57,10 +59,18 @@ export function CardImageFromFeedItem (props: FromFeedItemProps) {
     }
   }, [props.data.image.imageUrl, props.data.image.paddedImageUrl])
   const imageUrl = React.useMemo(() => {
-    if (props.data.image.imageUrl?.url) { return props.data.image.imageUrl.url }
-    if (props.data.image.paddedImageUrl?.url) { return props.data.image.paddedImageUrl.url }
+    if (props.data.image.imageUrl?.url) {
+      return props.data.image.imageUrl.url
+    }
+    if (props.data.image.paddedImageUrl?.url) {
+      return props.data.image.paddedImageUrl.url
+    }
     return ''
-  }, [props.data.image.imageUrl, props.data.image.paddedImageUrl, props.data.description])
+  }, [
+    props.data.image.imageUrl,
+    props.data.image.paddedImageUrl,
+    props.data.description
+  ])
   const { data, ...baseProps } = props
   if (imageUrl) {
     return (

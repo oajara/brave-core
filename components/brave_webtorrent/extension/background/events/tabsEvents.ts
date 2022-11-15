@@ -8,7 +8,7 @@ import tabActions from '../actions/tabActions'
 // fixes a bug where WebTorrent wouldn't load for the first click of magnet
 // links (as the background page would not be running on that first load).
 // Note: Empty query for {} returns all tabs this extension is interested in.
-chrome.tabs.query({}, tabs => {
+chrome.tabs.query({}, (tabs) => {
   for (const tab of tabs) {
     tabActions.tabUpdated(tab.id!, { url: tab.url ?? '' })
   }
@@ -22,9 +22,10 @@ chrome.webNavigation.onCommitted.addListener(
     url: [
       { pathSuffix: '.torrent' },
       // have a magnet scheme
-      { schemes: ['magnet'] }]
+      { schemes: ['magnet'] }
+    ]
   }
- )
+)
 
 chrome.webNavigation.onCommitted.addListener(
   (details: chrome.webNavigation.WebNavigationFramedCallbackDetails) => {
@@ -38,11 +39,12 @@ chrome.webNavigation.onCommitted.addListener(
     tabActions.tabUpdated(details.tabId, details)
   },
   {
- url: [
-    // when handling URLs as chrome-extension://...
-    // the actual torrent URL is within query parameters
-    { schemes: ['chrome-extension'], queryContains: '.torrent' },
-    { schemes: ['chrome-extension'], queryContains: 'magnet%3A' }]
+    url: [
+      // when handling URLs as chrome-extension://...
+      // the actual torrent URL is within query parameters
+      { schemes: ['chrome-extension'], queryContains: '.torrent' },
+      { schemes: ['chrome-extension'], queryContains: 'magnet%3A' }
+    ]
   }
 )
 

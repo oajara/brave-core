@@ -43,8 +43,11 @@ interface State {
   TODO
   - add error flow
  */
-export default class ModalBackupReset extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+export default class ModalBackupReset extends React.PureComponent<
+  Props,
+  State
+> {
+  constructor(props: Props) {
     super(props)
     this.state = {
       recoveryKey: '',
@@ -59,7 +62,7 @@ export default class ModalBackupReset extends React.PureComponent<Props, State> 
     })
   }
 
-  componentWillReceiveProps (nextProps: Props) {
+  componentWillReceiveProps(nextProps: Props) {
     if (nextProps.error) {
       this.setState({
         errorShown: true
@@ -68,28 +71,25 @@ export default class ModalBackupReset extends React.PureComponent<Props, State> 
   }
 
   getBackup = () => {
-    const {
-      onClose,
-      onVerify
-    } = this.props
+    const { onClose, onVerify } = this.props
 
     return (
       <>
+        <StyledContent>{getLocale('rewardsBackupNoticeText1')}</StyledContent>
         <StyledContent>
-          {getLocale('rewardsBackupNoticeText1')}
-        </StyledContent>
-        <StyledContent>
-          {
-            formatMessage(getLocale('rewardsBackupNoticeText2'), {
-              tags: {
-                $1: (content) => (
-                  <StyledLink key='link' onClick={onVerify} id={'backup-verify-link'}>
-                    {content}
-                  </StyledLink>
-                )
-              }
-            })
-          }
+          {formatMessage(getLocale('rewardsBackupNoticeText2'), {
+            tags: {
+              $1: (content) => (
+                <StyledLink
+                  key="link"
+                  onClick={onVerify}
+                  id={'backup-verify-link'}
+                >
+                  {content}
+                </StyledLink>
+              )
+            }
+          })}
         </StyledContent>
         <StyledDoneWrapper>
           <Button
@@ -118,15 +118,11 @@ export default class ModalBackupReset extends React.PureComponent<Props, State> 
 
       return formatMessage(getLocale('rewardsResetTextFunds'), {
         placeholders: {
-          $1: (
-            <b key='amount'>
-              {this.props.internalFunds.toString()} BAT
-            </b>
-          )
+          $1: <b key="amount">{this.props.internalFunds.toString()} BAT</b>
         },
         tags: {
           $2: (content) => (
-            <StyledLink key='link' onClick={this.props.onVerify}>
+            <StyledLink key="link" onClick={this.props.onVerify}>
               {content}
             </StyledLink>
           )
@@ -137,9 +133,7 @@ export default class ModalBackupReset extends React.PureComponent<Props, State> 
     return (
       <>
         <StyledTextWrapper>
-          <StyledText data-test-id={'reset-text'}>
-            {getText()}
-          </StyledText>
+          <StyledText data-test-id={'reset-text'}>{getText()}</StyledText>
         </StyledTextWrapper>
         <StyledActionsWrapper>
           <ActionButton
@@ -168,36 +162,23 @@ export default class ModalBackupReset extends React.PureComponent<Props, State> 
     return null
   }
 
-  render () {
-    const {
-      id,
-      activeTabId,
-      onClose,
-      onTabChange,
-      testId
-    } = this.props
+  render() {
+    const { id, activeTabId, onClose, onTabChange, testId } = this.props
 
     return (
       <Modal id={id} onClose={onClose} size={'small'} testId={testId}>
         <StyledTitleWrapper>
-          <StyledTitle>
-            {getLocale('manageWallet')}
-          </StyledTitle>
+          <StyledTitle>{getLocale('manageWallet')}</StyledTitle>
         </StyledTitleWrapper>
         <StyledControlWrapper>
           <Tab
             testId={'settings-modal-tabs'}
             onChange={onTabChange}
             tabIndexSelected={activeTabId}
-            tabTitles={[
-              getLocale('backup'),
-              getLocale('reset')
-            ]}
+            tabTitles={[getLocale('backup'), getLocale('reset')]}
           />
         </StyledControlWrapper>
-        {
-          this.getTabContent(activeTabId)
-        }
+        {this.getTabContent(activeTabId)}
       </Modal>
     )
   }

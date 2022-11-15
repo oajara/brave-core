@@ -14,9 +14,9 @@ interface StyledProps {
 export const Wrapper = styled('aside')<{}>`
   border-radius: 12px;
   position: relative;
-  background: ${p => p.theme.color.secondaryBackground};
+  background: ${(p) => p.theme.color.secondaryBackground};
   color: #212529;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
   font-size: 11px;
   position: relative;
 
@@ -26,7 +26,7 @@ export const Wrapper = styled('aside')<{}>`
     height: 0;
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
-    border-top: 20px solid #FFFFFF;
+    border-top: 20px solid #ffffff;
     position: absolute;
     bottom: -20px;
     left: 28px;
@@ -60,7 +60,11 @@ export const Banner = styled('div')<{}>`
     content: '';
     position: absolute;
     display: block;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 80%, #FFFFFF 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0) 80%,
+      #ffffff 100%
+    );
     width: 100%;
     height: 100%;
     bottom: 0;
@@ -86,23 +90,23 @@ export const CornerLabel = styled('div')<{}>`
   background-position: right;
   background-repeat: no-repeat;
   padding: 4px 24px 4px 12px;
-  color: #FFFFFF;
+  color: #ffffff;
   text-transform: uppercase;
   font-size: 12px;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
   font-weight: 600;
 `
 
 export const Button = styled('button')<{}>`
   display: block;
   width: 100%;
-  background: #FB542B;
+  background: #fb542b;
   padding: 10px 12px;
   border-radius: 100px;
   border: 1px solid transparent;
   cursor: pointer;
   color: #ffffff;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
   font-size: 13px;
   font-weight: 600;
   line-height: 1;

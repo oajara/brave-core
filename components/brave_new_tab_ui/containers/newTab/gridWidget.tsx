@@ -8,17 +8,24 @@ import { Widget, WidgetProps } from '../../components/default/widget'
 import { useNewTabPref } from '../../hooks/usePref'
 
 interface Props extends Omit<WidgetProps, 'hideWidget'> {
-    pref: keyof NewTab.Preferences
-    container: React.ComponentType<{}>
-    children: React.ReactNode
+  pref: keyof NewTab.Preferences
+  container: React.ComponentType<{}>
+  children: React.ReactNode
 }
 
-export default function GridWidget ({ pref: showPref, container: Container, children, ...rest }: Props) {
-    const [showing, setShowing] = useNewTabPref(showPref)
+export default function GridWidget({
+  pref: showPref,
+  container: Container,
+  children,
+  ...rest
+}: Props) {
+  const [showing, setShowing] = useNewTabPref(showPref)
 
-    return showing ? <Container>
-        <Widget hideWidget={() => setShowing(false)} {...rest}>
+  return showing ? (
+    <Container>
+      <Widget hideWidget={() => setShowing(false)} {...rest}>
         {children}
-        </Widget>
-    </Container> : null
+      </Widget>
+    </Container>
+  ) : null
 }

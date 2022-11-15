@@ -17,7 +17,7 @@ class PanelBrowserAPI implements API {
   panelHandler = new BraveShields.PanelHandlerRemote()
   dataHandler = new BraveShields.DataHandlerRemote()
 
-  constructor () {
+  constructor() {
     const factory = BraveShields.PanelHandlerFactory.getRemote()
     factory.createPanelHandler(
       this.panelHandler.$.bindNewPipeAndPassReceiver(),
@@ -26,7 +26,7 @@ class PanelBrowserAPI implements API {
   }
 }
 
-export default function getPanelBrowserAPI () {
+export default function getPanelBrowserAPI() {
   if (!panelBrowserAPIInstance) {
     panelBrowserAPIInstance = new PanelBrowserAPI()
   }

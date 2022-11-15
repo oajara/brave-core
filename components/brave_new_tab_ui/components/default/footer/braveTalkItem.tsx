@@ -11,10 +11,12 @@ import BraveTalkTooltip from './braveTalkTooltip'
 import BraveTalkIcon from './braveTalkTooltip/braveTalkIcon'
 import { OnDismissBraveTalkPrompt, Props } from './footer'
 
-function BraveTalkTooltipItem (props: Props) {
+function BraveTalkTooltipItem(props: Props) {
   const tooltipRef = React.useRef<HTMLDivElement>(null)
   // Make callback a ref so that timer callback has access to latest value
-  const handleDismissPromptRef = React.useRef<null | OnDismissBraveTalkPrompt>(null)
+  const handleDismissPromptRef = React.useRef<null | OnDismissBraveTalkPrompt>(
+    null
+  )
   React.useEffect(() => {
     handleDismissPromptRef.current = props.onDismissBraveTalkPrompt
   }, [props.onDismissBraveTalkPrompt])
@@ -23,13 +25,17 @@ function BraveTalkTooltipItem (props: Props) {
     if (!tooltipRef.current) {
       return
     }
-    const timer = new VisibilityTimer(() => {
-      // Sanity check
-      if (!handleDismissPromptRef.current) {
-        return
-      }
-      handleDismissPromptRef.current({ isAutomatic: true })
-    }, 4000, tooltipRef.current)
+    const timer = new VisibilityTimer(
+      () => {
+        // Sanity check
+        if (!handleDismissPromptRef.current) {
+          return
+        }
+        handleDismissPromptRef.current({ isAutomatic: true })
+      },
+      4000,
+      tooltipRef.current
+    )
     timer.startTracking()
     return () => timer.stopTracking()
   }, [tooltipRef.current])
@@ -39,19 +45,25 @@ function BraveTalkTooltipItem (props: Props) {
   }
   return (
     <BraveTalkTooltip ref={tooltipRef} onClose={handleClose}>
-      <IconLink title={getLocale('braveTalkPromptTitle')} href='https://talk.brave.com/widget'>
+      <IconLink
+        title={getLocale('braveTalkPromptTitle')}
+        href="https://talk.brave.com/widget"
+      >
         <BraveTalkIcon />
       </IconLink>
     </BraveTalkTooltip>
   )
 }
 
-export default function BraveTalkItem (props: Props) {
+export default function BraveTalkItem(props: Props) {
   if (props.showBraveTalkPrompt) {
     return <BraveTalkTooltipItem {...props} />
   }
   return (
-    <IconLink title={getLocale('braveTalkPromptTitle')} href='https://talk.brave.com/widget'>
+    <IconLink
+      title={getLocale('braveTalkPromptTitle')}
+      href="https://talk.brave.com/widget"
+    >
       <BraveTalkIcon />
     </IconLink>
   )

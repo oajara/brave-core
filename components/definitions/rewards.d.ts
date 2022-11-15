@@ -19,9 +19,10 @@ declare namespace Rewards {
   }
 
   export type AddressesType = 'BTC' | 'ETH' | 'BAT' | 'LTC'
-  export type Address = { address: string, qr: string | null }
+  export type Address = { address: string; qr: string | null }
 
-  type ConnectExternalWalletError = import('gen/brave/vendor/bat-native-ledger/include/bat/ledger/public/interfaces/ledger_types.mojom.m.js').ConnectExternalWalletError
+  type ConnectExternalWalletError =
+    import('gen/brave/vendor/bat-native-ledger/include/bat/ledger/public/interfaces/ledger_types.mojom.m.js').ConnectExternalWalletError
 
   export interface State {
     adsData: AdsData
@@ -61,10 +62,7 @@ declare namespace Rewards {
     ui: {
       disconnectWalletError: boolean
       modalBackup: boolean
-      modalRedirect: ConnectExternalWalletError
-        | 'error'
-        | 'hide'
-        | 'show'
+      modalRedirect: ConnectExternalWalletError | 'error' | 'hide' | 'show'
       promosDismissed: {
         [key: string]: boolean
       }
@@ -72,7 +70,7 @@ declare namespace Rewards {
   }
 
   export type ProviderPayoutStatus = 'off' | 'processing' | 'complete'
-  export type Regions = { allow: string[], block: string[] }
+  export type Regions = { allow: string[]; block: string[] }
 
   export interface RewardsParameters {
     rate: number
@@ -126,7 +124,12 @@ declare namespace Rewards {
     publishers: Publisher[]
   }
 
-  export type CaptchaStatus = 'start' | 'wrongPosition' | 'generalError' | 'finished' | null
+  export type CaptchaStatus =
+    | 'start'
+    | 'wrongPosition'
+    | 'generalError'
+    | 'finished'
+    | null
 
   export enum PromotionTypes {
     UGP = 0,
@@ -160,7 +163,7 @@ declare namespace Rewards {
   }
 
   export interface PromotionFinish {
-    result: Result,
+    result: Result
     promotion?: Promotion
   }
 
@@ -268,7 +271,8 @@ declare namespace Rewards {
     wallets: Record<string, number>
   }
 
-  type WalletStatus = import('gen/brave/vendor/bat-native-ledger/include/bat/ledger/public/interfaces/ledger_types.mojom.m.js').WalletStatus
+  type WalletStatus =
+    import('gen/brave/vendor/bat-native-ledger/include/bat/ledger/public/interfaces/ledger_types.mojom.m.js').WalletStatus
 
   export type WalletType = 'uphold' | 'bitflyer' | 'gemini'
 
@@ -298,7 +302,12 @@ declare namespace Rewards {
   }
 
   export interface AdContent {
-    adType: '' | 'ad_notification' | 'new_tab_page_ad' | 'promoted_content_ad' | 'inline_content_ad'
+    adType:
+      | ''
+      | 'ad_notification'
+      | 'new_tab_page_ad'
+      | 'promoted_content_ad'
+      | 'inline_content_ad'
     creativeInstanceId: string
     creativeSetId: string
     brand: string

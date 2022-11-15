@@ -17,7 +17,7 @@ export const paymentStatus = styled.div`
   }
 
   > div {
-    background: #E8F4FF;
+    background: #e8f4ff;
     border-radius: 4px;
     padding: 6px 21px;
     display: flex;
@@ -32,7 +32,7 @@ export const paymentStatus = styled.div`
   }
 
   .rewards-payment-pending {
-    background: #E8F4FF;
+    background: #e8f4ff;
 
     .icon {
       color: var(--brave-palette-blue500);
@@ -44,7 +44,7 @@ export const paymentStatus = styled.div`
   }
 
   .rewards-payment-completed {
-    background: #E7FDEA;
+    background: #e7fdea;
     align-items: center;
 
     .icon {
@@ -63,7 +63,7 @@ export const needsBrowserUpdateView = styled.div`
   display: flex;
   align-items: center;
   justify-content: start;
-  background: #FDF1F2;
+  background: #fdf1f2;
   padding: 5px;
   border-radius: 6px;
 `

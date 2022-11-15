@@ -34,10 +34,14 @@ export default {
     (Story: any) => {
       // We're not adding a reducer here because UI in storybook
       // shouldn't trigger any actions therefore shouldn't modify any state
-      const store = createStore(state => state, {
+      const store = createStore((state) => state, {
         hasError: false,
         isSelectingRegion: false,
-        connectionStatus: select('Current Status', ConnectionState, ConnectionState.DISCONNECTED),
+        connectionStatus: select(
+          'Current Status',
+          ConnectionState,
+          ConnectionState.DISCONNECTED
+        ),
         regions: mockRegionList,
         currentRegion: mockRegionList[2]
       })
@@ -95,7 +99,10 @@ export const _SettingsPanel = () => {
   const closeSettingsPanel = () => {}
   return (
     <S.PanelFrame>
-      <SettingsPanel closeSettingsPanel={closeSettingsPanel} showContactSupport={() => {}} />
+      <SettingsPanel
+        closeSettingsPanel={closeSettingsPanel}
+        showContactSupport={() => {}}
+      />
     </S.PanelFrame>
   )
 }

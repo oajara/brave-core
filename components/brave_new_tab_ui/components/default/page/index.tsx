@@ -11,9 +11,9 @@ const breakpointEveryBlock = '870px'
 const CLASSNAME_PAGE_STUCK = 'page-stuck'
 
 const singleColumnSmallViewport = css`
- @media screen and (max-width: ${breakpointEveryBlock}) {
-   text-align: center;
- }
+  @media screen and (max-width: ${breakpointEveryBlock}) {
+    text-align: center;
+  }
 `
 
 interface HasImageProps {
@@ -35,7 +35,7 @@ type PageProps = {
   showBrandedWallpaper: boolean
 } & HasImageProps
 
-function getItemRowCount (p: PageProps): number {
+function getItemRowCount(p: PageProps): number {
   let right = (p.showClock ? 1 : 0) + (p.showCryptoContent ? 2 : 0)
   let left = (p.showStats ? 1 : 0) + (p.showTopSites ? 1 : 0)
   // Has space for branded logo to sit next to something on right?
@@ -50,7 +50,7 @@ const StyledPage = styled('div')<PageProps>`
      so that the footer goes in the correct location always,
      yet can still merge upwards to previous rows. */
   --ntp-item-row-count: ${getItemRowCount};
-  --ntp-extra-footer-rows: ${p => p.showBrandedWallpaper ? 1 : 0};
+  --ntp-extra-footer-rows: ${(p) => (p.showBrandedWallpaper ? 1 : 0)};
   --ntp-space-rows: 0;
   --ntp-page-rows: calc(var(--ntp-item-row-count) + var(--ntp-space-rows));
   --ntp-page-padding: 12px;
@@ -130,14 +130,21 @@ export const Page: React.FunctionComponent<PageProps> = (props) => {
         // be fully blurred at 50% of viewport height
         const blurUpperLimit = viewportHeight * 0.65
         const blurLowerLimit = viewportHeight * 0.25
-        const blurAmount = scrollPast > blurUpperLimit
-          ? 1
-          : scrollPast < blurLowerLimit
+        const blurAmount =
+          scrollPast > blurUpperLimit
+            ? 1
+            : scrollPast < blurLowerLimit
             ? 0
             : (scrollPast - blurLowerLimit) / (blurUpperLimit - blurLowerLimit)
         if (root) {
-          root.style.setProperty('--ntp-extra-content-effect-multiplier', blurAmount.toString())
-          root.style.setProperty('--ntp-fixed-content-height', Math.round(element.clientHeight) + 'px')
+          root.style.setProperty(
+            '--ntp-extra-content-effect-multiplier',
+            blurAmount.toString()
+          )
+          root.style.setProperty(
+            '--ntp-fixed-content-height',
+            Math.round(element.clientHeight) + 'px'
+          )
           root.classList.add(CLASSNAME_PAGE_STUCK)
         }
       } else {
@@ -199,12 +206,16 @@ export const GridItemCredits = styled('section')`
   /* Variables for easy inherited override without splitting css rules definition */
   --ntp-grid-item-credits-bottom-margin-wide: 36px;
   --ntp-grid-item-credits-left-margin-narrow: 10px;
-  --ntp-grid-item-credits-left-margin-wide: var(--ntp-grid-item-credits-bottom-margin-wide);
+  --ntp-grid-item-credits-left-margin-wide: var(
+    --ntp-grid-item-credits-bottom-margin-wide
+  );
   grid-column: 1 / span 1;
-  grid-row: calc(-2 - var(--ntp-extra-footer-rows)) / span calc(1 + var(--ntp-extra-footer-rows));
+  grid-row: calc(-2 - var(--ntp-extra-footer-rows)) / span
+    calc(1 + var(--ntp-extra-footer-rows));
   align-self: end;
 
-  margin: 0 0 var(--ntp-grid-item-credits-bottom-margin-wide) var(--ntp-grid-item-credits-left-margin-wide);
+  margin: 0 0 var(--ntp-grid-item-credits-bottom-margin-wide)
+    var(--ntp-grid-item-credits-left-margin-wide);
   @media screen and (max-width: ${breakpointEveryBlock}) {
     /* Display on left, keeping Navigation on right even on wrapped row. */
     margin: 0 auto 0 var(--ntp-grid-item-credits-left-margin-narrow);
@@ -289,7 +300,7 @@ export const FooterContent = styled('div')`
   }
 `
 
-function getPageBackground (p: HasImageProps) {
+function getPageBackground(p: HasImageProps) {
   // Page background is duplicated since a backdrop-filter's
   // ancestor which has blur must also have background.
   // In our case, Widgets are the backdrop-filter element
@@ -302,7 +313,7 @@ function getPageBackground (p: HasImageProps) {
   return css<HasImageProps>`
     &:before {
       pointer-events: none;
-      content: "";
+      content: '';
       position: fixed;
       top: 0;
       bottom: 0;
@@ -310,37 +321,44 @@ function getPageBackground (p: HasImageProps) {
       z-index: -1;
       right: 0;
       display: block;
-      transition: opacity .5s ease-in-out;
-      ${p => !p.hasImage && css`
-        background: ${p.colorForBackground || 'linear-gradient(to bottom right, #4D54D1, #A51C7B 50%, #EE4A37 100%);'}
-      `};
-      ${p => p.hasImage && p.imageSrc && css`
-        opacity: var(--bg-opacity);
-        background: linear-gradient(
+      transition: opacity 0.5s ease-in-out;
+      ${(p) =>
+        !p.hasImage &&
+        css`
+          background: ${p.colorForBackground ||
+          'linear-gradient(to bottom right, #4D54D1, #A51C7B 50%, #EE4A37 100%);'};
+        `};
+      ${(p) =>
+        p.hasImage &&
+        p.imageSrc &&
+        css`
+          opacity: var(--bg-opacity);
+          background: linear-gradient(
               rgba(0, 0, 0, 0.8),
               rgba(0, 0, 0, 0) 35%,
               rgba(0, 0, 0, 0) 80%,
               rgba(0, 0, 0, 0.6) 100%
-            ), url("${p.imageSrc}");
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-      `};
+            ),
+            url('${p.imageSrc}');
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-attachment: fixed;
+        `};
       background-position: center center;
     }
   `
 }
 
 export const App = styled('div')<AppProps & HasImageProps>`
-  --bg-opacity: ${p => p.imageHasLoaded ? 1 : 0};
+  --bg-opacity: ${(p) => (p.imageHasLoaded ? 1 : 0)};
   position: relative;
-  padding-top: var(--ntp-fixed-content-height, "0px");
+  padding-top: var(--ntp-fixed-content-height, '0px');
   box-sizing: border-box;
   display: flex;
   flex: 1;
   flex-direction: column;
-  transition: opacity .125s ease-out;
-  opacity: ${p => p.dataIsReady ? 1 : 0};
+  transition: opacity 0.125s ease-out;
+  opacity: ${(p) => (p.dataIsReady ? 1 : 0)};
   ${getPageBackground}
 `
 
@@ -403,14 +421,14 @@ export const IconLink = styled('a')<{}>`
 `
 
 export const IconButton = styled('button')<IconButtonProps>`
-  pointer-events: ${p => p.clickDisabled && 'none'};
+  pointer-events: ${(p) => p.clickDisabled && 'none'};
   display: flex;
   width: 24px;
   height: 24px;
   padding: 0;
   border: none;
   outline: none;
-  margin: ${p => p.isClickMenu ? '7' : '0 12'}px;
+  margin: ${(p) => (p.isClickMenu ? '7' : '0 12')}px;
   cursor: pointer;
   color: var(--override-readability-color, #ffffff);
   background-color: transparent;
@@ -420,7 +438,7 @@ export const IconButton = styled('button')<IconButtonProps>`
     opacity: 0.95;
   }
   &:focus-visible {
-    outline: 2px solid ${p => p.theme.color.brandBraveInteracting};
+    outline: 2px solid ${(p) => p.theme.color.brandBraveInteracting};
   }
 `
 
@@ -437,8 +455,8 @@ export const IconButtonSideText = styled('label')<IconButtonSideTextProps>`
   display: grid;
   grid-template-columns: auto auto;
   align-items: center;
-  margin-right: ${p => p.textDirection === 'ltr' && '24px'};
-  margin-left: ${p => p.textDirection === 'rtl' && '24px'};
+  margin-right: ${(p) => p.textDirection === 'ltr' && '24px'};
+  margin-left: ${(p) => p.textDirection === 'rtl' && '24px'};
   color: inherit;
   cursor: pointer;
   user-select: none;
@@ -452,8 +470,8 @@ export const IconButtonSideText = styled('label')<IconButtonSideTextProps>`
   }
 
   > ${IconButton} {
-    margin-left: ${p => p.textDirection === 'ltr' && '0'};
-    margin-right: ${p => p.textDirection === 'rtl' && '0'};
+    margin-left: ${(p) => p.textDirection === 'ltr' && '0'};
+    margin-right: ${(p) => p.textDirection === 'rtl' && '0'};
     /* No need to show the outline since the parent is handling it */
     outline: 0;
   }
@@ -464,24 +482,33 @@ interface IconButtonContainerProps {
 }
 
 export const IconButtonContainer = styled('div')<IconButtonContainerProps>`
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
   font-size: 13px;
   font-weight: 600;
   color: rgba(var(--override-readability-color-rgb, 255, 255, 255), 0.8);
-  margin-right: ${p => p.textDirection === 'ltr' && '8px'};
-  margin-left: ${p => p.textDirection === 'rtl' && '8px'};
-  border-right: ${p => p.textDirection === 'ltr' && '1px solid rgba(var(--override-readability-color-rgb, 255, 255, 255), 0.6)'};
-  border-left: ${p => p.textDirection === 'rtl' && '1px solid rgba(var(--override-readability-color-rgb, 255, 255, 255), 0.6)'};
+  margin-right: ${(p) => p.textDirection === 'ltr' && '8px'};
+  margin-left: ${(p) => p.textDirection === 'rtl' && '8px'};
+  border-right: ${(p) =>
+    p.textDirection === 'ltr' &&
+    '1px solid rgba(var(--override-readability-color-rgb, 255, 255, 255), 0.6)'};
+  border-left: ${(p) =>
+    p.textDirection === 'rtl' &&
+    '1px solid rgba(var(--override-readability-color-rgb, 255, 255, 255), 0.6)'};
 
   &:hover {
-    color: ${p => p.color};
+    color: ${(p) => p.color};
   }
 `
 
-export const OverrideReadabilityColor = createGlobalStyle<{override: boolean}>`
+export const OverrideReadabilityColor = createGlobalStyle<{
+  override: boolean
+}>`
   :root {
-    ${p => p.override && css`
-      --override-readability-color-rgb: 0, 0, 0;
-      --override-readability-color: rgb(0, 0, 0);`}
+    ${(p) =>
+      p.override &&
+      css`
+        --override-readability-color-rgb: 0, 0, 0;
+        --override-readability-color: rgb(0, 0, 0);
+      `}
   }
 `

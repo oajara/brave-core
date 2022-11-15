@@ -29,25 +29,24 @@ export interface Props {
 }
 
 export default class ThumbLikePicker extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       itemSelected: props.likeAction
     }
   }
 
-  componentWillReceiveProps (nextProps: Props) {
+  componentWillReceiveProps(nextProps: Props) {
     if ('likeAction' in nextProps) {
       this.setState({ itemSelected: nextProps.likeAction })
     }
   }
 
-  render () {
+  render() {
     return (
       <>
-      {
-        this.state.itemSelected === 1
-          ? <>
+        {this.state.itemSelected === 1 ? (
+          <>
             <StyledAdStatThumbUpFilledIcon onClick={this.props.onThumbUpPress}>
               <ThumbsupSIcon />
             </StyledAdStatThumbUpFilledIcon>
@@ -55,16 +54,19 @@ export default class ThumbLikePicker extends React.PureComponent<Props, State> {
               <ThumbsdownLIcon />
             </StyledAdStatThumbDownIcon>
           </>
-        : this.state.itemSelected === 2
-          ? <>
+        ) : this.state.itemSelected === 2 ? (
+          <>
             <StyledAdStatThumbUpIcon onClick={this.props.onThumbUpPress}>
               <ThumbsupLIcon />
             </StyledAdStatThumbUpIcon>
-            <StyledAdStatThumbDownFilledIcon onClick={this.props.onThumbDownPress}>
+            <StyledAdStatThumbDownFilledIcon
+              onClick={this.props.onThumbDownPress}
+            >
               <ThumbsdownSIcon />
             </StyledAdStatThumbDownFilledIcon>
           </>
-        : <>
+        ) : (
+          <>
             <StyledAdStatThumbUpIcon onClick={this.props.onThumbUpPress}>
               <ThumbsupLIcon />
             </StyledAdStatThumbUpIcon>
@@ -72,7 +74,7 @@ export default class ThumbLikePicker extends React.PureComponent<Props, State> {
               <ThumbsdownLIcon />
             </StyledAdStatThumbDownIcon>
           </>
-      }
+        )}
       </>
     )
   }

@@ -41,7 +41,13 @@ export const Box = styled.div`
     overflow: hidden;
   }
 
-  .is-light { background: #F6F6F9; }
-  .is-dark { background: #17171F; }
-  .is-sepia { background: #E9E0CA; }
+  .is-light {
+    background: #f6f6f9;
+  }
+  .is-dark {
+    background: #17171f;
+  }
+  .is-sepia {
+    background: #e9e0ca;
+  }
 `

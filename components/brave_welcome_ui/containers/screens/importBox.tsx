@@ -5,7 +5,14 @@
 import * as React from 'react'
 
 // Feature-specific components
-import { Content, Title, Paragraph, PrimaryButton, SelectGrid, SelectBox } from '../../components'
+import {
+  Content,
+  Title,
+  Paragraph,
+  PrimaryButton,
+  SelectGrid,
+  SelectBox
+} from '../../components'
 
 // Images
 import { WelcomeImportImage } from '../../components/images'
@@ -30,7 +37,7 @@ export interface State {
 }
 
 export default class ImportBox extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       selectedBrowserProfile: null
@@ -43,8 +50,12 @@ export default class ImportBox extends React.PureComponent<Props, State> {
       return
     }
 
-    const selectedProfile = getSelectedBrowserProfile(event.target.value, this.props.browserProfiles)
-    selectedProfile && this.setState({ selectedBrowserProfile: selectedProfile })
+    const selectedProfile = getSelectedBrowserProfile(
+      event.target.value,
+      this.props.browserProfiles
+    )
+    selectedProfile &&
+      this.setState({ selectedBrowserProfile: selectedProfile })
   }
 
   onHandleImport = () => {
@@ -52,7 +63,7 @@ export default class ImportBox extends React.PureComponent<Props, State> {
     onClick(getSourceBrowserProfileIndex(this.state))
   }
 
-  render () {
+  render() {
     const { index, currentScreen, browserProfiles } = this.props
     const { selectedBrowserProfile } = this.state
     return (
@@ -65,33 +76,28 @@ export default class ImportBox extends React.PureComponent<Props, State> {
         <WelcomeImportImage />
         <Title>{getLocale('importFromAnotherBrowser')}</Title>
         <Paragraph>{getLocale('setupImport')}</Paragraph>
-          <SelectGrid>
-            <SelectBox
-              onChange={this.onChangeImportSource}
-            >
-              <option key={0} value=''>{getLocale('importFrom')}</option>
-              {
-                isValidBrowserProfiles(browserProfiles)
-                ? browserProfiles.map((browserProfile, index) =>
-                  <option
-                    key={index + 1}
-                    value={browserProfile.index}
-                  >
+        <SelectGrid>
+          <SelectBox onChange={this.onChangeImportSource}>
+            <option key={0} value="">
+              {getLocale('importFrom')}
+            </option>
+            {isValidBrowserProfiles(browserProfiles)
+              ? browserProfiles.map((browserProfile, index) => (
+                  <option key={index + 1} value={browserProfile.index}>
                     {browserProfile.name}
                   </option>
-                )
-                : null
-              }
-            </SelectBox>
-            <PrimaryButton
-              level='primary'
-              type='accent'
-              size='large'
-              text={getLocale('import')}
-              disabled={!selectedBrowserProfile}
-              onClick={this.onHandleImport}
-            />
-          </SelectGrid>
+                ))
+              : null}
+          </SelectBox>
+          <PrimaryButton
+            level="primary"
+            type="accent"
+            size="large"
+            text={getLocale('import')}
+            disabled={!selectedBrowserProfile}
+            onClick={this.onHandleImport}
+          />
+        </SelectGrid>
       </Content>
     )
   }

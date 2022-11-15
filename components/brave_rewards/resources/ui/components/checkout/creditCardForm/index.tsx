@@ -8,7 +8,11 @@ import { Toggle } from 'brave-ui/components'
 import { LocaleContext } from '../localeContext'
 import { Behaviors } from './behaviors'
 import { getCreditCardIcon } from './icons'
-import { CreditCardDetails, CreditCardError, CreditCardErrorType } from './types'
+import {
+  CreditCardDetails,
+  CreditCardError,
+  CreditCardErrorType
+} from './types'
 
 import {
   Container,
@@ -22,7 +26,7 @@ import {
 
 export { CreditCardDetails }
 
-function useCardErrorState () {
+function useCardErrorState() {
   return React.useState<CreditCardErrorType>('')
 }
 
@@ -36,7 +40,7 @@ interface CreditCardFormProps {
   handleRef: React.MutableRefObject<CreditCardFormHandle | null>
 }
 
-export function CreditCardForm (props: CreditCardFormProps) {
+export function CreditCardForm(props: CreditCardFormProps) {
   const locale = React.useContext(LocaleContext)
 
   // Internal ref for Behavior instance associated with form
@@ -88,7 +92,9 @@ export function CreditCardForm (props: CreditCardFormProps) {
   }, [props.handleRef])
 
   const CardIcon = getCreditCardIcon(cardTypeId)
-  const toggleSaveCard = () => { setSaveCardChecked(!saveCardChecked) }
+  const toggleSaveCard = () => {
+    setSaveCardChecked(!saveCardChecked)
+  }
 
   return (
     <Container>
@@ -97,7 +103,7 @@ export function CreditCardForm (props: CreditCardFormProps) {
           {locale.get('cardNumber')}
           <InputBox invalid={Boolean(cardNumberError)}>
             <CardIcon />
-            <input ref={cardNumberRef} autoComplete='cc-number' />
+            <input ref={cardNumberRef} autoComplete="cc-number" />
           </InputBox>
         </label>
       </CardNumber>
@@ -105,7 +111,11 @@ export function CreditCardForm (props: CreditCardFormProps) {
         <label>
           {locale.get('expiration')}
           <InputBox invalid={Boolean(expiryError)}>
-            <input ref={expiryRef} placeholder={'MM/YY'} autoComplete='cc-exp' />
+            <input
+              ref={expiryRef}
+              placeholder={'MM/YY'}
+              autoComplete="cc-exp"
+            />
           </InputBox>
         </label>
       </Expiration>
@@ -113,15 +123,13 @@ export function CreditCardForm (props: CreditCardFormProps) {
         <label>
           {locale.get('securityCode')}
           <InputBox invalid={Boolean(securityCodeError)}>
-            <input ref={securityCodeRef} autoComplete='cc-cvc' />
+            <input ref={securityCodeRef} autoComplete="cc-cvc" />
           </InputBox>
         </label>
       </SecurityCode>
       <SaveThisCard>
         <SaveThisCardLabel>
-          <div>
-            {locale.get('saveThisCard')}
-          </div>
+          <div>{locale.get('saveThisCard')}</div>
           <div>
             <Toggle checked={saveCardChecked} onToggle={toggleSaveCard} />
           </div>

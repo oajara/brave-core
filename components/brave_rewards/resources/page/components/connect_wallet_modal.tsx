@@ -17,12 +17,16 @@ import connectWalletGraphic from '../assets/connect_wallet.svg'
 
 import * as style from './connect_wallet_modal.style'
 
-function renderProviderIcon (provider: string) {
+function renderProviderIcon(provider: string) {
   switch (provider) {
-    case 'bitflyer': return <BitflyerIcon />
-    case 'gemini': return <GeminiIcon />
-    case 'uphold': return <UpholdIcon />
-    default: return null
+    case 'bitflyer':
+      return <BitflyerIcon />
+    case 'gemini':
+      return <GeminiIcon />
+    case 'uphold':
+      return <UpholdIcon />
+    default:
+      return null
   }
 }
 
@@ -41,7 +45,7 @@ interface Props {
   onClose: () => void
 }
 
-export function ConnectWalletModal (props: Props) {
+export function ConnectWalletModal(props: Props) {
   const { getString } = React.useContext(LocaleContext)
 
   const [modalState, setModalState] = React.useState<ModalState>('info')
@@ -52,7 +56,7 @@ export function ConnectWalletModal (props: Props) {
     return null
   }
 
-  function renderInfo () {
+  function renderInfo() {
     const onContinueClick = () => {
       setModalState('select')
     }
@@ -72,25 +76,22 @@ export function ConnectWalletModal (props: Props) {
               {getString('connectWalletInfoListItem2')}
             </style.infoListItem>
           </style.panelText>
-          <style.infoNote>
-            {getString('connectWalletInfoNote')}
-          </style.infoNote>
+          <style.infoNote>{getString('connectWalletInfoNote')}</style.infoNote>
           <style.continueButton>
             <button
-              data-test-id='connect-continue-button'
+              data-test-id="connect-continue-button"
               onClick={onContinueClick}
             >
-              {getString('continue')}<CaretIcon direction='right' />
+              {getString('continue')}
+              <CaretIcon direction="right" />
             </button>
           </style.continueButton>
           <style.infoTerms>
-            {
-              formatMessage(getString('connectWalletInfoBraveNote'), {
-                tags: {
-                  $1: (content) => <strong key='1'>{content}</strong>
-                }
-              })
-            }
+            {formatMessage(getString('connectWalletInfoBraveNote'), {
+              tags: {
+                $1: (content) => <strong key="1">{content}</strong>
+              }
+            })}
           </style.infoTerms>
         </style.infoPanel>
       ),
@@ -102,7 +103,7 @@ export function ConnectWalletModal (props: Props) {
     }
   }
 
-  function renderSelectWallet () {
+  function renderSelectWallet() {
     return {
       left: (
         <style.selectWalletLeftPanel>
@@ -121,46 +122,47 @@ export function ConnectWalletModal (props: Props) {
       ),
       right: (
         <style.providerButtons>
-          {
-            props.providers.map((provider) => {
-              const onClick = () => {
-                if (provider.enabled) {
-                  setSelectedProvider(provider)
-                  props.onContinue(provider.type)
-                }
+          {props.providers.map((provider) => {
+            const onClick = () => {
+              if (provider.enabled) {
+                setSelectedProvider(provider)
+                props.onContinue(provider.type)
               }
+            }
 
-              const selected =
-                selectedProvider &&
-                provider.type === selectedProvider.type
+            const selected =
+              selectedProvider && provider.type === selectedProvider.type
 
-              return (
-                <button
-                  data-test-id='connect-provider-button'
-                  key={provider.type}
-                  onClick={onClick}
-                  className={!provider.enabled ? 'disabled' : selected ? 'selected' : ''}
-                >
-                  <style.grid>
-                    <style.providerButtonIcon>
-                      {renderProviderIcon(provider.type)}
-                    </style.providerButtonIcon>
-                    <style.providerButtonName>
-                      {provider.name}
-                    </style.providerButtonName>
-                    {!provider.enabled &&
-                      <style.providerButtonMessage>
-                        {getString('connectWalletProviderNotAvailable')}
-                      </style.providerButtonMessage>}
-                    {provider.enabled &&
-                      <style.providerButtonCaret>
-                        <SelectProviderCaretIcon />
-                      </style.providerButtonCaret>}
-                  </style.grid>
-                </button>
-              )
-            })
-          }
+            return (
+              <button
+                data-test-id="connect-provider-button"
+                key={provider.type}
+                onClick={onClick}
+                className={
+                  !provider.enabled ? 'disabled' : selected ? 'selected' : ''
+                }
+              >
+                <style.grid>
+                  <style.providerButtonIcon>
+                    {renderProviderIcon(provider.type)}
+                  </style.providerButtonIcon>
+                  <style.providerButtonName>
+                    {provider.name}
+                  </style.providerButtonName>
+                  {!provider.enabled && (
+                    <style.providerButtonMessage>
+                      {getString('connectWalletProviderNotAvailable')}
+                    </style.providerButtonMessage>
+                  )}
+                  {provider.enabled && (
+                    <style.providerButtonCaret>
+                      <SelectProviderCaretIcon />
+                    </style.providerButtonCaret>
+                  )}
+                </style.grid>
+              </button>
+            )
+          })}
           <style.learnMoreLink>
             <NewTabLink
               href={'https://support.brave.com/hc/en-us/articles/6539887971469'}
@@ -173,9 +175,8 @@ export function ConnectWalletModal (props: Props) {
     }
   }
 
-  const { left, right } = modalState === 'info'
-    ? renderInfo()
-    : renderSelectWallet()
+  const { left, right } =
+    modalState === 'info' ? renderInfo() : renderSelectWallet()
 
   return (
     <Modal>
@@ -183,12 +184,8 @@ export function ConnectWalletModal (props: Props) {
         <style.close>
           <ModalCloseButton onClick={props.onClose} />
         </style.close>
-        <style.leftPanel>
-          {left}
-        </style.leftPanel>
-        <style.rightPanel>
-          {right}
-        </style.rightPanel>
+        <style.leftPanel>{left}</style.leftPanel>
+        <style.rightPanel>{right}</style.rightPanel>
       </style.root>
     </Modal>
   )

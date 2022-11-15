@@ -5,13 +5,7 @@
 import * as React from 'react'
 
 // Styled Components
-import {
-  StyledWrapper,
-  Header,
-  Title,
-  CloseButton,
-  Modal
-} from './style'
+import { StyledWrapper, Header, Title, CloseButton, Modal } from './style'
 
 export interface Props {
   children?: React.ReactNode
@@ -44,7 +38,7 @@ const PopupModal = (props: Props) => {
       <Modal width={width}>
         <Header>
           <Title>{title}</Title>
-          <CloseButton onClick={onClose}/>
+          <CloseButton onClick={onClose} />
         </Header>
         {children}
       </Modal>

@@ -9,7 +9,11 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js'
 import { USDCIconUrl } from '../../assets/asset-icons'
 
 // types
-import { BraveWallet, WalletAccountType, WalletState } from '../../constants/types'
+import {
+  BraveWallet,
+  WalletAccountType,
+  WalletState
+} from '../../constants/types'
 import { AllNetworksOption } from '../../options/network-filter-options'
 import { AllAssetsFilterOption } from '../../options/asset-filter-options'
 import { AllAccountsOption } from '../../options/account-filter-options'
@@ -77,14 +81,10 @@ const mockNetworkList: BraveWallet.NetworkInfo[] = [
   {
     'chainId': '0x1',
     'chainName': 'Ethereum Mainnet',
-    'blockExplorerUrls': [
-      'https://etherscan.io'
-    ],
+    'blockExplorerUrls': ['https://etherscan.io'],
     'iconUrls': [],
     'activeRpcEndpointIndex': 0,
-    'rpcEndpoints': [
-      { url: 'https://mainnet-infura.brave.com' }
-    ],
+    'rpcEndpoints': [{ url: 'https://mainnet-infura.brave.com' }],
     'symbol': 'ETH',
     'symbolName': 'Ethereum',
     'decimals': 18,
@@ -94,14 +94,10 @@ const mockNetworkList: BraveWallet.NetworkInfo[] = [
   {
     'chainId': '0x5',
     'chainName': 'Goerli Test Network',
-    'blockExplorerUrls': [
-      'https://goerli.etherscan.io'
-    ],
+    'blockExplorerUrls': ['https://goerli.etherscan.io'],
     'iconUrls': [],
     'activeRpcEndpointIndex': 0,
-    'rpcEndpoints': [
-      { url: 'https://goerli-infura.brave.com' }
-    ],
+    'rpcEndpoints': [{ url: 'https://goerli-infura.brave.com' }],
     'symbol': 'ETH',
     'symbolName': 'Ethereum',
     'decimals': 18,
@@ -111,14 +107,10 @@ const mockNetworkList: BraveWallet.NetworkInfo[] = [
   {
     'chainId': '0xaa36a7',
     'chainName': 'Sepolia Test Network',
-    'blockExplorerUrls': [
-      'https://sepolia.etherscan.io'
-    ],
+    'blockExplorerUrls': ['https://sepolia.etherscan.io'],
     'iconUrls': [],
     'activeRpcEndpointIndex': 0,
-    'rpcEndpoints': [
-      { url: 'https://sepolia-infura.brave.com' }
-    ],
+    'rpcEndpoints': [{ url: 'https://sepolia-infura.brave.com' }],
     'symbol': 'ETH',
     'symbolName': 'Ethereum',
     'decimals': 18,
@@ -128,14 +120,10 @@ const mockNetworkList: BraveWallet.NetworkInfo[] = [
   {
     'chainId': '0x539',
     'chainName': 'Localhost',
-    'blockExplorerUrls': [
-      'http://localhost:7545/'
-    ],
+    'blockExplorerUrls': ['http://localhost:7545/'],
     'iconUrls': [],
     'activeRpcEndpointIndex': 0,
-    'rpcEndpoints': [
-      { url: 'http://localhost:7545/' }
-    ],
+    'rpcEndpoints': [{ url: 'http://localhost:7545/' }],
     'symbol': 'ETH',
     'symbolName': 'Ethereum',
     'decimals': 18,
@@ -169,7 +157,8 @@ const mockCoinMarketData: BraveWallet.CoinMarket[] = [
     id: 'bitcoin',
     symbol: 'btc',
     name: 'Bitcoin',
-    image: 'https://assets.cgproxy.brave.com/coins/images/1/large/bitcoin.png?1547033579',
+    image:
+      'https://assets.cgproxy.brave.com/coins/images/1/large/bitcoin.png?1547033579',
     marketCap: 768537918492,
     marketCapRank: 1,
     currentPrice: 40408,
@@ -181,7 +170,8 @@ const mockCoinMarketData: BraveWallet.CoinMarket[] = [
     id: 'ethereum',
     symbol: 'eth',
     name: 'Ethereum',
-    image: 'https://assets.cgproxy.brave.com/coins/images/279/large/ethereum.png?1595348880',
+    image:
+      'https://assets.cgproxy.brave.com/coins/images/279/large/ethereum.png?1595348880',
     currentPrice: 3000.46,
     marketCap: 361354711703,
     marketCapRank: 2,
@@ -193,7 +183,8 @@ const mockCoinMarketData: BraveWallet.CoinMarket[] = [
     id: 'tether',
     symbol: 'usdt',
     name: 'Tether',
-    image: 'https://assets.cgproxy.brave.com/coins/images/325/large/Tether-logo.png?1598003707',
+    image:
+      'https://assets.cgproxy.brave.com/coins/images/325/large/Tether-logo.png?1598003707',
     currentPrice: 0.999981,
     marketCap: 83153567337,
     marketCapRank: 3,
@@ -205,7 +196,8 @@ const mockCoinMarketData: BraveWallet.CoinMarket[] = [
     id: 'binancecoin',
     symbol: 'bnb',
     name: 'BNB',
-    image: 'https://assets.cgproxy.brave.com/coins/images/825/large/bnb-icon2_2x.png?1644979850',
+    image:
+      'https://assets.cgproxy.brave.com/coins/images/825/large/bnb-icon2_2x.png?1644979850',
     currentPrice: 400.1,
     marketCap: 67256828191,
     marketCapRank: 4,
@@ -216,11 +208,7 @@ const mockCoinMarketData: BraveWallet.CoinMarket[] = [
 ]
 
 export const mockWalletState: WalletState = {
-  accounts: [
-    mockAccount,
-    mockAccount2,
-    mockAccount3
-  ],
+  accounts: [mockAccount, mockAccount2, mockAccount3],
   activeOrigin: {
     origin: {
       scheme: 'https',
@@ -280,7 +268,7 @@ export const mockWalletState: WalletState = {
   isMetaMaskInstalled: false,
   isSolanaEnabled: false,
   solFeeEstimates: {
-    fee: 0.000005 * LAMPORTS_PER_SOL as unknown as bigint
+    fee: (0.000005 * LAMPORTS_PER_SOL) as unknown as bigint
   },
   isWalletBackedUp: true,
   isWalletCreated: false,

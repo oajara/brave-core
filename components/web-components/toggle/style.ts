@@ -53,22 +53,26 @@ export const ToggleBox = styled.button.attrs<ToggleProps>({
   background: var(--bg-color);
   background-size: 400% 400%;
 
-  ${p => p.isOn && css`
-    --knob-left: initial;
-    --knob-right: 2px;
-    --knob-color: #4C54D2;
-    --bg-color: #E1E2F6;
+  ${(p) =>
+    p.isOn &&
+    css`
+      --knob-left: initial;
+      --knob-right: 2px;
+      --knob-color: #4c54d2;
+      --bg-color: #e1e2f6;
 
-    @media (prefers-color-scheme: dark) {
-      --knob-color: #4436E1;
-      --bg-color: #7679B1;
-    }
-  `}
+      @media (prefers-color-scheme: dark) {
+        --knob-color: #4436e1;
+        --bg-color: #7679b1;
+      }
+    `}
 
-  ${p => !p.isOn && css`
-    --knob-left: 2px;
-    --knob-right: initial;
-  `}
+  ${(p) =>
+    !p.isOn &&
+    css`
+      --knob-left: 2px;
+      --knob-right: initial;
+    `}
 
   // size variants
   ${({ size }) => {
@@ -94,11 +98,25 @@ export const ToggleBox = styled.button.attrs<ToggleProps>({
       return css`
         animation: ${moveBg} 5s ease infinite;
         --knob-color: white;
-        --bg-color: linear-gradient(305.95deg, #381e85 0%, #6845d1 98.59%, #737ade 100%, #4d56d0 75%, #0e1bd1 100%);
+        --bg-color: linear-gradient(
+          305.95deg,
+          #381e85 0%,
+          #6845d1 98.59%,
+          #737ade 100%,
+          #4d56d0 75%,
+          #0e1bd1 100%
+        );
 
         @media (prefers-color-scheme: dark) {
           --knob-color: white;
-          --bg-color: linear-gradient(305.95deg, #381e85 0%, #6845d1 98.59%, #737ade 100%, #4d56d0 75%, #0e1bd1 100%);
+          --bg-color: linear-gradient(
+            305.95deg,
+            #381e85 0%,
+            #6845d1 98.59%,
+            #737ade 100%,
+            #4d56d0 75%,
+            #0e1bd1 100%
+          );
         }
       `
     }
@@ -107,11 +125,11 @@ export const ToggleBox = styled.button.attrs<ToggleProps>({
   }}
 
   &:hover {
-    --border-color: ${p => p.theme.color.interactive05};
+    --border-color: ${(p) => p.theme.color.interactive05};
   }
 
   &:focus-visible {
-    --border-color: ${p => p.theme.color.focusBorder};
+    --border-color: ${(p) => p.theme.color.focusBorder};
   }
 
   &:active {
@@ -120,8 +138,8 @@ export const ToggleBox = styled.button.attrs<ToggleProps>({
 
   &:disabled,
   [disabled] {
-    --knob-color: ${p => p.theme.color.subtle};
-    --knob-border-color: #D9D9EA;
+    --knob-color: ${(p) => p.theme.color.subtle};
+    --knob-border-color: #d9d9ea;
     --bg-color: ${(p) => p.theme.color.disabled};
   }
 

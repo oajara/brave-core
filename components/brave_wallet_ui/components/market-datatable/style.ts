@@ -33,9 +33,11 @@ export const AssetsColumnItemSpacer = styled.div`
   justify-content: center;
   margin-right: 19px;
 `
-export const TextWrapper = styled.div<{ alignment: 'right' | 'left' | 'center' }>`
+export const TextWrapper = styled.div<{
+  alignment: 'right' | 'left' | 'center'
+}>`
   display: flex;
-  justify-content: ${p => {
+  justify-content: ${(p) => {
     switch (p.alignment) {
       case 'left':
         return 'flex-start'

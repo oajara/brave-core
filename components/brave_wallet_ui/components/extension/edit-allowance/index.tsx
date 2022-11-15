@@ -21,9 +21,7 @@ import {
   AllowanceOption
 } from './style'
 
-type AllowanceTypes =
-  | 'proposed'
-  | 'custom'
+type AllowanceTypes = 'proposed' | 'custom'
 
 export interface Props {
   onCancel: () => void
@@ -35,7 +33,8 @@ export interface Props {
 }
 
 const EditAllowance = (props: Props) => {
-  const [allowanceType, setAllowanceType] = React.useState<AllowanceTypes>('proposed')
+  const [allowanceType, setAllowanceType] =
+    React.useState<AllowanceTypes>('proposed')
   const [customAllowance, setCustomAllowance] = React.useState<string>('')
 
   const {
@@ -51,7 +50,9 @@ const EditAllowance = (props: Props) => {
     setAllowanceType(key)
   }
 
-  const onChangeCustomAllowance = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeCustomAllowance = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setCustomAllowance(event.target.value)
   }
 
@@ -77,7 +78,10 @@ const EditAllowance = (props: Props) => {
     >
       <StyledWrapper>
         <Description>
-          {getLocale('braveWalletEditPermissionsDescription').replace('$1', approvalTarget)}
+          {getLocale('braveWalletEditPermissionsDescription').replace(
+            '$1',
+            approvalTarget
+          )}
         </Description>
         <FormColumn>
           <Radio
@@ -87,7 +91,7 @@ const EditAllowance = (props: Props) => {
             }}
             onChange={toggleAllowanceRadio}
           >
-            <div data-value='proposed'>
+            <div data-value="proposed">
               <AllowanceOption>
                 <AllowanceTitle>
                   {getLocale('braveWalletEditPermissionsProposedAllowance')}
@@ -97,14 +101,14 @@ const EditAllowance = (props: Props) => {
                 </AllowanceContent>
               </AllowanceOption>
             </div>
-            <div data-value='custom'>
+            <div data-value="custom">
               <AllowanceOption>
                 <AllowanceTitle>
                   {getLocale('braveWalletEditPermissionsCustomAllowance')}
                 </AllowanceTitle>
                 <Input
                   placeholder={`0 ${symbol}`}
-                  type='number'
+                  type="number"
                   value={customAllowance}
                   onChange={onChangeCustomAllowance}
                 />
@@ -115,12 +119,12 @@ const EditAllowance = (props: Props) => {
 
         <ButtonRow>
           <NavButton
-            buttonType='secondary'
+            buttonType="secondary"
             text={getLocale('braveWalletButtonCancel')}
             onSubmit={onCancel}
           />
           <NavButton
-            buttonType='primary'
+            buttonType="primary"
             text={getLocale('braveWalletAccountSettingsSave')}
             onSubmit={onClickSave}
             disabled={isSaveButtonDisabled}

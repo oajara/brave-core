@@ -13,7 +13,7 @@ interface Props {
   hostError: HostError
 }
 
-function getErrorKey (type: string) {
+function getErrorKey(type: string) {
   switch (type) {
     case 'ERR_FETCH_BALANCE':
       return 'errorServerConnection'
@@ -24,7 +24,7 @@ function getErrorKey (type: string) {
   }
 }
 
-function getClassName (type: string) {
+function getClassName(type: string) {
   switch (type) {
     case 'ERR_FETCH_BALANCE':
       return 'server-error'
@@ -35,7 +35,7 @@ function getClassName (type: string) {
   }
 }
 
-export function AppError (props: Props) {
+export function AppError(props: Props) {
   const { hostError } = props
   const locale = React.useContext(LocaleContext)
 
@@ -45,11 +45,10 @@ export function AppError (props: Props) {
       <style.heading>
         {locale.getString(getErrorKey(hostError.type))}
       </style.heading>
-      <style.message>
-        {locale.getString('errorTryAgain')}
-      </style.message>
+      <style.message>{locale.getString('errorTryAgain')}</style.message>
       <style.details>
-        {hostError.type}{hostError.code ? ` : ${hostError.code}` : ''}
+        {hostError.type}
+        {hostError.code ? ` : ${hostError.code}` : ''}
       </style.details>
     </style.root>
   )

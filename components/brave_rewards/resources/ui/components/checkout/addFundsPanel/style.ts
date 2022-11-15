@@ -4,19 +4,21 @@
 
 import styled from 'styled-components'
 import { BatColorIcon } from 'brave-ui/components/icons'
-import Button, { Props as ButtonProps } from 'brave-ui/components/buttonsIndicators/button'
+import Button, {
+  Props as ButtonProps
+} from 'brave-ui/components/buttonsIndicators/button'
 import { ComponentType } from 'react'
 
 export const Subtitle = styled.div`
   text-align: center;
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   font-size: 15px;
   margin: -10px 0 22px 0;
 `
 
 export const CurrentBalance = styled.div`
   padding: 15px 8px 0;
-  border-top: solid 1px ${p => p.theme.color.separatorLine};
+  border-top: solid 1px ${(p) => p.theme.color.separatorLine};
   display: flex;
   justify-content: space-between;
   font-size: 12px;
@@ -31,13 +33,13 @@ export const CurrentBalanceBat = styled.span`
 
 export const CurrentBalanceConverted = styled.span`
   padding-left: 7px;
-  color: ${p => p.theme.palette.grey600};
+  color: ${(p) => p.theme.palette.grey600};
   font-size: 14px;
 `
 
 export const CurrentBalanceNeeded = styled.div`
   text-align: right;
-  color: ${p => p.theme.palette.green700};
+  color: ${(p) => p.theme.palette.green700};
   font-weight: 500;
   font-size: 14px;
 `
@@ -57,7 +59,7 @@ export const AddFundsButton = styled(Button as ComponentType<ButtonProps>)`
 
 export const ExchangeRateDisplay = styled.div`
   font-size: 12px;
-  color: ${p => p.theme.palette.grey600};
+  color: ${(p) => p.theme.palette.grey600};
   text-align: right;
   margin-top: -2px;
 `
@@ -84,24 +86,27 @@ interface AmountOptionButtonProps extends ButtonProps {
   selected?: boolean
 }
 
-export const AmountOptionButton = styled(Button as ComponentType<AmountOptionButtonProps>)`
+export const AmountOptionButton = styled(
+  Button as ComponentType<AmountOptionButtonProps>
+)`
   min-width: 98px;
-  background: ${p => p.selected ? p.theme.color.brandBat : 'transparent'};
-  border-color: ${p => p.theme.color.brandBat};
+  background: ${(p) => (p.selected ? p.theme.color.brandBat : 'transparent')};
+  border-color: ${(p) => p.theme.color.brandBat};
   margin-bottom: 7px;
-  color: ${p => p.selected ? p.theme.palette.white : p.theme.color.brandBat};
+  color: ${(p) =>
+    p.selected ? p.theme.palette.white : p.theme.color.brandBat};
   font-size: 15px;
 `
 
 export const AmountOptionExchange = styled.div`
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   font-size: 11px;
-  color: ${p => p.theme.palette.grey600};
+  color: ${(p) => p.theme.palette.grey600};
 `
 
 export const ChargeSummary = styled.div`
   padding: 8px 7px 5px;
-  border-top: solid 1px ${p => p.theme.color.separatorLine};
+  border-top: solid 1px ${(p) => p.theme.color.separatorLine};
   display: grid;
   grid-template-columns: auto minmax(auto, 84px);
   text-align: right;
@@ -119,13 +124,13 @@ export const ChargeSummaryTotalAmount = styled.div`
 `
 
 export const TermsOfSale = styled.div`
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   font-size: 12px;
   text-align: center;
   padding-top: 20px;
 
   a {
     font-weight: bold;
-    color: ${p => p.theme.palette.black};
+    color: ${(p) => p.theme.palette.black};
   }
 `

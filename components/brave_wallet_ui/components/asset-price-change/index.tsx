@@ -17,10 +17,8 @@ export const AssetPriceChange = (props: Props) => {
 
   return (
     <StyledWrapper isDown={isDown}>
-      {isDown ? <ArrowDown /> : <ArrowUp /> }
-      <PriceChange>
-        {priceChangePercentage}
-      </PriceChange>
+      {isDown ? <ArrowDown /> : <ArrowUp />}
+      <PriceChange>{priceChangePercentage}</PriceChange>
     </StyledWrapper>
   )
 }

@@ -19,11 +19,13 @@ export const AdvancedButton = styled(WalletButton)`
   padding: 0px;
 `
 
-export const AdvancedIcon = styled(CaratStrongDownIcon) <Partial<{ rotated: boolean }>>`
+export const AdvancedIcon = styled(CaratStrongDownIcon)<
+  Partial<{ rotated: boolean }>
+>`
   width: 18px;
   height: 18px;
   color: ${(p) => p.theme.color.interactive07};
-  transform: ${(p) => p.rotated ? 'rotate(180deg)' : 'rotate(0deg)'};
+  transform: ${(p) => (p.rotated ? 'rotate(180deg)' : 'rotate(0deg)')};
   margin-right: 10px;
 `
 export const ButtonRow = styled.div`

@@ -18,17 +18,15 @@ import wireApiEventsToStore from './apiEventsToStore'
 // Utils
 import store from './store'
 
-function initialize () {
+function initialize() {
   render(
     <Provider store={store}>
-      <BraveCoreThemeProvider
-        dark={DarkTheme}
-        light={Theme}
-      >
+      <BraveCoreThemeProvider dark={DarkTheme} light={Theme}>
         <App />
       </BraveCoreThemeProvider>
     </Provider>,
-    document.getElementById('root'))
+    document.getElementById('root')
+  )
 }
 
 wireApiEventsToStore()

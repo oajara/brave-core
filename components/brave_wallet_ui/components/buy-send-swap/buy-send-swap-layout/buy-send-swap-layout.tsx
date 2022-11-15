@@ -63,17 +63,20 @@ export const BuySendSwapLayout = ({
       <ButtonRow>
         {BuySendSwapOptions().map((option) => {
           const isDisabled =
-            isBuyDisabled && option.id === 'buy' ||
-            isSwapDisabled && option.id === 'swap'
+            (isBuyDisabled && option.id === 'buy') ||
+            (isSwapDisabled && option.id === 'swap')
 
           return (
             <Tooltip
-              maxWidth='94px'
+              maxWidth="94px"
               isVisible={isDisabled}
               key={option.id}
               text={
                 selectedNetwork
-                  ? getLocale(getTooltipLocaleKey(option.id)).replace('$1', selectedNetwork.chainName)
+                  ? getLocale(getTooltipLocaleKey(option.id)).replace(
+                      '$1',
+                      selectedNetwork.chainName
+                    )
                   : ''
               }
             >
@@ -83,14 +86,8 @@ export const BuySendSwapLayout = ({
                 isDisabled={isDisabled}
                 disabled={isDisabled}
               >
-                <RightDivider
-                  tabID={option.id}
-                  selectedTab={selectedTab}
-                />
-                <LeftDivider
-                  tabID={option.id}
-                  selectedTab={selectedTab}
-                />
+                <RightDivider tabID={option.id} selectedTab={selectedTab} />
+                <LeftDivider tabID={option.id} selectedTab={selectedTab} />
                 <TabButtonText
                   isSelected={selectedTab === option.id}
                   isDisabled={isDisabled}
@@ -103,13 +100,14 @@ export const BuySendSwapLayout = ({
         })}
       </ButtonRow>
       <MainContainerWrapper>
-        <MainContainer selectedTab={selectedTab}>
-          {children}
-        </MainContainer>
+        <MainContainer selectedTab={selectedTab}>{children}</MainContainer>
       </MainContainerWrapper>
       <HelpCenterText>
         {getLocale('braveWalletHelpCenterText')}&nbsp;
-        <HelpCenterLink target="_blank" href="https://support.brave.com/hc/en-us/articles/4415497656461-Brave-Wallet-FAQ">
+        <HelpCenterLink
+          target="_blank"
+          href="https://support.brave.com/hc/en-us/articles/4415497656461-Brave-Wallet-FAQ"
+        >
           {getLocale('braveWalletHelpCenter')}
         </HelpCenterLink>
       </HelpCenterText>

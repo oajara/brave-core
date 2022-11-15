@@ -3,7 +3,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 
-export default function getFormattedPrice (price: number) {
+export default function getFormattedPrice(price: number) {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',

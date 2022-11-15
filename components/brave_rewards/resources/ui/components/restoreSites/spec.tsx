@@ -9,7 +9,11 @@ import RestoreSites from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('RestoreSites tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><RestoreSites id='restoresites' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <RestoreSites id="restoresites" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

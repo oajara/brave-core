@@ -19,11 +19,7 @@ import { PriceDataObjectType } from '../../../constants/types'
 import CustomTooltip from './custom-tooltip'
 
 // Styled Components
-import {
-  StyledWrapper,
-  LoadingOverlay,
-  LoadIcon
-} from './style'
+import { StyledWrapper, LoadingOverlay, LoadIcon } from './style'
 import { CustomReferenceDot } from './custom-reference-dot'
 
 export interface Props {
@@ -53,7 +49,7 @@ const EmptyChartData = [
   }
 ]
 
-function LineChart ({
+function LineChart({
   priceData,
   onUpdateBalance,
   isAsset,
@@ -78,8 +74,14 @@ function LineChart ({
   const lastPoint = chartData.length - 1
 
   // methods
-  const onChartMouseLeave = React.useCallback(() => onUpdateBalance(undefined), [onUpdateBalance])
-  const onUpdatePosition = React.useCallback((value: number) => setPosition(value), [])
+  const onChartMouseLeave = React.useCallback(
+    () => onUpdateBalance(undefined),
+    [onUpdateBalance]
+  )
+  const onUpdatePosition = React.useCallback(
+    (value: number) => setPosition(value),
+    []
+  )
 
   // render
   return (
@@ -87,22 +89,22 @@ function LineChart ({
       <LoadingOverlay isLoading={isLoading}>
         <LoadIcon />
       </LoadingOverlay>
-      <ResponsiveContainer width='99%' height='99%'>
+      <ResponsiveContainer width="99%" height="99%">
         <AreaChart
           data={chartData}
           margin={{ top: 5, left: 8, right: 8, bottom: 0 }}
           onMouseLeave={onChartMouseLeave}
         >
           <defs>
-            <linearGradient id='lineGradient' x1='0' y1='0' x2='1' y2='0'>
-              <stop offset='0%' stopColor='#F73A1C' stopOpacity={1} />
-              <stop offset='50%' stopColor='#BF14A2' stopOpacity={1} />
-              <stop offset='100%' stopColor='#6F4CD2' stopOpacity={1} />
+            <linearGradient id="lineGradient" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#F73A1C" stopOpacity={1} />
+              <stop offset="50%" stopColor="#BF14A2" stopOpacity={1} />
+              <stop offset="100%" stopColor="#6F4CD2" stopOpacity={1} />
             </linearGradient>
           </defs>
           <YAxis hide={true} domain={['auto', 'auto']} />
-          <XAxis hide={true} dataKey='date' />
-          {priceData.length > 0 && !isDisabled && showTooltip &&
+          <XAxis hide={true} dataKey="date" />
+          {priceData.length > 0 && !isDisabled && showTooltip && (
             <Tooltip
               isAnimationActive={false}
               position={{ x: position, y: 0 }}
@@ -113,16 +115,24 @@ function LineChart ({
                 />
               }
             />
-          }
+          )}
           <Area
             isAnimationActive={false}
-            type='monotone'
-            dataKey='close'
+            type="monotone"
+            dataKey="close"
             strokeWidth={2}
-            stroke={isAsset ? isDown ? '#EE6374' : '#2AC194' : priceData.length <= 0 ? '#BF14A2' : 'url(#lineGradient)'}
-            fill='none'
+            stroke={
+              isAsset
+                ? isDown
+                  ? '#EE6374'
+                  : '#2AC194'
+                : priceData.length <= 0
+                ? '#BF14A2'
+                : 'url(#lineGradient)'
+            }
+            fill="none"
           />
-          {showPulsatingDot &&
+          {showPulsatingDot && (
             <ReferenceDot
               x={chartData[lastPoint].date.toString()}
               y={chartData[lastPoint].close}
@@ -135,7 +145,7 @@ function LineChart ({
                 />
               }
             />
-          }
+          )}
         </AreaChart>
       </ResponsiveContainer>
     </StyledWrapper>

@@ -138,7 +138,7 @@ export const ProjectDetailButtonRow = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  border: 1px solid #E5E8EB;
+  border: 1px solid #e5e8eb;
   border-radius: 6.5px;
 `
 
@@ -146,7 +146,7 @@ export const ProjectDetailButtonSeperator = styled.div`
   display: flex;
   width: 1px;
   height: 32px;
-  background-color: #E5E8EB;
+  background-color: #e5e8eb;
 `
 
 export const ProjectDetailButton = styled(WalletButton)`
@@ -166,7 +166,7 @@ export const ProjectDetailButton = styled(WalletButton)`
 export const ProjectWebsiteIcon = styled.div`
   width: 14px;
   height: 14px;
-  background-color: #8A939B;
+  background-color: #8a939b;
   -webkit-mask-image: url(${WebsiteIcon});
   mask-image: url(${WebsiteIcon});
   mask-size: contain;
@@ -175,7 +175,7 @@ export const ProjectWebsiteIcon = styled.div`
 export const ProjectTwitterIcon = styled.div`
   width: 14px;
   height: 14px;
-  background-color: #8A939B;
+  background-color: #8a939b;
   -webkit-mask-image: url(${TwitterIcon});
   mask-image: url(${TwitterIcon});
   mask-size: contain;
@@ -184,7 +184,7 @@ export const ProjectTwitterIcon = styled.div`
 export const ProjectFacebookIcon = styled.div`
   width: 14px;
   height: 14px;
-  background-color: #8A939B;
+  background-color: #8a939b;
   -webkit-mask-image: url(${FacebookIcon});
   mask-image: url(${FacebookIcon});
   mask-size: contain;

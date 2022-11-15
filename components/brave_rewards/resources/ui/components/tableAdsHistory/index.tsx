@@ -38,7 +38,12 @@ export interface DetailRow {
   adDetailRows: AdDetailRow[]
 }
 
-export type AdType = '' | 'ad_notification' | 'new_tab_page_ad' | 'promoted_content_ad' | 'inline_content_ad'
+export type AdType =
+  | ''
+  | 'ad_notification'
+  | 'new_tab_page_ad'
+  | 'promoted_content_ad'
+  | 'inline_content_ad'
 
 export type AdAction = 'view' | 'click' | 'dismiss' | 'landed'
 
@@ -86,22 +91,12 @@ export default class TableAdsHistory extends React.PureComponent<Props, {}> {
   getAdsHistoryTable = (header: string[], rows: DetailRow[]): any => {
     return (
       <StyledTable>
-        {
-          header
-            ? <thead>
-              <tr>
-                {
-                  this.getHeader(header)
-                }
-              </tr>
-            </thead>
-          : null
-        }
-        <tbody>
-          {
-            this.getRows(rows)
-          }
-        </tbody>
+        {header ? (
+          <thead>
+            <tr>{this.getHeader(header)}</tr>
+          </thead>
+        ) : null}
+        <tbody>{this.getRows(rows)}</tbody>
       </StyledTable>
     )
   }
@@ -123,11 +118,9 @@ export default class TableAdsHistory extends React.PureComponent<Props, {}> {
   getRows = (rows: DetailRow[]) => {
     return rows.map((row: DetailRow, i: number) => {
       const detailRows = this.getDetailRows(row.adDetailRows)
-      return (
-        detailRows && detailRows.length > 0
-          ? <AdRowsDetails key={i} row={row} rowIndex={i} detailRows={detailRows} />
-          : null
-      )
+      return detailRows && detailRows.length > 0 ? (
+        <AdRowsDetails key={i} row={row} rowIndex={i} detailRows={detailRows} />
+      ) : null
     })
   }
 
@@ -152,13 +145,13 @@ export default class TableAdsHistory extends React.PureComponent<Props, {}> {
     return (
       <StyledAdContentDiv>
         <StyledAdLink href={content.brandUrl} target={'_blank'}>
-          {
-            content.logoUrl
-              ? <StyledLogoDiv>
-                <StyledLogo src={content.logoUrl} />
-              </StyledLogoDiv>
-              : <StyledNoLogoDiv />
-          }
+          {content.logoUrl ? (
+            <StyledLogoDiv>
+              <StyledLogo src={content.logoUrl} />
+            </StyledLogoDiv>
+          ) : (
+            <StyledNoLogoDiv />
+          )}
           <StyledAdInfoDiv>
             <StyledAdBrand>{content.brand}</StyledAdBrand>
             <StyledAdInfo>{content.brandInfo}</StyledAdInfo>
@@ -166,9 +159,7 @@ export default class TableAdsHistory extends React.PureComponent<Props, {}> {
           </StyledAdInfoDiv>
         </StyledAdLink>
         <StyledAdStatDiv>
-          <StyledAdStat>
-            {getLocale(content.adAction)}
-          </StyledAdStat>
+          <StyledAdStat>{getLocale(content.adAction)}</StyledAdStat>
           <div />
           <StyledAdStatActions>
             <ThumbLikePicker
@@ -206,19 +197,13 @@ export default class TableAdsHistory extends React.PureComponent<Props, {}> {
       const cell: Row = {
         content: [
           {
-            content: (
-              <StyledTD key={i} />
-            )
+            content: <StyledTD key={i} />
           },
           {
-            content: (
-              this.getAdContent(row.adContent)
-            )
+            content: this.getAdContent(row.adContent)
           },
           {
-            content: (
-              this.getCategoryContent(row.categoryContent)
-            )
+            content: this.getCategoryContent(row.categoryContent)
           }
         ]
       }
@@ -226,21 +211,18 @@ export default class TableAdsHistory extends React.PureComponent<Props, {}> {
     })
   }
 
-  render () {
+  render() {
     const { id, testId, header, rows } = this.props
     return (
       <div id={id} data-test-id={testId} key={id}>
-      {
-        rows
-          ? this.getAdsHistoryTable(header, rows)
-          : <StyledNoAdHistoryDiv>
-            {
-              getLocale('noAdsHistory')
-            }
+        {rows ? (
+          this.getAdsHistoryTable(header, rows)
+        ) : (
+          <StyledNoAdHistoryDiv>
+            {getLocale('noAdsHistory')}
           </StyledNoAdHistoryDiv>
-      }
+        )}
       </div>
-
     )
   }
 }

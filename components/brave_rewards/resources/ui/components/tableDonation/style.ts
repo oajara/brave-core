@@ -9,7 +9,7 @@ export const StyledRemove = styled('button')<{}>`
   font-size: 14px;
   line-height: 0;
   height: 20px;
-  color: #9E9FAB;
+  color: #9e9fab;
   padding: 0;
   border: none;
   background: none;
@@ -19,7 +19,7 @@ export const StyledRemove = styled('button')<{}>`
 
 export const StyledRemoveIcon = styled('span')<{}>`
   vertical-align: middle;
-  color: #9E9FAB;
+  color: #9e9fab;
   width: 12px;
   height: 12px;
   display: inline-block;

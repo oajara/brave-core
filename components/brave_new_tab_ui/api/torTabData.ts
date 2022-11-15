@@ -12,10 +12,10 @@ export type TorTabData = {
 
 type TorTabDataUpdatedHandler = (data: TorTabData) => void
 
-export function getTorTabData (): Promise<TorTabData> {
+export function getTorTabData(): Promise<TorTabData> {
   return Cr.sendWithPromise('getNewTabPageTorProperties')
 }
 
-export function addChangeListener (listener: TorTabDataUpdatedHandler): void {
+export function addChangeListener(listener: TorTabDataUpdatedHandler): void {
   Cr.addWebUIListener('tor-tab-data-updated', listener)
 }

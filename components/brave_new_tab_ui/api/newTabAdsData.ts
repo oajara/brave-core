@@ -11,10 +11,10 @@ export type NewTabAdsData = {
 
 type NewTabAdsDataUpdatedHandler = (data: NewTabAdsData) => void
 
-export function getNewTabAdsData (): Promise<NewTabAdsData> {
+export function getNewTabAdsData(): Promise<NewTabAdsData> {
   return Cr.sendWithPromise('getNewTabAdsData')
 }
 
-export function addChangeListener (listener: NewTabAdsDataUpdatedHandler): void {
+export function addChangeListener(listener: NewTabAdsDataUpdatedHandler): void {
   Cr.addWebUIListener('new-tab-ads-data-updated', listener)
 }

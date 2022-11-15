@@ -13,7 +13,7 @@ interface BoxProps {
   isLoading?: boolean
 }
 const Box = styled.div<BoxProps>`
-  --bg-color: #BD1531;
+  --bg-color: #bd1531;
 
   display: inline-flex;
   flex-direction: column;
@@ -23,14 +23,17 @@ const Box = styled.div<BoxProps>`
   padding: 8px 16px;
   max-width: 284px;
 
-  ${p => p.isLoading && css`
-    --bg-color: rgba(255, 255, 255, 0.15);
-  `}
+  ${(p) =>
+    p.isLoading &&
+    css`
+      --bg-color: rgba(255, 255, 255, 0.15);
+    `}
 
-  ${p => p.isConnected && css`
-    --bg-color: #12A378;
-  `}
-
+  ${(p) =>
+    p.isConnected &&
+    css`
+      --bg-color: #12a378;
+    `}
 `
 
 const Row = styled.div`
@@ -47,7 +50,6 @@ const Row = styled.div`
     height: 22px;
     min-width: 22px;
   }
-
 `
 
 interface HelpProps {
@@ -57,10 +59,12 @@ interface HelpProps {
 const Help = styled.div<HelpProps>`
   --display: none;
 
-  ${p => p.isVisible && css`
-    --display: inline-flex;
-  `}
-  
+  ${(p) =>
+    p.isVisible &&
+    css`
+      --display: inline-flex;
+    `}
+
   display: var(--display);
   flex-direction: row;
   align-items: center;
@@ -80,7 +84,6 @@ const Help = styled.div<HelpProps>`
     cursor: pointer;
     text-decoration-line: underline;
   }
-
 `
 
 interface Props {
@@ -91,66 +94,69 @@ interface Props {
   connectionFailed: boolean
 }
 
-function splitMessage (key: string) {
+function splitMessage(key: string) {
   return getLocale(key).split(/\$\d+/g)
 }
 
-function contactBraveSupport () {
+function contactBraveSupport() {
   getPageHandlerInstance().pageHandler.goToBraveSupport()
 }
 
-function BadgeTor (props: Props) {
+function BadgeTor(props: Props) {
   let textElement = getLocale('torStatusDisconnected')
   let helpElement
   let iconElement = (
     <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
-      <path fillRule="evenodd" clipRule="evenodd" d="M10.02 18.181V16.97a6.97 6.97 0 0 0 0-13.938V1.818a8.181 8.181 0 0 1 0 16.363Zm0-4.243a3.94 3.94 0 0 0 0-7.877V4.85a5.15 5.15 0 0 1 0 10.301v-1.212Zm0-6.058a2.12 2.12 0 0 1 0 4.24V7.88ZM0 10c0 5.523 4.477 10 10 10s10-4.477 10-10S15.523 0 10 0 0 4.477 0 10Z" fill="#fff" />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M10.02 18.181V16.97a6.97 6.97 0 0 0 0-13.938V1.818a8.181 8.181 0 0 1 0 16.363Zm0-4.243a3.94 3.94 0 0 0 0-7.877V4.85a5.15 5.15 0 0 1 0 10.301v-1.212Zm0-6.058a2.12 2.12 0 0 1 0 4.24V7.88ZM0 10c0 5.523 4.477 10 10 10s10-4.477 10-10S15.523 0 10 0 0 4.477 0 10Z"
+        fill="#fff"
+      />
     </svg>
   )
 
-  const isLoading = Boolean(props.isLoading && props.progress && !props.connectionFailed)
+  const isLoading = Boolean(
+    props.isLoading && props.progress && !props.connectionFailed
+  )
 
   if (props.isConnected) {
     textElement = getLocale('torStatusConnected')
   } else if (props.connectionFailed) {
     textElement = getLocale('torStatusConnectionFailed')
 
-    const [
-      open,
-      settings,
-      reenable
-    ] = splitMessage('torHelpDisconnectedReenable')
+    const [open, settings, reenable] = splitMessage(
+      'torHelpDisconnectedReenable'
+    )
 
-    const [
-      before,
-      havingTrouble,
-      tryUsing,
-      bridges,
-      or,
-      contactSupport,
-      rest
-    ] = splitMessage('torHelpDisconnectedBridges')
+    const [before, havingTrouble, tryUsing, bridges, or, contactSupport, rest] =
+      splitMessage('torHelpDisconnectedBridges')
 
-    helpElement = (<p>
-      {open}<a href="chrome://settings/privacy">{settings}</a>{reenable}
-      <br></br> <br></br>
-      {before}<strong>{havingTrouble}</strong>
-      {tryUsing}<a href="chrome://settings/privacy">{bridges}</a>
-      {or}
-      <a onClick={contactBraveSupport}>{contactSupport}</a>
-      {rest}
-    </p>)
+    helpElement = (
+      <p>
+        {open}
+        <a href="chrome://settings/privacy">{settings}</a>
+        {reenable}
+        <br></br> <br></br>
+        {before}
+        <strong>{havingTrouble}</strong>
+        {tryUsing}
+        <a href="chrome://settings/privacy">{bridges}</a>
+        {or}
+        <a onClick={contactBraveSupport}>{contactSupport}</a>
+        {rest}
+      </p>
+    )
   } else if (isLoading) {
-    textElement = getLocale('torStatusInitializing', { percentage: props.progress })
+    textElement = getLocale('torStatusInitializing', {
+      percentage: props.progress
+    })
     helpElement = props.message
     iconElement = <LoaderIcon />
   }
 
   return (
-    <Box
-      isLoading={isLoading}
-      isConnected={props.isConnected}
-    >
+    <Box isLoading={isLoading} isConnected={props.isConnected}>
       <Row>
         <span>{iconElement}</span>
         {textElement}

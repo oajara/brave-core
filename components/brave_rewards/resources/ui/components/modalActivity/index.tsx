@@ -24,7 +24,9 @@ import {
   TabContent
 } from './style'
 import TableActivity, { DetailRow as ActivityRow } from '../tableActivity'
-import TableTransactions, { DetailRow as TransactionRow } from '../tableTransactions'
+import TableTransactions, {
+  DetailRow as TransactionRow
+} from '../tableTransactions'
 import { Select, ControlWrapper, Modal } from 'brave-ui/components'
 import { PrintIcon } from 'brave-ui/components/icons'
 import ListToken from '../listToken'
@@ -68,7 +70,7 @@ interface State {
 }
 
 export default class ModalActivity extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       currentTab: 0,
@@ -76,7 +78,10 @@ export default class ModalActivity extends React.PureComponent<Props, State> {
     }
   }
 
-  private readonly summary: Record<SummaryType, {color: TokenType, translation: string}> = {
+  private readonly summary: Record<
+    SummaryType,
+    { color: TokenType; translation: string }
+  > = {
     grant: {
       color: 'earning',
       translation: 'tokenGrantClaimed'
@@ -99,7 +104,7 @@ export default class ModalActivity extends React.PureComponent<Props, State> {
     }
   }
 
-  get headers () {
+  get headers() {
     return [
       getLocale('rewardsContributeVisited'),
       getLocale('rewardsContributeAttention'),
@@ -107,10 +112,11 @@ export default class ModalActivity extends React.PureComponent<Props, State> {
     ]
   }
 
-  get modalTitle () {
+  get modalTitle() {
     return (
       <StyledTitle>
-        {getLocale('braveRewards')} <StyledSubTitle>{getLocale('walletActivity')}</StyledSubTitle>
+        {getLocale('braveRewards')}{' '}
+        <StyledSubTitle>{getLocale('walletActivity')}</StyledSubTitle>
       </StyledTitle>
     )
   }
@@ -162,24 +168,18 @@ export default class ModalActivity extends React.PureComponent<Props, State> {
   }
 
   getMonthlyDropDown = () => {
-    const {
-      id,
-      months
-    } = this.props
+    const { id, months } = this.props
 
     return (
       <ControlWrapper text={this.modalTitle}>
-        <Select
-          value={this.state.currentMonth}
-          onChange={this.onMonthChange}
-        >
-          {
-            Object.keys(months).map((item: string) => {
-              return <div data-value={item} key={`${id}-monthly-${item}`}>
+        <Select value={this.state.currentMonth} onChange={this.onMonthChange}>
+          {Object.keys(months).map((item: string) => {
+            return (
+              <div data-value={item} key={`${id}-monthly-${item}`}>
                 <StyledSelectOption>{months[item]}</StyledSelectOption>
               </div>
-            })
-          }
+            )
+          })}
         </Select>
       </ControlWrapper>
     )
@@ -189,10 +189,7 @@ export default class ModalActivity extends React.PureComponent<Props, State> {
     const { transactionRows } = this.props
 
     return (
-      <TableTransactions
-        id={'transactionTable'}
-        rows={transactionRows}
-      >
+      <TableTransactions id={'transactionTable'} rows={transactionRows}>
         {getLocale('noActivity')}
       </TableTransactions>
     )
@@ -200,44 +197,33 @@ export default class ModalActivity extends React.PureComponent<Props, State> {
 
   getMonthlyContributionTable = () => {
     const { activityRows } = this.props
-    const rows = activityRows.filter(row => row.type === 'monthly')
+    const rows = activityRows.filter((row) => row.type === 'monthly')
 
     return (
       <>
-        <TableActivity
-          rows={rows}
-        >
-          {getLocale('noActivity')}
-        </TableActivity>
+        <TableActivity rows={rows}>{getLocale('noActivity')}</TableActivity>
       </>
     )
   }
 
   getAutoContributeTable = () => {
     const { activityRows } = this.props
-    const rows = activityRows.filter(row => row.type === 'contribute')
+    const rows = activityRows.filter((row) => row.type === 'contribute')
 
     return (
       <>
-        <TableActivity
-          rows={rows}
-        >
-          {getLocale('noActivity')}
-        </TableActivity>
+        <TableActivity rows={rows}>{getLocale('noActivity')}</TableActivity>
       </>
     )
   }
 
   getOneTimeTips = () => {
     const { activityRows } = this.props
-    const rows = activityRows.filter(row => row.type === 'tip')
+    const rows = activityRows.filter((row) => row.type === 'tip')
 
     return (
       <>
-        <TableActivity
-          rows={rows}
-          showDate={true}
-        >
+        <TableActivity rows={rows} showDate={true}>
           {getLocale('noActivity')}
         </TableActivity>
       </>
@@ -275,30 +261,28 @@ export default class ModalActivity extends React.PureComponent<Props, State> {
     ]
 
     if (this.props.walletType === 'bitflyer') {
-      tabs = tabs.filter(x => x.id !== 'autoContribute')
+      tabs = tabs.filter((x) => x.id !== 'autoContribute')
     }
 
     return (
       <>
         <Tabs>
-          {
-            tabs.map((tab, i) => {
-              const isFirst = i === 0
-              const selected = i === this.state.currentTab
+          {tabs.map((tab, i) => {
+            const isFirst = i === 0
+            const selected = i === this.state.currentTab
 
-              return (
-                <Tab
-                  key={`activity-tab-${i}`}
-                  selected={selected}
-                  isFirst={isFirst}
-                  onClick={this.changeTab.bind(this, i)}
-                  data-test-id={`tab-${tab.id}`}
-                >
-                  {tab.title}
-                </Tab>
-              )
-            })
-          }
+            return (
+              <Tab
+                key={`activity-tab-${i}`}
+                selected={selected}
+                isFirst={isFirst}
+                onClick={this.changeTab.bind(this, i)}
+                data-test-id={`tab-${tab.id}`}
+              >
+                {tab.title}
+              </Tab>
+            )
+          })}
         </Tabs>
         <TabContent data-test-id={'activity-table-body'}>
           {tabs[this.state.currentTab].content()}
@@ -307,45 +291,33 @@ export default class ModalActivity extends React.PureComponent<Props, State> {
     )
   }
 
-  render () {
-    const {
-      id,
-      onClose,
-      months,
-      onPrint
-    } = this.props
+  render() {
+    const { id, onClose, months, onPrint } = this.props
 
     return (
       <Modal id={id} onClose={onClose}>
         <StyledWrapper>
           <StyledHeader>
-            <StyledLeft>
-              {
-                months ? this.getMonthlyDropDown() : null
-              }
-            </StyledLeft>
+            <StyledLeft>{months ? this.getMonthlyDropDown() : null}</StyledLeft>
             <StyledRight>
               <StyledIconWrap>
-                {
-                  onPrint
-                  ? <StyledIcon onClick={onPrint}>
+                {onPrint ? (
+                  <StyledIcon onClick={onPrint}>
                     <StyledActionIcon>
                       <PrintIcon />
                     </StyledActionIcon>
                     <StyledIconText>{getLocale('print')}</StyledIconText>
                   </StyledIcon>
-                  : null
-                }
+                ) : null}
               </StyledIconWrap>
               {this.getSummaryBox()}
             </StyledRight>
           </StyledHeader>
-          <StyledTables>
-            {this.generateTabs()}
-          </StyledTables>
+          <StyledTables>{this.generateTabs()}</StyledTables>
           <StyledNote>
             <b>{getLocale('pleaseNote')}</b> {getLocale('activityNote')}
-            <br /><br />
+            <br />
+            <br />
             ©2016–{new Date().getFullYear()} {getLocale('activityCopy')}
           </StyledNote>
         </StyledWrapper>

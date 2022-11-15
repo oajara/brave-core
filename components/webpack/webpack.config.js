@@ -9,15 +9,19 @@ const webpack = require('webpack')
 const GenerateDepfilePlugin = require('./webpack-plugin-depfile')
 const pathMap = require('./path-map')
 
-const tsConfigPath = path.join(process.env.ROOT_GEN_DIR, 'tsconfig-webpack.json')
+const tsConfigPath = path.join(
+  process.env.ROOT_GEN_DIR,
+  'tsconfig-webpack.json'
+)
 
 // OpenSSL 3 no longer supports the insecure md4 hash, but webpack < 6
 // hardcodes it. Work around by substituting a supported algorithm.
 // https://github.com/webpack/webpack/issues/13572
 // https://github.com/webpack/webpack/issues/14532
-const crypto = require("crypto");
-const crypto_orig_createHash = crypto.createHash;
-crypto.createHash = algorithm => crypto_orig_createHash(algorithm == "md4" ? "sha256" : algorithm);
+const crypto = require('crypto')
+const crypto_orig_createHash = crypto.createHash
+crypto.createHash = (algorithm) =>
+  crypto_orig_createHash(algorithm == 'md4' ? 'sha256' : algorithm)
 
 module.exports = async function (env, argv) {
   const isDevMode = argv.mode === 'development'
@@ -25,22 +29,22 @@ module.exports = async function (env, argv) {
   const resolve = {
     extensions: ['.js', '.tsx', '.ts', '.json'],
     alias: pathMap,
-    modules: [ 'node_modules' ]
+    modules: ['node_modules']
   }
 
   if (argv.extra_modules) {
     resolve.modules = [
-      ...(
-        Array.isArray(argv.extra_modules)
+      ...(Array.isArray(argv.extra_modules)
         ? argv.extra_modules
-        : [argv.extra_modules]
-      ),
+        : [argv.extra_modules]),
       ...resolve.modules
     ]
   }
 
   if (argv.webpack_alias) {
-    resolve.aliasFields = Array.isArray(argv.webpack_alias) ? argv.webpack_alias : [ argv.webpack_alias ]
+    resolve.aliasFields = Array.isArray(argv.webpack_alias)
+      ? argv.webpack_alias
+      : [argv.webpack_alias]
   }
   return {
     devtool: isDevMode ? '#inline-source-map' : false,
@@ -54,12 +58,14 @@ module.exports = async function (env, argv) {
       // Define NO_CONCATENATE for analyzing module size.
       concatenateModules: !process.env.NO_CONCATENATE
     },
-    plugins: process.env.DEPFILE_SOURCE_NAME ? [
-      new GenerateDepfilePlugin({
-        depfilePath: process.env.DEPFILE_PATH,
-        depfileSourceName: process.env.DEPFILE_SOURCE_NAME
-      })
-    ] : [],
+    plugins: process.env.DEPFILE_SOURCE_NAME
+      ? [
+          new GenerateDepfilePlugin({
+            depfilePath: process.env.DEPFILE_PATH,
+            depfileSourceName: process.env.DEPFILE_SOURCE_NAME
+          })
+        ]
+      : [],
     module: {
       rules: [
         {
@@ -67,10 +73,7 @@ module.exports = async function (env, argv) {
           // is just regular css converted to JS and injected to style elements
           test: /\.s?css$/,
           include: [/\.global\./, /node_modules/],
-          use: [
-            { loader: "style-loader" },
-            { loader: "css-loader" },
-          ],
+          use: [{ loader: 'style-loader' }, { loader: 'css-loader' }]
         },
         {
           // CSS imported in the source tree can use sass and css modules
@@ -79,32 +82,35 @@ module.exports = async function (env, argv) {
           exclude: [/\.global\./, /node_modules/],
           use: [
             // Injects the result into the DOM as a style block
-            { loader: "style-loader" },
+            { loader: 'style-loader' },
             // Converts the resulting CSS to Javascript to be bundled
             // (modules:true to rename CSS classes in output to cryptic identifiers,
             // except if wrapped in a :global(...) pseudo class).
             {
-              loader: "css-loader",
+              loader: 'css-loader',
               options: {
                 importLoaders: 3,
                 sourceMap: false,
                 modules: {
                   localIdentName: isDevMode
-                    ? "[path][name]__[local]--[hash:base64:5]"
-                    : "[hash:base64]",
-                },
-              },
+                    ? '[path][name]__[local]--[hash:base64:5]'
+                    : '[hash:base64]'
+                }
+              }
             },
-             // First, convert SASS to CSS
-            { loader: "sass-loader" },
-          ],
+            // First, convert SASS to CSS
+            { loader: 'sass-loader' }
+          ]
         },
         {
           test: /\.tsx?$/,
           loader: 'ts-loader',
           exclude: /node_modules\/(?!brave-ui)/,
           options: {
-            getCustomTransformers: path.join(__dirname, './webpack-ts-transformers.js'),
+            getCustomTransformers: path.join(
+              __dirname,
+              './webpack-ts-transformers.js'
+            ),
             allowTsInNodeModules: true,
             // Use generated tsconfig so that we can point at gen/ output in the
             // correct build configuration output directory.
@@ -145,17 +151,17 @@ module.exports = async function (env, argv) {
             return (
               input.endsWith('/htmlparser2/lib/esm/index.js') ||
               input.endsWith('\\htmlparser2\\lib\\esm\\index.js')
-            );
+            )
           },
           use: [
             {
               loader: 'babel-loader', // This should be the last loader of course
               options: {
-                plugins: ['@babel/plugin-proposal-export-namespace-from'],
-              },
-            },
-          ],
-        },
+                plugins: ['@babel/plugin-proposal-export-namespace-from']
+              }
+            }
+          ]
+        }
       ]
     },
     node: {

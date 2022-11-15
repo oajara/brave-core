@@ -22,18 +22,18 @@ export default {
 }
 
 const locale = {
-  getString (key: string) {
+  getString(key: string) {
     return localeStrings[key] || 'MISSING'
   }
 }
 
-function actionLogger (name: string) {
+function actionLogger(name: string) {
   return (...args: any[]) => {
     console.log(name, ...args)
   }
 }
 
-export function ConnectWallet () {
+export function ConnectWallet() {
   const providers = [
     {
       type: 'uphold',
@@ -65,7 +65,7 @@ export function ConnectWallet () {
   )
 }
 
-export function Claim () {
+export function Claim() {
   return (
     <LocaleContext.Provider value={locale}>
       <WithThemeVariables>
@@ -88,7 +88,7 @@ export function Claim () {
   )
 }
 
-export function Page () {
+export function Page() {
   const store = createStore((state) => state, reduxState)
   const narrow = knobs.boolean('Narrow', false)
   return (

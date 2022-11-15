@@ -18,15 +18,42 @@ interface CustomReferenceDotProps {
  * @returns SVG Component
  */
 export const CustomReferenceDot = ({
-  cx, cy, isAsset, isDown
+  cx,
+  cy,
+  isAsset,
+  isDown
 }: CustomReferenceDotProps) => {
   return (
     <>
-      <circle fill='none' cx={cx} r='3' cy={cy} stroke={isAsset ? isDown ? theme.red600 : theme.teal600 : '#BF14A2'} strokeWidth='1'>
-        <animate attributeName='r' values='3;8;3;3' dur='3s' begin='0s' repeatCount='indefinite' />
-        <animate attributeName='opacity' values='1;0;0;0' dur='3s' begin='0s' repeatCount='indefinite' />
+      <circle
+        fill="none"
+        cx={cx}
+        r="3"
+        cy={cy}
+        stroke={isAsset ? (isDown ? theme.red600 : theme.teal600) : '#BF14A2'}
+        strokeWidth="1"
+      >
+        <animate
+          attributeName="r"
+          values="3;8;3;3"
+          dur="3s"
+          begin="0s"
+          repeatCount="indefinite"
+        />
+        <animate
+          attributeName="opacity"
+          values="1;0;0;0"
+          dur="3s"
+          begin="0s"
+          repeatCount="indefinite"
+        />
       </circle>
-      <circle fill={isAsset ? isDown ? '#EE6374' : '#2AC194' : '#BF14A2'} cx={cx} r='3' cy={cy} />
+      <circle
+        fill={isAsset ? (isDown ? '#EE6374' : '#2AC194') : '#BF14A2'}
+        cx={cx}
+        r="3"
+        cy={cy}
+      />
     </>
   )
 }

@@ -7,35 +7,35 @@
   --brave-font-family-default: Poppins, sans-serif;
   --brave-font-family-non-serif: Poppins, normal;
   --background1: white;
-  --background2: #F8F9FA;
+  --background2: #f8f9fa;
   --info-background: rgba(93, 181, 252, 0.2);
-  --divider1: #E9E9F4;
+  --divider1: #e9e9f4;
   --text1: #212529;
   --text2: #495057;
-  --text3: #868E96;
-  --interactive2: #FB542B;
-  --interactive4: #353DAB;
-  --interactive5: #4C54D2;
-  --interactive6: #737ADE;
+  --text3: #868e96;
+  --interactive2: #fb542b;
+  --interactive4: #353dab;
+  --interactive5: #4c54d2;
+  --interactive6: #737ade;
   --interactive7: #212529;
-  --interactive8: #AEB1C2;
-  --interactive9: #A0A5EB;
-  --focus-border: #A0A5EB;
-  --disabled: #DADCE8;
-  --blurple300: #A0A5EB;
+  --interactive8: #aeb1c2;
+  --interactive9: #a0a5eb;
+  --focus-border: #a0a5eb;
+  --disabled: #dadce8;
+  --blurple300: #a0a5eb;
   font-family: var(--brave-font-family-default);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background1: #1E2029;
-    --background2: #17171F;
-    --divider1: #3B3E4F;
-    --text1: #F0F2FF;
-    --text2: #C2C4CF;
-    --text3: #84889C;
-    --interactive7: #F0F2FF;
-    --interactive8: #5E6175;
-    --disabled: #343A40;
+    --background1: #1e2029;
+    --background2: #17171f;
+    --divider1: #3b3e4f;
+    --text1: #f0f2ff;
+    --text2: #c2c4cf;
+    --text3: #84889c;
+    --interactive7: #f0f2ff;
+    --interactive8: #5e6175;
+    --disabled: #343a40;
   }
 }

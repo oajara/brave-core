@@ -16,7 +16,12 @@ import { getLocale } from '$web-common/locale'
 
 // Styled components
 import { Panel } from '../..'
-import { ConfirmationsNumber, ConfirmingIcon, ConfirmingText, Title } from './confirming.style'
+import {
+  ConfirmationsNumber,
+  ConfirmingIcon,
+  ConfirmingText,
+  Title
+} from './confirming.style'
 import {
   ButtonRow,
   DetailButton,
@@ -41,9 +46,11 @@ export const TransactionConfirming = (props: Props) => {
   const onClickViewOnBlockExplorer = useExplorer(selectedNetwork)
 
   return (
-    <Panel navAction={onClose} title={headerTitle} headerStyle='slim'>
+    <Panel navAction={onClose} title={headerTitle} headerStyle="slim">
       <ConfirmingIcon>
-        <ConfirmingText>{getLocale('braveWalletTransactionConfirmingText')}</ConfirmingText>
+        <ConfirmingText>
+          {getLocale('braveWalletTransactionConfirmingText')}
+        </ConfirmingText>
         <ConfirmationsNumber>
           {confirmations} / {confirmationsNeeded}
         </ConfirmationsNumber>

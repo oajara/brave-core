@@ -11,7 +11,7 @@ import { TestThemeProvider } from 'brave-ui/theme'
 describe('Alert tests', () => {
   const baseComponent = (props: Props) => (
     <TestThemeProvider>
-      <Alert id='alert' {...props} />
+      <Alert id="alert" {...props} />
     </TestThemeProvider>
   )
 

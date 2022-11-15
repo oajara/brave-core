@@ -7,9 +7,9 @@ import styled from 'styled-components'
 export const StyledWrapper = styled('div')<{}>`
   position: relative;
   display: flex;
-  border-bottom: solid 1px #E5E5EA;
+  border-bottom: solid 1px #e5e5ea;
   justify-content: space-between;
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   align-items: center;
 `
 

@@ -4,8 +4,7 @@
 
 import styled from 'styled-components'
 
-export const root = styled.div`
-`
+export const root = styled.div``
 
 export const amounts = styled.div`
   font-size: 12px;

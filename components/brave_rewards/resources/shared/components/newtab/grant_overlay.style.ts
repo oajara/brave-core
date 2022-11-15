@@ -29,7 +29,8 @@ export const amount = styled.div`
   text-align: center;
   color: var(--brave-palette-grey400);
 
-  .amount, .currency {
+  .amount,
+  .currency {
     font-weight: 500;
   }
 `
@@ -51,14 +52,15 @@ export const action = styled.div`
     text-align: center;
 
     &:hover {
-      background:
-        linear-gradient(rgba(15, 28, 45, .05), rgba(15, 28, 45, .1)),
+      background: linear-gradient(rgba(15, 28, 45, 0.05), rgba(15, 28, 45, 0.1)),
         var(--brave-palette-blurple500);
     }
 
     &:active {
-      background:
-        linear-gradient(rgba(15, 28, 45, .08), rgba(15, 28, 45, .12)),
+      background: linear-gradient(
+          rgba(15, 28, 45, 0.08),
+          rgba(15, 28, 45, 0.12)
+        ),
         var(--brave-palette-blurple500);
     }
   }

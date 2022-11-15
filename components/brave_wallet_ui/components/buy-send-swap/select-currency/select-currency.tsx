@@ -16,10 +16,7 @@ import { getLocale } from '../../../../common/locale'
 import { SelectCurrencyItem } from '../select-currency-item/select-currency-item'
 
 // Styled Components
-import {
-  SelectWrapper,
-  SelectScrollSearchContainer
-} from '../shared-styles'
+import { SelectWrapper, SelectScrollSearchContainer } from '../shared-styles'
 import { WalletActions } from '../../../common/actions'
 
 export interface Props {
@@ -29,45 +26,60 @@ export interface Props {
 
 export const SelectCurrency = (props: Props) => {
   const { onSelectCurrency, onBack } = props
-  const {
-    onRampCurrencies: currencies
-  } = useSelector((state: { wallet: WalletState }) => state.wallet)
+  const { onRampCurrencies: currencies } = useSelector(
+    (state: { wallet: WalletState }) => state.wallet
+  )
 
   // redux
   const dispatch = useDispatch()
 
-  const fuse = React.useMemo(() => new Fuse(currencies, {
-    shouldSort: true,
-    threshold: 0.45,
-    location: 0,
-    distance: 100,
-    minMatchCharLength: 1,
-    keys: [
-      { name: 'currencyName', weight: 0.5 },
-      { name: 'currencyCode', weight: 0.5 }
-    ]
-  }), [currencies])
+  const fuse = React.useMemo(
+    () =>
+      new Fuse(currencies, {
+        shouldSort: true,
+        threshold: 0.45,
+        location: 0,
+        distance: 100,
+        minMatchCharLength: 1,
+        keys: [
+          { name: 'currencyName', weight: 0.5 },
+          { name: 'currencyCode', weight: 0.5 }
+        ]
+      }),
+    [currencies]
+  )
 
-  const [filteredCurrencies, setFilteredCurrencies] = React.useState<BraveWallet.OnRampCurrency[]>(currencies)
+  const [filteredCurrencies, setFilteredCurrencies] =
+    React.useState<BraveWallet.OnRampCurrency[]>(currencies)
 
   // methods
-  const filterCurrencyList = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    const search = event.target.value
-    if (search === '') {
-      setFilteredCurrencies(currencies)
-    } else {
-      const filteredList = fuse.search(search).map((result: Fuse.FuseResult<BraveWallet.OnRampCurrency>) => result.item)
-      setFilteredCurrencies(filteredList)
-    }
-  }, [fuse, currencies])
+  const filterCurrencyList = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const search = event.target.value
+      if (search === '') {
+        setFilteredCurrencies(currencies)
+      } else {
+        const filteredList = fuse
+          .search(search)
+          .map(
+            (result: Fuse.FuseResult<BraveWallet.OnRampCurrency>) => result.item
+          )
+        setFilteredCurrencies(filteredList)
+      }
+    },
+    [fuse, currencies]
+  )
 
-  const onSelectedCurrency = React.useCallback((currency: BraveWallet.OnRampCurrency) => {
-    dispatch(WalletActions.selectCurrency(currency))
+  const onSelectedCurrency = React.useCallback(
+    (currency: BraveWallet.OnRampCurrency) => {
+      dispatch(WalletActions.selectCurrency(currency))
 
-    if (onSelectCurrency) {
-      onSelectCurrency(currency)
-    }
-  }, [onSelectCurrency])
+      if (onSelectCurrency) {
+        onSelectCurrency(currency)
+      }
+    },
+    [onSelectCurrency]
+  )
 
   // effects
   React.useEffect(() => {
@@ -84,17 +96,19 @@ export const SelectCurrency = (props: Props) => {
         onBack={onBack}
         hasAddButton={false}
       />
-      <SearchBar placeholder={getLocale('braveWalletSearchCurrency')} action={filterCurrencyList} autoFocus={true} />
+      <SearchBar
+        placeholder={getLocale('braveWalletSearchCurrency')}
+        action={filterCurrencyList}
+        autoFocus={true}
+      />
       <SelectScrollSearchContainer>
-        {
-          filteredCurrencies.map((currency: BraveWallet.OnRampCurrency) =>
-            <SelectCurrencyItem
-              key={currency.currencyCode}
-              currency={currency}
-              onSelectCurrency={onSelectedCurrency}
-            />
-          )
-        }
+        {filteredCurrencies.map((currency: BraveWallet.OnRampCurrency) => (
+          <SelectCurrencyItem
+            key={currency.currencyCode}
+            currency={currency}
+            onSelectCurrency={onSelectedCurrency}
+          />
+        ))}
       </SelectScrollSearchContainer>
     </SelectWrapper>
   )

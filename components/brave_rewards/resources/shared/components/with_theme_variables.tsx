@@ -7,7 +7,7 @@ import styled, { ThemeContext } from 'styled-components'
 import braveDefaultTheme from 'brave-ui/theme/brave-default'
 import braveDarkTheme from 'brave-ui/theme/brave-dark'
 
-function createThemeRules (theme: any) {
+function createThemeRules(theme: any) {
   if (!theme) {
     return ''
   }
@@ -35,14 +35,14 @@ const Wrapper = styled.div`
   }
 `
 
-function normalizeThemeName (name: string) {
+function normalizeThemeName(name: string) {
   if (name.toLowerCase() === 'dark' || name === braveDarkTheme.name) {
     return 'dark'
   }
   return 'default'
 }
 
-export function WithThemeVariables (props: { children: React.ReactNode }) {
+export function WithThemeVariables(props: { children: React.ReactNode }) {
   const styledComponentsTheme = React.useContext(ThemeContext) || {}
   const [themeName, setThemeName] = React.useState('')
 
@@ -54,7 +54,8 @@ export function WithThemeVariables (props: { children: React.ReactNode }) {
   }, [])
 
   const currentTheme = normalizeThemeName(
-    themeName || styledComponentsTheme.name || '')
+    themeName || styledComponentsTheme.name || ''
+  )
 
   return (
     <Wrapper className={`brave-theme-${currentTheme}`}>

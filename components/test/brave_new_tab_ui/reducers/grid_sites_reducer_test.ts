@@ -8,34 +8,40 @@ import * as storage from '../../../brave_new_tab_ui/storage/grid_sites_storage'
 import { types } from '../../../brave_new_tab_ui/constants/grid_sites_types'
 import * as gridSitesState from '../../../brave_new_tab_ui/state/gridSitesState'
 
-const topSites: chrome.topSites.MostVisitedURL[] = [{
-  url: 'https://brave.com',
-  title: 'brave'
-}, {
-  url: 'https://cezaraugusto.net',
-  title: 'cezar augusto'
-}]
-const gridSites: NewTab.Site[] = [{
-  ...topSites[0],
-  id: 'topsite-0',
-  favicon: '',
-  letter: 'b',
-  pinnedIndex: undefined
-}, {
-  ...topSites[1],
-  id: 'topsite-1',
-  favicon: '',
-  letter: 'c',
-  pinnedIndex: undefined
-}]
+const topSites: chrome.topSites.MostVisitedURL[] = [
+  {
+    url: 'https://brave.com',
+    title: 'brave'
+  },
+  {
+    url: 'https://cezaraugusto.net',
+    title: 'cezar augusto'
+  }
+]
+const gridSites: NewTab.Site[] = [
+  {
+    ...topSites[0],
+    id: 'topsite-0',
+    favicon: '',
+    letter: 'b',
+    pinnedIndex: undefined
+  },
+  {
+    ...topSites[1],
+    id: 'topsite-1',
+    favicon: '',
+    letter: 'c',
+    pinnedIndex: undefined
+  }
+]
 
 describe('gridSitesReducer', () => {
   describe('Handle initial state', () => {
     it('returns the initial state when state is undefined', () => {
-      const assertion = gridSitesReducer(
-        undefined,
-        { type: undefined, payload: undefined }
-      )
+      const assertion = gridSitesReducer(undefined, {
+        type: undefined,
+        payload: undefined
+      })
 
       expect(assertion).toEqual(storage.initialGridSitesState)
     })
@@ -45,8 +51,7 @@ describe('gridSitesReducer', () => {
     let tilesUpdatedStub: jest.SpyInstance
 
     beforeEach(() => {
-      tilesUpdatedStub = jest
-        .spyOn(gridSitesState, 'tilesUpdated')
+      tilesUpdatedStub = jest.spyOn(gridSitesState, 'tilesUpdated')
     })
     afterEach(() => {
       tilesUpdatedStub.mockRestore()
@@ -59,8 +64,10 @@ describe('gridSitesReducer', () => {
       })
 
       expect(tilesUpdatedStub).toBeCalledTimes(1)
-      expect(tilesUpdatedStub)
-        .toBeCalledWith(storage.initialGridSitesState, gridSites)
+      expect(tilesUpdatedStub).toBeCalledWith(
+        storage.initialGridSitesState,
+        gridSites
+      )
     })
     it('update state.gridSites list', () => {
       const assertion = gridSitesReducer(storage.initialGridSitesState, {
@@ -75,8 +82,10 @@ describe('gridSitesReducer', () => {
     let showTilesRemovedNoticeStub: jest.SpyInstance
 
     beforeEach(() => {
-      showTilesRemovedNoticeStub = jest
-        .spyOn(gridSitesState, 'showTilesRemovedNotice')
+      showTilesRemovedNoticeStub = jest.spyOn(
+        gridSitesState,
+        'showTilesRemovedNotice'
+      )
     })
     afterEach(() => {
       showTilesRemovedNoticeStub.mockRestore()
@@ -90,8 +99,10 @@ describe('gridSitesReducer', () => {
       })
 
       expect(showTilesRemovedNoticeStub).toBeCalledTimes(1)
-      expect(showTilesRemovedNoticeStub)
-        .toBeCalledWith(storage.initialGridSitesState, shouldShow)
+      expect(showTilesRemovedNoticeStub).toBeCalledWith(
+        storage.initialGridSitesState,
+        shouldShow
+      )
     })
     it('update state with the specified payload value', () => {
       const assertion = gridSitesReducer(storage.initialGridSitesState, {

@@ -11,25 +11,28 @@ export interface VisibleOptions {
   threshold?: number
 }
 
-export function useVisible (options: VisibleOptions) {
+export function useVisible(options: VisibleOptions) {
   const [visible, setVisible] = React.useState(false)
   const [elementRef, setElementRef] = React.useState<HTMLElement | null>(null)
 
   React.useEffect(() => {
     if (!elementRef) return
 
-    const observer = new IntersectionObserver(([intersectionInfo]) => {
-      if (!intersectionInfo.isIntersecting) {
-        return
+    const observer = new IntersectionObserver(
+      ([intersectionInfo]) => {
+        if (!intersectionInfo.isIntersecting) {
+          return
+        }
+        setVisible(true)
+      },
+      {
+        root: options.rootElement,
+        rootMargin: options.rootMargin,
+        threshold: options.threshold
       }
-      setVisible(true)
-    }, {
-      root: options.rootElement,
-      rootMargin: options.rootMargin,
-      threshold: options.threshold
-    })
+    )
 
-  observer.observe(elementRef)
+    observer.observe(elementRef)
     return () => {
       observer.disconnect()
     }

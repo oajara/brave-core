@@ -23,7 +23,7 @@ export interface ButtonProps {
   onClick: () => unknown
 }
 
-function scaleToClass (scale: Scale) {
+function scaleToClass(scale: Scale) {
   switch (scale) {
     case 'tiny':
       return style.isTiny
@@ -37,32 +37,30 @@ function scaleToClass (scale: Scale) {
   return null
 }
 
-export function ButtonIconContainer (props: React.PropsWithChildren<{}>) {
-  return (
-    <div className={style.iconContainer}>{props.children}</div>
-  )
+export function ButtonIconContainer(props: React.PropsWithChildren<{}>) {
+  return <div className={style.iconContainer}>{props.children}</div>
 }
 
-export default function Button (props: ButtonProps) {
+export default function Button(props: ButtonProps) {
   const { scale = 'regular' } = props
   return (
     <button
-      className={classnames(
-        style.button,
-        scaleToClass(scale),
-        {
-          [style.isPrimary]: props.isPrimary,
-          [style.isTertiary]: props.isTertiary && !props.isPrimary,
-          [style.isLoading]: props.isLoading,
-          [style.isCallToAction]: props.isCallToAction
-        }
-      )}
+      className={classnames(style.button, scaleToClass(scale), {
+        [style.isPrimary]: props.isPrimary,
+        [style.isTertiary]: props.isTertiary && !props.isPrimary,
+        [style.isLoading]: props.isLoading,
+        [style.isCallToAction]: props.isCallToAction
+      })}
       disabled={props.isDisabled}
       aria-label={props.ariaLabel}
       onClick={props.onClick}
     >
       <div className={style.content}>{props.children}</div>
-      { props.isLoading && <div aria-label={'Loading'} className={style.loadingIcon}><LoaderIcon /></div>}
+      {props.isLoading && (
+        <div aria-label={'Loading'} className={style.loadingIcon}>
+          <LoaderIcon />
+        </div>
+      )}
     </button>
   )
 }

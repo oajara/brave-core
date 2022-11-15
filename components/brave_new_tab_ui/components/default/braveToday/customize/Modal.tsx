@@ -11,7 +11,7 @@ import { useBraveNews } from './Context'
 const Configure = React.lazy(() => import('./Configure'))
 
 const Dialog = styled.dialog`
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   border-radius: 8px;
   border: none;
   width: min(100vw, 1049px);
@@ -20,13 +20,19 @@ const Dialog = styled.dialog`
   background: white;
   overflow: hidden;
   padding: 0;
-  background-color: ${p => p.theme.color.contextMenuBackground};
-  color:  ${p => p.theme.color.contextMenuForeground};
+  background-color: ${(p) => p.theme.color.contextMenuBackground};
+  color: ${(p) => p.theme.color.contextMenuForeground};
 `
 
-export default function BraveNewsModal () {
+export default function BraveNewsModal() {
   const { customizePage } = useBraveNews()
-  const dialogRef = React.useRef<HTMLDialogElement & { showModal: () => void, close: () => void, open: boolean }>()
+  const dialogRef = React.useRef<
+    HTMLDialogElement & {
+      showModal: () => void
+      close: () => void
+      open: boolean
+    }
+  >()
 
   const shouldRender = !!customizePage
 
@@ -42,9 +48,11 @@ export default function BraveNewsModal () {
 
   // Only render the dialog if it should be shown, since
   // it is a complex view.
-  return shouldRender ? <Dialog ref={dialogRef as any}>
-    <React.Suspense fallback={<LoadingComponent/>}>
-      <Configure />
-    </React.Suspense>
-  </Dialog> : null
+  return shouldRender ? (
+    <Dialog ref={dialogRef as any}>
+      <React.Suspense fallback={<LoadingComponent />}>
+        <Configure />
+      </React.Suspense>
+    </Dialog>
+  ) : null
 }

@@ -24,26 +24,24 @@ export interface DialogFrameProps {
   showBackground?: boolean
 }
 
-export function DialogFrame (props: DialogFrameProps) {
+export function DialogFrame(props: DialogFrameProps) {
   const locale = React.useContext(LocaleContext)
   return (
     <MainPanel showBackground={props.showBackground}>
       <TopBar>
         <TitleContainer>
-        {
-          !props.showTitle ? null : <>
-            <DialogTitleIcon />
-            <BatText>{locale.get('bat')}</BatText> {locale.get('checkout')}
-          </>
-        }
+          {!props.showTitle ? null : (
+            <>
+              <DialogTitleIcon />
+              <BatText>{locale.get('bat')}</BatText> {locale.get('checkout')}
+            </>
+          )}
         </TitleContainer>
         <CloseButton onClick={props.onClose}>
           <CloseStrokeIcon />
         </CloseButton>
       </TopBar>
-      <Content>
-        {props.children}
-      </Content>
+      <Content>{props.children}</Content>
     </MainPanel>
   )
 }

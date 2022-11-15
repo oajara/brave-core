@@ -50,9 +50,8 @@ export const Input = styled.input<{
   letter-spacing: 0.01em;
   padding: 10px;
   margin-bottom: 8px;
-  color: ${(p) => p.hasError
-    ? p.theme.color.errorText
-    : p.theme.color.text01};
+  color: ${(p) =>
+    p.hasError ? p.theme.color.errorText : p.theme.color.text01};
   ::placeholder {
     font-family: Poppins;
     font-style: normal;

@@ -5,7 +5,11 @@
 import * as React from 'react'
 
 import { HostContext, useHostListener } from '../lib/host_context'
-import { OnboardingResult, RewardsOptInModal, RewardsTourModal } from '../../shared/components/onboarding'
+import {
+  OnboardingResult,
+  RewardsOptInModal,
+  RewardsTourModal
+} from '../../shared/components/onboarding'
 import { AdaptiveCaptchaView } from '../../rewards_panel/components/adaptive_captcha_view'
 import { GrantCaptchaModal } from './grant_captcha_modal'
 import { NotificationOverlay } from './notification_overlay'
@@ -13,7 +17,7 @@ import { NotificationOverlay } from './notification_overlay'
 // Attaches a CSS class to the document body containing the name of the overlay.
 // This allows root-level style rules to expand the height of the panel if
 // necessary, based on the currently displayed overlay.
-function NamedOverlay (props: { name: string, children: React.ReactNode }) {
+function NamedOverlay(props: { name: string; children: React.ReactNode }) {
   const onMountUnmount = (elem: HTMLElement | null) => {
     const className = `panel-overlay-${props.name}`
     if (elem) {
@@ -23,34 +27,38 @@ function NamedOverlay (props: { name: string, children: React.ReactNode }) {
     }
   }
 
-  return (
-    <div ref={onMountUnmount}>
-      {props.children}
-    </div>
-  )
+  return <div ref={onMountUnmount}>{props.children}</div>
 }
 
-export function PanelOverlays () {
+export function PanelOverlays() {
   const host = React.useContext(HostContext)
 
-  const [requestedView, setRequestedView] =
-    React.useState(host.state.requestedView)
-  const [rewardsEnabled, setRewardsEnabled] =
-    React.useState(host.state.rewardsEnabled)
-  const [declaredCountry, setDeclaredCountry] =
-    React.useState(host.state.declaredCountry)
-  const [availableCountries, setAvailableCountries] =
-    React.useState(host.state.availableCountries)
+  const [requestedView, setRequestedView] = React.useState(
+    host.state.requestedView
+  )
+  const [rewardsEnabled, setRewardsEnabled] = React.useState(
+    host.state.rewardsEnabled
+  )
+  const [declaredCountry, setDeclaredCountry] = React.useState(
+    host.state.declaredCountry
+  )
+  const [availableCountries, setAvailableCountries] = React.useState(
+    host.state.availableCountries
+  )
   const [settings, setSettings] = React.useState(host.state.settings)
   const [options, setOptions] = React.useState(host.state.options)
-  const [externalWalletProviders, setExternalWalletProviders] =
-    React.useState(host.state.externalWalletProviders)
-  const [grantCaptchaInfo, setGrantCaptchaInfo] =
-    React.useState(host.state.grantCaptchaInfo)
-  const [adaptiveCaptchaInfo, setAdaptiveCaptchaInfo] =
-    React.useState(host.state.adaptiveCaptchaInfo)
-  const [notifications, setNotifications] =
-    React.useState(host.state.notifications)
+  const [externalWalletProviders, setExternalWalletProviders] = React.useState(
+    host.state.externalWalletProviders
+  )
+  const [grantCaptchaInfo, setGrantCaptchaInfo] = React.useState(
+    host.state.grantCaptchaInfo
+  )
+  const [adaptiveCaptchaInfo, setAdaptiveCaptchaInfo] = React.useState(
+    host.state.adaptiveCaptchaInfo
+  )
+  const [notifications, setNotifications] = React.useState(
+    host.state.notifications
+  )
 
   const [showTour, setShowTour] = React.useState(false)
   const [notificationsHidden, setNotificationsHidden] = React.useState(false)
@@ -78,7 +86,7 @@ export function PanelOverlays () {
     }
   }, [requestedView])
 
-  function toggleTour () {
+  function toggleTour() {
     setShowTour(!showTour)
   }
 
@@ -88,7 +96,7 @@ export function PanelOverlays () {
     }
 
     return (
-      <NamedOverlay name='rewards-tour'>
+      <NamedOverlay name="rewards-tour">
         <RewardsTourModal
           firstTimeSetup={rewardsEnabled}
           adsPerHour={settings.adsPerHour}
@@ -121,7 +129,7 @@ export function PanelOverlays () {
     }
 
     return (
-      <NamedOverlay name='opt-in'>
+      <NamedOverlay name="opt-in">
         <RewardsOptInModal
           availableCountries={availableCountries}
           initialView={needsCountry ? 'declare-country' : 'default'}
@@ -145,7 +153,7 @@ export function PanelOverlays () {
     }
 
     return (
-      <NamedOverlay name='adaptive-captcha'>
+      <NamedOverlay name="adaptive-captcha">
         <AdaptiveCaptchaView
           adaptiveCaptchaInfo={adaptiveCaptchaInfo}
           onClose={onClose}
@@ -158,7 +166,7 @@ export function PanelOverlays () {
 
   if (grantCaptchaInfo) {
     return (
-      <NamedOverlay name='grant-captcha'>
+      <NamedOverlay name="grant-captcha">
         <GrantCaptchaModal
           grantCaptchaInfo={grantCaptchaInfo}
           onSolve={host.solveGrantCaptcha}
@@ -169,9 +177,11 @@ export function PanelOverlays () {
   }
 
   if (notifications.length > 0 && !notificationsHidden) {
-    const onClose = () => { setNotificationsHidden(true) }
+    const onClose = () => {
+      setNotificationsHidden(true)
+    }
     return (
-      <NamedOverlay name='notifications'>
+      <NamedOverlay name="notifications">
         <NotificationOverlay notifications={notifications} onClose={onClose} />
       </NamedOverlay>
     )

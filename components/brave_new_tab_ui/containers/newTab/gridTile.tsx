@@ -5,7 +5,10 @@
 
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { getScrollableParents, useParentScrolled } from '../../helpers/scrolling'
+import {
+  getScrollableParents,
+  useParentScrolled
+} from '../../helpers/scrolling'
 import * as React from 'react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import * as ReactDOM from 'react-dom'
@@ -15,7 +18,10 @@ import * as gridSitesActions from '../../actions/grid_sites_actions'
 import * as newTabActions from '../../actions/new_tab_actions'
 // Feature-specific components
 import {
-  Tile, TileAction, TileActionsContainer, TileFavicon,
+  Tile,
+  TileAction,
+  TileActionsContainer,
+  TileFavicon,
   TileMenu,
   TileMenuItem,
   TileTitle
@@ -32,35 +38,48 @@ interface Props {
   onShowEditTopSite: (targetTopSiteForEditing?: NewTab.Site) => void
 }
 
-function generateGridSiteFavicon (site: NewTab.Site): string {
+function generateGridSiteFavicon(site: NewTab.Site): string {
   if (site.favicon === '') {
     return `chrome://favicon/size/64@1x/${site.url}`
   }
   return site.favicon
 }
 
-export function SiteTile (props: { site: NewTab.Site, isMenuShowing?: boolean, children?: React.ReactNode, draggable?: ReturnType<typeof useSortable> }) {
+export function SiteTile(props: {
+  site: NewTab.Site
+  isMenuShowing?: boolean
+  children?: React.ReactNode
+  draggable?: ReturnType<typeof useSortable>
+}) {
   const { site, isMenuShowing, children, draggable } = props
-  const style = useMemo(() => ({
-    transform: CSS.Transform.toString(draggable?.transform || null),
-    transition: draggable?.transition,
-    opacity: draggable?.isDragging ? 0 : 1
-  }), [draggable])
+  const style = useMemo(
+    () => ({
+      transform: CSS.Transform.toString(draggable?.transform || null),
+      transition: draggable?.transition,
+      opacity: draggable?.isDragging ? 0 : 1
+    }),
+    [draggable]
+  )
 
-  return <Tile
-    ref={draggable?.setNodeRef} {...draggable?.attributes} {...draggable?.listeners}
-    isDragging={!!draggable?.isDragging}
-    isMenuShowing={!!isMenuShowing}
-    title={site.title}
-    href={site.url}
-    style={style}>
-    {children}
-    <TileFavicon src={generateGridSiteFavicon(site)} />
-    <TileTitle>{site.title}</TileTitle>
-  </Tile>
+  return (
+    <Tile
+      ref={draggable?.setNodeRef}
+      {...draggable?.attributes}
+      {...draggable?.listeners}
+      isDragging={!!draggable?.isDragging}
+      isMenuShowing={!!isMenuShowing}
+      title={site.title}
+      href={site.url}
+      style={style}
+    >
+      {children}
+      <TileFavicon src={generateGridSiteFavicon(site)} />
+      <TileTitle>{site.title}</TileTitle>
+    </Tile>
+  )
 }
 
-function TopSite (props: Props) {
+function TopSite(props: Props) {
   const { siteData, isSortable } = props
 
   const tileMenuRef = useRef<any>()
@@ -69,12 +88,16 @@ function TopSite (props: Props) {
 
   useEffect(() => {
     const handleClickOutside = (e: Event) => {
-      if (!tileMenuRef.current || tileMenuRef.current.contains(e.target)) { return }
+      if (!tileMenuRef.current || tileMenuRef.current.contains(e.target)) {
+        return
+      }
       setShowMenu(false)
     }
 
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { setShowMenu(false) }
+      if (e.key === 'Escape') {
+        setShowMenu(false)
+      }
     }
 
     document.addEventListener('mousedown', handleClickOutside)
@@ -105,36 +128,53 @@ function TopSite (props: Props) {
     setShowMenu(false)
   })
 
-  return <SiteTile site={props.siteData} draggable={sortable} isMenuShowing={showMenu}>
-    {!siteData.defaultSRTopSite
-      ? <TileActionsContainer>
-        <TileAction ref={setEditMenuRef} onClick={(e) => {
-          e.preventDefault()
-          setShowMenu(true)
-        }}>
-          <EditIcon />
-        </TileAction>
-      </TileActionsContainer>
-      : null}
-    {showMenu && ReactDOM.createPortal(<TileMenu ref={tileMenuRef} style={editMenuStyle}>
-      <TileMenuItem onClick={e => {
-        e.preventDefault()
-        setShowMenu(false)
-        props.onShowEditTopSite(siteData)
-      }}>
-        <EditMenuIcon />
-        {getLocale('editSiteTileMenuItem')}
-      </TileMenuItem>
-      <TileMenuItem onClick={e => {
-        e.preventDefault()
-        setShowMenu(false)
-        props.actions.tileRemoved(siteData.url)
-      }}>
-        <TrashIcon />
-        {getLocale('removeTileMenuItem')}
-      </TileMenuItem>
-    </TileMenu>, scrollableParent)}
-  </SiteTile>
+  return (
+    <SiteTile
+      site={props.siteData}
+      draggable={sortable}
+      isMenuShowing={showMenu}
+    >
+      {!siteData.defaultSRTopSite ? (
+        <TileActionsContainer>
+          <TileAction
+            ref={setEditMenuRef}
+            onClick={(e) => {
+              e.preventDefault()
+              setShowMenu(true)
+            }}
+          >
+            <EditIcon />
+          </TileAction>
+        </TileActionsContainer>
+      ) : null}
+      {showMenu &&
+        ReactDOM.createPortal(
+          <TileMenu ref={tileMenuRef} style={editMenuStyle}>
+            <TileMenuItem
+              onClick={(e) => {
+                e.preventDefault()
+                setShowMenu(false)
+                props.onShowEditTopSite(siteData)
+              }}
+            >
+              <EditMenuIcon />
+              {getLocale('editSiteTileMenuItem')}
+            </TileMenuItem>
+            <TileMenuItem
+              onClick={(e) => {
+                e.preventDefault()
+                setShowMenu(false)
+                props.actions.tileRemoved(siteData.url)
+              }}
+            >
+              <TrashIcon />
+              {getLocale('removeTileMenuItem')}
+            </TileMenuItem>
+          </TileMenu>,
+          scrollableParent
+        )}
+    </SiteTile>
+  )
 }
 
 export default TopSite

@@ -7,7 +7,11 @@ import { create } from 'ethereum-blockies'
 import { useHistory } from 'react-router'
 
 // Types
-import { BraveWallet, DefaultCurrencies, WalletRoutes } from '../../../constants/types'
+import {
+  BraveWallet,
+  DefaultCurrencies,
+  WalletRoutes
+} from '../../../constants/types'
 
 // Hooks
 import { useExplorer, usePricing } from '../../../common/hooks'
@@ -77,7 +81,11 @@ export const PortfolioAccountItem = (props: Props) => {
 
   // Memos
   const orb = React.useMemo(() => {
-    return create({ seed: address.toLowerCase(), size: 8, scale: 16 }).toDataURL()
+    return create({
+      seed: address.toLowerCase(),
+      size: 8,
+      scale: 16
+    }).toDataURL()
   }, [address])
 
   const formattedAssetBalance: string = React.useMemo(() => {
@@ -106,20 +114,23 @@ export const PortfolioAccountItem = (props: Props) => {
       <NameAndIcon>
         <AccountCircle orb={orb} />
         <AccountAndAddress>
-          <AccountNameButton onClick={onSelectAccount}>{name}</AccountNameButton>
+          <AccountNameButton onClick={onSelectAccount}>
+            {name}
+          </AccountNameButton>
           <AddressAndButtonRow>
-            <AccountAddressButton onClick={onSelectAccount}>{reduceAddress(address)}</AccountAddressButton>
+            <AccountAddressButton onClick={onSelectAccount}>
+              {reduceAddress(address)}
+            </AccountAddressButton>
             <CopyTooltip text={address}>
               <CopyIcon />
             </CopyTooltip>
           </AddressAndButtonRow>
         </AccountAndAddress>
-
       </NameAndIcon>
       <RightSide>
         <BalanceColumn>
           <WithHideBalancePlaceholder
-            size='small'
+            size="small"
             hideBalances={hideBalances ?? false}
           >
             <FiatBalanceText>
@@ -131,14 +142,14 @@ export const PortfolioAccountItem = (props: Props) => {
         <MoreButton onClick={() => setShowAccountPopup(true)}>
           <MoreIcon />
         </MoreButton>
-        {showAccountPopup &&
+        {showAccountPopup && (
           <TransactionPopup>
             <TransactionPopupItem
               onClick={onClickViewOnBlockExplorer('address', address)}
               text={getLocale('braveWalletTransactionExplorer')}
             />
           </TransactionPopup>
-        }
+        )}
       </RightSide>
     </StyledWrapper>
   )

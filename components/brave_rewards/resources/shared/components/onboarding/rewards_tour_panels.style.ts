@@ -17,7 +17,7 @@ export const verifySubtext = styled.div`
   position: relative;
   text-align: left;
   margin-top: 11px;
-  background: #F8F9FA;
+  background: #f8f9fa;
   border-radius: 8px;
   padding: 14px 14px 14px 38px;
   font-size: 13px;
@@ -34,7 +34,7 @@ export const verifyNote = styled.div`
   margin-top: 8px;
   font-size: 11px;
   line-height: 17px;
-  color: #868E96;
+  color: #868e96;
 `
 
 export const verifyActions = styled.div`
@@ -47,7 +47,7 @@ export const verifyActions = styled.div`
     font-weight: 600;
     line-height: 19px;
     padding: 5px 20px;
-    border: 1px solid #AEB1C2;
+    border: 1px solid #aeb1c2;
     background: none;
     border-radius: 30px;
     cursor: pointer;

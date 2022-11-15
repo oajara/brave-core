@@ -55,9 +55,11 @@ export const AddSiteTile = styled('button')<AddSiteTileProps>`
   align-items: center;
   gap: 8px;
 
-  ${p => p.isDragging && css`
-    visibility: hidden;
-  `}
+  ${(p) =>
+    p.isDragging &&
+    css`
+      visibility: hidden;
+    `}
 
   &:focus-visible, :focus {
     gap: 4px;
@@ -78,7 +80,7 @@ export const List = styled('div')`
 
   // Add right padding of one column, so there's a nice gap between pages.
   padding-right: var(--grid-column-width);
-  
+
   display: grid;
   justify-content: var(--ntp-item-justify, start);
   grid-template-columns: repeat(var(--grid-columns), var(--grid-column-width));
@@ -107,13 +109,15 @@ export const PagesContainer = styled('div')`
   }
 `
 
-export const GridPagesContainer = styled('div')<{ customLinksEnabled: boolean }>`
+export const GridPagesContainer = styled('div')<{
+  customLinksEnabled: boolean
+}>`
   display: flex;
   flex-direction: row;
 
   padding: 24px 24px 0 24px;
   max-width: calc((var(--grid-columns) + 1) * var(--grid-column-width));
-  overflow-x: ${p => p.customLinksEnabled ? 'auto' : 'hidden'};
+  overflow-x: ${(p) => (p.customLinksEnabled ? 'auto' : 'hidden')};
 
   scroll-snap-type: x mandatory;
   scroll-snap-stop: always;
@@ -160,7 +164,7 @@ export const TileMenu = styled('div')<{}>`
 
   background: white;
   @media (prefers-color-scheme: dark) {
-    background: #3B3E4F;
+    background: #3b3e4f;
   }
 `
 
@@ -184,11 +188,12 @@ export const TileMenuItem = styled('button')<{}>`
   align-items: center;
   gap: 11px;
   cursor: pointer;
-  color: ${p => p.theme.color.contextMenuHoverForeground};
+  color: ${(p) => p.theme.color.contextMenuHoverForeground};
 
-  &:hover, :focus-visible {
-    background-color: ${p => p.theme.color.contextMenuHoverBackground};
-    color: ${p => p.theme.color.contextMenuHoverForeground};
+  &:hover,
+  :focus-visible {
+    background-color: ${(p) => p.theme.color.contextMenuHoverBackground};
+    color: ${(p) => p.theme.color.contextMenuHoverForeground};
   }
 `
 
@@ -196,7 +201,7 @@ export const TileAction = styled('button')<{}>`
   -webkit-appearance: none;
   box-sizing: border-box;
   transition: color 0.1s linear;
-  background: #DADCEB;
+  background: #dadceb;
   width: 100%;
   border-radius: 50%;
   margin: 0;
@@ -213,7 +218,7 @@ export const TileAction = styled('button')<{}>`
   }
 
   &:active {
-    background: #AEB1C2;
+    background: #aeb1c2;
     border: 4px solid transparent;
     background-clip: padding-box;
   }
@@ -228,9 +233,9 @@ export const TileFavicon = styled('img')<{}>`
   border-radius: 8px;
   object-fit: contain;
 
-  background: ${p => p.theme.palette.white};
+  background: ${(p) => p.theme.palette.white};
   @media (prefers-color-scheme: dark) {
-    background: ${p => p.theme.palette.black};
+    background: ${(p) => p.theme.palette.black};
   }
 `
 
@@ -251,23 +256,25 @@ export const Tile = styled('a')<TileProps>`
   cursor: pointer;
   // Menu goes behind in other Tiles when tils has z-index.
   // Give z-index while dragging to make dragging tile moves over other tiles.
-  z-index: ${p => p.isDragging ? 3 : 'unset'}
+  z-index: ${(p) => (p.isDragging ? 3 : 'unset')}
   outline: unset;
   gap: 8px;
 
-  ${p => !p.isMenuShowing && css`
-    &:active {
-      gap: 4px;
+  ${(p) =>
+    !p.isMenuShowing &&
+    css`
+      &:active {
+        gap: 4px;
 
-      ${TileFavicon} {
-        margin-top: -4px;
-        width: 78px;
-        height: 78px;
-        background-clip: padding-box;
-        border: 4px solid rgba(255, 255, 255, 0.6);
+        ${TileFavicon} {
+          margin-top: -4px;
+          width: 78px;
+          height: 78px;
+          background-clip: padding-box;
+          border: 4px solid rgba(255, 255, 255, 0.6);
+        }
       }
-    }
-  `}
+    `}
 
   &:focus-visible {
     gap: 4px;
@@ -282,19 +289,24 @@ export const Tile = styled('a')<TileProps>`
     }
   }
 
-  ${p => !p.isDragging && !p.isMenuShowing && css`
-    &:hover {
+  ${(p) =>
+    !p.isDragging &&
+    !p.isMenuShowing &&
+    css`
+      &:hover {
+        ${TileActionsContainer} {
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+    `}
+
+  ${(p) =>
+    p.isMenuShowing &&
+    css`
       ${TileActionsContainer} {
         opacity: 1;
         visibility: visible;
       }
-    }
-  `}
-
-  ${p => p.isMenuShowing && css`
-    ${TileActionsContainer} {
-      opacity: 1;
-      visibility: visible;
-    }
-  `}
+    `}
 `

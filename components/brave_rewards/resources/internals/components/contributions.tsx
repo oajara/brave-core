@@ -28,7 +28,7 @@ const getItems = (items: RewardsInternals.ContributionInfo[]) => {
     .map((item, index) => (
       <div key={item.id}>
         <Contribution contribution={item || ''} />
-        {(index !== items.length - 1) ? <hr/> : null}
+        {index !== items.length - 1 ? <hr /> : null}
       </div>
     ))
 }

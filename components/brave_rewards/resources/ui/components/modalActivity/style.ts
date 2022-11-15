@@ -10,13 +10,13 @@ interface TabProps {
 }
 
 export const StyledWrapper = styled('div')<{}>`
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
 `
 
 export const StyledTitle = styled('div')<{}>`
   font-weight: 600;
-  color: #1B1D2F;
-  font-family: ${p => p.theme.fontFamily.heading};
+  color: #1b1d2f;
+  font-family: ${(p) => p.theme.fontFamily.heading};
   font-size: 16px;
   line-height: 2;
 `
@@ -46,7 +46,7 @@ export const StyledRight = styled('div')<{}>`
 export const StyledSelectOption = styled('div')<{}>`
   font-size: 22px;
   font-weight: 300;
-  color: #4C54D2;
+  color: #4c54d2;
 `
 
 export const StyledIconWrap = styled('div')<{}>`
@@ -88,7 +88,7 @@ export const StyledNote = styled('div')<{}>`
 `
 
 export const StyledActionIcon = styled('span')<{}>`
-  color: #A1A8F2;
+  color: #a1a8f2;
   width: 27px;
 `
 
@@ -102,7 +102,7 @@ export const Tabs = styled('div')<{}>`
 export const Tab = styled('button')<TabProps>`
   flex: 1 1 0px
   font-size: 16px;
-  font-weight: ${p => p.selected ? 700 : 400};
+  font-weight: ${(p) => (p.selected ? 700 : 400)};
   letter-spacing: -0.29px;
   line-height: 44px;
   display: inline-block;
@@ -110,9 +110,8 @@ export const Tab = styled('button')<TabProps>`
   position: relative;
   margin: 0px 2px;
   border:none;
-  border-left: ${p => p.isFirst ? 'none' : '1px solid rgb(223, 223, 232)'};
+  border-left: ${(p) => (p.isFirst ? 'none' : '1px solid rgb(223, 223, 232)')};
   background: none;
 `
 
-export const TabContent = styled('div')<{}>`
-`
+export const TabContent = styled('div')<{}>``

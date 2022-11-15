@@ -40,12 +40,12 @@ export const BuyOptionItem = (props: Props) => {
         <Name>{name}</Name>
         <Description>{description}</Description>
         <StyledButton onClick={onClick}>
-          {selectedOption === id &&
+          {selectedOption === id && (
             <>
               <LoadIcon />
               &nbsp;
             </>
-          }
+          )}
           <ButtonText>{actionText}</ButtonText>
         </StyledButton>
       </Content>

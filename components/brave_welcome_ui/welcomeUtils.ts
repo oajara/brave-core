@@ -26,31 +26,49 @@ export const getSearchEngineProviders = () => {
 
 // Import Box
 
-export const getValidBrowserProfiles = (browserProfiles: Welcome.BrowserProfile[]): Welcome.BrowserProfile[] => {
-  const result = browserProfiles.reduce((filteredProfiles, profile) =>
-    (profile.name === 'Safari' || profile.name === 'Bookmarks HTML File')
-      ? filteredProfiles
-      : [...filteredProfiles, profile]
-  , [])
+export const getValidBrowserProfiles = (
+  browserProfiles: Welcome.BrowserProfile[]
+): Welcome.BrowserProfile[] => {
+  const result = browserProfiles.reduce(
+    (filteredProfiles, profile) =>
+      profile.name === 'Safari' || profile.name === 'Bookmarks HTML File'
+        ? filteredProfiles
+        : [...filteredProfiles, profile],
+    []
+  )
   return result
 }
 
-export const getBrowserProfiles = () =>
-  async (dispatch: Dispatch) => {
-    const response: Welcome.BrowserProfile[] = await sendWithPromise('initializeImportDialog')
-    const filteredProfiles = getValidBrowserProfiles(response)
-    dispatch(getBrowserProfilesSuccess(filteredProfiles))
-  }
+export const getBrowserProfiles = () => async (dispatch: Dispatch) => {
+  const response: Welcome.BrowserProfile[] = await sendWithPromise(
+    'initializeImportDialog'
+  )
+  const filteredProfiles = getValidBrowserProfiles(response)
+  dispatch(getBrowserProfilesSuccess(filteredProfiles))
+}
 
-export const getSelectedBrowserProfile = (profileIndex: string, browserProfiles: Welcome.BrowserProfile[]) => {
-  return browserProfiles.find((profile: Welcome.BrowserProfile) =>
-    profile.index.toString() === profileIndex
+export const getSelectedBrowserProfile = (
+  profileIndex: string,
+  browserProfiles: Welcome.BrowserProfile[]
+) => {
+  return browserProfiles.find(
+    (profile: Welcome.BrowserProfile) =>
+      profile.index.toString() === profileIndex
   )
 }
 
 export const getSourceBrowserProfileIndex = (state: ImportBoxState): number => {
-  return state && state.selectedBrowserProfile && state.selectedBrowserProfile.index || 0
+  return (
+    (state &&
+      state.selectedBrowserProfile &&
+      state.selectedBrowserProfile.index) ||
+    0
+  )
 }
 
-export const isValidBrowserProfiles = (browserProfiles: Welcome.BrowserProfile[]) =>
-  browserProfiles && Array.isArray(browserProfiles) && browserProfiles.length > 0
+export const isValidBrowserProfiles = (
+  browserProfiles: Welcome.BrowserProfile[]
+) =>
+  browserProfiles &&
+  Array.isArray(browserProfiles) &&
+  browserProfiles.length > 0

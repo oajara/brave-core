@@ -18,6 +18,6 @@ export const Option = styled.li<Partial<StyleProps>>`
   line-height: 20px;
   letter-spacing: 0.01em;
   color: ${(p) => p.theme.color.text02};
-  font-weight: ${(p) => p.selected ? 600 : 'normal'};
+  font-weight: ${(p) => (p.selected ? 600 : 'normal')};
   cursor: pointer;
 `

@@ -8,14 +8,14 @@ import { LoaderIcon } from 'brave-ui/components/icons'
 export const Container = styled.div`
   text-align: center;
   padding: 60px 0 50px 0;
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   font-size: 15px;
 `
 
 export const LoadIcon = styled(LoaderIcon)`
-  color: ${p => p.theme.color.brandBat};
+  color: ${(p) => p.theme.color.brandBat};
   height: 70px;
   width: 70px;
   margin-bottom: 34px;
-  opacity: .8;
+  opacity: 0.8;
 `

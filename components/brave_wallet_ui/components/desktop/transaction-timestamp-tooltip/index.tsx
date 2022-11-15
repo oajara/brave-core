@@ -5,18 +5,14 @@
 
 import * as React from 'react'
 
-import {
-  StyledWrapper,
-  Tip,
-  Pointer
-} from './style'
+import { StyledWrapper, Tip, Pointer } from './style'
 
 export interface Props {
   children?: React.ReactNode
   text: string | React.ReactNode
 }
 
-function TransactionTimestampTooltip (props: Props) {
+function TransactionTimestampTooltip(props: Props) {
   const { children, text } = props
   const [active, setActive] = React.useState(false)
 
@@ -29,17 +25,12 @@ function TransactionTimestampTooltip (props: Props) {
   }
 
   return (
-    <StyledWrapper
-      onMouseEnter={showTip}
-      onMouseLeave={hideTip}
-    >
+    <StyledWrapper onMouseEnter={showTip} onMouseLeave={hideTip}>
       {children}
       {active && (
         <>
           <Pointer />
-          <Tip>
-            {text}
-          </Tip>
+          <Tip>{text}</Tip>
         </>
       )}
     </StyledWrapper>

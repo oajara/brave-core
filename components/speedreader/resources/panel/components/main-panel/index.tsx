@@ -9,7 +9,13 @@ import Toggle from '$web-components/toggle'
 import { FontStyleList, ContentList } from '../lists'
 import FontSizeControl from '../font-size-control'
 import ThemeControl from '../theme-control'
-import { SiteSettings, Theme, FontSize, ContentStyle, FontFamily } from '../../api/browser'
+import {
+  SiteSettings,
+  Theme,
+  FontSize,
+  ContentStyle,
+  FontFamily
+} from '../../api/browser'
 import BackgroundSVG from '../../svg/background'
 import { getLocale, splitStringForTag } from '$web-common/locale'
 
@@ -22,18 +28,22 @@ interface MainPanelProps {
   onToggleChange: (isOn: boolean) => void
 }
 
-function MainContent (props: MainPanelProps) {
-  const braveSpeedreaderOffText = splitStringForTag(getLocale('braveSpeedreaderTurnOffDesc'))
+function MainContent(props: MainPanelProps) {
+  const braveSpeedreaderOffText = splitStringForTag(
+    getLocale('braveSpeedreaderTurnOffDesc')
+  )
 
   if (!props.siteSettings.isEnabled) {
     return (
       <>
-      <S.Section>
-        {braveSpeedreaderOffText.beforeTag}
-        <a href="brave://settings/">{braveSpeedreaderOffText.duringTag}</a>
-        {braveSpeedreaderOffText.afterTag}
-      </S.Section>
-      <S.Bg><BackgroundSVG /></S.Bg>
+        <S.Section>
+          {braveSpeedreaderOffText.beforeTag}
+          <a href="brave://settings/">{braveSpeedreaderOffText.duringTag}</a>
+          {braveSpeedreaderOffText.afterTag}
+        </S.Section>
+        <S.Bg>
+          <BackgroundSVG />
+        </S.Bg>
       </>
     )
   }
@@ -48,7 +58,9 @@ function MainContent (props: MainPanelProps) {
         />
       </S.Section>
       <S.Section>
-        <div className="title">{getLocale('braveSpeedreaderFontStyleLabel')}</div>
+        <div className="title">
+          {getLocale('braveSpeedreaderFontStyleLabel')}
+        </div>
         <FontStyleList
           activeFontFamily={props.siteSettings.fontFamily}
           onClick={props.onFontFamilyChange}
@@ -60,7 +72,9 @@ function MainContent (props: MainPanelProps) {
         />
       </S.Section>
       <S.Section>
-        <div className="title">{getLocale('braveSpeedreaderContentStyleLabel')}</div>
+        <div className="title">
+          {getLocale('braveSpeedreaderContentStyleLabel')}
+        </div>
         <ContentList
           activeContentStyle={props.siteSettings.contentStyle}
           onClick={props.onContentStyleChange}
@@ -70,7 +84,7 @@ function MainContent (props: MainPanelProps) {
   )
 }
 
-function MainPanel (props: MainPanelProps) {
+function MainPanel(props: MainPanelProps) {
   return (
     <S.Box>
       <S.HeaderBox>
@@ -86,7 +100,10 @@ function MainPanel (props: MainPanelProps) {
         </S.HeaderContent>
         {props.siteSettings.isEnabled && (
           <S.SiteTitleBox>
-            {getLocale('braveSpeedreaderAlwaysLoadLabel').replace('$1', props.siteSettings.host)}
+            {getLocale('braveSpeedreaderAlwaysLoadLabel').replace(
+              '$1',
+              props.siteSettings.host
+            )}
           </S.SiteTitleBox>
         )}
       </S.HeaderBox>

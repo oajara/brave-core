@@ -19,18 +19,22 @@ const Box = styled.div<BoxProps>`
   margin-bottom: 11px;
   cursor: pointer;
 
-  ${p => p.multiLine && css`
-    white-space: normal;
-    word-break: break-all;
-    overflow: unset;
-    direction: unset;
-    cursor: unset;
-  `}
+  ${(p) =>
+    p.multiLine &&
+    css`
+      white-space: normal;
+      word-break: break-all;
+      overflow: unset;
+      direction: unset;
+      cursor: unset;
+    `}
 
-  ${p => p.isHost && css`
-    direction: unset;
-    margin-bottom: 12px;
-  `}
+  ${(p) =>
+    p.isHost &&
+    css`
+      direction: unset;
+      margin-bottom: 12px;
+    `}
 
   &:last-child {
     margin-bottom: 0;
@@ -43,7 +47,7 @@ interface UrlElementProps {
   isHost: boolean
 }
 
-function UrlElement (props: UrlElementProps) {
+function UrlElement(props: UrlElementProps) {
   const [isExpanded, setExpanded] = React.useState(false)
 
   const handleClick = () => {
@@ -54,11 +58,7 @@ function UrlElement (props: UrlElementProps) {
   }
 
   return (
-    <Box
-      onClick={handleClick}
-      multiLine={isExpanded}
-      isHost={props.isHost}
-    >
+    <Box onClick={handleClick} multiLine={isExpanded} isHost={props.isHost}>
       {props.name}
     </Box>
   )

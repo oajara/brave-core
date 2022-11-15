@@ -72,7 +72,10 @@ interface ContentProps {
 export const Content = styled('section')<ContentProps>`
   opacity: 0;
   will-change: transform;
-  transform: translateX(${p => p.isPrevious ? '-' + p.screenPosition : p.screenPosition}) scale(0.8);
+  transform: translateX(
+      ${(p) => (p.isPrevious ? '-' + p.screenPosition : p.screenPosition)}
+    )
+    scale(0.8);
   transition: opacity 600ms, transform 600ms ease-in-out;
   display: flex;
   flex-direction: column;
@@ -87,7 +90,7 @@ export const Content = styled('section')<ContentProps>`
     in the background making visible elements misaligned. In this case display:none
     would prevent us from seeing the ransition animation. See comment below.
   */
-  position: ${p => p.active ? 'static' : 'absolute'};
+  position: ${(p) => (p.active ? 'static' : 'absolute')};
 
   /*
     prevents focus on all content's child elements if the parent is not active.
@@ -97,13 +100,15 @@ export const Content = styled('section')<ContentProps>`
     see https://github.com/brave/brave-browser/issues/5504
   */
   > * {
-    display: ${p => !p.active && 'none'};
+    display: ${(p) => !p.active && 'none'};
   }
 
-  ${p => p.active && css`
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  `}
+  ${(p) =>
+    p.active &&
+    css`
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    `}
 `
 
 interface PageProps {
@@ -113,9 +118,9 @@ interface PageProps {
 export const Page = styled('div')<PageProps>`
   width: inherit;
   height: inherit;
-  background: ${p => p.theme.color.panelBackground};
+  background: ${(p) => p.theme.color.panelBackground};
   overflow-x: hidden;
-  overflow-y: ${p => p.shouldUpdateElementOverflow ? 'initial' : 'hidden'};
+  overflow-y: ${(p) => (p.shouldUpdateElementOverflow ? 'initial' : 'hidden')};
 `
 
 export const Panel = styled('div')`

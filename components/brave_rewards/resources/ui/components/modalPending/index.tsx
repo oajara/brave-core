@@ -3,11 +3,7 @@
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import * as React from 'react'
-import {
-  StyledWrapper,
-  StyledTitle,
-  StyledRemoveAll
-} from './style'
+import { StyledWrapper, StyledTitle, StyledRemoveAll } from './style'
 import Modal from 'brave-ui/components/popupModals/modal/index'
 import TablePending, { DetailRow } from '../tablePending/index'
 import { getLocale } from 'brave-ui/helpers'
@@ -20,7 +16,7 @@ export interface Props {
 }
 
 export default class ModalPending extends React.PureComponent<Props, {}> {
-  render () {
+  render() {
     const { id, onClose, rows, onRemoveAll } = this.props
 
     return (
@@ -28,13 +24,11 @@ export default class ModalPending extends React.PureComponent<Props, {}> {
         <StyledWrapper>
           <StyledTitle>
             {getLocale('pendingContributions')}
-            {
-              onRemoveAll
-              ? <StyledRemoveAll onClick={onRemoveAll}>
+            {onRemoveAll ? (
+              <StyledRemoveAll onClick={onRemoveAll}>
                 {getLocale('pendingContributionRemoveAll')}
               </StyledRemoveAll>
-              : null
-            }
+            ) : null}
           </StyledTitle>
           <TablePending
             id={'pendingContributionTable'}

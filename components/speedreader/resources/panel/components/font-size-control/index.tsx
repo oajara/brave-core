@@ -20,9 +20,12 @@ interface FontSizeControlProps {
   onClick?: Function
 }
 
-function FontSizeControl (props: FontSizeControlProps) {
+function FontSizeControl(props: FontSizeControlProps) {
   const updateSize = (action: ActionType) => {
-    const newSize = action === ActionType.Dec ? props.currentSize - 10 : props.currentSize + 10
+    const newSize =
+      action === ActionType.Dec
+        ? props.currentSize - 10
+        : props.currentSize + 10
     if (newSize >= FontSize.MIN_VALUE && newSize <= FontSize.MAX_VALUE) {
       props.onClick?.(newSize)
       return
@@ -32,15 +35,11 @@ function FontSizeControl (props: FontSizeControlProps) {
 
   return (
     <S.Box>
-      <S.ButtonLeft
-        onClick={() => updateSize(ActionType.Dec)}
-      >
+      <S.ButtonLeft onClick={() => updateSize(ActionType.Dec)}>
         <MinusSVG />
       </S.ButtonLeft>
       <span>{props.currentSize}%</span>
-      <S.ButtonRight
-        onClick={() => updateSize(ActionType.Inc)}
-      >
+      <S.ButtonRight onClick={() => updateSize(ActionType.Inc)}>
         <PlusSVG />
       </S.ButtonRight>
     </S.Box>

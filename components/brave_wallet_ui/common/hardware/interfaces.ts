@@ -13,31 +13,74 @@ import {
 } from './types'
 
 export abstract class HardwareKeyring {
-  abstract coin (): BraveWallet.CoinType
-  abstract type (): HardwareVendor
-  abstract unlock (): Promise<HardwareOperationResult>
+  abstract coin(): BraveWallet.CoinType
+  abstract type(): HardwareVendor
+  abstract unlock(): Promise<HardwareOperationResult>
 }
 
 export abstract class TrezorKeyring extends HardwareKeyring {
-  abstract getAccounts (from: number, to: number, scheme: string): Promise<GetAccountsHardwareOperationResult>
-  abstract signTransaction (path: string, txInfo: BraveWallet.TransactionInfo, chainId: string): Promise<SignHardwareOperationResult>
-  abstract signPersonalMessage (path: string, message: string): Promise<SignHardwareOperationResult>
-  abstract signEip712Message (path: string, domainSeparatorHex: string, hashStructMessageHex: string): Promise<SignHardwareOperationResult>
+  abstract getAccounts(
+    from: number,
+    to: number,
+    scheme: string
+  ): Promise<GetAccountsHardwareOperationResult>
+  abstract signTransaction(
+    path: string,
+    txInfo: BraveWallet.TransactionInfo,
+    chainId: string
+  ): Promise<SignHardwareOperationResult>
+  abstract signPersonalMessage(
+    path: string,
+    message: string
+  ): Promise<SignHardwareOperationResult>
+  abstract signEip712Message(
+    path: string,
+    domainSeparatorHex: string,
+    hashStructMessageHex: string
+  ): Promise<SignHardwareOperationResult>
 }
 
 export abstract class LedgerEthereumKeyring extends HardwareKeyring {
-  abstract getAccounts (from: number, to: number, scheme: string): Promise<GetAccountsHardwareOperationResult>
-  abstract signPersonalMessage (path: string, address: string, message: string): Promise<SignHardwareOperationResult>
-  abstract signTransaction (path: string, rawTxHex: string): Promise<SignHardwareOperationResult>
-  abstract signEip712Message (path: string, domainSeparatorHex: string, hashStructMessageHex: string): Promise<SignHardwareOperationResult>
+  abstract getAccounts(
+    from: number,
+    to: number,
+    scheme: string
+  ): Promise<GetAccountsHardwareOperationResult>
+  abstract signPersonalMessage(
+    path: string,
+    address: string,
+    message: string
+  ): Promise<SignHardwareOperationResult>
+  abstract signTransaction(
+    path: string,
+    rawTxHex: string
+  ): Promise<SignHardwareOperationResult>
+  abstract signEip712Message(
+    path: string,
+    domainSeparatorHex: string,
+    hashStructMessageHex: string
+  ): Promise<SignHardwareOperationResult>
 }
 
 export abstract class LedgerFilecoinKeyring extends HardwareKeyring {
-  abstract getAccounts (from: number, to: number, network: FilecoinNetwork): Promise<GetAccountsHardwareOperationResult>
-  abstract signTransaction (message: string): Promise<SignHardwareOperationResult>
+  abstract getAccounts(
+    from: number,
+    to: number,
+    network: FilecoinNetwork
+  ): Promise<GetAccountsHardwareOperationResult>
+  abstract signTransaction(
+    message: string
+  ): Promise<SignHardwareOperationResult>
 }
 
 export abstract class LedgerSolanaKeyring extends HardwareKeyring {
-  abstract getAccounts (from: number, to: number, scheme: string): Promise<GetAccountsHardwareOperationResult>
-  abstract signTransaction (path: string, rawTxBytes: Buffer): Promise<SignHardwareOperationResult>
+  abstract getAccounts(
+    from: number,
+    to: number,
+    scheme: string
+  ): Promise<GetAccountsHardwareOperationResult>
+  abstract signTransaction(
+    path: string,
+    rawTxBytes: Buffer
+  ): Promise<SignHardwareOperationResult>
 }

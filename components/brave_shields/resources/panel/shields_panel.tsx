@@ -18,8 +18,9 @@ import { useSiteBlockInfoData, useSiteSettingsData } from './state/hooks'
 import DataContext from './state/context'
 import { ViewType } from './state/component_types'
 
-function App () {
-  const [initialThemeType, setInitialThemeType] = React.useState<chrome.braveTheme.ThemeType>()
+function App() {
+  const [initialThemeType, setInitialThemeType] =
+    React.useState<chrome.braveTheme.ThemeType>()
   const { siteBlockInfo } = useSiteBlockInfoData()
   const { siteSettings, getSiteSettings } = useSiteSettingsData()
   const [viewType, setViewType] = React.useState<ViewType>(ViewType.Main)
@@ -52,10 +53,8 @@ function App () {
 
   return (
     <>
-      {initialThemeType &&
-        <DataContext.Provider
-          value={store}
-        >
+      {initialThemeType && (
+        <DataContext.Provider value={store}>
           <BraveCoreThemeProvider
             initialThemeType={initialThemeType}
             dark={shieldsDarkTheme}
@@ -66,15 +65,14 @@ function App () {
             </PanelWrapper>
           </BraveCoreThemeProvider>
         </DataContext.Provider>
-      }
+      )}
     </>
   )
 }
 
-function initialize () {
+function initialize() {
   initLocale(loadTimeData.data_)
-  render(<App />, document.getElementById('mountPoint'),
-  () => {
+  render(<App />, document.getElementById('mountPoint'), () => {
     getPanelBrowserAPI().panelHandler.showUI()
   })
 }

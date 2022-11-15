@@ -37,11 +37,14 @@ export const dataUpdated = createAction<DataUpdatedPayload>('dataUpdated')
 export type ShowAssetDetailPayload = {
   symbol: string
 }
-export const showAssetDetail = createAction<ShowAssetDetailPayload>('showAssetDetail')
+export const showAssetDetail =
+  createAction<ShowAssetDetailPayload>('showAssetDetail')
 
 export const hideAssetDetail = createAction('hideAssetDetail')
 
-export const assetChartDataUpdated = createAction<AssetDetail>('assetChartDataUpdated')
+export const assetChartDataUpdated = createAction<AssetDetail>(
+  'assetChartDataUpdated'
+)
 
 export const toggleOptInMarkets = createAction<boolean>('toggleOptInMarkets')
 
@@ -50,17 +53,21 @@ export const interacted = createAction('interacted')
 type PreOptInViewMarkets = {
   hide?: boolean
 }
-export const preOptInViewMarkets = createAction<PreOptInViewMarkets>('preOptInViewMarkets')
+export const preOptInViewMarkets = createAction<PreOptInViewMarkets>(
+  'preOptInViewMarkets'
+)
 
 export type PreviewConversionPayload = {
   from: string
   to: string
   quantity: number
 }
-export const previewConversion = createAction<PreviewConversionPayload>('previewConversion')
+export const previewConversion =
+  createAction<PreviewConversionPayload>('previewConversion')
 
 export type ConversionQuoteAvailablePayload = ConversionQuote
-export const conversionQuoteAvailable = createAction<ConversionQuoteAvailablePayload>('conversionQuoteAvailable')
+export const conversionQuoteAvailable =
+  createAction<ConversionQuoteAvailablePayload>('conversionQuoteAvailable')
 
 export const cancelConversion = createAction('cancelConversion')
 

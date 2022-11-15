@@ -24,20 +24,21 @@ interface Props {
 }
 
 export const AddAsset = (props: Props) => {
-  const {
-    contractAddress,
-    onHideForm
-  } = props
-  const [tokenContractAddress, setTokenContractAddress] = React.useState<string>(contractAddress || '')
+  const { contractAddress, onHideForm } = props
+  const [tokenContractAddress, setTokenContractAddress] =
+    React.useState<string>(contractAddress || '')
   const [selectedTab, setSelectedTab] = React.useState<TabNavTypes>('token')
 
-  const onSelectTab = React.useCallback((id: TabNavTypes) => {
-    // Reset contractAddress when a user switches tabs
-    // This will reset the form to avoid the tabs being auto selected based
-    // on found token type
-    if (tokenContractAddress !== '') setTokenContractAddress('')
-    setSelectedTab(id)
-  }, [tokenContractAddress])
+  const onSelectTab = React.useCallback(
+    (id: TabNavTypes) => {
+      // Reset contractAddress when a user switches tabs
+      // This will reset the form to avoid the tabs being auto selected based
+      // on found token type
+      if (tokenContractAddress !== '') setTokenContractAddress('')
+      setSelectedTab(id)
+    },
+    [tokenContractAddress]
+  )
 
   const onNftAssetFound = React.useCallback((contractAddress: string) => {
     setTokenContractAddress(contractAddress)
@@ -49,9 +50,12 @@ export const AddAsset = (props: Props) => {
     setSelectedTab('token')
   }, [])
 
-  const onChangeContractAddress = React.useCallback((contractAddress: string) => {
-    setTokenContractAddress(contractAddress)
-  }, [])
+  const onChangeContractAddress = React.useCallback(
+    (contractAddress: string) => {
+      setTokenContractAddress(contractAddress)
+    },
+    []
+  )
 
   return (
     <AddAssetWrapper>
@@ -61,20 +65,21 @@ export const AddAsset = (props: Props) => {
         onSelectTab={onSelectTab}
       />
 
-      {selectedTab === 'token'
-        ? <AddCustomTokenForm
+      {selectedTab === 'token' ? (
+        <AddCustomTokenForm
           contractAddress={tokenContractAddress}
           onHideForm={onHideForm}
           onNftAssetFound={onNftAssetFound}
           onChangeContractAddress={onChangeContractAddress}
         />
-        : <AddNftForm
+      ) : (
+        <AddNftForm
           contractAddress={tokenContractAddress}
           onHideForm={onHideForm}
           onTokenFound={onTokenFound}
           onChangeContractAddress={onChangeContractAddress}
         />
-      }
+      )}
     </AddAssetWrapper>
   )
 }

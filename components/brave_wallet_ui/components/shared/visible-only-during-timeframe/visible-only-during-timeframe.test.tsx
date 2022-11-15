@@ -15,14 +15,11 @@ describe('<VisibleOnlyDuringTimeFrame />', () => {
     const END_DATE = new Date()
     END_DATE.setTime(START_DATE.getTime() + 1000 * 60 * 60 * 24 * 35) // 35 Days from start
 
-    const wrapper = shallow((
-      <VisibleOnlyDuringTimeFrame
-        startDate={START_DATE}
-        endDate={END_DATE}
-      >
+    const wrapper = shallow(
+      <VisibleOnlyDuringTimeFrame startDate={START_DATE} endDate={END_DATE}>
         <div className="unique" />
       </VisibleOnlyDuringTimeFrame>
-    ))
+    )
     expect(wrapper.contains(<div className="unique" />)).toEqual(true)
   })
 
@@ -33,14 +30,11 @@ describe('<VisibleOnlyDuringTimeFrame />', () => {
     const END_DATE = new Date()
     END_DATE.setTime(START_DATE.getTime() + 1000 * 60 * 60 * 24 * 20) // 20 Days from start (5 days ago)
 
-    const wrapper = shallow((
-      <VisibleOnlyDuringTimeFrame
-        startDate={START_DATE}
-        endDate={END_DATE}
-      >
+    const wrapper = shallow(
+      <VisibleOnlyDuringTimeFrame startDate={START_DATE} endDate={END_DATE}>
         <div className="unique" />
       </VisibleOnlyDuringTimeFrame>
-    ))
+    )
     expect(wrapper.contains(<div className="unique" />)).toEqual(false)
   })
 })

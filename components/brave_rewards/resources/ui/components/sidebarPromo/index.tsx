@@ -24,15 +24,9 @@ export interface Props {
 }
 
 export default class SidebarPromo extends React.PureComponent<Props, {}> {
-  render () {
-    const {
-      copy,
-      title,
-      imagePath,
-      disclaimer,
-      onDismissPromo,
-      link
-    } = this.props
+  render() {
+    const { copy, title, imagePath, disclaimer, onDismissPromo, link } =
+      this.props
 
     return (
       <StyledWrapper href={link} target={'_blank'}>
@@ -42,17 +36,11 @@ export default class SidebarPromo extends React.PureComponent<Props, {}> {
             <CloseStrokeIcon />
           </StyledCloseIcon>
           <StyledContent>
-            <StyledTitle>
-              {title}
-            </StyledTitle>
+            <StyledTitle>{title}</StyledTitle>
             {copy}
-            {
-              disclaimer
-              ? <StyledDisclaimer>
-                  {disclaimer}
-                </StyledDisclaimer>
-              : null
-            }
+            {disclaimer ? (
+              <StyledDisclaimer>{disclaimer}</StyledDisclaimer>
+            ) : null}
           </StyledContent>
         </StyleRight>
       </StyledWrapper>

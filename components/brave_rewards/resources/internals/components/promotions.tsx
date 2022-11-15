@@ -34,7 +34,7 @@ export const Promotions = (props: Props) => {
       {props.items.map((item, index) => (
         <div key={item.promotionId}>
           <Promotion promotion={item} />
-          {(index !== props.items.length - 1) ? <hr/> : null}
+          {index !== props.items.length - 1 ? <hr /> : null}
         </div>
       ))}
     </>

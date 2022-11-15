@@ -24,7 +24,8 @@ export const init = createAction<void>('page init')
 export type DismissBraveTalkPromptPayload = {
   isAutomatic: boolean
 }
-export const dismissBraveTalkPrompt = createAction<DismissBraveTalkPromptPayload>('dismiss brave talk prompt')
+export const dismissBraveTalkPrompt =
+  createAction<DismissBraveTalkPromptPayload>('dismiss brave talk prompt')
 
 export const privateTabDataUpdated = (data: PrivateTabData) =>
   action(types.NEW_TAB_PRIVATE_TAB_DATA_UPDATED, data)
@@ -43,19 +44,30 @@ export const preferencesUpdated = (preferences: NewTab.Preferences) =>
 export const setInitialData = (initialData: InitialData) =>
   action(types.NEW_TAB_SET_INITIAL_DATA, initialData)
 
-export const setMostVisitedSettings = (showTopSites: boolean, customLinksEnabled: boolean) =>
-  action(types.SET_MOST_VISITED_SITES, { showTopSites, customLinksEnabled })
+export const setMostVisitedSettings = (
+  showTopSites: boolean,
+  customLinksEnabled: boolean
+) => action(types.SET_MOST_VISITED_SITES, { showTopSites, customLinksEnabled })
 
-export const topSitesStateUpdated = (newShowTopSites: boolean, newCustomLinksEnabled: boolean, customLinksNum: number) =>
-  action(types.TOP_SITES_STATE_UPDATED, { newShowTopSites, newCustomLinksEnabled, customLinksNum })
+export const topSitesStateUpdated = (
+  newShowTopSites: boolean,
+  newCustomLinksEnabled: boolean,
+  customLinksNum: number
+) =>
+  action(types.TOP_SITES_STATE_UPDATED, {
+    newShowTopSites,
+    newCustomLinksEnabled,
+    customLinksNum
+  })
 
 export const customizeClicked = () => action(types.CUSTOMIZE_CLICKED, {})
 
 export const customBackgroundUpdated = (background: Background) =>
   action(types.BACKGROUND_UPDATED, { background })
 
-export const customImageBackgroundsUpdated = (backgrounds: CustomBackground[]) =>
-  action(types.CUSTOM_IMAGE_BACKGROUNDS_UPDATED, backgrounds)
+export const customImageBackgroundsUpdated = (
+  backgrounds: CustomBackground[]
+) => action(types.CUSTOM_IMAGE_BACKGROUNDS_UPDATED, backgrounds)
 
 export const searchPromotionDisabled = () =>
   action(types.SEARCH_PROMOTION_DISABLED, {})

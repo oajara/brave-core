@@ -17,7 +17,7 @@ export interface Props {
 }
 
 export default class ConnectBottomNav extends React.PureComponent<Props> {
-  render () {
+  render() {
     const {
       primaryAction,
       secondaryAction,
@@ -32,14 +32,13 @@ export default class ConnectBottomNav extends React.PureComponent<Props> {
           <NavButton
             text={secondaryText}
             onSubmit={secondaryAction}
-            buttonType='secondary'
+            buttonType="secondary"
           />
           <NavButton
             disabled={disabled}
             text={primaryText}
             onSubmit={primaryAction}
-            buttonType='primary'
-
+            buttonType="primary"
           />
         </ButtonRow>
       </StyledWrapper>

@@ -52,7 +52,8 @@ export const background = styled.div`
       180deg,
       rgba(0, 0, 0, 0) 0%,
       rgba(0, 0, 0, 0.3) 42.84%,
-      rgba(0, 0, 0, 0.5) 100%)
+      rgba(0, 0, 0, 0.5) 100%
+    );
   }
 `
 
@@ -87,7 +88,7 @@ export const logoMask = styled.div`
   text-align: center;
   overflow: hidden;
   border-radius: 50%;
-  border: solid 2px rgba(255, 255, 255, .5);
+  border: solid 2px rgba(255, 255, 255, 0.5);
 
   > img {
     object-fit: cover;
@@ -117,7 +118,7 @@ export const socialName = styled.div`
   font-weight: normal;
   font-size: 16px;
   line-height: 24px;
-  opacity: .75;
+  opacity: 0.75;
 `
 
 export const socialLinks = styled.div`

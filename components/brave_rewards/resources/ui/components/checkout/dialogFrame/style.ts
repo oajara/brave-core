@@ -12,20 +12,23 @@ export const MainPanel = styled.div<{ showBackground?: boolean }>`
   top: 0;
   left: 0;
   max-width: 548px;
-  background: ${p => p.theme.color.panelBackground};
+  background: ${(p) => p.theme.color.panelBackground};
   font-weight: normal;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
   font-size: 14px;
-  color: ${p => p.theme.palette.black};
+  color: ${(p) => p.theme.palette.black};
 
-  ${p => !p.showBackground ? '' : css`
-    background-image: url(${backgroundSrc});
-    background-repeat: no-repeat;
-    background-position: bottom right;
-  `}
+  ${(p) =>
+    !p.showBackground
+      ? ''
+      : css`
+          background-image: url(${backgroundSrc});
+          background-repeat: no-repeat;
+          background-position: bottom right;
+        `}
 
   a {
-    color: ${p => p.theme.color.brandBat};
+    color: ${(p) => p.theme.color.brandBat};
     text-decoration: none;
   }
 `
@@ -36,9 +39,9 @@ export const TopBar = styled.div`
 `
 
 export const TitleContainer = styled.div`
-  color: ${p => p.theme.palette.grey600};
+  color: ${(p) => p.theme.palette.grey600};
   font-weight: 500;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
   font-size: 12px;
   text-transform: uppercase;
   flex-grow: 1;
@@ -56,7 +59,7 @@ export const DialogTitleIcon = styled(BatColorIcon)`
 `
 
 export const BatText = styled.span`
-  color: ${p => p.theme.palette.neutral700};
+  color: ${(p) => p.theme.palette.neutral700};
 `
 
 export const CloseButton = styled.button`
@@ -66,7 +69,7 @@ export const CloseButton = styled.button`
   cursor: pointer;
   width: 14px;
   height: 14px;
-  color: ${p => p.theme.palette.neutral600};
+  color: ${(p) => p.theme.palette.neutral600};
   margin: 7px 6px 0 0;
 `
 

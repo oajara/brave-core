@@ -36,11 +36,11 @@ const StyledButtonCssMixin = (p: StyledButtonProps) => {
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: ${(p) => p.disabled ? 'default' : 'pointer'};
+    cursor: ${(p) => (p.disabled ? 'default' : 'pointer')};
     border-radius: 40px;
     padding: 10px 22px;
     outline: none;
-    margin-top: ${(p) => p?.addTopMargin ? '8px' : '0px'};
+    margin-top: ${(p) => (p?.addTopMargin ? '8px' : '0px')};
 
     background-color: ${(p) =>
       p.disabled
@@ -48,28 +48,24 @@ const StyledButtonCssMixin = (p: StyledButtonProps) => {
         : p.buttonType === 'primary' ||
           p.buttonType === 'confirm' ||
           p.buttonType === 'sign'
-            ? p.theme.palette.blurple500
-            : p.buttonType === 'danger'
-              ? p.theme.color.errorBorder
-              : 'transparent'
-    };
+        ? p.theme.palette.blurple500
+        : p.buttonType === 'danger'
+        ? p.theme.color.errorBorder
+        : 'transparent'};
 
     border: ${(p) =>
-      p.buttonType === 'secondary' ||
-      p.buttonType === 'reject'
+      p.buttonType === 'secondary' || p.buttonType === 'reject'
         ? `1px solid ${p.theme.color.interactive08}`
-        : 'none'
-    };
+        : 'none'};
 
     margin-right: ${(p) =>
       p.buttonType === 'primary' ||
       p.buttonType === 'confirm' ||
       p.buttonType === 'sign'
         ? '0px'
-        : '8px'
-    };
+        : '8px'};
 
-    pointer-events: ${(p) => p.disabled ? 'none' : 'auto'};
+    pointer-events: ${(p) => (p.disabled ? 'none' : 'auto')};
 
     text-decoration: none;
   `
@@ -99,8 +95,7 @@ export const ButtonText = styled.span<{
     p.buttonType === 'reject' ||
     p.buttonType === 'cancel'
       ? p.theme.color.interactive07
-      : p.theme.palette.white
-  };
+      : p.theme.palette.white};
 `
 
 export const RejectIcon = styled.div`

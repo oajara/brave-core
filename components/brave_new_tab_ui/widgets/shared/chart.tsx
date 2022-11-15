@@ -40,9 +40,9 @@ export const Chart = ({ width, height, data }: ChartConfig) => {
   return (
     <SVG viewBox={`0 0 ${width} ${height}`}>
       <polyline
-        fill='none'
-        stroke='#44B0FF'
-        strokeWidth='3'
+        fill="none"
+        stroke="#44B0FF"
+        strokeWidth="3"
         points={plotData({
           data,
           height,

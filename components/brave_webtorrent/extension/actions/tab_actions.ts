@@ -7,16 +7,18 @@ import { action } from 'typesafe-actions'
 // Constants
 import { types } from '../constants/tab_types'
 
-export const tabUpdated = (tabId: number,
-    changeInfo: { url: string }) =>
+export const tabUpdated = (tabId: number, changeInfo: { url: string }) =>
   action(types.TAB_UPDATED, {
-    tabId, changeInfo
+    tabId,
+    changeInfo
   })
 
-export const tabRemoved = (tabId: number) => action(types.TAB_REMOVED, {
-  tabId
-})
+export const tabRemoved = (tabId: number) =>
+  action(types.TAB_REMOVED, {
+    tabId
+  })
 
-export const tabRetrieved = (tab: chrome.tabs.Tab) => action(types.TAB_RETRIEVED, {
-  tab
-})
+export const tabRetrieved = (tab: chrome.tabs.Tab) =>
+  action(types.TAB_RETRIEVED, {
+    tab
+  })

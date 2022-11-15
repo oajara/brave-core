@@ -20,28 +20,25 @@ interface Props {
   onClose: () => unknown
 }
 
-export default function PopupMenu (props: Props) {
+export default function PopupMenu(props: Props) {
   const ref = React.useRef<HTMLUListElement>(null)
   useCloseWhenUnfocused(ref, props.onClose)
   return (
     <>
-    {props.isOpen && props.menuItems.length &&
-      <S.Menu
-        role='menu'
-        ref={ref}
-      >
-        { props.menuItems.map(item =>
-        <S.MenuItem
-          key={item.key}
-          role='menuitem'
-          tabIndex={0}
-          onClick={item.onClick.bind(null)}
-        >
-          {item.child}
-        </S.MenuItem>
-        )}
-      </S.Menu>
-    }
+      {props.isOpen && props.menuItems.length && (
+        <S.Menu role="menu" ref={ref}>
+          {props.menuItems.map((item) => (
+            <S.MenuItem
+              key={item.key}
+              role="menuitem"
+              tabIndex={0}
+              onClick={item.onClick.bind(null)}
+            >
+              {item.child}
+            </S.MenuItem>
+          ))}
+        </S.Menu>
+      )}
     </>
   )
 }
@@ -57,7 +54,7 @@ export const EllipsisTrigger: React.FC<TriggerProps> = (props) => {
       <S.IconButton
         isActive={props.isOpen}
         onClick={props.onTrigger.bind(null)}
-        aria-haspopup='true'
+        aria-haspopup="true"
         aria-expanded={props.isOpen ? 'true' : 'false'}
       >
         <EllipsisIcon />

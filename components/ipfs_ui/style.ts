@@ -4,7 +4,9 @@
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import styled from 'styled-components'
-import Button, { Props as ButtonProps } from 'brave-ui/components/buttonsIndicators/button'
+import Button, {
+  Props as ButtonProps
+} from 'brave-ui/components/buttonsIndicators/button'
 
 export const Section = styled('div')<{}>`
   margin: 0 20px 10px;
@@ -27,8 +29,10 @@ export const PaddedButton = styled(Button as React.ComponentType<ButtonProps>)`
   margin: 5px;
 `
 
-export const BorderlessButton = styled(PaddedButton as React.ComponentType<ButtonProps>)`
-  border-style: none
+export const BorderlessButton = styled(
+  PaddedButton as React.ComponentType<ButtonProps>
+)`
+  border-style: none;
 `
 
 export const GrayStyle = {

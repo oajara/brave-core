@@ -6,7 +6,7 @@
 import { select, boolean } from '@storybook/addon-knobs'
 import { FTXState, ConversionData, ViewType } from './ftx_state'
 
-const viewTypeArray = Object.keys(ViewType).filter(v => isNaN(Number(v)))
+const viewTypeArray = Object.keys(ViewType).filter((v) => isNaN(Number(v)))
 
 const balances = {
   BAT: 42.5,
@@ -35,7 +35,7 @@ const marketData = [
   }
 ]
 
-const batMarketData = marketData.find(m => m.symbol === 'BAT')
+const batMarketData = marketData.find((m) => m.symbol === 'BAT')
 
 const chartData = [
   {
@@ -250,7 +250,7 @@ const chartData = [
   }
 ]
 
-export default function getStorybookState (): FTXState {
+export default function getStorybookState(): FTXState {
   const hasBalances = boolean('FTX: has balances?', false)
   const conversion = boolean('FTX: conversion in progress?', false)
   const conversionData: ConversionData = {
@@ -268,19 +268,28 @@ export default function getStorybookState (): FTXState {
     isConnected: boolean('FTX: is connected?', false),
     ftxHost: 'ftx.com',
     balances: hasBalances ? balances : {},
-    balanceTotal: hasBalances ? Object.values(balances).reduce((a, b) => a + b, 0) : null,
+    balanceTotal: hasBalances
+      ? Object.values(balances).reduce((a, b) => a + b, 0)
+      : null,
     marketData: marketData,
     currencyNames: ['BAT', 'BTC', 'USD'],
-    currentView: ViewType[select('FTX: page', viewTypeArray, ViewType[ViewType.OptIn])],
+    currentView:
+      ViewType[select('FTX: page', viewTypeArray, ViewType[ViewType.OptIn])],
     assetDetail: boolean('FTX: show asset detail', false)
       ? {
-        chartData: select('FTX: chart data', { None: undefined, Error: 'Error getting chart', Data: chartData as any }, chartData),
-        currencyName: 'BAT',
-        marketData: batMarketData
-      }
+          chartData: select(
+            'FTX: chart data',
+            {
+              None: undefined,
+              Error: 'Error getting chart',
+              Data: chartData as any
+            },
+            chartData
+          ),
+          currencyName: 'BAT',
+          marketData: batMarketData
+        }
       : null,
-    conversionInProgress: conversion
-      ? conversionData
-      : undefined
+    conversionInProgress: conversion ? conversionData : undefined
   }
 }

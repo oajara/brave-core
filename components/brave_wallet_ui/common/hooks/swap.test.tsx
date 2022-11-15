@@ -26,21 +26,27 @@ import * as MockedLib from '../async/__mocks__/lib'
 import { mockWalletState } from '../../stories/mock-data/mock-wallet-state'
 import { mockPageState } from '../../stories/mock-data/mock-page-state'
 import { LibContext } from '../context/lib.context'
-import { mockBasicAttentionToken, mockEthToken } from '../../stories/mock-data/mock-asset-options'
+import {
+  mockBasicAttentionToken,
+  mockEthToken
+} from '../../stories/mock-data/mock-asset-options'
 
-const store = createStore(combineReducers({
-  wallet: createWalletReducer(mockWalletState),
-  page: createPageReducer(mockPageState)
-}))
+const store = createStore(
+  combineReducers({
+    wallet: createWalletReducer(mockWalletState),
+    page: createPageReducer(mockPageState)
+  })
+)
 
-function renderHookOptionsWithCustomStore (store: any) {
+function renderHookOptionsWithCustomStore(store: any) {
   return {
-    wrapper: ({ children }: { children?: React.ReactChildren }) =>
+    wrapper: ({ children }: { children?: React.ReactChildren }) => (
       <Provider store={store}>
         <LibContext.Provider value={MockedLib as any}>
           {children}
         </LibContext.Provider>
       </Provider>
+    )
   }
 }
 
@@ -76,7 +82,10 @@ describe('useSwap hook', () => {
   })
 
   it('should initialize From and To assets', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useSwap(), renderHookOptions)
+    const { result, waitForNextUpdate } = renderHook(
+      () => useSwap(),
+      renderHookOptions
+    )
 
     act(() => {
       result.current.onSelectTransactAsset(mockEthToken, 'from')
@@ -113,7 +122,10 @@ describe('useSwap hook', () => {
   })
 
   describe('token allowance', () => {
-    let mockFn: jest.SpyInstance<Promise<string>, [contractAddress: string, ownerAddress: string, spenderAddress: string]>
+    let mockFn: jest.SpyInstance<
+      Promise<string>,
+      [contractAddress: string, ownerAddress: string, spenderAddress: string]
+    >
     beforeEach(() => {
       mockFn = jest.spyOn(MockedLib, 'getERC20Allowance')
     })
@@ -122,7 +134,10 @@ describe('useSwap hook', () => {
     })
 
     it('should not query allowance for native From asset', async () => {
-      const { waitForNextUpdate } = renderHook(() => useSwap(), renderHookOptions)
+      const { waitForNextUpdate } = renderHook(
+        () => useSwap(),
+        renderHookOptions
+      )
 
       await waitForNextUpdate()
 
@@ -130,7 +145,10 @@ describe('useSwap hook', () => {
     })
 
     it('should not query allowance if no quote', async () => {
-      const { waitForNextUpdate, result, waitFor } = renderHook(() => useSwap(), renderHookOptions)
+      const { waitForNextUpdate, result, waitFor } = renderHook(
+        () => useSwap(),
+        renderHookOptions
+      )
 
       // set from-asset to a non-native asset
       const USDC = result.current.swapAssetOptions[1]
@@ -142,8 +160,9 @@ describe('useSwap hook', () => {
       await waitForNextUpdate()
 
       await waitFor(() => {
-        expect(result.current.fromAsset?.contractAddress)
-          .toBe(USDC.contractAddress)
+        expect(result.current.fromAsset?.contractAddress).toBe(
+          USDC.contractAddress
+        )
       })
 
       expect(mockFn).not.toHaveBeenCalled()
@@ -175,7 +194,10 @@ describe('useSwap hook', () => {
   describe('swap validation errors', () => {
     it('should not return error if From and To amount are empty', async () => {
       // Step 1: Initialize the useSwap hook.
-      const { result, waitForValueToChange, waitFor } = renderHook(() => useSwap(), renderHookOptions)
+      const { result, waitForValueToChange, waitFor } = renderHook(
+        () => useSwap(),
+        renderHookOptions
+      )
 
       // Step 2: Consume the update to isSwapSupported, so it does not fire
       // in the middle of a future update.
@@ -198,7 +220,10 @@ describe('useSwap hook', () => {
       // Step 1: Initialize the useSwap hook with the following parameters.
       //    From asset: ETH
       //    Balance:    1 ETH
-      const { result, waitForValueToChange, waitFor } = renderHook(() => useSwap(), renderHookOptions)
+      const { result, waitForValueToChange, waitFor } = renderHook(
+        () => useSwap(),
+        renderHookOptions
+      )
 
       // Step 2: Consume the update to isSwapSupported, so it does not fire
       // in the middle of a future update.
@@ -227,14 +252,19 @@ describe('useSwap hook', () => {
       // OK: Assert for swapValidationError to be 'fromAmountDecimalsOverflow'
       // KO: Test case times out
       await waitFor(() => {
-        expect(result.current.swapValidationError).toBe('fromAmountDecimalsOverflow')
+        expect(result.current.swapValidationError).toBe(
+          'fromAmountDecimalsOverflow'
+        )
       })
     })
 
     it('should return error if To amount has decimals overflow', async () => {
       // Step 1: Initialize the useSwap hook with the following parameters.
       //    To asset: BAT
-      const { result, waitFor, waitForValueToChange } = renderHook(() => useSwap(), renderHookOptions)
+      const { result, waitFor, waitForValueToChange } = renderHook(
+        () => useSwap(),
+        renderHookOptions
+      )
 
       // Step 2: Consume the update to isSwapSupported, so it does not fire
       // in the middle of a future update.
@@ -263,7 +293,9 @@ describe('useSwap hook', () => {
       // OK: Assert for swapValidationError to be 'toAmountDecimalsOverflow'
       // KO: Test case times out
       await waitFor(() => {
-        expect(result.current.swapValidationError).toBe('toAmountDecimalsOverflow')
+        expect(result.current.swapValidationError).toBe(
+          'toAmountDecimalsOverflow'
+        )
       })
     })
 
@@ -271,7 +303,10 @@ describe('useSwap hook', () => {
       // Step 1: Initialize the useSwap hook with the following parameters.
       //    From asset: ETH
       //    Balance:    0.000000000000123456 ETH
-      const { result, waitFor, waitForValueToChange } = renderHook(() => useSwap(), renderHookOptions)
+      const { result, waitFor, waitForValueToChange } = renderHook(
+        () => useSwap(),
+        renderHookOptions
+      )
 
       // Step 2: Consume the update to isSwapSupported, so it does not fire
       // in the middle of a future update.
@@ -308,7 +343,10 @@ describe('useSwap hook', () => {
       // Step 1: Initialize the useSwap hook with the following parameters.
       //    From asset: BAT
       //    Balance:    0.000000000000123456 ETH
-      const { result, waitFor, waitForValueToChange } = renderHook(() => useSwap(), renderHookOptions)
+      const { result, waitFor, waitForValueToChange } = renderHook(
+        () => useSwap(),
+        renderHookOptions
+      )
 
       // Step 2: Consume the update to isSwapSupported, so it does not fire
       // in the middle of a future update.
@@ -347,20 +385,25 @@ describe('useSwap hook', () => {
       //    Balance:    0.000000000000123456 ETH
       //    Quote fees: 0.000000000001000000 ETH
 
-      const mockStore = createStore(combineReducers({
-        wallet: createWalletReducer({
-          ...mockWalletState,
-          selectedAccount: {
-            ...mockAccount,
-            nativeBalanceRegistry: {
-              [mockWalletState.selectedNetwork.chainId]: '123456' // 123456 Wei
+      const mockStore = createStore(
+        combineReducers({
+          wallet: createWalletReducer({
+            ...mockWalletState,
+            selectedAccount: {
+              ...mockAccount,
+              nativeBalanceRegistry: {
+                [mockWalletState.selectedNetwork.chainId]: '123456' // 123456 Wei
+              }
             }
-          }
-        }),
-        page: createPageReducer(mockPageState)
-      }))
+          }),
+          page: createPageReducer(mockPageState)
+        })
+      )
 
-      const { result, waitFor, waitForValueToChange } = renderHook(() => useSwap(), renderHookOptionsWithCustomStore(mockStore))
+      const { result, waitFor, waitForValueToChange } = renderHook(
+        () => useSwap(),
+        renderHookOptionsWithCustomStore(mockStore)
+      )
 
       // Step 2: Consume the update to isSwapSupported, so it does not fire
       // in the middle of a future update.
@@ -378,7 +421,9 @@ describe('useSwap hook', () => {
       // OK: Assert for swapValidationError to be 'insufficientFundsForGas'.
       // KO: Test case times out.
       await waitFor(() => {
-        expect(result.current.swapValidationError).toBe('insufficientFundsForGas')
+        expect(result.current.swapValidationError).toBe(
+          'insufficientFundsForGas'
+        )
       })
     })
 
@@ -388,20 +433,25 @@ describe('useSwap hook', () => {
       //    From amount: 0.000000000000234560 ETH
       //    Quote fees:  0.000000000001000000 ETH
       //    Balance:     0.000000000001234560 ETH
-      const mockStore = createStore(combineReducers({
-        wallet: createWalletReducer({
-          ...mockWalletState,
-          selectedAccount: {
-            ...mockAccount,
-            nativeBalanceRegistry: {
-              [mockWalletState.selectedNetwork.chainId]: '1234560' // 1234560 Wei
+      const mockStore = createStore(
+        combineReducers({
+          wallet: createWalletReducer({
+            ...mockWalletState,
+            selectedAccount: {
+              ...mockAccount,
+              nativeBalanceRegistry: {
+                [mockWalletState.selectedNetwork.chainId]: '1234560' // 1234560 Wei
+              }
             }
-          }
-        }),
-        page: createPageReducer(mockPageState)
-      }))
+          }),
+          page: createPageReducer(mockPageState)
+        })
+      )
 
-      const { result, waitFor, waitForValueToChange } = renderHook(() => useSwap(), renderHookOptionsWithCustomStore(mockStore))
+      const { result, waitFor, waitForValueToChange } = renderHook(
+        () => useSwap(),
+        renderHookOptionsWithCustomStore(mockStore)
+      )
 
       act(() => {
         result.current.onSelectTransactAsset(mockEthToken, 'from')
@@ -427,7 +477,9 @@ describe('useSwap hook', () => {
       // OK: Assert for swapValidationError to be 'insufficientFundsForGas'.
       // KO: Test case times out.
       await waitFor(() => {
-        expect(result.current.swapValidationError).toBe('insufficientFundsForGas')
+        expect(result.current.swapValidationError).toBe(
+          'insufficientFundsForGas'
+        )
       })
 
       // OK: Assert for fromAmount to be '0.000000000000234561'.
@@ -453,28 +505,31 @@ describe('useSwap hook', () => {
         chainId: mockWalletState.selectedNetwork.chainId
       }
 
-      const mockStore = createStore(combineReducers({
-        wallet: createWalletReducer({
-          ...mockWalletState,
-          selectedAccount: {
-            ...mockAccount,
-            nativeBalanceRegistry: {
-              [BraveWallet.MAINNET_CHAIN_ID]: '1000000000000000000', // 1 ETH
-              [BraveWallet.GOERLI_CHAIN_ID]: '1000000000000000000' // 1 ETH
-            },
-            tokenBalanceRegistry: {
-              [USDC.contractAddress.toLowerCase()]: '20000000000000000000' // 20 BAT
+      const mockStore = createStore(
+        combineReducers({
+          wallet: createWalletReducer({
+            ...mockWalletState,
+            selectedAccount: {
+              ...mockAccount,
+              nativeBalanceRegistry: {
+                [BraveWallet.MAINNET_CHAIN_ID]: '1000000000000000000', // 1 ETH
+                [BraveWallet.GOERLI_CHAIN_ID]: '1000000000000000000' // 1 ETH
+              },
+              tokenBalanceRegistry: {
+                [USDC.contractAddress.toLowerCase()]: '20000000000000000000' // 20 BAT
+              }
             }
-          }
-        }),
-        page: createPageReducer(mockPageState)
-      }))
+          }),
+          page: createPageReducer(mockPageState)
+        })
+      )
 
       const { result, waitFor, waitForValueToChange } = renderHook(
-        () => useSwap({
-          fromAsset: USDC,
-          toAsset: ETH
-        }),
+        () =>
+          useSwap({
+            fromAsset: USDC,
+            toAsset: ETH
+          }),
         renderHookOptionsWithCustomStore(mockStore)
       )
 
@@ -513,7 +568,10 @@ describe('useSwap hook', () => {
       //    From amount: 0.1 ETH
       //    Quote fees:  0.000000000001 ETH
       //    Balance:     1 ETH
-      const { result, waitFor, waitForValueToChange } = renderHook(() => useSwap(), renderHookOptions)
+      const { result, waitFor, waitForValueToChange } = renderHook(
+        () => useSwap(),
+        renderHookOptions
+      )
 
       await waitForValueToChange(() => result.current.isSwapSupported)
 
@@ -557,7 +615,10 @@ describe('useSwap hook', () => {
       //    From amount: 0.1 ETH
       //    Quote fees:  0.000000000001 ETH
       //    Balance:     1 ETH
-      const { result, waitFor, waitForValueToChange } = renderHook(() => useSwap(), renderHookOptions)
+      const { result, waitFor, waitForValueToChange } = renderHook(
+        () => useSwap(),
+        renderHookOptions
+      )
 
       await waitForValueToChange(() => result.current.isSwapSupported)
 

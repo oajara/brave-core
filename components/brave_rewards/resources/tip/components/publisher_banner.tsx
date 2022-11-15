@@ -37,7 +37,7 @@ import * as style from './publisher_banner.style'
 
 import * as mojom from '../../shared/lib/mojom'
 
-function getLogoURL (publisherInfo: PublisherInfo) {
+function getLogoURL(publisherInfo: PublisherInfo) {
   const { logo } = publisherInfo
   if (!logo || publisherInfo.status === PublisherStatus.NOT_VERIFIED) {
     return ''
@@ -48,32 +48,35 @@ function getLogoURL (publisherInfo: PublisherInfo) {
   return logo
 }
 
-function getLogo (publisherInfo: PublisherInfo) {
+function getLogo(publisherInfo: PublisherInfo) {
   const logoURL = getLogoURL(publisherInfo)
   if (logoURL) {
     return <img src={logoURL} />
   }
   const name = publisherInfo.name || publisherInfo.publisherKey
-  return (
-    <style.logoLetter>
-      {name ? name[0] : ''}
-    </style.logoLetter>
-  )
+  return <style.logoLetter>{name ? name[0] : ''}</style.logoLetter>
 }
 
-function getProviderName (publisherInfo: PublisherInfo) {
+function getProviderName(publisherInfo: PublisherInfo) {
   switch (publisherInfo.provider) {
-    case 'youtube': return 'YouTube'
-    case 'twitter': return 'Twitter'
-    case 'twitch': return 'Twitch'
-    case 'reddit': return 'Reddit'
-    case 'vimeo': return 'Vimeo'
-    case 'github': return 'GitHub'
-    default: return ''
+    case 'youtube':
+      return 'YouTube'
+    case 'twitter':
+      return 'Twitter'
+    case 'twitch':
+      return 'Twitch'
+    case 'reddit':
+      return 'Reddit'
+    case 'vimeo':
+      return 'Vimeo'
+    case 'github':
+      return 'GitHub'
+    default:
+      return ''
   }
 }
 
-function getSocialScreenName (mediaMetaData: MediaMetaData) {
+function getSocialScreenName(mediaMetaData: MediaMetaData) {
   switch (mediaMetaData.mediaType) {
     case 'twitter':
       return '@' + mediaMetaData.publisherName
@@ -85,7 +88,7 @@ function getSocialScreenName (mediaMetaData: MediaMetaData) {
   return ''
 }
 
-function getPublisherName (
+function getPublisherName(
   locale: Locale,
   publisherInfo: PublisherInfo,
   mediaMetaData: MediaMetaData
@@ -104,19 +107,26 @@ function getPublisherName (
   )
 }
 
-function getSocialIcon (type: string) {
+function getSocialIcon(type: string) {
   switch (type) {
-    case 'twitter': return <TwitterColorIcon />
-    case 'youtube': return <YoutubeColorIcon />
-    case 'twitch': return <TwitchColorIcon />
-    case 'github': return <GitHubColorIcon />
-    case 'reddit': return <RedditColorIcon />
-    case 'vimeo': return <VimeoColorIcon />
-    default: return null
+    case 'twitter':
+      return <TwitterColorIcon />
+    case 'youtube':
+      return <YoutubeColorIcon />
+    case 'twitch':
+      return <TwitchColorIcon />
+    case 'github':
+      return <GitHubColorIcon />
+    case 'reddit':
+      return <RedditColorIcon />
+    case 'vimeo':
+      return <VimeoColorIcon />
+    default:
+      return null
   }
 }
 
-function isValidSocialLink (url: string) {
+function isValidSocialLink(url: string) {
   try {
     // The URL constructor will throw when provided with any
     // string that is not an absolute URL. If the URL constuctor
@@ -129,38 +139,42 @@ function isValidSocialLink (url: string) {
   }
 }
 
-function getSocialLinks (publisherInfo: PublisherInfo) {
+function getSocialLinks(publisherInfo: PublisherInfo) {
   return Object.entries(publisherInfo.links).map(([type, url]) => {
     const icon = getSocialIcon(type)
-    return icon && isValidSocialLink(url)
-      ? <NewTabLink key={type} href={url}>{icon}</NewTabLink>
-      : null
+    return icon && isValidSocialLink(url) ? (
+      <NewTabLink key={type} href={url}>
+        {icon}
+      </NewTabLink>
+    ) : null
   })
 }
 
-function getTitle (
+function getTitle(
   locale: Locale,
   publisherInfo: PublisherInfo,
   mediaMetaData: MediaMetaData
 ) {
   // For Twitter and Reddit posts a media card is displayed
   // instead of a title
-  if (mediaMetaData.mediaType === 'twitter' ||
-      mediaMetaData.mediaType === 'reddit') {
+  if (
+    mediaMetaData.mediaType === 'twitter' ||
+    mediaMetaData.mediaType === 'reddit'
+  ) {
     return
   }
 
   return publisherInfo.title || locale.getString('welcome')
 }
 
-function getVerifiedIcon (publisherInfo: PublisherInfo) {
+function getVerifiedIcon(publisherInfo: PublisherInfo) {
   if (publisherInfo.status === PublisherStatus.NOT_VERIFIED) {
     return null
   }
   return <VerifiedIcon />
 }
 
-function showUnverifiedNotice (
+function showUnverifiedNotice(
   publisherInfo: PublisherInfo,
   externalWalletInfo?: ExternalWalletInfo
 ) {
@@ -194,7 +208,7 @@ function showUnverifiedNotice (
   return true
 }
 
-function getUnverifiedNotice (
+function getUnverifiedNotice(
   locale: Locale,
   publisherInfo: PublisherInfo,
   walletInfo: ExternalWalletInfo | undefined
@@ -205,9 +219,11 @@ function getUnverifiedNotice (
 
   const { getString } = locale
 
-  const text = getString(publisherInfo.status === PublisherStatus.NOT_VERIFIED
-    ? 'siteBannerNoticeNotRegistered'
-    : 'siteBannerNoticeText')
+  const text = getString(
+    publisherInfo.status === PublisherStatus.NOT_VERIFIED
+      ? 'siteBannerNoticeNotRegistered'
+      : 'siteBannerNoticeText'
+  )
 
   return (
     <style.unverifiedNotice>
@@ -217,7 +233,7 @@ function getUnverifiedNotice (
       <style.unverifiedNoticeText>
         <strong>{getString('siteBannerNoticeNote')}</strong>&nbsp;
         {text}&nbsp;
-        <NewTabLink href='https://brave.com/faq/#unclaimed-funds'>
+        <NewTabLink href="https://brave.com/faq/#unclaimed-funds">
           {getString('unverifiedTextMore')}
         </NewTabLink>
       </style.unverifiedNoticeText>
@@ -225,7 +241,7 @@ function getUnverifiedNotice (
   )
 }
 
-function getPostRelativeTime (postDate: Date) {
+function getPostRelativeTime(postDate: Date) {
   // TS does not yet recongnize RelativeTimeFormatter (since chromium 71)
   const { RelativeTimeFormat } = Intl as any
   const formatter = new RelativeTimeFormat()
@@ -242,7 +258,7 @@ function getPostRelativeTime (postDate: Date) {
   return ''
 }
 
-function getPostTimeString (postTimestamp: string) {
+function getPostTimeString(postTimestamp: string) {
   const postDate = new Date(postTimestamp)
   const invalidDate = !Number(postDate)
   if (invalidDate) {
@@ -255,13 +271,14 @@ function getPostTimeString (postTimestamp: string) {
   return postDate.toLocaleDateString(undefined, {
     month: 'short',
     day: 'numeric',
-    year: postDate.getFullYear() !== new Date().getFullYear()
-      ? 'numeric'
-      : undefined
+    year:
+      postDate.getFullYear() !== new Date().getFullYear()
+        ? 'numeric'
+        : undefined
   })
 }
 
-function getDescription (
+function getDescription(
   locale: Locale,
   publisherInfo: PublisherInfo,
   mediaMetaData: MediaMetaData
@@ -296,35 +313,39 @@ function getDescription (
   return getString('rewardsBannerText1')
 }
 
-function hashString (input: string) {
+function hashString(input: string) {
   let h = 0
   for (let i = 0; i < input.length; i++) {
-    h = (((h << 5) - h) + input.charCodeAt(i)) >>> 0
+    h = ((h << 5) - h + input.charCodeAt(i)) >>> 0
   }
   return h
 }
 
-function getBackgroundClass (publisherInfo: PublisherInfo) {
+function getBackgroundClass(publisherInfo: PublisherInfo) {
   if (publisherInfo.background) {
     return 'background-style-custom'
   }
 
   // Vary the background type by publisher key and day
   const hash = hashString(
-    publisherInfo.publisherKey + '-' +
-    Math.floor(Date.now() / 1000 / 60 / 60 / 24))
+    publisherInfo.publisherKey +
+      '-' +
+      Math.floor(Date.now() / 1000 / 60 / 60 / 24)
+  )
 
-  return `background-style-${String(hash % 5 + 1)}`
+  return `background-style-${String((hash % 5) + 1)}`
 }
 
-export function PublisherBanner () {
+export function PublisherBanner() {
   const host = React.useContext(HostContext)
   const locale = React.useContext(LocaleContext)
 
   const [publisherInfo, setPublisherInfo] = React.useState(
-    host.state.publisherInfo)
+    host.state.publisherInfo
+  )
   const [walletInfo, setWalletInfo] = React.useState(
-    host.state.externalWalletInfo)
+    host.state.externalWalletInfo
+  )
 
   React.useEffect(() => {
     return host.addListener((state) => {
@@ -343,9 +364,10 @@ export function PublisherBanner () {
     ? `url(${publisherInfo.background})`
     : undefined
 
-  const verifiedType = publisherInfo.status === PublisherStatus.NOT_VERIFIED
-    ? 'not-verified'
-    : 'verified'
+  const verifiedType =
+    publisherInfo.status === PublisherStatus.NOT_VERIFIED
+      ? 'not-verified'
+      : 'verified'
 
   return (
     <style.root style={{ backgroundImage }}>
@@ -353,9 +375,7 @@ export function PublisherBanner () {
         <style.card>
           <style.header>
             <style.logo>
-              <style.logoMask>
-                {getLogo(publisherInfo)}
-              </style.logoMask>
+              <style.logoMask>{getLogo(publisherInfo)}</style.logoMask>
               <style.verifiedIcon className={verifiedType}>
                 {getVerifiedIcon(publisherInfo)}
               </style.verifiedIcon>
@@ -364,9 +384,7 @@ export function PublisherBanner () {
               {getPublisherName(locale, publisherInfo, mediaMetaData)}
             </style.name>
           </style.header>
-          <style.socialLinks>
-            {getSocialLinks(publisherInfo)}
-          </style.socialLinks>
+          <style.socialLinks>{getSocialLinks(publisherInfo)}</style.socialLinks>
           {getUnverifiedNotice(locale, publisherInfo, walletInfo)}
           <style.title>
             {getTitle(locale, publisherInfo, mediaMetaData)}

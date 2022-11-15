@@ -14,7 +14,7 @@ import { localeStrings } from './locale_strings'
 import * as mojom from '../../../../shared/lib/mojom'
 
 const localeContext = {
-  getString (key: string) {
+  getString(key: string) {
     return localeStrings[key] || 'MISSING'
   }
 }
@@ -23,11 +23,11 @@ export default {
   title: 'Rewards/New Tab'
 }
 
-function actionLogger (name: string, ...args: any[]) {
+function actionLogger(name: string, ...args: any[]) {
   return (...args: any[]) => console.log(name, ...args)
 }
 
-export function Card () {
+export function Card() {
   const daysUntilPayment = knobs.number('Days Until Payment', 20)
   const nextPaymentDate = Date.now() + 1000 * 60 * 60 * 24 * daysUntilPayment
   const showGrant = knobs.boolean('Grant Available', false)
@@ -40,30 +40,38 @@ export function Card () {
           <RewardsCard
             rewardsEnabled={true}
             isUnsupportedRegion={false}
-            declaredCountry='US'
+            declaredCountry="US"
             adsEnabled={true}
             adsSupported={true}
             needsBrowserUpgradeToServeAds={false}
             rewardsBalance={91.5812}
-            exchangeCurrency='USD'
+            exchangeCurrency="USD"
             exchangeRate={0.82}
             providerPayoutStatus={'complete'}
-            grantInfo={showGrant ? {
-              id: '',
-              amount: 0.15,
-              type: 'ads',
-              createdAt: Date.now(),
-              claimableUntil: Date.now() + 1000 * 10 * 24 * 60 * 60,
-              expiresAt: Date.now() + 1000 * 10 * 24 * 60 * 60
-            } : null}
-            externalWallet={disconnectedWallet ? {
-              provider: 'uphold',
-              status: mojom.WalletStatus.kLoggedOut,
-              username: '',
-              links: {
-                reconnect: 'https://brave.com'
-              }
-            } : null}
+            grantInfo={
+              showGrant
+                ? {
+                    id: '',
+                    amount: 0.15,
+                    type: 'ads',
+                    createdAt: Date.now(),
+                    claimableUntil: Date.now() + 1000 * 10 * 24 * 60 * 60,
+                    expiresAt: Date.now() + 1000 * 10 * 24 * 60 * 60
+                  }
+                : null
+            }
+            externalWallet={
+              disconnectedWallet
+                ? {
+                    provider: 'uphold',
+                    status: mojom.WalletStatus.kLoggedOut,
+                    username: '',
+                    links: {
+                      reconnect: 'https://brave.com'
+                    }
+                  }
+                : null
+            }
             nextPaymentDate={nextPaymentDate}
             earningsThisMonth={0.142}
             earningsLastMonth={1.25}
@@ -79,7 +87,7 @@ export function Card () {
   )
 }
 
-export function SponsoredImage () {
+export function SponsoredImage() {
   return (
     <LocaleContext.Provider value={localeContext}>
       <WithThemeVariables>

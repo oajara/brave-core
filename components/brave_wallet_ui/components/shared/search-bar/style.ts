@@ -13,11 +13,12 @@ export const StyledWrapper = styled.div<{ useWithFilter?: boolean }>`
   flex-direction: row;
   min-height: 36px;
   width: 100%;
-  border: ${(p) => p.useWithFilter ? 'none' : `1px solid ${p.theme.color.interactive08}`};
+  border: ${(p) =>
+    p.useWithFilter ? 'none' : `1px solid ${p.theme.color.interactive08}`};
   box-sizing: border-box;
   border-radius: 4px;
   background-color: ${(p) => p.theme.color.background02};
-  margin-bottom: ${(p) => p.useWithFilter ? '0px' : '10px'};
+  margin-bottom: ${(p) => (p.useWithFilter ? '0px' : '10px')};
   overflow: hidden;
 `
 
@@ -31,7 +32,7 @@ export const SearchInput = styled.input<{ useWithFilter?: boolean }>`
   border: none;
   font-family: Poppins;
   font-style: normal;
-  font-size: ${(p) => p.useWithFilter ? '14px' : '12px'};
+  font-size: ${(p) => (p.useWithFilter ? '14px' : '12px')};
   letter-spacing: 0.01em;
   color: ${(p) => p.theme.color.text01};
   -webkit-box-shadow: none;
@@ -45,15 +46,15 @@ export const SearchInput = styled.input<{ useWithFilter?: boolean }>`
     font-weight: normal;
   }
   :focus {
-      outline: none;
+    outline: none;
   }
   ::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
   }
   ::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
   }
 `
 

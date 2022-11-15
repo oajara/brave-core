@@ -24,29 +24,30 @@ import store from './store'
 // Let things handle 'init'
 store.dispatch(init())
 
-function initialize () {
+function initialize() {
   console.timeStamp('loaded')
   // Get rendering going
-  new Promise(resolve => chrome.braveTheme.getBraveThemeType(resolve))
-  .then((themeType: chrome.braveTheme.ThemeType) => {
-    render(
-      <Provider store={store}>
-        <BraveCoreThemeProvider
-          initialThemeType={themeType}
-          dark={DarkTheme}
-          light={Theme}
-        >
-          <RewardsContextAdapter>
-            <App />
-          </RewardsContextAdapter>
-        </BraveCoreThemeProvider>
-      </Provider>,
-      document.getElementById('root'),
-      () => console.timeStamp('first react render'))
-  })
-  .catch((error) => {
-    console.error('Problem mounting brave new tab', error)
-  })
+  new Promise((resolve) => chrome.braveTheme.getBraveThemeType(resolve))
+    .then((themeType: chrome.braveTheme.ThemeType) => {
+      render(
+        <Provider store={store}>
+          <BraveCoreThemeProvider
+            initialThemeType={themeType}
+            dark={DarkTheme}
+            light={Theme}
+          >
+            <RewardsContextAdapter>
+              <App />
+            </RewardsContextAdapter>
+          </BraveCoreThemeProvider>
+        </Provider>,
+        document.getElementById('root'),
+        () => console.timeStamp('first react render')
+      )
+    })
+    .catch((error) => {
+      console.error('Problem mounting brave new tab', error)
+    })
 }
 
 console.timeStamp('JS start')

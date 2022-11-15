@@ -10,7 +10,10 @@ import { BraveWallet, WalletAccountType } from '../constants/types'
 import { createTokenBalanceRegistryKey } from './account-utils'
 import Amount from './amount'
 
-export const getBalance = (account?: WalletAccountType, token?: BraveWallet.BlockchainToken) => {
+export const getBalance = (
+  account?: WalletAccountType,
+  token?: BraveWallet.BlockchainToken
+) => {
   if (!account || !token) {
     return ''
   }
@@ -23,7 +26,6 @@ export const getBalance = (account?: WalletAccountType, token?: BraveWallet.Bloc
   if (
     token.contractAddress === '' &&
     !token.isErc20 &&
-
     // Since all coinTypes share the same chainId for localHost networks,
     // we want to make sure we return the right balance for that token.
     account.coin === token.coin
@@ -35,7 +37,12 @@ export const getBalance = (account?: WalletAccountType, token?: BraveWallet.Bloc
   return (account.tokenBalanceRegistry || {})[registryKey] || ''
 }
 
-export const formatTokenBalanceWithSymbol = (balance: string, decimals: number, symbol: string, decimalPlace?: number) => {
+export const formatTokenBalanceWithSymbol = (
+  balance: string,
+  decimals: number,
+  symbol: string,
+  decimalPlace?: number
+) => {
   return `${new Amount(balance)
     .divideByDecimals(decimals)
     .format(decimalPlace ?? 6, true)} ${symbol}`

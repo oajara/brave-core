@@ -9,7 +9,11 @@ import ModalDonation from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('ModalDonation tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><ModalDonation id='modal' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <ModalDonation id="modal" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

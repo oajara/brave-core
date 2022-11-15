@@ -18,7 +18,7 @@ import { PanelWrapper } from './style'
 import store from './state/store'
 import getPanelBrowserAPI from './api/panel_browser_api'
 
-function App () {
+function App() {
   React.useEffect(() => {
     const onVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
@@ -35,10 +35,7 @@ function App () {
 
   return (
     <Provider store={store}>
-      <BraveCoreThemeProvider
-        dark={vpnDarkTheme}
-        light={vpnLightTheme}
-      >
+      <BraveCoreThemeProvider dark={vpnDarkTheme} light={vpnLightTheme}>
         <PanelWrapper>
           <Container />
         </PanelWrapper>
@@ -47,10 +44,9 @@ function App () {
   )
 }
 
-function initialize () {
+function initialize() {
   initLocale(loadTimeData.data_)
-  render(<App />, document.getElementById('mountPoint'),
-  () => {
+  render(<App />, document.getElementById('mountPoint'), () => {
     getPanelBrowserAPI().panelHandler.showUI()
   })
 }

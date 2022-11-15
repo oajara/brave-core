@@ -3,7 +3,10 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 import { getLocale } from '../api/localeAPI'
-import { addSiteCosmeticFilter, openFilterManagementPage } from '../api/cosmeticFilterAPI'
+import {
+  addSiteCosmeticFilter,
+  openFilterManagementPage
+} from '../api/cosmeticFilterAPI'
 
 export let rule = {
   host: '',
@@ -15,15 +18,20 @@ export const applyCosmeticFilter = (host: string, selector: string) => {
     const s: string = selector.trim()
 
     if (s.length > 0) {
-      chrome.tabs.insertCSS({
-        code: `${s} {display: none !important;}`,
-        cssOrigin: 'user'
-      }, () => {
-        if (chrome.runtime.lastError) {
-          console.error('[applyCosmeticFilter] tabs.insertCSS failed: ' +
-            chrome.runtime.lastError.message)
+      chrome.tabs.insertCSS(
+        {
+          code: `${s} {display: none !important;}`,
+          cssOrigin: 'user'
+        },
+        () => {
+          if (chrome.runtime.lastError) {
+            console.error(
+              '[applyCosmeticFilter] tabs.insertCSS failed: ' +
+                chrome.runtime.lastError.message
+            )
+          }
         }
-      })
+      )
 
       addSiteCosmeticFilter(host, s)
     }
@@ -50,9 +58,11 @@ chrome.contextMenus.create({
   contexts: ['all']
 })
 
-chrome.contextMenus.onClicked.addListener((info: chrome.contextMenus.OnClickData, tab: chrome.tabs.Tab) => {
-  onContextMenuClicked(info, tab)
-})
+chrome.contextMenus.onClicked.addListener(
+  (info: chrome.contextMenus.OnClickData, tab: chrome.tabs.Tab) => {
+    onContextMenuClicked(info, tab)
+  }
+)
 
 // content script listener for events from the cosmetic filtering content script
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
@@ -70,21 +80,31 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   }
 })
 
-export function onContextMenuClicked (info: chrome.contextMenus.OnClickData, tab: chrome.tabs.Tab) {
+export function onContextMenuClicked(
+  info: chrome.contextMenus.OnClickData,
+  tab: chrome.tabs.Tab
+) {
   switch (info.menuItemId) {
     case 'manageCustomFilters':
       openFilterManagementPage()
       break
     case 'elementPickerMode': {
-      chrome.tabs.query({ active: true, currentWindow: true }, (tabs: [chrome.tabs.Tab]) => {
-        if (tabs.length > 0) {
-          chrome.tabs.sendMessage(tabs[0].id!, { type: 'elementPickerLaunch' })
+      chrome.tabs.query(
+        { active: true, currentWindow: true },
+        (tabs: [chrome.tabs.Tab]) => {
+          if (tabs.length > 0) {
+            chrome.tabs.sendMessage(tabs[0].id!, {
+              type: 'elementPickerLaunch'
+            })
+          }
         }
-      })
+      )
       break
     }
     default: {
-      console.warn(`[cosmeticFilterEvents] invalid context menu option: ${info.menuItemId}`)
+      console.warn(
+        `[cosmeticFilterEvents] invalid context menu option: ${info.menuItemId}`
+      )
     }
   }
 }

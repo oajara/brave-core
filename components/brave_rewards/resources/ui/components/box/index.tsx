@@ -56,7 +56,7 @@ export default class Box extends React.PureComponent<Props, {}> {
     return `${title} ${getLocale('settings')}`
   }
 
-  render () {
+  render() {
     const {
       id,
       title,
@@ -77,16 +77,8 @@ export default class Box extends React.PureComponent<Props, {}> {
 
     return (
       <StyledWrapper>
-        <StyledCard
-          testId={id}
-        >
-          {
-            headerAlert
-              ? <StyledHeader>
-                  {headerAlert}
-                </StyledHeader>
-              : null
-          }
+        <StyledCard testId={id}>
+          {headerAlert ? <StyledHeader>{headerAlert}</StyledHeader> : null}
           <StyledFlip>
             <StyledContentWrapper open={!settingsOpened}>
               <StyledSettingTitleWrapper>
@@ -94,44 +86,37 @@ export default class Box extends React.PureComponent<Props, {}> {
                   {title}
                 </StyledTitle>
                 <StyledSettingsToggleContainer>
-                  {
-                    settingsChild && ((toggle && checked) || !toggle)
-                      ? <Tooltip
-                        content={this.getSettingsTitle(title)}
-                      >
-                        <StyledSettingsIcon onClick={onSettingsClick}>
-                          <SettingsIcon />
-                        </StyledSettingsIcon>
-                      </Tooltip>
-                      : null
-                  }
-                  {
-                    toggle
-                      ? <Toggle onToggle={onToggle} checked={checked} testId={testId} />
-                      : null
-                  }
+                  {settingsChild && ((toggle && checked) || !toggle) ? (
+                    <Tooltip content={this.getSettingsTitle(title)}>
+                      <StyledSettingsIcon onClick={onSettingsClick}>
+                        <SettingsIcon />
+                      </StyledSettingsIcon>
+                    </Tooltip>
+                  ) : null}
+                  {toggle ? (
+                    <Toggle
+                      onToggle={onToggle}
+                      checked={checked}
+                      testId={testId}
+                    />
+                  ) : null}
                 </StyledSettingsToggleContainer>
               </StyledSettingTitleWrapper>
-              {
-                disabledContent && toggle
-                  ? <StyledTOS title={title} />
-                  : null
-              }
-              <StyledDescription>
-                {description}
-              </StyledDescription>
-              <StyledContent>
-                {
-                  disabledContent || children
-                }
-              </StyledContent>
+              {disabledContent && toggle ? <StyledTOS title={title} /> : null}
+              <StyledDescription>{description}</StyledDescription>
+              <StyledContent>{disabledContent || children}</StyledContent>
             </StyledContentWrapper>
             <StyledSettingsWrapper open={settingsOpened}>
-              <StyledSettingsClose onClick={onSettingsClick} open={settingsOpened}>
+              <StyledSettingsClose
+                onClick={onSettingsClick}
+                open={settingsOpened}
+              >
                 <CloseCircleOIcon />
               </StyledSettingsClose>
               <StyledSettingsTitle>
-                <StyledSettingsText>{this.getSettingsTitle(title)}</StyledSettingsText>
+                <StyledSettingsText>
+                  {this.getSettingsTitle(title)}
+                </StyledSettingsText>
               </StyledSettingsTitle>
               {settingsChild}
             </StyledSettingsWrapper>

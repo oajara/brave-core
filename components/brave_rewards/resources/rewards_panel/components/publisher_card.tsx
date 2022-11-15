@@ -19,16 +19,19 @@ import * as style from './publisher_card.style'
 
 const pendingTipsURL = 'https://brave.com/faq/#unclaimed-funds'
 
-export function PublisherCard () {
+export function PublisherCard() {
   const { getString } = React.useContext(LocaleContext)
   const host = React.useContext(HostContext)
 
-  const [publisherInfo, setPublisherInfo] =
-    React.useState(host.state.publisherInfo)
-  const [publisherRefreshing, setPublisherRefreshing] =
-    React.useState(host.state.publisherRefreshing)
-  const [externalWallet, setExternalWallet] =
-    React.useState(host.state.externalWallet)
+  const [publisherInfo, setPublisherInfo] = React.useState(
+    host.state.publisherInfo
+  )
+  const [publisherRefreshing, setPublisherRefreshing] = React.useState(
+    host.state.publisherRefreshing
+  )
+  const [externalWallet, setExternalWallet] = React.useState(
+    host.state.externalWallet
+  )
   const [settings, setSettings] = React.useState(host.state.settings)
 
   const [showPublisherLoading, setShowPublisherLoading] = React.useState(false)
@@ -44,7 +47,7 @@ export function PublisherCard () {
     return null
   }
 
-  function shouldRenderPendingBubble () {
+  function shouldRenderPendingBubble() {
     if (!publisherInfo) {
       return false
     }
@@ -71,7 +74,7 @@ export function PublisherCard () {
     return true
   }
 
-  function renderPendingBubble () {
+  function renderPendingBubble() {
     if (!publisherInfo || !shouldRenderPendingBubble()) {
       return null
     }
@@ -79,30 +82,28 @@ export function PublisherCard () {
     return (
       <style.pendingBubble>
         <style.pendingBubbleHeader>
-          {
-            getString(publisherInfo.registered
+          {getString(
+            publisherInfo.registered
               ? 'pendingTipTitleRegistered'
-              : 'pendingTipTitle')
-          }
+              : 'pendingTipTitle'
+          )}
         </style.pendingBubbleHeader>
         <style.pendingBubbleText>
-          {
-            formatMessage(getString('pendingTipText'), {
-              tags: {
-                $1: content => (
-                  <NewTabLink key='link' href={pendingTipsURL}>
-                    {content}
-                  </NewTabLink>
-                )
-              }
-            })
-          }
+          {formatMessage(getString('pendingTipText'), {
+            tags: {
+              $1: (content) => (
+                <NewTabLink key="link" href={pendingTipsURL}>
+                  {content}
+                </NewTabLink>
+              )
+            }
+          })}
         </style.pendingBubbleText>
       </style.pendingBubble>
     )
   }
 
-  function renderStatusIndicator () {
+  function renderStatusIndicator() {
     if (!publisherInfo) {
       return null
     }
@@ -111,33 +112,35 @@ export function PublisherCard () {
 
     return (
       <style.statusIndicator className={registered ? 'registered' : ''}>
-        <div><VerifiedIcon /></div>
+        <div>
+          <VerifiedIcon />
+        </div>
         <div>
           {getString(registered ? 'verifiedCreator' : 'unverifiedCreator')}
-          <div className='pending-bubble'>
-            {renderPendingBubble()}
-          </div>
+          <div className="pending-bubble">{renderPendingBubble()}</div>
         </div>
       </style.statusIndicator>
     )
   }
 
-  function onRefreshClick () {
+  function onRefreshClick() {
     // Show the publisher loading state for a minimum amount of time in order
     // to indicate activity to the user.
     setShowPublisherLoading(true)
-    setTimeout(() => { setShowPublisherLoading(false) }, 500)
+    setTimeout(() => {
+      setShowPublisherLoading(false)
+    }, 500)
 
     host.refreshPublisherStatus()
   }
 
-  function monthlyTipHandler (action: MonthlyTipAction) {
+  function monthlyTipHandler(action: MonthlyTipAction) {
     return () => {
       host.handleMonthlyTipAction(action)
     }
   }
 
-  function getPublisherName () {
+  function getPublisherName() {
     if (!publisherInfo) {
       return null
     }
@@ -153,56 +156,53 @@ export function PublisherCard () {
   }
 
   return (
-    <style.root data-test-id='publisher-card'>
+    <style.root data-test-id="publisher-card">
       <style.heading>
-        {
-          publisherInfo.icon &&
-            <style.icon>
-              <img src={publisherInfo.icon} />
-            </style.icon>
-        }
+        {publisherInfo.icon && (
+          <style.icon>
+            <img src={publisherInfo.icon} />
+          </style.icon>
+        )}
         <style.name>
           {getPublisherName()}
           <style.status>
             {renderStatusIndicator()}
             <style.refreshStatus>
-              {
-                publisherRefreshing || showPublisherLoading
-                  ? <LoadingIcon />
-                  : <button
-                      data-test-id='refresh-publisher-button'
-                      onClick={onRefreshClick}
-                      title={getString('refreshStatus')}
-                    >
-                      <RefreshStatusIcon />
-                    </button>
-              }
+              {publisherRefreshing || showPublisherLoading ? (
+                <LoadingIcon />
+              ) : (
+                <button
+                  data-test-id="refresh-publisher-button"
+                  onClick={onRefreshClick}
+                  title={getString('refreshStatus')}
+                >
+                  <RefreshStatusIcon />
+                </button>
+              )}
             </style.refreshStatus>
           </style.status>
         </style.name>
       </style.heading>
-      {
-        settings.autoContributeEnabled &&
-          <style.attention data-test-id='attention-score-text'>
-            <div>{getString('attention')}</div>
-            <div className='value'>
-              {(publisherInfo.attentionScore * 100).toFixed(0)}%
-            </div>
-          </style.attention>
-      }
+      {settings.autoContributeEnabled && (
+        <style.attention data-test-id="attention-score-text">
+          <div>{getString('attention')}</div>
+          <div className="value">
+            {(publisherInfo.attentionScore * 100).toFixed(0)}%
+          </div>
+        </style.attention>
+      )}
       <style.contribution>
-        {
-          settings.autoContributeEnabled &&
-            <style.autoContribution>
-              <div>{getString('includeInAutoContribute')}</div>
-              <div>
-                <ToggleButton
-                  checked={publisherInfo.autoContributeEnabled}
-                  onChange={host.setIncludeInAutoContribute}
-                />
-              </div>
-            </style.autoContribution>
-        }
+        {settings.autoContributeEnabled && (
+          <style.autoContribution>
+            <div>{getString('includeInAutoContribute')}</div>
+            <div>
+              <ToggleButton
+                checked={publisherInfo.autoContributeEnabled}
+                onChange={host.setIncludeInAutoContribute}
+              />
+            </div>
+          </style.autoContribution>
+        )}
         <style.monthlyTip>
           <div>{getString('monthlyTip')}</div>
           <div>
@@ -215,7 +215,7 @@ export function PublisherCard () {
         </style.monthlyTip>
       </style.contribution>
       <style.tipAction>
-        <button data-test-id='tip-button' onClick={host.sendTip}>
+        <button data-test-id="tip-button" onClick={host.sendTip}>
           {getString('sendTip')}
         </button>
       </style.tipAction>

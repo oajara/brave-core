@@ -24,8 +24,8 @@ export type BraveTodayState = {
   displayAdToScrollTo?: number
 }
 
-function storeInHistoryState (data: Object) {
-  const oldHistoryState = (typeof history.state === 'object') ? history.state : {}
+function storeInHistoryState(data: Object) {
+  const oldHistoryState = typeof history.state === 'object' ? history.state : {}
   const newHistoryState = { ...oldHistoryState, ...data }
   history.pushState(newHistoryState, document.title)
 }
@@ -39,16 +39,21 @@ const defaultState: BraveTodayState = {
   cardsVisited: 0
 }
 // Get previously-clicked article from history state
-if (history.state && (history.state.todayArticle || history.state.todayAdPosition)) {
+if (
+  history.state &&
+  (history.state.todayArticle || history.state.todayAdPosition)
+) {
   // TODO(petemill): Type this history.state data and put in an API module
   // see `async/today`.
   defaultState.hasInteracted = true
-  defaultState.currentPageIndex = history.state.todayPageIndex as number || 0
+  defaultState.currentPageIndex = (history.state.todayPageIndex as number) || 0
   defaultState.articleScrollTo = history.state.todayArticle
   if (!defaultState.articleScrollTo) {
-    defaultState.displayAdToScrollTo = history.state.todayAdPosition as number | undefined
+    defaultState.displayAdToScrollTo = history.state.todayAdPosition as
+      | number
+      | undefined
   }
-  defaultState.cardsVisited = history.state.todayCardsVisited as number || 0
+  defaultState.cardsVisited = (history.state.todayCardsVisited as number) || 0
   // Clear history state now that we have the info on app state
   storeInHistoryState({
     todayArticle: undefined,
@@ -73,7 +78,8 @@ reducer.on(Actions.interactionBegin, (state, payload) => ({
 
 reducer.on(Actions.errorGettingDataFromBackground, (state, payload) => ({
   ...state,
-  isFetching: (payload && payload.error && payload.error.message) || 'Unknown error.'
+  isFetching:
+    (payload && payload.error && payload.error.message) || 'Unknown error.'
 }))
 
 reducer.on(Actions.dataReceived, (state, payload) => {
@@ -83,10 +89,13 @@ reducer.on(Actions.dataReceived, (state, payload) => {
   }
   if (payload.feed) {
     const isNewFeed = !state.feed || state.feed.hash !== payload.feed.hash
-    const shouldMaintainPageIndex = (state.articleScrollTo || state.displayAdToScrollTo)
+    const shouldMaintainPageIndex =
+      state.articleScrollTo || state.displayAdToScrollTo
     if (isNewFeed) {
       newState.feed = payload.feed
-      newState.currentPageIndex = shouldMaintainPageIndex ? state.currentPageIndex : 0
+      newState.currentPageIndex = shouldMaintainPageIndex
+        ? state.currentPageIndex
+        : 0
       newState.isUpdateAvailable = false
     }
   }
@@ -152,7 +161,10 @@ reducer.on(Actions.setPublisherPref, (state, payload) => {
 reducer.on(Actions.removeDirectFeed, (state, { directFeed }) => {
   const hasMatch = !!state.publishers?.[directFeed.publisherId]
   if (!hasMatch) {
-    console.warn('Brave News: asked to remove direct feed which did not exist', directFeed)
+    console.warn(
+      'Brave News: asked to remove direct feed which did not exist',
+      directFeed
+    )
     return state
   }
   // Predict what backend will return when date is refreshed

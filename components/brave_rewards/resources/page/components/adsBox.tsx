@@ -46,7 +46,7 @@ interface State {
 }
 
 class AdsBox extends React.Component<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       settings: false,
@@ -54,16 +54,14 @@ class AdsBox extends React.Component<Props, State> {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.isShowAdsHistoryUrl()
     this.props.actions.getAdsHistory()
   }
 
   adsDisabled = () => {
     return (
-      <DisabledContent
-        type={'ads'}
-      >
+      <DisabledContent type={'ads'}>
         {getLocale('adsDisabledTextOne')}&nbsp;
         {getLocale('adsDisabledTextTwo')}
       </DisabledContent>
@@ -93,9 +91,7 @@ class AdsBox extends React.Component<Props, State> {
       return null
     }
 
-    return (
-      <BoxAlert type={'ads'} />
-    )
+    return <BoxAlert type={'ads'} />
   }
 
   onAdsSettingChange = (key: string, value: string) => {
@@ -125,46 +121,57 @@ class AdsBox extends React.Component<Props, State> {
 
     return (
       <Grid columns={1} customStyle={{ margin: '0 auto' }}>
-        <Column size={1} customStyle={{ justifyContent: 'center', flexWrap: 'wrap' }}>
+        <Column
+          size={1}
+          customStyle={{ justifyContent: 'center', flexWrap: 'wrap' }}
+        >
           <ControlWrapper text={getLocale('adsPerHour')}>
             <select
               value={adsPerHour.toString()}
               onChange={selectChangeHandler('adsPerHour')}
             >
-              {
-                [0, 1, 2, 3, 4, 5, 10].map((n) => (
-                  <option key={`num-per-hour-${n}`} value={n}>
-                    {getLocale(`adsPerHour${n}`)}
-                  </option>
-                ))
-              }
+              {[0, 1, 2, 3, 4, 5, 10].map((n) => (
+                <option key={`num-per-hour-${n}`} value={n}>
+                  {getLocale(`adsPerHour${n}`)}
+                </option>
+              ))}
             </select>
           </ControlWrapper>
         </Column>
-        { shouldAllowAdsSubdivisionTargeting
-          ? <>
-            <Column size={1} customStyle={{ justifyContent: 'center', flexWrap: 'wrap' }}>
+        {shouldAllowAdsSubdivisionTargeting ? (
+          <>
+            <Column
+              size={1}
+              customStyle={{ justifyContent: 'center', flexWrap: 'wrap' }}
+            >
               <ControlWrapper text={getLocale('adsSubdivisionTargetingTitle')}>
                 <select
                   value={adsSubdivisionTargeting || ''}
                   onChange={selectChangeHandler('adsSubdivisionTargeting')}
                 >
-                  {
-                    this.getAdsSubdivisions().map((subdivision) => {
-                      return (
-                        <option key={subdivision.code} value={subdivision.code}>
-                          {subdivision.name}
-                        </option>
-                      )
-                    })
-                  }
+                  {this.getAdsSubdivisions().map((subdivision) => {
+                    return (
+                      <option key={subdivision.code} value={subdivision.code}>
+                        {subdivision.name}
+                      </option>
+                    )
+                  })}
                 </select>
               </ControlWrapper>
             </Column>
             <div>
-              {getLocale('adsSubdivisionTargetingDescription')} <a href={'https://support.brave.com/hc/en-us/articles/360026361072-Brave-Ads-FAQ'} target={'_blank'}>{getLocale('adsSubdivisionTargetingLearn')}</a>
+              {getLocale('adsSubdivisionTargetingDescription')}{' '}
+              <a
+                href={
+                  'https://support.brave.com/hc/en-us/articles/360026361072-Brave-Ads-FAQ'
+                }
+                target={'_blank'}
+              >
+                {getLocale('adsSubdivisionTargetingLearn')}
+              </a>
             </div>
-          </> : null }
+          </>
+        ) : null}
       </Grid>
     )
   }
@@ -228,7 +235,10 @@ class AdsBox extends React.Component<Props, State> {
     this.props.actions.toggleFlaggedAd(adContent)
   }
 
-  getGroupedAdsHistory = (adsHistory: Rewards.AdsHistory[], savedOnly: boolean) => {
+  getGroupedAdsHistory = (
+    adsHistory: Rewards.AdsHistory[],
+    savedOnly: boolean
+  ) => {
     let groupedAdsHistory: Rewards.AdsHistory[] = []
 
     for (let i = 0; i < adsHistory.length; i++) {
@@ -243,7 +253,9 @@ class AdsBox extends React.Component<Props, State> {
       for (let j = 0; j < adHistory.adDetailRows.length; j++) {
         const adDetailRow = this.getAdDetailRow(adHistory.adDetailRows[j])
 
-        const index = groupedAdsHistory.findIndex(item => item.date === flooredDateString)
+        const index = groupedAdsHistory.findIndex(
+          (item) => item.date === flooredDateString
+        )
         if (index === -1) {
           groupedAdsHistory.push({
             uuid: uuid,
@@ -270,20 +282,40 @@ class AdsBox extends React.Component<Props, State> {
       return []
     }
 
-    let adsSubdivisionsList: Rewards.Subdivision[] = subdivisions.map(val => ({ ...val }))
+    let adsSubdivisionsList: Rewards.Subdivision[] = subdivisions.map(
+      (val) => ({ ...val })
+    )
 
     if (adsSubdivisionTargeting === 'DISABLED') {
-      adsSubdivisionsList.unshift({ code: 'DISABLED', name: getLocale('adsSubdivisionTargetingDisabled') })
+      adsSubdivisionsList.unshift({
+        code: 'DISABLED',
+        name: getLocale('adsSubdivisionTargetingDisabled')
+      })
     } else {
-      adsSubdivisionsList.unshift({ code: 'DISABLED', name: getLocale('adsSubdivisionTargetingDisable') })
+      adsSubdivisionsList.unshift({
+        code: 'DISABLED',
+        name: getLocale('adsSubdivisionTargetingDisable')
+      })
     }
 
-    const subdivisionMap = new Map<string, string>(subdivisions.map(v => [v.code, v.name]))
-    const subdivision = subdivisionMap.get(automaticallyDetectedAdsSubdivisionTargeting)
+    const subdivisionMap = new Map<string, string>(
+      subdivisions.map((v) => [v.code, v.name])
+    )
+    const subdivision = subdivisionMap.get(
+      automaticallyDetectedAdsSubdivisionTargeting
+    )
     if (subdivision && adsSubdivisionTargeting === 'AUTO') {
-      adsSubdivisionsList.unshift({ code: 'AUTO', name: getLocale('adsSubdivisionTargetingAutoDetectedAs', { adsSubdivisionTarget: subdivision }) })
+      adsSubdivisionsList.unshift({
+        code: 'AUTO',
+        name: getLocale('adsSubdivisionTargetingAutoDetectedAs', {
+          adsSubdivisionTarget: subdivision
+        })
+      })
     } else {
-      adsSubdivisionsList.unshift({ code: 'AUTO', name: getLocale('adsSubdivisionTargetingAutoDetect') })
+      adsSubdivisionsList.unshift({
+        code: 'AUTO',
+        name: getLocale('adsSubdivisionTargetingAutoDetect')
+      })
     }
 
     return adsSubdivisionsList
@@ -312,25 +344,25 @@ class AdsBox extends React.Component<Props, State> {
       adAction: adHistory.adContent.adAction,
       savedAd: adHistory.adContent.savedAd,
       flaggedAd: adHistory.adContent.flaggedAd,
-      onThumbUpPress: () =>
-        this.onThumbUpPress(adHistory.adContent),
-      onThumbDownPress: () =>
-        this.onThumbDownPress(adHistory.adContent),
-      onMenuSave: () =>
-        this.onMenuSave(adHistory.adContent),
-      onMenuFlag: () =>
-        this.onMenuFlag(adHistory.adContent)
+      onThumbUpPress: () => this.onThumbUpPress(adHistory.adContent),
+      onThumbDownPress: () => this.onThumbDownPress(adHistory.adContent),
+      onMenuSave: () => this.onMenuSave(adHistory.adContent),
+      onMenuFlag: () => this.onMenuFlag(adHistory.adContent)
     }
 
     const categoryContent: Rewards.CategoryContent = {
       category: adHistory.categoryContent.category,
       optAction: adHistory.categoryContent.optAction,
       onOptIn: () =>
-        this.onOptIn(adHistory.categoryContent.category,
-                     adHistory.categoryContent.optAction),
+        this.onOptIn(
+          adHistory.categoryContent.category,
+          adHistory.categoryContent.optAction
+        ),
       onOptOut: () =>
-        this.onOptOut(adHistory.categoryContent.category,
-                      adHistory.categoryContent.optAction)
+        this.onOptOut(
+          adHistory.categoryContent.category,
+          adHistory.categoryContent.optAction
+        )
     }
 
     return {
@@ -356,7 +388,7 @@ class AdsBox extends React.Component<Props, State> {
     })
   }
 
-  render () {
+  render() {
     const savedOnly = false
 
     let adsEnabled = false
@@ -369,12 +401,8 @@ class AdsBox extends React.Component<Props, State> {
     let earningsLastMonth = 0
     let needsBrowserUpgradeToServeAds = false
 
-    const {
-      adsData,
-      adsHistory,
-      externalWallet,
-      parameters
-    } = this.props.rewardsData
+    const { adsData, adsHistory, externalWallet, parameters } =
+      this.props.rewardsData
 
     if (adsData) {
       adsEnabled = adsData.adsEnabled
@@ -398,10 +426,12 @@ class AdsBox extends React.Component<Props, State> {
 
     const walletStatus = externalWallet ? externalWallet.status : null
     const walletProvider = externalWallet
-      ? externalWalletProviderFromString(externalWallet.type) : null
+      ? externalWalletProviderFromString(externalWallet.type)
+      : null
     const providerPayoutStatus = getProviderPayoutStatus(
       parameters.payoutStatus,
-      walletProvider && walletStatus ? walletProvider : null)
+      walletProvider && walletStatus ? walletProvider : null
+    )
 
     return (
       <>
@@ -419,7 +449,7 @@ class AdsBox extends React.Component<Props, State> {
           onSettingsClick={this.onSettingsToggle}
           attachedAlert={this.adsNotSupportedAlert(adsIsSupported)}
           headerAlert={
-            (needsBrowserUpgradeToServeAds && !this.state.settings)
+            needsBrowserUpgradeToServeAds && !this.state.settings
               ? this.needsBrowserUpdateView()
               : null
           }
@@ -442,36 +472,28 @@ class AdsBox extends React.Component<Props, State> {
           </List>
           <List title={getLocale('adsPaymentDate')}>
             <NextContribution>
-              {
-                nextPaymentDate
-                  ? nextPaymentDateFormatter.format(new Date(nextPaymentDate))
-                  : ''
-              }
+              {nextPaymentDate
+                ? nextPaymentDateFormatter.format(new Date(nextPaymentDate))
+                : ''}
             </NextContribution>
           </List>
           <List title={getLocale('adsNotificationsReceived')}>
-            <Tokens
-              value={adsReceivedThisMonth.toString()}
-              hideText={true}
-            />
+            <Tokens value={adsReceivedThisMonth.toString()} hideText={true} />
           </List>
-          {
-            this.props.layout === 'wide' &&
-              <ShowAdsHistory onAdsHistoryOpen={this.onAdsHistoryToggle} />
-          }
+          {this.props.layout === 'wide' && (
+            <ShowAdsHistory onAdsHistoryOpen={this.onAdsHistoryToggle} />
+          )}
         </Box>
-        {
-          this.state.modalShowAdsHistory
-          ? <ModalShowAdsHistory
-              onClose={this.closeShowAdsHistory}
-              adsPerHour={adsPerHour}
-              rows={rows}
-              hasSavedEntries={this.hasSavedEntries(rows)}
-              hasLikedEntries={this.hasLikedEntries(rows)}
-              totalDays={30}
+        {this.state.modalShowAdsHistory ? (
+          <ModalShowAdsHistory
+            onClose={this.closeShowAdsHistory}
+            adsPerHour={adsPerHour}
+            rows={rows}
+            hasSavedEntries={this.hasSavedEntries(rows)}
+            hasLikedEntries={this.hasLikedEntries(rows)}
+            totalDays={30}
           />
-          : null
-        }
+        ) : null}
       </>
     )
   }
@@ -485,7 +507,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   actions: bindActionCreators(rewardsActions, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AdsBox)
+export default connect(mapStateToProps, mapDispatchToProps)(AdsBox)

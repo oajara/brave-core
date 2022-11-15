@@ -4,8 +4,10 @@
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 document.addEventListener('DOMContentLoaded', function () {
-  [$('channel-promo-beta'), $('channel-promo-dev')].forEach((node, index) => {
-    const text1 = document.createTextNode('Interested in cool new Brave features? Try our ')
+  ;[$('channel-promo-beta'), $('channel-promo-dev')].forEach((node, index) => {
+    const text1 = document.createTextNode(
+      'Interested in cool new Brave features? Try our '
+    )
     const text2 = document.createTextNode('.')
     const link = document.createElement('a')
     node.textContent = ''
@@ -20,4 +22,4 @@ document.addEventListener('DOMContentLoaded', function () {
       link.textContent = 'nightly channel'
     }
   })
-});
+})

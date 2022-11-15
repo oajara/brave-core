@@ -15,7 +15,7 @@ const Hint = styled('div')<{}>`
   gap: 12px;
   text-align: center;
   font-size: 15px;
-  color: var(--override-readability-color, #FFFFFF);
+  color: var(--override-readability-color, #ffffff);
   > p {
     margin: 0;
   }
@@ -26,7 +26,7 @@ const Graphic = styled('div')`
   height: 16px;
 `
 
-export default function BraveTodayHint () {
+export default function BraveTodayHint() {
   return (
     <Hint>
       <p>{getLocale('braveTodayScrollHint')}</p>

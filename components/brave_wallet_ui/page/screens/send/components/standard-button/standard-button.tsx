@@ -9,7 +9,11 @@ import * as React from 'react'
 import InfoIcon from '../../../../../assets/svg-icons/info-icon.svg'
 
 // Styled Components
-import { Button, ErrorIcon, StandardButtonStyleProps } from './standard-button.style'
+import {
+  Button,
+  ErrorIcon,
+  StandardButtonStyleProps
+} from './standard-button.style'
 
 interface Props extends StandardButtonStyleProps {
   buttonText: string
@@ -36,9 +40,7 @@ export const StandardButton = (props: Props) => {
       marginRight={marginRight}
       hasError={hasError}
     >
-      {hasError &&
-        <ErrorIcon icon={InfoIcon} size={22} />
-      }
+      {hasError && <ErrorIcon icon={InfoIcon} size={22} />}
       {buttonText}
     </Button>
   )

@@ -33,10 +33,18 @@ export default {
 export const _Main = () => {
   return (
     <MainPanel
-      onEnable={() => { console.log('enabled') }}
-      onDismiss={() => { console.log('dismissed') }}
-      onDecline={() => { console.log('declined') }}
-      onAnimationComplete={() => { console.log('animation complete') }}
+      onEnable={() => {
+        console.log('enabled')
+      }}
+      onDismiss={() => {
+        console.log('dismissed')
+      }}
+      onDecline={() => {
+        console.log('declined')
+      }}
+      onAnimationComplete={() => {
+        console.log('animation complete')
+      }}
     />
   )
 }

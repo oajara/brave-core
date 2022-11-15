@@ -3,14 +3,13 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 import { BraveWallet, CreateAccountOptionsType } from '../constants/types'
-import {
-  ETHIconUrl,
-  SOLIconUrl,
-  FILECOINIconUrl
-} from '../assets/asset-icons'
+import { ETHIconUrl, SOLIconUrl, FILECOINIconUrl } from '../assets/asset-icons'
 import { getLocale } from '../../common/locale'
 
-export const CreateAccountOptions = (isFilecoinEnabled: boolean, isSolanaEnabled: boolean): CreateAccountOptionsType[] => {
+export const CreateAccountOptions = (
+  isFilecoinEnabled: boolean,
+  isSolanaEnabled: boolean
+): CreateAccountOptionsType[] => {
   let accounts = [
     {
       description: getLocale('braveWalletCreateAccountEthereumDescription'),

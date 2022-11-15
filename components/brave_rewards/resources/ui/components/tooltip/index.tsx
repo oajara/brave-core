@@ -23,7 +23,7 @@ interface State {
 }
 
 export default class Tooltip extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
 
     this.state = {
@@ -39,7 +39,7 @@ export default class Tooltip extends React.PureComponent<Props, State> {
     this.setState({ displayed: false })
   }
 
-  render () {
+  render() {
     const { id, content, children, rightEdge } = this.props
 
     return (
@@ -48,10 +48,8 @@ export default class Tooltip extends React.PureComponent<Props, State> {
           displayed={this.state.displayed}
           rightEdge={rightEdge || false}
         >
-          <StyledPointer rightEdge={rightEdge || false}/>
-          <StyledTooltipText>
-            {content}
-          </StyledTooltipText>
+          <StyledPointer rightEdge={rightEdge || false} />
+          <StyledTooltipText>{content}</StyledTooltipText>
         </StyledTooltip>
         <StyledChildWrapper
           onMouseEnter={this.onMouseEnter}

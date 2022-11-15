@@ -6,7 +6,7 @@ import { boolean } from '@storybook/addon-knobs'
 import { BraveTodayState } from '../../../reducers/today'
 import { feed, publishers } from './mockBraveNewsController'
 
-export default function getTodayState (): BraveTodayState {
+export default function getTodayState(): BraveTodayState {
   const hasDataError = boolean('Today data fetch error?', false)
   return {
     isFetching: boolean('Today is fetching?', false),

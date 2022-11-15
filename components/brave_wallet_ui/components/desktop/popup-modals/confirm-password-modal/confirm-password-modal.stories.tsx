@@ -9,13 +9,15 @@ import { WalletPageStory } from '../../../../stories/wrappers/wallet-page-story-
 import { ConfirmPasswordModal } from './confirm-password-modal'
 
 export const _ConfirmPasswordModal = () => {
-  return <WalletPageStory>
-    <ConfirmPasswordModal
-      title='Are you sure that you want to remove "MY ACCOUNT NAME HERE"?'
-      onClose={() => alert('close')}
-      onSuccess={() => alert('success')}
-    />
-  </WalletPageStory>
+  return (
+    <WalletPageStory>
+      <ConfirmPasswordModal
+        title='Are you sure that you want to remove "MY ACCOUNT NAME HERE"?'
+        onClose={() => alert('close')}
+        onSuccess={() => alert('success')}
+      />
+    </WalletPageStory>
+  )
 }
 
 _ConfirmPasswordModal.storyName = 'Confirm Password Modal'

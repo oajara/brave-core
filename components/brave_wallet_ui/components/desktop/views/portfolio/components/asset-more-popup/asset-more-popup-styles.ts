@@ -22,7 +22,7 @@ export const StyledWrapper = styled.div`
   top: 35px;
   right: 15px;
   z-index: 20;
- `
+`
 
 export const PopupButton = styled(WalletButton)`
   display: flex;
@@ -53,12 +53,12 @@ export const PopupButtonText = styled.span`
   color: ${(p) => p.theme.color.text01};
 `
 const PopupButtonIcon = styled.div`
- width: 20px;
- height: 20px;
- margin-right: 18px;
- margin-left: 14px;
- mask-size: contain;
- background-color: ${(p) => p.theme.color.interactive07};
+  width: 20px;
+  height: 20px;
+  margin-right: 18px;
+  margin-left: 14px;
+  mask-size: contain;
+  background-color: ${(p) => p.theme.color.interactive07};
 `
 export const HelpCenterIcon = styled(PopupButtonIcon)`
   -webkit-mask-image: url(${InfoIcon});
@@ -66,11 +66,11 @@ export const HelpCenterIcon = styled(PopupButtonIcon)`
 `
 
 export const ExplorerIcon = styled(PopupButtonIcon)`
- -webkit-mask-image: url(${LinkIcon});
- mask-image: url(${LinkIcon});
+  -webkit-mask-image: url(${LinkIcon});
+  mask-image: url(${LinkIcon});
 `
 
 export const DeleteIcon = styled(PopupButtonIcon)`
- -webkit-mask-image: url(${TrashIcon});
- mask-image: url(${TrashIcon});
+  -webkit-mask-image: url(${TrashIcon});
+  mask-image: url(${TrashIcon});
 `

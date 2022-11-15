@@ -29,7 +29,8 @@ export const StyledWidgetContainer = styled('div')<WidgetContainerProps>`
   /* For debug: */
   /* outline: 1px solid rgba(0, 185, 0, .6); */
   align-items: center;
-  flex-direction: ${p => p.menuPosition === 'right' ? 'row' : 'row-reverse'};
+  flex-direction: ${(p) =>
+    p.menuPosition === 'right' ? 'row' : 'row-reverse'};
   height: fit-content;
   min-width: 0;
   position: relative;
@@ -37,7 +38,7 @@ export const StyledWidgetContainer = styled('div')<WidgetContainerProps>`
 
 export const StyledWidgetMenuContainer = styled('div')<WidgetPaddingProps>`
   position: absolute;
-  top: ${({ paddingType }) => paddingType === 'right' ? 15 : 5}px;
+  top: ${({ paddingType }) => (paddingType === 'right' ? 15 : 5)}px;
   right: 5px;
 `
 
@@ -53,20 +54,25 @@ interface WidgetPaddingProps {
   paddingType: 'none' | 'right' | 'default'
 }
 
-export const StyledWidget = styled('div')<WidgetVisibilityProps & WidgetPaddingProps>`
+export const StyledWidget = styled('div')<
+  WidgetVisibilityProps & WidgetPaddingProps
+>`
   padding: ${({ paddingType }) => getWidgetPadding(paddingType)};
   max-width: 100%;
-  width: ${p => p.isCrypto ? '284px' : 'initial'};
+  width: ${(p) => (p.isCrypto ? '284px' : 'initial')};
   position: relative;
   transition: background 0.5s ease;
-  border-radius: ${p => p.isCrypto ? '6px' : '16px'};
+  border-radius: ${(p) => (p.isCrypto ? '6px' : '16px')};
 
   ${StyledWidgetMenuContainer}:hover & {
     background: rgba(33, 37, 41, 0.48);
   }
 
   // Also hover when menu button has been clicked
-  ${p => (p.widgetMenuPersist && !p.isCryptoTab) && `
+  ${(p) =>
+    p.widgetMenuPersist &&
+    !p.isCryptoTab &&
+    `
     background: rgba(33, 37, 41, 0.48);
   `}
 `
@@ -76,13 +82,15 @@ interface WidgetMenuProps {
   textDirection: string
 }
 
-export const StyledWidgetMenu = styled('div')<WidgetVisibilityProps & WidgetMenuProps>`
+export const StyledWidgetMenu = styled('div')<
+  WidgetVisibilityProps & WidgetMenuProps
+>`
   position absolute;
   width: max-content;
   min-width: 166px;
   padding: 8px 0;
-  background-color: ${p => p.theme.color.contextMenuBackground};
-  color:  ${p => p.theme.color.contextMenuForeground};
+  background-color: ${(p) => p.theme.color.contextMenuBackground};
+  color:  ${(p) => p.theme.color.contextMenuForeground};
   box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.3);
   border-radius: 4px;
   top: 48px;
@@ -90,27 +98,30 @@ export const StyledWidgetMenu = styled('div')<WidgetVisibilityProps & WidgetMenu
   visibility: hidden;
   pointer-events: none;
 
-  ${p => p.widgetMenuPersist && `
+  ${(p) =>
+    p.widgetMenuPersist &&
+    `
     visibility: visible;
     pointer-events: auto;
   `}
 
   @media screen and (min-width: 1150px) {
-    ${p => (p.menuPosition === 'right' && p.textDirection === 'ltr') || (p.menuPosition === 'left' && p.textDirection === 'rtl')
-    ? 'left: 8px'
-    : 'right: 8px'}
+    ${(p) =>
+      (p.menuPosition === 'right' && p.textDirection === 'ltr') ||
+      (p.menuPosition === 'left' && p.textDirection === 'rtl')
+        ? 'left: 8px'
+        : 'right: 8px'}
   }
 
   @media screen and (min-width: 950px) and (max-width: 1150px) {
-    ${p => p.textDirection === 'ltr'
-    ? `left: ${p.menuPosition === 'left' ? -130 : 8}px`
-    : 'right: 8px'}
+    ${(p) =>
+      p.textDirection === 'ltr'
+        ? `left: ${p.menuPosition === 'left' ? -130 : 8}px`
+        : 'right: 8px'}
   }
 
   @media screen and (max-width: 950px) {
-    ${p => p.textDirection === 'ltr'
-    ? 'right: 8px'
-    : 'left: 8px'}
+    ${(p) => (p.textDirection === 'ltr' ? 'right: 8px' : 'left: 8px')}
   }
 `
 
@@ -130,9 +141,10 @@ export const StyledWidgetButton = styled('button')<WidgetButtonProps>`
   outline: unset;
   cursor: pointer;
 
-  &:hover, :focus-visible {
-    background-color: ${p => p.theme.color.contextMenuHoverBackground};
-    color: ${p => p.theme.color.contextMenuHoverForeground};
+  &:hover,
+  :focus-visible {
+    background-color: ${(p) => p.theme.color.contextMenuHoverBackground};
+    color: ${(p) => p.theme.color.contextMenuHoverForeground};
   }
 `
 
@@ -146,15 +158,15 @@ export const StyledWidgetLink = styled('a')<WidgetButtonProps>`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  outline-color: #FF7654;
+  outline-color: #ff7654;
   outline-width: 2px;
   outline-offset: -3px;
   cursor: pointer;
   text-decoration: none;
 
   &:hover {
-    background-color: ${p => p.theme.color.contextMenuHoverBackground};
-    color: ${p => p.theme.color.contextMenuHoverForeground};
+    background-color: ${(p) => p.theme.color.contextMenuHoverBackground};
+    color: ${(p) => p.theme.color.contextMenuHoverForeground};
   }
 `
 
@@ -167,7 +179,9 @@ export const StyledEllipsis = styled('div')<WidgetVisibilityProps>`
   visibility: hidden;
   pointer-events: none;
 
-  ${p => (p.widgetMenuPersist || p.isForeground) && `
+  ${(p) =>
+    (p.widgetMenuPersist || p.isForeground) &&
+    `
     visibility: visible;
     pointer-events: auto;
   `}
@@ -181,11 +195,11 @@ export const StyledEllipsis = styled('div')<WidgetVisibilityProps>`
 export const StyledWidgetIcon = styled('div')<WidgetIconProps>`
   height: 13px;
   width: 13px;
-  margin: ${p => p.isBinance ? '0px 13px 0 12px' : '-7px 15px 0 10px'};
-  margin-left: ${p => p.isRefresh ? '13px' : p.isBinance ? '12px' : '10px'};
+  margin: ${(p) => (p.isBinance ? '0px 13px 0 12px' : '-7px 15px 0 10px')};
+  margin-left: ${(p) => (p.isRefresh ? '13px' : p.isBinance ? '12px' : '10px')};
 
   svg {
-    fill: ${p => p.theme.color.contextMenuForeground};
+    fill: ${(p) => p.theme.color.contextMenuForeground};
   }
 `
 export const StyledSpan = styled('span')<{}>`

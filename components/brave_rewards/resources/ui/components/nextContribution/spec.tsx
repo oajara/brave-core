@@ -9,7 +9,11 @@ import NextContribution from './index'
 import { TestThemeProvider } from 'brave-ui/theme'
 
 describe('NextContribution tests', () => {
-  const baseComponent = (props?: object) => <TestThemeProvider><NextContribution id='next' {...props} /></TestThemeProvider>
+  const baseComponent = (props?: object) => (
+    <TestThemeProvider>
+      <NextContribution id="next" {...props} />
+    </TestThemeProvider>
+  )
 
   describe('basic tests', () => {
     it('matches the snapshot', () => {

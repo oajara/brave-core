@@ -13,14 +13,24 @@ import OutlineButtonComponent from '../components/outlineButton'
 export default {
   title: 'New Tab',
   decorators: [
-    (Story: any) => <ThemeProvider><Story /></ThemeProvider>,
+    (Story: any) => (
+      <ThemeProvider>
+        <Story />
+      </ThemeProvider>
+    ),
     withKnobs
   ]
 }
 
 export const Loading = () => (
   <div
-    style={{ width: '500px', height: '500px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+    style={{
+      width: '500px',
+      height: '500px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}
   >
     <LoadingComponent />
   </div>
@@ -28,10 +38,14 @@ export const Loading = () => (
 
 export const OutlineButton = () => (
   <div
-    style={{ width: '500px', height: '500px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+    style={{
+      width: '500px',
+      height: '500px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}
   >
-    <OutlineButtonComponent>
-      Button
-    </OutlineButtonComponent>
+    <OutlineButtonComponent>Button</OutlineButtonComponent>
   </div>
 )

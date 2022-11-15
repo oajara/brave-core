@@ -14,7 +14,7 @@ import { localeStrings } from './locale_strings'
 import * as mojom from '../../../../shared/lib/mojom'
 
 const locale = {
-  getString (key: string) {
+  getString(key: string) {
     return localeStrings[key] || 'MISSING'
   }
 }
@@ -23,18 +23,18 @@ export default {
   title: 'Rewards'
 }
 
-function actionLogger (name: string) {
+function actionLogger(name: string) {
   return (...args: any[]) => {
     console.log(name, ...args)
   }
 }
 
-function getNextPaymentDate (days: number) {
+function getNextPaymentDate(days: number) {
   const now = new Date()
   return new Date(now.getFullYear(), now.getMonth(), now.getDate() + days)
 }
 
-export function Wallet () {
+export function Wallet() {
   const summaryData = {
     adEarnings: knobs.boolean('Ad Earnings Received', true) ? 10 : 0,
     autoContributions: 10,
@@ -53,7 +53,8 @@ export function Wallet () {
   }
 
   const nextPaymentDate = getNextPaymentDate(
-    knobs.number('Days Until Payment', 20))
+    knobs.number('Days Until Payment', 20)
+  )
 
   return (
     <LocaleContext.Provider value={locale}>

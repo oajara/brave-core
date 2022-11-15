@@ -10,31 +10,32 @@ class WalletPanelApiProxy extends WalletApiProxy {
   callbackRouter = new BraveWallet.PageCallbackRouter()
   panelHandler = new BraveWallet.PanelHandlerRemote()
 
-  constructor () {
+  constructor() {
     super()
 
     const factory = BraveWallet.PanelHandlerFactory.getRemote()
     factory.createPanelHandler(
-        this.callbackRouter.$.bindNewPipeAndPassRemote(),
-        this.panelHandler.$.bindNewPipeAndPassReceiver(),
-        this.walletHandler.$.bindNewPipeAndPassReceiver(),
-        this.jsonRpcService.$.bindNewPipeAndPassReceiver(),
-        this.swapService.$.bindNewPipeAndPassReceiver(),
-        this.assetRatioService.$.bindNewPipeAndPassReceiver(),
-        this.keyringService.$.bindNewPipeAndPassReceiver(),
-        this.blockchainRegistry.$.bindNewPipeAndPassReceiver(),
-        this.txService.$.bindNewPipeAndPassReceiver(),
-        this.ethTxManagerProxy.$.bindNewPipeAndPassReceiver(),
-        this.solanaTxManagerProxy.$.bindNewPipeAndPassReceiver(),
-        this.filTxManagerProxy.$.bindNewPipeAndPassReceiver(),
-        this.braveWalletService.$.bindNewPipeAndPassReceiver(),
-        this.braveWalletP3A.$.bindNewPipeAndPassReceiver())
+      this.callbackRouter.$.bindNewPipeAndPassRemote(),
+      this.panelHandler.$.bindNewPipeAndPassReceiver(),
+      this.walletHandler.$.bindNewPipeAndPassReceiver(),
+      this.jsonRpcService.$.bindNewPipeAndPassReceiver(),
+      this.swapService.$.bindNewPipeAndPassReceiver(),
+      this.assetRatioService.$.bindNewPipeAndPassReceiver(),
+      this.keyringService.$.bindNewPipeAndPassReceiver(),
+      this.blockchainRegistry.$.bindNewPipeAndPassReceiver(),
+      this.txService.$.bindNewPipeAndPassReceiver(),
+      this.ethTxManagerProxy.$.bindNewPipeAndPassReceiver(),
+      this.solanaTxManagerProxy.$.bindNewPipeAndPassReceiver(),
+      this.filTxManagerProxy.$.bindNewPipeAndPassReceiver(),
+      this.braveWalletService.$.bindNewPipeAndPassReceiver(),
+      this.braveWalletP3A.$.bindNewPipeAndPassReceiver()
+    )
   }
 }
 
 let walletPanelApiProxyInstance: WalletPanelApiProxy
 
-export default function getWalletPanelApiProxy () {
+export default function getWalletPanelApiProxy() {
   if (!walletPanelApiProxyInstance) {
     walletPanelApiProxyInstance = new WalletPanelApiProxy()
   }

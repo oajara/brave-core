@@ -8,7 +8,15 @@ import { connect } from 'react-redux'
 
 // Components
 import { Checkbox, Grid, Column, ControlWrapper } from 'brave-ui/components'
-import { Box, TableContribute, DisabledContent, List, ModalContribute, Tokens, NextContribution } from '../../ui/components'
+import {
+  Box,
+  TableContribute,
+  DisabledContent,
+  List,
+  ModalContribute,
+  Tokens,
+  NextContribution
+} from '../../ui/components'
 import { Provider } from '../../ui/components/profile'
 
 // Utils
@@ -27,7 +35,7 @@ interface MonthlyChoice {
   converted: string
 }
 
-function generateContributionMonthly (properties: Rewards.RewardsParameters) {
+function generateContributionMonthly(properties: Rewards.RewardsParameters) {
   if (!properties.autoContributeChoices) {
     return []
   }
@@ -40,11 +48,10 @@ function generateContributionMonthly (properties: Rewards.RewardsParameters) {
   })
 }
 
-interface Props extends Rewards.ComponentProps {
-}
+interface Props extends Rewards.ComponentProps {}
 
 class ContributeBox extends React.Component<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       modalContribute: false,
@@ -72,7 +79,9 @@ class ContributeBox extends React.Component<Props, State> {
           },
           url: item.url,
           attention: item.percentage,
-          onRemove: () => { this.actions.excludePublisher(item.id) }
+          onRemove: () => {
+            this.actions.excludePublisher(item.id)
+          }
         }
       })
   }
@@ -98,7 +107,9 @@ class ContributeBox extends React.Component<Props, State> {
         },
         url: item.url,
         attention: 0,
-        onRemove: () => { this.actions.restorePublisher(item.id) }
+        onRemove: () => {
+          this.actions.restorePublisher(item.id)
+        }
       }
     })
   }
@@ -111,15 +122,13 @@ class ContributeBox extends React.Component<Props, State> {
     })
   }
 
-  get actions () {
+  get actions() {
     return this.props.actions
   }
 
-  contributeDisabled () {
+  contributeDisabled() {
     return (
-      <DisabledContent
-        type={'contribute'}
-      >
+      <DisabledContent type={'contribute'}>
         {getLocale('contributionDisabledText1')}&nbsp;
         {getLocale('contributionDisabledText2')}
       </DisabledContent>
@@ -131,7 +140,10 @@ class ContributeBox extends React.Component<Props, State> {
   }
 
   onToggleContribution = () => {
-    this.actions.onSettingSave('enabledContribute', !this.props.rewardsData.enabledContribute)
+    this.actions.onSettingSave(
+      'enabledContribute',
+      !this.props.rewardsData.enabledContribute
+    )
   }
 
   onModalContributeToggle = () => {
@@ -140,7 +152,10 @@ class ContributeBox extends React.Component<Props, State> {
     })
   }
 
-  onSelectSettingChange = (key: string, event: React.FormEvent<HTMLSelectElement>) => {
+  onSelectSettingChange = (
+    key: string,
+    event: React.FormEvent<HTMLSelectElement>
+  ) => {
     this.actions.onSettingSave(key, Number(event.currentTarget.value))
   }
 
@@ -159,39 +174,53 @@ class ContributeBox extends React.Component<Props, State> {
 
     return (
       <Grid columns={1} customStyle={{ margin: '0 auto' }}>
-        <Column size={1} customStyle={{ justifyContent: 'center', flexWrap: 'wrap' }}>
+        <Column
+          size={1}
+          customStyle={{ justifyContent: 'center', flexWrap: 'wrap' }}
+        >
           <ControlWrapper text={getLocale('contributionMonthly')}>
             <select
-              onChange={this.onSelectSettingChange.bind(this, 'contributionMonthly')}
+              onChange={this.onSelectSettingChange.bind(
+                this,
+                'contributionMonthly'
+              )}
               value={(contributionMonthly || 0).toFixed(3)}
             >
-              {
-                monthlyList.map((choice) => (
-                  <option key={`choice-setting-${choice.tokens}`} value={choice.tokens.toString()}>
-                    {getLocale('contributionUpTo')} {choice.tokens} BAT ({choice.converted} USD)
-                  </option>
-                ))
-              }
+              {monthlyList.map((choice) => (
+                <option
+                  key={`choice-setting-${choice.tokens}`}
+                  value={choice.tokens.toString()}
+                >
+                  {getLocale('contributionUpTo')} {choice.tokens} BAT (
+                  {choice.converted} USD)
+                </option>
+              ))}
             </select>
           </ControlWrapper>
           <ControlWrapper text={getLocale('contributionMinTime')}>
             <select
-              onChange={this.onSelectSettingChange.bind(this, 'contributionMinTime')}
+              onChange={this.onSelectSettingChange.bind(
+                this,
+                'contributionMinTime'
+              )}
               value={(contributionMinTime || '').toString()}
             >
-              <option value='5'>{getLocale('contributionTime5')}</option>
-              <option value='8'>{getLocale('contributionTime8')}</option>
-              <option value='60'>{getLocale('contributionTime60')}</option>
+              <option value="5">{getLocale('contributionTime5')}</option>
+              <option value="8">{getLocale('contributionTime8')}</option>
+              <option value="60">{getLocale('contributionTime60')}</option>
             </select>
           </ControlWrapper>
           <ControlWrapper text={getLocale('contributionMinVisits')}>
             <select
-              onChange={this.onSelectSettingChange.bind(this, 'contributionMinVisits')}
+              onChange={this.onSelectSettingChange.bind(
+                this,
+                'contributionMinVisits'
+              )}
               value={(contributionMinVisits || '').toString()}
             >
-              <option value='1'>{getLocale('contributionVisit1')}</option>
-              <option value='5'>{getLocale('contributionVisit5')}</option>
-              <option value='10'>{getLocale('contributionVisit10')}</option>
+              <option value="1">{getLocale('contributionVisit1')}</option>
+              <option value="5">{getLocale('contributionVisit5')}</option>
+              <option value="10">{getLocale('contributionVisit10')}</option>
             </select>
           </ControlWrapper>
           <ControlWrapper text={getLocale('contributionOther')}>
@@ -203,8 +232,12 @@ class ContributeBox extends React.Component<Props, State> {
               multiple={true}
               onChange={this.onCheckSettingChange}
             >
-              <div data-key='contributionNonVerified'>{getLocale('contributionShowNonVerified')}</div>
-              <div data-key='contributionVideos'>{getLocale('contributionVideos')}</div>
+              <div data-key="contributionNonVerified">
+                {getLocale('contributionShowNonVerified')}
+              </div>
+              <div data-key="contributionVideos">
+                {getLocale('contributionVideos')}
+              </div>
             </Checkbox>
           </ControlWrapper>
         </Column>
@@ -216,7 +249,7 @@ class ContributeBox extends React.Component<Props, State> {
     this.setState({ settings: !this.state.settings })
   }
 
-  render () {
+  render() {
     const {
       parameters,
       contributionMonthly,
@@ -253,9 +286,8 @@ class ContributeBox extends React.Component<Props, State> {
         settingsOpened={this.state.settings}
         onSettingsClick={this.onSettingsToggle}
       >
-        {
-          this.state.modalContribute
-          ? <ModalContribute
+        {this.state.modalContribute ? (
+          <ModalContribute
             rows={contributeRows}
             onRestore={this.onRestore}
             excludedRows={excludedRows}
@@ -263,35 +295,39 @@ class ContributeBox extends React.Component<Props, State> {
             onTabChange={this.onTabChange}
             onClose={this.onModalContributeToggle}
           />
-          : null
-        }
+        ) : null}
         <List title={getLocale('contributionMonthly')}>
           <select
             value={(contributionMonthly || 0).toFixed(3)}
-            onChange={this.onSelectSettingChange.bind(this, 'contributionMonthly')}
+            onChange={this.onSelectSettingChange.bind(
+              this,
+              'contributionMonthly'
+            )}
           >
-            {
-              monthlyList.map((choice) => (
-                <option key={`choice-${choice.tokens}`} value={choice.tokens.toString()}>
-                  {getLocale('contributionUpTo')} {choice.tokens} BAT ({choice.converted} USD)
-                </option>
-              ))
-            }
+            {monthlyList.map((choice) => (
+              <option
+                key={`choice-${choice.tokens}`}
+                value={choice.tokens.toString()}
+              >
+                {getLocale('contributionUpTo')} {choice.tokens} BAT (
+                {choice.converted} USD)
+              </option>
+            ))}
           </select>
         </List>
         <List title={getLocale('contributionNextDate')}>
           <NextContribution>
-            {new Intl.DateTimeFormat('default', { month: 'short', day: 'numeric' }).format(reconcileStamp * 1000)}
+            {new Intl.DateTimeFormat('default', {
+              month: 'short',
+              day: 'numeric'
+            }).format(reconcileStamp * 1000)}
           </NextContribution>
         </List>
         <List title={getLocale('contributionSites')}>
           <Tokens value={numRows.toString()} hideText={true} />
         </List>
         <TableContribute
-          header={[
-            getLocale('site'),
-            getLocale('rewardsContributeAttention')
-          ]}
+          header={[getLocale('site'), getLocale('rewardsContributeAttention')]}
           testId={'autoContribute'}
           rows={topRows}
           allSites={allSites}
@@ -316,7 +352,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   actions: bindActionCreators(rewardsActions, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ContributeBox)
+export default connect(mapStateToProps, mapDispatchToProps)(ContributeBox)

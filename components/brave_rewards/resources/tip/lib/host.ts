@@ -25,15 +25,18 @@ interface RecurringTipInfo {
   amount: number
 }
 
-function getEntryPoint (value: string): EntryPoint {
+function getEntryPoint(value: string): EntryPoint {
   switch (value) {
-    case 'set-monthly': return value
-    case 'clear-monthly': return value
-    default: return 'one-time'
+    case 'set-monthly':
+      return value
+    case 'clear-monthly':
+      return value
+    default:
+      return 'one-time'
   }
 }
 
-function getDialogArgs (): DialogArgs {
+function getDialogArgs(): DialogArgs {
   let args: any = {}
   try {
     args = Object(JSON.parse(chrome.getVariableValue('dialogArguments')))
@@ -51,18 +54,18 @@ function getDialogArgs (): DialogArgs {
   }
 }
 
-function addWebUIListeners (listeners: Record<string, any>) {
+function addWebUIListeners(listeners: Record<string, any>) {
   for (const [name, listener] of Object.entries(listeners)) {
     addWebUIListener(name, listener)
   }
 }
 
-export function createHost (): Host {
+export function createHost(): Host {
   const stateManager = createStateManager<HostState>({})
   const dialogArgs = getDialogArgs()
   let tipResultPending = false
 
-  function checkPendingTipResult (result: number) {
+  function checkPendingTipResult(result: number) {
     if (tipResultPending) {
       tipResultPending = false
       if (result === 0) {
@@ -76,8 +79,7 @@ export function createHost (): Host {
   }
 
   addWebUIListeners({
-
-    rewardsInitialized () {
+    rewardsInitialized() {
       const { publisherKey } = dialogArgs
 
       if (!publisherKey) {
@@ -95,32 +97,32 @@ export function createHost (): Host {
       chrome.send('getPublisherBanner', [publisherKey])
     },
 
-    externalWalletUpdated (externalWalletInfo: ExternalWalletInfo) {
+    externalWalletUpdated(externalWalletInfo: ExternalWalletInfo) {
       stateManager.update({ externalWalletInfo })
     },
 
-    tipProcessed (amount: number) {
+    tipProcessed(amount: number) {
       if (!tipResultPending) {
         stateManager.update({ tipProcessed: true })
       }
     },
 
-    tipFailed () {
+    tipFailed() {
       tipResultPending = false
       stateManager.update({
         hostError: { type: 'ERR_TIP_FAILED' }
       })
     },
 
-    publisherBannerUpdated (publisherInfo: PublisherInfo) {
+    publisherBannerUpdated(publisherInfo: PublisherInfo) {
       stateManager.update({ publisherInfo })
     },
 
-    rewardsParametersUpdated (rewardsParameters: RewardsParameters) {
+    rewardsParametersUpdated(rewardsParameters: RewardsParameters) {
       stateManager.update({ rewardsParameters })
     },
 
-    recurringTipsUpdated (tips?: RecurringTipInfo[]) {
+    recurringTipsUpdated(tips?: RecurringTipInfo[]) {
       if (!tips) {
         return
       }
@@ -134,11 +136,11 @@ export function createHost (): Host {
       }
     },
 
-    reconcileStampUpdated (stamp: number) {
+    reconcileStampUpdated(stamp: number) {
       stateManager.update({ nextReconcileDate: new Date(stamp * 1000) })
     },
 
-    balanceUpdated (result: { status: number, balance: BalanceInfo }) {
+    balanceUpdated(result: { status: number; balance: BalanceInfo }) {
       if (result.status === 0) {
         stateManager.update({
           balanceInfo: result.balance
@@ -153,68 +155,69 @@ export function createHost (): Host {
       }
     },
 
-    recurringTipRemoved (success: boolean) {
+    recurringTipRemoved(success: boolean) {
       chrome.send('getRecurringTips')
     },
 
-    recurringTipSaved (success: boolean) {
+    recurringTipSaved(success: boolean) {
       chrome.send('getRecurringTips')
     },
 
-    reconcileCompleted (data: { type: number, result: number }) {
+    reconcileCompleted(data: { type: number; result: number }) {
       if (data.result === 0) {
         chrome.send('fetchBalance')
       }
-      if (data.type === 8) { // RewardsType::ONE_TIME_TIP
+      if (data.type === 8) {
+        // RewardsType::ONE_TIME_TIP
         checkPendingTipResult(data.result)
       }
     },
 
-    pendingContributionSaved (result: number) {
+    pendingContributionSaved(result: number) {
       if (checkPendingTipResult(result)) {
         stateManager.update({ tipPending: true })
       }
     },
 
-    unblindedTokensReady () {
+    unblindedTokensReady() {
       chrome.send('fetchBalance')
     }
-
   })
 
   // Expose a symbol-keyed method for testing the display of
   // error messaging which may be difficult to reproduce.
-  self[Symbol.for('setTipDialogErrorForTesting')] =
-    (type: unknown, code: unknown) => {
-      stateManager.update({
-        hostError: {
-          type: String(type),
-          code: code === undefined ? code : Number(code)
-        }
-      })
-    }
+  self[Symbol.for('setTipDialogErrorForTesting')] = (
+    type: unknown,
+    code: unknown
+  ) => {
+    stateManager.update({
+      hostError: {
+        type: String(type),
+        code: code === undefined ? code : Number(code)
+      }
+    })
+  }
 
   chrome.send('dialogReady')
 
   return {
-
-    get state () {
+    get state() {
       return stateManager.getState()
     },
 
-    getString (key: string) {
+    getString(key: string) {
       return loadTimeData.getString(key)
     },
 
-    getDialogArgs () {
+    getDialogArgs() {
       return dialogArgs
     },
 
-    closeDialog () {
+    closeDialog() {
       chrome.send('dialogClose')
     },
 
-    processTip (amount: number, kind: TipKind) {
+    processTip(amount: number, kind: TipKind) {
       if (!dialogArgs.publisherKey) {
         stateManager.update({
           hostError: { type: 'ERR_INVALID_PUBLISHER_KEY' }
@@ -222,7 +225,7 @@ export function createHost (): Host {
         return
       }
 
-      if (amount < 0 || kind === 'one-time' && amount === 0) {
+      if (amount < 0 || (kind === 'one-time' && amount === 0)) {
         stateManager.update({
           hostError: { type: 'ERR_INVALID_TIP_AMOUNT' }
         })
@@ -255,7 +258,7 @@ export function createHost (): Host {
       }
     },
 
-    shareTip (target: ShareTarget) {
+    shareTip(target: ShareTarget) {
       const { publisherInfo } = stateManager.getState()
       if (!publisherInfo) {
         stateManager.update({
@@ -279,6 +282,5 @@ export function createHost (): Host {
     },
 
     addListener: stateManager.addListener
-
   }
 }

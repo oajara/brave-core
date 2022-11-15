@@ -24,18 +24,18 @@ export default {
 }
 
 const locale = {
-  getString (key: string) {
+  getString(key: string) {
     return localeStrings[key] || 'MISSING'
   }
 }
 
-function actionLogger (name: string) {
+function actionLogger(name: string) {
   return (...args: any[]) => {
     console.log(name, ...args)
   }
 }
 
-function createHost (): Host {
+function createHost(): Host {
   const stateManager = createStateManager<HostState>({
     openTime: Date.now(),
     loading: false,
@@ -119,17 +119,19 @@ function createHost (): Host {
   })
 
   return {
-    get state () { return stateManager.getState() },
+    get state() {
+      return stateManager.getState()
+    },
 
     addListener: stateManager.addListener,
 
     getString: locale.getString,
 
-    refreshPublisherStatus () {
+    refreshPublisherStatus() {
       console.log('refreshPublisherStatus')
     },
 
-    enableRewards () {
+    enableRewards() {
       stateManager.update({
         rewardsEnabled: true,
         declaredCountry: 'US'
@@ -137,7 +139,7 @@ function createHost (): Host {
       return Promise.resolve('success')
     },
 
-    setAutoContributeAmount (amount) {
+    setAutoContributeAmount(amount) {
       stateManager.update({
         settings: {
           ...stateManager.getState().settings,
@@ -146,7 +148,7 @@ function createHost (): Host {
       })
     },
 
-    setAdsPerHour (adsPerHour) {
+    setAdsPerHour(adsPerHour) {
       stateManager.update({
         settings: {
           ...stateManager.getState().settings,
@@ -155,7 +157,7 @@ function createHost (): Host {
       })
     },
 
-    setIncludeInAutoContribute (enabled) {
+    setIncludeInAutoContribute(enabled) {
       const { publisherInfo } = stateManager.getState()
       if (publisherInfo) {
         stateManager.update({
@@ -167,19 +169,19 @@ function createHost (): Host {
       }
     },
 
-    openAdaptiveCaptchaSupport () {
+    openAdaptiveCaptchaSupport() {
       console.log('openAdaptiveCaptchaSupport')
     },
 
-    openRewardsSettings () {
+    openRewardsSettings() {
       console.log('openRewardsSettings')
     },
 
-    sendTip () {
+    sendTip() {
       console.log('sendTip')
     },
 
-    handleMonthlyTipAction (action) {
+    handleMonthlyTipAction(action) {
       switch (action) {
         case 'update': {
           console.log('updateMonthlyTip')
@@ -199,15 +201,15 @@ function createHost (): Host {
       }
     },
 
-    handleExternalWalletAction (action) {
+    handleExternalWalletAction(action) {
       console.log('externalWalletAction', action)
     },
 
-    handleNotificationAction (action) {
+    handleNotificationAction(action) {
       console.log('notificationAction', action)
     },
 
-    dismissNotification (notification) {
+    dismissNotification(notification) {
       const { notifications } = stateManager.getState()
       stateManager.update({
         notifications: notifications.filter((n) => {
@@ -216,7 +218,7 @@ function createHost (): Host {
       })
     },
 
-    solveGrantCaptcha (solution) {
+    solveGrantCaptcha(solution) {
       console.log('solveGrantCaptcha', solution)
       const { grantCaptchaInfo } = stateManager.getState()
       if (!grantCaptchaInfo) {
@@ -230,19 +232,19 @@ function createHost (): Host {
       })
     },
 
-    clearGrantCaptcha () {
+    clearGrantCaptcha() {
       stateManager.update({
         grantCaptchaInfo: null
       })
     },
 
-    clearAdaptiveCaptcha () {
+    clearAdaptiveCaptcha() {
       stateManager.update({
         adaptiveCaptchaInfo: null
       })
     },
 
-    handleAdaptiveCaptchaResult (result) {
+    handleAdaptiveCaptchaResult(result) {
       const { adaptiveCaptchaInfo } = stateManager.getState()
       if (!adaptiveCaptchaInfo) {
         return
@@ -261,20 +263,18 @@ function createHost (): Host {
           break
       }
     },
-    onAppRendered () {
+    onAppRendered() {
       console.log('onAppRendered')
     }
   }
 }
 
-export function MainPanel () {
+export function MainPanel() {
   const [host] = React.useState(() => createHost())
-  return (
-    <App host={host} />
-  )
+  return <App host={host} />
 }
 
-export function Notification () {
+export function Notification() {
   return (
     <LocaleContext.Provider value={locale}>
       <WithThemeVariables>
@@ -292,24 +292,26 @@ export function Notification () {
   )
 }
 
-export function GrantNotification () {
+export function GrantNotification() {
   return (
     <LocaleContext.Provider value={locale}>
       <WithThemeVariables>
         <div style={{ width: '375px' }}>
           <NotificationCard
-            notification={{
-              type: 'grant-available',
-              id: '123',
-              grantInfo: {
+            notification={
+              {
+                type: 'grant-available',
                 id: '123',
-                type: 'ads',
-                amount: 1.25,
-                createdAt: Date.now(),
-                expiresAt: Date.now() + 1000 * 60 * 60 * 24 * 5
-              },
-              timeStamp: Date.now()
-            } as any}
+                grantInfo: {
+                  id: '123',
+                  type: 'ads',
+                  amount: 1.25,
+                  createdAt: Date.now(),
+                  expiresAt: Date.now() + 1000 * 60 * 60 * 24 * 5
+                },
+                timeStamp: Date.now()
+              } as any
+            }
           />
         </div>
       </WithThemeVariables>
@@ -317,7 +319,7 @@ export function GrantNotification () {
   )
 }
 
-export function AdaptiveCaptcha () {
+export function AdaptiveCaptcha() {
   const adaptiveCaptchaInfo: AdaptiveCaptchaInfo = {
     url: '',
     status: 'pending'

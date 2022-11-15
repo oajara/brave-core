@@ -17,16 +17,14 @@ export const InputBox = styled.span<{ invalid?: boolean }>`
   padding: 8px 10px;
   display: flex;
   width: 100%;
-  border: 1px solid ${p => p.invalid
-    ? p.theme.color.warn
-    : p.theme.palette.blurple300};
+  border: 1px solid
+    ${(p) => (p.invalid ? p.theme.color.warn : p.theme.palette.blurple300)};
   border-radius: 3px;
-  background: ${p => p.theme.palette.white};
+  background: ${(p) => p.theme.palette.white};
 
   &:focus-within {
-    border-color: ${p => p.invalid
-      ? p.theme.color.warn
-      : p.theme.palette.blurple300};
+    border-color: ${(p) =>
+      p.invalid ? p.theme.color.warn : p.theme.palette.blurple300};
   }
 
   input {
@@ -35,7 +33,7 @@ export const InputBox = styled.span<{ invalid?: boolean }>`
     vertical-align: middle;
     outline: unset;
     font-size: 14px;
-    font-family: ${p => p.theme.fontFamily.body};
+    font-family: ${(p) => p.theme.fontFamily.body};
     width: 100%;
     border: none;
   }
@@ -44,8 +42,8 @@ export const InputBox = styled.span<{ invalid?: boolean }>`
 export const DefaultCardIcon = styled(CreditCardIcon)`
   width: 22px;
   height: 22px;
-  color: ${p => p.theme.palette.grey400};
-  opacity: .668;
+  color: ${(p) => p.theme.palette.grey400};
+  opacity: 0.668;
   display: inline-block;
   vertical-align: middle;
   margin-right: 8px;

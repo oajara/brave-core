@@ -7,18 +7,26 @@ import { formatMessage } from './locale_context'
 describe('locale_context', () => {
   describe('formatMesage', () => {
     it('fills placeholders with array values', () => {
-      expect(formatMessage('a $1 b $3 c $2', [1, 2, 3]))
-        .toStrictEqual(['a ', 1, ' b ', 3, ' c ', 2])
+      expect(formatMessage('a $1 b $3 c $2', [1, 2, 3])).toStrictEqual([
+        'a ',
+        1,
+        ' b ',
+        3,
+        ' c ',
+        2
+      ])
     })
 
     it('fills placeholders with a placeholders object', () => {
-      expect(formatMessage('a $1 b $3 c $2', {
-        placeholders: {
-          $1: 1,
-          $2: 2,
-          $3: 3
-        }
-      })).toStrictEqual(['a ', 1, ' b ', 3, ' c ', 2])
+      expect(
+        formatMessage('a $1 b $3 c $2', {
+          placeholders: {
+            $1: 1,
+            $2: 2,
+            $3: 3
+          }
+        })
+      ).toStrictEqual(['a ', 1, ' b ', 3, ' c ', 2])
     })
 
     it('fills repeated placeholders', () => {
@@ -26,34 +34,40 @@ describe('locale_context', () => {
     })
 
     it('replaces tags', () => {
-      expect(formatMessage('a $3x$4 b $1y$2 c', {
-        tags: {
-          $1: (content) => `-${content}-`,
-          $3: (content) => `=${content}=`
-        }
-      })).toStrictEqual(['a ', '=x=', ' b ', '-y-', ' c'])
+      expect(
+        formatMessage('a $3x$4 b $1y$2 c', {
+          tags: {
+            $1: (content) => `-${content}-`,
+            $3: (content) => `=${content}=`
+          }
+        })
+      ).toStrictEqual(['a ', '=x=', ' b ', '-y-', ' c'])
     })
 
     it('fills placeholders and replaces tags', () => {
-      expect(formatMessage('a $1x$2 $3', {
-        placeholders: {
-          $3: 3
-        },
-        tags: {
-          $1: (content) => `-${content}-`
-        }
-      })).toStrictEqual(['a ', '-x-', ' ', 3])
+      expect(
+        formatMessage('a $1x$2 $3', {
+          placeholders: {
+            $3: 3
+          },
+          tags: {
+            $1: (content) => `-${content}-`
+          }
+        })
+      ).toStrictEqual(['a ', '-x-', ' ', 3])
     })
 
     it('fills placeholders nested within tags', () => {
-      expect(formatMessage('a $1 $2 $3 b', {
-        placeholders: {
-          $2: 2
-        },
-        tags: {
-          $1: (content) => ['-', ...content, '-']
-        }
-      })).toStrictEqual(['a ', ['-', ' ', 2, ' ', '-'], ' b'])
+      expect(
+        formatMessage('a $1 $2 $3 b', {
+          placeholders: {
+            $2: 2
+          },
+          tags: {
+            $1: (content) => ['-', ...content, '-']
+          }
+        })
+      ).toStrictEqual(['a ', ['-', ' ', 2, ' ', '-'], ' b'])
     })
   })
 })

@@ -47,8 +47,11 @@ export const load = (): NewTab.GridSitesState => {
 // Saving the state is useful so that something will show when opening
 // a new tab. There is a delay before MostVisitedInfoChanged() is called.
 // Using `sessionStorage` won't persist to disk.
-export const debouncedSave = debounce<NewTab.GridSitesState>((data: NewTab.GridSitesState) => {
-  if (data) {
-    window.sessionStorage.setItem(newkeyName, JSON.stringify(data))
-  }
-}, 50)
+export const debouncedSave = debounce<NewTab.GridSitesState>(
+  (data: NewTab.GridSitesState) => {
+    if (data) {
+      window.sessionStorage.setItem(newkeyName, JSON.stringify(data))
+    }
+  },
+  50
+)

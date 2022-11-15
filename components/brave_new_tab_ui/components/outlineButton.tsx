@@ -21,12 +21,12 @@ const Button = styled('button')`
   justify-content: center;
   gap: 4px;
   color: white;
-  font: 600 13px/20px ${p => p.theme.fontFamily.heading};
+  font: 600 13px/20px ${(p) => p.theme.fontFamily.heading};
   /* Use box-shadow for borders so we get a smooth (and layout-free performance-cheap)
     animation as well as multiple borders. */
-  box-shadow: 0 0 0 var(--outer-border-size) rgba(255, 255, 255, .6),
-              inset 0 0 0 var(--inner-border-size) white;
-  transition: box-shadow .12s ease-in-out;
+  box-shadow: 0 0 0 var(--outer-border-size) rgba(255, 255, 255, 0.6),
+    inset 0 0 0 var(--inner-border-size) white;
+  transition: box-shadow 0.12s ease-in-out;
   outline: none;
 
   :focus {

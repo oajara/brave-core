@@ -12,36 +12,26 @@ import { ViewType } from './state/component_types'
 import { useSelector } from './state/hooks'
 import PurchaseFailedPanel from './components/purchase-failed-panel'
 
-function Main () {
-  const currentView = useSelector(state => state.currentView)
+function Main() {
+  const currentView = useSelector((state) => state.currentView)
 
   if (currentView === ViewType.Loading) {
-    return (
-      <LoadingPanel />
-    )
+    return <LoadingPanel />
   }
 
   if (currentView === ViewType.Main) {
-    return (
-      <MainPanel />
-    )
+    return <MainPanel />
   }
 
   if (currentView === ViewType.PurchaseFailed) {
-    return (
-      <PurchaseFailedPanel />
-    )
+    return <PurchaseFailedPanel />
   }
 
   if (currentView === ViewType.Expired) {
-    return (
-      <ErrorSubscriptionExpired />
-    )
+    return <ErrorSubscriptionExpired />
   }
 
-  return (
-    <SellPanel />
-  )
+  return <SellPanel />
 }
 
 export default Main

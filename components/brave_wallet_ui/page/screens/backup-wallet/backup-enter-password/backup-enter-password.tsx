@@ -49,13 +49,15 @@ export const BackupEnterPassword: React.FC = () => {
 
   // state
   const [password, setPassword] = React.useState('')
-  const [isCorrectPassword, setIsCorrectPassword] = React.useState<boolean>(true)
+  const [isCorrectPassword, setIsCorrectPassword] =
+    React.useState<boolean>(true)
 
   // memos
 
   // methods
   const onSubmit = async () => {
-    if (!password) { // require password to continue
+    if (!password) {
+      // require password to continue
       return
     }
 
@@ -71,14 +73,18 @@ export const BackupEnterPassword: React.FC = () => {
     setPassword('')
     setIsCorrectPassword(true)
 
-    const { mnemonic } = await keyringService.getMnemonicForDefaultKeyring(password)
+    const { mnemonic } = await keyringService.getMnemonicForDefaultKeyring(
+      password
+    )
     if (mnemonic) {
       dispatch(WalletPageActions.recoveryWordsAvailable({ mnemonic }))
       history.push(WalletRoutes.BackupExplainRecoveryPhrase)
     }
   }
 
-  const handlePasswordKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handlePasswordKeyDown = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
     if (event.key === 'Enter') {
       onSubmit()
     }
@@ -94,16 +100,13 @@ export const BackupEnterPassword: React.FC = () => {
     <CenteredPageLayout>
       <MainWrapper>
         <StyledWrapper>
-
           <StepsNavigation
             currentStep={WalletRoutes.OnboardingExplainRecoveryPhrase}
             steps={[]}
           />
 
           <div>
-            <Title>
-              {getLocale('braveWalletEnterAPassswordToContinue')}
-            </Title>
+            <Title>{getLocale('braveWalletEnterAPassswordToContinue')}</Title>
             <Description>
               {getLocale('braveWalletEnterYourPasswordToStartBackup')}
             </Description>
@@ -119,7 +122,7 @@ export const BackupEnterPassword: React.FC = () => {
               value={password}
               error={getLocale('braveWalletLockScreenError')}
               autoFocus
-              name='password'
+              name="password"
             />
           </div>
 
@@ -127,13 +130,12 @@ export const BackupEnterPassword: React.FC = () => {
 
           <NextButtonRow>
             <NavButton
-              buttonType='primary'
+              buttonType="primary"
               text={getLocale('braveWalletButtonContinue')}
               disabled={!password || !isCorrectPassword}
               onSubmit={onSubmit}
             />
           </NextButtonRow>
-
         </StyledWrapper>
       </MainWrapper>
     </CenteredPageLayout>

@@ -12,27 +12,31 @@ import SardineIconLight from '../assets/svg-icons/sardine-logo-light.svg'
 import SardineIconDark from '../assets/svg-icons/sardine-logo-dark.svg'
 import { isSardineSupported } from '../utils/asset-utils'
 
-function getBuyOptions (): BuyOption[] {
-  const buyOptions = [{
-    id: BraveWallet.OnRampProvider.kRamp,
-    actionText: getLocale('braveWalletBuyWithRamp'),
-    icon: RampIcon,
-    name: getLocale('braveWalletBuyRampNetworkName'),
-    description: getLocale('braveWalletBuyRampDescription')
-  },
-  {
-    id: BraveWallet.OnRampProvider.kWyre,
-    actionText: getLocale('braveWalletBuyWithWyre'),
-    icon: WyreIcon,
-    name: getLocale('braveWalletBuyWyreName'),
-    description: getLocale('braveWalletBuyWyreDescription')
-  }]
+function getBuyOptions(): BuyOption[] {
+  const buyOptions = [
+    {
+      id: BraveWallet.OnRampProvider.kRamp,
+      actionText: getLocale('braveWalletBuyWithRamp'),
+      icon: RampIcon,
+      name: getLocale('braveWalletBuyRampNetworkName'),
+      description: getLocale('braveWalletBuyRampDescription')
+    },
+    {
+      id: BraveWallet.OnRampProvider.kWyre,
+      actionText: getLocale('braveWalletBuyWithWyre'),
+      icon: WyreIcon,
+      name: getLocale('braveWalletBuyWyreName'),
+      description: getLocale('braveWalletBuyWyreDescription')
+    }
+  ]
 
   if (isSardineSupported()) {
     buyOptions.push({
       id: BraveWallet.OnRampProvider.kSardine,
       actionText: getLocale('braveWalletBuyWithSardine'),
-      icon: window.matchMedia('(prefers-color-scheme: dark)').matches ? SardineIconDark : SardineIconLight,
+      icon: window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? SardineIconDark
+        : SardineIconLight,
       name: getLocale('braveWalletBuySardineName'),
       description: getLocale('braveWalletBuySardineDescription')
     })

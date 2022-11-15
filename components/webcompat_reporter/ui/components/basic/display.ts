@@ -12,34 +12,34 @@ import { CardProps } from 'brave-ui/components/layout/card'
 export const ModalTitle = styled(TextSection)`
   box-sizing: border-box;
   font-size: 20px;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
   line-height: 20px;
   font-weight: 500;
-  color: ${p => p.theme.color.text};
+  color: ${(p) => p.theme.color.text};
   margin: 0;
 `
 
 export const InfoText = styled(TextSection)`
   box-sizing: border-box;
-  color: ${p => p.theme.color.text};
+  color: ${(p) => p.theme.color.text};
   font-size: 14px;
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   margin: 0;
   line-height: 1.2;
 `
 
 export const DisclaimerText = styled(TextSection)`
   box-sizing: border-box;
-  color: ${p => p.theme.color.text};
+  color: ${(p) => p.theme.color.text};
   font-size: 12px;
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   margin: 0;
   line-height: 1.2;
 `
 
 export const NonInteractiveURL = styled('p')<{}>`
   box-sizing: border-box;
-  color: ${p => p.theme.color.brandBrave};
+  color: ${(p) => p.theme.color.brandBrave};
   font-size: 14px;
   font-weight: 500;
   display: inline-block;
@@ -50,7 +50,7 @@ export const NonInteractiveURL = styled('p')<{}>`
 `
 
 export const SuccessIcon = styled(CheckCircleIcon)`
-  color: ${p => p.theme.color.subtle};
+  color: ${(p) => p.theme.color.subtle};
   width: 30px;
   margin-right: 10px;
 `
@@ -67,28 +67,28 @@ export const Input = styled.input`
   box-shadow: none;
   border: 1px solid ${(p) => p.theme.color.interactive08};
   border-radius: 4px;
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   font-size: 13px;
   padding: 10px;
   margin: 0px;
   color: ${(p) => p.theme.color.text01};
   ::placeholder {
-    font-family: ${p => p.theme.fontFamily.body};
+    font-family: ${(p) => p.theme.fontFamily.body};
     font-size: 12px;
     color: ${(p) => p.theme.color.text03};
     font-weight: normal;
   }
   :focus {
-      outline: none;
+    outline: none;
   }
 `
 
 export const InputLabel = styled.label`
   display: block;
   box-sizing: border-box;
-  color: ${p => p.theme.color.text};
+  color: ${(p) => p.theme.color.text};
   font-size: 12px;
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   padding-bottom: 4px;
 `
 
@@ -102,18 +102,18 @@ export const TextArea = styled.textarea`
   border-radius: 4px;
   resize: none;
   font-size: 13px;
-  font-family: ${p => p.theme.fontFamily.body};
+  font-family: ${(p) => p.theme.fontFamily.body};
   font-weight: normal;
   padding: 10px;
   margin: 0px;
   color: ${(p) => p.theme.color.text01};
   ::placeholder {
-      color: ${(p) => p.theme.color.text03};
-      font-weight: normal;
-      font-size: 12px;
-      font-family: ${p => p.theme.fontFamily.body};
+    color: ${(p) => p.theme.color.text03};
+    font-weight: normal;
+    font-size: 12px;
+    font-family: ${(p) => p.theme.fontFamily.body};
   }
   :focus {
-      outline: none;
+    outline: none;
   }
 `

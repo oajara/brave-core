@@ -17,10 +17,10 @@ interface Props {
   children: React.ReactNode
 }
 
-export function FormSubmitButton (props: Props) {
+export function FormSubmitButton(props: Props) {
   return (
     <style.root>
-      <button onClick={props.onClick} data-test-id='form-submit-button'>
+      <button onClick={props.onClick} data-test-id="form-submit-button">
         {props.children}
       </button>
     </style.root>

@@ -45,11 +45,11 @@ const rawToStats = (data: any): Stats => {
   return data
 }
 
-export async function getStats (): Promise<Stats> {
+export async function getStats(): Promise<Stats> {
   const result = await Cr.sendWithPromise('getNewTabPageStats')
   return rawToStats(result)
 }
 
-export function addChangeListener (listener: StatsUpdatedHandler): void {
+export function addChangeListener(listener: StatsUpdatedHandler): void {
   Cr.addWebUIListener('stats-updated', (raw: any) => listener(rawToStats(raw)))
 }

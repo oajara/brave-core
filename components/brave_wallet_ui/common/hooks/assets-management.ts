@@ -13,25 +13,35 @@ import { BraveWallet, WalletState } from '../../constants/types'
 import { stripERC20TokenImageURL } from '../../utils/string-utils'
 import { WalletActions } from '../actions'
 
-const onlyInLeft = (left: BraveWallet.BlockchainToken[], right: BraveWallet.BlockchainToken[]) =>
-  left.filter(leftValue =>
-    !right.some(rightValue =>
-      leftValue.contractAddress.toLowerCase() === rightValue.contractAddress.toLowerCase() &&
-      leftValue.chainId === rightValue.chainId && leftValue.tokenId === rightValue.tokenId))
+const onlyInLeft = (
+  left: BraveWallet.BlockchainToken[],
+  right: BraveWallet.BlockchainToken[]
+) =>
+  left.filter(
+    (leftValue) =>
+      !right.some(
+        (rightValue) =>
+          leftValue.contractAddress.toLowerCase() ===
+            rightValue.contractAddress.toLowerCase() &&
+          leftValue.chainId === rightValue.chainId &&
+          leftValue.tokenId === rightValue.tokenId
+      )
+  )
 
-export default function useAssetManagement () {
+export default function useAssetManagement() {
   // redux
-  const {
-    fullTokenList,
-    userVisibleTokensInfo
-  } = useSelector(({ wallet }: { wallet: WalletState }) => wallet)
+  const { fullTokenList, userVisibleTokensInfo } = useSelector(
+    ({ wallet }: { wallet: WalletState }) => wallet
+  )
   const dispatch = useDispatch()
 
   const onAddUserAsset = (token: BraveWallet.BlockchainToken) => {
-    dispatch(WalletActions.addUserAsset({
-      ...token,
-      logo: stripERC20TokenImageURL(token.logo) || ''
-    }))
+    dispatch(
+      WalletActions.addUserAsset({
+        ...token,
+        logo: stripERC20TokenImageURL(token.logo) || ''
+      })
+    )
   }
 
   const onAddCustomAsset = (token: BraveWallet.BlockchainToken) => {
@@ -43,60 +53,76 @@ export default function useAssetManagement () {
     }
   }
 
-  const findVisibleTokenInfo = React.useCallback((token: BraveWallet.BlockchainToken) =>
-    userVisibleTokensInfo.find(t =>
-      t.contractAddress.toLowerCase() === token.contractAddress.toLowerCase() &&
-      t.chainId === token.chainId),
-    [userVisibleTokensInfo])
+  const findVisibleTokenInfo = React.useCallback(
+    (token: BraveWallet.BlockchainToken) =>
+      userVisibleTokensInfo.find(
+        (t) =>
+          t.contractAddress.toLowerCase() ===
+            token.contractAddress.toLowerCase() && t.chainId === token.chainId
+      ),
+    [userVisibleTokensInfo]
+  )
 
-  const onUpdateVisibleAssets = React.useCallback((updatedTokensList: BraveWallet.BlockchainToken[]) => {
-    // Gets a list of all added tokens and adds them to the userVisibleTokensInfo list
-    onlyInLeft(updatedTokensList, userVisibleTokensInfo)
-      .forEach(token => onAddUserAsset(token))
+  const onUpdateVisibleAssets = React.useCallback(
+    (updatedTokensList: BraveWallet.BlockchainToken[]) => {
+      // Gets a list of all added tokens and adds them to the userVisibleTokensInfo list
+      onlyInLeft(updatedTokensList, userVisibleTokensInfo).forEach((token) =>
+        onAddUserAsset(token)
+      )
 
-    // Gets a list of all removed tokens and removes them from the userVisibleTokensInfo list
-    onlyInLeft(userVisibleTokensInfo, updatedTokensList)
-      .forEach(token => dispatch(WalletActions.removeUserAsset(token)))
+      // Gets a list of all removed tokens and removes them from the userVisibleTokensInfo list
+      onlyInLeft(userVisibleTokensInfo, updatedTokensList).forEach((token) =>
+        dispatch(WalletActions.removeUserAsset(token))
+      )
 
-    // Gets a list of custom tokens and native assets returned from updatedTokensList payload
-    // then compares against userVisibleTokensInfo list and updates the tokens visibility if it has changed.
-    onlyInLeft(updatedTokensList, fullTokenList)
-      .forEach(token => {
+      // Gets a list of custom tokens and native assets returned from updatedTokensList payload
+      // then compares against userVisibleTokensInfo list and updates the tokens visibility if it has changed.
+      onlyInLeft(updatedTokensList, fullTokenList).forEach((token) => {
         const foundToken = findVisibleTokenInfo(token)
         // Updates token visibility
         if (foundToken?.visible !== token.visible) {
-          dispatch(WalletActions.setUserAssetVisible(
-            { token, isVisible: token.visible }
-          ))
+          dispatch(
+            WalletActions.setUserAssetVisible({
+              token,
+              isVisible: token.visible
+            })
+          )
         }
       })
 
-    // Refresh Balances, Prices and Price History when done.
-    dispatch(WalletActions.refreshBalancesAndPriceHistory())
-  }, [userVisibleTokensInfo])
+      // Refresh Balances, Prices and Price History when done.
+      dispatch(WalletActions.refreshBalancesAndPriceHistory())
+    },
+    [userVisibleTokensInfo]
+  )
 
-  const makeTokenVisible = React.useCallback((token: BraveWallet.BlockchainToken) => {
-    const foundTokenIdx = userVisibleTokensInfo.findIndex(t =>
-      t.contractAddress.toLowerCase() === token.contractAddress.toLowerCase() &&
-      t.chainId === token.chainId)
+  const makeTokenVisible = React.useCallback(
+    (token: BraveWallet.BlockchainToken) => {
+      const foundTokenIdx = userVisibleTokensInfo.findIndex(
+        (t) =>
+          t.contractAddress.toLowerCase() ===
+            token.contractAddress.toLowerCase() && t.chainId === token.chainId
+      )
 
-    const updatedTokensList = [...userVisibleTokensInfo]
+      const updatedTokensList = [...userVisibleTokensInfo]
 
-    // If token is not part of user-visible tokens, add it.
-    if (foundTokenIdx === -1) {
-      return onUpdateVisibleAssets([...updatedTokensList, token])
-    }
+      // If token is not part of user-visible tokens, add it.
+      if (foundTokenIdx === -1) {
+        return onUpdateVisibleAssets([...updatedTokensList, token])
+      }
 
-    if (userVisibleTokensInfo[foundTokenIdx].visible) {
-      return
-    }
+      if (userVisibleTokensInfo[foundTokenIdx].visible) {
+        return
+      }
 
-    // If token is part of user-visible tokens, then:
-    //   - toggle visibility for custom tokens
-    //   - do nothing for non-custom tokens
-    updatedTokensList.splice(foundTokenIdx, 1, { ...token, visible: true })
-    onUpdateVisibleAssets(updatedTokensList)
-  }, [userVisibleTokensInfo, onUpdateVisibleAssets])
+      // If token is part of user-visible tokens, then:
+      //   - toggle visibility for custom tokens
+      //   - do nothing for non-custom tokens
+      updatedTokensList.splice(foundTokenIdx, 1, { ...token, visible: true })
+      onUpdateVisibleAssets(updatedTokensList)
+    },
+    [userVisibleTokensInfo, onUpdateVisibleAssets]
+  )
 
   return {
     onUpdateVisibleAssets,

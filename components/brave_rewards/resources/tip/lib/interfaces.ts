@@ -30,17 +30,14 @@ type GithubMediaData = {
 }
 
 export type MediaMetaData =
-  EmptyMediaData |
-  TwitterMediaData |
-  RedditMediaData |
-  GithubMediaData
+  | EmptyMediaData
+  | TwitterMediaData
+  | RedditMediaData
+  | GithubMediaData
 
 export type ShareTarget = 'twitter'
 
-export type EntryPoint =
-  'one-time' |
-  'set-monthly' |
-  'clear-monthly'
+export type EntryPoint = 'one-time' | 'set-monthly' | 'clear-monthly'
 
 export interface DialogArgs {
   url: string

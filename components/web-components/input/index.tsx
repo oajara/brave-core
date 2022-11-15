@@ -17,7 +17,7 @@ type CustomProps = {
 
 type Props = CustomProps & React.HTMLProps<HTMLInputElement>
 
-function Error (props: CustomProps) {
+function Error(props: CustomProps) {
   let errorMessage: string = ''
   if (props.isRequired && props.isErrorAlwaysShown && !props.value) {
     // TODO: use i18n key and make sure all consuming webuis add that key to the strings
@@ -29,31 +29,49 @@ function Error (props: CustomProps) {
   if (!errorMessage) {
     return null
   }
-  return <span data-has-error className={styles.errorMessage}>{errorMessage}</span>
+  return (
+    <span data-has-error className={styles.errorMessage}>
+      {errorMessage}
+    </span>
+  )
 }
 
-export default function TextInput (props: Props) {
-  const { errorMessage, label, isRequired, isErrorAlwaysShown, ...inputProps } = props
+export default function TextInput(props: Props) {
+  const { errorMessage, label, isRequired, isErrorAlwaysShown, ...inputProps } =
+    props
   return (
-    <label className={classNames(styles.textInput, errorMessage ? styles.hasError : undefined)}>
+    <label
+      className={classNames(
+        styles.textInput,
+        errorMessage ? styles.hasError : undefined
+      )}
+    >
       {label}
-      <input
-        type="text"
-        {...inputProps}
-      />
+      <input type="text" {...inputProps} />
       <Error {...props} />
     </label>
   )
 }
 
-export function Textarea (props: CustomProps & React.HTMLProps<HTMLTextAreaElement>) {
-  const { errorMessage, label, isRequired, isErrorAlwaysShown, ...textareaprops } = props
+export function Textarea(
+  props: CustomProps & React.HTMLProps<HTMLTextAreaElement>
+) {
+  const {
+    errorMessage,
+    label,
+    isRequired,
+    isErrorAlwaysShown,
+    ...textareaprops
+  } = props
   return (
-    <label className={classNames(styles.textInput, errorMessage ? styles.hasError : undefined)}>
+    <label
+      className={classNames(
+        styles.textInput,
+        errorMessage ? styles.hasError : undefined
+      )}
+    >
       {label}
-      <textarea
-        {...textareaprops}
-      ></textarea>
+      <textarea {...textareaprops}></textarea>
       <Error {...props} />
     </label>
   )

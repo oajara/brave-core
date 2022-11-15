@@ -3,7 +3,12 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // you can obtain one at https://mozilla.org/MPL/2.0/.
 
-import { BraveNewsControllerRemote, Publisher, PublisherType, UserEnabled } from 'gen/brave/components/brave_today/common/brave_news.mojom.m'
+import {
+  BraveNewsControllerRemote,
+  Publisher,
+  PublisherType,
+  UserEnabled
+} from 'gen/brave/components/brave_today/common/brave_news.mojom.m'
 import getBraveNewsController, { Channels, Publishers } from '.'
 
 type PublishersListener = (publishers: Publishers, oldValue: Publishers) => void
@@ -35,11 +40,11 @@ class BraveNewsApi {
 
   locale: string
 
-  constructor () {
+  constructor() {
     this.controller = getBraveNewsController()
   }
 
-  update () {
+  update() {
     this.updateChannels()
 
     this.controller.getLocale().then(({ locale }) => {
@@ -48,15 +53,15 @@ class BraveNewsApi {
     })
   }
 
-  getPublishers () {
+  getPublishers() {
     return this.lastPublishers
   }
 
-  getChannels () {
+  getChannels() {
     return this.lastChannels
   }
 
-  async setPublisherPref (publisherId: string, status: UserEnabled) {
+  async setPublisherPref(publisherId: string, status: UserEnabled) {
     const newValue = {
       ...this.lastPublishers,
       [publisherId]: {
@@ -76,12 +81,14 @@ class BraveNewsApi {
     this.updatePublishers(newValue)
   }
 
-  async subscribeToDirectFeed (feedUrl: string) {
-    const { publishers } = await this.controller.subscribeToNewDirectFeed({ url: feedUrl })
+  async subscribeToDirectFeed(feedUrl: string) {
+    const { publishers } = await this.controller.subscribeToNewDirectFeed({
+      url: feedUrl
+    })
     this.updatePublishers(publishers)
   }
 
-  setPublisherFollowed (publisherId: string, enabled: boolean) {
+  setPublisherFollowed(publisherId: string, enabled: boolean) {
     // For now, Direct Sources work differently to Combined Sources - in their
     // not modified state they are considered enabled.
     if (isDirectFeed(this.lastPublishers[publisherId]) && !enabled) {
@@ -89,17 +96,21 @@ class BraveNewsApi {
       return
     }
 
-    this.setPublisherPref(publisherId, enabled ? UserEnabled.ENABLED : UserEnabled.NOT_MODIFIED)
+    this.setPublisherPref(
+      publisherId,
+      enabled ? UserEnabled.ENABLED : UserEnabled.NOT_MODIFIED
+    )
   }
 
-  async setChannelSubscribed (channelId: string, subscribed: boolean) {
+  async setChannelSubscribed(channelId: string, subscribed: boolean) {
     // While we're waiting for the new channels to come back, speculatively
     // update them, so the UI has instant feedback.
     // This will be overwritten when the controller responds.
-    let subscribedLocales = this.lastChannels[channelId]?.subscribedLocales ?? []
+    let subscribedLocales =
+      this.lastChannels[channelId]?.subscribedLocales ?? []
     if (subscribedLocales.includes(this.locale)) {
       // Remove this locale from the list of subscribed locales.
-      subscribedLocales = subscribedLocales.filter(l => l !== this.locale)
+      subscribedLocales = subscribedLocales.filter((l) => l !== this.locale)
     } else {
       // Add this locale to the list of subscribed locales.
       subscribedLocales.push(this.locale)
@@ -114,16 +125,20 @@ class BraveNewsApi {
     })
 
     // Then, once we receive the actual update, apply it.
-    const { updated } = await this.controller.setChannelSubscribed(this.locale, channelId, subscribed)
+    const { updated } = await this.controller.setChannelSubscribed(
+      this.locale,
+      channelId,
+      subscribed
+    )
     this.updateChannels({
       ...this.lastChannels,
       [channelId]: updated
     })
   }
 
-  async updatePublishers (newPublishers?: Publishers) {
+  async updatePublishers(newPublishers?: Publishers) {
     if (!newPublishers) {
-      ({ publishers: newPublishers } = await this.controller.getPublishers())
+      ;({ publishers: newPublishers } = await this.controller.getPublishers())
     }
 
     const oldValue = this.lastPublishers
@@ -132,9 +147,9 @@ class BraveNewsApi {
     this.notifyPublishersListeners(newPublishers!, oldValue)
   }
 
-  async updateChannels (newChannels?: Channels) {
+  async updateChannels(newChannels?: Channels) {
     if (!newChannels) {
-      ({ channels: newChannels } = await this.controller.getChannels())
+      ;({ channels: newChannels } = await this.controller.getChannels())
     }
 
     const oldValue = this.lastChannels
@@ -143,36 +158,36 @@ class BraveNewsApi {
     this.notifyChannelsListeners(this.lastChannels, oldValue)
   }
 
-  addPublishersListener (listener: PublishersListener) {
+  addPublishersListener(listener: PublishersListener) {
     this.publishersListeners.push(listener)
   }
 
-  removePublishersListener (listener: PublishersListener) {
+  removePublishersListener(listener: PublishersListener) {
     const index = this.publishersListeners.indexOf(listener)
     this.publishersListeners.splice(index, 1)
   }
 
-  addChannelsListener (listener: ChannelsListener) {
+  addChannelsListener(listener: ChannelsListener) {
     this.channelsListeners.push(listener)
   }
 
-  removeChannelsListener (listener: ChannelsListener) {
+  removeChannelsListener(listener: ChannelsListener) {
     const index = this.channelsListeners.indexOf(listener)
     this.channelsListeners.splice(index, 1)
   }
 
-  notifyPublishersListeners (newValue: Publishers, oldValue: Publishers) {
+  notifyPublishersListeners(newValue: Publishers, oldValue: Publishers) {
     for (const listener of this.publishersListeners) {
       listener(newValue, oldValue)
     }
   }
 
-  notifyChannelsListeners (newValue: Channels, oldValue: Channels) {
+  notifyChannelsListeners(newValue: Channels, oldValue: Channels) {
     for (const listener of this.channelsListeners) {
       listener(newValue, oldValue)
     }
   }
 }
 
-export const api = new BraveNewsApi();
-(window as any).api = api
+export const api = new BraveNewsApi()
+;(window as any).api = api

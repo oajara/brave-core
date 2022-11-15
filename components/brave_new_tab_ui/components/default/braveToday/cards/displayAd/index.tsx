@@ -22,11 +22,16 @@ type Props = {
   onViewedDisplayAd: OnViewedDisplayAd
 }
 
-export default function CardDisplayAd (props: Props) {
+export default function CardDisplayAd(props: Props) {
   // Content is retrieved when the element is close to the viewport
-  const [content, setContent] = React.useState<DisplayAd | undefined | null>(undefined)
+  const [content, setContent] = React.useState<DisplayAd | undefined | null>(
+    undefined
+  )
   const [cardRef] = useScrollIntoView(props.shouldScrollIntoView || false)
-  const onClick = useVisitDisplayAdClickHandler(props.onVisitDisplayAd, content ? { ad: content } : undefined)
+  const onClick = useVisitDisplayAdClickHandler(
+    props.onVisitDisplayAd,
+    content ? { ad: content } : undefined
+  )
   const innerRef = React.useRef<HTMLElement>(null)
   // Setup an observer to track amount of time viewed
   React.useEffect(() => {
@@ -35,9 +40,13 @@ export default function CardDisplayAd (props: Props) {
     }
     // Detect when card is viewed, and send an action.
     let onItemViewed = props.onViewedDisplayAd
-    const observer = new VisibilityTimer(() => {
-      onItemViewed({ ad: content })
-    }, 1000, innerRef.current)
+    const observer = new VisibilityTimer(
+      () => {
+        onItemViewed({ ad: content })
+      },
+      1000,
+      innerRef.current
+    )
     observer.startTracking()
     return () => {
       observer.stopTracking()
@@ -58,35 +67,33 @@ export default function CardDisplayAd (props: Props) {
   // Render content trigger
   if (!content) {
     // verbose ref type conversion due to https://stackoverflow.com/questions/61102101/cannot-assign-refobjecthtmldivelement-to-refobjecthtmlelement-instance
-    return <div ref={contentTrigger}><div ref={cardRef as unknown as React.RefObject<HTMLDivElement>} /></div>
+    return (
+      <div ref={contentTrigger}>
+        <div ref={cardRef as unknown as React.RefObject<HTMLDivElement>} />
+      </div>
+    )
   }
-  const imageUrl = content.image.paddedImageUrl?.url || content.image.imageUrl?.url
+  const imageUrl =
+    content.image.paddedImageUrl?.url || content.image.imageUrl?.url
   // Render ad when one is available for this unit
   // TODO(petemill): Avoid nested links
   return (
     <Card.Large ref={innerRef}>
-      <Styles.BatAdLabel href='chrome://rewards'>
+      <Styles.BatAdLabel href="chrome://rewards">
         {getLocale('ad')}
       </Styles.BatAdLabel>
       <a onClick={onClick} href={content.targetUrl.url} ref={cardRef}>
-        <CardImage
-          imageUrl={imageUrl}
-          isPromoted={true}
-        />
+        <CardImage imageUrl={imageUrl} isPromoted={true} />
         <Card.Content>
           <Styles.Header>
-            <Card.Heading>
-              {content.title}
-            </Card.Heading>
+            <Card.Heading>{content.title}</Card.Heading>
             <Styles.CallToAction onClick={onClick}>
               {content.ctaText}
             </Styles.CallToAction>
           </Styles.Header>
           {
             <Card.Source>
-              <Card.Publisher>
-                {content.description}
-              </Card.Publisher>
+              <Card.Publisher>{content.description}</Card.Publisher>
             </Card.Source>
           }
         </Card.Content>

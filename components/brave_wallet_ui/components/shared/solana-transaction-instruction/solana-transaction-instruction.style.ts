@@ -34,7 +34,7 @@ export const InstructionParamBox = styled.div`
   & > * {
     font-style: normal;
     width: 100%;
-  } 
+  }
 
   & > var {
     font-weight: 600;
@@ -42,7 +42,7 @@ export const InstructionParamBox = styled.div`
     display: block;
     font-size: 12px;
   }
-  
+
   & > samp {
     font-weight: 400;
     color: ${(p) => p.theme.color.text02};

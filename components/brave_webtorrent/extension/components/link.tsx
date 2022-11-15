@@ -6,13 +6,15 @@
 import styled, { css } from 'styled-components'
 
 export const Link = styled('a')<{ inactive?: boolean }>`
-    text-decoration: none;
-    color: var(--interactive2);
+  text-decoration: none;
+  color: var(--interactive2);
 
-    ${p => p.inactive && css`
-        color: var(--text3);
-        :hover {
-            cursor: default;
-        }
+  ${(p) =>
+    p.inactive &&
+    css`
+      color: var(--text3);
+      :hover {
+        cursor: default;
+      }
     `}
 `

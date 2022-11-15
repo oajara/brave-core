@@ -6,13 +6,13 @@
 import styled from 'styled-components'
 
 export const StyledClock = styled('div')<{}>`
-  color: var(--override-readability-color, #FFFFFF);
+  color: var(--override-readability-color, #ffffff);
   box-sizing: border-box;
   line-height: 1;
   user-select: none;
   display: flex;
   -webkit-font-smoothing: antialiased;
-  font-family: ${p => p.theme.fontFamily.heading};
+  font-family: ${(p) => p.theme.fontFamily.heading};
 `
 
 export const StyledTime = styled('span')<{}>`

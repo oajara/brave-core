@@ -5,27 +5,28 @@
 import * as React from 'react'
 
 interface Props {
-    id: string
-    name: string
-    thumbnailUrl: string
+  id: string
+  name: string
+  thumbnailUrl: string
 
-    onClick: (id: string) => void
+  onClick: (id: string) => void
 }
 
 export default class PlaylistItem extends React.PureComponent<Props, {}> {
-  render () {
+  render() {
     let { id, name, thumbnailUrl, onClick } = this.props
     return (
-        <div>
-            <h3>{name}</h3>
-            <a href='#' onClick={() => { onClick(id) }}>
-            <img
-                style={{ maxWidth: '100px' }}
-                data-id={id}
-                src={thumbnailUrl}
-            />
-            </a>
-        </div>
+      <div>
+        <h3>{name}</h3>
+        <a
+          href="#"
+          onClick={() => {
+            onClick(id)
+          }}
+        >
+          <img style={{ maxWidth: '100px' }} data-id={id} src={thumbnailUrl} />
+        </a>
+      </div>
     )
   }
 }

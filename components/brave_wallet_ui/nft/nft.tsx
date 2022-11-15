@@ -38,69 +38,78 @@ import { BraveWallet, NFTMetadataReturnType } from '../constants/types'
 import { NftContent } from './components/nft-content/nft-content'
 
 const App = () => {
-  const [loadingNftMetadata, setLoadingNftMetadata] = React.useState<boolean>(true)
+  const [loadingNftMetadata, setLoadingNftMetadata] =
+    React.useState<boolean>(true)
   const [displayMode, setDisplayMode] = React.useState<DisplayMode>()
-  const [selectedAsset, setSelectedAsset] = React.useState<BraveWallet.BlockchainToken>()
+  const [selectedAsset, setSelectedAsset] =
+    React.useState<BraveWallet.BlockchainToken>()
   const [nftMetadata, setNftMetadata] = React.useState<NFTMetadataReturnType>()
-  const [nftMetadataError, setNftMetadataError] = React.useState<string | undefined>()
-  const [tokenNetwork, setTokenNetwork] = React.useState<BraveWallet.NetworkInfo>()
+  const [nftMetadataError, setNftMetadataError] = React.useState<
+    string | undefined
+  >()
+  const [tokenNetwork, setTokenNetwork] =
+    React.useState<BraveWallet.NetworkInfo>()
   const [imageUrl, setImageUrl] = React.useState<string>()
 
   // handle postMessage from wallet ui by setting component state
   // each message has a payload parameter containing the event data
-  const onMessageEventListener = React.useCallback((event: MessageEvent<CommandMessage>) => {
-    // validate message origin
-    if (event.origin === braveWalletOrigin || event.origin === braveWalletPanelOrigin) {
-      const message = event.data
-      switch (message.command) {
-        case NftUiCommand.UpdateLoading:
-        {
-          const { payload } = message as UpdateLoadingMessage
-          setLoadingNftMetadata(payload)
-          break
-        }
-
-        case NftUiCommand.UpdateSelectedAsset:
-        {
-          const { payload } = message as UpdateSelectedAssetMessage
-          setSelectedAsset(payload)
-          break
-        }
-
-        case NftUiCommand.UpdateNFTMetadata:
-        {
-          const { payload } = message as UpdateNFtMetadataMessage
-          setDisplayMode(payload.displayMode)
-
-          if (payload.displayMode === 'icon') {
-            setImageUrl(payload.icon)
+  const onMessageEventListener = React.useCallback(
+    (event: MessageEvent<CommandMessage>) => {
+      // validate message origin
+      if (
+        event.origin === braveWalletOrigin ||
+        event.origin === braveWalletPanelOrigin
+      ) {
+        const message = event.data
+        switch (message.command) {
+          case NftUiCommand.UpdateLoading: {
+            const { payload } = message as UpdateLoadingMessage
+            setLoadingNftMetadata(payload)
+            break
           }
 
-          if (payload.displayMode === 'grid' || payload.displayMode === 'details') {
-            setNftMetadata(payload.nftMetadata)
+          case NftUiCommand.UpdateSelectedAsset: {
+            const { payload } = message as UpdateSelectedAssetMessage
+            setSelectedAsset(payload)
+            break
           }
 
-          break
-        }
+          case NftUiCommand.UpdateNFTMetadata: {
+            const { payload } = message as UpdateNFtMetadataMessage
+            setDisplayMode(payload.displayMode)
 
-        case NftUiCommand.UpdateNFTMetadataError:
-        {
-          const { payload } = message as UpdateNFtMetadataErrorMessage
-          setNftMetadataError(payload.error)
-          setDisplayMode(payload.displayMode)
+            if (payload.displayMode === 'icon') {
+              setImageUrl(payload.icon)
+            }
 
-          break
-        }
+            if (
+              payload.displayMode === 'grid' ||
+              payload.displayMode === 'details'
+            ) {
+              setNftMetadata(payload.nftMetadata)
+            }
 
-        case NftUiCommand.UpdateTokenNetwork:
-        {
-          const { payload } = message as UpdateTokenNetworkMessage
-          setTokenNetwork(payload)
-          break
+            break
+          }
+
+          case NftUiCommand.UpdateNFTMetadataError: {
+            const { payload } = message as UpdateNFtMetadataErrorMessage
+            setNftMetadataError(payload.error)
+            setDisplayMode(payload.displayMode)
+
+            break
+          }
+
+          case NftUiCommand.UpdateTokenNetwork: {
+            const { payload } = message as UpdateTokenNetworkMessage
+            setTokenNetwork(payload)
+            break
+          }
         }
       }
-    }
-  }, [])
+    },
+    []
+  )
 
   React.useEffect(() => {
     // add event listener for postMessage from wallet ui
@@ -110,25 +119,22 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <BraveCoreThemeProvider
-        dark={walletDarkTheme}
-        light={walletLightTheme}
-      >
-      <NftContent
-        isLoading={loadingNftMetadata}
-        selectedAsset={selectedAsset}
-        nftMetadata={nftMetadata}
-        tokenNetwork={tokenNetwork}
-        imageUrl={imageUrl}
-        displayMode={displayMode}
-        nftMetadataError={nftMetadataError}
-      />
-    </BraveCoreThemeProvider>
+      <BraveCoreThemeProvider dark={walletDarkTheme} light={walletLightTheme}>
+        <NftContent
+          isLoading={loadingNftMetadata}
+          selectedAsset={selectedAsset}
+          nftMetadata={nftMetadata}
+          tokenNetwork={tokenNetwork}
+          imageUrl={imageUrl}
+          displayMode={displayMode}
+          nftMetadataError={nftMetadataError}
+        />
+      </BraveCoreThemeProvider>
     </BrowserRouter>
   )
 }
 
-function initialize () {
+function initialize() {
   initLocale(loadTimeData.data_)
   render(<App />, document.getElementById('root'))
 }

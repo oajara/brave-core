@@ -14,7 +14,7 @@ export const Tooltip = styled('div').attrs({
 })`
   --arrow-size: 17px;
   --arrow-width: calc(var(--arrow-size) * 1.41421356237);
-  --arrow-width-half: calc(var(--arrow-width) * .5);
+  --arrow-width-half: calc(var(--arrow-width) * 0.5);
   --arrow-start: calc(100% - 50px);
   --arrow-bottom-clip: calc(100% - var(--arrow-width-half));
   position: absolute;
@@ -22,11 +22,11 @@ export const Tooltip = styled('div').attrs({
   right: -20px;
   border-radius: 6px;
   min-width: 250px;
-  background: linear-gradient(305.95deg, #BF14A2 0%, #F73A1C 98.59%);
+  background: linear-gradient(305.95deg, #bf14a2 0%, #f73a1c 98.59%);
   padding: 24px 26px;
   color: white;
 
-  [dir=rtl] & {
+  [dir='rtl'] & {
     --arrow-start: 14px;
     left: -5px;
     right: unset;
@@ -37,13 +37,13 @@ export const Tooltip = styled('div').attrs({
     of the element (via a pseudo element) so that we can keep the rounded corners
     on the original and clip the copy to only the "arrow". */
   &:before {
-    content: " ";
+    content: ' ';
     position: absolute;
     top: 0;
     bottom: calc(-1 * var(--arrow-width-half));
     left: 0;
     right: 0;
-    background: linear-gradient(305.95deg, #BF14A2 0%, #F73A1C 98.59%);
+    background: linear-gradient(305.95deg, #bf14a2 0%, #f73a1c 98.59%);
     clip-path: polygon(
       calc(var(--arrow-start) + var(--arrow-width)) var(--arrow-bottom-clip),
       calc(var(--arrow-start) + var(--arrow-width-half)) 100%,
@@ -97,18 +97,19 @@ export const CloseButton = styled('button')`
   cursor: pointer;
   border-radius: 100%;
   outline: none;
-  transition: background .12s ease-in-out, box-shadow .12s ease-in-out;
+  transition: background 0.12s ease-in-out, box-shadow 0.12s ease-in-out;
 
-  [dir=rtl] & {
+  [dir='rtl'] & {
     right: unset;
     left: 12px;
   }
 
-  :hover, :focus-visible {
-    background: rgba(255, 255, 255, .3);
+  :hover,
+  :focus-visible {
+    background: rgba(255, 255, 255, 0.3);
   }
 
   :active {
-    box-shadow: 0 0 0 4px rgba(255, 255, 255, .6);
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.6);
   }
 `
