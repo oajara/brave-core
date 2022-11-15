@@ -24,6 +24,11 @@
 -ExtensionActionViewControllerUnitTest.*
 -HighEfficiencyChipViewTest.*
 -PageLiveStateDecoratorHelperTabsTest.IsActiveTab
+-PeopleHandlerSignoutTest.RevokeSyncNotAllowed
+-PeopleHandlerSignoutTest.SignoutNotAllowedSyncOff
+-PeopleHandlerSignoutTest.SignoutNotAllowedSyncOn
+-PeopleHandlerSignoutTest.SignoutWithSyncOff
+-PeopleHandlerSignoutTest.SignoutWithSyncOn
 
 # These tests crash when BraveExtensionManagement is initialized via a
 # TestExtensionSystem
@@ -67,6 +72,20 @@
 # g_browser_process->local_state().
 -AutofillContextMenuManagerTest.AutofillContextMenuContents
 -AutofillContextMenuManagerTest.ExecuteCommand
+-AutofillContextMenuManagerTest.RecordContextMenuIsShownOnField
+-PasswordsPrivateDelegateImplTest.ShowAddShortcutDialog
+
+# MPArch is not supported in Brave, and therefore tests relating to it should
+# be disable.
+-PrerendererNavigationPredictorPrefetchHoldbackDisabledTest.*
+-PrerenderGWSPrefetchHoldbackOffTest.*
+-PrerenderManagerTest.DestroyedOnNavigateAway
+-PrerenderManagerTest.StartCleanPrerenderDirectUrlInput
+-PrerenderManagerTest.StartCleanSearchSuggestionPrerender
+-PrerenderManagerTest.StartNewPrerenderDirectUrlInput
+-PrerenderManagerTest.StartNewSuggestionPrerender
+-PrerenderManagerTest.StartSameSuggestionPrerender
+-PrerenderTest.*
 
 # These tests fail because we have features::kNavigationRequestPreconnect
 # disabled
@@ -357,9 +376,6 @@
 -PrefetchProxyTabHelperWithDecoyTest.*
 -PrefetchProxyTabHelperWithHTMLOnly.*
 -PreinstalledWebAppManagerTest.*
--PrerendererNavigationPredictorPrefetchHoldbackDisabledTest.*
--PrerenderGWSPrefetchHoldbackOffTest.*
--PrerenderTest.*
 -PresentationRequestNotificationProducerTest.*
 -PrintPreviewDialogControllerUnitTest.*
 -PrintPreviewUIUnitTest.*
