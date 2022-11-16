@@ -79,7 +79,8 @@ pipeline {
                                                 credentials('brave-builds-github-token-for-pr-builder')
                                                 github('brave/devops', 'https')
                                             }
-                                            branch('${params.DEVOPS_BRANCH}')
+                                            // branch('${params.DEVOPS_BRANCH}')
+                                            branch('wknapik-different-amis-for-different-target-branches-in-prs')
                                         }
                                     }
                                     scriptPath("jenkins/jobs/browser/pr-brave-browser-${PLATFORM}.Jenkinsfile")
