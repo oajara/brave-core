@@ -29,7 +29,7 @@ namespace {
 HANDLE g_connecting_event_handle = NULL;
 HANDLE g_connect_failed_event_handle = NULL;
 HANDLE g_disconnecting_event_handle = NULL;
-
+/*
 Microsoft::WRL::ComPtr<IVpnService> CreateVpnServiceInstance() {
   Microsoft::WRL::ComPtr<IVpnService> service;
 
@@ -51,7 +51,7 @@ Microsoft::WRL::ComPtr<IVpnService> CreateVpnServiceInstance() {
   }
   return service;
 }
-
+*/
 void WINAPI RasDialFunc(UINT, RASCONNSTATE rasconnstate, DWORD error) {
   if (error) {
     SetEvent(g_connect_failed_event_handle);
@@ -258,7 +258,7 @@ bool DisconnectEntry(const std::wstring& entry_name) {
   VLOG(2) << "There are no active RAS connections.";
   return true;
 }
-
+/*
 bool RemoveDNSFilter(const std::wstring& entry_name) {
   LOG(ERROR) << __func__ << ":" << entry_name;
   Microsoft::WRL::ComPtr<IVpnService> service = CreateVpnServiceInstance();
@@ -296,7 +296,7 @@ bool SetupDNSFilter(const std::wstring& entry_name) {
   return (error == brave_vpn::ErrorCodes::OPERATION_SUCCESS ||
           error == brave_vpn::ErrorCodes::FILTERS_ALREADY_ACTIVATED);
 }
-
+*/
 // https://docs.microsoft.com/en-us/windows/win32/api/ras/nf-ras-rasdiala
 bool ConnectEntry(const std::wstring& entry_name) {
   LPRASDIALPARAMS lp_ras_dial_params = NULL;
