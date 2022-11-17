@@ -8,14 +8,19 @@
 #include <iostream>
 #include <utility>
 #include <vector>
+#include "base/callback_helpers.h"
 #include "brave/components/constants/pref_names.h"
 #include "brave/components/google_sign_in/common/features.h"
 #include "content/public/browser/browser_context.h"
+#include "content/public/browser/navigation_entry.h"
 #include "content/public/browser/storage_partition.h"
+#include "content/public/browser/web_contents.h"
 #include "extensions/common/url_pattern.h"
 #include "services/network/public/mojom/cookie_manager.mojom.h"
 
 #include "third_party/blink/public/mojom/permissions/permission_status.mojom-shared.h"
+#include "ui/base/page_transition_types.h"
+#include "ui/base/window_open_disposition.h"
 
 namespace google_sign_in {
 
@@ -24,7 +29,12 @@ constexpr char kGoogleAuthPattern[] =
     "https://accounts.google.com/o/oauth2/auth*";
 constexpr char kFirebaseContentSettingsPattern[] =
     "https://[*.]firebaseapp.com/__/auth*";
+// ContentSettingsPattern accepts [*.] as wildcard for subdomains, while
+// URLPattern takes *.
 constexpr char kFirebaseUrlPattern[] = "https://*.firebaseapp.com/__/auth*";
+// We need this to delete cookies based on domain
+// constexpr char kGoogleAuthDomain[] = "accounts.google.com";
+// constexpr char kFirebaseAuthDomain[] = "firebaseapp.com";
 
 bool IsGoogleAuthUrl(const GURL& gurl, const bool check_origin_only) {
   const std::vector<URLPattern> auth_login_patterns({
@@ -116,28 +126,58 @@ void HandleBraveGoogleSignInPermissionStatus(
     content::BrowserContext* context,
     const GURL& request_initiator_url,
     scoped_refptr<HostContentSettingsMap> content_settings,
+    bool redo_request,
+    const GURL& target_url,
+    const content::Referrer& referrer,
+    WindowOpenDisposition disposition,
+    // content::RenderFrameHost* opener,
+    content::WebContents* contents,
     const std::vector<blink::mojom::PermissionStatus>& permission_statuses) {
   DCHECK_EQ(1u, permission_statuses.size());
   auto permission_status = permission_statuses[0];
   auto embedding_pattern =
       ContentSettingsPattern::FromURLNoWildcard(request_initiator_url);
-  if (permission_status == blink::mojom::PermissionStatus::GRANTED) {
+
+  bool granted = permission_status == blink::mojom::PermissionStatus::GRANTED;
+
+  if (granted) {
+    std::cout << "Setting 3p policy for " << request_initiator_url.spec()
+              << " to be GRANTED" << std::endl;
+
     // Add 3p exception for request_initiator_url for auth patterns
-    std::cout << "Adding 3p exception for " << request_initiator_url.spec()
-              << std::endl;
     Set3pCookieException(content_settings.get(), embedding_pattern,
                          CONTENT_SETTING_ALLOW);
   } else if (permission_status == blink::mojom::PermissionStatus::DENIED) {
+    std::cout << "Setting 3p policy for " << request_initiator_url.spec()
+              << " to be DENIED" << std::endl;
     // Remove 3p exception for request_initiator_url for auth patterns
     Set3pCookieException(content_settings.get(), embedding_pattern,
                          CONTENT_SETTING_BLOCK);
-    // Delete existing 3p cookies
-    // auto filter = network::mojom::CookieDeletionFilter::New();
-    // filter->excluding_domains = std::vector<std::string>();
-    // filter->excluding_domains->push_back(embedding_pattern.GetHost());
-    // context->GetDefaultStoragePartition()
-    //     ->GetCookieManagerForBrowserProcess()
-    //     ->DeleteCookies(std::move(filter), base::NullCallback());
+  }
+  if (granted && redo_request) {
+    std::cout << "Redoing request" << std::endl;
+    // print pending request
+    std::cout << "Target URL: " << target_url << "\n";
+    // referrer, frametreenodeid, disposition
+    // although should the disposition be current tab?
+    // could we just take the renderframehost opener?
+    std::cout << "window open disposition is " << static_cast<int>(disposition)
+              << "\n";
+    content::OpenURLParams params(
+        target_url, content::Referrer::SanitizeForRequest(target_url, referrer),
+        contents->GetPrimaryMainFrame()->GetFrameTreeNodeId(), disposition,
+        ui::PAGE_TRANSITION_AUTO_TOPLEVEL, false);
+    base::SequencedTaskRunnerHandle::Get()->PostTask(
+        FROM_HERE, base::BindOnce(
+                       [](base::WeakPtr<content::WebContents> web_contents,
+                          const content::OpenURLParams& params) {
+                         if (!web_contents)
+                           return;
+                         web_contents->OpenURL(params);
+                       },
+                       contents->GetWeakPtr(), std::move(params)));
+
+    // contents->OpenURL(params); // probably need to do this in a task
   }
   return;
 }

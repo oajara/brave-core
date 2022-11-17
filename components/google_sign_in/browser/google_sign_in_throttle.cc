@@ -19,6 +19,7 @@
 #include "third_party/blink/public/common/permissions/permission_utils.h"
 #include "third_party/blink/public/mojom/loader/resource_load_info.mojom-shared.h"
 
+#include "ui/base/window_open_disposition.h"
 #include "url/gurl.h"
 #include "url/origin.h"
 
@@ -45,7 +46,8 @@ void OnPermissionRequestStatus(
   std::cout << "1" << std::endl;
   HandleBraveGoogleSignInPermissionStatus(
       contents->GetBrowserContext(), request_initiator_url, content_settings,
-      permission_statuses);
+      false, GURL(), content::Referrer(), WindowOpenDisposition::CURRENT_TAB,
+      contents, permission_statuses);
   std::cout << "2" << std::endl;
   DCHECK_EQ(1u, permission_statuses.size());
   const auto status = permission_statuses[0];
@@ -176,7 +178,8 @@ void GoogleSignInThrottle::WillStartRequest(network::ResourceRequest* request,
   std::cout << "WillStartRequest request_url: " << request_url
             << " request_initiator_url: " << request_initiator_url << std::endl;
 
-  if (!IsGoogleAuthRelatedRequest(request_url, request_initiator_url)) {
+  if (!request_initiator_url.is_valid() || !request_url.is_valid() ||
+      !IsGoogleAuthRelatedRequest(request_url, request_initiator_url)) {
     return;
   }
 
@@ -189,35 +192,35 @@ void GoogleSignInThrottle::WillStartRequest(network::ResourceRequest* request,
                                     settings_map_, delegate_);
 }
 
-void GoogleSignInThrottle::BeforeWillRedirectRequest(
-    net::RedirectInfo* redirect_info,
-    const network::mojom::URLResponseHead& response_head,
-    bool* defer,
-    std::vector<std::string>* to_be_removed_request_headers,
-    net::HttpRequestHeaders* modified_request_headers,
-    net::HttpRequestHeaders* modified_cors_exempt_request_headers) {
-  std::cout << "In GoogleSignInThrottle::BeforeWillRedirectRequest"
-            << std::endl;
+// void GoogleSignInThrottle::BeforeWillRedirectRequest(
+//     net::RedirectInfo* redirect_info,
+//     const network::mojom::URLResponseHead& response_head,
+//     bool* defer,
+//     std::vector<std::string>* to_be_removed_request_headers,
+//     net::HttpRequestHeaders* modified_request_headers,
+//     net::HttpRequestHeaders* modified_cors_exempt_request_headers) {
+//   std::cout << "In GoogleSignInThrottle::BeforeWillRedirectRequest"
+//             << std::endl;
 
-  auto* contents = wc_getter_.Run();
+//   auto* contents = wc_getter_.Run();
 
-  if (!contents) {
-    return;
-  }
+//   if (!contents) {
+//     return;
+//   }
 
-  const auto request_url = redirect_info->new_url;
-  std::cout << "initial url: " << initial_url_ << std::endl;
-  std::cout << "new location: " << request_url << std::endl;
-  std::cout << "last committed URL: " << contents->GetLastCommittedURL()
-            << std::endl;
-  std::cout << "visible URL: " << contents->GetVisibleURL() << std::endl;
+//   const auto request_url = redirect_info->new_url;
+//   std::cout << "initial url: " << initial_url_ << std::endl;
+//   std::cout << "new location: " << request_url << std::endl;
+//   std::cout << "last committed URL: " << contents->GetLastCommittedURL()
+//             << std::endl;
+//   std::cout << "visible URL: " << contents->GetVisibleURL() << std::endl;
 
-  if (!IsGoogleAuthRelatedRequest(request_url, initial_url_)) {
-    return;
-  }
+//   if (!IsGoogleAuthRelatedRequest(request_url, initial_url_)) {
+//     return;
+//   }
 
-  GetPermissionAndMaybeCreatePrompt(defer, contents, initial_url_,
-                                    settings_map_, delegate_);
-}
+//   GetPermissionAndMaybeCreatePrompt(defer, contents, initial_url_,
+//                                     settings_map_, delegate_);
+// }
 
 }  // namespace google_sign_in

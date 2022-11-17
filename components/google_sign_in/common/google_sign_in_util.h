@@ -18,6 +18,7 @@
 #include "content/public/browser/web_contents.h"
 #include "third_party/blink/public/common/permissions/permission_utils.h"
 
+#include "ui/base/window_open_disposition.h"
 #include "url/gurl.h"
 
 namespace google_sign_in {
@@ -41,6 +42,12 @@ void HandleBraveGoogleSignInPermissionStatus(
     content::BrowserContext* context,
     const GURL& request_initiator_url,
     scoped_refptr<HostContentSettingsMap> content_settings,
+    bool redo_request,
+    const GURL& target_url,
+    const content::Referrer& referrer,
+    WindowOpenDisposition disposition,
+    // content::RenderFrameHost* opener,
+    content::WebContents* contents,
     const std::vector<blink::mojom::PermissionStatus>& permission_statuses);
 
 }  // namespace google_sign_in

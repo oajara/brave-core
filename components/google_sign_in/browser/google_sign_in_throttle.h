@@ -43,13 +43,14 @@ class GoogleSignInThrottle : public blink::URLLoaderThrottle {
   void DetachFromCurrentSequence() override;
   void WillStartRequest(network::ResourceRequest* request,
                         bool* defer) override;
-  void BeforeWillRedirectRequest(
-      net::RedirectInfo* redirect_info,
-      const network::mojom::URLResponseHead& response_head,
-      bool* defer,
-      std::vector<std::string>* to_be_removed_request_headers,
-      net::HttpRequestHeaders* modified_request_headers,
-      net::HttpRequestHeaders* modified_cors_exempt_request_headers) override;
+  //   void BeforeWillRedirectRequest(
+  //       net::RedirectInfo* redirect_info,
+  //       const network::mojom::URLResponseHead& response_head,
+  //       bool* defer,
+  //       std::vector<std::string>* to_be_removed_request_headers,
+  //       net::HttpRequestHeaders* modified_request_headers,
+  //       net::HttpRequestHeaders* modified_cors_exempt_request_headers)
+  //       override;
 
  private:
   const content::WebContents::Getter& wc_getter_;
