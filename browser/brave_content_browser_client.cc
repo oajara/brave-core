@@ -565,53 +565,27 @@ bool BraveContentBrowserClient::CanCreateWindow(
   content::WebContents* contents =
       content::WebContents::FromRenderFrameHost(opener);
 
-  std::cout << "BraveContentBrowserClient::CanCreateWindow" << std::endl;
-
   if (google_sign_in::IsGoogleSignInFeatureEnabled() &&
       google_sign_in::IsGoogleAuthRelatedRequest(target_url, opener_url)) {
-    std::cout << "BraveContentBrowserClient::CanCreateWindow "
-                 "google_sign_in::IsGoogleAuthRelatedRequest"
-              << std::endl;
     PrefService* prefs =
         static_cast<Profile*>(contents->GetBrowserContext())->GetPrefs();
     if (!google_sign_in::IsGoogleSignInPrefEnabled(prefs)) {
       return false;
     }
-    // check permission
+    // check Google Sign-In permission
     content::PermissionControllerDelegate* permission_controller =
         contents->GetBrowserContext()->GetPermissionControllerDelegate();
-
     auto status = google_sign_in::GetCurrentGoogleSignInPermissionStatus(
         permission_controller, contents, opener_url);
 
-    std::cout << "status is " << status << std::endl;
     if (status == blink::mojom::PermissionStatus::GRANTED) {
-      Profile* profile =
-          Profile::FromBrowserContext(contents->GetBrowserContext());
-      DCHECK(profile);
-      HostContentSettingsMap* content_settings =
-          HostContentSettingsMapFactory::GetForProfile(profile);
-
-      GURL primary_url("https://accounts.google.com");
-      GURL secondary_url("https://www.joinhoney.com");
-
-      std::cout << "primary_url: " << primary_url << std::endl;
-      std::cout << "secondary_url: " << secondary_url << std::endl;
-
-      std::cout << "Current content setting for these URLs is: "
-                << content_settings->GetContentSetting(
-                       primary_url, secondary_url,
-                       ContentSettingsType::BRAVE_COOKIES)
-                << "\n\n";
-
-      // return ChromeContentBrowserClient impl
+      // return ChromeContentBrowserClient impl, proceed normally
       return ChromeContentBrowserClient::CanCreateWindow(
           opener, opener_url, opener_top_level_frame_url, source_origin,
           container_type, target_url, referrer, frame_name, disposition,
           features, user_gesture, opener_suppressed, no_javascript_access);
-
     } else if (status == blink::mojom::PermissionStatus::ASK) {
-      // ask user for permission
+      // Ask user for permission
       Profile* profile =
           Profile::FromBrowserContext(contents->GetBrowserContext());
       DCHECK(profile);
@@ -624,18 +598,13 @@ bool BraveContentBrowserClient::CanCreateWindow(
           base::BindOnce(
               &google_sign_in::HandleBraveGoogleSignInPermissionStatus,
               contents->GetBrowserContext(), opener_url,
-              base::WrapRefCounted<HostContentSettingsMap>(content_settings),
-              true, target_url, referrer, disposition,
-              contents->GetResponsibleWebContents()));
+              base::WrapRefCounted<HostContentSettingsMap>(content_settings)));
       return false;
     } else {
-      // Permission Denied
+      // Permission denied, don't open window
       return false;
     }
   }
-  std::cout << "BraveContentBrowserClient::CanCreateWindow "
-               "IsGoogleAuthRelatedRequest returned false or feature disabled"
-            << std::endl;
   return ChromeContentBrowserClient::CanCreateWindow(
       opener, opener_url, opener_top_level_frame_url, source_origin,
       container_type, target_url, referrer, frame_name, disposition, features,

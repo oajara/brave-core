@@ -42,14 +42,7 @@ void HandleBraveGoogleSignInPermissionStatus(
     content::BrowserContext* context,
     const GURL& request_initiator_url,
     scoped_refptr<HostContentSettingsMap> content_settings,
-    bool redo_request,
-    const GURL& target_url,
-    const content::Referrer& referrer,
-    WindowOpenDisposition disposition,
-    // content::RenderFrameHost* opener,
-    content::WebContents* contents,
     const std::vector<blink::mojom::PermissionStatus>& permission_statuses);
-
 }  // namespace google_sign_in
 
 #endif  // BRAVE_COMPONENTS_GOOGLE_SIGN_IN_COMMON_GOOGLE_SIGN_IN_UTIL_H_

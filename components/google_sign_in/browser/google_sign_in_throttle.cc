@@ -5,7 +5,6 @@
 
 #include "brave/components/google_sign_in/browser/google_sign_in_throttle.h"
 
-#include <iostream>
 #include <utility>
 #include <vector>
 
@@ -42,40 +41,21 @@ void OnPermissionRequestStatus(
     scoped_refptr<HostContentSettingsMap> content_settings,
     URLLoaderThrottle::Delegate* delegate,
     const std::vector<blink::mojom::PermissionStatus>& permission_statuses) {
-  std::cout << "In OnPermissionRequestStatus" << std::endl;
-  std::cout << "1" << std::endl;
   HandleBraveGoogleSignInPermissionStatus(
       contents->GetBrowserContext(), request_initiator_url, content_settings,
-      false, GURL(), content::Referrer(), WindowOpenDisposition::CURRENT_TAB,
-      contents, permission_statuses);
-  std::cout << "2" << std::endl;
+      permission_statuses);
   DCHECK_EQ(1u, permission_statuses.size());
   const auto status = permission_statuses[0];
-  std::cout << "status is " << status << std::endl;
-  std::cout << "request_initiator_url is " << request_initiator_url
-            << std::endl;
   // Check if current pending navigation is the one we started out with.
-  // This is done to prevent us from accessing deleted Delegate, in case
+  // This is done to prevent us from accessing a deleted Delegate, if
   // the user navigated away while the prompt was still up, or closed the
   // window
   if (pending_entry != contents->GetController().GetPendingEntry()) {
-    std::cout << "Current pending navigation is not the one we started out with"
-              << std::endl;
-    // print out the one we started out with
-    std::cout << "The one we started out with: "
-              << pending_entry->GetVirtualURL() << std::endl;
-    // print out current pending navigation
-    std::cout << "Current pending navigation: "
-              << contents->GetController().GetPendingEntry()->GetVirtualURL()
-              << std::endl;
     return;
   }
-  std::cout << "3" << std::endl;
   if (status == blink::mojom::PermissionStatus::GRANTED) {
-    std::cout << "4" << std::endl;
     delegate->Resume();
   } else if (status == blink::mojom::PermissionStatus::DENIED) {
-    std::cout << "5" << std::endl;
     delegate->CancelWithError(net::ERR_BLOCKED_BY_CLIENT);
   }
   // In case of ASK, we need to be careful because delegate may be deleted
@@ -88,13 +68,13 @@ void GetPermissionAndMaybeCreatePrompt(
     const GURL& request_initiator_url,
     scoped_refptr<HostContentSettingsMap> content_settings,
     URLLoaderThrottle::Delegate* delegate) {
-  std::cout << "In GetPermissionAndMaybeCreatePrompt" << std::endl;
   // Check kGoogleLoginControlType pref and cancel request if false
   // NOTE: This means that if the kGoogleLoginControlType permission in
-  // brave://settings/socialMediaBlocking is turned off, all requests to
-  // kGoogleAuthPattern and kFirebaseUrlPattern will be disallowed
+  // is turned off, all requests to kGoogleAuthPattern and kFirebaseUrlPattern
+  // will be disallowed
   PrefService* prefs =
       user_prefs::UserPrefs::Get(contents->GetBrowserContext());
+
   if (!IsGoogleSignInPrefEnabled(prefs)) {
     delegate->CancelWithError(net::ERR_BLOCKED_BY_CLIENT);
     return;
@@ -102,12 +82,9 @@ void GetPermissionAndMaybeCreatePrompt(
 
   content::PermissionControllerDelegate* permission_controller =
       contents->GetBrowserContext()->GetPermissionControllerDelegate();
-
   // Check current permission status
   auto current_status = GetCurrentGoogleSignInPermissionStatus(
       permission_controller, contents, request_initiator_url);
-
-  std::cout << "Current status: " << current_status << std::endl;
 
   if (current_status == blink::mojom::PermissionStatus::ASK) {
     *defer = true;
@@ -144,19 +121,12 @@ GoogleSignInThrottle::MaybeCreateThrottleFor(
   const auto request_initiator_url =
       request.request_initiator.value_or(url::Origin()).GetURL();
 
-  std::cout << "In GoogleSignInThrottle::MaybeCreateThrottleFor, request_url: "
-            << request_url << std::endl;
-  std::cout << "request_url: " << request_url << std::endl;
-  std::cout << "request_initiator_url: " << request_initiator_url << std::endl;
-
   // We might not have a request_initiator_url if the request is coming from
   // a top-level navigation and it's a redirect. We still want to create the
   // throttle.
   if (!request_url.SchemeIsHTTPOrHTTPS()) {
     return nullptr;
   }
-
-  std::cout << "Creating GoogleSignInThrottle" << std::endl;
 
   return std::make_unique<GoogleSignInThrottle>(
       wc_getter, request_url,
@@ -169,14 +139,9 @@ void GoogleSignInThrottle::DetachFromCurrentSequence() {}
 
 void GoogleSignInThrottle::WillStartRequest(network::ResourceRequest* request,
                                             bool* defer) {
-  std::cout << "In GoogleSignInThrottle::WillStartRequest" << std::endl;
   const GURL request_url = request->url;
-  std::cout << "request_url: " << request_url << std::endl;
   const auto request_initiator_url =
       request->request_initiator.value_or(url::Origin()).GetURL();
-
-  std::cout << "WillStartRequest request_url: " << request_url
-            << " request_initiator_url: " << request_initiator_url << std::endl;
 
   if (!request_initiator_url.is_valid() || !request_url.is_valid() ||
       !IsGoogleAuthRelatedRequest(request_url, request_initiator_url)) {
@@ -191,36 +156,5 @@ void GoogleSignInThrottle::WillStartRequest(network::ResourceRequest* request,
   GetPermissionAndMaybeCreatePrompt(defer, contents, request_initiator_url,
                                     settings_map_, delegate_);
 }
-
-// void GoogleSignInThrottle::BeforeWillRedirectRequest(
-//     net::RedirectInfo* redirect_info,
-//     const network::mojom::URLResponseHead& response_head,
-//     bool* defer,
-//     std::vector<std::string>* to_be_removed_request_headers,
-//     net::HttpRequestHeaders* modified_request_headers,
-//     net::HttpRequestHeaders* modified_cors_exempt_request_headers) {
-//   std::cout << "In GoogleSignInThrottle::BeforeWillRedirectRequest"
-//             << std::endl;
-
-//   auto* contents = wc_getter_.Run();
-
-//   if (!contents) {
-//     return;
-//   }
-
-//   const auto request_url = redirect_info->new_url;
-//   std::cout << "initial url: " << initial_url_ << std::endl;
-//   std::cout << "new location: " << request_url << std::endl;
-//   std::cout << "last committed URL: " << contents->GetLastCommittedURL()
-//             << std::endl;
-//   std::cout << "visible URL: " << contents->GetVisibleURL() << std::endl;
-
-//   if (!IsGoogleAuthRelatedRequest(request_url, initial_url_)) {
-//     return;
-//   }
-
-//   GetPermissionAndMaybeCreatePrompt(defer, contents, initial_url_,
-//                                     settings_map_, delegate_);
-// }
 
 }  // namespace google_sign_in
