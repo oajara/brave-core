@@ -26,6 +26,18 @@ namespace swap_responses {
     DOMString buyTokenToEthRate;
   };
 
+  dictionary SwapErrorResponseItem0x {
+    DOMString field;
+    long code;
+    DOMString reason;
+  };
+
+  dictionary SwapErrorResponse0x {
+    long code;
+    DOMString reason;
+    SwapErrorResponseItem0x[]? validationErrors;
+  };
+
   dictionary JupiterMarketInfoFee {
     DOMString amount;
     DOMString mint;
@@ -65,5 +77,11 @@ namespace swap_responses {
     DOMString? setupTransaction;
     DOMString swapTransaction;
     DOMString? cleanupTransaction;
+  };
+
+  dictionary JupiterErrorResponse {
+    DOMString statusCode;
+    DOMString error;
+    DOMString message;
   };
 };
