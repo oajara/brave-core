@@ -104,8 +104,12 @@ class CookieListOptInBrowserTest : public InProcessBrowserTest {
   }
 
   content::WebContents* GetBubbleWebContents() {
-    auto* host = CookieListOptInBubbleHost::FromBrowser(browser());
-    return host ? host->GetBubbleWebContentsForTesting() : nullptr;
+    if (browser()) {
+      if (auto* host = CookieListOptInBubbleHost::FromBrowser(browser())) {
+        return host->GetBubbleWebContentsForTesting();
+      }
+    }
+    return nullptr;
   }
 
   void WaitForSessionRestore() {
@@ -224,15 +228,26 @@ class CookieListOptInPreEnabledBrowserTest : public CookieListOptInBrowserTest {
 
  protected:
   void SetUpLocalState() override {
+    LOG(ERROR) << "Setting up local state...";
+    EXPECT_FALSE(GetBubbleWebContents());
     CookieListOptInBrowserTest::SetUpLocalState();
-
+    EXPECT_FALSE(GetBubbleWebContents());
+    LOG(ERROR) << "Enabling filter list programmatically...";
     CookieListFilterEnabledObserver enabled_observer;
     GetRegionalServiceManager()->EnableFilterList(kCookieListUuid, true);
+    EXPECT_FALSE(GetBubbleWebContents());
+    LOG(ERROR) << "Waiting for filter list to be enabled...";
     enabled_observer.Wait();
+    LOG(ERROR) << "Finished waiting for filter list to be enabled...";
+    EXPECT_FALSE(GetBubbleWebContents());
+    EXPECT_TRUE(IsCookieListFilterEnabled());
   }
 };
 
 IN_PROC_BROWSER_TEST_F(CookieListOptInPreEnabledBrowserTest, AlreadyEnabled) {
+  LOG(ERROR) << "Starting test...";
+  EXPECT_TRUE(IsCookieListFilterEnabled());
+  LOG(ERROR) << "Waiting for session restore...";
   WaitForSessionRestore();
   EXPECT_FALSE(GetBubbleWebContents());
   EXPECT_FALSE(g_browser_process->local_state()->GetBoolean(

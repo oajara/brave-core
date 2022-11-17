@@ -67,6 +67,8 @@ bool ShouldEventuallyShowBubble() {
     return false;
   }
 
+  LOG(ERROR) << "Looks like we need to show the cookie list bubble";
+
   return true;
 }
 
@@ -161,6 +163,7 @@ void CookieListOptInBubbleHost::ShowBubble() {
   }
 
   if (!bubble_manager_->GetBubbleWidget()) {
+    LOG(ERROR) << "Showing bubble";
     bubble_manager_->ShowBubble();
   }
 }
