@@ -174,7 +174,7 @@ constexpr char kBraveDeAMPDescription[] = "Enable De-AMPing feature";
 constexpr char kBraveGoogleSignInName[] =
     "Enable Google Sign-In Permission Prompt";
 constexpr char kBraveGoogleSignInDescription[] =
-    "Enable permissioning access to Google Sign-In";
+    "Enable permissioning access to legacy Google Sign-In";
 
 constexpr char kBraveExtensionNetworkBlockingName[] =
     "Enable extension network blocking";
