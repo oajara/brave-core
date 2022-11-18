@@ -32,10 +32,8 @@ static constexpr base::TimeDelta g_dtoi_delete_delta =
 
 BraveStatsUpdaterParams::BraveStatsUpdaterParams(
     PrefService* stats_pref_service,
-    PrefService* profile_pref_service,
     const ProcessArch arch)
     : BraveStatsUpdaterParams(stats_pref_service,
-                              profile_pref_service,
                               arch,
                               GetCurrentDateAsYMD(),
                               GetCurrentISOWeekNumber(),
@@ -43,13 +41,11 @@ BraveStatsUpdaterParams::BraveStatsUpdaterParams(
 
 BraveStatsUpdaterParams::BraveStatsUpdaterParams(
     PrefService* stats_pref_service,
-    PrefService* profile_pref_service,
     const ProcessArch arch,
     const std::string& ymd,
     int woy,
     int month)
     : stats_pref_service_(stats_pref_service),
-      profile_pref_service_(profile_pref_service),
       arch_(arch),
       ymd_(ymd),
       woy_(woy),
@@ -92,7 +88,7 @@ std::string BraveStatsUpdaterParams::GetReferralCodeParam() const {
 
 std::string BraveStatsUpdaterParams::GetAdsEnabledParam() const {
   return BooleanToString(
-      profile_pref_service_->GetBoolean(ads::prefs::kEnabled));
+      stats_pref_service_->GetBoolean(ads::prefs::kEnabledForLastProfile));
 }
 
 std::string BraveStatsUpdaterParams::GetProcessArchParam() const {
@@ -120,8 +116,7 @@ void BraveStatsUpdaterParams::LoadPrefs() {
   last_check_month_ = stats_pref_service_->GetInteger(kLastCheckMonth);
   first_check_made_ = stats_pref_service_->GetBoolean(kFirstCheckMade);
   week_of_installation_ = stats_pref_service_->GetString(kWeekOfInstallation);
-  wallet_last_unlocked_ =
-      profile_pref_service_->GetTime(kBraveWalletLastUnlockTime);
+  wallet_last_unlocked_ = base::Time();
   last_reported_wallet_unlock_ =
       stats_pref_service_->GetTime(kBraveWalletPingReportedUnlockTime);
   if (week_of_installation_.empty())
