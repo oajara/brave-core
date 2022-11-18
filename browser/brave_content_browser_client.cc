@@ -35,7 +35,6 @@
 #include "brave/browser/profiles/profile_util.h"
 #include "brave/browser/skus/skus_service_factory.h"
 #include "brave/components/binance/browser/buildflags/buildflags.h"
-#include "brave/components/brave_ads/browser/ads_status_header_throttle.h"
 #include "brave/components/brave_ads/common/features.h"
 #include "brave/components/brave_federated/features.h"
 #include "brave/components/brave_rewards/browser/rewards_protocol_handler.h"
@@ -797,15 +796,6 @@ BraveContentBrowserClient::CreateURLLoaderThrottles(
       if (auto de_amp_throttle = de_amp::DeAmpThrottle::MaybeCreateThrottleFor(
               base::ThreadTaskRunnerHandle::Get(), request, wc_getter)) {
         result.push_back(std::move(de_amp_throttle));
-      }
-
-      brave_ads::AdsService* ads_service =
-          brave_ads::AdsServiceFactory::GetForProfile(
-              Profile::FromBrowserContext(browser_context));
-      if (auto ads_status_header_throttle =
-              brave_ads::AdsStatusHeaderThrottle::MaybeCreateThrottle(
-                  ads_service, request)) {
-        result.push_back(std::move(ads_status_header_throttle));
       }
     }
   }
