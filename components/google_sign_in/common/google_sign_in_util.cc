@@ -29,7 +29,7 @@ constexpr char kFirebaseContentSettingsPattern[] =
 constexpr char kFirebaseUrlPattern[] = "https://*.firebaseapp.com/__/auth*";
 
 bool IsGoogleAuthUrl(const GURL& gurl, const bool check_origin_only) {
-  const std::vector<URLPattern> auth_login_patterns({
+  static const std::vector<URLPattern> auth_login_patterns({
       URLPattern(URLPattern::SCHEME_HTTPS, kGoogleAuthPattern),
       URLPattern(URLPattern::SCHEME_HTTPS, kFirebaseUrlPattern),
   });
@@ -46,7 +46,12 @@ bool IsGoogleAuthUrl(const GURL& gurl, const bool check_origin_only) {
 bool IsGoogleAuthRelatedRequest(const GURL& request_url,
                                 const GURL& request_initiator_url) {
   return IsGoogleAuthUrl(request_url, false) &&
-         !IsGoogleAuthUrl(request_initiator_url, true);
+         !IsGoogleAuthUrl(request_initiator_url, true) &&
+         !net::registry_controlled_domains::SameDomainOrHost(
+             request_initiator_url,
+             GURL(URLPattern(URLPattern::SCHEME_HTTPS, kGoogleAuthPattern)
+                      .host()),
+             net::registry_controlled_domains::INCLUDE_PRIVATE_REGISTRIES);
 }
 
 bool IsGoogleSignInFeatureEnabled() {
