@@ -5,6 +5,7 @@
 
 #include <string>
 
+#include "base/strings/strcat.h"
 #include "brave/components/brave_ads/browser/ads_service.h"
 #include "brave/components/brave_ads/browser/ads_status_header_throttle.h"
 #include "brave/components/brave_ads/browser/mock_ads_service.h"
@@ -17,16 +18,21 @@ namespace {
 
 constexpr char kAdsStatusHeader[] = "X-Brave-Ads-Enabled";
 constexpr char kAdsEnabledStatusValue[] = "1";
-constexpr char kAllowedURL[] = "https://search.brave.com/search";
-constexpr char kNotAllowedURL[] = "https://brave.com/search";
+constexpr const char* kAllowedHosts[] = {
+    "search.brave.com",          "search.brave.software",
+    "search.bravesoftware.com",  "safesearch.brave.com",
+    "safesearch.brave.software", "safesearch.bravesoftware.com",
+    "search-dev-local.brave.com"};
+constexpr char kNotAllowedHost[] = "brave.com";
 constexpr char kTestingHeaderName[] = "TestingHeaderName";
 constexpr char kTestingHeaderValue[] = "TestingHeaderValue";
 
-network::ResourceRequest BuildRequest() {
+network::ResourceRequest BuildRequest(const char* host) {
   network::ResourceRequest request;
-  request.url = GURL(kAllowedURL);
+  const std::string url = base::StrCat({"https://", host, "/search"});
+  request.url = GURL(url);
   request.is_outermost_main_frame = true;
-  request.headers.SetHeader("TestingHeaderName", "TestingHeaderValue");
+  request.headers.SetHeader(kTestingHeaderName, kTestingHeaderValue);
   return request;
 }
 
@@ -47,22 +53,24 @@ class AdsStatusHeaderThrottleTest : public ::testing::Test {
 };
 
 TEST_F(AdsStatusHeaderThrottleTest, AdsEnabledForAllowedHost) {
-  network::ResourceRequest request = BuildRequest();
-  auto throttle =
-      AdsStatusHeaderThrottle::MaybeCreateThrottle(GetAdsService(), request);
-  ASSERT_TRUE(throttle);
-  bool defer = false;
-  throttle->WillStartRequest(&request, &defer);
-  EXPECT_FALSE(defer);
-  std::string value;
-  EXPECT_TRUE(request.headers.GetHeader(kAdsStatusHeader, &value));
-  EXPECT_EQ(kAdsEnabledStatusValue, value);
-  EXPECT_TRUE(request.headers.GetHeader(kTestingHeaderName, &value));
-  EXPECT_EQ(kTestingHeaderValue, value);
+  for (const auto* allowed_host : kAllowedHosts) {
+    network::ResourceRequest request = BuildRequest(allowed_host);
+    auto throttle =
+        AdsStatusHeaderThrottle::MaybeCreateThrottle(GetAdsService(), request);
+    ASSERT_TRUE(throttle);
+    bool defer = false;
+    throttle->WillStartRequest(&request, &defer);
+    EXPECT_FALSE(defer);
+    std::string value;
+    EXPECT_TRUE(request.headers.GetHeader(kAdsStatusHeader, &value));
+    EXPECT_EQ(kAdsEnabledStatusValue, value);
+    EXPECT_TRUE(request.headers.GetHeader(kTestingHeaderName, &value));
+    EXPECT_EQ(kTestingHeaderValue, value);
+  }
 }
 
 TEST_F(AdsStatusHeaderThrottleTest, AdsDisabledForAllowedHost) {
-  const network::ResourceRequest request = BuildRequest();
+  const network::ResourceRequest request = BuildRequest(kAllowedHosts[0]);
   MockAdsService ads_service;
   EXPECT_CALL(ads_service, IsEnabled()).WillOnce(Return(false));
   auto throttle =
@@ -71,22 +79,21 @@ TEST_F(AdsStatusHeaderThrottleTest, AdsDisabledForAllowedHost) {
 }
 
 TEST_F(AdsStatusHeaderThrottleTest, IncognitoModeForAllowedHost) {
-  const network::ResourceRequest request = BuildRequest();
+  const network::ResourceRequest request = BuildRequest(kAllowedHosts[0]);
   auto throttle =
       AdsStatusHeaderThrottle::MaybeCreateThrottle(nullptr, request);
   EXPECT_FALSE(throttle);
 }
 
 TEST_F(AdsStatusHeaderThrottleTest, AdsEnabledForNotAllowedHost) {
-  network::ResourceRequest request = BuildRequest();
-  request.url = GURL(kNotAllowedURL);
+  network::ResourceRequest request = BuildRequest(kNotAllowedHost);
   auto throttle =
       AdsStatusHeaderThrottle::MaybeCreateThrottle(GetAdsService(), request);
   EXPECT_FALSE(throttle);
 }
 
 TEST_F(AdsStatusHeaderThrottleTest, NonOutermostMainFrameNavigation) {
-  network::ResourceRequest request = BuildRequest();
+  network::ResourceRequest request = BuildRequest(kAllowedHosts[0]);
   request.is_outermost_main_frame = false;
   auto throttle =
       AdsStatusHeaderThrottle::MaybeCreateThrottle(GetAdsService(), request);
