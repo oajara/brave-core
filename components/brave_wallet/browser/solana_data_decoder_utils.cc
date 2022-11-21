@@ -53,6 +53,7 @@ absl::optional<std::string> DecodeAuthorityTypeString(
 
 absl::optional<uint32_t> DecodeUint32(const std::vector<uint8_t>& input,
                                       size_t& offset) {
+  VLOG(0) << "    DecodeUint32";
   if (offset >= input.size() || input.size() - offset < sizeof(uint32_t)) {
     return absl::nullopt;
   }
@@ -170,32 +171,38 @@ absl::optional<std::string> DecodeString(const std::vector<uint8_t>& input,
 // https://docs.rs/spl-token-metadata/latest/spl_token_metadata/state/struct.Data.html)
 // as a GURL.
 absl::optional<GURL> DecodeMetadataUri(const std::vector<uint8_t> data) {
+  VLOG(0) << "DecodeMetadataUri 0";
   size_t offset = 0;
   offset = offset + /* Skip first byte for metadata.key */ 1 +
            /* Skip next 32 bytes for `metadata.update_authority` */ 32 +
            /* Skip next 32 bytes for `metadata.mint` */ 32;
 
+  VLOG(0) << "DecodeMetadataUri 1";
   // Skip next field, metdata.data.name, a string
   // whose length is represented by a leading 32 bit integer
   auto length = DecodeUint32(data, offset);
   if (!length) {
     return absl::nullopt;
   }
+  VLOG(0) << "DecodeMetadataUri 2";
   offset += static_cast<size_t>(*length);
 
   // Skip next field, `metdata.data.symbol`, a string
   // whose length is represented by a leading 32 bit integer
   length = DecodeUint32(data, offset);
+  VLOG(0) << "DecodeMetadataUri 3";
   if (!length) {
     return absl::nullopt;
   }
   offset += static_cast<size_t>(*length);
 
+  VLOG(0) << "DecodeMetadataUri 4";
   // Parse next field, metadata.data.uri, a string
   length = DecodeUint32(data, offset);
   if (!length) {
     return absl::nullopt;
   }
+  VLOG(0) << "DecodeMetadataUri 5";
   std::string uri =
       std::string(reinterpret_cast<const char*>(&data[offset]), *length);
   return GURL(uri);

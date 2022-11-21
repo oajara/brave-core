@@ -5964,7 +5964,6 @@ TEST_F(SnsJsonRpcServiceUnitTest, GetWalletAddr_SolRecordOwner) {
   testing::Mock::VerifyAndClearExpectations(&callback);
 }
 
-<<<<<<< HEAD
 TEST_F(SnsJsonRpcServiceUnitTest, ResolveHost_UrlValue) {
   base::MockCallback<JsonRpcService::SnsResolveHostCallback> callback;
   EXPECT_CALL(callback,
@@ -5982,28 +5981,6 @@ TEST_F(SnsJsonRpcServiceUnitTest, ResolveHost_UrlValue) {
   base::RunLoop().RunUntilIdle();
   testing::Mock::VerifyAndClearExpectations(&callback);
   url_record_address_handler_->FailWithTimeout(false);
-}
-
-TEST_F(SnsJsonRpcServiceUnitTest, ResolveHost_IpfsValue) {
-  url_record_address_handler_->Disable();
-
-  // No url record. Will return ipfs record.
-  base::MockCallback<JsonRpcService::SnsResolveHostCallback> callback;
-  EXPECT_CALL(callback,
-              Run(ipfs_value(), mojom::SolanaProviderError::kSuccess, ""));
-  json_rpc_service_->SnsResolveHost(sns_host(), callback.Get());
-  base::RunLoop().RunUntilIdle();
-  testing::Mock::VerifyAndClearExpectations(&callback);
-
-  // HTTP error for ipfs record account. Fail resolution.
-  ipfs_record_address_handler_->FailWithTimeout();
-  EXPECT_CALL(callback,
-              Run(GURL(), mojom::SolanaProviderError::kInternalError,
-                  l10n_util::GetStringUTF8(IDS_WALLET_INTERNAL_ERROR)));
-  json_rpc_service_->SnsResolveHost(sns_host(), callback.Get());
-  base::RunLoop().RunUntilIdle();
-  testing::Mock::VerifyAndClearExpectations(&callback);
-  ipfs_record_address_handler_->FailWithTimeout(false);
 
   // No ipfs record account. Fail resolution.
   ipfs_record_address_handler_->Disable();
@@ -6016,7 +5993,7 @@ TEST_F(SnsJsonRpcServiceUnitTest, ResolveHost_IpfsValue) {
 }
 
 TEST_F(JsonRpcServiceUnitTest, GetMetaplexMetadata) {
-  // Valid inputs should yield metadata JSON
+  // Valid inputs should yield metadata JSON (happy case)
   std::string get_account_info_response = R"({
     "jsonrpc": "2.0",
     "result": {
@@ -6037,16 +6014,16 @@ TEST_F(JsonRpcServiceUnitTest, GetMetaplexMetadata) {
     },
     "id": 1
   })";
-  std::string metadata_response = R"({"attributes":[{"trait_type":"hair","value":"green & blue"},{"trait_type":"pontus","value":"no"}],"description":"","external_url":"","image":"https://bafkreiagsgqhjudpta6trhjuv5y2n2exsrhbkkprl64tvg2mftjsdm3vgi.ipfs.dweb.link?ext=png","name":"SPECIAL SAUCE","properties":{"category":"image","creators":[{"address":"7oUUEdptZnZVhSet4qobU9PtpPfiNUEJ8ftPnrC6YEaa","share":98},{"address":"tsU33UT3K2JTfLgHUo7hdzRhRe4wth885cqVbM8WLiq","share":2}],"files":[{"type":"image/png","uri":"https://bafkreiagsgqhjudpta6trhjuv5y2n2exsrhbkkprl64tvg2mftjsdm3vgi.ipfs.dweb.link?ext=png"}],"maxSupply":0},"seller_fee_basis_points":1000,"symbol":""})";
+  const std::string valid_metadata_response = R"({"attributes":[{"trait_type":"hair","value":"green & blue"},{"trait_type":"pontus","value":"no"}],"description":"","external_url":"","image":"https://bafkreiagsgqhjudpta6trhjuv5y2n2exsrhbkkprl64tvg2mftjsdm3vgi.ipfs.dweb.link?ext=png","name":"SPECIAL SAUCE","properties":{"category":"image","creators":[{"address":"7oUUEdptZnZVhSet4qobU9PtpPfiNUEJ8ftPnrC6YEaa","share":98},{"address":"tsU33UT3K2JTfLgHUo7hdzRhRe4wth885cqVbM8WLiq","share":2}],"files":[{"type":"image/png","uri":"https://bafkreiagsgqhjudpta6trhjuv5y2n2exsrhbkkprl64tvg2mftjsdm3vgi.ipfs.dweb.link?ext=png"}],"maxSupply":0},"seller_fee_basis_points":1000,"symbol":""})";
   auto network_url = GetNetwork(mojom::kLocalhostChainId, mojom::CoinType::SOL);
   SetMetaplexMetadataInterceptor(
       network_url,
       get_account_info_response, 
       GURL("https://bafkreif4wx54wjr7pgfug3wlatr3nfntsfwngv6eusebbquezrxenj6ck4.ipfs.dweb.link/?ext="),
-      metadata_response);
+      valid_metadata_response);
   TestGetMetaplexMetadata(
     "5ZXToo7froykjvjnpHtTLYr9u2tW3USMwPg3sNkiaQVh",
-    metadata_response,
+    valid_metadata_response,
     mojom::SolanaProviderError::kSuccess,
     ""
   );
@@ -6056,7 +6033,7 @@ TEST_F(JsonRpcServiceUnitTest, GetMetaplexMetadata) {
       network_url,
       get_account_info_response, 
       GURL("https://bafkreif4wx54wjr7pgfug3wlatr3nfntsfwngv6eusebbquezrxenj6ck4.ipfs.dweb.link/?ext="),
-      "");
+      valid_metadata_response);
   TestGetMetaplexMetadata(
     "Invalid",
     "",
@@ -6073,9 +6050,12 @@ TEST_F(JsonRpcServiceUnitTest, GetMetaplexMetadata) {
     l10n_util::GetStringUTF8(IDS_WALLET_INTERNAL_ERROR)
   );
 
-  // Invalid getAccountInfo JSON response yields internal error
-  SetInvalidJsonInterceptor();
-  // );
+  // Invalid getAccountInfo response JSON yields internal error
+  SetMetaplexMetadataInterceptor(
+      network_url,
+      "Invalid json response", 
+      GURL("https://bafkreif4wx54wjr7pgfug3wlatr3nfntsfwngv6eusebbquezrxenj6ck4.ipfs.dweb.link/?ext="),
+      valid_metadata_response);
   TestGetMetaplexMetadata(
     "5ZXToo7froykjvjnpHtTLYr9u2tW3USMwPg3sNkiaQVh",
     "",
@@ -6083,18 +6063,143 @@ TEST_F(JsonRpcServiceUnitTest, GetMetaplexMetadata) {
     l10n_util::GetStringUTF8(IDS_WALLET_INTERNAL_ERROR)
   );
   
-  VLOG(0) << "RELAVANT TEST ~ ~ ~ ~ ~ ~ ~ ";
-  // If account_info is empty yields kInternalError
+  // Valid response JSON, invalid account info (missing result.value.owner field) info yields parse error
+  get_account_info_response = R"({
+    "jsonrpc": "2.0",
+    "result": {
+      "context": {
+        "apiVersion": "1.13.3",
+        "slot": 161038284
+      },
+      "value": {
+        "data": [
+          "BGUN5hJf2zSue3S0I/fCq16UREt5NxP6mQdaq4cdGPs3Q8PG/R6KFUSgce78Nwk9Frvkd9bMbvTIKCRSDy88nZQgAAAAU1BFQ0lBTCBTQVVDRQAAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAAAAMgAAABodHRwczovL2JhZmtyZWlmNHd4NTR3anI3cGdmdWczd2xhdHIzbmZudHNmd25ndjZldXNlYmJxdWV6cnhlbmo2Y2s0LmlwZnMuZHdlYi5saW5rP2V4dD0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOgDAQIAAABlDeYSX9s0rnt0tCP3wqtelERLeTcT+pkHWquHHRj7NwFiDUmu+U8sXOOZQXL36xmknL+Zzd/z3uw2G0ERMo8Eth4BAgABAf8BAAEBoivvbAzLh2kD2cSu6IQIqGQDGeoh/UEDizyp6mLT1tUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+          "base64"
+        ],
+        "executable": false,
+        "lamports": 5616720,
+        "rentEpoch": 361
+      }
+    },
+    "id": 1
+  })";
+  SetMetaplexMetadataInterceptor(
+      network_url,
+      get_account_info_response, 
+      GURL("https://bafkreif4wx54wjr7pgfug3wlatr3nfntsfwngv6eusebbquezrxenj6ck4.ipfs.dweb.link/?ext="),
+      valid_metadata_response);
+  VLOG(0) << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~RELEVANT TEST ~ 3";
+  TestGetMetaplexMetadata(
+    "5ZXToo7froykjvjnpHtTLYr9u2tW3USMwPg3sNkiaQVh",
+    "",
+    mojom::SolanaProviderError::kParsingError,
+    l10n_util::GetStringUTF8(IDS_WALLET_PARSING_ERROR)
+  );
   
-  // account_info.Data fails base64 decoding yeilds internal error
+  // Valid response JSON, parsable account info, but invalid account info data (invalid base64)
+  get_account_info_response = R"({
+    "jsonrpc": "2.0",
+    "result": {
+      "context": {
+        "apiVersion": "1.13.3",
+        "slot": 161038284
+      },
+      "value": {
+        "data": [
+          "*Invalid Base64*",
+          "base64"
+        ],
+        "executable": false,
+        "lamports": 5616720,
+        "owner": "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s",
+        "rentEpoch": 361
+      }
+    },
+    "id": 1
+  })";
+  SetMetaplexMetadataInterceptor(
+      network_url,
+      get_account_info_response, 
+      GURL("https://bafkreif4wx54wjr7pgfug3wlatr3nfntsfwngv6eusebbquezrxenj6ck4.ipfs.dweb.link/?ext="),
+      valid_metadata_response);
+  VLOG(0) << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~RELEVANT TEST ~ 2";
+  TestGetMetaplexMetadata(
+    "5ZXToo7froykjvjnpHtTLYr9u2tW3USMwPg3sNkiaQVh",
+    "",
+    mojom::SolanaProviderError::kParsingError,
+    l10n_util::GetStringUTF8(IDS_WALLET_PARSING_ERROR)
+  );
   
-  // accouint_info.Data passes base64 decode but fails DecodeMetadataUri borsh, yields internal error
+  // Valid response JSON, parsable account info, invalid account info data (valid base64, but invalid borsh encoded metadata)
+  // TODO(nvonpentz) - currently fails because of call in DecodeUint32 crashes.
+  get_account_info_response = R"({
+    "jsonrpc": "2.0",
+    "result": {
+      "context": {
+        "apiVersion": "1.13.3",
+        "slot": 161038284
+      },
+      "value": {
+        "data": [
+          "d2hvb3BzIQ==",
+          "base64"
+        ],
+        "executable": false,
+        "lamports": 5616720,
+        "owner": "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s",
+        "rentEpoch": 361
+      }
+    },
+    "id": 1
+  })";
+  SetMetaplexMetadataInterceptor(
+      network_url,
+      get_account_info_response, 
+      GURL("https://bafkreif4wx54wjr7pgfug3wlatr3nfntsfwngv6eusebbquezrxenj6ck4.ipfs.dweb.link/?ext="),
+      valid_metadata_response);
+  VLOG(0) << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~RELEVANT TEST ~ 1";
+  TestGetMetaplexMetadata(
+    "5ZXToo7froykjvjnpHtTLYr9u2tW3USMwPg3sNkiaQVh",
+    "",
+    mojom::SolanaProviderError::kParsingError,
+    l10n_util::GetStringUTF8(IDS_WALLET_PARSING_ERROR)
+  );
   
-  // If borsh decode succeeds, but url is not a url results in internal error
-  
-  // all valid 
+  // // Valid response JSON, parsable account info, invalid account info data (valid base64, but valid borsh encoded URI, but invalid URI)
+  // get_account_info_response = R"({
+  //   "jsonrpc": "2.0",
+  //   "result": {
+  //     "context": {
+  //       "apiVersion": "1.13.3",
+  //       "slot": 161038284
+  //     },
+  //     "value": {
+  //       "data": [
+  //         "BGUN5hJf2zSue3S0I/fCq16UREt5NxP6mQdaq4cdGPs3Q8PG/R6KFUSgce78Nwk9Frvkd9bMbvTIKCRSDy88nZQgAAAAU1BFQ0lBTCBTQVVDRQAAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAAAAAsAAABpbnZhbGlkIHVybOgDAQIAAABlDeYSX9s0rnt0tCP3wqtelERLeTcT+pkHWquHHRj7NwFiDUmu+U8sXOOZQXL36xmknL+Zzd/z3uw2G0ERMo8Eth4BAgABAf8BAAEBoivvbAzLh2kD2cSu6IQIqGQDGeoh/UEDizyp6mLT1tUA",
+  //         "base64"
+  //       ],
+  //       "executable": false,
+  //       "lamports": 5616720,
+  //       "owner": "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s",
+  //       "rentEpoch": 361
+  //     }
+  //   },
+  //   "id": 1
+  // })";
+  // SetMetaplexMetadataInterceptor(
+  //     network_url,
+  //     get_account_info_response, 
+  //     GURL("https://bafkreif4wx54wjr7pgfug3wlatr3nfntsfwngv6eusebbquezrxenj6ck4.ipfs.dweb.link/?ext="),
+  //     valid_metadata_response);
+  // VLOG(0) << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~RELEVANT TEST ~ ";
+  // TestGetMetaplexMetadata(
+  //   "5ZXToo7froykjvjnpHtTLYr9u2tW3USMwPg3sNkiaQVh",
+  //   "",
+  //   mojom::SolanaProviderError::kParsingError,
+  //   l10n_util::GetStringUTF8(IDS_WALLET_PARSING_ERROR)
+  // );
 
-  // FetchTokenMetadata needs to be tested elsewhere
+  // TODO(nvonpentz) FetchTokenMetadata needs to be tested elsewhere
 }
 
 }  // namespace brave_wallet

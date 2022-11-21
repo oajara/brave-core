@@ -2780,16 +2780,16 @@ void JsonRpcService::OnGetSolanaAccountInfoMetaplex(
       base::Base64Decode((*account_info).data);
   if (!metadata) {
     std::move(callback).Run(
-        "", mojom::SolanaProviderError::kInternalError,
-        l10n_util::GetStringUTF8(IDS_WALLET_INTERNAL_ERROR));
+        "", mojom::SolanaProviderError::kParsingError,
+        l10n_util::GetStringUTF8(IDS_WALLET_PARSING_ERROR));
   }
-  VLOG(0) << "JsonRpcService::OnGetSolanaAccountInfoMetaplex 2";
+  VLOG(0) << "JsonRpcService::OnGetSolanaAccountInfoMetaplex 2 ";
 
   absl::optional<GURL> url = DecodeMetadataUri(*metadata);
   if (!url) {
     std::move(callback).Run(
-        "", mojom::SolanaProviderError::kInternalError,
-        l10n_util::GetStringUTF8(IDS_WALLET_INTERNAL_ERROR));
+        "", mojom::SolanaProviderError::kParsingError,
+        l10n_util::GetStringUTF8(IDS_WALLET_PARSING_ERROR));
   }
   VLOG(0) << "JsonRpcService::OnGetSolanaAccountInfoMetaplex 3 url is " << (*url).spec();
 
