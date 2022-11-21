@@ -33,6 +33,7 @@ int OnBeforeStartTransaction_AdsStatusHeader(
           Profile::FromBrowserContext(ctx->browser_context));
 
   if (!ads_service || !ads_service->IsEnabled() ||
+      !brave_search::IsAllowedHost(ctx->tab_origin) ||
       !brave_search::IsAllowedHost(ctx->request_url)) {
     return net::OK;
   }

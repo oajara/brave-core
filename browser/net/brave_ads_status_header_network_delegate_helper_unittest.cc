@@ -29,6 +29,8 @@ constexpr char kBraveSearchRequestUrl[] =
     "https://search.brave.com/search?q=qwerty";
 constexpr char kNonBraveSearchRequestUrl[] =
     "https://brave.com/search?q=qwerty";
+constexpr char kBraveSearchTabUrl[] = "https://search.brave.com";
+constexpr char kNonBraveSearchTabUrl[] = "https://brave.com";
 
 }  // namespace
 
@@ -57,10 +59,11 @@ class AdsStatusHeaderDelegateHelperTest : public testing::Test {
   TestingProfile profile_;
 };
 
-TEST_F(AdsStatusHeaderDelegateHelperTest, BraveSearchHostAdsEnabled) {
+TEST_F(AdsStatusHeaderDelegateHelperTest, BraveSearchTabAdsEnabled) {
   auto request_info =
       std::make_shared<brave::BraveRequestInfo>(GURL(kBraveSearchRequestUrl));
   request_info->browser_context = profile();
+  request_info->tab_origin = GURL(kBraveSearchTabUrl);
   brave_ads::MockAdsService* ads_service = SetUpAdsService(profile());
   EXPECT_CALL(*ads_service, IsEnabled()).WillOnce(Return(true));
 
@@ -74,10 +77,27 @@ TEST_F(AdsStatusHeaderDelegateHelperTest, BraveSearchHostAdsEnabled) {
   EXPECT_EQ(ads_status_header, kAdsStatusHeaderValue);
 }
 
-TEST_F(AdsStatusHeaderDelegateHelperTest, NonBraveSearchHostAdsEnabled) {
+TEST_F(AdsStatusHeaderDelegateHelperTest, NonBraveSearchTabAdsEnabled) {
+  auto request_info =
+      std::make_shared<brave::BraveRequestInfo>(GURL(kBraveSearchRequestUrl));
+  request_info->browser_context = profile();
+  request_info->tab_origin = GURL(kNonBraveSearchTabUrl);
+  brave_ads::MockAdsService* ads_service = SetUpAdsService(profile());
+  EXPECT_CALL(*ads_service, IsEnabled()).WillOnce(Return(true));
+
+  net::HttpRequestHeaders headers;
+  const int rc = brave::OnBeforeStartTransaction_AdsStatusHeader(
+      &headers, brave::ResponseCallback(), request_info);
+  EXPECT_EQ(rc, net::OK);
+
+  EXPECT_FALSE(headers.HasHeader(kAdsStatusHeader));
+}
+
+TEST_F(AdsStatusHeaderDelegateHelperTest, NonBraveSearchRequestAdsEnabled) {
   auto request_info = std::make_shared<brave::BraveRequestInfo>(
       GURL(kNonBraveSearchRequestUrl));
   request_info->browser_context = profile();
+  request_info->tab_origin = GURL(kBraveSearchTabUrl);
   brave_ads::MockAdsService* ads_service = SetUpAdsService(profile());
   EXPECT_CALL(*ads_service, IsEnabled()).WillOnce(Return(true));
 
@@ -93,6 +113,7 @@ TEST_F(AdsStatusHeaderDelegateHelperTest, BraveSearchHostAdsDisabled) {
   auto request_info =
       std::make_shared<brave::BraveRequestInfo>(GURL(kBraveSearchRequestUrl));
   request_info->browser_context = profile();
+  request_info->tab_origin = GURL(kBraveSearchTabUrl);
   brave_ads::MockAdsService* ads_service = SetUpAdsService(profile());
   EXPECT_CALL(*ads_service, IsEnabled()).WillOnce(Return(false));
 
@@ -110,6 +131,7 @@ TEST_F(AdsStatusHeaderDelegateHelperTest, BraveSearchHostIncognitoProfile) {
   auto request_info =
       std::make_shared<brave::BraveRequestInfo>(GURL(kBraveSearchRequestUrl));
   request_info->browser_context = incognito_profile;
+  request_info->tab_origin = GURL(kBraveSearchTabUrl);
   brave_ads::MockAdsService* ads_service = SetUpAdsService(incognito_profile);
   EXPECT_FALSE(ads_service);
 
