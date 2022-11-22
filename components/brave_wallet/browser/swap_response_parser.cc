@@ -108,10 +108,8 @@ mojom::SwapResponsePtr ParseSwapResponse(const std::string& json,
       swap_response_value->estimated_price_impact;
 
   for (const auto& source_value : swap_response_value->sources) {
-    mojom::ZeroExSource source;
-    source.name = source_value.name;
-    source.proportion = source_value.proportion;
-    swap_response->sources.push_back(source.Clone());
+    swap_response->sources.push_back(
+        mojom::ZeroExSource::New(source_value.name, source_value.proportion));
   }
 
   return swap_response;
