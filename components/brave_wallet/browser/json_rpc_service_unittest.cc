@@ -1074,14 +1074,14 @@ class JsonRpcServiceUnitTest : public testing::Test {
     base::RunLoop run_loop;
     json_rpc_service_->GetERC721Metadata(
         contract, token_id, chain_id,
-        base::BindLambdaForTesting([&](const std::string& response,
-                                       mojom::ProviderError error,
-                                       const std::string& error_message) {
-          EXPECT_EQ(response, expected_response);
-          EXPECT_EQ(error, expected_error);
-          EXPECT_EQ(error_message, expected_error_message);
-          run_loop.Quit();
-        }));
+        base::BindLambdaForTesting(
+            [&](const std::string& token_url, const std::string& response,
+                mojom::ProviderError error, const std::string& error_message) {
+              EXPECT_EQ(response, expected_response);
+              EXPECT_EQ(error, expected_error);
+              EXPECT_EQ(error_message, expected_error_message);
+              run_loop.Quit();
+            }));
     run_loop.Run();
   }
 
@@ -1094,14 +1094,14 @@ class JsonRpcServiceUnitTest : public testing::Test {
     base::RunLoop run_loop;
     json_rpc_service_->GetERC1155Metadata(
         contract, token_id, chain_id,
-        base::BindLambdaForTesting([&](const std::string& response,
-                                       mojom::ProviderError error,
-                                       const std::string& error_message) {
-          EXPECT_EQ(response, expected_response);
-          EXPECT_EQ(error, expected_error);
-          EXPECT_EQ(error_message, expected_error_message);
-          run_loop.Quit();
-        }));
+        base::BindLambdaForTesting(
+            [&](const std::string& token_url, const std::string& response,
+                mojom::ProviderError error, const std::string& error_message) {
+              EXPECT_EQ(response, expected_response);
+              EXPECT_EQ(error, expected_error);
+              EXPECT_EQ(error_message, expected_error_message);
+              run_loop.Quit();
+            }));
     run_loop.Run();
   }
 
@@ -1115,14 +1115,14 @@ class JsonRpcServiceUnitTest : public testing::Test {
     base::RunLoop run_loop;
     json_rpc_service_->GetTokenMetadata(
         contract, token_id, chain_id, interface_id,
-        base::BindLambdaForTesting([&](const std::string& response,
-                                       mojom::ProviderError error,
-                                       const std::string& error_message) {
-          EXPECT_EQ(response, expected_response);
-          EXPECT_EQ(error, expected_error);
-          EXPECT_EQ(error_message, expected_error_message);
-          run_loop.Quit();
-        }));
+        base::BindLambdaForTesting(
+            [&](const std::string& token_url, const std::string& response,
+                mojom::ProviderError error, const std::string& error_message) {
+              EXPECT_EQ(response, expected_response);
+              EXPECT_EQ(error, expected_error);
+              EXPECT_EQ(error_message, expected_error_message);
+              run_loop.Quit();
+            }));
     run_loop.Run();
   }
 
