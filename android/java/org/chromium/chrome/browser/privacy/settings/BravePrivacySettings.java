@@ -13,11 +13,13 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 
+import org.chromium.base.BraveFeatureList;
 import org.chromium.base.ContextUtils;
 import org.chromium.base.Log;
 import org.chromium.brave_shields.mojom.CookieListOptInPageAndroidHandler;
 import org.chromium.chrome.R;
 import org.chromium.chrome.browser.BraveConfig;
+import org.chromium.chrome.browser.flags.ChromeFeatureList;
 import org.chromium.chrome.browser.metrics.UmaSessionStats;
 import org.chromium.chrome.browser.preferences.BravePref;
 import org.chromium.chrome.browser.preferences.BravePrefServiceBridge;
@@ -281,7 +283,9 @@ public class BravePrivacySettings extends PrivacySettings implements ConnectionE
         removePreferenceIfPresent(PREF_SYNC_AND_SERVICES_LINK);
         removePreferenceIfPresent(PREF_NETWORK_PREDICTIONS);
         removePreferenceIfPresent(PREF_PRIVACY_SANDBOX);
-        // removePreferenceIfPresent(PREF_SAFE_BROWSING);
+        if (!ChromeFeatureList.isEnabled(BraveFeatureList.BRAVE_ANDROID_SAFE_BROWSING)) {
+            removePreferenceIfPresent(PREF_SAFE_BROWSING);
+        }
 
         if (mCookieListOptInPageAndroidHandler != null) {
             mCookieListOptInPageAndroidHandler.shouldShowDialog(shouldShowDialog -> {
