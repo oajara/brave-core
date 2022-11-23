@@ -93,7 +93,7 @@ ControlType GetCookieControlType(
     HostContentSettingsMap* map,
     content_settings::CookieSettings* cookie_settings,
     const GURL& url);
-CookiesState GetOverallCookiesState(
+CookiesState GetEffectiveCookiesState(
     HostContentSettingsMap* map,
     content_settings::CookieSettings* cookie_settings,
     const GURL& url);

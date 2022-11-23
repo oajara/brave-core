@@ -73,6 +73,8 @@ constexpr webui::LocalizedString kLocalizedStrings[] = {
      IDS_BRAVE_SHIELDS_CROSS_COOKIES_BLOCKED},
     {"braveShieldsCookiesBlockAll", IDS_BRAVE_SHIELDS_COOKIES_BLOCKED},
     {"braveShieldsCookiesAllowedAll", IDS_BRAVE_SHIELDS_COOKIES_ALLOWED_ALL},
+    {"braveShieldsCookiesCrossCookiesAllowed", IDS_BRAVE_SHIELDS_CROSS_COOKIES_ALLOWED},
+    {"braveShieldsCookiesExclamation", IDS_BRAVE_SHIELDS_COOKIES_EXCLAMATION},
     {"braveShieldsFingerprintingBlocked",
      IDS_BRAVE_SHIELDS_FINGERPRINTING_BLOCKED},
     {"braveShieldsFingerprintingBlockedStd",

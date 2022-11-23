@@ -505,7 +505,7 @@ ControlType GetCookieControlType(
   return ControlType::BLOCK;
 }
 
-CookiesState GetOverallCookiesState(
+CookiesState GetEffectiveCookiesState(
     HostContentSettingsMap* map,
     content_settings::CookieSettings* cookie_settings,
     const GURL& url) {

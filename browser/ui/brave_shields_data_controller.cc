@@ -226,6 +226,18 @@ CookieBlockMode BraveShieldsDataController::GetCookieBlockMode() {
   }
 }
 
+EffectiveCookieBlockMode
+BraveShieldsDataController::GetEffectiveCookieBlockMode() {
+  auto cookie_settings = CookieSettingsFactory::GetForProfile(
+      Profile::FromBrowserContext(web_contents()->GetBrowserContext()));
+
+  const auto effective_state = brave_shields::GetEffectiveCookiesState(
+      GetHostContentSettingsMap(web_contents()), cookie_settings.get(),
+      GetCurrentSiteURL());
+
+  return {effective_state.block_first_party, effective_state.block_third_party};
+}
+
 bool BraveShieldsDataController::GetHTTPSEverywhereEnabled() {
   return brave_shields::GetHTTPSEverywhereEnabled(
       GetHostContentSettingsMap(web_contents()), GetCurrentSiteURL());
