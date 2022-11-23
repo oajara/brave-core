@@ -91,6 +91,16 @@
 # disabled
 -PreconnectManagerTest.*
 
+# Tests failing due to our replacing of MdTextButton with MdTextButtonBase.
+-ScreenshotCapturedBubbleTest.EditNavigatesToImageEditorWebUI
+
+# Test failing due to Brave's disabling of header variation (e.g overrides for
+# GetClientDataHeaders)
+-RealboxHandlerTest.RealboxLensVariationsContainsVariations
+
+# Test flaky in cr109, although corrected in newer revisions
+-TabStripScrollSessionTestWithVariableSpeed.GivenScrollSessionWhenMaybeStartThenTimerCallback
+
 # Tests below this point have not been diagnosed or had issues created yet.
 -AboutFlagsHistogramTest.*
 -AboutFlagsTest.*
