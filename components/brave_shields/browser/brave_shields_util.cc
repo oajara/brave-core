@@ -414,14 +414,13 @@ void SetCookieControlType(HostContentSettingsMap* map,
                           ControlType type,
                           const GURL& url,
                           PrefService* local_state) {
-  const auto host_pattern = GetPatternFromURL(url);
-
-  if (!host_pattern.IsValid())
+  auto patterns = content_settings::CreateShieldsCookiesPatterns(url);
+  if (!patterns.host_pattern.IsValid())
     return;
 
   RecordShieldsSettingChanged(local_state);
 
-  if (host_pattern == ContentSettingsPattern::Wildcard()) {
+  if (patterns.host_pattern == ContentSettingsPattern::Wildcard()) {
     // Default settings.
     switch (type) {
       case ControlType::ALLOW:
@@ -449,33 +448,31 @@ void SetCookieControlType(HostContentSettingsMap* map,
     return;
   }
 
-  map->SetContentSettingCustomScope(host_pattern,
+  map->SetContentSettingCustomScope(patterns.host_pattern,
                                     ContentSettingsPattern::Wildcard(),
                                     ContentSettingsType::BRAVE_REFERRERS,
                                     GetDefaultBlockFromControlType(type));
-  const auto primary_pattern =
-      content_settings::CreatePrimaryPattern(host_pattern);
 
   switch (type) {
     case ControlType::BLOCK_THIRD_PARTY:
       // general-rule:
       map->SetContentSettingCustomScope(
-          ContentSettingsPattern::Wildcard(), host_pattern,
+          ContentSettingsPattern::Wildcard(), patterns.host_pattern,
           ContentSettingsType::BRAVE_COOKIES, CONTENT_SETTING_BLOCK);
       // first-party rule:
-      map->SetContentSettingCustomScope(primary_pattern, host_pattern,
-                                        ContentSettingsType::BRAVE_COOKIES,
-                                        CONTENT_SETTING_ALLOW);
+      map->SetContentSettingCustomScope(
+          patterns.domain_pattern, patterns.host_pattern,
+          ContentSettingsType::BRAVE_COOKIES, CONTENT_SETTING_ALLOW);
       break;
     case ControlType::ALLOW:
     case ControlType::BLOCK:
       // Remove first-party rule:
-      map->SetContentSettingCustomScope(primary_pattern, host_pattern,
-                                        ContentSettingsType::BRAVE_COOKIES,
-                                        CONTENT_SETTING_DEFAULT);
+      map->SetContentSettingCustomScope(
+          patterns.domain_pattern, patterns.host_pattern,
+          ContentSettingsType::BRAVE_COOKIES, CONTENT_SETTING_DEFAULT);
       // general-rule:
       map->SetContentSettingCustomScope(
-          ContentSettingsPattern::Wildcard(), host_pattern,
+          ContentSettingsPattern::Wildcard(), patterns.host_pattern,
           ContentSettingsType::BRAVE_COOKIES,
           (type == ControlType::ALLOW) ? CONTENT_SETTING_ALLOW
                                        : CONTENT_SETTING_BLOCK);
