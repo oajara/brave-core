@@ -93,26 +93,28 @@ modules:
     build-commands:
       - mkdir -p /app/brave
       - bsdtar -xf brave.zip -C /app/brave
-      - install -Dm 644 /app/brave/product_logo_128_beta.png /app/share/icons/hicolor/128x128/apps/com.brave.Browser.png
       - install -Dm 644 brave-browser.desktop /app/share/applications/com.brave.Browser.desktop
+      - install -Dm 644 brave_lion.svg /app/share/icons/hicolor/scalable/apps/com.brave.Browser.svg
       - install -Dm 755 brave.sh /app/bin/brave
       - install -Dm 644 -t /app/etc cobalt.ini
       - install -Dm 644 -t /app/share/metainfo com.brave.Browser.metainfo.xml
     sources:
       - type: file
-        url: https://github.com/brave/brave-browser/releases/download/v1.67.92/brave-browser-beta-1.67.92-linux-amd64.zip
-        sha256: 91ecc635f983a11b8a49839d18007814b5975afe6a2863366865a84d3ccae25b
+        url: https://github.com/brave/brave-browser/releases/download/v1.66.111/brave-browser-1.66.111-linux-amd64.zip
+        sha256: 43791d54acdd41810cf36fa4613142df1565d5f77180e8956c333f7725f06dae
         dest-filename: brave.zip
         only-arches: [x86_64]
       - type: file
-        url: https://github.com/brave/brave-browser/releases/download/v1.67.92/brave-browser-beta-1.67.92-linux-arm64.zip
-        sha256: 51ae25da81b913d6efc0a2e40d0f576cef82bf8a8d89ec9b23057b1567fb3a82
+        url: https://github.com/brave/brave-browser/releases/download/v1.66.111/brave-browser-1.66.111-linux-arm64.zip
+        sha256: d14d8db09972bf0d48efe02c9324e10c0facccf10baaa21db21b0ceead5b5e48
         dest-filename: brave.zip
         only-arches: [aarch64]
       - type: file
         path: cobalt.ini
       - type: file
         path: com.brave.Browser.metainfo.xml
+      - type: file
+        path: brave_lion.svg
       - type: file
         path: brave-browser.desktop
       - type: file
